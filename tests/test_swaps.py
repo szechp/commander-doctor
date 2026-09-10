@@ -1,5 +1,7 @@
+import json
+
 from deckdoctor import combos
-from deckdoctor.deck import load_deck
+from deckdoctor.deck import Deck, load_deck, _resolve
 from deckdoctor.deck_config import DeckConfig, FeedbackEntry
 from deckdoctor.swaps import validate_swaps
 
@@ -139,3 +141,46 @@ def test_combo_cache_must_bind_to_prospective_deck(fixture_db, fixture_deck):
     matched = validate_swaps(deck, proposal, fixture_db, combo_data=prospective_cache)
     assert matched.combo_status == "approximate"
     assert matched.combo_findings[0]["code"] == "prospective_bracket_estimate"
+
+
+def test_cli_validate_swaps_reuses_the_cached_combo_data_without_a_network_call(
+    fixture_db, fixture_deck, tmp_path, monkeypatch, capsys,
+):
+    # Real gap (KNOWN_ISSUES.md): neither `deckdoctor validate --swaps` nor
+    # `deckdoctor compare` ever passed `combo_data` to `validate_swaps`, so
+    # the prospective Game-Changer-cap/combo-legality finding stayed
+    # "unknown" forever through the CLI, even with a fresh, fingerprint-
+    # bound `deckdoctor combos`/`bracket` cache sitting right there on
+    # disk -- the mechanism existed in `swaps.py` but nothing wired a real
+    # cache into it. Fixed in cli.py (validate --swaps) and
+    # recommendations.py (compare); this covers the CLI path, local-file
+    # only, no network.
+    from deckdoctor.cli import main
+
+    monkeypatch.setattr(combos, "PROJECT_ROOT", tmp_path)
+    deck = _deck(fixture_db, fixture_deck)
+    replacement = _resolve(fixture_db, "Replacement A")
+    prospective = Deck(
+        deck.name, deck.commander,
+        [c for c in deck.library if c.name != "Fixture Plains 0"] + [replacement],
+        deck.commander_count, {}, {},
+    )
+    cache_dir = tmp_path / "data" / "bracket_cache"
+    cache_dir.mkdir(parents=True)
+    (cache_dir / f"{deck.name}.json").write_text(json.dumps({
+        "schema_version": 1, "deck_fingerprint": combos._request_fingerprint(prospective),
+        "cached_at": 1, "response": {"bracketTag": "C", "cards": [], "combos": []},
+    }), encoding="utf-8")
+
+    proposal_path = tmp_path / "proposal.json"
+    proposal_path.write_text(json.dumps({"schema_version": 1, "swaps": [
+        {"cut": "Fixture Plains 0", "add": "Replacement A", "quantity": 1}
+    ]}), encoding="utf-8")
+
+    db_path = tmp_path / "fixture.sqlite3"
+    code = main(["validate", str(fixture_deck), "--db", str(db_path),
+                "--swaps", str(proposal_path), "--format", "json"])
+    assert code == 0
+    payload = json.loads(capsys.readouterr().out)
+    assert payload["swaps"]["combo_status"] == "approximate"
+    assert payload["swaps"]["combo_findings"][0]["code"] == "prospective_bracket_estimate"

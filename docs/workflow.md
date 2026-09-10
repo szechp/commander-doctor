@@ -22,6 +22,33 @@ This downgrades that one card's `card_not_legal` to a visible, non-blocking `leg
 
 Read the existing gameplan and feedback before recommending changes. If the gameplan is absent or ambiguous, state a tentative interpretation and ask the user to resolve it. This interpretation is authored judgment, not a computed card rule. Preserve raw prose and the user's reasons.
 
+## Establish real operating parameters before any numeric assessment (mandatory)
+
+Before running `audit`, `health`, `defence`, or `coverage` for real (not just to see what's missing), check whether the deck's sibling YAML sets `bracket:` and `threshold:`. If either is missing, STOP and establish it -- do not run the numeric checks first and revisit later, because their output will be silently miscalibrated and will look like normal, trustworthy findings:
+
+- **`threshold` silently defaults to the commander's own cmc** (`audit.py`, "Operational threshold: N (= commander cmc)"). That default is only right for a commander that IS the plan on curve. For anything that ramps into a payoff, needs graveyard/combat setup, or wins later than it's cast, the real number is higher -- and every threshold-scaled floor moves with it: `defence.py`'s interaction target (`10 + 1.5*(threshold - 4.5)`) and `audit.py`'s ramp target both silently understate what the deck actually needs when threshold is left at the default. A deck that reports "Survival window: OK" and "Ramp: OK" under the wrong threshold is not evidence the deck is fine -- it's evidence the floor was set too low to fail. This is not hypothetical: it produced exactly that false-negative pattern on a real deck this session.
+- **`bracket` gates the bracket-3 Game Changer cap and combo-legality check inside `validate --swaps`.** `swaps.py`'s quality findings compute `bracket_limit = {1: 0, 2: 0, 3: 3, 4: None}.get(config.bracket)` -- with no `bracket:` set, this silently resolves to `None` and the cap check never fires, for any batch, no matter how many Game Changers it adds. A missing `bracket:` does not mean "no constraint"; it means the constraint is silently OFF.
+
+To establish these: read the commander's real oracle text (`deckdoctor card`) and the decklist's actual shape (payoffs, ramp density, recursion/setup pieces), state a concrete threshold turn and one-paragraph gameplan as your grounded reading -- not a guess presented as fact -- and get the user to confirm or correct it. Then **write it into the sibling YAML directly** (`commander:`, `bracket:`, `threshold:`, `gameplan:` as top-level keys, ahead of `feedback:`) -- a confirmed answer that only exists in the conversation is not saved and will need re-deriving next session, the same gap that let this go unset across multiple prior sessions on a real deck. This is a one-time setup cost per deck, not a per-review step: once saved, later sessions just read it.
+
+## Diagnosing a deck that underperforms (real losses, not a polish pass)
+
+When the user describes an actual failure mode -- losing consistently, dying before the plan executes, a specific low win rate -- treat this as a root-cause diagnosis task, distinct from an incremental polish pass, and distinct from `review`'s bounded `--limit 3` default. A single plausible cause found first is not the same as the real cause. Concretely:
+
+1. Confirm real operating parameters are set (previous section) -- every check below is miscalibrated otherwise.
+2. Run the full evidence pass, not a subset: `validate`, `audit`, `health --consistency`, `colours`, `coverage`, and `combos`/`bracket` (`--refresh` if the cache is stale or absent). Read every flagged row, not just the first one that matches the user's own hypothesis -- a user's stated diagnosis ("not enough removal") is a real data point, not a conclusion to confirm and stop.
+3. Cross-reference the flagged rows against each other before proposing anything: a deck can look "fine" on interaction count while its land/ramp formula undershoots its own stated threshold turn -- i.e. it isn't losing to insufficient defence, it's losing to being reliably slower than its own plan requires to survive that long. These are different diseases with different fixes; don't treat the first floor that fails as the whole story.
+4. Only after mapping every real gap, move to the rebuild step below.
+
+## Full rebuild (not a few prioritized changes)
+
+The "present a few prioritized changes" guidance further down is calibrated for incremental polish on an otherwise-working deck. A genuine rebuild request -- "fix what's actually wrong," a stated precon-to-bracket-3 power-up, anything the user frames as potentially touching a large fraction of the 99 -- is a different task and is explicitly licensed to be large:
+
+- For every gap mapped in the diagnosis above, search that gap's FULL candidate pool (`candidates <role>`, not review's bounded default) and evaluate real oracle text, not just tag membership, before selecting a replacement.
+- Assemble every selected change into ONE swap batch, not one card presented and applied at a time. Use `compare` for any non-obvious or cross-role pick before it goes in the batch.
+- Validate the WHOLE batch with `validate --swaps` (below) in one pass. With `bracket:` set (previous section), this now actually checks the Game Changer cap and, once bracket/combo cache data is supplied, combo legality -- read `quality_findings` and `combo_findings`, not just `accepted`, since those are reported as evidence rather than a pass/fail gate by design. If the batch itself introduces a new gap (e.g. it pushes Game Changer count over the configured bracket's cap), fix that within the same batch before presenting it, not as a second round.
+- Present the full package at once: what's cut, what's added, why, and what if anything is still an open trade-off -- then get confirmation before saving anything to the deck file. A batch this size is still the user's decision to apply, not an autonomous rewrite.
+
 ## Gameplan-led recommendations
 
 When the user wants a streamlined deck or the best-fitting cards, run `deckdoctor review decks/example.txt --format json --limit 3` after validation. This is an evidence packet for strategic review, not an automatic deck-quality verdict. Read the saved gameplan and feedback first; reuse answers already supplied. If needed, ask one bundled question about the intended win route, desired pace, pod constraints and budget. Do not invent a bracket from a Game Changer count or treat a bracket estimate as a quality score.

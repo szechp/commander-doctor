@@ -727,3 +727,87 @@ from a single-target burn spell or a combat-damage trigger, handling
 `ValidTgts$ Creature.All`/`Planeswalker.All`-style symmetric shapes,
 verifying against the whole mirror) rather than a rushed addition at the
 end of an already-large session covering several other fixes.
+
+### `bracket:`/`threshold:` unset on a real deck silently defaulted every threshold-scaled floor and disabled the bracket-3 Game Changer cap check -- 2026-09-10
+Command: `deckdoctor audit`/`health`/`defence` and `validate --swaps` on any deck whose sibling YAML never set `bracket:`/`threshold:`
+What happened: user directly reported a real deck (Sevinne) that "always
+looked good on paper" but had a real-world ~10% win rate, dying before
+its plan came online. `decks/sevinne.yaml` had a `feedback:` log but no
+`commander:`/`bracket:`/`threshold:`/`gameplan:` at all -- confirmed this
+had been true across multiple prior sessions on this same deck (a fresh
+Codex session's own incident report separately noted "there is still no
+saved gameplan").
+Why it's wrong: `audit.py` silently defaults `threshold` to the
+commander's own cmc when unset ("Operational threshold: N (= commander
+cmc)"). That default is only correct for a commander that IS the plan on
+curve -- for Sevinne (a graveyard-recursion engine whose real kill
+window, confirmed with the user, is ~turn 7-8, not its cmc of 5), it
+silently understated `defence.py`'s interaction target (`10 +
+1.5*(threshold-4.5)`) and `audit.py`'s ramp target. Verified end to end
+on the real deck: with threshold left at the default 5, `health` reported
+"Survival window: OK" and "Ramp: OK"; with threshold correctly set to 8,
+the SAME deck reported "Ramp: SHORT -- 10 actual vs 13 target" and the
+land formula diverged by 3 more cards than it had. The floors didn't get
+stricter -- they got calibrated to the deck's actual real-world exposure
+window, and only then did a real gap appear. A "the deck looks fine"
+report against the silently-wrong default is not evidence of a healthy
+deck; it's evidence the floor was set too low to ever fail.
+Separately, `swaps.py`'s quality findings compute `bracket_limit = {1: 0,
+2: 0, 3: 3, 4: None}.get(config.bracket)` -- with no `bracket:` set this
+resolves to `None` and the Game-Changer-cap check inside `validate
+--swaps` silently never fires, for any batch, no matter how many Game
+Changers it adds. Nothing in the tool or the workflow doc said this loudly
+enough that it kept getting missed across sessions.
+Likely cause: `docs/workflow.md` treated establishing gameplan/bracket/
+threshold as a soft, easily-skipped "if absent, ask" aside rather than a
+hard gate before any numeric assessment, and never explained the silent
+defaulting behavior that makes an unset value look like a normal,
+trustworthy result instead of an obviously-broken one.
+Status: fixed at the process/documentation level, not the code level --
+this is working as coded, just badly signposted. Added a new mandatory
+"Establish real operating parameters before any numeric assessment"
+section to docs/workflow.md (read by all three skill adapters) that
+states the defaulting behavior explicitly and requires writing
+`commander:`/`bracket:`/`threshold:`/`gameplan:` into the sibling YAML
+before treating any threshold-scaled floor as meaningful, plus new
+"Diagnosing a deck that underperforms" and "Full rebuild" sections
+distinguishing root-cause diagnosis and large batch rebuilds from
+`review`'s bounded `--limit 3` incremental-polish default. Applied to
+`decks/sevinne.yaml` directly (commander/bracket 3/threshold 8/gameplan,
+confirmed with the user).
+
+### Neither `validate --swaps` nor `compare` ever passed `combo_data`, so the prospective Game-Changer-cap/combo-legality finding stayed "unknown" forever through the CLI -- 2026-09-10
+Command: `deckdoctor validate decks/<name>.txt --swaps proposal.json` / `deckdoctor compare ...`
+What happened: found while wiring up the entry above -- `swaps.py`'s
+`validate_swaps` already has a real, tested `combo_data` parameter
+(`_cache_data` re-binds a supplied Commander Spellbook cache envelope to
+the PROSPECTIVE deck's fingerprint, only accepting it if the swap batch
+didn't change anything combo-relevant) that produces a real
+`prospective_bracket_estimate` finding (Game Changer count, fast 2-card
+combos, banned cards, mass land denial) when the fingerprint matches.
+Neither of its two real callers (`cli.py`'s `validate --swaps`,
+`recommendations.py`'s `build_compare_packet` behind `deckdoctor
+compare`) ever passed anything for it -- `combo_data` stayed `None` on
+every real invocation, so `combo_status` stayed `"unknown"` and
+`combo_findings` stayed empty through the CLI, permanently, even with a
+fresh `deckdoctor combos`/`bracket` cache for the exact same deck sitting
+on disk.
+Why it's wrong: for a bracket-3-constrained batch (the whole point of
+having `bracket:` configured at all -- see the entry above), this is the
+ONLY mechanism that checks whether a proposed swap batch introduces a new
+fast combo or pushes Game Changer count over the cap via Commander
+Spellbook's own combo data, as opposed to the local-only GC count in
+`_quality_findings`. It existed and was tested in isolation
+(`test_combo_cache_must_bind_to_prospective_deck`) but was completely
+unreachable from either real command.
+Likely cause: `swaps.py`'s `combo_data` parameter was added and tested
+against the module directly, but neither CLI call site was updated to
+supply it.
+Status: fixed -- both `cli.py`'s `validate --swaps` and
+`recommendations.py`'s `build_compare_packet` now do a best-effort, local
+file read of `data/bracket_cache/<deck-name>.json` (the exact file
+`deckdoctor combos`/`bracket` already writes) and pass its contents as
+`combo_data`. Still never fetches over the network itself -- `--refresh`
+via `deckdoctor combos`/`bracket` remains the only way to populate or
+update the cache, unchanged. 1 new CLI-level regression test
+(test_swaps.py), verified to fail without the fix and pass with it.

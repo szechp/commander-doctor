@@ -370,8 +370,26 @@ def main(argv: list[str] | None = None) -> int:
             try:
                 proposal = json.loads(Path(args.swaps).read_text(encoding="utf-8"))
                 pool = json.loads(Path(args.pool).read_text(encoding="utf-8")) if args.pool else None
+                # Best-effort, local-only, no network: reuse this deck's
+                # existing `deckdoctor combos`/`bracket` cache (if any) as
+                # `validate_swaps`'s `combo_data`, so a swap batch that's
+                # still bound to the SAME fingerprint (the prospective
+                # combo/GC-cap check requires an exact match -- see
+                # `combos._cache_data`) gets a real combo/bracket-legality
+                # finding instead of silently staying "unknown" forever.
+                # Never fetched here -- `--refresh` via `deckdoctor combos`
+                # is still the only way to hit the network, unchanged.
+                combo_data = None
+                if deck is not None:
+                    from deckdoctor.combos import _cache_path as _combo_cache_path
+                    combo_cache_file = _combo_cache_path(deck.name)
+                    if combo_cache_file.exists():
+                        try:
+                            combo_data = json.loads(combo_cache_file.read_text(encoding="utf-8"))
+                        except (OSError, UnicodeError, json.JSONDecodeError):
+                            combo_data = None
                 swap_result = validate_swaps(
-                    deck, proposal, con, pool=pool, config=config,
+                    deck, proposal, con, pool=pool, config=config, combo_data=combo_data,
                 )
             except (OSError, UnicodeError, json.JSONDecodeError) as exc:
                 reports.append(ValidationReport(False, [ValidationDiagnostic("invalid_swap_json", "error", str(exc))]))

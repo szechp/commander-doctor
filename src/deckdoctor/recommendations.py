@@ -19,6 +19,7 @@ from dataclasses import asdict
 
 from deckdoctor.assessment_reports import config_fingerprint, data_versions, deck_fingerprint
 from deckdoctor.candidates import CandidatePage, compare_candidates
+from deckdoctor.combos import _cache_path as _combo_cache_path
 from deckdoctor.deck import Card, Deck
 from deckdoctor.deck import _resolve as _resolve_card
 from deckdoctor.deck_config import DeckConfig, pinned_cards, rejected_swaps
@@ -474,7 +475,18 @@ def build_compare_packet(
                                     evidence={"role": role}))
 
     proposal = {"schema_version": 1, "swaps": [{"cut": current_name, "add": candidate_name, "quantity": 1}]}
-    swap_result = validate_swap_batch(deck, proposal, con, config=config)
+    # Best-effort, local-only, no network -- see the same reuse in cli.py's
+    # `validate --swaps`: without this, `combo_data` stays None and the
+    # prospective combo/bracket-cap finding is permanently "unknown" even
+    # when a fresh, fingerprint-bound cache already exists on disk.
+    combo_data = None
+    combo_cache_file = _combo_cache_path(deck.name)
+    if combo_cache_file.exists():
+        try:
+            combo_data = json.loads(combo_cache_file.read_text(encoding="utf-8"))
+        except (OSError, UnicodeError, json.JSONDecodeError):
+            combo_data = None
+    swap_result = validate_swap_batch(deck, proposal, con, config=config, combo_data=combo_data)
     findings.append(Finding(
         "compare.swap_validation", "info", "checked",
         "swap accepted" if swap_result.accepted else "swap blocked; see diagnostics",
