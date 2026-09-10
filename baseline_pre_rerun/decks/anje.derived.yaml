@@ -1,0 +1,39 @@
+# Derived per SPEC.md §4. Lower confidence than sevinne/gishath/krrik --
+# Anje isn't one of the four SPEC regression decks, this got less scrutiny,
+# and the schema's zone-membership-only checks don't cleanly cover
+# instant/sorcery discard outlets (Faithless Looting, Thrill of Possibility)
+# which never sit in a zone this checks -- they resolve and leave. Excluded
+# from discard_outlet for that reason, not because they don't matter.
+#
+# Note Anje herself is a real repeatable engine piece (tap+discard to draw,
+# untaps off a madness discard) unlike Sevinne's pure-enabler role -- so
+# "commander on board" is closer to right here than it first looks, even
+# though the deck can technically start via Faithless Looting instead.
+
+commander: Anje Falkenrath
+
+effect_classes:
+  discard_outlet:
+    rationale: permanents that discard cards repeatably -- excludes one-shot spell outlets, see header note.
+    members:
+      - Anje Falkenrath
+      - Magus of the Wheel
+
+  madness_payoff:
+    rationale: cards that want to be discarded rather than cast normally.
+    members:
+      - Asylum Visitor
+      - Bloodmad Vampire
+      - Stromkirk Occultist
+      - Big Game Hunter
+      - Grave Scrabbler
+      - Call to the Netherworld
+      - From Under the Floorboards
+
+success_condition:
+  description: a discard outlet on board with a madness payoff in hand
+  requires:
+    - {class: discard_outlet, zone: battlefield, count: 1}
+    - {class: madness_payoff, zone: hand, count: 1}
+  target_turn: 6
+  confidence: low -- see header note on excluded spell-based outlets.

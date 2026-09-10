@@ -1,0 +1,99 @@
+{
+  "command": "validate",
+  "config_fingerprint": "7068dcd09fd7ecb1e9c4c3c5a0d8f30a66f1399298ef23aa4945a7cb2d495f06",
+  "data_versions": {
+    "forge_parser_version": null,
+    "forge_revision": null,
+    "freshness": {
+      "oracle_cards": "unknown",
+      "oracle_tags": "unknown"
+    },
+    "last_sync": "2026-09-06T16:08:55.633094+00:00",
+    "oracle_cards_sha256": null,
+    "oracle_cards_timestamp": null,
+    "oracle_tags_sha256": null,
+    "oracle_tags_timestamp": null,
+    "role_evidence_input_hash": null,
+    "role_evidence_version": null
+  },
+  "deck_fingerprint": "4b6d0ccd135173a4deb2d5b6b95c6f05700ee74e7ab3b1e8a25a34acf1c5c230",
+  "findings": [
+    {
+      "assumptions": [],
+      "evidence": {},
+      "id": "validate.deck",
+      "limitations": [],
+      "message": "deck and configuration are valid",
+      "outcome": "pass",
+      "related_cards": [],
+      "severity": "info",
+      "status": "checked"
+    }
+  ],
+  "limitations": [],
+  "metrics": {
+    "swaps": null,
+    "validation": [
+      {
+        "command": "validate",
+        "commander": null,
+        "config_fingerprint": null,
+        "data_versions": {},
+        "deck_fingerprint": null,
+        "diagnostics": [],
+        "limitations": [],
+        "metrics": {
+          "config_path": "/var/folders/l9/vpf5_4lj6z99jvcwvwx_n7lh0000gn/T/deckdoctor-final-hcs7fh5b/decks/gishath.yaml"
+        },
+        "schema_version": 1,
+        "total_cards": null,
+        "valid": true
+      },
+      {
+        "command": "validate",
+        "commander": "Gishath, Sun's Avatar",
+        "config_fingerprint": null,
+        "data_versions": {},
+        "deck_fingerprint": "4b6d0ccd135173a4deb2d5b6b95c6f05700ee74e7ab3b1e8a25a34acf1c5c230",
+        "diagnostics": [],
+        "limitations": [],
+        "metrics": {},
+        "schema_version": 1,
+        "total_cards": 100,
+        "valid": true
+      }
+    ]
+  },
+  "reports": [
+    {
+      "command": "validate",
+      "commander": null,
+      "config_fingerprint": null,
+      "data_versions": {},
+      "deck_fingerprint": null,
+      "diagnostics": [],
+      "limitations": [],
+      "metrics": {
+        "config_path": "/var/folders/l9/vpf5_4lj6z99jvcwvwx_n7lh0000gn/T/deckdoctor-final-hcs7fh5b/decks/gishath.yaml"
+      },
+      "schema_version": 1,
+      "total_cards": null,
+      "valid": true
+    },
+    {
+      "command": "validate",
+      "commander": "Gishath, Sun's Avatar",
+      "config_fingerprint": null,
+      "data_versions": {},
+      "deck_fingerprint": "4b6d0ccd135173a4deb2d5b6b95c6f05700ee74e7ab3b1e8a25a34acf1c5c230",
+      "diagnostics": [],
+      "limitations": [],
+      "metrics": {},
+      "schema_version": 1,
+      "total_cards": 100,
+      "valid": true
+    }
+  ],
+  "schema_version": 1,
+  "valid": true
+}

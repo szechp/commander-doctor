@@ -1,0 +1,14 @@
+__pycache__/
+*.pyc
+.venv/
+*.egg-info/
+data/*.db
+data/*.sqlite3
+data/bulk/
+data/cardsfolder/
+forge-spike/forge/
+forge-spike/*.log
+decks/*.derived.yaml
+decks/*.yaml.lock
+data/bracket_cache/
+.DS_Store

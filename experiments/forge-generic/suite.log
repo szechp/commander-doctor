@@ -1,0 +1,48 @@
+unknown preference: UI_SR_OPTIMIZE=false
+unknown preference: UI_PRESELECT_PREVIOUS_ABILITY_ORDER=false
+unknown preference: UI_AUTO_YIELD_MODE=Per Ability (Each Match)
+unknown preference: UI_NETPLAY_COMPAT=false
+unknown preference: UI_FOR_TOUCHSCREN=false
+unknown preference: UI_MANABURN=false
+Language 'en-US' loaded successfully.
+(ThreadUtil first call): Running with priority 5
+Read cards: 33587 files in 1 ms (25 parts) using thread pool
+Upcoming set Star Trek (TRK) dated in the future. All `upcoming` cards will be added to this set with unknown rarity.
+The card A-Alrund's Epiphany was not assigned to any set. Adding it to UNKNOWN set... to fix see res/editions/ folder. 
+The card A-Baba Lysaga, Night Witch was not assigned to any set. Adding it to UNKNOWN set... to fix see res/editions/ folder. 
+The card A-Divide by Zero was not assigned to any set. Adding it to UNKNOWN set... to fix see res/editions/ folder. 
+The card A-Esika's Chariot was not assigned to any set. Adding it to UNKNOWN set... to fix see res/editions/ folder. 
+The card A-Faceless Haven was not assigned to any set. Adding it to UNKNOWN set... to fix see res/editions/ folder. 
+The card A-Fires of Invention was not assigned to any set. Adding it to UNKNOWN set... to fix see res/editions/ folder. 
+The card A-Goldspan Dragon was not assigned to any set. Adding it to UNKNOWN set... to fix see res/editions/ folder. 
+The card A-Hullbreaker Horror was not assigned to any set. Adding it to UNKNOWN set... to fix see res/editions/ folder. 
+The card A-Kumano Faces Kakkazan was not assigned to any set. Adding it to UNKNOWN set... to fix see res/editions/ folder. 
+The card A-Luminarch Aspirant was not assigned to any set. Adding it to UNKNOWN set... to fix see res/editions/ folder. 
+The card A-Monster Manual was not assigned to any set. Adding it to UNKNOWN set... to fix see res/editions/ folder. 
+The card A-Omnath, Locus of Creation was not assigned to any set. Adding it to UNKNOWN set... to fix see res/editions/ folder. 
+The card A-The Meathook Massacre was not assigned to any set. Adding it to UNKNOWN set... to fix see res/editions/ folder. 
+The card A-Unholy Heat was not assigned to any set. Adding it to UNKNOWN set... to fix see res/editions/ folder. 
+The card Blinding Radiance was not assigned to any set. Adding it to UNKNOWN set... to fix see res/editions/ folder. 
+The card Goblin Bruiser was not assigned to any set. Adding it to UNKNOWN set... to fix see res/editions/ folder. 
+The card Ogre Painbringer was not assigned to any set. Adding it to UNKNOWN set... to fix see res/editions/ folder. 
+The card Titanic Pelagosaur was not assigned to any set. Adding it to UNKNOWN set... to fix see res/editions/ folder. 
+The card Treetop Recluse was not assigned to any set. Adding it to UNKNOWN set... to fix see res/editions/ folder. 
+Upcoming set Star Trek (TRK) dated in the future. All `upcoming` cards will be added to this set with unknown rarity.
+Read cards: 836 files in 0 ms (8 parts) using thread pool
+GENERIC_RESULT white.txt completed_under_policy draws=6 extra=5 events={commander_resolved=1, effect_draw=5, permanent_resolved=6} error=null
+GENERIC_RESULT green.txt completed_under_policy draws=6 extra=2 events={commander_resolved=1, effect_draw=2, permanent_resolved=9} error=null
+Adding {T}: Draw a card, then discard a card.  to stack
+GENERIC_RESULT blue.txt completed_under_policy draws=6 extra=11 events={commander_resolved=1, effect_draw=11, permanent_resolved=4} error=null
+Adding {T}, Discard a card: Draw a card. to stack
+GENERIC_RESULT madness.txt completed_under_policy draws=6 extra=6 events={alternative_permanent_resolved=5, commander_resolved=1, effect_draw=6, permanent_resolved=6} error=null
+GENERIC_RESULT mana.txt completed_under_policy draws=6 extra=4 events={commander_resolved=1, effect_draw=4, permanent_resolved=12} error=null
+GENERIC_RESULT targets.txt completed_under_policy draws=6 extra=0 events={commander_resolved=1, permanent_resolved=4} error=null
+GENERIC_RESULT wrong-colour.txt completed_under_policy draws=6 extra=0 events={} error=null
+GENERIC_RESULT white.txt completed_under_policy draws=6 extra=5 events={commander_resolved=1, effect_draw=5, permanent_resolved=6} error=null
+GENERIC_RESULT white.txt completed_under_policy draws=6 extra=5 events={commander_resolved=1, effect_draw=5, permanent_resolved=6} error=null
+Adding {T}, Discard a card: Draw a card. to stack
+GENERIC_RESULT anje-mine.txt completed_under_policy draws=6 extra=14 events={alternative_permanent_resolved=2, commander_resolved=1, effect_draw=14, permanent_resolved=6} error=null
+Adding {1}, {T}, Sacrifice Mind Stone: Draw a card. to stack
+GENERIC_RESULT sevinne.txt completed_under_policy draws=6 extra=10 events={commander_resolved=1, effect_draw=10, permanent_resolved=6} error=null
+Adding {4}, {T}: Target creature can't be blocked this turn. to stack
+GENERIC_RESULT gishath.txt completed_under_policy draws=6 extra=0 events={commander_resolved=1, permanent_resolved=4} error=null

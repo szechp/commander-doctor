@@ -1,0 +1,141 @@
+from deckdoctor import combos
+from deckdoctor.deck import load_deck
+from deckdoctor.deck_config import DeckConfig, FeedbackEntry
+from deckdoctor.swaps import validate_swaps
+
+
+def _add_cards(con):
+    for name in ("Replacement A", "Replacement B"):
+        con.execute(
+            "INSERT INTO cards (name,mana_cost,cmc,type_line,oracle_text,color_identity,colors,keywords,commander_legal,is_game_changer,layout,set_type) "
+            "VALUES (?, '{1}', 1, 'Artifact', 'Fixture replacement.', '[\"W\"]', '[\"W\"]', '[]', 1, 0, 'normal', 'core')",
+            (name,),
+        )
+    con.commit()
+
+
+def _deck(fixture_db, fixture_deck):
+    _add_cards(fixture_db)
+    return load_deck(str(fixture_deck), fixture_db)
+
+
+def test_valid_batch_returns_diff_without_writing_source(fixture_db, fixture_deck):
+    before = fixture_deck.read_text()
+    result = validate_swaps(_deck(fixture_db, fixture_deck), {
+        "schema_version": 1, "swaps": [{"cut": "Fixture Plains 0", "add": "Replacement A", "quantity": 1}],
+    }, fixture_db)
+    assert result.accepted
+    assert result.diff.size_before == result.diff.size_after == 100
+    assert result.combo_status == "unknown"
+    assert result.unknowns
+    assert fixture_deck.read_text() == before
+
+
+def test_pinned_and_rejected_swaps_are_blocked(fixture_db, fixture_deck):
+    deck = _deck(fixture_db, fixture_deck)
+    config = DeckConfig("Fixture Commander", feedback=[
+        FeedbackEntry(date="2026-09-08", kind="pin", card="Fixture Plains 0", reason="keep"),
+        FeedbackEntry(date="2026-09-08", kind="swap", current="Fixture Plains 1", suggested="Replacement B", status="rejected"),
+    ])
+    proposal = {"schema_version": 1, "swaps": [
+        {"cut": "Fixture Plains 0", "add": "Replacement A", "quantity": 1},
+        {"cut": "Fixture Plains 1", "add": "Replacement B", "quantity": 1},
+    ]}
+    result = validate_swaps(deck, proposal, fixture_db, config=config)
+    assert not result.accepted
+    assert {d.code for d in result.diagnostics} >= {"pinned_cut", "rejected_swap"}
+    assert result.prospective_deck is None
+
+
+def test_invalid_multi_swap_is_rejected_atomically(fixture_db, fixture_deck):
+    deck = _deck(fixture_db, fixture_deck)
+    result = validate_swaps(deck, {"schema_version": 1, "swaps": [
+        {"cut": "Fixture Plains 0", "add": "Replacement A", "quantity": 1},
+        {"cut": "Missing", "add": "Replacement B", "quantity": 1},
+    ]}, fixture_db)
+    assert not result.accepted
+    assert result.prospective_deck is None
+    assert any(d.code == "cut_quantity_exceeded" for d in result.diagnostics)
+
+
+def test_pool_schema_membership_and_provenance(fixture_db, fixture_deck):
+    deck = _deck(fixture_db, fixture_deck)
+    proposal = {"schema_version": 1, "swaps": [{"cut": "Fixture Plains 0", "add": "Replacement A", "quantity": 1}]}
+    outside = validate_swaps(deck, proposal, fixture_db, pool={"schema_version": 1, "cards": ["Replacement B"], "provenance": {"id": "p1"}})
+    assert not outside.accepted
+    assert outside.pool_bound and outside.pool_provenance == {"id": "p1"}
+    assert any(d.code == "add_not_in_pool" for d in outside.diagnostics)
+
+
+def test_duplicate_operation_identity_is_ambiguous(fixture_db, fixture_deck):
+    deck = _deck(fixture_db, fixture_deck)
+    result = validate_swaps(deck, {"schema_version": 1, "swaps": [
+        {"cut": "Fixture Plains 0", "add": "Replacement A", "quantity": 1},
+        {"cut": "Fixture Plains 0", "add": "Replacement B", "quantity": 1},
+    ]}, fixture_db)
+    assert any(d.code == "ambiguous_duplicate_swap" for d in result.diagnostics)
+
+
+def test_valid_swap_reports_structural_quality_regression(fixture_db, fixture_deck):
+    deck = _deck(fixture_db, fixture_deck)
+    fixture_db.execute(
+        "UPDATE cards SET parsed=? WHERE name='Phyrexian Vindicator'",
+        ('{"abilities":[{"SP":"Destroy","ValidTgts":"Creature"}],"svars":{}}',),
+    )
+    fixture_db.execute("INSERT INTO card_tags VALUES ('Phyrexian Vindicator','removal-creature')")
+    fixture_db.commit()
+    result = validate_swaps(deck, {"schema_version": 1, "swaps": [
+        {"cut": "Phyrexian Vindicator", "add": "Replacement A", "quantity": 1},
+    ]}, fixture_db)
+    assert result.accepted
+    assert result.structural_before["removal"] > result.structural_after["removal"]
+    assert any(finding["code"] == "reduced_removal" for finding in result.quality_findings)
+
+
+def test_boolean_versions_and_malformed_pool_are_rejected(fixture_db, fixture_deck):
+    deck = _deck(fixture_db, fixture_deck)
+    assert not validate_swaps(deck, {"schema_version": True, "swaps": []}, fixture_db).accepted
+    proposal = {"schema_version": 1, "swaps": [{"cut": "Fixture Plains 0", "add": "Replacement A", "quantity": 1}]}
+    for pool in (
+        {"schema_version": True, "cards": ["Replacement A"], "provenance": {}},
+        {"schema_version": 1, "cards": [], "provenance": {}},
+        {"schema_version": 1, "cards": [{}], "provenance": {}},
+        {"schema_version": 1, "cards": ["Replacement A"], "provenance": "unknown"},
+    ):
+        result = validate_swaps(deck, proposal, fixture_db, pool=pool)
+        assert not result.accepted
+        assert result.diagnostics[0].code == "invalid_pool_schema"
+
+
+def test_front_face_alias_cannot_bypass_pool_or_rejection(fixture_db, fixture_deck):
+    deck = _deck(fixture_db, fixture_deck)
+    canonical = fixture_db.execute("SELECT name FROM cards WHERE name LIKE 'Voldaren Pariah // %'").fetchone()[0]
+    config = DeckConfig("Fixture Commander", feedback=[FeedbackEntry(
+        date="2026-09-08", kind="swap", current="Fixture Plains 0",
+        suggested="Voldaren Pariah", status="rejected",
+    )])
+    result = validate_swaps(deck, {"schema_version": 1, "swaps": [
+        {"cut": "Fixture Plains 0", "add": canonical, "quantity": 1},
+    ]}, fixture_db, pool={"schema_version": 1, "cards": ["Voldaren Pariah"], "provenance": {}}, config=config)
+    codes = {diagnostic.code for diagnostic in result.diagnostics}
+    assert "rejected_swap" in codes
+    assert "add_not_in_pool" not in codes
+
+
+def test_combo_cache_must_bind_to_prospective_deck(fixture_db, fixture_deck):
+    deck = _deck(fixture_db, fixture_deck)
+    proposal = {"schema_version": 1, "swaps": [
+        {"cut": "Fixture Plains 0", "add": "Replacement A", "quantity": 1}
+    ]}
+    first = validate_swaps(deck, proposal, fixture_db)
+    response = {"bracketTag": "C", "cards": [], "combos": []}
+    original_cache = {"schema_version": 1, "deck_fingerprint": combos._request_fingerprint(deck),
+                      "cached_at": 1, "response": response}
+    mismatched = validate_swaps(deck, proposal, fixture_db, combo_data=original_cache)
+    assert mismatched.combo_status == "unknown" and not mismatched.combo_findings
+    prospective_cache = {"schema_version": 1,
+                         "deck_fingerprint": combos._request_fingerprint(first.prospective_deck),
+                         "cached_at": 1, "response": response}
+    matched = validate_swaps(deck, proposal, fixture_db, combo_data=prospective_cache)
+    assert matched.combo_status == "approximate"
+    assert matched.combo_findings[0]["code"] == "prospective_bracket_estimate"

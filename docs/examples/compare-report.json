@@ -1,0 +1,224 @@
+{
+  "command": "compare",
+  "config_fingerprint": null,
+  "data_versions": {
+    "forge_parser_version": null,
+    "forge_revision": null,
+    "freshness": {
+      "oracle_cards": "unknown",
+      "oracle_tags": "unknown"
+    },
+    "last_sync": null,
+    "oracle_cards_sha256": null,
+    "oracle_cards_timestamp": null,
+    "oracle_tags_sha256": null,
+    "oracle_tags_timestamp": null,
+    "role_evidence_input_hash": null,
+    "role_evidence_version": null
+  },
+  "deck_fingerprint": "86960ff3cda6c688133be2e9c93cd0e29affb4c937f3073b34d96e74eef1ab1a",
+  "findings": [
+    {
+      "assumptions": [],
+      "evidence": {
+        "color_identity": [
+          "R"
+        ],
+        "faces": [],
+        "mana_cost": "{5}{R}{R}{R}",
+        "name": "City on Fire",
+        "oracle_text": "Convoke (Your creatures can help cast this spell. Each creature you tap while casting this spell pays for {1} or one mana of that creature's color.)\nIf a source you control would deal damage to a permanent or player, it deals triple that damage instead.",
+        "type_line": "Enchantment"
+      },
+      "id": "compare.current",
+      "limitations": [],
+      "message": "City on Fire: full oracle text and cost",
+      "outcome": "pass",
+      "related_cards": [],
+      "severity": "info",
+      "status": "checked"
+    },
+    {
+      "assumptions": [],
+      "evidence": {
+        "color_identity": [
+          "R"
+        ],
+        "faces": [],
+        "mana_cost": "{3}{R}{R}",
+        "name": "Collective Inferno",
+        "oracle_text": "Convoke (Your creatures can help cast this spell. Each creature you tap while casting this spell pays for {1} or one mana of that creature's color.)\nAs this enchantment enters, choose a creature type.\nDouble all damage that sources you control of the chosen type would deal.",
+        "type_line": "Enchantment"
+      },
+      "id": "compare.candidate",
+      "limitations": [],
+      "message": "Collective Inferno: full oracle text and cost",
+      "outcome": "pass",
+      "related_cards": [],
+      "severity": "info",
+      "status": "checked"
+    },
+    {
+      "assumptions": [],
+      "evidence": {
+        "candidate": {
+          "activation_mana_expression": null,
+          "cast_mana_expression": "{3}{R}{R}",
+          "comparison_value": 5.0,
+          "nonmana_payments": [],
+          "optional_conditions": [],
+          "printed_mana_value": 5.0,
+          "provenance": [
+            "structured"
+          ],
+          "selected_ability": null,
+          "supported_parts": [
+            "{3}",
+            "{R}",
+            "{R}"
+          ],
+          "unknown_parts": []
+        },
+        "current": {
+          "activation_mana_expression": null,
+          "cast_mana_expression": "{5}{R}{R}{R}",
+          "comparison_value": 8.0,
+          "nonmana_payments": [],
+          "optional_conditions": [],
+          "printed_mana_value": 8.0,
+          "provenance": [
+            "structured"
+          ],
+          "selected_ability": null,
+          "supported_parts": [
+            "{5}",
+            "{R}",
+            "{R}",
+            "{R}"
+          ],
+          "unknown_parts": []
+        }
+      },
+      "id": "compare.typed_mana_cost",
+      "limitations": [],
+      "message": "printed typed mana cost for both cards",
+      "outcome": "pass",
+      "related_cards": [],
+      "severity": "info",
+      "status": "checked"
+    },
+    {
+      "assumptions": [],
+      "evidence": {
+        "flagged": [
+          "City on Fire",
+          "Collective Inferno"
+        ],
+        "keywords_checked": [
+          "Affinity",
+          "Convoke",
+          "Delve",
+          "Improvise"
+        ],
+        "metadata_unknown": []
+      },
+      "id": "compare.conditional_casting",
+      "limitations": [],
+      "message": "City on Fire, Collective Inferno has a conditional-cost mechanic; deployability cannot be estimated from card density alone",
+      "outcome": "unknown",
+      "related_cards": [],
+      "severity": "warning",
+      "status": "unsupported"
+    },
+    {
+      "assumptions": [],
+      "evidence": {
+        "creatures": 0,
+        "curve": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5": 0,
+          "6+": 1,
+          "unknown": 0
+        },
+        "gameplan": null,
+        "lands": 98
+      },
+      "id": "compare.deck_context",
+      "limitations": [],
+      "message": "deck curve/land/creature context",
+      "outcome": "pass",
+      "related_cards": [],
+      "severity": "info",
+      "status": "checked"
+    },
+    {
+      "assumptions": [],
+      "evidence": {
+        "classification": "alternative",
+        "evidence": {
+          "componentwise_no_more_mana": false,
+          "normalized_oracle_equal": false,
+          "semantic_fields_equal": false,
+          "strict_cost_reduction": false
+        },
+        "reasons": [
+          "known card semantics differ",
+          "candidate mana demand is not componentwise cheaper"
+        ],
+        "scope": "same known rules text, type, colour demand, and stats; normal single-face mana cost only; mana-value interactions, name-sensitive synergies, and externally granted abilities are excluded"
+      },
+      "id": "compare.direct_upgrade",
+      "limitations": [],
+      "message": "scoped direct-upgrade classification: alternative",
+      "outcome": "not_applicable",
+      "related_cards": [],
+      "severity": "info",
+      "status": "checked"
+    },
+    {
+      "assumptions": [],
+      "evidence": {
+        "accepted": true,
+        "diagnostics": [],
+        "quality_findings": []
+      },
+      "id": "compare.swap_validation",
+      "limitations": [],
+      "message": "swap accepted",
+      "outcome": "pass",
+      "related_cards": [],
+      "severity": "info",
+      "status": "checked"
+    }
+  ],
+  "limitations": [
+    "conditional-cost mechanics (e.g. convoke) cannot be estimated from card density; only the printed mana cost is evidenced here",
+    "no automatic winner is claimed from a lower mana value alone",
+    "strategic fit remains authored judgment, not something this code executes"
+  ],
+  "metrics": {
+    "accepted": true,
+    "candidate": "Collective Inferno",
+    "current": "City on Fire",
+    "direct_upgrade": {
+      "classification": "alternative",
+      "evidence": {
+        "componentwise_no_more_mana": false,
+        "normalized_oracle_equal": false,
+        "semantic_fields_equal": false,
+        "strict_cost_reduction": false
+      },
+      "reasons": [
+        "known card semantics differ",
+        "candidate mana demand is not componentwise cheaper"
+      ],
+      "scope": "same known rules text, type, colour demand, and stats; normal single-face mana cost only; mana-value interactions, name-sensitive synergies, and externally granted abilities are excluded"
+    },
+    "role": null
+  },
+  "schema_version": 1
+}

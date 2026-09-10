@@ -1,0 +1,93 @@
+# Derived per SPEC.md §4 (this is SPEC's own worked example for Sevinne --
+# gameplan text and the three effect classes below, including their
+# floor/ceiling, are taken directly from SPEC.md ~line 470-489, not invented
+# here). Grounded in oracle text pulled from the local mirror this session.
+#
+# The commander is a repeatability *enabler*, not the win condition itself --
+# she only copies a spell you've ALREADY cast from your graveyard, so she
+# does nothing without a redirect_body + damage_source already assembled.
+# success_condition below reflects that: it does not key on the commander
+# at all, unlike Gishath's derivation (contrast in decks/gishath.derived.yaml).
+
+commander: Sevinne, the Chronoclasm
+
+effect_classes:
+  redirect_body:
+    floor: 3
+    ceiling: 5
+    rationale: >
+      creatures/permanents whose own triggered ability, fired by damage
+      dealt TO them, redirects that damage elsewhere -- the payload
+      delivery mechanism for damage_source.
+    members:
+      - Boros Reckoner       # "Whenever this creature is dealt damage, it deals that much damage to any target."
+      - Stuffy Doll           # "Whenever this creature is dealt damage, it deals that much damage to the chosen player." (indestructible)
+      - Brash Taunter         # "Whenever this creature is dealt damage, it deals that much damage to target opponent." (indestructible)
+      - Spitemare              # "Whenever this creature is dealt damage, it deals that much damage to any target."
+      - Truefire Captain       # "Whenever this creature is dealt damage, it deals that much damage to target player."
+      - Phyrexian Vindicator   # "If damage would be dealt to this creature, prevent that damage... this creature deals that much damage to any other target."
+    # 6 in the deck against a ceiling of 5 -- one over SPEC's own worked
+    # ceiling. Flag this as saturation, not silently absorb it (see note below).
+
+  damage_source:
+    floor: 3
+    ceiling: 5
+    rationale: >
+      the damage meant to be routed through a redirect_body -- board-wide
+      or own-creature-legal damage spells, the "Blasphemous Act" half of
+      the gameplan.
+    members:
+      - Blasphemous Act        # "deals 13 damage to each creature." (hits your own redirect body on purpose)
+      - Earthquake              # "X damage to each creature without flying and each player."
+      - Star of Extinction       # "20 damage to each creature and each planeswalker."
+      - Fiery Cannonade          # "2 damage to each non-Pirate creature."
+      - Fear, Fire, Foes!        # "X damage to target creature and 1 damage to each other creature with the same controller."
+      - Devil's Play              # "X damage to any target." (also flashback -- double duty, see flashback_enabler)
+      - Boros Charm                # modal: "4 damage to target player or planeswalker" is a live damage mode
+    # 7 in the deck against a ceiling of 5 -- two over. Also saturated.
+
+  flashback_enabler:
+    floor: 4
+    ceiling: 6
+    rationale: >
+      the repeatability half of the plan: native Flashback/Jump-start, or
+      an effect that grants/copies a graveyard cast, since Sevinne herself
+      only copies a spell that was ALREADY cast from the graveyard by one
+      of these.
+    members:
+      - Sevinne, the Chronoclasm   # copies the first graveyard-cast instant/sorcery each turn
+      - Past in Flames               # grants flashback to the whole graveyard
+      - Snapcaster Mage                # grants flashback to one graveyard card on ETB
+      - Mystic Retrieval                # native flashback; returns a spell to hand
+      - Sevinne's Reclamation             # native flashback; copies itself when flashback-cast
+      - Devil's Play                        # native flashback
+      - Faithless Looting                     # native flashback
+      - Deep Analysis                           # native flashback
+      - Desperate Ravings                         # native flashback
+      - Chemister's Insight                         # Jump-start
+    # 10 in the deck against a ceiling of 6 -- badly saturated.
+
+implied_archetype: spellslinger
+
+success_condition:
+  description: a redirect body on board with a damage spell castable
+  requires:
+    - {class: redirect_body, zone: battlefield, count: 1}
+    - {class: damage_source, zone: hand, castable: true, count: 1}
+  target_turn: 5   # = operational threshold (commander cmc 5), ref §0.1
+
+combo_lines:
+  - "Blasphemous Act + Stuffy Doll -> lethal to one opponent (the deck's namesake line)"
+  - "Boros Reckoner + Boros Charm -> infinite lifegain (Commander Spellbook, speed=5, arguable two-card)"
+  - "Stuffy Doll + Pariah -> draw the game (Commander Spellbook, speed=5, arguable two-card)"
+
+notes: >
+  All three effect classes run OVER their own stated ceiling (redirect_body
+  6/5, damage_source 7/5, flashback_enabler 10/6) -- this is the
+  "effect-class saturation" SPEC.md's own stress table calls out for this
+  deck. Worth surfacing to the user directly: a deck this loaded on its own
+  core package usually means redundant draws (multiple redirect bodies or
+  damage spells stuck together do nothing extra) rather than a missing
+  piece -- the opposite of the usual dead-card problem. Check `goldfish`'s
+  P(success condition met) before assuming more copies of the plan = a
+  more reliable plan.

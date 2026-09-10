@@ -1,0 +1,255 @@
+{
+  "variants": {
+    "original": {
+      "composition": {
+        "land": 32,
+        "interaction": 23,
+        "payoff": 11,
+        "madness": 22,
+        "ramp": 18,
+        "draw": 10
+      },
+      "simple_trials": 1000,
+      "simple_flags": {
+        "land_heavy": 85,
+        "mana_access_short": 50,
+        "payoff_absent": 220,
+        "reactive_heavy": 20
+      },
+      "simple_mean_seen": {
+        "land": 4.611,
+        "interaction": 2.789,
+        "payoff": 1.316,
+        "proactive": 5.525,
+        "ramp": 2.237,
+        "draw": 1.241
+      },
+      "forge_trials": 50,
+      "statuses": {
+        "completed_under_policy": 8,
+        "unsupported": 42
+      },
+      "clean_runs": 8,
+      "clean_commander": 8,
+      "clean_alternative_permanent": 6,
+      "clean_mean_extra_draws": 10,
+      "errors": {
+        "UnsupportedOperationException: trigger setup failed: Destroy": 4,
+        "UnsupportedOperationException: unmodeled mana sources while paying for Anje Falkenrath: [Mount Doom [Mana, {T}, Pay 1 life]]": 4,
+        "UnsupportedOperationException: chooseCardsToRevealFromHand": 3,
+        "UnsupportedOperationException: unmodeled mana sources while paying for Rakdos Locket: [Rakdos Signet [Mana, {T}, {1}]]": 1,
+        "UnsupportedOperationException: unmodeled mana sources while paying for Violent Eruption: [Mount Doom [Mana, {T}, Pay 1 life], Skirge Familiar [Mana, Discard a card]]": 1,
+        "UnsupportedOperationException: unmodeled mana sources while paying for Anje Falkenrath: [Treasure Token [Mana, {T}, Sacrifice this token]]": 1,
+        "UnsupportedOperationException: invalid selection bounds": 2,
+        "UnsupportedOperationException: arrangeForSurveil": 4,
+        "UnsupportedOperationException: payCostToPreventEffect": 7,
+        "UnsupportedOperationException: unmodeled mana sources while paying for Anje Falkenrath: [Rakdos Signet [Mana, {T}, {1}]]": 2,
+        "UnsupportedOperationException: unmodeled mana sources while paying for Songs of the Damned: [Treasure Token [Mana, {T}, Sacrifice this token], Treasure Token [Mana, {T}, Sacrifice this token]]": 1,
+        "UnsupportedOperationException: unmodeled mana sources while paying for Anje Falkenrath: [Shadowblood Ridge [Mana, {T}, {1}]]": 2,
+        "UnsupportedOperationException: unmodeled mana sources while paying for Kitchen Imp: [Rakdos Signet [Mana, {T}, {1}]]": 1,
+        "UnsupportedOperationException: chooseSingleStaticAbility": 4,
+        "UnsupportedOperationException: unmodeled mana sources while paying for Psychotic Haze: [Treasure Token [Mana, {T}, Sacrifice this token], Treasure Token [Mana, {T}, Sacrifice this token]]": 1,
+        "UnsupportedOperationException: unmodeled mana sources while paying for Shadowgrange Archfiend: [Treasure Token [Mana, {T}, Sacrifice this token], Treasure Token [Mana, {T}, Sacrifice this token]]": 1,
+        "UnsupportedOperationException: trigger setup failed: ChangeZone": 2,
+        "UnsupportedOperationException: unmodeled mana sources while paying for Rakdos Locket: [Treasure Token [Mana, {T}, Sacrifice this token], Treasure Token [Mana, {T}, Sacrifice this token]]": 1
+      },
+      "limitations": {
+        "Activated abilities capped at two uses per turn by policy": 20,
+        "Announced variables use a small fixed heuristic, not searched optimal values": 24,
+        "Default policy declines self-targeted damage/destruction spells; self-damage plans need a goal-aware override": 40,
+        "Heuristic policy; not an optimal-play or impossibility proof": 50,
+        "No combat or opponent interaction; action discovery is limited to own visible zones": 50,
+        "Optional costs/splice declined; mana planner supports unconditional zero-input tap sources only": 50
+      },
+      "engine_seconds": 72.075092253
+    },
+    "land-heavy": {
+      "composition": {
+        "land": 44,
+        "interaction": 23,
+        "payoff": 11,
+        "madness": 22,
+        "ramp": 11,
+        "draw": 6
+      },
+      "simple_trials": 1000,
+      "simple_flags": {
+        "land_heavy": 359,
+        "mana_access_short": 2,
+        "payoff_absent": 209,
+        "reactive_heavy": 86
+      },
+      "simple_mean_seen": {
+        "land": 5.933,
+        "interaction": 2.952,
+        "payoff": 1.352,
+        "proactive": 4.102,
+        "ramp": 1.464,
+        "draw": 0.763
+      },
+      "forge_trials": 50,
+      "statuses": {
+        "unsupported": 46,
+        "completed_under_policy": 3,
+        "error": 1
+      },
+      "clean_runs": 3,
+      "clean_commander": 3,
+      "clean_alternative_permanent": 1,
+      "clean_mean_extra_draws": 7.333333333333333,
+      "errors": {
+        "UnsupportedOperationException: unmodeled mana sources while paying for Anje Falkenrath: [Mount Doom [Mana, {T}, Pay 1 life]]": 2,
+        "UnsupportedOperationException: unmodeled mana sources while paying for Unexpected Windfall: [Shadowblood Ridge [Mana, {T}, {1}]]": 1,
+        "UnsupportedOperationException: unmodeled mana sources while paying for Anje Falkenrath: [Shadowblood Ridge [Mana, {T}, {1}]]": 6,
+        "UnsupportedOperationException: payCostToPreventEffect": 13,
+        "UnsupportedOperationException: arrangeForSurveil": 4,
+        "UnsupportedOperationException: chooseCardsToRevealFromHand": 2,
+        "UnsupportedOperationException: unmodeled mana sources while paying for Anje Falkenrath: [Rakdos Signet [Mana, {T}, {1}]]": 2,
+        "UnsupportedOperationException: trigger setup failed: ChangeZone": 2,
+        "UnsupportedOperationException: trigger setup failed: Destroy": 3,
+        "UnsupportedOperationException: unmodeled mana sources while paying for Avacyn's Judgment: [Treasure Token [Mana, {T}, Sacrifice this token], Treasure Token [Mana, {T}, Sacrifice this token]]": 1,
+        "UnsupportedOperationException: unmodeled mana sources while paying for Skirge Familiar: [Treasure Token [Mana, {T}, Sacrifice this token]]": 1,
+        "NullPointerException: Cannot invoke \"java.lang.Integer.intValue()\" because the return value of \"forge.game.spellability.SpellAbility.getDividedValue(forge.game.GameObject)\" is null": 1,
+        "UnsupportedOperationException: chooseSingleStaticAbility": 1,
+        "UnsupportedOperationException: unmodeled mana sources while paying for Marauding Mako: [Skirge Familiar [Mana, Discard a card]]": 1,
+        "UnsupportedOperationException: unmodeled mana sources while paying for Jeska's Will: [Shadowblood Ridge [Mana, {T}, {1}]]": 1,
+        "UnsupportedOperationException: unmodeled mana sources while paying for Crackle with Power: [Rakdos Signet [Mana, {T}, {1}]]": 1,
+        "UnsupportedOperationException: unmodeled mana sources while paying for Anje Falkenrath: [Treasure Token [Mana, {T}, Sacrifice this token], Treasure Token [Mana, {T}, Sacrifice this token]]": 1,
+        "UnsupportedOperationException: unmodeled mana sources while paying for Archfiend of Ifnir: [Treasure Token [Mana, {T}, Sacrifice this token], Treasure Token [Mana, {T}, Sacrifice this token]]": 1,
+        "UnsupportedOperationException: unmodeled mana sources while paying for Rakdos Locket: [Shadowblood Ridge [Mana, {T}, {1}]]": 1,
+        "UnsupportedOperationException: unmodeled mana sources while paying for Songs of the Damned: [Treasure Token [Mana, {T}, Sacrifice this token], Treasure Token [Mana, {T}, Sacrifice this token]]": 1,
+        "UnsupportedOperationException: unmodeled mana sources while paying for Unexpected Windfall: [Rakdos Signet [Mana, {T}, {1}]]": 1
+      },
+      "limitations": {
+        "Heuristic policy; not an optimal-play or impossibility proof": 50,
+        "No combat or opponent interaction; action discovery is limited to own visible zones": 50,
+        "Optional costs/splice declined; mana planner supports unconditional zero-input tap sources only": 50,
+        "Activated abilities capped at two uses per turn by policy": 22,
+        "Default policy declines self-targeted damage/destruction spells; self-damage plans need a goal-aware override": 32,
+        "Announced variables use a small fixed heuristic, not searched optimal values": 13
+      },
+      "engine_seconds": 51.248960064
+    },
+    "interaction-heavy": {
+      "composition": {
+        "land": 32,
+        "interaction": 35,
+        "payoff": 11,
+        "madness": 22,
+        "ramp": 11,
+        "draw": 6
+      },
+      "simple_trials": 1000,
+      "simple_flags": {
+        "land_heavy": 102,
+        "mana_access_short": 45,
+        "payoff_absent": 232,
+        "reactive_heavy": 140
+      },
+      "simple_mean_seen": {
+        "land": 4.66,
+        "interaction": 4.333,
+        "payoff": 1.3,
+        "proactive": 3.939,
+        "ramp": 1.387,
+        "draw": 0.711
+      },
+      "forge_trials": 50,
+      "statuses": {
+        "unsupported": 48,
+        "completed_under_policy": 2
+      },
+      "clean_runs": 2,
+      "clean_commander": 2,
+      "clean_alternative_permanent": 1,
+      "clean_mean_extra_draws": 10,
+      "errors": {
+        "UnsupportedOperationException: payCostToPreventEffect": 12,
+        "UnsupportedOperationException: unmodeled mana sources while paying for Anje Falkenrath: [Shadowblood Ridge [Mana, {T}, {1}]]": 5,
+        "UnsupportedOperationException: trigger setup failed: ChangeZone": 8,
+        "UnsupportedOperationException: unmodeled mana sources while paying for Anje Falkenrath: [Rakdos Signet [Mana, {T}, {1}]]": 4,
+        "UnsupportedOperationException: unmodeled mana sources while paying for Anje Falkenrath: [Mount Doom [Mana, {T}, Pay 1 life]]": 2,
+        "UnsupportedOperationException: chooseSingleStaticAbility": 4,
+        "UnsupportedOperationException: arrangeForSurveil": 5,
+        "UnsupportedOperationException: trigger setup failed: Destroy": 2,
+        "UnsupportedOperationException: chooseCardsToRevealFromHand": 1,
+        "UnsupportedOperationException: invalid selection bounds": 1,
+        "UnsupportedOperationException: unmodeled mana sources while paying for Rakdos Signet: [Mount Doom [Mana, {T}, Pay 1 life]]": 1,
+        "UnsupportedOperationException: unmodeled mana sources while paying for Phyrexian Arena: [Shadowblood Ridge [Mana, {T}, {1}]]": 1,
+        "UnsupportedOperationException: unmodeled mana sources while paying for Rakdos Locket: [Shadowblood Ridge [Mana, {T}, {1}]]": 1,
+        "UnsupportedOperationException: unmodeled mana sources while paying for Rakdos Locket: [Shadowblood Ridge [Mana, {T}, {1}], Skirge Familiar [Mana, Discard a card]]": 1
+      },
+      "limitations": {
+        "Default policy declines self-targeted damage/destruction spells; self-damage plans need a goal-aware override": 32,
+        "Heuristic policy; not an optimal-play or impossibility proof": 50,
+        "No combat or opponent interaction; action discovery is limited to own visible zones": 50,
+        "Optional costs/splice declined; mana planner supports unconditional zero-input tap sources only": 50,
+        "Activated abilities capped at two uses per turn by policy": 10,
+        "Announced variables use a small fixed heuristic, not searched optimal values": 8
+      },
+      "engine_seconds": 37.306799842000004
+    },
+    "payoff-light": {
+      "composition": {
+        "land": 32,
+        "interaction": 18,
+        "payoff": 0,
+        "madness": 11,
+        "ramp": 18,
+        "draw": 10
+      },
+      "simple_trials": 1000,
+      "simple_flags": {
+        "land_heavy": 96,
+        "mana_access_short": 42,
+        "payoff_absent": 1000,
+        "reactive_heavy": 6
+      },
+      "simple_mean_seen": {
+        "land": 4.694,
+        "interaction": 2.255,
+        "payoff": 0,
+        "proactive": 5.98,
+        "ramp": 2.17,
+        "draw": 1.21
+      },
+      "forge_trials": 50,
+      "statuses": {
+        "unsupported": 40,
+        "completed_under_policy": 9,
+        "error": 1
+      },
+      "clean_runs": 9,
+      "clean_commander": 9,
+      "clean_alternative_permanent": 0,
+      "clean_mean_extra_draws": 7.222222222222222,
+      "errors": {
+        "UnsupportedOperationException: payCostToPreventEffect": 12,
+        "UnsupportedOperationException: unmodeled mana sources while paying for Currency Converter: [Rakdos Signet [Mana, {T}, {1}]]": 1,
+        "UnsupportedOperationException: trigger setup failed: ChangeZone": 6,
+        "UnsupportedOperationException: unmodeled mana sources while paying for Anje Falkenrath: [Shadowblood Ridge [Mana, {T}, {1}]]": 3,
+        "UnsupportedOperationException: unmodeled mana sources while paying for Chaos Warp: [Treasure Token [Mana, {T}, Sacrifice this token], Treasure Token [Mana, {T}, Sacrifice this token]]": 1,
+        "UnsupportedOperationException: arrangeForSurveil": 5,
+        "UnsupportedOperationException: unmodeled mana sources while paying for Glint-Horn Buccaneer: [Treasure Token [Mana, {T}, Sacrifice this token], Treasure Token [Mana, {T}, Sacrifice this token]]": 2,
+        "UnsupportedOperationException: unmodeled mana sources while paying for Sol Ring: [Treasure Token [Mana, {T}, Sacrifice this token], Treasure Token [Mana, {T}, Sacrifice this token]]": 1,
+        "UnsupportedOperationException: chooseSingleStaticAbility": 3,
+        "UnsupportedOperationException: unmodeled mana sources while paying for Anje Falkenrath: [Rakdos Signet [Mana, {T}, {1}]]": 3,
+        "UnsupportedOperationException: unmodeled mana sources while paying for Crackle with Power: [Shadowblood Ridge [Mana, {T}, {1}]]": 1,
+        "UnsupportedOperationException: unmodeled mana sources while paying for Songs of the Damned: [Shadowblood Ridge [Mana, {T}, {1}]]": 1,
+        "NullPointerException: Cannot invoke \"java.lang.Integer.intValue()\" because the return value of \"forge.game.spellability.SpellAbility.getDividedValue(forge.game.GameObject)\" is null": 1,
+        "UnsupportedOperationException: unmodeled mana sources while paying for Avacyn's Judgment: [Treasure Token [Mana, {T}, Sacrifice this token], Treasure Token [Mana, {T}, Sacrifice this token], Shadowblood Ridge [Mana, {T}, {1}]]": 1
+      },
+      "limitations": {
+        "Heuristic policy; not an optimal-play or impossibility proof": 50,
+        "No combat or opponent interaction; action discovery is limited to own visible zones": 50,
+        "Optional costs/splice declined; mana planner supports unconditional zero-input tap sources only": 50,
+        "Default policy declines self-targeted damage/destruction spells; self-damage plans need a goal-aware override": 27,
+        "Activated abilities capped at two uses per turn by policy": 2,
+        "Announced variables use a small fixed heuristic, not searched optimal values": 16
+      },
+      "engine_seconds": 45.671737482999994
+    }
+  },
+  "simple_seconds": 0.3703554649837315,
+  "engine_warnings": []
+}

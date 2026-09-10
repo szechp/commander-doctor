@@ -1,0 +1,411 @@
+# Built by scripts/build_color_capabilities.py -- deckbuilding.md §6.2.
+# Counted directly from the local mirror (commander-legal, colour-identity-legal
+# for the pair, non-land, normally castable), not curated from articles or memory.
+# 'poor' = bottom 3 of the 10 guild pairs for that category -- relative, not absolute
+# (e.g. rakdos enchantment_removal has 22 real legal cards, not zero, but that's
+# 9th of 10 pairs). Not a runtime dependency -- rebuild occasionally as new sets print.
+
+azorius:
+  colours:
+  - W
+  - U
+  creature_removal:
+    quality: fine
+    legal_card_count: 773
+    rank_worst_to_best: 7
+  artifact_removal:
+    quality: fine
+    legal_card_count: 85
+    rank_worst_to_best: 5
+  enchantment_removal:
+    quality: fine
+    legal_card_count: 116
+    rank_worst_to_best: 8
+  planeswalker_removal:
+    quality: fine
+    legal_card_count: 31
+    rank_worst_to_best: 6
+  board_wipes:
+    quality: poor
+    legal_card_count: 274
+    rank_worst_to_best: 3
+    workarounds:
+    - Tormod's Crypt
+    - Final Showdown
+    - Quest for Ancient Secrets
+  graveyard_hate:
+    quality: fine
+    legal_card_count: 32
+    rank_worst_to_best: 5
+  card_draw:
+    quality: fine
+    legal_card_count: 457
+    rank_worst_to_best: 7
+orzhov:
+  colours:
+  - W
+  - B
+  creature_removal:
+    quality: fine
+    legal_card_count: 1083
+    rank_worst_to_best: 10
+  artifact_removal:
+    quality: poor
+    legal_card_count: 60
+    rank_worst_to_best: 3
+    workarounds:
+    - Dusk Rose Reliquary
+    - Lucky Offering
+    - March of Otherworldly Light
+  enchantment_removal:
+    quality: fine
+    legal_card_count: 117
+    rank_worst_to_best: 9
+  planeswalker_removal:
+    quality: fine
+    legal_card_count: 106
+    rank_worst_to_best: 10
+  board_wipes:
+    quality: fine
+    legal_card_count: 455
+    rank_worst_to_best: 8
+  graveyard_hate:
+    quality: fine
+    legal_card_count: 49
+    rank_worst_to_best: 10
+  card_draw:
+    quality: fine
+    legal_card_count: 232
+    rank_worst_to_best: 4
+boros:
+  colours:
+  - W
+  - R
+  creature_removal:
+    quality: fine
+    legal_card_count: 504
+    rank_worst_to_best: 5
+  artifact_removal:
+    quality: fine
+    legal_card_count: 184
+    rank_worst_to_best: 10
+  enchantment_removal:
+    quality: fine
+    legal_card_count: 102
+    rank_worst_to_best: 7
+  planeswalker_removal:
+    quality: fine
+    legal_card_count: 26
+    rank_worst_to_best: 4
+  board_wipes:
+    quality: fine
+    legal_card_count: 479
+    rank_worst_to_best: 9
+  graveyard_hate:
+    quality: poor
+    legal_card_count: 28
+    rank_worst_to_best: 3
+    workarounds:
+    - Tormod's Crypt
+    - Relic of Progenitus
+    - Sentinel Totem
+  card_draw:
+    quality: poor
+    legal_card_count: 184
+    rank_worst_to_best: 2
+    workarounds:
+    - Burning Inquiry
+    - Currency Converter
+    - Faithless Looting
+selesnya:
+  colours:
+  - W
+  - G
+  creature_removal:
+    quality: fine
+    legal_card_count: 501
+    rank_worst_to_best: 4
+  artifact_removal:
+    quality: fine
+    legal_card_count: 91
+    rank_worst_to_best: 6
+  enchantment_removal:
+    quality: fine
+    legal_card_count: 141
+    rank_worst_to_best: 10
+  planeswalker_removal:
+    quality: fine
+    legal_card_count: 26
+    rank_worst_to_best: 5
+  board_wipes:
+    quality: poor
+    legal_card_count: 270
+    rank_worst_to_best: 2
+    workarounds:
+    - Tormod's Crypt
+    - Corrosive Gale
+    - Final Showdown
+  graveyard_hate:
+    quality: fine
+    legal_card_count: 32
+    rank_worst_to_best: 6
+  card_draw:
+    quality: poor
+    legal_card_count: 154
+    rank_worst_to_best: 1
+    workarounds:
+    - Currency Converter
+    - Sensei's Divining Top
+    - Soul-Guide Lantern
+dimir:
+  colours:
+  - U
+  - B
+  creature_removal:
+    quality: fine
+    legal_card_count: 1020
+    rank_worst_to_best: 9
+  artifact_removal:
+    quality: poor
+    legal_card_count: 45
+    rank_worst_to_best: 1
+    workarounds:
+    - Jailbreak Scheme
+    - Steel Sabotage
+    - Vision Charm
+  enchantment_removal:
+    quality: poor
+    legal_card_count: 33
+    rank_worst_to_best: 3
+    workarounds:
+    - Kiora's Dismissal
+    - Stern Dismissal
+    - Drake Familiar
+  planeswalker_removal:
+    quality: fine
+    legal_card_count: 86
+    rank_worst_to_best: 8
+  board_wipes:
+    quality: fine
+    legal_card_count: 353
+    rank_worst_to_best: 4
+  graveyard_hate:
+    quality: fine
+    legal_card_count: 42
+    rank_worst_to_best: 9
+  card_draw:
+    quality: fine
+    legal_card_count: 551
+    rank_worst_to_best: 10
+izzet:
+  colours:
+  - U
+  - R
+  creature_removal:
+    quality: poor
+    legal_card_count: 450
+    rank_worst_to_best: 2
+    workarounds:
+    - Aether Tide
+    - Apathy
+    - Bind the Monster
+  artifact_removal:
+    quality: fine
+    legal_card_count: 169
+    rank_worst_to_best: 8
+  enchantment_removal:
+    quality: poor
+    legal_card_count: 20
+    rank_worst_to_best: 1
+    workarounds:
+    - Kiora's Dismissal
+    - Stern Dismissal
+    - Drake Familiar
+  planeswalker_removal:
+    quality: poor
+    legal_card_count: 11
+    rank_worst_to_best: 2
+    workarounds:
+    - In Too Deep
+    - Barrin, Tolarian Archmage
+    - Filter Out
+  board_wipes:
+    quality: fine
+    legal_card_count: 382
+    rank_worst_to_best: 6
+  graveyard_hate:
+    quality: poor
+    legal_card_count: 25
+    rank_worst_to_best: 1
+    workarounds:
+    - Tormod's Crypt
+    - Quest for Ancient Secrets
+    - Relic of Progenitus
+  card_draw:
+    quality: fine
+    legal_card_count: 510
+    rank_worst_to_best: 9
+simic:
+  colours:
+  - U
+  - G
+  creature_removal:
+    quality: poor
+    legal_card_count: 462
+    rank_worst_to_best: 3
+    workarounds:
+    - Aether Tide
+    - Apathy
+    - Berserk
+  artifact_removal:
+    quality: fine
+    legal_card_count: 79
+    rank_worst_to_best: 4
+  enchantment_removal:
+    quality: fine
+    legal_card_count: 55
+    rank_worst_to_best: 5
+  planeswalker_removal:
+    quality: poor
+    legal_card_count: 12
+    rank_worst_to_best: 3
+    workarounds:
+    - In Too Deep
+    - Barrin, Tolarian Archmage
+    - Filter Out
+  board_wipes:
+    quality: poor
+    legal_card_count: 180
+    rank_worst_to_best: 1
+    workarounds:
+    - Tormod's Crypt
+    - Corrosive Gale
+    - Hurricane
+  graveyard_hate:
+    quality: fine
+    legal_card_count: 30
+    rank_worst_to_best: 4
+  card_draw:
+    quality: fine
+    legal_card_count: 472
+    rank_worst_to_best: 8
+rakdos:
+  colours:
+  - B
+  - R
+  creature_removal:
+    quality: fine
+    legal_card_count: 787
+    rank_worst_to_best: 8
+  artifact_removal:
+    quality: fine
+    legal_card_count: 153
+    rank_worst_to_best: 7
+  enchantment_removal:
+    quality: poor
+    legal_card_count: 22
+    rank_worst_to_best: 2
+    workarounds:
+    - Enchanter's Bane
+    - Extract the Truth
+    - Feast of Dreams
+  planeswalker_removal:
+    quality: fine
+    legal_card_count: 85
+    rank_worst_to_best: 7
+  board_wipes:
+    quality: fine
+    legal_card_count: 556
+    rank_worst_to_best: 10
+  graveyard_hate:
+    quality: fine
+    legal_card_count: 40
+    rank_worst_to_best: 7
+  card_draw:
+    quality: fine
+    legal_card_count: 268
+    rank_worst_to_best: 6
+golgari:
+  colours:
+  - B
+  - G
+  creature_removal:
+    quality: fine
+    legal_card_count: 769
+    rank_worst_to_best: 6
+  artifact_removal:
+    quality: poor
+    legal_card_count: 59
+    rank_worst_to_best: 2
+    workarounds:
+    - Crumble
+    - Oxidize
+    - Pick Your Poison
+  enchantment_removal:
+    quality: fine
+    legal_card_count: 64
+    rank_worst_to_best: 6
+  planeswalker_removal:
+    quality: fine
+    legal_card_count: 86
+    rank_worst_to_best: 9
+  board_wipes:
+    quality: fine
+    legal_card_count: 353
+    rank_worst_to_best: 5
+  graveyard_hate:
+    quality: fine
+    legal_card_count: 41
+    rank_worst_to_best: 8
+  card_draw:
+    quality: fine
+    legal_card_count: 242
+    rank_worst_to_best: 5
+gruul:
+  colours:
+  - R
+  - G
+  creature_removal:
+    quality: poor
+    legal_card_count: 199
+    rank_worst_to_best: 1
+    workarounds:
+    - Berserk
+    - Clear a Path
+    - Dead-Iron Sledge
+  artifact_removal:
+    quality: fine
+    legal_card_count: 183
+    rank_worst_to_best: 9
+  enchantment_removal:
+    quality: fine
+    legal_card_count: 44
+    rank_worst_to_best: 4
+  planeswalker_removal:
+    quality: poor
+    legal_card_count: 6
+    rank_worst_to_best: 1
+    workarounds:
+    - Guff Rewrites History
+    - Nissa's Defeat
+    - Sword of Sinew and Steel
+  board_wipes:
+    quality: fine
+    legal_card_count: 383
+    rank_worst_to_best: 7
+  graveyard_hate:
+    quality: poor
+    legal_card_count: 26
+    rank_worst_to_best: 2
+    workarounds:
+    - Tormod's Crypt
+    - Relic of Progenitus
+    - Sentinel Totem
+  card_draw:
+    quality: poor
+    legal_card_count: 190
+    rank_worst_to_best: 3
+    workarounds:
+    - Burning Inquiry
+    - Currency Converter
+    - Faithless Looting

@@ -1,0 +1,996 @@
+{
+  "command": "review",
+  "config_fingerprint": null,
+  "data_versions": {
+    "forge_parser_version": null,
+    "forge_revision": null,
+    "freshness": {
+      "oracle_cards": "unknown",
+      "oracle_tags": "unknown"
+    },
+    "last_sync": null,
+    "oracle_cards_sha256": null,
+    "oracle_cards_timestamp": null,
+    "oracle_tags_sha256": null,
+    "oracle_tags_timestamp": null,
+    "role_evidence_input_hash": null,
+    "role_evidence_version": null
+  },
+  "deck_fingerprint": "f104d738231dfd0dcb31ed3c98db9442e9cd2a8301943a07c0efa783b13fca7b",
+  "findings": [
+    {
+      "assumptions": [],
+      "evidence": {},
+      "id": "review.gameplan",
+      "limitations": [],
+      "message": "no authored gameplan is recorded for this deck -- What is this deck's setup, engine, payoff, and win route? Code cannot infer strategy from a decklist; this must be authored.",
+      "outcome": "unknown",
+      "related_cards": [],
+      "severity": "warning",
+      "status": "unsupported"
+    },
+    {
+      "assumptions": [],
+      "evidence": {
+        "pins": {}
+      },
+      "id": "review.pins",
+      "limitations": [],
+      "message": "0 pinned card(s) on record",
+      "outcome": "not_applicable",
+      "related_cards": [],
+      "severity": "info",
+      "status": "checked"
+    },
+    {
+      "assumptions": [],
+      "evidence": {
+        "rejected": []
+      },
+      "id": "review.rejections",
+      "limitations": [],
+      "message": "0 rejected swap pair(s) on record",
+      "outcome": "not_applicable",
+      "related_cards": [],
+      "severity": "info",
+      "status": "checked"
+    },
+    {
+      "assumptions": [],
+      "evidence": {
+        "distribution": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 1,
+          "4": 0,
+          "5": 0,
+          "6+": 0,
+          "unknown": 0
+        },
+        "front_face_approximations": [],
+        "nonland_count": 1
+      },
+      "id": "review.curve",
+      "limitations": [
+        "Multi-face mana values use the mirror's front-face/card-level value."
+      ],
+      "message": "nonland mana-value distribution (reference only)",
+      "outcome": "not_applicable",
+      "related_cards": [],
+      "severity": "info",
+      "status": "approximate"
+    },
+    {
+      "assumptions": [],
+      "evidence": {
+        "count": 98
+      },
+      "id": "review.lands",
+      "limitations": [],
+      "message": "98 land card(s)",
+      "outcome": "pass",
+      "related_cards": [],
+      "severity": "info",
+      "status": "checked"
+    },
+    {
+      "assumptions": [],
+      "evidence": {},
+      "id": "review.question.gameplan",
+      "limitations": [],
+      "message": "What is this deck's setup, engine, payoff, and win route? Code cannot infer strategy from a decklist; this must be authored.",
+      "outcome": "not_applicable",
+      "related_cards": [],
+      "severity": "info",
+      "status": "unsupported"
+    },
+    {
+      "assumptions": [],
+      "evidence": {},
+      "id": "review.question.constraints",
+      "limitations": [],
+      "message": "What pod power level, budget, and playgroup constraints apply (see playgroup.yaml and any configured bracket target)?",
+      "outcome": "not_applicable",
+      "related_cards": [],
+      "severity": "info",
+      "status": "unsupported"
+    },
+    {
+      "assumptions": [],
+      "evidence": {},
+      "id": "review.question.slots",
+      "limitations": [],
+      "message": "For each weak or borderline slot the evidence below flags, what job is that card supposed to do in the gameplan, and does the evidence actually support it?",
+      "outcome": "not_applicable",
+      "related_cards": [],
+      "severity": "info",
+      "status": "unsupported"
+    },
+    {
+      "assumptions": [],
+      "evidence": {
+        "count": 1,
+        "limit": 3
+      },
+      "id": "review.direct_upgrades",
+      "limitations": [],
+      "message": "1 scoped direct upgrade(s) found (no role tags required; bounded, not exhaustive)",
+      "outcome": "pass",
+      "related_cards": [],
+      "severity": "info",
+      "status": "checked"
+    },
+    {
+      "assumptions": [],
+      "evidence": {
+        "limit": 3,
+        "total_considered": 0,
+        "total_returned": 0,
+        "truncated": false
+      },
+      "id": "review.broader_suggestions",
+      "limitations": [],
+      "message": "0 of 0 bounded role-based comparison(s) shown (not exhaustive)",
+      "outcome": "not_applicable",
+      "related_cards": [],
+      "severity": "info",
+      "status": "checked"
+    }
+  ],
+  "limitations": [
+    "role evidence describes supported ability shapes only; strategic fit is authored judgment, not inferred from prose",
+    "direct-upgrade discovery and broader suggestions are bounded by --limit and are not exhaustive"
+  ],
+  "metrics": {
+    "alternatives": [],
+    "commander": {
+      "color_identity": [
+        "U"
+      ],
+      "mana_cost": "{1}{U}",
+      "name": "Test Commander",
+      "type_line": "Legendary Creature \u2014 Wizard"
+    },
+    "curve": {
+      "0": 0,
+      "1": 0,
+      "2": 0,
+      "3": 1,
+      "4": 0,
+      "5": 0,
+      "6+": 0,
+      "unknown": 0
+    },
+    "direct_upgrades": [
+      {
+        "candidate": "Cheap Bolt",
+        "classification": "direct_upgrade",
+        "current": "Costly Bolt",
+        "evidence": {
+          "componentwise_no_more_mana": true,
+          "normalized_oracle_equal": true,
+          "semantic_fields_equal": true,
+          "strict_cost_reduction": true
+        },
+        "scope": "same known rules text, type, colour demand, and stats; normal single-face mana cost only; mana-value interactions, name-sensitive synergies, and externally granted abilities are excluded"
+      }
+    ],
+    "inventory": [
+      {
+        "mana_cost": "{2}{U}",
+        "name": "Costly Bolt",
+        "quantity": 1,
+        "roles": [],
+        "type_line": "Instant",
+        "unknown_roles": []
+      },
+      {
+        "mana_cost": "",
+        "name": "Island 0",
+        "quantity": 1,
+        "roles": [],
+        "type_line": "Basic Land \u2014 Island",
+        "unknown_roles": []
+      },
+      {
+        "mana_cost": "",
+        "name": "Island 1",
+        "quantity": 1,
+        "roles": [],
+        "type_line": "Basic Land \u2014 Island",
+        "unknown_roles": []
+      },
+      {
+        "mana_cost": "",
+        "name": "Island 10",
+        "quantity": 1,
+        "roles": [],
+        "type_line": "Basic Land \u2014 Island",
+        "unknown_roles": []
+      },
+      {
+        "mana_cost": "",
+        "name": "Island 11",
+        "quantity": 1,
+        "roles": [],
+        "type_line": "Basic Land \u2014 Island",
+        "unknown_roles": []
+      },
+      {
+        "mana_cost": "",
+        "name": "Island 12",
+        "quantity": 1,
+        "roles": [],
+        "type_line": "Basic Land \u2014 Island",
+        "unknown_roles": []
+      },
+      {
+        "mana_cost": "",
+        "name": "Island 13",
+        "quantity": 1,
+        "roles": [],
+        "type_line": "Basic Land \u2014 Island",
+        "unknown_roles": []
+      },
+      {
+        "mana_cost": "",
+        "name": "Island 14",
+        "quantity": 1,
+        "roles": [],
+        "type_line": "Basic Land \u2014 Island",
+        "unknown_roles": []
+      },
+      {
+        "mana_cost": "",
+        "name": "Island 15",
+        "quantity": 1,
+        "roles": [],
+        "type_line": "Basic Land \u2014 Island",
+        "unknown_roles": []
+      },
+      {
+        "mana_cost": "",
+        "name": "Island 16",
+        "quantity": 1,
+        "roles": [],
+        "type_line": "Basic Land \u2014 Island",
+        "unknown_roles": []
+      },
+      {
+        "mana_cost": "",
+        "name": "Island 17",
+        "quantity": 1,
+        "roles": [],
+        "type_line": "Basic Land \u2014 Island",
+        "unknown_roles": []
+      },
+      {
+        "mana_cost": "",
+        "name": "Island 18",
+        "quantity": 1,
+        "roles": [],
+        "type_line": "Basic Land \u2014 Island",
+        "unknown_roles": []
+      },
+      {
+        "mana_cost": "",
+        "name": "Island 19",
+        "quantity": 1,
+        "roles": [],
+        "type_line": "Basic Land \u2014 Island",
+        "unknown_roles": []
+      },
+      {
+        "mana_cost": "",
+        "name": "Island 2",
+        "quantity": 1,
+        "roles": [],
+        "type_line": "Basic Land \u2014 Island",
+        "unknown_roles": []
+      },
+      {
+        "mana_cost": "",
+        "name": "Island 20",
+        "quantity": 1,
+        "roles": [],
+        "type_line": "Basic Land \u2014 Island",
+        "unknown_roles": []
+      },
+      {
+        "mana_cost": "",
+        "name": "Island 21",
+        "quantity": 1,
+        "roles": [],
+        "type_line": "Basic Land \u2014 Island",
+        "unknown_roles": []
+      },
+      {
+        "mana_cost": "",
+        "name": "Island 22",
+        "quantity": 1,
+        "roles": [],
+        "type_line": "Basic Land \u2014 Island",
+        "unknown_roles": []
+      },
+      {
+        "mana_cost": "",
+        "name": "Island 23",
+        "quantity": 1,
+        "roles": [],
+        "type_line": "Basic Land \u2014 Island",
+        "unknown_roles": []
+      },
+      {
+        "mana_cost": "",
+        "name": "Island 24",
+        "quantity": 1,
+        "roles": [],
+        "type_line": "Basic Land \u2014 Island",
+        "unknown_roles": []
+      },
+      {
+        "mana_cost": "",
+        "name": "Island 25",
+        "quantity": 1,
+        "roles": [],
+        "type_line": "Basic Land \u2014 Island",
+        "unknown_roles": []
+      },
+      {
+        "mana_cost": "",
+        "name": "Island 26",
+        "quantity": 1,
+        "roles": [],
+        "type_line": "Basic Land \u2014 Island",
+        "unknown_roles": []
+      },
+      {
+        "mana_cost": "",
+        "name": "Island 27",
+        "quantity": 1,
+        "roles": [],
+        "type_line": "Basic Land \u2014 Island",
+        "unknown_roles": []
+      },
+      {
+        "mana_cost": "",
+        "name": "Island 28",
+        "quantity": 1,
+        "roles": [],
+        "type_line": "Basic Land \u2014 Island",
+        "unknown_roles": []
+      },
+      {
+        "mana_cost": "",
+        "name": "Island 29",
+        "quantity": 1,
+        "roles": [],
+        "type_line": "Basic Land \u2014 Island",
+        "unknown_roles": []
+      },
+      {
+        "mana_cost": "",
+        "name": "Island 3",
+        "quantity": 1,
+        "roles": [],
+        "type_line": "Basic Land \u2014 Island",
+        "unknown_roles": []
+      },
+      {
+        "mana_cost": "",
+        "name": "Island 30",
+        "quantity": 1,
+        "roles": [],
+        "type_line": "Basic Land \u2014 Island",
+        "unknown_roles": []
+      },
+      {
+        "mana_cost": "",
+        "name": "Island 31",
+        "quantity": 1,
+        "roles": [],
+        "type_line": "Basic Land \u2014 Island",
+        "unknown_roles": []
+      },
+      {
+        "mana_cost": "",
+        "name": "Island 32",
+        "quantity": 1,
+        "roles": [],
+        "type_line": "Basic Land \u2014 Island",
+        "unknown_roles": []
+      },
+      {
+        "mana_cost": "",
+        "name": "Island 33",
+        "quantity": 1,
+        "roles": [],
+        "type_line": "Basic Land \u2014 Island",
+        "unknown_roles": []
+      },
+      {
+        "mana_cost": "",
+        "name": "Island 34",
+        "quantity": 1,
+        "roles": [],
+        "type_line": "Basic Land \u2014 Island",
+        "unknown_roles": []
+      },
+      {
+        "mana_cost": "",
+        "name": "Island 35",
+        "quantity": 1,
+        "roles": [],
+        "type_line": "Basic Land \u2014 Island",
+        "unknown_roles": []
+      },
+      {
+        "mana_cost": "",
+        "name": "Island 36",
+        "quantity": 1,
+        "roles": [],
+        "type_line": "Basic Land \u2014 Island",
+        "unknown_roles": []
+      },
+      {
+        "mana_cost": "",
+        "name": "Island 37",
+        "quantity": 1,
+        "roles": [],
+        "type_line": "Basic Land \u2014 Island",
+        "unknown_roles": []
+      },
+      {
+        "mana_cost": "",
+        "name": "Island 38",
+        "quantity": 1,
+        "roles": [],
+        "type_line": "Basic Land \u2014 Island",
+        "unknown_roles": []
+      },
+      {
+        "mana_cost": "",
+        "name": "Island 39",
+        "quantity": 1,
+        "roles": [],
+        "type_line": "Basic Land \u2014 Island",
+        "unknown_roles": []
+      },
+      {
+        "mana_cost": "",
+        "name": "Island 4",
+        "quantity": 1,
+        "roles": [],
+        "type_line": "Basic Land \u2014 Island",
+        "unknown_roles": []
+      },
+      {
+        "mana_cost": "",
+        "name": "Island 40",
+        "quantity": 1,
+        "roles": [],
+        "type_line": "Basic Land \u2014 Island",
+        "unknown_roles": []
+      },
+      {
+        "mana_cost": "",
+        "name": "Island 41",
+        "quantity": 1,
+        "roles": [],
+        "type_line": "Basic Land \u2014 Island",
+        "unknown_roles": []
+      },
+      {
+        "mana_cost": "",
+        "name": "Island 42",
+        "quantity": 1,
+        "roles": [],
+        "type_line": "Basic Land \u2014 Island",
+        "unknown_roles": []
+      },
+      {
+        "mana_cost": "",
+        "name": "Island 43",
+        "quantity": 1,
+        "roles": [],
+        "type_line": "Basic Land \u2014 Island",
+        "unknown_roles": []
+      },
+      {
+        "mana_cost": "",
+        "name": "Island 44",
+        "quantity": 1,
+        "roles": [],
+        "type_line": "Basic Land \u2014 Island",
+        "unknown_roles": []
+      },
+      {
+        "mana_cost": "",
+        "name": "Island 45",
+        "quantity": 1,
+        "roles": [],
+        "type_line": "Basic Land \u2014 Island",
+        "unknown_roles": []
+      },
+      {
+        "mana_cost": "",
+        "name": "Island 46",
+        "quantity": 1,
+        "roles": [],
+        "type_line": "Basic Land \u2014 Island",
+        "unknown_roles": []
+      },
+      {
+        "mana_cost": "",
+        "name": "Island 47",
+        "quantity": 1,
+        "roles": [],
+        "type_line": "Basic Land \u2014 Island",
+        "unknown_roles": []
+      },
+      {
+        "mana_cost": "",
+        "name": "Island 48",
+        "quantity": 1,
+        "roles": [],
+        "type_line": "Basic Land \u2014 Island",
+        "unknown_roles": []
+      },
+      {
+        "mana_cost": "",
+        "name": "Island 49",
+        "quantity": 1,
+        "roles": [],
+        "type_line": "Basic Land \u2014 Island",
+        "unknown_roles": []
+      },
+      {
+        "mana_cost": "",
+        "name": "Island 5",
+        "quantity": 1,
+        "roles": [],
+        "type_line": "Basic Land \u2014 Island",
+        "unknown_roles": []
+      },
+      {
+        "mana_cost": "",
+        "name": "Island 50",
+        "quantity": 1,
+        "roles": [],
+        "type_line": "Basic Land \u2014 Island",
+        "unknown_roles": []
+      },
+      {
+        "mana_cost": "",
+        "name": "Island 51",
+        "quantity": 1,
+        "roles": [],
+        "type_line": "Basic Land \u2014 Island",
+        "unknown_roles": []
+      },
+      {
+        "mana_cost": "",
+        "name": "Island 52",
+        "quantity": 1,
+        "roles": [],
+        "type_line": "Basic Land \u2014 Island",
+        "unknown_roles": []
+      },
+      {
+        "mana_cost": "",
+        "name": "Island 53",
+        "quantity": 1,
+        "roles": [],
+        "type_line": "Basic Land \u2014 Island",
+        "unknown_roles": []
+      },
+      {
+        "mana_cost": "",
+        "name": "Island 54",
+        "quantity": 1,
+        "roles": [],
+        "type_line": "Basic Land \u2014 Island",
+        "unknown_roles": []
+      },
+      {
+        "mana_cost": "",
+        "name": "Island 55",
+        "quantity": 1,
+        "roles": [],
+        "type_line": "Basic Land \u2014 Island",
+        "unknown_roles": []
+      },
+      {
+        "mana_cost": "",
+        "name": "Island 56",
+        "quantity": 1,
+        "roles": [],
+        "type_line": "Basic Land \u2014 Island",
+        "unknown_roles": []
+      },
+      {
+        "mana_cost": "",
+        "name": "Island 57",
+        "quantity": 1,
+        "roles": [],
+        "type_line": "Basic Land \u2014 Island",
+        "unknown_roles": []
+      },
+      {
+        "mana_cost": "",
+        "name": "Island 58",
+        "quantity": 1,
+        "roles": [],
+        "type_line": "Basic Land \u2014 Island",
+        "unknown_roles": []
+      },
+      {
+        "mana_cost": "",
+        "name": "Island 59",
+        "quantity": 1,
+        "roles": [],
+        "type_line": "Basic Land \u2014 Island",
+        "unknown_roles": []
+      },
+      {
+        "mana_cost": "",
+        "name": "Island 6",
+        "quantity": 1,
+        "roles": [],
+        "type_line": "Basic Land \u2014 Island",
+        "unknown_roles": []
+      },
+      {
+        "mana_cost": "",
+        "name": "Island 60",
+        "quantity": 1,
+        "roles": [],
+        "type_line": "Basic Land \u2014 Island",
+        "unknown_roles": []
+      },
+      {
+        "mana_cost": "",
+        "name": "Island 61",
+        "quantity": 1,
+        "roles": [],
+        "type_line": "Basic Land \u2014 Island",
+        "unknown_roles": []
+      },
+      {
+        "mana_cost": "",
+        "name": "Island 62",
+        "quantity": 1,
+        "roles": [],
+        "type_line": "Basic Land \u2014 Island",
+        "unknown_roles": []
+      },
+      {
+        "mana_cost": "",
+        "name": "Island 63",
+        "quantity": 1,
+        "roles": [],
+        "type_line": "Basic Land \u2014 Island",
+        "unknown_roles": []
+      },
+      {
+        "mana_cost": "",
+        "name": "Island 64",
+        "quantity": 1,
+        "roles": [],
+        "type_line": "Basic Land \u2014 Island",
+        "unknown_roles": []
+      },
+      {
+        "mana_cost": "",
+        "name": "Island 65",
+        "quantity": 1,
+        "roles": [],
+        "type_line": "Basic Land \u2014 Island",
+        "unknown_roles": []
+      },
+      {
+        "mana_cost": "",
+        "name": "Island 66",
+        "quantity": 1,
+        "roles": [],
+        "type_line": "Basic Land \u2014 Island",
+        "unknown_roles": []
+      },
+      {
+        "mana_cost": "",
+        "name": "Island 67",
+        "quantity": 1,
+        "roles": [],
+        "type_line": "Basic Land \u2014 Island",
+        "unknown_roles": []
+      },
+      {
+        "mana_cost": "",
+        "name": "Island 68",
+        "quantity": 1,
+        "roles": [],
+        "type_line": "Basic Land \u2014 Island",
+        "unknown_roles": []
+      },
+      {
+        "mana_cost": "",
+        "name": "Island 69",
+        "quantity": 1,
+        "roles": [],
+        "type_line": "Basic Land \u2014 Island",
+        "unknown_roles": []
+      },
+      {
+        "mana_cost": "",
+        "name": "Island 7",
+        "quantity": 1,
+        "roles": [],
+        "type_line": "Basic Land \u2014 Island",
+        "unknown_roles": []
+      },
+      {
+        "mana_cost": "",
+        "name": "Island 70",
+        "quantity": 1,
+        "roles": [],
+        "type_line": "Basic Land \u2014 Island",
+        "unknown_roles": []
+      },
+      {
+        "mana_cost": "",
+        "name": "Island 71",
+        "quantity": 1,
+        "roles": [],
+        "type_line": "Basic Land \u2014 Island",
+        "unknown_roles": []
+      },
+      {
+        "mana_cost": "",
+        "name": "Island 72",
+        "quantity": 1,
+        "roles": [],
+        "type_line": "Basic Land \u2014 Island",
+        "unknown_roles": []
+      },
+      {
+        "mana_cost": "",
+        "name": "Island 73",
+        "quantity": 1,
+        "roles": [],
+        "type_line": "Basic Land \u2014 Island",
+        "unknown_roles": []
+      },
+      {
+        "mana_cost": "",
+        "name": "Island 74",
+        "quantity": 1,
+        "roles": [],
+        "type_line": "Basic Land \u2014 Island",
+        "unknown_roles": []
+      },
+      {
+        "mana_cost": "",
+        "name": "Island 75",
+        "quantity": 1,
+        "roles": [],
+        "type_line": "Basic Land \u2014 Island",
+        "unknown_roles": []
+      },
+      {
+        "mana_cost": "",
+        "name": "Island 76",
+        "quantity": 1,
+        "roles": [],
+        "type_line": "Basic Land \u2014 Island",
+        "unknown_roles": []
+      },
+      {
+        "mana_cost": "",
+        "name": "Island 77",
+        "quantity": 1,
+        "roles": [],
+        "type_line": "Basic Land \u2014 Island",
+        "unknown_roles": []
+      },
+      {
+        "mana_cost": "",
+        "name": "Island 78",
+        "quantity": 1,
+        "roles": [],
+        "type_line": "Basic Land \u2014 Island",
+        "unknown_roles": []
+      },
+      {
+        "mana_cost": "",
+        "name": "Island 79",
+        "quantity": 1,
+        "roles": [],
+        "type_line": "Basic Land \u2014 Island",
+        "unknown_roles": []
+      },
+      {
+        "mana_cost": "",
+        "name": "Island 8",
+        "quantity": 1,
+        "roles": [],
+        "type_line": "Basic Land \u2014 Island",
+        "unknown_roles": []
+      },
+      {
+        "mana_cost": "",
+        "name": "Island 80",
+        "quantity": 1,
+        "roles": [],
+        "type_line": "Basic Land \u2014 Island",
+        "unknown_roles": []
+      },
+      {
+        "mana_cost": "",
+        "name": "Island 81",
+        "quantity": 1,
+        "roles": [],
+        "type_line": "Basic Land \u2014 Island",
+        "unknown_roles": []
+      },
+      {
+        "mana_cost": "",
+        "name": "Island 82",
+        "quantity": 1,
+        "roles": [],
+        "type_line": "Basic Land \u2014 Island",
+        "unknown_roles": []
+      },
+      {
+        "mana_cost": "",
+        "name": "Island 83",
+        "quantity": 1,
+        "roles": [],
+        "type_line": "Basic Land \u2014 Island",
+        "unknown_roles": []
+      },
+      {
+        "mana_cost": "",
+        "name": "Island 84",
+        "quantity": 1,
+        "roles": [],
+        "type_line": "Basic Land \u2014 Island",
+        "unknown_roles": []
+      },
+      {
+        "mana_cost": "",
+        "name": "Island 85",
+        "quantity": 1,
+        "roles": [],
+        "type_line": "Basic Land \u2014 Island",
+        "unknown_roles": []
+      },
+      {
+        "mana_cost": "",
+        "name": "Island 86",
+        "quantity": 1,
+        "roles": [],
+        "type_line": "Basic Land \u2014 Island",
+        "unknown_roles": []
+      },
+      {
+        "mana_cost": "",
+        "name": "Island 87",
+        "quantity": 1,
+        "roles": [],
+        "type_line": "Basic Land \u2014 Island",
+        "unknown_roles": []
+      },
+      {
+        "mana_cost": "",
+        "name": "Island 88",
+        "quantity": 1,
+        "roles": [],
+        "type_line": "Basic Land \u2014 Island",
+        "unknown_roles": []
+      },
+      {
+        "mana_cost": "",
+        "name": "Island 89",
+        "quantity": 1,
+        "roles": [],
+        "type_line": "Basic Land \u2014 Island",
+        "unknown_roles": []
+      },
+      {
+        "mana_cost": "",
+        "name": "Island 9",
+        "quantity": 1,
+        "roles": [],
+        "type_line": "Basic Land \u2014 Island",
+        "unknown_roles": []
+      },
+      {
+        "mana_cost": "",
+        "name": "Island 90",
+        "quantity": 1,
+        "roles": [],
+        "type_line": "Basic Land \u2014 Island",
+        "unknown_roles": []
+      },
+      {
+        "mana_cost": "",
+        "name": "Island 91",
+        "quantity": 1,
+        "roles": [],
+        "type_line": "Basic Land \u2014 Island",
+        "unknown_roles": []
+      },
+      {
+        "mana_cost": "",
+        "name": "Island 92",
+        "quantity": 1,
+        "roles": [],
+        "type_line": "Basic Land \u2014 Island",
+        "unknown_roles": []
+      },
+      {
+        "mana_cost": "",
+        "name": "Island 93",
+        "quantity": 1,
+        "roles": [],
+        "type_line": "Basic Land \u2014 Island",
+        "unknown_roles": []
+      },
+      {
+        "mana_cost": "",
+        "name": "Island 94",
+        "quantity": 1,
+        "roles": [],
+        "type_line": "Basic Land \u2014 Island",
+        "unknown_roles": []
+      },
+      {
+        "mana_cost": "",
+        "name": "Island 95",
+        "quantity": 1,
+        "roles": [],
+        "type_line": "Basic Land \u2014 Island",
+        "unknown_roles": []
+      },
+      {
+        "mana_cost": "",
+        "name": "Island 96",
+        "quantity": 1,
+        "roles": [],
+        "type_line": "Basic Land \u2014 Island",
+        "unknown_roles": []
+      },
+      {
+        "mana_cost": "",
+        "name": "Island 97",
+        "quantity": 1,
+        "roles": [],
+        "type_line": "Basic Land \u2014 Island",
+        "unknown_roles": []
+      }
+    ],
+    "lands": 98
+  },
+  "schema_version": 1
+}

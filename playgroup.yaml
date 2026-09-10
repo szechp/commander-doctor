@@ -1,0 +1,17 @@
+# Playgroup-wide rules -- apply across EVERY deck, unlike decks/<name>.yaml
+# (per-deck config + iteration log) or KNOWN_ISSUES.md (tool bugs).
+# User-requested directly: "do not include the super expensive dual lands
+# like badlands. this is a condition of my play group. this needs to be
+# defined somewhere."
+
+exclude_original_dual_lands: true
+# The 10 ABUR dual lands -- Tundra, Underground Sea, Badlands, Taiga,
+# Savannah, Scrubland, Volcanic Island, Bayou, Plateau, Tropical Island
+# (verified against the mirror, one per colour pair, all printed since in
+# Masters-style sets but still the same functional card) -- notoriously
+# expensive singles, excluded from `deckdoctor upgrades`' dual-land
+# suggestions regardless of any other card's price. The actual card list
+# is a small, fixed, real-world fact (there are exactly 10, always will
+# be) and lives in code (`upgrades.py`'s `ORIGINAL_DUAL_LANDS`) rather
+# than being retyped here -- this flag only controls whether the rule is
+# applied.

@@ -1,0 +1,74 @@
+unknown preference: UI_SR_OPTIMIZE=false
+unknown preference: UI_PRESELECT_PREVIOUS_ABILITY_ORDER=false
+unknown preference: UI_AUTO_YIELD_MODE=Per Ability (Each Match)
+unknown preference: UI_NETPLAY_COMPAT=false
+unknown preference: UI_FOR_TOUCHSCREN=false
+unknown preference: UI_MANABURN=false
+Language 'en-US' loaded successfully.
+(ThreadUtil first call): Running with priority 5
+Read cards: 33587 files in 2 ms (25 parts) using thread pool
+Upcoming set Star Trek (TRK) dated in the future. All `upcoming` cards will be added to this set with unknown rarity.
+The card A-Alrund's Epiphany was not assigned to any set. Adding it to UNKNOWN set... to fix see res/editions/ folder. 
+The card A-Baba Lysaga, Night Witch was not assigned to any set. Adding it to UNKNOWN set... to fix see res/editions/ folder. 
+The card A-Divide by Zero was not assigned to any set. Adding it to UNKNOWN set... to fix see res/editions/ folder. 
+The card A-Esika's Chariot was not assigned to any set. Adding it to UNKNOWN set... to fix see res/editions/ folder. 
+The card A-Faceless Haven was not assigned to any set. Adding it to UNKNOWN set... to fix see res/editions/ folder. 
+The card A-Fires of Invention was not assigned to any set. Adding it to UNKNOWN set... to fix see res/editions/ folder. 
+The card A-Goldspan Dragon was not assigned to any set. Adding it to UNKNOWN set... to fix see res/editions/ folder. 
+The card A-Hullbreaker Horror was not assigned to any set. Adding it to UNKNOWN set... to fix see res/editions/ folder. 
+The card A-Kumano Faces Kakkazan was not assigned to any set. Adding it to UNKNOWN set... to fix see res/editions/ folder. 
+The card A-Luminarch Aspirant was not assigned to any set. Adding it to UNKNOWN set... to fix see res/editions/ folder. 
+The card A-Monster Manual was not assigned to any set. Adding it to UNKNOWN set... to fix see res/editions/ folder. 
+The card A-Omnath, Locus of Creation was not assigned to any set. Adding it to UNKNOWN set... to fix see res/editions/ folder. 
+The card A-The Meathook Massacre was not assigned to any set. Adding it to UNKNOWN set... to fix see res/editions/ folder. 
+The card A-Unholy Heat was not assigned to any set. Adding it to UNKNOWN set... to fix see res/editions/ folder. 
+The card Blinding Radiance was not assigned to any set. Adding it to UNKNOWN set... to fix see res/editions/ folder. 
+The card Goblin Bruiser was not assigned to any set. Adding it to UNKNOWN set... to fix see res/editions/ folder. 
+The card Ogre Painbringer was not assigned to any set. Adding it to UNKNOWN set... to fix see res/editions/ folder. 
+The card Titanic Pelagosaur was not assigned to any set. Adding it to UNKNOWN set... to fix see res/editions/ folder. 
+The card Treetop Recluse was not assigned to any set. Adding it to UNKNOWN set... to fix see res/editions/ folder. 
+Upcoming set Star Trek (TRK) dated in the future. All `upcoming` cards will be added to this set with unknown rarity.
+Read cards: 836 files in 0 ms (8 parts) using thread pool
+SCENARIO anje synthetic mechanics fixture, not a legal singleton deck
+MULLIGAN hand=[Mountain (28), Kitchen Imp (94), Mountain (22), Swamp (15), Kitchen Imp (87), Kitchen Imp (96), Kitchen Imp (61)] bottom=0 keep=true
+TURN 1 hand=[Mountain (28), Kitchen Imp (94), Mountain (22), Swamp (15), Kitchen Imp (87), Kitchen Imp (96), Kitchen Imp (61)] board=[]
+ACTION turn=1 card=Mountain accepted=true pool=forge.game.mana.ManaPool@43b45ce4
+ACTION turn=1 card=Anje Falkenrath accepted=false pool=forge.game.mana.ManaPool@43b45ce4
+TURN 2 hand=[Kitchen Imp (94), Mountain (22), Swamp (15), Kitchen Imp (87), Kitchen Imp (96), Kitchen Imp (61), Swamp (17)] board=[Mountain (28)]
+ACTION turn=2 card=Mountain accepted=true pool=forge.game.mana.ManaPool@43b45ce4
+ACTION turn=2 card=Anje Falkenrath accepted=false pool=forge.game.mana.ManaPool@43b45ce4
+TURN 3 hand=[Kitchen Imp (94), Swamp (15), Kitchen Imp (87), Kitchen Imp (96), Kitchen Imp (61), Swamp (17), Swamp (12)] board=[Mountain (28), Mountain (22)]
+ACTION turn=3 card=Swamp accepted=true pool=forge.game.mana.ManaPool@43b45ce4
+ACTION turn=3 card=Anje Falkenrath accepted=true pool=forge.game.mana.ManaPool@43b45ce4
+DISCARD_COST Kitchen Imp
+RESOLVED Kitchen Imp effect=ChangeZone hand=6
+ACTION turn=3 card=Anje Falkenrath accepted=true pool=forge.game.mana.ManaPool@43b45ce4
+RESOLVED Anje Falkenrath effect=Untap hand=6
+EFFECT_CAST Kitchen Imp cost= accepted=false
+RESOLVED Kitchen Imp effect=Play hand=6
+TURN 4 hand=[Kitchen Imp (87), Kitchen Imp (96), Kitchen Imp (61), Swamp (17), Swamp (12), Mountain (35), Kitchen Imp (79)] board=[Mountain (28), Mountain (22), Swamp (15), Anje Falkenrath (100)]
+ACTION turn=4 card=Swamp accepted=true pool=forge.game.mana.ManaPool@43b45ce4
+DISCARD_COST Kitchen Imp
+RESOLVED Kitchen Imp effect=ChangeZone hand=6
+ACTION turn=4 card=Anje Falkenrath accepted=true pool=forge.game.mana.ManaPool@43b45ce4
+RESOLVED Anje Falkenrath effect=Untap hand=6
+EFFECT_CAST Kitchen Imp cost= accepted=true
+RESOLVED Kitchen Imp effect=Play hand=6
+TURN 5 hand=[Kitchen Imp (96), Kitchen Imp (61), Swamp (12), Mountain (35), Kitchen Imp (79), Mountain (29), Kitchen Imp (47)] board=[Mountain (28), Mountain (22), Swamp (15), Anje Falkenrath (100), Swamp (17), Kitchen Imp (87)]
+ACTION turn=5 card=Swamp accepted=true pool=forge.game.mana.ManaPool@43b45ce4
+DISCARD_COST Kitchen Imp
+RESOLVED Kitchen Imp effect=ChangeZone hand=6
+ACTION turn=5 card=Anje Falkenrath accepted=true pool=forge.game.mana.ManaPool@43b45ce4
+RESOLVED Anje Falkenrath effect=Untap hand=6
+EFFECT_CAST Kitchen Imp cost= accepted=true
+RESOLVED Kitchen Imp effect=Play hand=6
+TURN 6 hand=[Kitchen Imp (61), Mountain (35), Kitchen Imp (79), Mountain (29), Kitchen Imp (47), Kitchen Imp (41), Mountain (23)] board=[Mountain (28), Mountain (22), Swamp (15), Anje Falkenrath (100), Swamp (17), Kitchen Imp (87), Swamp (12), Kitchen Imp (96)]
+ACTION turn=6 card=Mountain accepted=true pool=forge.game.mana.ManaPool@43b45ce4
+DISCARD_COST Kitchen Imp
+RESOLVED Kitchen Imp effect=ChangeZone hand=6
+ACTION turn=6 card=Anje Falkenrath accepted=true pool=forge.game.mana.ManaPool@43b45ce4
+RESOLVED Anje Falkenrath effect=Untap hand=6
+EFFECT_CAST Kitchen Imp cost= accepted=true
+RESOLVED Kitchen Imp effect=Play hand=6
+TURN 7 hand=[Kitchen Imp (79), Mountain (29), Kitchen Imp (47), Kitchen Imp (41), Mountain (23), Kitchen Imp (53), Kitchen Imp (74)] board=[Mountain (28), Mountain (22), Swamp (15), Anje Falkenrath (100), Swamp (17), Kitchen Imp (87), Swamp (12), Kitchen Imp (96), Mountain (35), Kitchen Imp (61)]
+PROBE_OK scenario=anje casts=1 resolved_draw_triggers=0 commander_turn=3 mulligans=0 madness_casts=3 untap_triggers=4 elapsed_ms=7339.142149

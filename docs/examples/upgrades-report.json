@@ -1,0 +1,4796 @@
+{
+  "command": "upgrades",
+  "config_fingerprint": "7068dcd09fd7ecb1e9c4c3c5a0d8f30a66f1399298ef23aa4945a7cb2d495f06",
+  "data_versions": {
+    "forge_parser_version": null,
+    "forge_revision": null,
+    "freshness": {
+      "oracle_cards": "unknown",
+      "oracle_tags": "unknown"
+    },
+    "last_sync": "2026-09-06T16:08:55.633094+00:00",
+    "oracle_cards_sha256": null,
+    "oracle_cards_timestamp": null,
+    "oracle_tags_sha256": null,
+    "oracle_tags_timestamp": null,
+    "role_evidence_input_hash": null,
+    "role_evidence_version": null
+  },
+  "deck_fingerprint": "4b6d0ccd135173a4deb2d5b6b95c6f05700ee74e7ab3b1e8a25a34acf1c5c230",
+  "findings": [
+    {
+      "assumptions": [],
+      "evidence": {},
+      "id": "upgrades.result",
+      "limitations": [],
+      "message": "upgrades result produced",
+      "outcome": "pass",
+      "related_cards": [],
+      "severity": "info",
+      "status": "approximate"
+    },
+    {
+      "assumptions": [],
+      "evidence": {
+        "freshness": {
+          "oracle_cards": "unknown",
+          "oracle_tags": "unknown"
+        }
+      },
+      "id": "data.provenance",
+      "limitations": [],
+      "message": "one or more required data timestamps are unavailable",
+      "outcome": "unknown",
+      "related_cards": [],
+      "severity": "warning",
+      "status": "unavailable"
+    }
+  ],
+  "limitations": [
+    "Grounded role and cost comparisons identify alternatives for review; they do not prove superiority."
+  ],
+  "metrics": {
+    "upgrades": {
+      "comparisons": [
+        {
+          "candidate_card": "Swords to Plowshares",
+          "candidate_cost": {
+            "activation_mana_expression": null,
+            "cast_mana_expression": "{W}",
+            "comparison_value": 1.0,
+            "effect_access_comparison": 1.0,
+            "nonmana_payments": [],
+            "optional_conditions": [],
+            "printed_mana_value": 1.0,
+            "provenance": [
+              "structured"
+            ],
+            "selected_abilities": [
+              "abilities[0]"
+            ],
+            "selected_ability": null,
+            "selected_payments": [],
+            "supported_parts": [
+              "{W}"
+            ],
+            "unknown_parts": []
+          },
+          "candidate_faces": [],
+          "candidate_oracle_text": "Exile target creature. Its controller gains life equal to its power.",
+          "candidate_role_evidence": [
+            {
+              "ability_id": "abilities[0]",
+              "activation_mana": null,
+              "beneficiary": null,
+              "benefit": null,
+              "chooser": "caster",
+              "drawback": null,
+              "effect": "ChangeZone",
+              "filtering": null,
+              "mana_output": null,
+              "mode_count": null,
+              "net_mana": null,
+              "prerequisites": [],
+              "provenance": [
+                "role-evidence-v1"
+              ],
+              "quantity": null,
+              "repeatable": false,
+              "role": "removal",
+              "secondary_functions": [
+                "GainLife"
+              ],
+              "source": "parsed",
+              "source_zone": "Battlefield",
+              "speed": "instant",
+              "supported": true,
+              "symmetric": false,
+              "target_scope": "Creature",
+              "temporary": false,
+              "uncertainty": []
+            }
+          ],
+          "compared_modes": [
+            "abilities[0]"
+          ],
+          "compared_role": "removal",
+          "conditions": [],
+          "current_card": "Path to Exile",
+          "current_cost": {
+            "activation_mana_expression": null,
+            "cast_mana_expression": "{W}",
+            "comparison_value": 1.0,
+            "effect_access_comparison": 1.0,
+            "nonmana_payments": [],
+            "optional_conditions": [],
+            "printed_mana_value": 1.0,
+            "provenance": [
+              "structured"
+            ],
+            "selected_abilities": [
+              "abilities[0]"
+            ],
+            "selected_ability": null,
+            "selected_payments": [],
+            "supported_parts": [
+              "{W}"
+            ],
+            "unknown_parts": []
+          },
+          "current_faces": [],
+          "current_oracle_text": "Exile target creature. Its controller may search their library for a basic land card, put that card onto the battlefield tapped, then shuffle.",
+          "current_role_evidence": [
+            {
+              "ability_id": "abilities[0]",
+              "activation_mana": null,
+              "beneficiary": null,
+              "benefit": null,
+              "chooser": "caster",
+              "drawback": null,
+              "effect": "ChangeZone",
+              "filtering": null,
+              "mana_output": null,
+              "mode_count": null,
+              "net_mana": null,
+              "prerequisites": [],
+              "provenance": [
+                "role-evidence-v1"
+              ],
+              "quantity": null,
+              "repeatable": false,
+              "role": "removal",
+              "secondary_functions": [],
+              "source": "parsed",
+              "source_zone": "Battlefield",
+              "speed": "instant",
+              "supported": true,
+              "symmetric": false,
+              "target_scope": "Creature",
+              "temporary": false,
+              "uncertainty": []
+            }
+          ],
+          "gained_roles": [],
+          "lost_roles": [],
+          "rank_components": [
+            [
+              "supported_role_match",
+              true
+            ],
+            [
+              "known_constraints",
+              true
+            ],
+            [
+              "candidate_cost",
+              1.0
+            ],
+            [
+              "name",
+              "swords to plowshares"
+            ]
+          ],
+          "status": "supported alternative",
+          "unknowns": []
+        },
+        {
+          "candidate_card": "Chaos Warp",
+          "candidate_cost": {
+            "activation_mana_expression": null,
+            "cast_mana_expression": "{2}{R}",
+            "comparison_value": 3.0,
+            "effect_access_comparison": 3.0,
+            "nonmana_payments": [],
+            "optional_conditions": [],
+            "printed_mana_value": 3.0,
+            "provenance": [
+              "structured"
+            ],
+            "selected_abilities": [
+              "abilities[0]"
+            ],
+            "selected_ability": null,
+            "selected_payments": [],
+            "supported_parts": [
+              "{2}",
+              "{R}"
+            ],
+            "unknown_parts": []
+          },
+          "candidate_faces": [],
+          "candidate_oracle_text": "The owner of target permanent shuffles it into their library, then reveals the top card of their library. If it's a permanent card, they put it onto the battlefield.",
+          "candidate_role_evidence": [
+            {
+              "ability_id": "abilities[0]",
+              "activation_mana": null,
+              "beneficiary": null,
+              "benefit": null,
+              "chooser": "caster",
+              "drawback": null,
+              "effect": "ChangeZone",
+              "filtering": null,
+              "mana_output": null,
+              "mode_count": null,
+              "net_mana": null,
+              "prerequisites": [],
+              "provenance": [
+                "role-evidence-v1"
+              ],
+              "quantity": null,
+              "repeatable": false,
+              "role": "removal",
+              "secondary_functions": [
+                "Dig"
+              ],
+              "source": "parsed",
+              "source_zone": "Battlefield",
+              "speed": "instant",
+              "supported": true,
+              "symmetric": false,
+              "target_scope": "Permanent",
+              "temporary": false,
+              "uncertainty": []
+            }
+          ],
+          "compared_modes": [
+            "abilities[0]"
+          ],
+          "compared_role": "removal",
+          "conditions": [],
+          "current_card": "Generous Gift",
+          "current_cost": {
+            "activation_mana_expression": null,
+            "cast_mana_expression": "{2}{W}",
+            "comparison_value": 3.0,
+            "effect_access_comparison": 3.0,
+            "nonmana_payments": [],
+            "optional_conditions": [],
+            "printed_mana_value": 3.0,
+            "provenance": [
+              "structured"
+            ],
+            "selected_abilities": [
+              "abilities[0]"
+            ],
+            "selected_ability": null,
+            "selected_payments": [],
+            "supported_parts": [
+              "{2}",
+              "{W}"
+            ],
+            "unknown_parts": []
+          },
+          "current_faces": [],
+          "current_oracle_text": "Destroy target permanent. Its controller creates a 3/3 green Elephant creature token.",
+          "current_role_evidence": [
+            {
+              "ability_id": "abilities[0]",
+              "activation_mana": null,
+              "beneficiary": null,
+              "benefit": null,
+              "chooser": "caster",
+              "drawback": null,
+              "effect": "Destroy",
+              "filtering": null,
+              "mana_output": null,
+              "mode_count": null,
+              "net_mana": null,
+              "prerequisites": [],
+              "provenance": [
+                "role-evidence-v1"
+              ],
+              "quantity": null,
+              "repeatable": false,
+              "role": "removal",
+              "secondary_functions": [
+                "Token"
+              ],
+              "source": "parsed",
+              "source_zone": null,
+              "speed": "instant",
+              "supported": true,
+              "symmetric": false,
+              "target_scope": "Permanent",
+              "temporary": false,
+              "uncertainty": []
+            }
+          ],
+          "gained_roles": [],
+          "lost_roles": [],
+          "rank_components": [
+            [
+              "supported_role_match",
+              true
+            ],
+            [
+              "known_constraints",
+              true
+            ],
+            [
+              "candidate_cost",
+              3.0
+            ],
+            [
+              "name",
+              "chaos warp"
+            ]
+          ],
+          "status": "supported alternative",
+          "unknowns": []
+        },
+        {
+          "candidate_card": "Active Volcano",
+          "candidate_cost": {
+            "activation_mana_expression": null,
+            "cast_mana_expression": "{R}",
+            "comparison_value": 1.0,
+            "effect_access_comparison": 1.0,
+            "nonmana_payments": [],
+            "optional_conditions": [],
+            "printed_mana_value": 1.0,
+            "provenance": [
+              "structured"
+            ],
+            "selected_abilities": [
+              "svars.DBDestroy",
+              "svars.DBChangeZone"
+            ],
+            "selected_ability": null,
+            "selected_payments": [],
+            "supported_parts": [
+              "{R}"
+            ],
+            "unknown_parts": []
+          },
+          "candidate_faces": [],
+          "candidate_oracle_text": "Choose one \u2014\n\u2022 Destroy target blue permanent.\n\u2022 Return target Island to its owner's hand.",
+          "candidate_role_evidence": [
+            {
+              "ability_id": "svars.DBDestroy",
+              "activation_mana": null,
+              "beneficiary": null,
+              "benefit": null,
+              "chooser": "caster",
+              "drawback": null,
+              "effect": "Destroy",
+              "filtering": null,
+              "mana_output": null,
+              "mode_count": 2,
+              "net_mana": null,
+              "prerequisites": [],
+              "provenance": [
+                "role-evidence-v1"
+              ],
+              "quantity": null,
+              "repeatable": false,
+              "role": "removal",
+              "secondary_functions": [
+                "Charm",
+                "ChangeZone"
+              ],
+              "source": "parsed",
+              "source_zone": null,
+              "speed": "instant",
+              "supported": true,
+              "symmetric": false,
+              "target_scope": "Permanent.Blue",
+              "temporary": false,
+              "uncertainty": []
+            },
+            {
+              "ability_id": "svars.DBChangeZone",
+              "activation_mana": null,
+              "beneficiary": null,
+              "benefit": null,
+              "chooser": null,
+              "drawback": null,
+              "effect": "ChangeZone",
+              "filtering": null,
+              "mana_output": null,
+              "mode_count": 2,
+              "net_mana": null,
+              "prerequisites": [],
+              "provenance": [
+                "role-evidence-v1"
+              ],
+              "quantity": null,
+              "repeatable": false,
+              "role": "removal",
+              "secondary_functions": [
+                "Charm",
+                "Destroy"
+              ],
+              "source": "parsed",
+              "source_zone": "Battlefield",
+              "speed": "instant",
+              "supported": true,
+              "symmetric": false,
+              "target_scope": "Island",
+              "temporary": false,
+              "uncertainty": []
+            }
+          ],
+          "compared_modes": [
+            "svars.DBDestroy",
+            "svars.DBChangeZone"
+          ],
+          "compared_role": "removal",
+          "conditions": [],
+          "current_card": "Generous Gift",
+          "current_cost": {
+            "activation_mana_expression": null,
+            "cast_mana_expression": "{2}{W}",
+            "comparison_value": 3.0,
+            "effect_access_comparison": 3.0,
+            "nonmana_payments": [],
+            "optional_conditions": [],
+            "printed_mana_value": 3.0,
+            "provenance": [
+              "structured"
+            ],
+            "selected_abilities": [
+              "abilities[0]"
+            ],
+            "selected_ability": null,
+            "selected_payments": [],
+            "supported_parts": [
+              "{2}",
+              "{W}"
+            ],
+            "unknown_parts": []
+          },
+          "current_faces": [],
+          "current_oracle_text": "Destroy target permanent. Its controller creates a 3/3 green Elephant creature token.",
+          "current_role_evidence": [
+            {
+              "ability_id": "abilities[0]",
+              "activation_mana": null,
+              "beneficiary": null,
+              "benefit": null,
+              "chooser": "caster",
+              "drawback": null,
+              "effect": "Destroy",
+              "filtering": null,
+              "mana_output": null,
+              "mode_count": null,
+              "net_mana": null,
+              "prerequisites": [],
+              "provenance": [
+                "role-evidence-v1"
+              ],
+              "quantity": null,
+              "repeatable": false,
+              "role": "removal",
+              "secondary_functions": [
+                "Token"
+              ],
+              "source": "parsed",
+              "source_zone": null,
+              "speed": "instant",
+              "supported": true,
+              "symmetric": false,
+              "target_scope": "Permanent",
+              "temporary": false,
+              "uncertainty": []
+            }
+          ],
+          "gained_roles": [],
+          "lost_roles": [],
+          "rank_components": [
+            [
+              "supported_role_match",
+              false
+            ],
+            [
+              "known_constraints",
+              false
+            ],
+            [
+              "candidate_cost",
+              1.0
+            ],
+            [
+              "name",
+              "active volcano"
+            ]
+          ],
+          "status": "review required",
+          "unknowns": [
+            "role scope, speed, quantity, or mode is not preserved"
+          ]
+        },
+        {
+          "candidate_card": "Crush",
+          "candidate_cost": {
+            "activation_mana_expression": null,
+            "cast_mana_expression": "{R}",
+            "comparison_value": 1.0,
+            "effect_access_comparison": 1.0,
+            "nonmana_payments": [],
+            "optional_conditions": [],
+            "printed_mana_value": 1.0,
+            "provenance": [
+              "structured"
+            ],
+            "selected_abilities": [
+              "abilities[0]"
+            ],
+            "selected_ability": null,
+            "selected_payments": [],
+            "supported_parts": [
+              "{R}"
+            ],
+            "unknown_parts": []
+          },
+          "candidate_faces": [],
+          "candidate_oracle_text": "Destroy target noncreature artifact.",
+          "candidate_role_evidence": [
+            {
+              "ability_id": "abilities[0]",
+              "activation_mana": null,
+              "beneficiary": null,
+              "benefit": null,
+              "chooser": "caster",
+              "drawback": null,
+              "effect": "Destroy",
+              "filtering": null,
+              "mana_output": null,
+              "mode_count": null,
+              "net_mana": null,
+              "prerequisites": [],
+              "provenance": [
+                "role-evidence-v1"
+              ],
+              "quantity": null,
+              "repeatable": false,
+              "role": "removal",
+              "secondary_functions": [],
+              "source": "parsed",
+              "source_zone": null,
+              "speed": "instant",
+              "supported": true,
+              "symmetric": false,
+              "target_scope": "Artifact.nonCreature",
+              "temporary": false,
+              "uncertainty": []
+            }
+          ],
+          "compared_modes": [
+            "abilities[0]"
+          ],
+          "compared_role": "removal",
+          "conditions": [],
+          "current_card": "Generous Gift",
+          "current_cost": {
+            "activation_mana_expression": null,
+            "cast_mana_expression": "{2}{W}",
+            "comparison_value": 3.0,
+            "effect_access_comparison": 3.0,
+            "nonmana_payments": [],
+            "optional_conditions": [],
+            "printed_mana_value": 3.0,
+            "provenance": [
+              "structured"
+            ],
+            "selected_abilities": [
+              "abilities[0]"
+            ],
+            "selected_ability": null,
+            "selected_payments": [],
+            "supported_parts": [
+              "{2}",
+              "{W}"
+            ],
+            "unknown_parts": []
+          },
+          "current_faces": [],
+          "current_oracle_text": "Destroy target permanent. Its controller creates a 3/3 green Elephant creature token.",
+          "current_role_evidence": [
+            {
+              "ability_id": "abilities[0]",
+              "activation_mana": null,
+              "beneficiary": null,
+              "benefit": null,
+              "chooser": "caster",
+              "drawback": null,
+              "effect": "Destroy",
+              "filtering": null,
+              "mana_output": null,
+              "mode_count": null,
+              "net_mana": null,
+              "prerequisites": [],
+              "provenance": [
+                "role-evidence-v1"
+              ],
+              "quantity": null,
+              "repeatable": false,
+              "role": "removal",
+              "secondary_functions": [
+                "Token"
+              ],
+              "source": "parsed",
+              "source_zone": null,
+              "speed": "instant",
+              "supported": true,
+              "symmetric": false,
+              "target_scope": "Permanent",
+              "temporary": false,
+              "uncertainty": []
+            }
+          ],
+          "gained_roles": [],
+          "lost_roles": [],
+          "rank_components": [
+            [
+              "supported_role_match",
+              false
+            ],
+            [
+              "known_constraints",
+              false
+            ],
+            [
+              "candidate_cost",
+              1.0
+            ],
+            [
+              "name",
+              "crush"
+            ]
+          ],
+          "status": "review required",
+          "unknowns": [
+            "role scope, speed, quantity, or mode is not preserved"
+          ]
+        },
+        {
+          "candidate_card": "Deface",
+          "candidate_cost": {
+            "activation_mana_expression": null,
+            "cast_mana_expression": "{R}",
+            "comparison_value": 1.0,
+            "effect_access_comparison": 1.0,
+            "nonmana_payments": [],
+            "optional_conditions": [],
+            "printed_mana_value": 1.0,
+            "provenance": [
+              "structured"
+            ],
+            "selected_abilities": [
+              "svars.DBDestroy",
+              "svars.DBDestroy2"
+            ],
+            "selected_ability": null,
+            "selected_payments": [],
+            "supported_parts": [
+              "{R}"
+            ],
+            "unknown_parts": []
+          },
+          "candidate_faces": [],
+          "candidate_oracle_text": "Choose one \u2014\n\u2022 Destroy target artifact.\n\u2022 Destroy target creature with defender.",
+          "candidate_role_evidence": [
+            {
+              "ability_id": "svars.DBDestroy",
+              "activation_mana": null,
+              "beneficiary": null,
+              "benefit": null,
+              "chooser": "caster",
+              "drawback": null,
+              "effect": "Destroy",
+              "filtering": null,
+              "mana_output": null,
+              "mode_count": 2,
+              "net_mana": null,
+              "prerequisites": [],
+              "provenance": [
+                "role-evidence-v1"
+              ],
+              "quantity": null,
+              "repeatable": false,
+              "role": "removal",
+              "secondary_functions": [
+                "Charm"
+              ],
+              "source": "parsed",
+              "source_zone": null,
+              "speed": "sorcery",
+              "supported": true,
+              "symmetric": false,
+              "target_scope": "Artifact",
+              "temporary": false,
+              "uncertainty": []
+            },
+            {
+              "ability_id": "svars.DBDestroy2",
+              "activation_mana": null,
+              "beneficiary": null,
+              "benefit": null,
+              "chooser": "caster",
+              "drawback": null,
+              "effect": "Destroy",
+              "filtering": null,
+              "mana_output": null,
+              "mode_count": 2,
+              "net_mana": null,
+              "prerequisites": [],
+              "provenance": [
+                "role-evidence-v1"
+              ],
+              "quantity": null,
+              "repeatable": false,
+              "role": "removal",
+              "secondary_functions": [
+                "Charm"
+              ],
+              "source": "parsed",
+              "source_zone": null,
+              "speed": "sorcery",
+              "supported": true,
+              "symmetric": false,
+              "target_scope": "Creature.withDefender",
+              "temporary": false,
+              "uncertainty": []
+            }
+          ],
+          "compared_modes": [
+            "svars.DBDestroy",
+            "svars.DBDestroy2"
+          ],
+          "compared_role": "removal",
+          "conditions": [],
+          "current_card": "Generous Gift",
+          "current_cost": {
+            "activation_mana_expression": null,
+            "cast_mana_expression": "{2}{W}",
+            "comparison_value": 3.0,
+            "effect_access_comparison": 3.0,
+            "nonmana_payments": [],
+            "optional_conditions": [],
+            "printed_mana_value": 3.0,
+            "provenance": [
+              "structured"
+            ],
+            "selected_abilities": [
+              "abilities[0]"
+            ],
+            "selected_ability": null,
+            "selected_payments": [],
+            "supported_parts": [
+              "{2}",
+              "{W}"
+            ],
+            "unknown_parts": []
+          },
+          "current_faces": [],
+          "current_oracle_text": "Destroy target permanent. Its controller creates a 3/3 green Elephant creature token.",
+          "current_role_evidence": [
+            {
+              "ability_id": "abilities[0]",
+              "activation_mana": null,
+              "beneficiary": null,
+              "benefit": null,
+              "chooser": "caster",
+              "drawback": null,
+              "effect": "Destroy",
+              "filtering": null,
+              "mana_output": null,
+              "mode_count": null,
+              "net_mana": null,
+              "prerequisites": [],
+              "provenance": [
+                "role-evidence-v1"
+              ],
+              "quantity": null,
+              "repeatable": false,
+              "role": "removal",
+              "secondary_functions": [
+                "Token"
+              ],
+              "source": "parsed",
+              "source_zone": null,
+              "speed": "instant",
+              "supported": true,
+              "symmetric": false,
+              "target_scope": "Permanent",
+              "temporary": false,
+              "uncertainty": []
+            }
+          ],
+          "gained_roles": [],
+          "lost_roles": [],
+          "rank_components": [
+            [
+              "supported_role_match",
+              false
+            ],
+            [
+              "known_constraints",
+              false
+            ],
+            [
+              "candidate_cost",
+              1.0
+            ],
+            [
+              "name",
+              "deface"
+            ]
+          ],
+          "status": "review required",
+          "unknowns": [
+            "role scope, speed, quantity, or mode is not preserved"
+          ]
+        },
+        {
+          "candidate_card": "Vandalblast",
+          "candidate_cost": {
+            "activation_mana_expression": null,
+            "cast_mana_expression": "{R}",
+            "comparison_value": 1.0,
+            "effect_access_comparison": 1.0,
+            "nonmana_payments": [],
+            "optional_conditions": [],
+            "printed_mana_value": 1.0,
+            "provenance": [
+              "structured"
+            ],
+            "selected_abilities": [
+              "abilities[0]"
+            ],
+            "selected_ability": null,
+            "selected_payments": [],
+            "supported_parts": [
+              "{R}"
+            ],
+            "unknown_parts": []
+          },
+          "candidate_faces": [],
+          "candidate_oracle_text": "Destroy target artifact you don't control.\nOverload {4}{R} (You may cast this spell for its overload cost. If you do, change \"target\" in its text to \"each.\")",
+          "candidate_role_evidence": [
+            {
+              "ability_id": "abilities[0]",
+              "activation_mana": null,
+              "beneficiary": null,
+              "benefit": null,
+              "chooser": "caster",
+              "drawback": null,
+              "effect": "Destroy",
+              "filtering": null,
+              "mana_output": null,
+              "mode_count": null,
+              "net_mana": null,
+              "prerequisites": [],
+              "provenance": [
+                "role-evidence-v1"
+              ],
+              "quantity": null,
+              "repeatable": false,
+              "role": "removal",
+              "secondary_functions": [],
+              "source": "parsed",
+              "source_zone": null,
+              "speed": "sorcery",
+              "supported": true,
+              "symmetric": false,
+              "target_scope": "Artifact.YouDontCtrl",
+              "temporary": false,
+              "uncertainty": []
+            }
+          ],
+          "compared_modes": [
+            "abilities[0]"
+          ],
+          "compared_role": "removal",
+          "conditions": [],
+          "current_card": "Generous Gift",
+          "current_cost": {
+            "activation_mana_expression": null,
+            "cast_mana_expression": "{2}{W}",
+            "comparison_value": 3.0,
+            "effect_access_comparison": 3.0,
+            "nonmana_payments": [],
+            "optional_conditions": [],
+            "printed_mana_value": 3.0,
+            "provenance": [
+              "structured"
+            ],
+            "selected_abilities": [
+              "abilities[0]"
+            ],
+            "selected_ability": null,
+            "selected_payments": [],
+            "supported_parts": [
+              "{2}",
+              "{W}"
+            ],
+            "unknown_parts": []
+          },
+          "current_faces": [],
+          "current_oracle_text": "Destroy target permanent. Its controller creates a 3/3 green Elephant creature token.",
+          "current_role_evidence": [
+            {
+              "ability_id": "abilities[0]",
+              "activation_mana": null,
+              "beneficiary": null,
+              "benefit": null,
+              "chooser": "caster",
+              "drawback": null,
+              "effect": "Destroy",
+              "filtering": null,
+              "mana_output": null,
+              "mode_count": null,
+              "net_mana": null,
+              "prerequisites": [],
+              "provenance": [
+                "role-evidence-v1"
+              ],
+              "quantity": null,
+              "repeatable": false,
+              "role": "removal",
+              "secondary_functions": [
+                "Token"
+              ],
+              "source": "parsed",
+              "source_zone": null,
+              "speed": "instant",
+              "supported": true,
+              "symmetric": false,
+              "target_scope": "Permanent",
+              "temporary": false,
+              "uncertainty": []
+            }
+          ],
+          "gained_roles": [],
+          "lost_roles": [],
+          "rank_components": [
+            [
+              "supported_role_match",
+              false
+            ],
+            [
+              "known_constraints",
+              false
+            ],
+            [
+              "candidate_cost",
+              1.0
+            ],
+            [
+              "name",
+              "vandalblast"
+            ]
+          ],
+          "status": "review required",
+          "unknowns": [
+            "role scope, speed, quantity, or mode is not preserved"
+          ]
+        },
+        {
+          "candidate_card": "Active Volcano",
+          "candidate_cost": {
+            "activation_mana_expression": null,
+            "cast_mana_expression": "{R}",
+            "comparison_value": 1.0,
+            "effect_access_comparison": 1.0,
+            "nonmana_payments": [],
+            "optional_conditions": [],
+            "printed_mana_value": 1.0,
+            "provenance": [
+              "structured"
+            ],
+            "selected_abilities": [
+              "svars.DBDestroy",
+              "svars.DBChangeZone"
+            ],
+            "selected_ability": null,
+            "selected_payments": [],
+            "supported_parts": [
+              "{R}"
+            ],
+            "unknown_parts": []
+          },
+          "candidate_faces": [],
+          "candidate_oracle_text": "Choose one \u2014\n\u2022 Destroy target blue permanent.\n\u2022 Return target Island to its owner's hand.",
+          "candidate_role_evidence": [
+            {
+              "ability_id": "svars.DBDestroy",
+              "activation_mana": null,
+              "beneficiary": null,
+              "benefit": null,
+              "chooser": "caster",
+              "drawback": null,
+              "effect": "Destroy",
+              "filtering": null,
+              "mana_output": null,
+              "mode_count": 2,
+              "net_mana": null,
+              "prerequisites": [],
+              "provenance": [
+                "role-evidence-v1"
+              ],
+              "quantity": null,
+              "repeatable": false,
+              "role": "removal",
+              "secondary_functions": [
+                "Charm",
+                "ChangeZone"
+              ],
+              "source": "parsed",
+              "source_zone": null,
+              "speed": "instant",
+              "supported": true,
+              "symmetric": false,
+              "target_scope": "Permanent.Blue",
+              "temporary": false,
+              "uncertainty": []
+            },
+            {
+              "ability_id": "svars.DBChangeZone",
+              "activation_mana": null,
+              "beneficiary": null,
+              "benefit": null,
+              "chooser": null,
+              "drawback": null,
+              "effect": "ChangeZone",
+              "filtering": null,
+              "mana_output": null,
+              "mode_count": 2,
+              "net_mana": null,
+              "prerequisites": [],
+              "provenance": [
+                "role-evidence-v1"
+              ],
+              "quantity": null,
+              "repeatable": false,
+              "role": "removal",
+              "secondary_functions": [
+                "Charm",
+                "Destroy"
+              ],
+              "source": "parsed",
+              "source_zone": "Battlefield",
+              "speed": "instant",
+              "supported": true,
+              "symmetric": false,
+              "target_scope": "Island",
+              "temporary": false,
+              "uncertainty": []
+            }
+          ],
+          "compared_modes": [
+            "svars.DBDestroy",
+            "svars.DBChangeZone"
+          ],
+          "compared_role": "removal",
+          "conditions": [],
+          "current_card": "Get Lost",
+          "current_cost": {
+            "activation_mana_expression": null,
+            "cast_mana_expression": "{1}{W}",
+            "comparison_value": 2.0,
+            "effect_access_comparison": 2.0,
+            "nonmana_payments": [],
+            "optional_conditions": [],
+            "printed_mana_value": 2.0,
+            "provenance": [
+              "structured"
+            ],
+            "selected_abilities": [
+              "abilities[0]"
+            ],
+            "selected_ability": null,
+            "selected_payments": [],
+            "supported_parts": [
+              "{1}",
+              "{W}"
+            ],
+            "unknown_parts": []
+          },
+          "current_faces": [],
+          "current_oracle_text": "Destroy target creature, enchantment, or planeswalker. Its controller creates two Map tokens. (They're artifacts with \"{1}, {T}, Sacrifice this token: Target creature you control explores. Activate only as a sorcery.\")",
+          "current_role_evidence": [
+            {
+              "ability_id": "abilities[0]",
+              "activation_mana": null,
+              "beneficiary": null,
+              "benefit": null,
+              "chooser": "caster",
+              "drawback": null,
+              "effect": "Destroy",
+              "filtering": null,
+              "mana_output": null,
+              "mode_count": null,
+              "net_mana": null,
+              "prerequisites": [],
+              "provenance": [
+                "role-evidence-v1"
+              ],
+              "quantity": null,
+              "repeatable": false,
+              "role": "removal",
+              "secondary_functions": [
+                "Token"
+              ],
+              "source": "parsed",
+              "source_zone": null,
+              "speed": "instant",
+              "supported": true,
+              "symmetric": false,
+              "target_scope": "Creature,Enchantment,Planeswalker",
+              "temporary": false,
+              "uncertainty": []
+            }
+          ],
+          "gained_roles": [],
+          "lost_roles": [],
+          "rank_components": [
+            [
+              "supported_role_match",
+              false
+            ],
+            [
+              "known_constraints",
+              false
+            ],
+            [
+              "candidate_cost",
+              1.0
+            ],
+            [
+              "name",
+              "active volcano"
+            ]
+          ],
+          "status": "review required",
+          "unknowns": [
+            "role scope, speed, quantity, or mode is not preserved"
+          ]
+        },
+        {
+          "candidate_card": "Blazing Hope",
+          "candidate_cost": {
+            "activation_mana_expression": null,
+            "cast_mana_expression": "{W}",
+            "comparison_value": 1.0,
+            "effect_access_comparison": 1.0,
+            "nonmana_payments": [],
+            "optional_conditions": [],
+            "printed_mana_value": 1.0,
+            "provenance": [
+              "structured"
+            ],
+            "selected_abilities": [
+              "abilities[0]"
+            ],
+            "selected_ability": null,
+            "selected_payments": [],
+            "supported_parts": [
+              "{W}"
+            ],
+            "unknown_parts": []
+          },
+          "candidate_faces": [],
+          "candidate_oracle_text": "Exile target creature with power greater than or equal to your life total.",
+          "candidate_role_evidence": [
+            {
+              "ability_id": "abilities[0]",
+              "activation_mana": null,
+              "beneficiary": null,
+              "benefit": null,
+              "chooser": "caster",
+              "drawback": null,
+              "effect": "ChangeZone",
+              "filtering": null,
+              "mana_output": null,
+              "mode_count": null,
+              "net_mana": null,
+              "prerequisites": [],
+              "provenance": [
+                "role-evidence-v1"
+              ],
+              "quantity": null,
+              "repeatable": false,
+              "role": "removal",
+              "secondary_functions": [],
+              "source": "parsed",
+              "source_zone": "Battlefield",
+              "speed": "instant",
+              "supported": true,
+              "symmetric": false,
+              "target_scope": "Creature.powerGEX",
+              "temporary": false,
+              "uncertainty": []
+            }
+          ],
+          "compared_modes": [
+            "abilities[0]"
+          ],
+          "compared_role": "removal",
+          "conditions": [],
+          "current_card": "Get Lost",
+          "current_cost": {
+            "activation_mana_expression": null,
+            "cast_mana_expression": "{1}{W}",
+            "comparison_value": 2.0,
+            "effect_access_comparison": 2.0,
+            "nonmana_payments": [],
+            "optional_conditions": [],
+            "printed_mana_value": 2.0,
+            "provenance": [
+              "structured"
+            ],
+            "selected_abilities": [
+              "abilities[0]"
+            ],
+            "selected_ability": null,
+            "selected_payments": [],
+            "supported_parts": [
+              "{1}",
+              "{W}"
+            ],
+            "unknown_parts": []
+          },
+          "current_faces": [],
+          "current_oracle_text": "Destroy target creature, enchantment, or planeswalker. Its controller creates two Map tokens. (They're artifacts with \"{1}, {T}, Sacrifice this token: Target creature you control explores. Activate only as a sorcery.\")",
+          "current_role_evidence": [
+            {
+              "ability_id": "abilities[0]",
+              "activation_mana": null,
+              "beneficiary": null,
+              "benefit": null,
+              "chooser": "caster",
+              "drawback": null,
+              "effect": "Destroy",
+              "filtering": null,
+              "mana_output": null,
+              "mode_count": null,
+              "net_mana": null,
+              "prerequisites": [],
+              "provenance": [
+                "role-evidence-v1"
+              ],
+              "quantity": null,
+              "repeatable": false,
+              "role": "removal",
+              "secondary_functions": [
+                "Token"
+              ],
+              "source": "parsed",
+              "source_zone": null,
+              "speed": "instant",
+              "supported": true,
+              "symmetric": false,
+              "target_scope": "Creature,Enchantment,Planeswalker",
+              "temporary": false,
+              "uncertainty": []
+            }
+          ],
+          "gained_roles": [],
+          "lost_roles": [],
+          "rank_components": [
+            [
+              "supported_role_match",
+              false
+            ],
+            [
+              "known_constraints",
+              false
+            ],
+            [
+              "candidate_cost",
+              1.0
+            ],
+            [
+              "name",
+              "blazing hope"
+            ]
+          ],
+          "status": "review required",
+          "unknowns": [
+            "role scope, speed, quantity, or mode is not preserved"
+          ]
+        },
+        {
+          "candidate_card": "Crush",
+          "candidate_cost": {
+            "activation_mana_expression": null,
+            "cast_mana_expression": "{R}",
+            "comparison_value": 1.0,
+            "effect_access_comparison": 1.0,
+            "nonmana_payments": [],
+            "optional_conditions": [],
+            "printed_mana_value": 1.0,
+            "provenance": [
+              "structured"
+            ],
+            "selected_abilities": [
+              "abilities[0]"
+            ],
+            "selected_ability": null,
+            "selected_payments": [],
+            "supported_parts": [
+              "{R}"
+            ],
+            "unknown_parts": []
+          },
+          "candidate_faces": [],
+          "candidate_oracle_text": "Destroy target noncreature artifact.",
+          "candidate_role_evidence": [
+            {
+              "ability_id": "abilities[0]",
+              "activation_mana": null,
+              "beneficiary": null,
+              "benefit": null,
+              "chooser": "caster",
+              "drawback": null,
+              "effect": "Destroy",
+              "filtering": null,
+              "mana_output": null,
+              "mode_count": null,
+              "net_mana": null,
+              "prerequisites": [],
+              "provenance": [
+                "role-evidence-v1"
+              ],
+              "quantity": null,
+              "repeatable": false,
+              "role": "removal",
+              "secondary_functions": [],
+              "source": "parsed",
+              "source_zone": null,
+              "speed": "instant",
+              "supported": true,
+              "symmetric": false,
+              "target_scope": "Artifact.nonCreature",
+              "temporary": false,
+              "uncertainty": []
+            }
+          ],
+          "compared_modes": [
+            "abilities[0]"
+          ],
+          "compared_role": "removal",
+          "conditions": [],
+          "current_card": "Get Lost",
+          "current_cost": {
+            "activation_mana_expression": null,
+            "cast_mana_expression": "{1}{W}",
+            "comparison_value": 2.0,
+            "effect_access_comparison": 2.0,
+            "nonmana_payments": [],
+            "optional_conditions": [],
+            "printed_mana_value": 2.0,
+            "provenance": [
+              "structured"
+            ],
+            "selected_abilities": [
+              "abilities[0]"
+            ],
+            "selected_ability": null,
+            "selected_payments": [],
+            "supported_parts": [
+              "{1}",
+              "{W}"
+            ],
+            "unknown_parts": []
+          },
+          "current_faces": [],
+          "current_oracle_text": "Destroy target creature, enchantment, or planeswalker. Its controller creates two Map tokens. (They're artifacts with \"{1}, {T}, Sacrifice this token: Target creature you control explores. Activate only as a sorcery.\")",
+          "current_role_evidence": [
+            {
+              "ability_id": "abilities[0]",
+              "activation_mana": null,
+              "beneficiary": null,
+              "benefit": null,
+              "chooser": "caster",
+              "drawback": null,
+              "effect": "Destroy",
+              "filtering": null,
+              "mana_output": null,
+              "mode_count": null,
+              "net_mana": null,
+              "prerequisites": [],
+              "provenance": [
+                "role-evidence-v1"
+              ],
+              "quantity": null,
+              "repeatable": false,
+              "role": "removal",
+              "secondary_functions": [
+                "Token"
+              ],
+              "source": "parsed",
+              "source_zone": null,
+              "speed": "instant",
+              "supported": true,
+              "symmetric": false,
+              "target_scope": "Creature,Enchantment,Planeswalker",
+              "temporary": false,
+              "uncertainty": []
+            }
+          ],
+          "gained_roles": [],
+          "lost_roles": [],
+          "rank_components": [
+            [
+              "supported_role_match",
+              false
+            ],
+            [
+              "known_constraints",
+              false
+            ],
+            [
+              "candidate_cost",
+              1.0
+            ],
+            [
+              "name",
+              "crush"
+            ]
+          ],
+          "status": "review required",
+          "unknowns": [
+            "role scope, speed, quantity, or mode is not preserved"
+          ]
+        },
+        {
+          "candidate_card": "Deface",
+          "candidate_cost": {
+            "activation_mana_expression": null,
+            "cast_mana_expression": "{R}",
+            "comparison_value": 1.0,
+            "effect_access_comparison": 1.0,
+            "nonmana_payments": [],
+            "optional_conditions": [],
+            "printed_mana_value": 1.0,
+            "provenance": [
+              "structured"
+            ],
+            "selected_abilities": [
+              "svars.DBDestroy",
+              "svars.DBDestroy2"
+            ],
+            "selected_ability": null,
+            "selected_payments": [],
+            "supported_parts": [
+              "{R}"
+            ],
+            "unknown_parts": []
+          },
+          "candidate_faces": [],
+          "candidate_oracle_text": "Choose one \u2014\n\u2022 Destroy target artifact.\n\u2022 Destroy target creature with defender.",
+          "candidate_role_evidence": [
+            {
+              "ability_id": "svars.DBDestroy",
+              "activation_mana": null,
+              "beneficiary": null,
+              "benefit": null,
+              "chooser": "caster",
+              "drawback": null,
+              "effect": "Destroy",
+              "filtering": null,
+              "mana_output": null,
+              "mode_count": 2,
+              "net_mana": null,
+              "prerequisites": [],
+              "provenance": [
+                "role-evidence-v1"
+              ],
+              "quantity": null,
+              "repeatable": false,
+              "role": "removal",
+              "secondary_functions": [
+                "Charm"
+              ],
+              "source": "parsed",
+              "source_zone": null,
+              "speed": "sorcery",
+              "supported": true,
+              "symmetric": false,
+              "target_scope": "Artifact",
+              "temporary": false,
+              "uncertainty": []
+            },
+            {
+              "ability_id": "svars.DBDestroy2",
+              "activation_mana": null,
+              "beneficiary": null,
+              "benefit": null,
+              "chooser": "caster",
+              "drawback": null,
+              "effect": "Destroy",
+              "filtering": null,
+              "mana_output": null,
+              "mode_count": 2,
+              "net_mana": null,
+              "prerequisites": [],
+              "provenance": [
+                "role-evidence-v1"
+              ],
+              "quantity": null,
+              "repeatable": false,
+              "role": "removal",
+              "secondary_functions": [
+                "Charm"
+              ],
+              "source": "parsed",
+              "source_zone": null,
+              "speed": "sorcery",
+              "supported": true,
+              "symmetric": false,
+              "target_scope": "Creature.withDefender",
+              "temporary": false,
+              "uncertainty": []
+            }
+          ],
+          "compared_modes": [
+            "svars.DBDestroy",
+            "svars.DBDestroy2"
+          ],
+          "compared_role": "removal",
+          "conditions": [],
+          "current_card": "Get Lost",
+          "current_cost": {
+            "activation_mana_expression": null,
+            "cast_mana_expression": "{1}{W}",
+            "comparison_value": 2.0,
+            "effect_access_comparison": 2.0,
+            "nonmana_payments": [],
+            "optional_conditions": [],
+            "printed_mana_value": 2.0,
+            "provenance": [
+              "structured"
+            ],
+            "selected_abilities": [
+              "abilities[0]"
+            ],
+            "selected_ability": null,
+            "selected_payments": [],
+            "supported_parts": [
+              "{1}",
+              "{W}"
+            ],
+            "unknown_parts": []
+          },
+          "current_faces": [],
+          "current_oracle_text": "Destroy target creature, enchantment, or planeswalker. Its controller creates two Map tokens. (They're artifacts with \"{1}, {T}, Sacrifice this token: Target creature you control explores. Activate only as a sorcery.\")",
+          "current_role_evidence": [
+            {
+              "ability_id": "abilities[0]",
+              "activation_mana": null,
+              "beneficiary": null,
+              "benefit": null,
+              "chooser": "caster",
+              "drawback": null,
+              "effect": "Destroy",
+              "filtering": null,
+              "mana_output": null,
+              "mode_count": null,
+              "net_mana": null,
+              "prerequisites": [],
+              "provenance": [
+                "role-evidence-v1"
+              ],
+              "quantity": null,
+              "repeatable": false,
+              "role": "removal",
+              "secondary_functions": [
+                "Token"
+              ],
+              "source": "parsed",
+              "source_zone": null,
+              "speed": "instant",
+              "supported": true,
+              "symmetric": false,
+              "target_scope": "Creature,Enchantment,Planeswalker",
+              "temporary": false,
+              "uncertainty": []
+            }
+          ],
+          "gained_roles": [],
+          "lost_roles": [],
+          "rank_components": [
+            [
+              "supported_role_match",
+              false
+            ],
+            [
+              "known_constraints",
+              false
+            ],
+            [
+              "candidate_cost",
+              1.0
+            ],
+            [
+              "name",
+              "deface"
+            ]
+          ],
+          "status": "review required",
+          "unknowns": [
+            "role scope, speed, quantity, or mode is not preserved"
+          ]
+        },
+        {
+          "candidate_card": "Swords to Plowshares",
+          "candidate_cost": {
+            "activation_mana_expression": null,
+            "cast_mana_expression": "{W}",
+            "comparison_value": 1.0,
+            "effect_access_comparison": 1.0,
+            "nonmana_payments": [],
+            "optional_conditions": [],
+            "printed_mana_value": 1.0,
+            "provenance": [
+              "structured"
+            ],
+            "selected_abilities": [
+              "abilities[0]"
+            ],
+            "selected_ability": null,
+            "selected_payments": [],
+            "supported_parts": [
+              "{W}"
+            ],
+            "unknown_parts": []
+          },
+          "candidate_faces": [],
+          "candidate_oracle_text": "Exile target creature. Its controller gains life equal to its power.",
+          "candidate_role_evidence": [
+            {
+              "ability_id": "abilities[0]",
+              "activation_mana": null,
+              "beneficiary": null,
+              "benefit": null,
+              "chooser": "caster",
+              "drawback": null,
+              "effect": "ChangeZone",
+              "filtering": null,
+              "mana_output": null,
+              "mode_count": null,
+              "net_mana": null,
+              "prerequisites": [],
+              "provenance": [
+                "role-evidence-v1"
+              ],
+              "quantity": null,
+              "repeatable": false,
+              "role": "removal",
+              "secondary_functions": [
+                "GainLife"
+              ],
+              "source": "parsed",
+              "source_zone": "Battlefield",
+              "speed": "instant",
+              "supported": true,
+              "symmetric": false,
+              "target_scope": "Creature",
+              "temporary": false,
+              "uncertainty": []
+            }
+          ],
+          "compared_modes": [
+            "abilities[0]"
+          ],
+          "compared_role": "removal",
+          "conditions": [],
+          "current_card": "Get Lost",
+          "current_cost": {
+            "activation_mana_expression": null,
+            "cast_mana_expression": "{1}{W}",
+            "comparison_value": 2.0,
+            "effect_access_comparison": 2.0,
+            "nonmana_payments": [],
+            "optional_conditions": [],
+            "printed_mana_value": 2.0,
+            "provenance": [
+              "structured"
+            ],
+            "selected_abilities": [
+              "abilities[0]"
+            ],
+            "selected_ability": null,
+            "selected_payments": [],
+            "supported_parts": [
+              "{1}",
+              "{W}"
+            ],
+            "unknown_parts": []
+          },
+          "current_faces": [],
+          "current_oracle_text": "Destroy target creature, enchantment, or planeswalker. Its controller creates two Map tokens. (They're artifacts with \"{1}, {T}, Sacrifice this token: Target creature you control explores. Activate only as a sorcery.\")",
+          "current_role_evidence": [
+            {
+              "ability_id": "abilities[0]",
+              "activation_mana": null,
+              "beneficiary": null,
+              "benefit": null,
+              "chooser": "caster",
+              "drawback": null,
+              "effect": "Destroy",
+              "filtering": null,
+              "mana_output": null,
+              "mode_count": null,
+              "net_mana": null,
+              "prerequisites": [],
+              "provenance": [
+                "role-evidence-v1"
+              ],
+              "quantity": null,
+              "repeatable": false,
+              "role": "removal",
+              "secondary_functions": [
+                "Token"
+              ],
+              "source": "parsed",
+              "source_zone": null,
+              "speed": "instant",
+              "supported": true,
+              "symmetric": false,
+              "target_scope": "Creature,Enchantment,Planeswalker",
+              "temporary": false,
+              "uncertainty": []
+            }
+          ],
+          "gained_roles": [],
+          "lost_roles": [],
+          "rank_components": [
+            [
+              "supported_role_match",
+              false
+            ],
+            [
+              "known_constraints",
+              false
+            ],
+            [
+              "candidate_cost",
+              1.0
+            ],
+            [
+              "name",
+              "swords to plowshares"
+            ]
+          ],
+          "status": "review required",
+          "unknowns": [
+            "role scope, speed, quantity, or mode is not preserved"
+          ]
+        },
+        {
+          "candidate_card": "Vandalblast",
+          "candidate_cost": {
+            "activation_mana_expression": null,
+            "cast_mana_expression": "{R}",
+            "comparison_value": 1.0,
+            "effect_access_comparison": 1.0,
+            "nonmana_payments": [],
+            "optional_conditions": [],
+            "printed_mana_value": 1.0,
+            "provenance": [
+              "structured"
+            ],
+            "selected_abilities": [
+              "abilities[0]"
+            ],
+            "selected_ability": null,
+            "selected_payments": [],
+            "supported_parts": [
+              "{R}"
+            ],
+            "unknown_parts": []
+          },
+          "candidate_faces": [],
+          "candidate_oracle_text": "Destroy target artifact you don't control.\nOverload {4}{R} (You may cast this spell for its overload cost. If you do, change \"target\" in its text to \"each.\")",
+          "candidate_role_evidence": [
+            {
+              "ability_id": "abilities[0]",
+              "activation_mana": null,
+              "beneficiary": null,
+              "benefit": null,
+              "chooser": "caster",
+              "drawback": null,
+              "effect": "Destroy",
+              "filtering": null,
+              "mana_output": null,
+              "mode_count": null,
+              "net_mana": null,
+              "prerequisites": [],
+              "provenance": [
+                "role-evidence-v1"
+              ],
+              "quantity": null,
+              "repeatable": false,
+              "role": "removal",
+              "secondary_functions": [],
+              "source": "parsed",
+              "source_zone": null,
+              "speed": "sorcery",
+              "supported": true,
+              "symmetric": false,
+              "target_scope": "Artifact.YouDontCtrl",
+              "temporary": false,
+              "uncertainty": []
+            }
+          ],
+          "compared_modes": [
+            "abilities[0]"
+          ],
+          "compared_role": "removal",
+          "conditions": [],
+          "current_card": "Get Lost",
+          "current_cost": {
+            "activation_mana_expression": null,
+            "cast_mana_expression": "{1}{W}",
+            "comparison_value": 2.0,
+            "effect_access_comparison": 2.0,
+            "nonmana_payments": [],
+            "optional_conditions": [],
+            "printed_mana_value": 2.0,
+            "provenance": [
+              "structured"
+            ],
+            "selected_abilities": [
+              "abilities[0]"
+            ],
+            "selected_ability": null,
+            "selected_payments": [],
+            "supported_parts": [
+              "{1}",
+              "{W}"
+            ],
+            "unknown_parts": []
+          },
+          "current_faces": [],
+          "current_oracle_text": "Destroy target creature, enchantment, or planeswalker. Its controller creates two Map tokens. (They're artifacts with \"{1}, {T}, Sacrifice this token: Target creature you control explores. Activate only as a sorcery.\")",
+          "current_role_evidence": [
+            {
+              "ability_id": "abilities[0]",
+              "activation_mana": null,
+              "beneficiary": null,
+              "benefit": null,
+              "chooser": "caster",
+              "drawback": null,
+              "effect": "Destroy",
+              "filtering": null,
+              "mana_output": null,
+              "mode_count": null,
+              "net_mana": null,
+              "prerequisites": [],
+              "provenance": [
+                "role-evidence-v1"
+              ],
+              "quantity": null,
+              "repeatable": false,
+              "role": "removal",
+              "secondary_functions": [
+                "Token"
+              ],
+              "source": "parsed",
+              "source_zone": null,
+              "speed": "instant",
+              "supported": true,
+              "symmetric": false,
+              "target_scope": "Creature,Enchantment,Planeswalker",
+              "temporary": false,
+              "uncertainty": []
+            }
+          ],
+          "gained_roles": [],
+          "lost_roles": [],
+          "rank_components": [
+            [
+              "supported_role_match",
+              false
+            ],
+            [
+              "known_constraints",
+              false
+            ],
+            [
+              "candidate_cost",
+              1.0
+            ],
+            [
+              "name",
+              "vandalblast"
+            ]
+          ],
+          "status": "review required",
+          "unknowns": [
+            "role scope, speed, quantity, or mode is not preserved"
+          ]
+        },
+        {
+          "candidate_card": "Blazing Hope",
+          "candidate_cost": {
+            "activation_mana_expression": null,
+            "cast_mana_expression": "{W}",
+            "comparison_value": 1.0,
+            "effect_access_comparison": 1.0,
+            "nonmana_payments": [],
+            "optional_conditions": [],
+            "printed_mana_value": 1.0,
+            "provenance": [
+              "structured"
+            ],
+            "selected_abilities": [
+              "abilities[0]"
+            ],
+            "selected_ability": null,
+            "selected_payments": [],
+            "supported_parts": [
+              "{W}"
+            ],
+            "unknown_parts": []
+          },
+          "candidate_faces": [],
+          "candidate_oracle_text": "Exile target creature with power greater than or equal to your life total.",
+          "candidate_role_evidence": [
+            {
+              "ability_id": "abilities[0]",
+              "activation_mana": null,
+              "beneficiary": null,
+              "benefit": null,
+              "chooser": "caster",
+              "drawback": null,
+              "effect": "ChangeZone",
+              "filtering": null,
+              "mana_output": null,
+              "mode_count": null,
+              "net_mana": null,
+              "prerequisites": [],
+              "provenance": [
+                "role-evidence-v1"
+              ],
+              "quantity": null,
+              "repeatable": false,
+              "role": "removal",
+              "secondary_functions": [],
+              "source": "parsed",
+              "source_zone": "Battlefield",
+              "speed": "instant",
+              "supported": true,
+              "symmetric": false,
+              "target_scope": "Creature.powerGEX",
+              "temporary": false,
+              "uncertainty": []
+            }
+          ],
+          "compared_modes": [
+            "abilities[0]"
+          ],
+          "compared_role": "removal",
+          "conditions": [],
+          "current_card": "Path to Exile",
+          "current_cost": {
+            "activation_mana_expression": null,
+            "cast_mana_expression": "{W}",
+            "comparison_value": 1.0,
+            "effect_access_comparison": 1.0,
+            "nonmana_payments": [],
+            "optional_conditions": [],
+            "printed_mana_value": 1.0,
+            "provenance": [
+              "structured"
+            ],
+            "selected_abilities": [
+              "abilities[0]"
+            ],
+            "selected_ability": null,
+            "selected_payments": [],
+            "supported_parts": [
+              "{W}"
+            ],
+            "unknown_parts": []
+          },
+          "current_faces": [],
+          "current_oracle_text": "Exile target creature. Its controller may search their library for a basic land card, put that card onto the battlefield tapped, then shuffle.",
+          "current_role_evidence": [
+            {
+              "ability_id": "abilities[0]",
+              "activation_mana": null,
+              "beneficiary": null,
+              "benefit": null,
+              "chooser": "caster",
+              "drawback": null,
+              "effect": "ChangeZone",
+              "filtering": null,
+              "mana_output": null,
+              "mode_count": null,
+              "net_mana": null,
+              "prerequisites": [],
+              "provenance": [
+                "role-evidence-v1"
+              ],
+              "quantity": null,
+              "repeatable": false,
+              "role": "removal",
+              "secondary_functions": [],
+              "source": "parsed",
+              "source_zone": "Battlefield",
+              "speed": "instant",
+              "supported": true,
+              "symmetric": false,
+              "target_scope": "Creature",
+              "temporary": false,
+              "uncertainty": []
+            }
+          ],
+          "gained_roles": [],
+          "lost_roles": [],
+          "rank_components": [
+            [
+              "supported_role_match",
+              false
+            ],
+            [
+              "known_constraints",
+              false
+            ],
+            [
+              "candidate_cost",
+              1.0
+            ],
+            [
+              "name",
+              "blazing hope"
+            ]
+          ],
+          "status": "review required",
+          "unknowns": [
+            "role scope, speed, quantity, or mode is not preserved"
+          ]
+        },
+        {
+          "candidate_card": "Deface",
+          "candidate_cost": {
+            "activation_mana_expression": null,
+            "cast_mana_expression": "{R}",
+            "comparison_value": 1.0,
+            "effect_access_comparison": 1.0,
+            "nonmana_payments": [],
+            "optional_conditions": [],
+            "printed_mana_value": 1.0,
+            "provenance": [
+              "structured"
+            ],
+            "selected_abilities": [
+              "svars.DBDestroy",
+              "svars.DBDestroy2"
+            ],
+            "selected_ability": null,
+            "selected_payments": [],
+            "supported_parts": [
+              "{R}"
+            ],
+            "unknown_parts": []
+          },
+          "candidate_faces": [],
+          "candidate_oracle_text": "Choose one \u2014\n\u2022 Destroy target artifact.\n\u2022 Destroy target creature with defender.",
+          "candidate_role_evidence": [
+            {
+              "ability_id": "svars.DBDestroy",
+              "activation_mana": null,
+              "beneficiary": null,
+              "benefit": null,
+              "chooser": "caster",
+              "drawback": null,
+              "effect": "Destroy",
+              "filtering": null,
+              "mana_output": null,
+              "mode_count": 2,
+              "net_mana": null,
+              "prerequisites": [],
+              "provenance": [
+                "role-evidence-v1"
+              ],
+              "quantity": null,
+              "repeatable": false,
+              "role": "removal",
+              "secondary_functions": [
+                "Charm"
+              ],
+              "source": "parsed",
+              "source_zone": null,
+              "speed": "sorcery",
+              "supported": true,
+              "symmetric": false,
+              "target_scope": "Artifact",
+              "temporary": false,
+              "uncertainty": []
+            },
+            {
+              "ability_id": "svars.DBDestroy2",
+              "activation_mana": null,
+              "beneficiary": null,
+              "benefit": null,
+              "chooser": "caster",
+              "drawback": null,
+              "effect": "Destroy",
+              "filtering": null,
+              "mana_output": null,
+              "mode_count": 2,
+              "net_mana": null,
+              "prerequisites": [],
+              "provenance": [
+                "role-evidence-v1"
+              ],
+              "quantity": null,
+              "repeatable": false,
+              "role": "removal",
+              "secondary_functions": [
+                "Charm"
+              ],
+              "source": "parsed",
+              "source_zone": null,
+              "speed": "sorcery",
+              "supported": true,
+              "symmetric": false,
+              "target_scope": "Creature.withDefender",
+              "temporary": false,
+              "uncertainty": []
+            }
+          ],
+          "compared_modes": [
+            "svars.DBDestroy",
+            "svars.DBDestroy2"
+          ],
+          "compared_role": "removal",
+          "conditions": [],
+          "current_card": "Path to Exile",
+          "current_cost": {
+            "activation_mana_expression": null,
+            "cast_mana_expression": "{W}",
+            "comparison_value": 1.0,
+            "effect_access_comparison": 1.0,
+            "nonmana_payments": [],
+            "optional_conditions": [],
+            "printed_mana_value": 1.0,
+            "provenance": [
+              "structured"
+            ],
+            "selected_abilities": [
+              "abilities[0]"
+            ],
+            "selected_ability": null,
+            "selected_payments": [],
+            "supported_parts": [
+              "{W}"
+            ],
+            "unknown_parts": []
+          },
+          "current_faces": [],
+          "current_oracle_text": "Exile target creature. Its controller may search their library for a basic land card, put that card onto the battlefield tapped, then shuffle.",
+          "current_role_evidence": [
+            {
+              "ability_id": "abilities[0]",
+              "activation_mana": null,
+              "beneficiary": null,
+              "benefit": null,
+              "chooser": "caster",
+              "drawback": null,
+              "effect": "ChangeZone",
+              "filtering": null,
+              "mana_output": null,
+              "mode_count": null,
+              "net_mana": null,
+              "prerequisites": [],
+              "provenance": [
+                "role-evidence-v1"
+              ],
+              "quantity": null,
+              "repeatable": false,
+              "role": "removal",
+              "secondary_functions": [],
+              "source": "parsed",
+              "source_zone": "Battlefield",
+              "speed": "instant",
+              "supported": true,
+              "symmetric": false,
+              "target_scope": "Creature",
+              "temporary": false,
+              "uncertainty": []
+            }
+          ],
+          "gained_roles": [],
+          "lost_roles": [],
+          "rank_components": [
+            [
+              "supported_role_match",
+              false
+            ],
+            [
+              "known_constraints",
+              false
+            ],
+            [
+              "candidate_cost",
+              1.0
+            ],
+            [
+              "name",
+              "deface"
+            ]
+          ],
+          "status": "review required",
+          "unknowns": [
+            "role scope, speed, quantity, or mode is not preserved"
+          ]
+        },
+        {
+          "candidate_card": "Active Volcano",
+          "candidate_cost": {
+            "activation_mana_expression": null,
+            "cast_mana_expression": "{R}",
+            "comparison_value": 1.0,
+            "effect_access_comparison": 1.0,
+            "nonmana_payments": [],
+            "optional_conditions": [],
+            "printed_mana_value": 1.0,
+            "provenance": [
+              "structured"
+            ],
+            "selected_abilities": [
+              "svars.DBDestroy",
+              "svars.DBChangeZone"
+            ],
+            "selected_ability": null,
+            "selected_payments": [],
+            "supported_parts": [
+              "{R}"
+            ],
+            "unknown_parts": []
+          },
+          "candidate_faces": [],
+          "candidate_oracle_text": "Choose one \u2014\n\u2022 Destroy target blue permanent.\n\u2022 Return target Island to its owner's hand.",
+          "candidate_role_evidence": [
+            {
+              "ability_id": "svars.DBDestroy",
+              "activation_mana": null,
+              "beneficiary": null,
+              "benefit": null,
+              "chooser": "caster",
+              "drawback": null,
+              "effect": "Destroy",
+              "filtering": null,
+              "mana_output": null,
+              "mode_count": 2,
+              "net_mana": null,
+              "prerequisites": [],
+              "provenance": [
+                "role-evidence-v1"
+              ],
+              "quantity": null,
+              "repeatable": false,
+              "role": "removal",
+              "secondary_functions": [
+                "Charm",
+                "ChangeZone"
+              ],
+              "source": "parsed",
+              "source_zone": null,
+              "speed": "instant",
+              "supported": true,
+              "symmetric": false,
+              "target_scope": "Permanent.Blue",
+              "temporary": false,
+              "uncertainty": []
+            },
+            {
+              "ability_id": "svars.DBChangeZone",
+              "activation_mana": null,
+              "beneficiary": null,
+              "benefit": null,
+              "chooser": null,
+              "drawback": null,
+              "effect": "ChangeZone",
+              "filtering": null,
+              "mana_output": null,
+              "mode_count": 2,
+              "net_mana": null,
+              "prerequisites": [],
+              "provenance": [
+                "role-evidence-v1"
+              ],
+              "quantity": null,
+              "repeatable": false,
+              "role": "removal",
+              "secondary_functions": [
+                "Charm",
+                "Destroy"
+              ],
+              "source": "parsed",
+              "source_zone": "Battlefield",
+              "speed": "instant",
+              "supported": true,
+              "symmetric": false,
+              "target_scope": "Island",
+              "temporary": false,
+              "uncertainty": []
+            }
+          ],
+          "compared_modes": [
+            "svars.DBDestroy",
+            "svars.DBChangeZone"
+          ],
+          "compared_role": "removal",
+          "conditions": [],
+          "current_card": "Scion of Calamity",
+          "current_cost": {
+            "activation_mana_expression": null,
+            "cast_mana_expression": "{3}{G}{G}",
+            "comparison_value": 5.0,
+            "effect_access_comparison": 5.0,
+            "nonmana_payments": [],
+            "optional_conditions": [],
+            "printed_mana_value": 5.0,
+            "provenance": [
+              "structured"
+            ],
+            "selected_abilities": [
+              "svars.TrigDestroy"
+            ],
+            "selected_ability": null,
+            "selected_payments": [],
+            "supported_parts": [
+              "{3}",
+              "{G}",
+              "{G}"
+            ],
+            "unknown_parts": []
+          },
+          "current_faces": [],
+          "current_oracle_text": "Myriad (Whenever this creature attacks, for each opponent other than defending player, you may create a token copy that's tapped and attacking that player or a planeswalker they control. Exile the tokens at end of combat.)\nWhenever this creature deals combat damage to a player, destroy target artifact or enchantment that player controls.",
+          "current_role_evidence": [
+            {
+              "ability_id": "svars.TrigDestroy",
+              "activation_mana": null,
+              "beneficiary": null,
+              "benefit": null,
+              "chooser": "caster",
+              "drawback": null,
+              "effect": "Destroy",
+              "filtering": null,
+              "mana_output": null,
+              "mode_count": null,
+              "net_mana": null,
+              "prerequisites": [],
+              "provenance": [
+                "role-evidence-v1"
+              ],
+              "quantity": null,
+              "repeatable": true,
+              "role": "removal",
+              "secondary_functions": [],
+              "source": "parsed",
+              "source_zone": null,
+              "speed": "triggered",
+              "supported": true,
+              "symmetric": false,
+              "target_scope": "Artifact.ControlledBy TriggeredTarget,Enchantment.ControlledBy TriggeredTarget",
+              "temporary": false,
+              "uncertainty": []
+            }
+          ],
+          "gained_roles": [],
+          "lost_roles": [],
+          "rank_components": [
+            [
+              "supported_role_match",
+              false
+            ],
+            [
+              "known_constraints",
+              false
+            ],
+            [
+              "candidate_cost",
+              1.0
+            ],
+            [
+              "name",
+              "active volcano"
+            ]
+          ],
+          "status": "review required",
+          "unknowns": [
+            "role scope, speed, quantity, or mode is not preserved"
+          ]
+        },
+        {
+          "candidate_card": "Crush",
+          "candidate_cost": {
+            "activation_mana_expression": null,
+            "cast_mana_expression": "{R}",
+            "comparison_value": 1.0,
+            "effect_access_comparison": 1.0,
+            "nonmana_payments": [],
+            "optional_conditions": [],
+            "printed_mana_value": 1.0,
+            "provenance": [
+              "structured"
+            ],
+            "selected_abilities": [
+              "abilities[0]"
+            ],
+            "selected_ability": null,
+            "selected_payments": [],
+            "supported_parts": [
+              "{R}"
+            ],
+            "unknown_parts": []
+          },
+          "candidate_faces": [],
+          "candidate_oracle_text": "Destroy target noncreature artifact.",
+          "candidate_role_evidence": [
+            {
+              "ability_id": "abilities[0]",
+              "activation_mana": null,
+              "beneficiary": null,
+              "benefit": null,
+              "chooser": "caster",
+              "drawback": null,
+              "effect": "Destroy",
+              "filtering": null,
+              "mana_output": null,
+              "mode_count": null,
+              "net_mana": null,
+              "prerequisites": [],
+              "provenance": [
+                "role-evidence-v1"
+              ],
+              "quantity": null,
+              "repeatable": false,
+              "role": "removal",
+              "secondary_functions": [],
+              "source": "parsed",
+              "source_zone": null,
+              "speed": "instant",
+              "supported": true,
+              "symmetric": false,
+              "target_scope": "Artifact.nonCreature",
+              "temporary": false,
+              "uncertainty": []
+            }
+          ],
+          "compared_modes": [
+            "abilities[0]"
+          ],
+          "compared_role": "removal",
+          "conditions": [],
+          "current_card": "Scion of Calamity",
+          "current_cost": {
+            "activation_mana_expression": null,
+            "cast_mana_expression": "{3}{G}{G}",
+            "comparison_value": 5.0,
+            "effect_access_comparison": 5.0,
+            "nonmana_payments": [],
+            "optional_conditions": [],
+            "printed_mana_value": 5.0,
+            "provenance": [
+              "structured"
+            ],
+            "selected_abilities": [
+              "svars.TrigDestroy"
+            ],
+            "selected_ability": null,
+            "selected_payments": [],
+            "supported_parts": [
+              "{3}",
+              "{G}",
+              "{G}"
+            ],
+            "unknown_parts": []
+          },
+          "current_faces": [],
+          "current_oracle_text": "Myriad (Whenever this creature attacks, for each opponent other than defending player, you may create a token copy that's tapped and attacking that player or a planeswalker they control. Exile the tokens at end of combat.)\nWhenever this creature deals combat damage to a player, destroy target artifact or enchantment that player controls.",
+          "current_role_evidence": [
+            {
+              "ability_id": "svars.TrigDestroy",
+              "activation_mana": null,
+              "beneficiary": null,
+              "benefit": null,
+              "chooser": "caster",
+              "drawback": null,
+              "effect": "Destroy",
+              "filtering": null,
+              "mana_output": null,
+              "mode_count": null,
+              "net_mana": null,
+              "prerequisites": [],
+              "provenance": [
+                "role-evidence-v1"
+              ],
+              "quantity": null,
+              "repeatable": true,
+              "role": "removal",
+              "secondary_functions": [],
+              "source": "parsed",
+              "source_zone": null,
+              "speed": "triggered",
+              "supported": true,
+              "symmetric": false,
+              "target_scope": "Artifact.ControlledBy TriggeredTarget,Enchantment.ControlledBy TriggeredTarget",
+              "temporary": false,
+              "uncertainty": []
+            }
+          ],
+          "gained_roles": [],
+          "lost_roles": [],
+          "rank_components": [
+            [
+              "supported_role_match",
+              false
+            ],
+            [
+              "known_constraints",
+              false
+            ],
+            [
+              "candidate_cost",
+              1.0
+            ],
+            [
+              "name",
+              "crush"
+            ]
+          ],
+          "status": "review required",
+          "unknowns": [
+            "role scope, speed, quantity, or mode is not preserved"
+          ]
+        },
+        {
+          "candidate_card": "Deface",
+          "candidate_cost": {
+            "activation_mana_expression": null,
+            "cast_mana_expression": "{R}",
+            "comparison_value": 1.0,
+            "effect_access_comparison": 1.0,
+            "nonmana_payments": [],
+            "optional_conditions": [],
+            "printed_mana_value": 1.0,
+            "provenance": [
+              "structured"
+            ],
+            "selected_abilities": [
+              "svars.DBDestroy",
+              "svars.DBDestroy2"
+            ],
+            "selected_ability": null,
+            "selected_payments": [],
+            "supported_parts": [
+              "{R}"
+            ],
+            "unknown_parts": []
+          },
+          "candidate_faces": [],
+          "candidate_oracle_text": "Choose one \u2014\n\u2022 Destroy target artifact.\n\u2022 Destroy target creature with defender.",
+          "candidate_role_evidence": [
+            {
+              "ability_id": "svars.DBDestroy",
+              "activation_mana": null,
+              "beneficiary": null,
+              "benefit": null,
+              "chooser": "caster",
+              "drawback": null,
+              "effect": "Destroy",
+              "filtering": null,
+              "mana_output": null,
+              "mode_count": 2,
+              "net_mana": null,
+              "prerequisites": [],
+              "provenance": [
+                "role-evidence-v1"
+              ],
+              "quantity": null,
+              "repeatable": false,
+              "role": "removal",
+              "secondary_functions": [
+                "Charm"
+              ],
+              "source": "parsed",
+              "source_zone": null,
+              "speed": "sorcery",
+              "supported": true,
+              "symmetric": false,
+              "target_scope": "Artifact",
+              "temporary": false,
+              "uncertainty": []
+            },
+            {
+              "ability_id": "svars.DBDestroy2",
+              "activation_mana": null,
+              "beneficiary": null,
+              "benefit": null,
+              "chooser": "caster",
+              "drawback": null,
+              "effect": "Destroy",
+              "filtering": null,
+              "mana_output": null,
+              "mode_count": 2,
+              "net_mana": null,
+              "prerequisites": [],
+              "provenance": [
+                "role-evidence-v1"
+              ],
+              "quantity": null,
+              "repeatable": false,
+              "role": "removal",
+              "secondary_functions": [
+                "Charm"
+              ],
+              "source": "parsed",
+              "source_zone": null,
+              "speed": "sorcery",
+              "supported": true,
+              "symmetric": false,
+              "target_scope": "Creature.withDefender",
+              "temporary": false,
+              "uncertainty": []
+            }
+          ],
+          "compared_modes": [
+            "svars.DBDestroy",
+            "svars.DBDestroy2"
+          ],
+          "compared_role": "removal",
+          "conditions": [],
+          "current_card": "Scion of Calamity",
+          "current_cost": {
+            "activation_mana_expression": null,
+            "cast_mana_expression": "{3}{G}{G}",
+            "comparison_value": 5.0,
+            "effect_access_comparison": 5.0,
+            "nonmana_payments": [],
+            "optional_conditions": [],
+            "printed_mana_value": 5.0,
+            "provenance": [
+              "structured"
+            ],
+            "selected_abilities": [
+              "svars.TrigDestroy"
+            ],
+            "selected_ability": null,
+            "selected_payments": [],
+            "supported_parts": [
+              "{3}",
+              "{G}",
+              "{G}"
+            ],
+            "unknown_parts": []
+          },
+          "current_faces": [],
+          "current_oracle_text": "Myriad (Whenever this creature attacks, for each opponent other than defending player, you may create a token copy that's tapped and attacking that player or a planeswalker they control. Exile the tokens at end of combat.)\nWhenever this creature deals combat damage to a player, destroy target artifact or enchantment that player controls.",
+          "current_role_evidence": [
+            {
+              "ability_id": "svars.TrigDestroy",
+              "activation_mana": null,
+              "beneficiary": null,
+              "benefit": null,
+              "chooser": "caster",
+              "drawback": null,
+              "effect": "Destroy",
+              "filtering": null,
+              "mana_output": null,
+              "mode_count": null,
+              "net_mana": null,
+              "prerequisites": [],
+              "provenance": [
+                "role-evidence-v1"
+              ],
+              "quantity": null,
+              "repeatable": true,
+              "role": "removal",
+              "secondary_functions": [],
+              "source": "parsed",
+              "source_zone": null,
+              "speed": "triggered",
+              "supported": true,
+              "symmetric": false,
+              "target_scope": "Artifact.ControlledBy TriggeredTarget,Enchantment.ControlledBy TriggeredTarget",
+              "temporary": false,
+              "uncertainty": []
+            }
+          ],
+          "gained_roles": [],
+          "lost_roles": [],
+          "rank_components": [
+            [
+              "supported_role_match",
+              false
+            ],
+            [
+              "known_constraints",
+              false
+            ],
+            [
+              "candidate_cost",
+              1.0
+            ],
+            [
+              "name",
+              "deface"
+            ]
+          ],
+          "status": "review required",
+          "unknowns": [
+            "role scope, speed, quantity, or mode is not preserved"
+          ]
+        },
+        {
+          "candidate_card": "Vandalblast",
+          "candidate_cost": {
+            "activation_mana_expression": null,
+            "cast_mana_expression": "{R}",
+            "comparison_value": 1.0,
+            "effect_access_comparison": 1.0,
+            "nonmana_payments": [],
+            "optional_conditions": [],
+            "printed_mana_value": 1.0,
+            "provenance": [
+              "structured"
+            ],
+            "selected_abilities": [
+              "abilities[0]"
+            ],
+            "selected_ability": null,
+            "selected_payments": [],
+            "supported_parts": [
+              "{R}"
+            ],
+            "unknown_parts": []
+          },
+          "candidate_faces": [],
+          "candidate_oracle_text": "Destroy target artifact you don't control.\nOverload {4}{R} (You may cast this spell for its overload cost. If you do, change \"target\" in its text to \"each.\")",
+          "candidate_role_evidence": [
+            {
+              "ability_id": "abilities[0]",
+              "activation_mana": null,
+              "beneficiary": null,
+              "benefit": null,
+              "chooser": "caster",
+              "drawback": null,
+              "effect": "Destroy",
+              "filtering": null,
+              "mana_output": null,
+              "mode_count": null,
+              "net_mana": null,
+              "prerequisites": [],
+              "provenance": [
+                "role-evidence-v1"
+              ],
+              "quantity": null,
+              "repeatable": false,
+              "role": "removal",
+              "secondary_functions": [],
+              "source": "parsed",
+              "source_zone": null,
+              "speed": "sorcery",
+              "supported": true,
+              "symmetric": false,
+              "target_scope": "Artifact.YouDontCtrl",
+              "temporary": false,
+              "uncertainty": []
+            }
+          ],
+          "compared_modes": [
+            "abilities[0]"
+          ],
+          "compared_role": "removal",
+          "conditions": [],
+          "current_card": "Scion of Calamity",
+          "current_cost": {
+            "activation_mana_expression": null,
+            "cast_mana_expression": "{3}{G}{G}",
+            "comparison_value": 5.0,
+            "effect_access_comparison": 5.0,
+            "nonmana_payments": [],
+            "optional_conditions": [],
+            "printed_mana_value": 5.0,
+            "provenance": [
+              "structured"
+            ],
+            "selected_abilities": [
+              "svars.TrigDestroy"
+            ],
+            "selected_ability": null,
+            "selected_payments": [],
+            "supported_parts": [
+              "{3}",
+              "{G}",
+              "{G}"
+            ],
+            "unknown_parts": []
+          },
+          "current_faces": [],
+          "current_oracle_text": "Myriad (Whenever this creature attacks, for each opponent other than defending player, you may create a token copy that's tapped and attacking that player or a planeswalker they control. Exile the tokens at end of combat.)\nWhenever this creature deals combat damage to a player, destroy target artifact or enchantment that player controls.",
+          "current_role_evidence": [
+            {
+              "ability_id": "svars.TrigDestroy",
+              "activation_mana": null,
+              "beneficiary": null,
+              "benefit": null,
+              "chooser": "caster",
+              "drawback": null,
+              "effect": "Destroy",
+              "filtering": null,
+              "mana_output": null,
+              "mode_count": null,
+              "net_mana": null,
+              "prerequisites": [],
+              "provenance": [
+                "role-evidence-v1"
+              ],
+              "quantity": null,
+              "repeatable": true,
+              "role": "removal",
+              "secondary_functions": [],
+              "source": "parsed",
+              "source_zone": null,
+              "speed": "triggered",
+              "supported": true,
+              "symmetric": false,
+              "target_scope": "Artifact.ControlledBy TriggeredTarget,Enchantment.ControlledBy TriggeredTarget",
+              "temporary": false,
+              "uncertainty": []
+            }
+          ],
+          "gained_roles": [],
+          "lost_roles": [],
+          "rank_components": [
+            [
+              "supported_role_match",
+              false
+            ],
+            [
+              "known_constraints",
+              false
+            ],
+            [
+              "candidate_cost",
+              1.0
+            ],
+            [
+              "name",
+              "vandalblast"
+            ]
+          ],
+          "status": "review required",
+          "unknowns": [
+            "role scope, speed, quantity, or mode is not preserved"
+          ]
+        },
+        {
+          "candidate_card": "Active Volcano",
+          "candidate_cost": {
+            "activation_mana_expression": null,
+            "cast_mana_expression": "{R}",
+            "comparison_value": 1.0,
+            "effect_access_comparison": 1.0,
+            "nonmana_payments": [],
+            "optional_conditions": [],
+            "printed_mana_value": 1.0,
+            "provenance": [
+              "structured"
+            ],
+            "selected_abilities": [
+              "svars.DBDestroy",
+              "svars.DBChangeZone"
+            ],
+            "selected_ability": null,
+            "selected_payments": [],
+            "supported_parts": [
+              "{R}"
+            ],
+            "unknown_parts": []
+          },
+          "candidate_faces": [],
+          "candidate_oracle_text": "Choose one \u2014\n\u2022 Destroy target blue permanent.\n\u2022 Return target Island to its owner's hand.",
+          "candidate_role_evidence": [
+            {
+              "ability_id": "svars.DBDestroy",
+              "activation_mana": null,
+              "beneficiary": null,
+              "benefit": null,
+              "chooser": "caster",
+              "drawback": null,
+              "effect": "Destroy",
+              "filtering": null,
+              "mana_output": null,
+              "mode_count": 2,
+              "net_mana": null,
+              "prerequisites": [],
+              "provenance": [
+                "role-evidence-v1"
+              ],
+              "quantity": null,
+              "repeatable": false,
+              "role": "removal",
+              "secondary_functions": [
+                "Charm",
+                "ChangeZone"
+              ],
+              "source": "parsed",
+              "source_zone": null,
+              "speed": "instant",
+              "supported": true,
+              "symmetric": false,
+              "target_scope": "Permanent.Blue",
+              "temporary": false,
+              "uncertainty": []
+            },
+            {
+              "ability_id": "svars.DBChangeZone",
+              "activation_mana": null,
+              "beneficiary": null,
+              "benefit": null,
+              "chooser": null,
+              "drawback": null,
+              "effect": "ChangeZone",
+              "filtering": null,
+              "mana_output": null,
+              "mode_count": 2,
+              "net_mana": null,
+              "prerequisites": [],
+              "provenance": [
+                "role-evidence-v1"
+              ],
+              "quantity": null,
+              "repeatable": false,
+              "role": "removal",
+              "secondary_functions": [
+                "Charm",
+                "Destroy"
+              ],
+              "source": "parsed",
+              "source_zone": "Battlefield",
+              "speed": "instant",
+              "supported": true,
+              "symmetric": false,
+              "target_scope": "Island",
+              "temporary": false,
+              "uncertainty": []
+            }
+          ],
+          "compared_modes": [
+            "svars.DBDestroy",
+            "svars.DBChangeZone"
+          ],
+          "compared_role": "removal",
+          "conditions": [],
+          "current_card": "Welcome to . . . // Jurassic Park",
+          "current_cost": {
+            "activation_mana_expression": null,
+            "cast_mana_expression": "{1}{G}{G} // ",
+            "comparison_value": null,
+            "effect_access_comparison": null,
+            "nonmana_payments": [],
+            "optional_conditions": [],
+            "printed_mana_value": 3.0,
+            "provenance": [
+              "structured"
+            ],
+            "selected_abilities": [],
+            "selected_ability": null,
+            "selected_payments": [],
+            "supported_parts": [
+              "{1}",
+              "{G}",
+              "{G}"
+            ],
+            "unknown_parts": [
+              "//"
+            ]
+          },
+          "current_faces": [
+            {
+              "face_index": 0,
+              "mana_cost": "{1}{G}{G}",
+              "oracle_text": "(As this Saga enters and after your draw step, add a lore counter.)\nI \u2014 For each opponent, up to one target noncreature artifact they control becomes a 0/4 Wall artifact creature with defender for as long as you control this Saga.\nII \u2014 Create a 3/3 green Dinosaur creature token with trample. It gains haste until end of turn.\nIII \u2014 Destroy all Walls. Exile this Saga, then return it to the battlefield transformed under your control.",
+              "power": null,
+              "toughness": null,
+              "type_line": "Enchantment \u2014 Saga"
+            },
+            {
+              "face_index": 1,
+              "mana_cost": "",
+              "oracle_text": "(Transforms from Welcome to ....)\nEach Dinosaur card in your graveyard has escape. The escape cost is equal to the card's mana cost plus exile three other cards from your graveyard. (You may cast cards from your graveyard for their escape cost.)\n{T}: Add {G} for each Dinosaur you control.",
+              "power": null,
+              "toughness": null,
+              "type_line": "Legendary Land"
+            }
+          ],
+          "current_oracle_text": "(As this Saga enters and after your draw step, add a lore counter.)\nI \u2014 For each opponent, up to one target noncreature artifact they control becomes a 0/4 Wall artifact creature with defender for as long as you control this Saga.\nII \u2014 Create a 3/3 green Dinosaur creature token with trample. It gains haste until end of turn.\nIII \u2014 Destroy all Walls. Exile this Saga, then return it to the battlefield transformed under your control.\n//\n(Transforms from Welcome to ....)\nEach Dinosaur card in your graveyard has escape. The escape cost is equal to the card's mana cost plus exile three other cards from your graveyard. (You may cast cards from your graveyard for their escape cost.)\n{T}: Add {G} for each Dinosaur you control.",
+          "current_role_evidence": [],
+          "gained_roles": [
+            "removal"
+          ],
+          "lost_roles": [],
+          "rank_components": [
+            [
+              "supported_role_match",
+              false
+            ],
+            [
+              "known_constraints",
+              false
+            ],
+            [
+              "candidate_cost",
+              1.0
+            ],
+            [
+              "name",
+              "active volcano"
+            ]
+          ],
+          "status": "review required",
+          "unknowns": [
+            "current role evidence unsupported",
+            "current cost incomparable"
+          ]
+        },
+        {
+          "candidate_card": "Blazing Hope",
+          "candidate_cost": {
+            "activation_mana_expression": null,
+            "cast_mana_expression": "{W}",
+            "comparison_value": 1.0,
+            "effect_access_comparison": 1.0,
+            "nonmana_payments": [],
+            "optional_conditions": [],
+            "printed_mana_value": 1.0,
+            "provenance": [
+              "structured"
+            ],
+            "selected_abilities": [
+              "abilities[0]"
+            ],
+            "selected_ability": null,
+            "selected_payments": [],
+            "supported_parts": [
+              "{W}"
+            ],
+            "unknown_parts": []
+          },
+          "candidate_faces": [],
+          "candidate_oracle_text": "Exile target creature with power greater than or equal to your life total.",
+          "candidate_role_evidence": [
+            {
+              "ability_id": "abilities[0]",
+              "activation_mana": null,
+              "beneficiary": null,
+              "benefit": null,
+              "chooser": "caster",
+              "drawback": null,
+              "effect": "ChangeZone",
+              "filtering": null,
+              "mana_output": null,
+              "mode_count": null,
+              "net_mana": null,
+              "prerequisites": [],
+              "provenance": [
+                "role-evidence-v1"
+              ],
+              "quantity": null,
+              "repeatable": false,
+              "role": "removal",
+              "secondary_functions": [],
+              "source": "parsed",
+              "source_zone": "Battlefield",
+              "speed": "instant",
+              "supported": true,
+              "symmetric": false,
+              "target_scope": "Creature.powerGEX",
+              "temporary": false,
+              "uncertainty": []
+            }
+          ],
+          "compared_modes": [
+            "abilities[0]"
+          ],
+          "compared_role": "removal",
+          "conditions": [],
+          "current_card": "Welcome to . . . // Jurassic Park",
+          "current_cost": {
+            "activation_mana_expression": null,
+            "cast_mana_expression": "{1}{G}{G} // ",
+            "comparison_value": null,
+            "effect_access_comparison": null,
+            "nonmana_payments": [],
+            "optional_conditions": [],
+            "printed_mana_value": 3.0,
+            "provenance": [
+              "structured"
+            ],
+            "selected_abilities": [],
+            "selected_ability": null,
+            "selected_payments": [],
+            "supported_parts": [
+              "{1}",
+              "{G}",
+              "{G}"
+            ],
+            "unknown_parts": [
+              "//"
+            ]
+          },
+          "current_faces": [
+            {
+              "face_index": 0,
+              "mana_cost": "{1}{G}{G}",
+              "oracle_text": "(As this Saga enters and after your draw step, add a lore counter.)\nI \u2014 For each opponent, up to one target noncreature artifact they control becomes a 0/4 Wall artifact creature with defender for as long as you control this Saga.\nII \u2014 Create a 3/3 green Dinosaur creature token with trample. It gains haste until end of turn.\nIII \u2014 Destroy all Walls. Exile this Saga, then return it to the battlefield transformed under your control.",
+              "power": null,
+              "toughness": null,
+              "type_line": "Enchantment \u2014 Saga"
+            },
+            {
+              "face_index": 1,
+              "mana_cost": "",
+              "oracle_text": "(Transforms from Welcome to ....)\nEach Dinosaur card in your graveyard has escape. The escape cost is equal to the card's mana cost plus exile three other cards from your graveyard. (You may cast cards from your graveyard for their escape cost.)\n{T}: Add {G} for each Dinosaur you control.",
+              "power": null,
+              "toughness": null,
+              "type_line": "Legendary Land"
+            }
+          ],
+          "current_oracle_text": "(As this Saga enters and after your draw step, add a lore counter.)\nI \u2014 For each opponent, up to one target noncreature artifact they control becomes a 0/4 Wall artifact creature with defender for as long as you control this Saga.\nII \u2014 Create a 3/3 green Dinosaur creature token with trample. It gains haste until end of turn.\nIII \u2014 Destroy all Walls. Exile this Saga, then return it to the battlefield transformed under your control.\n//\n(Transforms from Welcome to ....)\nEach Dinosaur card in your graveyard has escape. The escape cost is equal to the card's mana cost plus exile three other cards from your graveyard. (You may cast cards from your graveyard for their escape cost.)\n{T}: Add {G} for each Dinosaur you control.",
+          "current_role_evidence": [],
+          "gained_roles": [
+            "removal"
+          ],
+          "lost_roles": [],
+          "rank_components": [
+            [
+              "supported_role_match",
+              false
+            ],
+            [
+              "known_constraints",
+              false
+            ],
+            [
+              "candidate_cost",
+              1.0
+            ],
+            [
+              "name",
+              "blazing hope"
+            ]
+          ],
+          "status": "review required",
+          "unknowns": [
+            "current role evidence unsupported",
+            "current cost incomparable"
+          ]
+        },
+        {
+          "candidate_card": "Crush",
+          "candidate_cost": {
+            "activation_mana_expression": null,
+            "cast_mana_expression": "{R}",
+            "comparison_value": 1.0,
+            "effect_access_comparison": 1.0,
+            "nonmana_payments": [],
+            "optional_conditions": [],
+            "printed_mana_value": 1.0,
+            "provenance": [
+              "structured"
+            ],
+            "selected_abilities": [
+              "abilities[0]"
+            ],
+            "selected_ability": null,
+            "selected_payments": [],
+            "supported_parts": [
+              "{R}"
+            ],
+            "unknown_parts": []
+          },
+          "candidate_faces": [],
+          "candidate_oracle_text": "Destroy target noncreature artifact.",
+          "candidate_role_evidence": [
+            {
+              "ability_id": "abilities[0]",
+              "activation_mana": null,
+              "beneficiary": null,
+              "benefit": null,
+              "chooser": "caster",
+              "drawback": null,
+              "effect": "Destroy",
+              "filtering": null,
+              "mana_output": null,
+              "mode_count": null,
+              "net_mana": null,
+              "prerequisites": [],
+              "provenance": [
+                "role-evidence-v1"
+              ],
+              "quantity": null,
+              "repeatable": false,
+              "role": "removal",
+              "secondary_functions": [],
+              "source": "parsed",
+              "source_zone": null,
+              "speed": "instant",
+              "supported": true,
+              "symmetric": false,
+              "target_scope": "Artifact.nonCreature",
+              "temporary": false,
+              "uncertainty": []
+            }
+          ],
+          "compared_modes": [
+            "abilities[0]"
+          ],
+          "compared_role": "removal",
+          "conditions": [],
+          "current_card": "Welcome to . . . // Jurassic Park",
+          "current_cost": {
+            "activation_mana_expression": null,
+            "cast_mana_expression": "{1}{G}{G} // ",
+            "comparison_value": null,
+            "effect_access_comparison": null,
+            "nonmana_payments": [],
+            "optional_conditions": [],
+            "printed_mana_value": 3.0,
+            "provenance": [
+              "structured"
+            ],
+            "selected_abilities": [],
+            "selected_ability": null,
+            "selected_payments": [],
+            "supported_parts": [
+              "{1}",
+              "{G}",
+              "{G}"
+            ],
+            "unknown_parts": [
+              "//"
+            ]
+          },
+          "current_faces": [
+            {
+              "face_index": 0,
+              "mana_cost": "{1}{G}{G}",
+              "oracle_text": "(As this Saga enters and after your draw step, add a lore counter.)\nI \u2014 For each opponent, up to one target noncreature artifact they control becomes a 0/4 Wall artifact creature with defender for as long as you control this Saga.\nII \u2014 Create a 3/3 green Dinosaur creature token with trample. It gains haste until end of turn.\nIII \u2014 Destroy all Walls. Exile this Saga, then return it to the battlefield transformed under your control.",
+              "power": null,
+              "toughness": null,
+              "type_line": "Enchantment \u2014 Saga"
+            },
+            {
+              "face_index": 1,
+              "mana_cost": "",
+              "oracle_text": "(Transforms from Welcome to ....)\nEach Dinosaur card in your graveyard has escape. The escape cost is equal to the card's mana cost plus exile three other cards from your graveyard. (You may cast cards from your graveyard for their escape cost.)\n{T}: Add {G} for each Dinosaur you control.",
+              "power": null,
+              "toughness": null,
+              "type_line": "Legendary Land"
+            }
+          ],
+          "current_oracle_text": "(As this Saga enters and after your draw step, add a lore counter.)\nI \u2014 For each opponent, up to one target noncreature artifact they control becomes a 0/4 Wall artifact creature with defender for as long as you control this Saga.\nII \u2014 Create a 3/3 green Dinosaur creature token with trample. It gains haste until end of turn.\nIII \u2014 Destroy all Walls. Exile this Saga, then return it to the battlefield transformed under your control.\n//\n(Transforms from Welcome to ....)\nEach Dinosaur card in your graveyard has escape. The escape cost is equal to the card's mana cost plus exile three other cards from your graveyard. (You may cast cards from your graveyard for their escape cost.)\n{T}: Add {G} for each Dinosaur you control.",
+          "current_role_evidence": [],
+          "gained_roles": [
+            "removal"
+          ],
+          "lost_roles": [],
+          "rank_components": [
+            [
+              "supported_role_match",
+              false
+            ],
+            [
+              "known_constraints",
+              false
+            ],
+            [
+              "candidate_cost",
+              1.0
+            ],
+            [
+              "name",
+              "crush"
+            ]
+          ],
+          "status": "review required",
+          "unknowns": [
+            "current role evidence unsupported",
+            "current cost incomparable"
+          ]
+        },
+        {
+          "candidate_card": "Deface",
+          "candidate_cost": {
+            "activation_mana_expression": null,
+            "cast_mana_expression": "{R}",
+            "comparison_value": 1.0,
+            "effect_access_comparison": 1.0,
+            "nonmana_payments": [],
+            "optional_conditions": [],
+            "printed_mana_value": 1.0,
+            "provenance": [
+              "structured"
+            ],
+            "selected_abilities": [
+              "svars.DBDestroy",
+              "svars.DBDestroy2"
+            ],
+            "selected_ability": null,
+            "selected_payments": [],
+            "supported_parts": [
+              "{R}"
+            ],
+            "unknown_parts": []
+          },
+          "candidate_faces": [],
+          "candidate_oracle_text": "Choose one \u2014\n\u2022 Destroy target artifact.\n\u2022 Destroy target creature with defender.",
+          "candidate_role_evidence": [
+            {
+              "ability_id": "svars.DBDestroy",
+              "activation_mana": null,
+              "beneficiary": null,
+              "benefit": null,
+              "chooser": "caster",
+              "drawback": null,
+              "effect": "Destroy",
+              "filtering": null,
+              "mana_output": null,
+              "mode_count": 2,
+              "net_mana": null,
+              "prerequisites": [],
+              "provenance": [
+                "role-evidence-v1"
+              ],
+              "quantity": null,
+              "repeatable": false,
+              "role": "removal",
+              "secondary_functions": [
+                "Charm"
+              ],
+              "source": "parsed",
+              "source_zone": null,
+              "speed": "sorcery",
+              "supported": true,
+              "symmetric": false,
+              "target_scope": "Artifact",
+              "temporary": false,
+              "uncertainty": []
+            },
+            {
+              "ability_id": "svars.DBDestroy2",
+              "activation_mana": null,
+              "beneficiary": null,
+              "benefit": null,
+              "chooser": "caster",
+              "drawback": null,
+              "effect": "Destroy",
+              "filtering": null,
+              "mana_output": null,
+              "mode_count": 2,
+              "net_mana": null,
+              "prerequisites": [],
+              "provenance": [
+                "role-evidence-v1"
+              ],
+              "quantity": null,
+              "repeatable": false,
+              "role": "removal",
+              "secondary_functions": [
+                "Charm"
+              ],
+              "source": "parsed",
+              "source_zone": null,
+              "speed": "sorcery",
+              "supported": true,
+              "symmetric": false,
+              "target_scope": "Creature.withDefender",
+              "temporary": false,
+              "uncertainty": []
+            }
+          ],
+          "compared_modes": [
+            "svars.DBDestroy",
+            "svars.DBDestroy2"
+          ],
+          "compared_role": "removal",
+          "conditions": [],
+          "current_card": "Welcome to . . . // Jurassic Park",
+          "current_cost": {
+            "activation_mana_expression": null,
+            "cast_mana_expression": "{1}{G}{G} // ",
+            "comparison_value": null,
+            "effect_access_comparison": null,
+            "nonmana_payments": [],
+            "optional_conditions": [],
+            "printed_mana_value": 3.0,
+            "provenance": [
+              "structured"
+            ],
+            "selected_abilities": [],
+            "selected_ability": null,
+            "selected_payments": [],
+            "supported_parts": [
+              "{1}",
+              "{G}",
+              "{G}"
+            ],
+            "unknown_parts": [
+              "//"
+            ]
+          },
+          "current_faces": [
+            {
+              "face_index": 0,
+              "mana_cost": "{1}{G}{G}",
+              "oracle_text": "(As this Saga enters and after your draw step, add a lore counter.)\nI \u2014 For each opponent, up to one target noncreature artifact they control becomes a 0/4 Wall artifact creature with defender for as long as you control this Saga.\nII \u2014 Create a 3/3 green Dinosaur creature token with trample. It gains haste until end of turn.\nIII \u2014 Destroy all Walls. Exile this Saga, then return it to the battlefield transformed under your control.",
+              "power": null,
+              "toughness": null,
+              "type_line": "Enchantment \u2014 Saga"
+            },
+            {
+              "face_index": 1,
+              "mana_cost": "",
+              "oracle_text": "(Transforms from Welcome to ....)\nEach Dinosaur card in your graveyard has escape. The escape cost is equal to the card's mana cost plus exile three other cards from your graveyard. (You may cast cards from your graveyard for their escape cost.)\n{T}: Add {G} for each Dinosaur you control.",
+              "power": null,
+              "toughness": null,
+              "type_line": "Legendary Land"
+            }
+          ],
+          "current_oracle_text": "(As this Saga enters and after your draw step, add a lore counter.)\nI \u2014 For each opponent, up to one target noncreature artifact they control becomes a 0/4 Wall artifact creature with defender for as long as you control this Saga.\nII \u2014 Create a 3/3 green Dinosaur creature token with trample. It gains haste until end of turn.\nIII \u2014 Destroy all Walls. Exile this Saga, then return it to the battlefield transformed under your control.\n//\n(Transforms from Welcome to ....)\nEach Dinosaur card in your graveyard has escape. The escape cost is equal to the card's mana cost plus exile three other cards from your graveyard. (You may cast cards from your graveyard for their escape cost.)\n{T}: Add {G} for each Dinosaur you control.",
+          "current_role_evidence": [],
+          "gained_roles": [
+            "removal"
+          ],
+          "lost_roles": [],
+          "rank_components": [
+            [
+              "supported_role_match",
+              false
+            ],
+            [
+              "known_constraints",
+              false
+            ],
+            [
+              "candidate_cost",
+              1.0
+            ],
+            [
+              "name",
+              "deface"
+            ]
+          ],
+          "status": "review required",
+          "unknowns": [
+            "current role evidence unsupported",
+            "current cost incomparable"
+          ]
+        },
+        {
+          "candidate_card": "Swords to Plowshares",
+          "candidate_cost": {
+            "activation_mana_expression": null,
+            "cast_mana_expression": "{W}",
+            "comparison_value": 1.0,
+            "effect_access_comparison": 1.0,
+            "nonmana_payments": [],
+            "optional_conditions": [],
+            "printed_mana_value": 1.0,
+            "provenance": [
+              "structured"
+            ],
+            "selected_abilities": [
+              "abilities[0]"
+            ],
+            "selected_ability": null,
+            "selected_payments": [],
+            "supported_parts": [
+              "{W}"
+            ],
+            "unknown_parts": []
+          },
+          "candidate_faces": [],
+          "candidate_oracle_text": "Exile target creature. Its controller gains life equal to its power.",
+          "candidate_role_evidence": [
+            {
+              "ability_id": "abilities[0]",
+              "activation_mana": null,
+              "beneficiary": null,
+              "benefit": null,
+              "chooser": "caster",
+              "drawback": null,
+              "effect": "ChangeZone",
+              "filtering": null,
+              "mana_output": null,
+              "mode_count": null,
+              "net_mana": null,
+              "prerequisites": [],
+              "provenance": [
+                "role-evidence-v1"
+              ],
+              "quantity": null,
+              "repeatable": false,
+              "role": "removal",
+              "secondary_functions": [
+                "GainLife"
+              ],
+              "source": "parsed",
+              "source_zone": "Battlefield",
+              "speed": "instant",
+              "supported": true,
+              "symmetric": false,
+              "target_scope": "Creature",
+              "temporary": false,
+              "uncertainty": []
+            }
+          ],
+          "compared_modes": [
+            "abilities[0]"
+          ],
+          "compared_role": "removal",
+          "conditions": [],
+          "current_card": "Welcome to . . . // Jurassic Park",
+          "current_cost": {
+            "activation_mana_expression": null,
+            "cast_mana_expression": "{1}{G}{G} // ",
+            "comparison_value": null,
+            "effect_access_comparison": null,
+            "nonmana_payments": [],
+            "optional_conditions": [],
+            "printed_mana_value": 3.0,
+            "provenance": [
+              "structured"
+            ],
+            "selected_abilities": [],
+            "selected_ability": null,
+            "selected_payments": [],
+            "supported_parts": [
+              "{1}",
+              "{G}",
+              "{G}"
+            ],
+            "unknown_parts": [
+              "//"
+            ]
+          },
+          "current_faces": [
+            {
+              "face_index": 0,
+              "mana_cost": "{1}{G}{G}",
+              "oracle_text": "(As this Saga enters and after your draw step, add a lore counter.)\nI \u2014 For each opponent, up to one target noncreature artifact they control becomes a 0/4 Wall artifact creature with defender for as long as you control this Saga.\nII \u2014 Create a 3/3 green Dinosaur creature token with trample. It gains haste until end of turn.\nIII \u2014 Destroy all Walls. Exile this Saga, then return it to the battlefield transformed under your control.",
+              "power": null,
+              "toughness": null,
+              "type_line": "Enchantment \u2014 Saga"
+            },
+            {
+              "face_index": 1,
+              "mana_cost": "",
+              "oracle_text": "(Transforms from Welcome to ....)\nEach Dinosaur card in your graveyard has escape. The escape cost is equal to the card's mana cost plus exile three other cards from your graveyard. (You may cast cards from your graveyard for their escape cost.)\n{T}: Add {G} for each Dinosaur you control.",
+              "power": null,
+              "toughness": null,
+              "type_line": "Legendary Land"
+            }
+          ],
+          "current_oracle_text": "(As this Saga enters and after your draw step, add a lore counter.)\nI \u2014 For each opponent, up to one target noncreature artifact they control becomes a 0/4 Wall artifact creature with defender for as long as you control this Saga.\nII \u2014 Create a 3/3 green Dinosaur creature token with trample. It gains haste until end of turn.\nIII \u2014 Destroy all Walls. Exile this Saga, then return it to the battlefield transformed under your control.\n//\n(Transforms from Welcome to ....)\nEach Dinosaur card in your graveyard has escape. The escape cost is equal to the card's mana cost plus exile three other cards from your graveyard. (You may cast cards from your graveyard for their escape cost.)\n{T}: Add {G} for each Dinosaur you control.",
+          "current_role_evidence": [],
+          "gained_roles": [
+            "removal"
+          ],
+          "lost_roles": [],
+          "rank_components": [
+            [
+              "supported_role_match",
+              false
+            ],
+            [
+              "known_constraints",
+              false
+            ],
+            [
+              "candidate_cost",
+              1.0
+            ],
+            [
+              "name",
+              "swords to plowshares"
+            ]
+          ],
+          "status": "review required",
+          "unknowns": [
+            "current role evidence unsupported",
+            "current cost incomparable"
+          ]
+        },
+        {
+          "candidate_card": "Vandalblast",
+          "candidate_cost": {
+            "activation_mana_expression": null,
+            "cast_mana_expression": "{R}",
+            "comparison_value": 1.0,
+            "effect_access_comparison": 1.0,
+            "nonmana_payments": [],
+            "optional_conditions": [],
+            "printed_mana_value": 1.0,
+            "provenance": [
+              "structured"
+            ],
+            "selected_abilities": [
+              "abilities[0]"
+            ],
+            "selected_ability": null,
+            "selected_payments": [],
+            "supported_parts": [
+              "{R}"
+            ],
+            "unknown_parts": []
+          },
+          "candidate_faces": [],
+          "candidate_oracle_text": "Destroy target artifact you don't control.\nOverload {4}{R} (You may cast this spell for its overload cost. If you do, change \"target\" in its text to \"each.\")",
+          "candidate_role_evidence": [
+            {
+              "ability_id": "abilities[0]",
+              "activation_mana": null,
+              "beneficiary": null,
+              "benefit": null,
+              "chooser": "caster",
+              "drawback": null,
+              "effect": "Destroy",
+              "filtering": null,
+              "mana_output": null,
+              "mode_count": null,
+              "net_mana": null,
+              "prerequisites": [],
+              "provenance": [
+                "role-evidence-v1"
+              ],
+              "quantity": null,
+              "repeatable": false,
+              "role": "removal",
+              "secondary_functions": [],
+              "source": "parsed",
+              "source_zone": null,
+              "speed": "sorcery",
+              "supported": true,
+              "symmetric": false,
+              "target_scope": "Artifact.YouDontCtrl",
+              "temporary": false,
+              "uncertainty": []
+            }
+          ],
+          "compared_modes": [
+            "abilities[0]"
+          ],
+          "compared_role": "removal",
+          "conditions": [],
+          "current_card": "Welcome to . . . // Jurassic Park",
+          "current_cost": {
+            "activation_mana_expression": null,
+            "cast_mana_expression": "{1}{G}{G} // ",
+            "comparison_value": null,
+            "effect_access_comparison": null,
+            "nonmana_payments": [],
+            "optional_conditions": [],
+            "printed_mana_value": 3.0,
+            "provenance": [
+              "structured"
+            ],
+            "selected_abilities": [],
+            "selected_ability": null,
+            "selected_payments": [],
+            "supported_parts": [
+              "{1}",
+              "{G}",
+              "{G}"
+            ],
+            "unknown_parts": [
+              "//"
+            ]
+          },
+          "current_faces": [
+            {
+              "face_index": 0,
+              "mana_cost": "{1}{G}{G}",
+              "oracle_text": "(As this Saga enters and after your draw step, add a lore counter.)\nI \u2014 For each opponent, up to one target noncreature artifact they control becomes a 0/4 Wall artifact creature with defender for as long as you control this Saga.\nII \u2014 Create a 3/3 green Dinosaur creature token with trample. It gains haste until end of turn.\nIII \u2014 Destroy all Walls. Exile this Saga, then return it to the battlefield transformed under your control.",
+              "power": null,
+              "toughness": null,
+              "type_line": "Enchantment \u2014 Saga"
+            },
+            {
+              "face_index": 1,
+              "mana_cost": "",
+              "oracle_text": "(Transforms from Welcome to ....)\nEach Dinosaur card in your graveyard has escape. The escape cost is equal to the card's mana cost plus exile three other cards from your graveyard. (You may cast cards from your graveyard for their escape cost.)\n{T}: Add {G} for each Dinosaur you control.",
+              "power": null,
+              "toughness": null,
+              "type_line": "Legendary Land"
+            }
+          ],
+          "current_oracle_text": "(As this Saga enters and after your draw step, add a lore counter.)\nI \u2014 For each opponent, up to one target noncreature artifact they control becomes a 0/4 Wall artifact creature with defender for as long as you control this Saga.\nII \u2014 Create a 3/3 green Dinosaur creature token with trample. It gains haste until end of turn.\nIII \u2014 Destroy all Walls. Exile this Saga, then return it to the battlefield transformed under your control.\n//\n(Transforms from Welcome to ....)\nEach Dinosaur card in your graveyard has escape. The escape cost is equal to the card's mana cost plus exile three other cards from your graveyard. (You may cast cards from your graveyard for their escape cost.)\n{T}: Add {G} for each Dinosaur you control.",
+          "current_role_evidence": [],
+          "gained_roles": [
+            "removal"
+          ],
+          "lost_roles": [],
+          "rank_components": [
+            [
+              "supported_role_match",
+              false
+            ],
+            [
+              "known_constraints",
+              false
+            ],
+            [
+              "candidate_cost",
+              1.0
+            ],
+            [
+              "name",
+              "vandalblast"
+            ]
+          ],
+          "status": "review required",
+          "unknowns": [
+            "current role evidence unsupported",
+            "current cost incomparable"
+          ]
+        },
+        {
+          "candidate_card": "Active Volcano",
+          "candidate_cost": {
+            "activation_mana_expression": null,
+            "cast_mana_expression": "{R}",
+            "comparison_value": 1.0,
+            "effect_access_comparison": 1.0,
+            "nonmana_payments": [],
+            "optional_conditions": [],
+            "printed_mana_value": 1.0,
+            "provenance": [
+              "structured"
+            ],
+            "selected_abilities": [
+              "svars.DBDestroy",
+              "svars.DBChangeZone"
+            ],
+            "selected_ability": null,
+            "selected_payments": [],
+            "supported_parts": [
+              "{R}"
+            ],
+            "unknown_parts": []
+          },
+          "candidate_faces": [],
+          "candidate_oracle_text": "Choose one \u2014\n\u2022 Destroy target blue permanent.\n\u2022 Return target Island to its owner's hand.",
+          "candidate_role_evidence": [
+            {
+              "ability_id": "svars.DBDestroy",
+              "activation_mana": null,
+              "beneficiary": null,
+              "benefit": null,
+              "chooser": "caster",
+              "drawback": null,
+              "effect": "Destroy",
+              "filtering": null,
+              "mana_output": null,
+              "mode_count": 2,
+              "net_mana": null,
+              "prerequisites": [],
+              "provenance": [
+                "role-evidence-v1"
+              ],
+              "quantity": null,
+              "repeatable": false,
+              "role": "removal",
+              "secondary_functions": [
+                "Charm",
+                "ChangeZone"
+              ],
+              "source": "parsed",
+              "source_zone": null,
+              "speed": "instant",
+              "supported": true,
+              "symmetric": false,
+              "target_scope": "Permanent.Blue",
+              "temporary": false,
+              "uncertainty": []
+            },
+            {
+              "ability_id": "svars.DBChangeZone",
+              "activation_mana": null,
+              "beneficiary": null,
+              "benefit": null,
+              "chooser": null,
+              "drawback": null,
+              "effect": "ChangeZone",
+              "filtering": null,
+              "mana_output": null,
+              "mode_count": 2,
+              "net_mana": null,
+              "prerequisites": [],
+              "provenance": [
+                "role-evidence-v1"
+              ],
+              "quantity": null,
+              "repeatable": false,
+              "role": "removal",
+              "secondary_functions": [
+                "Charm",
+                "Destroy"
+              ],
+              "source": "parsed",
+              "source_zone": "Battlefield",
+              "speed": "instant",
+              "supported": true,
+              "symmetric": false,
+              "target_scope": "Island",
+              "temporary": false,
+              "uncertainty": []
+            }
+          ],
+          "compared_modes": [
+            "svars.DBDestroy",
+            "svars.DBChangeZone"
+          ],
+          "compared_role": "removal",
+          "conditions": [],
+          "current_card": "Zacama, Primal Calamity",
+          "current_cost": {
+            "activation_mana_expression": null,
+            "cast_mana_expression": "{6}{R}{G}{W}",
+            "comparison_value": 9.0,
+            "effect_access_comparison": 12.0,
+            "nonmana_payments": [],
+            "optional_conditions": [],
+            "printed_mana_value": 9.0,
+            "provenance": [
+              "structured"
+            ],
+            "selected_abilities": [
+              "abilities[1]"
+            ],
+            "selected_ability": null,
+            "selected_payments": [
+              {
+                "activation_mana_expression": "2 G",
+                "cast_mana_expression": null,
+                "comparison_value": 3.0,
+                "nonmana_payments": [],
+                "optional_conditions": [],
+                "printed_mana_value": null,
+                "provenance": [
+                  "structured"
+                ],
+                "selected_ability": "Destroy",
+                "supported_parts": [
+                  "2",
+                  "G"
+                ],
+                "unknown_parts": []
+              }
+            ],
+            "supported_parts": [
+              "{6}",
+              "{R}",
+              "{G}",
+              "{W}"
+            ],
+            "unknown_parts": []
+          },
+          "current_faces": [],
+          "current_oracle_text": "Reach, vigilance, trample\nWhen Zacama enters, if you cast it, untap all lands you control.\n{2}{R}: Zacama deals 3 damage to target creature.\n{2}{G}: Destroy target artifact or enchantment.\n{2}{W}: You gain 3 life.",
+          "current_role_evidence": [
+            {
+              "ability_id": "abilities[1]",
+              "activation_mana": null,
+              "beneficiary": null,
+              "benefit": null,
+              "chooser": "caster",
+              "drawback": null,
+              "effect": "Destroy",
+              "filtering": null,
+              "mana_output": null,
+              "mode_count": null,
+              "net_mana": null,
+              "prerequisites": [],
+              "provenance": [
+                "role-evidence-v1"
+              ],
+              "quantity": null,
+              "repeatable": true,
+              "role": "removal",
+              "secondary_functions": [
+                "DealDamage",
+                "GainLife",
+                "UntapAll"
+              ],
+              "source": "parsed",
+              "source_zone": null,
+              "speed": "activated",
+              "supported": true,
+              "symmetric": false,
+              "target_scope": "Artifact,Enchantment",
+              "temporary": false,
+              "uncertainty": []
+            }
+          ],
+          "gained_roles": [],
+          "lost_roles": [],
+          "rank_components": [
+            [
+              "supported_role_match",
+              false
+            ],
+            [
+              "known_constraints",
+              false
+            ],
+            [
+              "candidate_cost",
+              1.0
+            ],
+            [
+              "name",
+              "active volcano"
+            ]
+          ],
+          "status": "review required",
+          "unknowns": [
+            "role scope, speed, quantity, or mode is not preserved"
+          ]
+        },
+        {
+          "candidate_card": "Crush",
+          "candidate_cost": {
+            "activation_mana_expression": null,
+            "cast_mana_expression": "{R}",
+            "comparison_value": 1.0,
+            "effect_access_comparison": 1.0,
+            "nonmana_payments": [],
+            "optional_conditions": [],
+            "printed_mana_value": 1.0,
+            "provenance": [
+              "structured"
+            ],
+            "selected_abilities": [
+              "abilities[0]"
+            ],
+            "selected_ability": null,
+            "selected_payments": [],
+            "supported_parts": [
+              "{R}"
+            ],
+            "unknown_parts": []
+          },
+          "candidate_faces": [],
+          "candidate_oracle_text": "Destroy target noncreature artifact.",
+          "candidate_role_evidence": [
+            {
+              "ability_id": "abilities[0]",
+              "activation_mana": null,
+              "beneficiary": null,
+              "benefit": null,
+              "chooser": "caster",
+              "drawback": null,
+              "effect": "Destroy",
+              "filtering": null,
+              "mana_output": null,
+              "mode_count": null,
+              "net_mana": null,
+              "prerequisites": [],
+              "provenance": [
+                "role-evidence-v1"
+              ],
+              "quantity": null,
+              "repeatable": false,
+              "role": "removal",
+              "secondary_functions": [],
+              "source": "parsed",
+              "source_zone": null,
+              "speed": "instant",
+              "supported": true,
+              "symmetric": false,
+              "target_scope": "Artifact.nonCreature",
+              "temporary": false,
+              "uncertainty": []
+            }
+          ],
+          "compared_modes": [
+            "abilities[0]"
+          ],
+          "compared_role": "removal",
+          "conditions": [],
+          "current_card": "Zacama, Primal Calamity",
+          "current_cost": {
+            "activation_mana_expression": null,
+            "cast_mana_expression": "{6}{R}{G}{W}",
+            "comparison_value": 9.0,
+            "effect_access_comparison": 12.0,
+            "nonmana_payments": [],
+            "optional_conditions": [],
+            "printed_mana_value": 9.0,
+            "provenance": [
+              "structured"
+            ],
+            "selected_abilities": [
+              "abilities[1]"
+            ],
+            "selected_ability": null,
+            "selected_payments": [
+              {
+                "activation_mana_expression": "2 G",
+                "cast_mana_expression": null,
+                "comparison_value": 3.0,
+                "nonmana_payments": [],
+                "optional_conditions": [],
+                "printed_mana_value": null,
+                "provenance": [
+                  "structured"
+                ],
+                "selected_ability": "Destroy",
+                "supported_parts": [
+                  "2",
+                  "G"
+                ],
+                "unknown_parts": []
+              }
+            ],
+            "supported_parts": [
+              "{6}",
+              "{R}",
+              "{G}",
+              "{W}"
+            ],
+            "unknown_parts": []
+          },
+          "current_faces": [],
+          "current_oracle_text": "Reach, vigilance, trample\nWhen Zacama enters, if you cast it, untap all lands you control.\n{2}{R}: Zacama deals 3 damage to target creature.\n{2}{G}: Destroy target artifact or enchantment.\n{2}{W}: You gain 3 life.",
+          "current_role_evidence": [
+            {
+              "ability_id": "abilities[1]",
+              "activation_mana": null,
+              "beneficiary": null,
+              "benefit": null,
+              "chooser": "caster",
+              "drawback": null,
+              "effect": "Destroy",
+              "filtering": null,
+              "mana_output": null,
+              "mode_count": null,
+              "net_mana": null,
+              "prerequisites": [],
+              "provenance": [
+                "role-evidence-v1"
+              ],
+              "quantity": null,
+              "repeatable": true,
+              "role": "removal",
+              "secondary_functions": [
+                "DealDamage",
+                "GainLife",
+                "UntapAll"
+              ],
+              "source": "parsed",
+              "source_zone": null,
+              "speed": "activated",
+              "supported": true,
+              "symmetric": false,
+              "target_scope": "Artifact,Enchantment",
+              "temporary": false,
+              "uncertainty": []
+            }
+          ],
+          "gained_roles": [],
+          "lost_roles": [],
+          "rank_components": [
+            [
+              "supported_role_match",
+              false
+            ],
+            [
+              "known_constraints",
+              false
+            ],
+            [
+              "candidate_cost",
+              1.0
+            ],
+            [
+              "name",
+              "crush"
+            ]
+          ],
+          "status": "review required",
+          "unknowns": [
+            "role scope, speed, quantity, or mode is not preserved"
+          ]
+        },
+        {
+          "candidate_card": "Deface",
+          "candidate_cost": {
+            "activation_mana_expression": null,
+            "cast_mana_expression": "{R}",
+            "comparison_value": 1.0,
+            "effect_access_comparison": 1.0,
+            "nonmana_payments": [],
+            "optional_conditions": [],
+            "printed_mana_value": 1.0,
+            "provenance": [
+              "structured"
+            ],
+            "selected_abilities": [
+              "svars.DBDestroy",
+              "svars.DBDestroy2"
+            ],
+            "selected_ability": null,
+            "selected_payments": [],
+            "supported_parts": [
+              "{R}"
+            ],
+            "unknown_parts": []
+          },
+          "candidate_faces": [],
+          "candidate_oracle_text": "Choose one \u2014\n\u2022 Destroy target artifact.\n\u2022 Destroy target creature with defender.",
+          "candidate_role_evidence": [
+            {
+              "ability_id": "svars.DBDestroy",
+              "activation_mana": null,
+              "beneficiary": null,
+              "benefit": null,
+              "chooser": "caster",
+              "drawback": null,
+              "effect": "Destroy",
+              "filtering": null,
+              "mana_output": null,
+              "mode_count": 2,
+              "net_mana": null,
+              "prerequisites": [],
+              "provenance": [
+                "role-evidence-v1"
+              ],
+              "quantity": null,
+              "repeatable": false,
+              "role": "removal",
+              "secondary_functions": [
+                "Charm"
+              ],
+              "source": "parsed",
+              "source_zone": null,
+              "speed": "sorcery",
+              "supported": true,
+              "symmetric": false,
+              "target_scope": "Artifact",
+              "temporary": false,
+              "uncertainty": []
+            },
+            {
+              "ability_id": "svars.DBDestroy2",
+              "activation_mana": null,
+              "beneficiary": null,
+              "benefit": null,
+              "chooser": "caster",
+              "drawback": null,
+              "effect": "Destroy",
+              "filtering": null,
+              "mana_output": null,
+              "mode_count": 2,
+              "net_mana": null,
+              "prerequisites": [],
+              "provenance": [
+                "role-evidence-v1"
+              ],
+              "quantity": null,
+              "repeatable": false,
+              "role": "removal",
+              "secondary_functions": [
+                "Charm"
+              ],
+              "source": "parsed",
+              "source_zone": null,
+              "speed": "sorcery",
+              "supported": true,
+              "symmetric": false,
+              "target_scope": "Creature.withDefender",
+              "temporary": false,
+              "uncertainty": []
+            }
+          ],
+          "compared_modes": [
+            "svars.DBDestroy",
+            "svars.DBDestroy2"
+          ],
+          "compared_role": "removal",
+          "conditions": [],
+          "current_card": "Zacama, Primal Calamity",
+          "current_cost": {
+            "activation_mana_expression": null,
+            "cast_mana_expression": "{6}{R}{G}{W}",
+            "comparison_value": 9.0,
+            "effect_access_comparison": 12.0,
+            "nonmana_payments": [],
+            "optional_conditions": [],
+            "printed_mana_value": 9.0,
+            "provenance": [
+              "structured"
+            ],
+            "selected_abilities": [
+              "abilities[1]"
+            ],
+            "selected_ability": null,
+            "selected_payments": [
+              {
+                "activation_mana_expression": "2 G",
+                "cast_mana_expression": null,
+                "comparison_value": 3.0,
+                "nonmana_payments": [],
+                "optional_conditions": [],
+                "printed_mana_value": null,
+                "provenance": [
+                  "structured"
+                ],
+                "selected_ability": "Destroy",
+                "supported_parts": [
+                  "2",
+                  "G"
+                ],
+                "unknown_parts": []
+              }
+            ],
+            "supported_parts": [
+              "{6}",
+              "{R}",
+              "{G}",
+              "{W}"
+            ],
+            "unknown_parts": []
+          },
+          "current_faces": [],
+          "current_oracle_text": "Reach, vigilance, trample\nWhen Zacama enters, if you cast it, untap all lands you control.\n{2}{R}: Zacama deals 3 damage to target creature.\n{2}{G}: Destroy target artifact or enchantment.\n{2}{W}: You gain 3 life.",
+          "current_role_evidence": [
+            {
+              "ability_id": "abilities[1]",
+              "activation_mana": null,
+              "beneficiary": null,
+              "benefit": null,
+              "chooser": "caster",
+              "drawback": null,
+              "effect": "Destroy",
+              "filtering": null,
+              "mana_output": null,
+              "mode_count": null,
+              "net_mana": null,
+              "prerequisites": [],
+              "provenance": [
+                "role-evidence-v1"
+              ],
+              "quantity": null,
+              "repeatable": true,
+              "role": "removal",
+              "secondary_functions": [
+                "DealDamage",
+                "GainLife",
+                "UntapAll"
+              ],
+              "source": "parsed",
+              "source_zone": null,
+              "speed": "activated",
+              "supported": true,
+              "symmetric": false,
+              "target_scope": "Artifact,Enchantment",
+              "temporary": false,
+              "uncertainty": []
+            }
+          ],
+          "gained_roles": [],
+          "lost_roles": [],
+          "rank_components": [
+            [
+              "supported_role_match",
+              false
+            ],
+            [
+              "known_constraints",
+              false
+            ],
+            [
+              "candidate_cost",
+              1.0
+            ],
+            [
+              "name",
+              "deface"
+            ]
+          ],
+          "status": "review required",
+          "unknowns": [
+            "role scope, speed, quantity, or mode is not preserved"
+          ]
+        },
+        {
+          "candidate_card": "Vandalblast",
+          "candidate_cost": {
+            "activation_mana_expression": null,
+            "cast_mana_expression": "{R}",
+            "comparison_value": 1.0,
+            "effect_access_comparison": 1.0,
+            "nonmana_payments": [],
+            "optional_conditions": [],
+            "printed_mana_value": 1.0,
+            "provenance": [
+              "structured"
+            ],
+            "selected_abilities": [
+              "abilities[0]"
+            ],
+            "selected_ability": null,
+            "selected_payments": [],
+            "supported_parts": [
+              "{R}"
+            ],
+            "unknown_parts": []
+          },
+          "candidate_faces": [],
+          "candidate_oracle_text": "Destroy target artifact you don't control.\nOverload {4}{R} (You may cast this spell for its overload cost. If you do, change \"target\" in its text to \"each.\")",
+          "candidate_role_evidence": [
+            {
+              "ability_id": "abilities[0]",
+              "activation_mana": null,
+              "beneficiary": null,
+              "benefit": null,
+              "chooser": "caster",
+              "drawback": null,
+              "effect": "Destroy",
+              "filtering": null,
+              "mana_output": null,
+              "mode_count": null,
+              "net_mana": null,
+              "prerequisites": [],
+              "provenance": [
+                "role-evidence-v1"
+              ],
+              "quantity": null,
+              "repeatable": false,
+              "role": "removal",
+              "secondary_functions": [],
+              "source": "parsed",
+              "source_zone": null,
+              "speed": "sorcery",
+              "supported": true,
+              "symmetric": false,
+              "target_scope": "Artifact.YouDontCtrl",
+              "temporary": false,
+              "uncertainty": []
+            }
+          ],
+          "compared_modes": [
+            "abilities[0]"
+          ],
+          "compared_role": "removal",
+          "conditions": [],
+          "current_card": "Zacama, Primal Calamity",
+          "current_cost": {
+            "activation_mana_expression": null,
+            "cast_mana_expression": "{6}{R}{G}{W}",
+            "comparison_value": 9.0,
+            "effect_access_comparison": 12.0,
+            "nonmana_payments": [],
+            "optional_conditions": [],
+            "printed_mana_value": 9.0,
+            "provenance": [
+              "structured"
+            ],
+            "selected_abilities": [
+              "abilities[1]"
+            ],
+            "selected_ability": null,
+            "selected_payments": [
+              {
+                "activation_mana_expression": "2 G",
+                "cast_mana_expression": null,
+                "comparison_value": 3.0,
+                "nonmana_payments": [],
+                "optional_conditions": [],
+                "printed_mana_value": null,
+                "provenance": [
+                  "structured"
+                ],
+                "selected_ability": "Destroy",
+                "supported_parts": [
+                  "2",
+                  "G"
+                ],
+                "unknown_parts": []
+              }
+            ],
+            "supported_parts": [
+              "{6}",
+              "{R}",
+              "{G}",
+              "{W}"
+            ],
+            "unknown_parts": []
+          },
+          "current_faces": [],
+          "current_oracle_text": "Reach, vigilance, trample\nWhen Zacama enters, if you cast it, untap all lands you control.\n{2}{R}: Zacama deals 3 damage to target creature.\n{2}{G}: Destroy target artifact or enchantment.\n{2}{W}: You gain 3 life.",
+          "current_role_evidence": [
+            {
+              "ability_id": "abilities[1]",
+              "activation_mana": null,
+              "beneficiary": null,
+              "benefit": null,
+              "chooser": "caster",
+              "drawback": null,
+              "effect": "Destroy",
+              "filtering": null,
+              "mana_output": null,
+              "mode_count": null,
+              "net_mana": null,
+              "prerequisites": [],
+              "provenance": [
+                "role-evidence-v1"
+              ],
+              "quantity": null,
+              "repeatable": true,
+              "role": "removal",
+              "secondary_functions": [
+                "DealDamage",
+                "GainLife",
+                "UntapAll"
+              ],
+              "source": "parsed",
+              "source_zone": null,
+              "speed": "activated",
+              "supported": true,
+              "symmetric": false,
+              "target_scope": "Artifact,Enchantment",
+              "temporary": false,
+              "uncertainty": []
+            }
+          ],
+          "gained_roles": [],
+          "lost_roles": [],
+          "rank_components": [
+            [
+              "supported_role_match",
+              false
+            ],
+            [
+              "known_constraints",
+              false
+            ],
+            [
+              "candidate_cost",
+              1.0
+            ],
+            [
+              "name",
+              "vandalblast"
+            ]
+          ],
+          "status": "review required",
+          "unknowns": [
+            "role scope, speed, quantity, or mode is not preserved"
+          ]
+        },
+        {
+          "candidate_card": "Zoyowa's Justice",
+          "candidate_cost": {
+            "activation_mana_expression": null,
+            "cast_mana_expression": "{1}{R}",
+            "comparison_value": 2.0,
+            "effect_access_comparison": 2.0,
+            "nonmana_payments": [],
+            "optional_conditions": [],
+            "printed_mana_value": 2.0,
+            "provenance": [
+              "structured"
+            ],
+            "selected_abilities": [
+              "abilities[0]"
+            ],
+            "selected_ability": null,
+            "selected_payments": [],
+            "supported_parts": [
+              "{1}",
+              "{R}"
+            ],
+            "unknown_parts": []
+          },
+          "candidate_faces": [],
+          "candidate_oracle_text": "The owner of target artifact or creature with mana value 1 or greater shuffles it into their library. Then that player discovers X, where X is its mana value. (They exile cards from the top of their library until they exile a nonland card with that mana value or less. They cast it without paying its mana cost or put it into their hand. They put the rest on the bottom in a random order.)",
+          "candidate_role_evidence": [
+            {
+              "ability_id": "abilities[0]",
+              "activation_mana": null,
+              "beneficiary": null,
+              "benefit": null,
+              "chooser": "caster",
+              "drawback": null,
+              "effect": "ChangeZone",
+              "filtering": null,
+              "mana_output": null,
+              "mode_count": null,
+              "net_mana": null,
+              "prerequisites": [],
+              "provenance": [
+                "role-evidence-v1"
+              ],
+              "quantity": null,
+              "repeatable": false,
+              "role": "removal",
+              "secondary_functions": [
+                "Discover"
+              ],
+              "source": "parsed",
+              "source_zone": "Battlefield",
+              "speed": "instant",
+              "supported": true,
+              "symmetric": false,
+              "target_scope": "Artifact.cmcGE1,Creature.cmcGE1",
+              "temporary": false,
+              "uncertainty": []
+            }
+          ],
+          "compared_modes": [
+            "abilities[0]"
+          ],
+          "compared_role": "removal",
+          "conditions": [],
+          "current_card": "Get Lost",
+          "current_cost": {
+            "activation_mana_expression": null,
+            "cast_mana_expression": "{1}{W}",
+            "comparison_value": 2.0,
+            "effect_access_comparison": 2.0,
+            "nonmana_payments": [],
+            "optional_conditions": [],
+            "printed_mana_value": 2.0,
+            "provenance": [
+              "structured"
+            ],
+            "selected_abilities": [
+              "abilities[0]"
+            ],
+            "selected_ability": null,
+            "selected_payments": [],
+            "supported_parts": [
+              "{1}",
+              "{W}"
+            ],
+            "unknown_parts": []
+          },
+          "current_faces": [],
+          "current_oracle_text": "Destroy target creature, enchantment, or planeswalker. Its controller creates two Map tokens. (They're artifacts with \"{1}, {T}, Sacrifice this token: Target creature you control explores. Activate only as a sorcery.\")",
+          "current_role_evidence": [
+            {
+              "ability_id": "abilities[0]",
+              "activation_mana": null,
+              "beneficiary": null,
+              "benefit": null,
+              "chooser": "caster",
+              "drawback": null,
+              "effect": "Destroy",
+              "filtering": null,
+              "mana_output": null,
+              "mode_count": null,
+              "net_mana": null,
+              "prerequisites": [],
+              "provenance": [
+                "role-evidence-v1"
+              ],
+              "quantity": null,
+              "repeatable": false,
+              "role": "removal",
+              "secondary_functions": [
+                "Token"
+              ],
+              "source": "parsed",
+              "source_zone": null,
+              "speed": "instant",
+              "supported": true,
+              "symmetric": false,
+              "target_scope": "Creature,Enchantment,Planeswalker",
+              "temporary": false,
+              "uncertainty": []
+            }
+          ],
+          "gained_roles": [],
+          "lost_roles": [],
+          "rank_components": [
+            [
+              "supported_role_match",
+              false
+            ],
+            [
+              "known_constraints",
+              false
+            ],
+            [
+              "candidate_cost",
+              2.0
+            ],
+            [
+              "name",
+              "zoyowa's justice"
+            ]
+          ],
+          "status": "review required",
+          "unknowns": [
+            "role scope, speed, quantity, or mode is not preserved"
+          ]
+        },
+        {
+          "candidate_card": "Zoyowa's Justice",
+          "candidate_cost": {
+            "activation_mana_expression": null,
+            "cast_mana_expression": "{1}{R}",
+            "comparison_value": 2.0,
+            "effect_access_comparison": 2.0,
+            "nonmana_payments": [],
+            "optional_conditions": [],
+            "printed_mana_value": 2.0,
+            "provenance": [
+              "structured"
+            ],
+            "selected_abilities": [
+              "abilities[0]"
+            ],
+            "selected_ability": null,
+            "selected_payments": [],
+            "supported_parts": [
+              "{1}",
+              "{R}"
+            ],
+            "unknown_parts": []
+          },
+          "candidate_faces": [],
+          "candidate_oracle_text": "The owner of target artifact or creature with mana value 1 or greater shuffles it into their library. Then that player discovers X, where X is its mana value. (They exile cards from the top of their library until they exile a nonland card with that mana value or less. They cast it without paying its mana cost or put it into their hand. They put the rest on the bottom in a random order.)",
+          "candidate_role_evidence": [
+            {
+              "ability_id": "abilities[0]",
+              "activation_mana": null,
+              "beneficiary": null,
+              "benefit": null,
+              "chooser": "caster",
+              "drawback": null,
+              "effect": "ChangeZone",
+              "filtering": null,
+              "mana_output": null,
+              "mode_count": null,
+              "net_mana": null,
+              "prerequisites": [],
+              "provenance": [
+                "role-evidence-v1"
+              ],
+              "quantity": null,
+              "repeatable": false,
+              "role": "removal",
+              "secondary_functions": [
+                "Discover"
+              ],
+              "source": "parsed",
+              "source_zone": "Battlefield",
+              "speed": "instant",
+              "supported": true,
+              "symmetric": false,
+              "target_scope": "Artifact.cmcGE1,Creature.cmcGE1",
+              "temporary": false,
+              "uncertainty": []
+            }
+          ],
+          "compared_modes": [
+            "abilities[0]"
+          ],
+          "compared_role": "removal",
+          "conditions": [],
+          "current_card": "Path to Exile",
+          "current_cost": {
+            "activation_mana_expression": null,
+            "cast_mana_expression": "{W}",
+            "comparison_value": 1.0,
+            "effect_access_comparison": 1.0,
+            "nonmana_payments": [],
+            "optional_conditions": [],
+            "printed_mana_value": 1.0,
+            "provenance": [
+              "structured"
+            ],
+            "selected_abilities": [
+              "abilities[0]"
+            ],
+            "selected_ability": null,
+            "selected_payments": [],
+            "supported_parts": [
+              "{W}"
+            ],
+            "unknown_parts": []
+          },
+          "current_faces": [],
+          "current_oracle_text": "Exile target creature. Its controller may search their library for a basic land card, put that card onto the battlefield tapped, then shuffle.",
+          "current_role_evidence": [
+            {
+              "ability_id": "abilities[0]",
+              "activation_mana": null,
+              "beneficiary": null,
+              "benefit": null,
+              "chooser": "caster",
+              "drawback": null,
+              "effect": "ChangeZone",
+              "filtering": null,
+              "mana_output": null,
+              "mode_count": null,
+              "net_mana": null,
+              "prerequisites": [],
+              "provenance": [
+                "role-evidence-v1"
+              ],
+              "quantity": null,
+              "repeatable": false,
+              "role": "removal",
+              "secondary_functions": [],
+              "source": "parsed",
+              "source_zone": "Battlefield",
+              "speed": "instant",
+              "supported": true,
+              "symmetric": false,
+              "target_scope": "Creature",
+              "temporary": false,
+              "uncertainty": []
+            }
+          ],
+          "gained_roles": [],
+          "lost_roles": [],
+          "rank_components": [
+            [
+              "supported_role_match",
+              false
+            ],
+            [
+              "known_constraints",
+              false
+            ],
+            [
+              "candidate_cost",
+              2.0
+            ],
+            [
+              "name",
+              "zoyowa's justice"
+            ]
+          ],
+          "status": "review required",
+          "unknowns": [
+            "role scope, speed, quantity, or mode is not preserved"
+          ]
+        }
+      ],
+      "limit": 30,
+      "pool_provenance": {},
+      "total_considered": 150,
+      "total_returned": 30,
+      "truncated": true
+    }
+  },
+  "schema_version": 1
+}

@@ -1,0 +1,40 @@
+# Derived per SPEC.md §4.
+#
+# Correction to an earlier assumption in this session: K'rrik looked like
+# he should be commander-optional (like Sevinne), since the gameplan text
+# says "lifegain is the fuel, not the win condition." But his actual oracle
+# text (pulled from the mirror, not memory):
+#
+#   {4}{B/P}{B/P}{B/P}
+#   Lifelink
+#   For each {B} in a cost, you may pay 2 life rather than pay that mana.
+#
+# The life-for-mana substitution that defines the whole deck is K'rrik's
+# own static ability -- it requires him on the battlefield. So unlike
+# Sevinne, "commander on board" IS the right proxy here after all.
+#
+# What's actually suspicious: 0/10 games in the initial Forge batch never
+# resolved him, despite his own cost being payable as low as {4} + 6 life
+# (Phyrexian mana is inherent to the {B/P} symbol, independent of his own
+# ability). That smells like an AI weakness around Phyrexian-mana payment
+# decisions rather than a real deck problem -- SPEC.md §7.4's exact
+# "couldn't vs. chose not to" concern, now observed rather than
+# hypothetical. Worth a larger batch and a look at whether the AI ever
+# elects to pay life at all before concluding anything about the deck.
+
+commander: K'rrik, Son of Yawgmoth
+
+effect_classes:
+  commander:
+    rationale: >
+      the life-for-black-mana substitution is K'rrik's own static ability;
+      nothing else in the deck grants it.
+    members:
+      - K'rrik, Son of Yawgmoth
+
+success_condition:
+  description: commander resolved and on the battlefield
+  requires:
+    - {class: commander, zone: battlefield, count: 1}
+  target_turn: 6
+  confidence: medium -- see note above; the 0% observed may be an AI artifact, not a deck problem.

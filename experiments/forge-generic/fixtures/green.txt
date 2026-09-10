@@ -1,0 +1,6 @@
+// Synthetic mechanics fixture; two different cards share the same mana-ability handler.
+1 Goreclaw, Terror of Qal Sisma
+37 Forest
+20 Llanowar Elves
+20 Elvish Mystic
+22 Elvish Visionary

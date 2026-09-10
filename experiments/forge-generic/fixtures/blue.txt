@@ -1,0 +1,6 @@
+// Synthetic mechanics fixture for scry, triggered tokens, and discard effects.
+1 Talrand, Sky Summoner
+37 Island
+20 Opt
+20 Merfolk Looter
+22 Preordain

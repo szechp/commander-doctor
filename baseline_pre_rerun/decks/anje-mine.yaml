@@ -1,0 +1,7 @@
+feedback:
+  - date: '2026-09-03'
+    kind: note
+    text: 'Playgroup rule: no super-expensive dual lands (e.g. original ABU duals like
+      Badlands/reserved-list). Tool has no price data (no price column in the mirror)
+      so this can''t be checked mechanically -- must reason from general card-market
+      knowledge and flag budget-tier lands explicitly, or ask.'

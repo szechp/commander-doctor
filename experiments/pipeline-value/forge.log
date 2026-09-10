@@ -1,0 +1,231 @@
+unknown preference: UI_SR_OPTIMIZE=false
+unknown preference: UI_PRESELECT_PREVIOUS_ABILITY_ORDER=false
+unknown preference: UI_AUTO_YIELD_MODE=Per Ability (Each Match)
+unknown preference: UI_NETPLAY_COMPAT=false
+unknown preference: UI_FOR_TOUCHSCREN=false
+unknown preference: UI_MANABURN=false
+Language 'en-US' loaded successfully.
+(ThreadUtil first call): Running with priority 5
+Read cards: 33587 files in 1 ms (25 parts) using thread pool
+Upcoming set Star Trek (TRK) dated in the future. All `upcoming` cards will be added to this set with unknown rarity.
+The card A-Alrund's Epiphany was not assigned to any set. Adding it to UNKNOWN set... to fix see res/editions/ folder. 
+The card A-Baba Lysaga, Night Witch was not assigned to any set. Adding it to UNKNOWN set... to fix see res/editions/ folder. 
+The card A-Divide by Zero was not assigned to any set. Adding it to UNKNOWN set... to fix see res/editions/ folder. 
+The card A-Esika's Chariot was not assigned to any set. Adding it to UNKNOWN set... to fix see res/editions/ folder. 
+The card A-Faceless Haven was not assigned to any set. Adding it to UNKNOWN set... to fix see res/editions/ folder. 
+The card A-Fires of Invention was not assigned to any set. Adding it to UNKNOWN set... to fix see res/editions/ folder. 
+The card A-Goldspan Dragon was not assigned to any set. Adding it to UNKNOWN set... to fix see res/editions/ folder. 
+The card A-Hullbreaker Horror was not assigned to any set. Adding it to UNKNOWN set... to fix see res/editions/ folder. 
+The card A-Kumano Faces Kakkazan was not assigned to any set. Adding it to UNKNOWN set... to fix see res/editions/ folder. 
+The card A-Luminarch Aspirant was not assigned to any set. Adding it to UNKNOWN set... to fix see res/editions/ folder. 
+The card A-Monster Manual was not assigned to any set. Adding it to UNKNOWN set... to fix see res/editions/ folder. 
+The card A-Omnath, Locus of Creation was not assigned to any set. Adding it to UNKNOWN set... to fix see res/editions/ folder. 
+The card A-The Meathook Massacre was not assigned to any set. Adding it to UNKNOWN set... to fix see res/editions/ folder. 
+The card A-Unholy Heat was not assigned to any set. Adding it to UNKNOWN set... to fix see res/editions/ folder. 
+The card Blinding Radiance was not assigned to any set. Adding it to UNKNOWN set... to fix see res/editions/ folder. 
+The card Goblin Bruiser was not assigned to any set. Adding it to UNKNOWN set... to fix see res/editions/ folder. 
+The card Ogre Painbringer was not assigned to any set. Adding it to UNKNOWN set... to fix see res/editions/ folder. 
+The card Titanic Pelagosaur was not assigned to any set. Adding it to UNKNOWN set... to fix see res/editions/ folder. 
+The card Treetop Recluse was not assigned to any set. Adding it to UNKNOWN set... to fix see res/editions/ folder. 
+Upcoming set Star Trek (TRK) dated in the future. All `upcoming` cards will be added to this set with unknown rarity.
+Read cards: 836 files in 0 ms (8 parts) using thread pool
+GENERIC_RESULT original.txt completed_under_policy draws=6 extra=12 events={alternative_permanent_resolved=1, commander_resolved=1, effect_draw=12, permanent_resolved=3} error=null
+GENERIC_RESULT land-heavy.txt unsupported draws=1 extra=0 events={} error=UnsupportedOperationException: unmodeled mana sources while paying for Anje Falkenrath: [Mount Doom [Mana, {T}, Pay 1 life]]
+GENERIC_RESULT interaction-heavy.txt unsupported draws=2 extra=0 events={} error=UnsupportedOperationException: payCostToPreventEffect
+GENERIC_RESULT payoff-light.txt unsupported draws=1 extra=0 events={} error=UnsupportedOperationException: payCostToPreventEffect
+GENERIC_RESULT original.txt unsupported draws=4 extra=4 events={alternative_permanent_resolved=1, commander_resolved=1, effect_draw=4, permanent_resolved=3} error=UnsupportedOperationException: trigger setup failed: Destroy
+GENERIC_RESULT land-heavy.txt completed_under_policy draws=6 extra=9 events={commander_resolved=1, effect_draw=9, permanent_resolved=2} error=null
+GENERIC_RESULT interaction-heavy.txt unsupported draws=1 extra=0 events={} error=UnsupportedOperationException: unmodeled mana sources while paying for Anje Falkenrath: [Shadowblood Ridge [Mana, {T}, {1}]]
+GENERIC_RESULT payoff-light.txt completed_under_policy draws=6 extra=9 events={commander_resolved=1, effect_draw=9, permanent_resolved=6} error=null
+GENERIC_RESULT original.txt unsupported draws=2 extra=0 events={} error=UnsupportedOperationException: unmodeled mana sources while paying for Anje Falkenrath: [Mount Doom [Mana, {T}, Pay 1 life]]
+GENERIC_RESULT land-heavy.txt unsupported draws=4 extra=4 events={alternative_permanent_resolved=1, commander_resolved=1, effect_draw=4, permanent_resolved=2} error=UnsupportedOperationException: unmodeled mana sources while paying for Unexpected Windfall: [Shadowblood Ridge [Mana, {T}, {1}]]
+GENERIC_RESULT interaction-heavy.txt unsupported draws=1 extra=0 events={} error=UnsupportedOperationException: trigger setup failed: ChangeZone
+GENERIC_RESULT payoff-light.txt unsupported draws=3 extra=2 events={commander_resolved=1, effect_draw=2, permanent_resolved=4} error=UnsupportedOperationException: unmodeled mana sources while paying for Currency Converter: [Rakdos Signet [Mana, {T}, {1}]]
+GENERIC_RESULT original.txt unsupported draws=5 extra=5 events={alternative_permanent_resolved=1, commander_resolved=1, effect_draw=5, permanent_resolved=3} error=UnsupportedOperationException: chooseCardsToRevealFromHand
+GENERIC_RESULT land-heavy.txt unsupported draws=1 extra=0 events={} error=UnsupportedOperationException: unmodeled mana sources while paying for Anje Falkenrath: [Shadowblood Ridge [Mana, {T}, {1}]]
+GENERIC_RESULT interaction-heavy.txt unsupported draws=2 extra=0 events={} error=UnsupportedOperationException: trigger setup failed: ChangeZone
+GENERIC_RESULT payoff-light.txt unsupported draws=1 extra=0 events={} error=UnsupportedOperationException: trigger setup failed: ChangeZone
+GENERIC_RESULT original.txt unsupported draws=4 extra=2 events={commander_resolved=1, effect_draw=2, permanent_resolved=3} error=UnsupportedOperationException: unmodeled mana sources while paying for Rakdos Locket: [Rakdos Signet [Mana, {T}, {1}]]
+GENERIC_RESULT land-heavy.txt unsupported draws=5 extra=4 events={alternative_permanent_resolved=1, commander_resolved=1, effect_draw=4, permanent_resolved=3} error=UnsupportedOperationException: payCostToPreventEffect
+GENERIC_RESULT interaction-heavy.txt unsupported draws=5 extra=0 events={permanent_resolved=1} error=UnsupportedOperationException: unmodeled mana sources while paying for Anje Falkenrath: [Rakdos Signet [Mana, {T}, {1}]]
+GENERIC_RESULT payoff-light.txt unsupported draws=1 extra=0 events={} error=UnsupportedOperationException: unmodeled mana sources while paying for Anje Falkenrath: [Shadowblood Ridge [Mana, {T}, {1}]]
+GENERIC_RESULT original.txt unsupported draws=3 extra=0 events={} error=UnsupportedOperationException: unmodeled mana sources while paying for Anje Falkenrath: [Mount Doom [Mana, {T}, Pay 1 life]]
+GENERIC_RESULT land-heavy.txt completed_under_policy draws=6 extra=8 events={commander_resolved=1, effect_draw=8, permanent_resolved=3} error=null
+GENERIC_RESULT interaction-heavy.txt unsupported draws=1 extra=0 events={} error=UnsupportedOperationException: payCostToPreventEffect
+GENERIC_RESULT payoff-light.txt unsupported draws=1 extra=0 events={} error=UnsupportedOperationException: payCostToPreventEffect
+GENERIC_RESULT original.txt unsupported draws=5 extra=2 events={alternative_permanent_resolved=1, commander_resolved=1, effect_draw=2, permanent_resolved=2} error=UnsupportedOperationException: chooseCardsToRevealFromHand
+GENERIC_RESULT land-heavy.txt unsupported draws=6 extra=8 events={alternative_permanent_resolved=1, commander_resolved=1, effect_draw=8, permanent_resolved=3} error=UnsupportedOperationException: arrangeForSurveil
+GENERIC_RESULT interaction-heavy.txt unsupported draws=1 extra=0 events={} error=UnsupportedOperationException: trigger setup failed: ChangeZone
+GENERIC_RESULT payoff-light.txt unsupported draws=4 extra=7 events={commander_resolved=1, effect_draw=7, permanent_resolved=1} error=UnsupportedOperationException: unmodeled mana sources while paying for Chaos Warp: [Treasure Token [Mana, {T}, Sacrifice this token], Treasure Token [Mana, {T}, Sacrifice this token]]
+GENERIC_RESULT original.txt unsupported draws=6 extra=7 events={commander_resolved=1, effect_draw=7, permanent_resolved=2} error=UnsupportedOperationException: unmodeled mana sources while paying for Violent Eruption: [Mount Doom [Mana, {T}, Pay 1 life], Skirge Familiar [Mana, Discard a card]]
+GENERIC_RESULT land-heavy.txt unsupported draws=5 extra=6 events={alternative_permanent_resolved=1, commander_resolved=1, effect_draw=6, permanent_resolved=3} error=UnsupportedOperationException: chooseCardsToRevealFromHand
+GENERIC_RESULT interaction-heavy.txt unsupported draws=3 extra=1 events={effect_draw=1} error=UnsupportedOperationException: unmodeled mana sources while paying for Anje Falkenrath: [Mount Doom [Mana, {T}, Pay 1 life]]
+GENERIC_RESULT payoff-light.txt unsupported draws=1 extra=0 events={} error=UnsupportedOperationException: payCostToPreventEffect
+GENERIC_RESULT original.txt unsupported draws=2 extra=2 events={effect_draw=2, permanent_resolved=1} error=UnsupportedOperationException: unmodeled mana sources while paying for Anje Falkenrath: [Treasure Token [Mana, {T}, Sacrifice this token]]
+GENERIC_RESULT land-heavy.txt unsupported draws=2 extra=1 events={effect_draw=1} error=UnsupportedOperationException: unmodeled mana sources while paying for Anje Falkenrath: [Shadowblood Ridge [Mana, {T}, {1}]]
+GENERIC_RESULT interaction-heavy.txt unsupported draws=2 extra=1 events={effect_draw=1} error=UnsupportedOperationException: chooseSingleStaticAbility
+GENERIC_RESULT payoff-light.txt unsupported draws=2 extra=0 events={} error=UnsupportedOperationException: trigger setup failed: ChangeZone
+GENERIC_RESULT original.txt unsupported draws=5 extra=7 events={alternative_permanent_resolved=2, commander_resolved=1, effect_draw=7, permanent_resolved=6} error=UnsupportedOperationException: invalid selection bounds
+GENERIC_RESULT land-heavy.txt unsupported draws=2 extra=0 events={permanent_resolved=1} error=UnsupportedOperationException: unmodeled mana sources while paying for Anje Falkenrath: [Rakdos Signet [Mana, {T}, {1}]]
+GENERIC_RESULT interaction-heavy.txt unsupported draws=2 extra=0 events={} error=UnsupportedOperationException: payCostToPreventEffect
+GENERIC_RESULT payoff-light.txt unsupported draws=5 extra=6 events={commander_resolved=1, effect_draw=6, permanent_resolved=2} error=UnsupportedOperationException: arrangeForSurveil
+GENERIC_RESULT original.txt unsupported draws=4 extra=4 events={effect_draw=4} error=UnsupportedOperationException: arrangeForSurveil
+GENERIC_RESULT land-heavy.txt unsupported draws=1 extra=0 events={} error=UnsupportedOperationException: trigger setup failed: ChangeZone
+GENERIC_RESULT interaction-heavy.txt unsupported draws=1 extra=0 events={} error=UnsupportedOperationException: arrangeForSurveil
+GENERIC_RESULT payoff-light.txt unsupported draws=1 extra=0 events={} error=UnsupportedOperationException: trigger setup failed: ChangeZone
+GENERIC_RESULT original.txt completed_under_policy draws=6 extra=6 events={alternative_permanent_resolved=2, commander_resolved=1, effect_draw=6, permanent_resolved=4} error=null
+GENERIC_RESULT land-heavy.txt unsupported draws=2 extra=0 events={} error=UnsupportedOperationException: unmodeled mana sources while paying for Anje Falkenrath: [Shadowblood Ridge [Mana, {T}, {1}]]
+GENERIC_RESULT interaction-heavy.txt unsupported draws=4 extra=5 events={alternative_permanent_resolved=1, commander_resolved=1, effect_draw=5, permanent_resolved=3} error=UnsupportedOperationException: trigger setup failed: Destroy
+GENERIC_RESULT payoff-light.txt unsupported draws=2 extra=0 events={} error=UnsupportedOperationException: unmodeled mana sources while paying for Anje Falkenrath: [Shadowblood Ridge [Mana, {T}, {1}]]
+GENERIC_RESULT original.txt completed_under_policy draws=6 extra=9 events={commander_resolved=1, effect_draw=9, permanent_resolved=4} error=null
+GENERIC_RESULT land-heavy.txt unsupported draws=2 extra=0 events={permanent_resolved=1} error=UnsupportedOperationException: unmodeled mana sources while paying for Anje Falkenrath: [Rakdos Signet [Mana, {T}, {1}]]
+GENERIC_RESULT interaction-heavy.txt unsupported draws=6 extra=6 events={alternative_permanent_resolved=1, commander_resolved=1, effect_draw=6, permanent_resolved=2} error=UnsupportedOperationException: arrangeForSurveil
+GENERIC_RESULT payoff-light.txt unsupported draws=4 extra=4 events={commander_resolved=1, effect_draw=4, permanent_resolved=1} error=UnsupportedOperationException: unmodeled mana sources while paying for Glint-Horn Buccaneer: [Treasure Token [Mana, {T}, Sacrifice this token], Treasure Token [Mana, {T}, Sacrifice this token]]
+GENERIC_RESULT original.txt unsupported draws=1 extra=0 events={} error=UnsupportedOperationException: payCostToPreventEffect
+GENERIC_RESULT land-heavy.txt unsupported draws=4 extra=5 events={alternative_permanent_resolved=1, commander_resolved=1, effect_draw=5, permanent_resolved=4} error=UnsupportedOperationException: trigger setup failed: Destroy
+GENERIC_RESULT interaction-heavy.txt unsupported draws=4 extra=3 events={alternative_permanent_resolved=1, commander_resolved=1, effect_draw=3, permanent_resolved=3} error=UnsupportedOperationException: chooseCardsToRevealFromHand
+GENERIC_RESULT payoff-light.txt unsupported draws=5 extra=7 events={commander_resolved=1, effect_draw=7, permanent_resolved=3} error=UnsupportedOperationException: unmodeled mana sources while paying for Sol Ring: [Treasure Token [Mana, {T}, Sacrifice this token], Treasure Token [Mana, {T}, Sacrifice this token]]
+GENERIC_RESULT original.txt completed_under_policy draws=6 extra=10 events={alternative_permanent_resolved=1, commander_resolved=1, effect_draw=10, permanent_resolved=2} error=null
+GENERIC_RESULT land-heavy.txt unsupported draws=4 extra=5 events={alternative_permanent_resolved=2, commander_resolved=1, effect_draw=5, permanent_resolved=3} error=UnsupportedOperationException: chooseCardsToRevealFromHand
+GENERIC_RESULT interaction-heavy.txt unsupported draws=1 extra=0 events={} error=UnsupportedOperationException: unmodeled mana sources while paying for Anje Falkenrath: [Shadowblood Ridge [Mana, {T}, {1}]]
+GENERIC_RESULT payoff-light.txt unsupported draws=1 extra=0 events={permanent_resolved=1} error=UnsupportedOperationException: chooseSingleStaticAbility
+GENERIC_RESULT original.txt unsupported draws=5 extra=3 events={alternative_permanent_resolved=1, commander_resolved=1, effect_draw=3, permanent_resolved=5} error=UnsupportedOperationException: trigger setup failed: Destroy
+GENERIC_RESULT land-heavy.txt unsupported draws=5 extra=4 events={commander_resolved=1, effect_draw=4, permanent_resolved=1} error=UnsupportedOperationException: arrangeForSurveil
+GENERIC_RESULT interaction-heavy.txt unsupported draws=1 extra=0 events={} error=UnsupportedOperationException: payCostToPreventEffect
+GENERIC_RESULT payoff-light.txt unsupported draws=1 extra=0 events={} error=UnsupportedOperationException: arrangeForSurveil
+GENERIC_RESULT original.txt unsupported draws=2 extra=1 events={effect_draw=1, permanent_resolved=1} error=UnsupportedOperationException: unmodeled mana sources while paying for Anje Falkenrath: [Rakdos Signet [Mana, {T}, {1}]]
+GENERIC_RESULT land-heavy.txt completed_under_policy draws=6 extra=5 events={alternative_permanent_resolved=1, commander_resolved=1, effect_draw=5, permanent_resolved=2} error=null
+GENERIC_RESULT interaction-heavy.txt unsupported draws=2 extra=0 events={permanent_resolved=1} error=UnsupportedOperationException: unmodeled mana sources while paying for Anje Falkenrath: [Rakdos Signet [Mana, {T}, {1}]]
+GENERIC_RESULT payoff-light.txt unsupported draws=2 extra=0 events={permanent_resolved=1} error=UnsupportedOperationException: unmodeled mana sources while paying for Anje Falkenrath: [Rakdos Signet [Mana, {T}, {1}]]
+GENERIC_RESULT original.txt unsupported draws=5 extra=5 events={commander_resolved=1, effect_draw=5, permanent_resolved=2} error=UnsupportedOperationException: unmodeled mana sources while paying for Songs of the Damned: [Treasure Token [Mana, {T}, Sacrifice this token], Treasure Token [Mana, {T}, Sacrifice this token]]
+GENERIC_RESULT land-heavy.txt unsupported draws=6 extra=10 events={alternative_permanent_resolved=2, commander_resolved=1, effect_draw=10, permanent_resolved=4} error=UnsupportedOperationException: trigger setup failed: Destroy
+GENERIC_RESULT interaction-heavy.txt unsupported draws=1 extra=0 events={} error=UnsupportedOperationException: chooseSingleStaticAbility
+GENERIC_RESULT payoff-light.txt completed_under_policy draws=6 extra=7 events={commander_resolved=1, effect_draw=7, permanent_resolved=4} error=null
+GENERIC_RESULT original.txt unsupported draws=6 extra=4 events={alternative_permanent_resolved=2, commander_resolved=1, effect_draw=4, permanent_resolved=3} error=UnsupportedOperationException: trigger setup failed: Destroy
+GENERIC_RESULT land-heavy.txt unsupported draws=2 extra=0 events={} error=UnsupportedOperationException: unmodeled mana sources while paying for Anje Falkenrath: [Mount Doom [Mana, {T}, Pay 1 life]]
+GENERIC_RESULT interaction-heavy.txt unsupported draws=3 extra=0 events={alternative_permanent_resolved=1, permanent_resolved=1} error=UnsupportedOperationException: trigger setup failed: Destroy
+GENERIC_RESULT payoff-light.txt unsupported draws=6 extra=2 events={commander_resolved=1, effect_draw=2, permanent_resolved=2} error=UnsupportedOperationException: payCostToPreventEffect
+GENERIC_RESULT original.txt unsupported draws=2 extra=0 events={} error=UnsupportedOperationException: unmodeled mana sources while paying for Anje Falkenrath: [Shadowblood Ridge [Mana, {T}, {1}]]
+GENERIC_RESULT land-heavy.txt unsupported draws=2 extra=0 events={} error=UnsupportedOperationException: payCostToPreventEffect
+GENERIC_RESULT interaction-heavy.txt unsupported draws=1 extra=0 events={} error=UnsupportedOperationException: unmodeled mana sources while paying for Anje Falkenrath: [Shadowblood Ridge [Mana, {T}, {1}]]
+GENERIC_RESULT payoff-light.txt unsupported draws=4 extra=5 events={commander_resolved=1, effect_draw=5, permanent_resolved=1} error=UnsupportedOperationException: unmodeled mana sources while paying for Crackle with Power: [Shadowblood Ridge [Mana, {T}, {1}]]
+GENERIC_RESULT original.txt unsupported draws=4 extra=2 events={commander_resolved=1, effect_draw=2, permanent_resolved=2} error=UnsupportedOperationException: unmodeled mana sources while paying for Kitchen Imp: [Rakdos Signet [Mana, {T}, {1}]]
+GENERIC_RESULT land-heavy.txt unsupported draws=5 extra=6 events={alternative_permanent_resolved=3, commander_resolved=1, effect_draw=6, permanent_resolved=5} error=UnsupportedOperationException: unmodeled mana sources while paying for Avacyn's Judgment: [Treasure Token [Mana, {T}, Sacrifice this token], Treasure Token [Mana, {T}, Sacrifice this token]]
+GENERIC_RESULT interaction-heavy.txt unsupported draws=3 extra=0 events={permanent_resolved=1} error=UnsupportedOperationException: unmodeled mana sources while paying for Anje Falkenrath: [Rakdos Signet [Mana, {T}, {1}]]
+GENERIC_RESULT payoff-light.txt unsupported draws=1 extra=0 events={} error=UnsupportedOperationException: trigger setup failed: ChangeZone
+GENERIC_RESULT original.txt unsupported draws=1 extra=0 events={} error=UnsupportedOperationException: chooseSingleStaticAbility
+GENERIC_RESULT land-heavy.txt unsupported draws=1 extra=0 events={} error=UnsupportedOperationException: payCostToPreventEffect
+GENERIC_RESULT interaction-heavy.txt completed_under_policy draws=6 extra=10 events={commander_resolved=1, effect_draw=10, permanent_resolved=4} error=null
+GENERIC_RESULT payoff-light.txt unsupported draws=1 extra=0 events={} error=UnsupportedOperationException: payCostToPreventEffect
+GENERIC_RESULT original.txt unsupported draws=3 extra=1 events={alternative_permanent_resolved=1, commander_resolved=1, effect_draw=1, permanent_resolved=4} error=UnsupportedOperationException: invalid selection bounds
+GENERIC_RESULT land-heavy.txt unsupported draws=5 extra=6 events={alternative_permanent_resolved=1, commander_resolved=1, effect_draw=6, permanent_resolved=2} error=UnsupportedOperationException: unmodeled mana sources while paying for Skirge Familiar: [Treasure Token [Mana, {T}, Sacrifice this token]]
+GENERIC_RESULT interaction-heavy.txt unsupported draws=1 extra=1 events={effect_draw=1} error=UnsupportedOperationException: chooseSingleStaticAbility
+GENERIC_RESULT payoff-light.txt unsupported draws=6 extra=7 events={commander_resolved=1, effect_draw=7, permanent_resolved=3} error=UnsupportedOperationException: unmodeled mana sources while paying for Glint-Horn Buccaneer: [Treasure Token [Mana, {T}, Sacrifice this token], Treasure Token [Mana, {T}, Sacrifice this token]]
+GENERIC_RESULT original.txt unsupported draws=5 extra=2 events={commander_resolved=1, effect_draw=2, permanent_resolved=1} error=UnsupportedOperationException: arrangeForSurveil
+GENERIC_RESULT land-heavy.txt error draws=5 extra=7 events={commander_resolved=1, effect_draw=7, permanent_resolved=3} error=NullPointerException: Cannot invoke "java.lang.Integer.intValue()" because the return value of "forge.game.spellability.SpellAbility.getDividedValue(forge.game.GameObject)" is null
+GENERIC_RESULT interaction-heavy.txt unsupported draws=2 extra=0 events={} error=UnsupportedOperationException: trigger setup failed: ChangeZone
+GENERIC_RESULT payoff-light.txt unsupported draws=5 extra=2 events={commander_resolved=1, effect_draw=2, permanent_resolved=1} error=UnsupportedOperationException: payCostToPreventEffect
+GENERIC_RESULT original.txt unsupported draws=2 extra=0 events={permanent_resolved=1} error=UnsupportedOperationException: unmodeled mana sources while paying for Anje Falkenrath: [Mount Doom [Mana, {T}, Pay 1 life]]
+GENERIC_RESULT land-heavy.txt unsupported draws=1 extra=0 events={} error=UnsupportedOperationException: payCostToPreventEffect
+GENERIC_RESULT interaction-heavy.txt unsupported draws=3 extra=1 events={effect_draw=1} error=UnsupportedOperationException: payCostToPreventEffect
+GENERIC_RESULT payoff-light.txt unsupported draws=2 extra=1 events={effect_draw=1} error=UnsupportedOperationException: trigger setup failed: ChangeZone
+GENERIC_RESULT original.txt completed_under_policy draws=6 extra=13 events={alternative_permanent_resolved=1, commander_resolved=1, effect_draw=13, permanent_resolved=4} error=null
+GENERIC_RESULT land-heavy.txt unsupported draws=1 extra=0 events={} error=UnsupportedOperationException: trigger setup failed: ChangeZone
+GENERIC_RESULT interaction-heavy.txt unsupported draws=1 extra=0 events={} error=UnsupportedOperationException: arrangeForSurveil
+GENERIC_RESULT payoff-light.txt unsupported draws=1 extra=0 events={} error=UnsupportedOperationException: arrangeForSurveil
+GENERIC_RESULT original.txt unsupported draws=2 extra=0 events={} error=UnsupportedOperationException: payCostToPreventEffect
+GENERIC_RESULT land-heavy.txt unsupported draws=1 extra=0 events={} error=UnsupportedOperationException: unmodeled mana sources while paying for Anje Falkenrath: [Shadowblood Ridge [Mana, {T}, {1}]]
+GENERIC_RESULT interaction-heavy.txt unsupported draws=5 extra=5 events={alternative_permanent_resolved=2, commander_resolved=1, effect_draw=5, permanent_resolved=3} error=UnsupportedOperationException: invalid selection bounds
+GENERIC_RESULT payoff-light.txt unsupported draws=1 extra=0 events={} error=UnsupportedOperationException: trigger setup failed: ChangeZone
+GENERIC_RESULT original.txt unsupported draws=1 extra=0 events={} error=UnsupportedOperationException: chooseSingleStaticAbility
+GENERIC_RESULT land-heavy.txt unsupported draws=1 extra=0 events={} error=UnsupportedOperationException: payCostToPreventEffect
+GENERIC_RESULT interaction-heavy.txt unsupported draws=4 extra=2 events={commander_resolved=1, effect_draw=2, permanent_resolved=1} error=UnsupportedOperationException: unmodeled mana sources while paying for Rakdos Signet: [Mount Doom [Mana, {T}, Pay 1 life]]
+GENERIC_RESULT payoff-light.txt unsupported draws=2 extra=0 events={} error=UnsupportedOperationException: payCostToPreventEffect
+GENERIC_RESULT original.txt unsupported draws=3 extra=0 events={permanent_resolved=1} error=UnsupportedOperationException: unmodeled mana sources while paying for Anje Falkenrath: [Shadowblood Ridge [Mana, {T}, {1}]]
+GENERIC_RESULT land-heavy.txt unsupported draws=3 extra=3 events={alternative_permanent_resolved=1, effect_draw=3, permanent_resolved=2} error=UnsupportedOperationException: trigger setup failed: Destroy
+GENERIC_RESULT interaction-heavy.txt unsupported draws=1 extra=0 events={} error=UnsupportedOperationException: arrangeForSurveil
+GENERIC_RESULT payoff-light.txt unsupported draws=1 extra=0 events={} error=UnsupportedOperationException: arrangeForSurveil
+GENERIC_RESULT original.txt unsupported draws=4 extra=5 events={alternative_permanent_resolved=1, commander_resolved=1, effect_draw=5, permanent_resolved=3} error=UnsupportedOperationException: chooseCardsToRevealFromHand
+GENERIC_RESULT land-heavy.txt unsupported draws=1 extra=1 events={effect_draw=1} error=UnsupportedOperationException: chooseSingleStaticAbility
+GENERIC_RESULT interaction-heavy.txt unsupported draws=2 extra=0 events={permanent_resolved=1} error=UnsupportedOperationException: unmodeled mana sources while paying for Anje Falkenrath: [Rakdos Signet [Mana, {T}, {1}]]
+GENERIC_RESULT payoff-light.txt unsupported draws=2 extra=0 events={permanent_resolved=1} error=UnsupportedOperationException: unmodeled mana sources while paying for Anje Falkenrath: [Rakdos Signet [Mana, {T}, {1}]]
+GENERIC_RESULT original.txt unsupported draws=4 extra=2 events={commander_resolved=1, effect_draw=2, permanent_resolved=1} error=UnsupportedOperationException: payCostToPreventEffect
+GENERIC_RESULT land-heavy.txt unsupported draws=2 extra=0 events={} error=UnsupportedOperationException: payCostToPreventEffect
+GENERIC_RESULT interaction-heavy.txt unsupported draws=1 extra=0 events={} error=UnsupportedOperationException: arrangeForSurveil
+GENERIC_RESULT payoff-light.txt unsupported draws=2 extra=0 events={} error=UnsupportedOperationException: arrangeForSurveil
+GENERIC_RESULT original.txt unsupported draws=5 extra=10 events={alternative_permanent_resolved=2, commander_resolved=1, effect_draw=10, permanent_resolved=6} error=UnsupportedOperationException: unmodeled mana sources while paying for Psychotic Haze: [Treasure Token [Mana, {T}, Sacrifice this token], Treasure Token [Mana, {T}, Sacrifice this token]]
+GENERIC_RESULT land-heavy.txt unsupported draws=4 extra=5 events={commander_resolved=1, effect_draw=5, permanent_resolved=3} error=UnsupportedOperationException: unmodeled mana sources while paying for Marauding Mako: [Skirge Familiar [Mana, Discard a card]]
+GENERIC_RESULT interaction-heavy.txt unsupported draws=1 extra=0 events={} error=UnsupportedOperationException: payCostToPreventEffect
+GENERIC_RESULT payoff-light.txt unsupported draws=2 extra=0 events={} error=UnsupportedOperationException: payCostToPreventEffect
+GENERIC_RESULT original.txt unsupported draws=1 extra=0 events={} error=UnsupportedOperationException: chooseSingleStaticAbility
+GENERIC_RESULT land-heavy.txt unsupported draws=1 extra=0 events={} error=UnsupportedOperationException: payCostToPreventEffect
+GENERIC_RESULT interaction-heavy.txt unsupported draws=3 extra=2 events={commander_resolved=1, effect_draw=2, permanent_resolved=2} error=UnsupportedOperationException: chooseSingleStaticAbility
+GENERIC_RESULT payoff-light.txt unsupported draws=5 extra=12 events={commander_resolved=1, effect_draw=12, permanent_resolved=2} error=UnsupportedOperationException: unmodeled mana sources while paying for Songs of the Damned: [Shadowblood Ridge [Mana, {T}, {1}]]
+GENERIC_RESULT original.txt unsupported draws=5 extra=9 events={commander_resolved=1, effect_draw=9, permanent_resolved=2} error=UnsupportedOperationException: unmodeled mana sources while paying for Shadowgrange Archfiend: [Treasure Token [Mana, {T}, Sacrifice this token], Treasure Token [Mana, {T}, Sacrifice this token]]
+GENERIC_RESULT land-heavy.txt unsupported draws=2 extra=0 events={} error=UnsupportedOperationException: payCostToPreventEffect
+GENERIC_RESULT interaction-heavy.txt unsupported draws=2 extra=0 events={} error=UnsupportedOperationException: trigger setup failed: ChangeZone
+GENERIC_RESULT payoff-light.txt completed_under_policy draws=6 extra=13 events={commander_resolved=1, effect_draw=13, permanent_resolved=4} error=null
+GENERIC_RESULT original.txt unsupported draws=6 extra=3 events={commander_resolved=1, effect_draw=3, permanent_resolved=1} error=UnsupportedOperationException: payCostToPreventEffect
+GENERIC_RESULT land-heavy.txt unsupported draws=5 extra=6 events={alternative_permanent_resolved=2, commander_resolved=1, effect_draw=6, permanent_resolved=3} error=UnsupportedOperationException: unmodeled mana sources while paying for Jeska's Will: [Shadowblood Ridge [Mana, {T}, {1}]]
+GENERIC_RESULT interaction-heavy.txt completed_under_policy draws=6 extra=10 events={alternative_permanent_resolved=2, commander_resolved=1, effect_draw=10, permanent_resolved=5} error=null
+GENERIC_RESULT payoff-light.txt completed_under_policy draws=6 extra=9 events={commander_resolved=1, effect_draw=9, permanent_resolved=3} error=null
+GENERIC_RESULT original.txt unsupported draws=1 extra=0 events={} error=UnsupportedOperationException: payCostToPreventEffect
+GENERIC_RESULT land-heavy.txt unsupported draws=6 extra=13 events={alternative_permanent_resolved=1, commander_resolved=1, effect_draw=13, permanent_resolved=6} error=UnsupportedOperationException: unmodeled mana sources while paying for Crackle with Power: [Rakdos Signet [Mana, {T}, {1}]]
+GENERIC_RESULT interaction-heavy.txt unsupported draws=2 extra=0 events={} error=UnsupportedOperationException: unmodeled mana sources while paying for Anje Falkenrath: [Shadowblood Ridge [Mana, {T}, {1}]]
+GENERIC_RESULT payoff-light.txt unsupported draws=2 extra=0 events={} error=UnsupportedOperationException: unmodeled mana sources while paying for Anje Falkenrath: [Shadowblood Ridge [Mana, {T}, {1}]]
+GENERIC_RESULT original.txt unsupported draws=1 extra=0 events={} error=UnsupportedOperationException: trigger setup failed: ChangeZone
+GENERIC_RESULT land-heavy.txt unsupported draws=1 extra=0 events={} error=UnsupportedOperationException: payCostToPreventEffect
+GENERIC_RESULT interaction-heavy.txt unsupported draws=6 extra=7 events={alternative_permanent_resolved=1, commander_resolved=1, effect_draw=7, permanent_resolved=6} error=UnsupportedOperationException: unmodeled mana sources while paying for Phyrexian Arena: [Shadowblood Ridge [Mana, {T}, {1}]]
+GENERIC_RESULT payoff-light.txt completed_under_policy draws=6 extra=3 events={commander_resolved=1, effect_draw=3, permanent_resolved=1} error=null
+GENERIC_RESULT original.txt unsupported draws=6 extra=2 events={alternative_permanent_resolved=1, effect_draw=2, permanent_resolved=1} error=UnsupportedOperationException: trigger setup failed: Destroy
+GENERIC_RESULT land-heavy.txt unsupported draws=4 extra=3 events={commander_resolved=1, effect_draw=3, permanent_resolved=2} error=UnsupportedOperationException: payCostToPreventEffect
+GENERIC_RESULT interaction-heavy.txt unsupported draws=5 extra=4 events={commander_resolved=1, effect_draw=4, permanent_resolved=2} error=UnsupportedOperationException: payCostToPreventEffect
+GENERIC_RESULT payoff-light.txt completed_under_policy draws=6 extra=5 events={commander_resolved=1, effect_draw=5, permanent_resolved=2} error=null
+GENERIC_RESULT original.txt completed_under_policy draws=6 extra=5 events={commander_resolved=1, effect_draw=5, permanent_resolved=4} error=null
+GENERIC_RESULT land-heavy.txt unsupported draws=4 extra=2 events={effect_draw=2, permanent_resolved=1} error=UnsupportedOperationException: unmodeled mana sources while paying for Anje Falkenrath: [Treasure Token [Mana, {T}, Sacrifice this token], Treasure Token [Mana, {T}, Sacrifice this token]]
+GENERIC_RESULT interaction-heavy.txt unsupported draws=1 extra=0 events={} error=UnsupportedOperationException: payCostToPreventEffect
+GENERIC_RESULT payoff-light.txt unsupported draws=4 extra=1 events={effect_draw=1, permanent_resolved=1} error=UnsupportedOperationException: payCostToPreventEffect
+GENERIC_RESULT original.txt completed_under_policy draws=6 extra=11 events={alternative_permanent_resolved=1, commander_resolved=1, effect_draw=11, permanent_resolved=3} error=null
+GENERIC_RESULT land-heavy.txt unsupported draws=5 extra=7 events={commander_resolved=1, effect_draw=7, permanent_resolved=1} error=UnsupportedOperationException: unmodeled mana sources while paying for Archfiend of Ifnir: [Treasure Token [Mana, {T}, Sacrifice this token], Treasure Token [Mana, {T}, Sacrifice this token]]
+GENERIC_RESULT interaction-heavy.txt unsupported draws=5 extra=5 events={alternative_permanent_resolved=1, commander_resolved=1, effect_draw=5, permanent_resolved=3} error=UnsupportedOperationException: payCostToPreventEffect
+GENERIC_RESULT payoff-light.txt completed_under_policy draws=6 extra=6 events={commander_resolved=1, effect_draw=6, permanent_resolved=2} error=null
+GENERIC_RESULT original.txt unsupported draws=5 extra=6 events={commander_resolved=1, effect_draw=6, permanent_resolved=2} error=UnsupportedOperationException: unmodeled mana sources while paying for Rakdos Locket: [Treasure Token [Mana, {T}, Sacrifice this token], Treasure Token [Mana, {T}, Sacrifice this token]]
+GENERIC_RESULT land-heavy.txt unsupported draws=6 extra=8 events={commander_resolved=1, effect_draw=8, permanent_resolved=3} error=UnsupportedOperationException: unmodeled mana sources while paying for Rakdos Locket: [Shadowblood Ridge [Mana, {T}, {1}]]
+GENERIC_RESULT interaction-heavy.txt unsupported draws=3 extra=3 events={alternative_permanent_resolved=2, commander_resolved=1, effect_draw=3, permanent_resolved=5} error=UnsupportedOperationException: trigger setup failed: ChangeZone
+GENERIC_RESULT payoff-light.txt error draws=4 extra=1 events={commander_resolved=1, effect_draw=1, permanent_resolved=2} error=NullPointerException: Cannot invoke "java.lang.Integer.intValue()" because the return value of "forge.game.spellability.SpellAbility.getDividedValue(forge.game.GameObject)" is null
+GENERIC_RESULT original.txt unsupported draws=1 extra=0 events={} error=UnsupportedOperationException: arrangeForSurveil
+GENERIC_RESULT land-heavy.txt unsupported draws=6 extra=12 events={commander_resolved=1, effect_draw=12, permanent_resolved=4} error=UnsupportedOperationException: unmodeled mana sources while paying for Songs of the Damned: [Treasure Token [Mana, {T}, Sacrifice this token], Treasure Token [Mana, {T}, Sacrifice this token]]
+GENERIC_RESULT interaction-heavy.txt unsupported draws=2 extra=0 events={} error=UnsupportedOperationException: unmodeled mana sources while paying for Anje Falkenrath: [Mount Doom [Mana, {T}, Pay 1 life]]
+GENERIC_RESULT payoff-light.txt unsupported draws=5 extra=10 events={commander_resolved=1, effect_draw=10, permanent_resolved=5} error=UnsupportedOperationException: unmodeled mana sources while paying for Avacyn's Judgment: [Treasure Token [Mana, {T}, Sacrifice this token], Treasure Token [Mana, {T}, Sacrifice this token], Shadowblood Ridge [Mana, {T}, {1}]]
+GENERIC_RESULT original.txt completed_under_policy draws=6 extra=14 events={alternative_permanent_resolved=2, commander_resolved=1, effect_draw=14, permanent_resolved=6} error=null
+GENERIC_RESULT land-heavy.txt unsupported draws=4 extra=4 events={commander_resolved=1, effect_draw=4, permanent_resolved=2} error=UnsupportedOperationException: unmodeled mana sources while paying for Unexpected Windfall: [Rakdos Signet [Mana, {T}, {1}]]
+GENERIC_RESULT interaction-heavy.txt unsupported draws=1 extra=0 events={} error=UnsupportedOperationException: payCostToPreventEffect
+GENERIC_RESULT payoff-light.txt unsupported draws=1 extra=0 events={} error=UnsupportedOperationException: payCostToPreventEffect
+GENERIC_RESULT original.txt unsupported draws=1 extra=0 events={} error=UnsupportedOperationException: chooseSingleStaticAbility
+GENERIC_RESULT land-heavy.txt unsupported draws=1 extra=0 events={} error=UnsupportedOperationException: payCostToPreventEffect
+GENERIC_RESULT interaction-heavy.txt unsupported draws=4 extra=2 events={alternative_permanent_resolved=1, commander_resolved=1, effect_draw=2, permanent_resolved=3} error=UnsupportedOperationException: trigger setup failed: ChangeZone
+GENERIC_RESULT payoff-light.txt unsupported draws=1 extra=0 events={} error=UnsupportedOperationException: payCostToPreventEffect
+GENERIC_RESULT original.txt unsupported draws=5 extra=0 events={} error=UnsupportedOperationException: payCostToPreventEffect
+GENERIC_RESULT land-heavy.txt unsupported draws=1 extra=0 events={} error=UnsupportedOperationException: payCostToPreventEffect
+GENERIC_RESULT interaction-heavy.txt unsupported draws=6 extra=10 events={alternative_permanent_resolved=1, commander_resolved=1, effect_draw=10, permanent_resolved=4} error=UnsupportedOperationException: unmodeled mana sources while paying for Rakdos Locket: [Shadowblood Ridge [Mana, {T}, {1}]]
+GENERIC_RESULT payoff-light.txt completed_under_policy draws=6 extra=5 events={commander_resolved=1, effect_draw=5, permanent_resolved=2} error=null
+GENERIC_RESULT original.txt unsupported draws=5 extra=3 events={commander_resolved=1, effect_draw=3, permanent_resolved=2} error=UnsupportedOperationException: arrangeForSurveil
+GENERIC_RESULT land-heavy.txt unsupported draws=1 extra=0 events={} error=UnsupportedOperationException: arrangeForSurveil
+GENERIC_RESULT interaction-heavy.txt unsupported draws=3 extra=0 events={} error=UnsupportedOperationException: unmodeled mana sources while paying for Anje Falkenrath: [Shadowblood Ridge [Mana, {T}, {1}]]
+GENERIC_RESULT payoff-light.txt completed_under_policy draws=6 extra=8 events={commander_resolved=1, effect_draw=8, permanent_resolved=6} error=null
+GENERIC_RESULT original.txt unsupported draws=6 extra=0 events={permanent_resolved=1} error=UnsupportedOperationException: unmodeled mana sources while paying for Anje Falkenrath: [Mount Doom [Mana, {T}, Pay 1 life]]
+GENERIC_RESULT land-heavy.txt unsupported draws=2 extra=0 events={} error=UnsupportedOperationException: unmodeled mana sources while paying for Anje Falkenrath: [Shadowblood Ridge [Mana, {T}, {1}]]
+GENERIC_RESULT interaction-heavy.txt unsupported draws=6 extra=6 events={commander_resolved=1, effect_draw=6, permanent_resolved=3} error=UnsupportedOperationException: unmodeled mana sources while paying for Rakdos Locket: [Shadowblood Ridge [Mana, {T}, {1}], Skirge Familiar [Mana, Discard a card]]
+GENERIC_RESULT payoff-light.txt unsupported draws=1 extra=1 events={effect_draw=1} error=UnsupportedOperationException: chooseSingleStaticAbility
+GENERIC_RESULT original.txt unsupported draws=2 extra=1 events={effect_draw=1, permanent_resolved=1} error=UnsupportedOperationException: unmodeled mana sources while paying for Anje Falkenrath: [Rakdos Signet [Mana, {T}, {1}]]
+GENERIC_RESULT land-heavy.txt unsupported draws=1 extra=0 events={} error=UnsupportedOperationException: arrangeForSurveil
+GENERIC_RESULT interaction-heavy.txt unsupported draws=1 extra=0 events={} error=UnsupportedOperationException: payCostToPreventEffect
+GENERIC_RESULT payoff-light.txt unsupported draws=1 extra=0 events={permanent_resolved=2} error=UnsupportedOperationException: unmodeled mana sources while paying for Anje Falkenrath: [Rakdos Signet [Mana, {T}, {1}]]
+GENERIC_RESULT original.txt unsupported draws=5 extra=2 events={commander_resolved=1, effect_draw=2, permanent_resolved=1} error=UnsupportedOperationException: payCostToPreventEffect
+GENERIC_RESULT land-heavy.txt unsupported draws=6 extra=2 events={commander_resolved=1, effect_draw=2, permanent_resolved=2} error=UnsupportedOperationException: payCostToPreventEffect
+GENERIC_RESULT interaction-heavy.txt unsupported draws=2 extra=0 events={} error=UnsupportedOperationException: trigger setup failed: ChangeZone
+GENERIC_RESULT payoff-light.txt unsupported draws=3 extra=3 events={effect_draw=3} error=UnsupportedOperationException: payCostToPreventEffect
+GENERIC_RESULT original.txt unsupported draws=2 extra=0 events={} error=UnsupportedOperationException: trigger setup failed: ChangeZone
+GENERIC_RESULT land-heavy.txt unsupported draws=2 extra=1 events={effect_draw=1} error=UnsupportedOperationException: unmodeled mana sources while paying for Anje Falkenrath: [Shadowblood Ridge [Mana, {T}, {1}]]
+GENERIC_RESULT interaction-heavy.txt unsupported draws=3 extra=1 events={effect_draw=1, permanent_resolved=2} error=UnsupportedOperationException: payCostToPreventEffect
+GENERIC_RESULT payoff-light.txt unsupported draws=1 extra=0 events={} error=UnsupportedOperationException: chooseSingleStaticAbility

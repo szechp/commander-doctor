@@ -1,0 +1,5 @@
+Implement docs/implementation/tasks/T01-feedback.md in this repository.
+Read that task and docs/implementation/CONTRACTS.md first. You are a bounded implementation worker; the architect is writing other docs concurrently.
+Edit only src/deckdoctor/deck_config.py feedback-related code and tests/test_feedback_persistence.py. You may add a small helper file only if essential and report it. Do not modify personal deck files, pyproject.toml, other tests, architecture docs, Git history, or unrelated code. Do not spawn other agents. Do not run network calls, install dependencies, or run Forge.
+Use the existing .venv Python for focused tests. Implement the actual patch, then test it. If a tool permission is denied, report the needed action instead of bypassing permissions. Do not mark unrelated existing test failures as yours or hide them.
+Report: summary, changed files, acceptance coverage, exact tests/results, platform/formatting tradeoffs, remaining risks. Do not commit. Stop after this one task.

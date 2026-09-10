@@ -1,0 +1,268 @@
+{
+  "command": "consistency",
+  "config_fingerprint": "7068dcd09fd7ecb1e9c4c3c5a0d8f30a66f1399298ef23aa4945a7cb2d495f06",
+  "data_versions": {
+    "forge_parser_version": null,
+    "forge_revision": null,
+    "freshness": {
+      "oracle_cards": "unknown",
+      "oracle_tags": "unknown"
+    },
+    "last_sync": "2026-09-06T16:08:55.633094+00:00",
+    "oracle_cards_sha256": null,
+    "oracle_cards_timestamp": null,
+    "oracle_tags_sha256": null,
+    "oracle_tags_timestamp": null,
+    "role_evidence_input_hash": null,
+    "role_evidence_version": null
+  },
+  "deck_fingerprint": "4b6d0ccd135173a4deb2d5b6b95c6f05700ee74e7ab3b1e8a25a34acf1c5c230",
+  "findings": [
+    {
+      "assumptions": [],
+      "evidence": {},
+      "id": "consistency.result",
+      "limitations": [],
+      "message": "consistency result produced",
+      "outcome": "pass",
+      "related_cards": [],
+      "severity": "info",
+      "status": "approximate"
+    },
+    {
+      "assumptions": [],
+      "evidence": {
+        "freshness": {
+          "oracle_cards": "unknown",
+          "oracle_tags": "unknown"
+        }
+      },
+      "id": "data.provenance",
+      "limitations": [],
+      "message": "one or more required data timestamps are unavailable",
+      "outcome": "unknown",
+      "related_cards": [],
+      "severity": "warning",
+      "status": "unavailable"
+    }
+  ],
+  "limitations": [
+    "Access estimates do not model execution, mana spending, or combo timing."
+  ],
+  "metrics": {
+    "consistency": {
+      "assumptions": [],
+      "bottom_policy": "highest_cost_nonland_v1",
+      "category_histograms": {
+        "lands": {
+          "10": 2,
+          "2": 21,
+          "3": 108,
+          "4": 220,
+          "5": 259,
+          "6": 226,
+          "7": 110,
+          "8": 47,
+          "9": 7
+        },
+        "nonlands": {
+          "10": 106,
+          "11": 19,
+          "3": 2,
+          "4": 8,
+          "5": 52,
+          "6": 114,
+          "7": 224,
+          "8": 259,
+          "9": 216
+        }
+      },
+      "diagnostics": [],
+      "engine_version": "1",
+      "forced_keep_count": 5,
+      "goal_results": [
+        {
+          "by_draw": 6,
+          "children": [],
+          "denominator": 1000,
+          "estimate": 0.21,
+          "id": "example_setup_access",
+          "interval": [
+            0.18588891937362567,
+            0.23633060054799632
+          ],
+          "kind": "cards_seen",
+          "limitations": [],
+          "minimum": 1,
+          "numerator": 210,
+          "raw_kind": "cards_seen",
+          "representative_trials": [
+            {
+              "outcome": true,
+              "retained_hand": [
+                "Otepec Huntmaster",
+                "Herald's Horn",
+                "Quartzwood Crasher",
+                "Exotic Orchard",
+                "Battlefield Forge",
+                "Atzocan Seer",
+                "Rootbound Crag"
+              ],
+              "subsequent_draws": [
+                "Wooded Foothills",
+                "Cinder Glade",
+                "Forest",
+                "Roaming Throne",
+                "Ripjaw Raptor",
+                "Path to Exile"
+              ],
+              "trial": 1
+            },
+            {
+              "outcome": true,
+              "retained_hand": [
+                "Wayward Swordtooth",
+                "Get Lost",
+                "Plains",
+                "Runic Armasaur",
+                "Cavern of Souls",
+                "Secluded Courtyard",
+                "Plains"
+              ],
+              "subsequent_draws": [
+                "Cultivate",
+                "Topiary Stomper",
+                "Arcane Signet",
+                "Pantlaza, Sun-Favored",
+                "Generous Gift",
+                "Regal Behemoth"
+              ],
+              "trial": 3
+            },
+            {
+              "outcome": true,
+              "retained_hand": [
+                "Rampant Growth",
+                "Arcane Signet",
+                "Growing Rites of Itlimoc // Itlimoc, Cradle of the Sun",
+                "Forest",
+                "Forest",
+                "Turntimber Symbiosis // Turntimber, Serpentine Wood",
+                "Xenagos, God of Revels"
+              ],
+              "subsequent_draws": [
+                "Whispersilk Cloak",
+                "Zetalpa, Primal Dawn",
+                "Urza's Incubator",
+                "Cavern of Souls",
+                "Cinder Glade",
+                "Ancient Ziggurat"
+              ],
+              "trial": 11
+            },
+            {
+              "outcome": false,
+              "retained_hand": [
+                "Sacred Foundry",
+                "Quartzwood Crasher",
+                "Welcome to . . . // Jurassic Park",
+                "Bronzebeak Foragers",
+                "Generous Gift",
+                "Forest",
+                "Ancient Ziggurat"
+              ],
+              "subsequent_draws": [
+                "Secluded Courtyard",
+                "Command Tower",
+                "Ranging Raptors",
+                "Temple Garden",
+                "Canopy Vista",
+                "Mountain"
+              ],
+              "trial": 0
+            },
+            {
+              "outcome": false,
+              "retained_hand": [
+                "Zacama, Primal Calamity",
+                "Clifftop Retreat",
+                "Runic Armasaur",
+                "Rootbound Crag",
+                "Regal Behemoth",
+                "Apex Altisaur",
+                "Karplusan Forest"
+              ],
+              "subsequent_draws": [
+                "Cavern of Souls",
+                "Chandra's Ignition",
+                "Plains",
+                "Ancient Ziggurat",
+                "Jetmir's Garden",
+                "Skyshroud Claim"
+              ],
+              "trial": 2
+            },
+            {
+              "outcome": false,
+              "retained_hand": [
+                "Bountiful Promenade",
+                "Hunting Velociraptor",
+                "Mountain",
+                "Congregation at Dawn",
+                "Forest",
+                "Secluded Courtyard",
+                "Otepec Huntmaster"
+              ],
+              "subsequent_draws": [
+                "Urza's Incubator",
+                "Jetmir's Garden",
+                "Cavern of Souls",
+                "Boros Charm",
+                "Apex Altisaur",
+                "Bonehoard Dracosaur"
+              ],
+              "trial": 4
+            }
+          ],
+          "selector": {
+            "names": [
+              "Arcane Signet",
+              "Atzocan Seer"
+            ]
+          },
+          "status": "approximate",
+          "supported": true
+        }
+      ],
+      "horizon": 6,
+      "imbalance_flags": [],
+      "limitations": [
+        "no mana spending, effect draws, execution simulation, or combo timing is modeled",
+        "role selectors reflect only the role_evidence supplied by the caller; tag-only or unresolved evidence is excluded from membership counts",
+        "intervals describe sampling variation under the stated mulligan/bottom policy, not model accuracy",
+        "MDFC land availability uses the front face only; spell/land choice and castability are not modeled"
+      ],
+      "mulligan_config": {
+        "bottom_policy": "highest_cost_nonland_v1",
+        "free_mulligans": 1,
+        "max_lands": 5,
+        "max_mulligans": 2,
+        "min_lands": 2,
+        "policy": "land_range_v1"
+      },
+      "mulligan_distribution": {
+        "0": 798,
+        "1": 163,
+        "2": 39
+      },
+      "mulligan_policy": "land_range_v1",
+      "role_histograms": {},
+      "role_memberships": {},
+      "role_overlaps": {},
+      "schema_version": 1,
+      "seed": 42,
+      "trials": 1000
+    }
+  },
+  "schema_version": 1
+}

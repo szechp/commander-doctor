@@ -1,0 +1,7 @@
+commander: Ugluk of the White Hand
+bracket: 3
+threshold: 4                # REQUIRED: commander is usually never cast (SPEC.md §0.1 / ref §0.1)
+gameplan: >
+  Goblin aristocrats. Sacrifice outlets plus death payoffs, closing with
+  bracket-3-legal combo lines. The commander is a bonus, not the plan —
+  the deck wins on combos and Ugluk itself is often never cast.

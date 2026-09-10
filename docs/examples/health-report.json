@@ -1,0 +1,207 @@
+{
+  "command": "health",
+  "config_fingerprint": null,
+  "data_versions": {
+    "forge_parser_version": null,
+    "forge_revision": null,
+    "freshness": {
+      "oracle_cards": "unknown",
+      "oracle_tags": "unknown"
+    },
+    "last_sync": "2026-09-06T16:08:55.633094+00:00",
+    "oracle_cards_sha256": null,
+    "oracle_cards_timestamp": null,
+    "oracle_tags_sha256": null,
+    "oracle_tags_timestamp": null,
+    "role_evidence_input_hash": null,
+    "role_evidence_version": null
+  },
+  "deck_fingerprint": "4b6d0ccd135173a4deb2d5b6b95c6f05700ee74e7ab3b1e8a25a34acf1c5c230",
+  "findings": [
+    {
+      "assumptions": [],
+      "evidence": {},
+      "id": "health.lands",
+      "limitations": [],
+      "message": "40 actual vs 38 computed  (diverges by 2)",
+      "outcome": "fail",
+      "related_cards": [],
+      "severity": "warning",
+      "status": "checked"
+    },
+    {
+      "assumptions": [],
+      "evidence": {},
+      "id": "health.ramp",
+      "limitations": [],
+      "message": "13 actual vs 13 target",
+      "outcome": "pass",
+      "related_cards": [],
+      "severity": "info",
+      "status": "checked"
+    },
+    {
+      "assumptions": [],
+      "evidence": {},
+      "id": "health.draw",
+      "limitations": [],
+      "message": "7 in deck (no formula floor for this category)",
+      "outcome": "unknown",
+      "related_cards": [],
+      "severity": "warning",
+      "status": "unavailable"
+    },
+    {
+      "assumptions": [],
+      "evidence": {},
+      "id": "health.removal",
+      "limitations": [],
+      "message": "10 in deck, 4 board wipe(s)",
+      "outcome": "unknown",
+      "related_cards": [],
+      "severity": "warning",
+      "status": "unavailable"
+    },
+    {
+      "assumptions": [],
+      "evidence": {},
+      "id": "health.game_changers",
+      "limitations": [],
+      "message": "1 / 3 cap",
+      "outcome": "pass",
+      "related_cards": [],
+      "severity": "info",
+      "status": "checked"
+    },
+    {
+      "assumptions": [],
+      "evidence": {},
+      "id": "health.answer_coverage",
+      "limitations": [],
+      "message": "missing: artifact, graveyard",
+      "outcome": "fail",
+      "related_cards": [],
+      "severity": "warning",
+      "status": "checked"
+    },
+    {
+      "assumptions": [],
+      "evidence": {},
+      "id": "health.instant-speed_answers",
+      "limitations": [],
+      "message": "3 / 4 floor",
+      "outcome": "fail",
+      "related_cards": [],
+      "severity": "warning",
+      "status": "checked"
+    },
+    {
+      "assumptions": [],
+      "evidence": {},
+      "id": "health.colour_sources",
+      "limitations": [],
+      "message": "69 card(s) short of their unconditional colour-source floor",
+      "outcome": "fail",
+      "related_cards": [],
+      "severity": "warning",
+      "status": "checked"
+    },
+    {
+      "assumptions": [],
+      "evidence": {},
+      "id": "health.survival_window",
+      "limitations": [],
+      "message": "12 / 15 interaction by turn 8 (normal board)",
+      "outcome": "fail",
+      "related_cards": [],
+      "severity": "warning",
+      "status": "checked"
+    },
+    {
+      "assumptions": [],
+      "evidence": {},
+      "id": "health.combo/bracket",
+      "limitations": [],
+      "message": "no cached Commander Spellbook estimate -- run `deckdoctor combos`/`bracket` to populate; health never fetches this automatically",
+      "outcome": "unknown",
+      "related_cards": [],
+      "severity": "warning",
+      "status": "unavailable"
+    },
+    {
+      "assumptions": [],
+      "evidence": {
+        "freshness": {
+          "oracle_cards": "unknown",
+          "oracle_tags": "unknown"
+        }
+      },
+      "id": "data.provenance",
+      "limitations": [],
+      "message": "one or more required data timestamps are unavailable",
+      "outcome": "unknown",
+      "related_cards": [],
+      "severity": "warning",
+      "status": "unavailable"
+    }
+  ],
+  "limitations": [],
+  "metrics": {
+    "health": {
+      "deck_name": "gishath",
+      "rows": [
+        {
+          "check": "Lands",
+          "detail": "40 actual vs 38 computed  (diverges by 2)",
+          "status": "GAP"
+        },
+        {
+          "check": "Ramp",
+          "detail": "13 actual vs 13 target",
+          "status": "OK"
+        },
+        {
+          "check": "Draw",
+          "detail": "7 in deck (no formula floor for this category)",
+          "status": "n/a"
+        },
+        {
+          "check": "Removal",
+          "detail": "10 in deck, 4 board wipe(s)",
+          "status": "n/a"
+        },
+        {
+          "check": "Game changers",
+          "detail": "1 / 3 cap",
+          "status": "OK"
+        },
+        {
+          "check": "Answer coverage",
+          "detail": "missing: artifact, graveyard",
+          "status": "GAP"
+        },
+        {
+          "check": "Instant-speed answers",
+          "detail": "3 / 4 floor",
+          "status": "SHORT"
+        },
+        {
+          "check": "Colour sources",
+          "detail": "69 card(s) short of their unconditional colour-source floor",
+          "status": "GAP"
+        },
+        {
+          "check": "Survival window",
+          "detail": "12 / 15 interaction by turn 8 (normal board)",
+          "status": "SHORT"
+        },
+        {
+          "check": "Combo/bracket",
+          "detail": "no cached Commander Spellbook estimate -- run `deckdoctor combos`/`bracket` to populate; health never fetches this automatically",
+          "status": "n/a"
+        }
+      ]
+    }
+  },
+  "schema_version": 1
+}

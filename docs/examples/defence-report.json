@@ -1,0 +1,69 @@
+{
+  "command": "defence",
+  "config_fingerprint": null,
+  "data_versions": {
+    "forge_parser_version": null,
+    "forge_revision": null,
+    "freshness": {
+      "oracle_cards": "unknown",
+      "oracle_tags": "unknown"
+    },
+    "last_sync": "2026-09-06T16:08:55.633094+00:00",
+    "oracle_cards_sha256": null,
+    "oracle_cards_timestamp": null,
+    "oracle_tags_sha256": null,
+    "oracle_tags_timestamp": null,
+    "role_evidence_input_hash": null,
+    "role_evidence_version": null
+  },
+  "deck_fingerprint": "4b6d0ccd135173a4deb2d5b6b95c6f05700ee74e7ab3b1e8a25a34acf1c5c230",
+  "findings": [
+    {
+      "assumptions": [],
+      "evidence": {},
+      "id": "defence.result",
+      "limitations": [],
+      "message": "defence result produced",
+      "outcome": "pass",
+      "related_cards": [],
+      "severity": "info",
+      "status": "approximate"
+    },
+    {
+      "assumptions": [],
+      "evidence": {
+        "freshness": {
+          "oracle_cards": "unknown",
+          "oracle_tags": "unknown"
+        }
+      },
+      "id": "data.provenance",
+      "limitations": [],
+      "message": "one or more required data timestamps are unavailable",
+      "outcome": "unknown",
+      "related_cards": [],
+      "severity": "warning",
+      "status": "unavailable"
+    }
+  ],
+  "limitations": [
+    "Survival-window targets are heuristic."
+  ],
+  "metrics": {
+    "defence": {
+      "board_presence": "normal",
+      "deck_name": "gishath",
+      "instant_speed_actual": 3,
+      "instant_speed_cards": [
+        "Generous Gift",
+        "Get Lost",
+        "Path to Exile"
+      ],
+      "instant_speed_target": 8,
+      "interaction_actual": 12,
+      "interaction_target": 15,
+      "threshold_turn": 8.0
+    }
+  },
+  "schema_version": 1
+}

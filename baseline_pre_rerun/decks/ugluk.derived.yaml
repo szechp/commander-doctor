@@ -1,0 +1,67 @@
+# Derived per SPEC.md §4. Built from decks/ugluk.yaml's own stated gameplan
+# ("Sacrifice outlets plus death payoffs, closing with bracket-[3]-legal
+# combo lines. The commander is a bonus, not the plan -- the deck wins on
+# combos and Ugluk itself is often never cast.") plus oracle text pulled
+# directly from the local mirror for every member below (see the session
+# that built this for the exact SELECT).
+#
+# Contrast with the two worked examples in SKILL.md: like Sevinne, the
+# commander here is NOT the plan (Uglúk's own text is a payoff for OTHER
+# creatures dying -- "Whenever another creature you control dies..." --
+# not a piece the deck is built around), so this does NOT use
+# commander_on_battlefield as the success condition.
+#
+# Token generation itself (Mogg War Marshal, Siege-Gang Commander,
+# Sling-Gang Lieutenant, Legion Warboss, Krenko x2, Muxus, Empty the
+# Warrens, Krenko's Command, General Kreat...) is deliberately NOT gated
+# in success_condition below: with 14+ redundant sources in a 63-card
+# nonland pool it is not the bottleneck this check is trying to catch.
+# The bottleneck the deck's own stated plan implies is whether a sac
+# outlet and a death payoff are BOTH online at once -- without both, a
+# dying goblin is just a dead goblin.
+
+commander: Uglúk of the White Hand
+
+effect_classes:
+  sac_outlet:
+    rationale: >
+      Repeatable "Sacrifice a creature/Goblin: ..." abilities that convert
+      board state into value -- the half of the plan that needs a body to
+      turn tokens into damage/drain/mana/cards.
+    members:
+      - Ashnod's Altar        # "Sacrifice a creature: Add {C}{C}."
+      - Phyrexian Altar       # "Sacrifice a creature: Add one mana of any color."
+      - Goblin Bombardment    # "Sacrifice a creature: ...deals 1 damage to any target."
+      - Viscera Seer          # "Sacrifice a creature: Scry 1."
+      - Warren Soultrader     # "Pay 1 life, Sacrifice another creature: Create a Treasure token."
+      - Skirk Prospector      # "Sacrifice a Goblin: Add {R}."
+      - Sling-Gang Lieutenant # "Sacrifice a Goblin: Target player loses 1 life and you gain 1 life."
+      - Siege-Gang Commander  # "{1}{R}, Sacrifice a Goblin: ...deals 2 damage to any target."
+      - Pashalik Mons         # "{3}{R}, Sacrifice a Goblin: Create two 1/1 red Goblin creature tokens."
+
+  death_payoff:
+    rationale: >
+      Triggers that turn a creature dying (or a token being made/sacked)
+      into damage or a life swing -- the other half of the aristocrats
+      plan, and what makes running a sac outlet correct rather than a
+      wash.
+    members:
+      - Blood Artist          # "Whenever this creature or another creature dies, target player loses 1 life and you gain 1 life."
+      - Zulaport Cutthroat     # same clause as Blood Artist.
+      - Bastion of Remembrance # "Whenever a creature you control dies, each opponent loses 1 life and you gain 1 life."
+      - Mirkwood Bats          # "Whenever you create or sacrifice a token, each opponent loses 1 life."
+      - Pashalik Mons          # "Whenever Pashalik Mons or another Goblin you control dies, [it] deals 1 damage to any target." (dual class: also a sac_outlet)
+      - Uglúk of the White Hand # "Whenever another creature you control dies, put a +1/+1 counter on Uglúk..." -- the commander's actual role: payoff, not plan.
+
+success_condition:
+  description: a sac outlet and a death payoff both on the battlefield at once (the engine is live)
+  requires:
+    - {class: sac_outlet, zone: battlefield, count: 1}
+    - {class: death_payoff, zone: battlefield, count: 1}
+  target_turn: 6
+  note: >
+    Token generation is intentionally not gated here (see header) -- if
+    this reads as 0% in goldfish while token generators and sac outlets
+    are individually resolving fine, that's a "both pieces, same time"
+    sequencing problem, not a missing-piece problem, and worth a second
+    look before concluding the deck is broken.

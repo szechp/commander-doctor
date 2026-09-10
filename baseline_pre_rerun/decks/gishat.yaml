@@ -1,0 +1,79 @@
+commander: Gishath, Sun's Avatar
+bracket: 3
+threshold: 8
+gameplan: >
+  Naya (RGW) Dinosaur tribal. Gishath's own combat-damage trigger is the
+  win condition -- ramp/cost-reduce/haste-enable big Dinosaurs into play,
+  attack with Gishath, cascade more Dinosaurs onto the battlefield off the
+  top of the library. See decks/gishat.derived.yaml for the full
+  effect-class breakdown, derived and shown to the user 2026-09-03.
+
+feedback:
+  - date: '2026-09-03'
+    kind: swap
+    status: accepted
+    current: Drover of the Mighty
+    suggested: Regal Behemoth
+    reason: Regal Behemoth is a Dinosaur (preserves tribal density for Gishath's trigger)
+      and does both ramp (extra mana per land tap while monarch) and draw (monarch draws
+      each end step), strictly more than Drover's plain dork.
+  - date: '2026-09-03'
+    kind: swap
+    status: accepted
+    current: Sunfrill Imitator
+    suggested: Vaultborn Tyrant
+    reason: User wanted card-draw/ramp additions to stay Dinosaur-typed rather than
+      cut Dinosaurs for generic spells. Vaultborn Tyrant draws on every P4+ ETB, which
+      this deck triggers constantly.
+  - date: '2026-09-03'
+    kind: swap
+    status: accepted
+    current: Verdant Sun's Avatar
+    suggested: Earthshaker Dreadmaw
+    reason: Verdant Sun's Avatar was a 7-mana do-nothing outside combat; Earthshaker
+      Dreadmaw draws a card per other Dinosaur on ETB, scaling with this deck's 26-Dinosaur
+      base. Dino-for-Dino, no density loss.
+  - date: '2026-09-03'
+    kind: swap
+    status: accepted
+    current: Ranging Raptors
+    suggested: Thrashing Brontodon
+    reason: Ranging Raptors' ramp was Enrage-conditional (needs to be damaged first)
+      and redundant with unconditional ramp already in the deck. Thrashing Brontodon
+      patches the coverage gap on artifact/enchantment answers, cheaply, and is itself
+      a Dinosaur.
+  - date: '2026-09-03'
+    kind: swap
+    status: accepted
+    current: Gert and Old Lace, Runaways
+    suggested: Territorial Allosaurus
+    reason: Gert and Old Lace's ETB was card-neutral (discard to fetch a land to hand).
+      Territorial Allosaurus gives real fight-based creature removal when kicked. Dino-for-Dino.
+  - date: '2026-09-03'
+    kind: swap
+    status: accepted
+    current: Raging Swordtooth
+    suggested: Wakening Sun's Avatar
+    reason: Raging Swordtooth's 1-damage-to-all-creatures ETB was a narrow pseudo-wipe
+      (mostly hits X/1s); Wakening Sun's Avatar (destroy all non-Dinosaur creatures)
+      is a real wipe that's asymmetric for this specific deck since 26/32 creatures
+      are Dinosaurs. Fixes the board-wipe count (was 1, undifferentiated).
+  - date: '2026-09-03'
+    kind: swap
+    status: accepted
+    current: Caustic Caterpillar
+    suggested: March of Otherworldly Light
+    reason: Caustic Caterpillar was weak sac-based removal; March of Otherworldly Light
+      is instant-speed and hits creature/artifact/enchantment in one card, closing both
+      the missing-artifact-answer coverage gap and the instant-speed-answer floor (was
+      3/7, now 4/4).
+  - date: '2026-09-03'
+    kind: swap
+    status: accepted
+    current: 1 Forest
+    suggested: Teferi's Protection
+    reason: 'User''s priority call: ramp was already healthy (14 real effects vs target
+      13, once untagged effects like Farseek/Hulking Raptor were counted) so the open
+      game-changer slot went to wipe/removal/alpha-strike protection instead of Gaea''s
+      Cradle -- this deck is unusually exposed to board wipes since its whole plan is
+      accumulating a big board.'

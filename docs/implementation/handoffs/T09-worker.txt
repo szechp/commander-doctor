@@ -1,0 +1,5 @@
+Implement docs/implementation/tasks/T09-workflow.md only after its prerequisites are accepted.
+Read docs/implementation/CONTRACTS.md and docs/implementation/RUNBOOK.md, then the assigned task and its source files.
+If this task is marked deferred, do not implement it without a later explicit assignment.
+Respect the task file ownership; coordinate shared-file changes with the architect. Do not modify personal decks or data, Git history, or unrelated files. Do not spawn agents or call paid APIs.
+Produce the bounded patch and meaningful regression tests; use the existing .venv. Report changed paths, tests and exact results, baseline failures, tradeoffs and unresolved contract questions. Do not mark the task accepted; the architect reviews it. Stop after this task.

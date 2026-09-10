@@ -1,0 +1,6 @@
+// Synthetic mechanics fixture; repeated nonbasics intentionally violate singleton.
+1 Isamaru, Hound of Konda
+37 Plains
+20 Wall of Omens
+20 Savannah Lions
+22 Revitalize

@@ -1,0 +1,162 @@
+{
+  "command": "audit",
+  "config_fingerprint": "7068dcd09fd7ecb1e9c4c3c5a0d8f30a66f1399298ef23aa4945a7cb2d495f06",
+  "data_versions": {
+    "forge_parser_version": null,
+    "forge_revision": null,
+    "freshness": {
+      "oracle_cards": "unknown",
+      "oracle_tags": "unknown"
+    },
+    "last_sync": "2026-09-06T16:08:55.633094+00:00",
+    "oracle_cards_sha256": null,
+    "oracle_cards_timestamp": null,
+    "oracle_tags_sha256": null,
+    "oracle_tags_timestamp": null,
+    "role_evidence_input_hash": null,
+    "role_evidence_version": null
+  },
+  "deck_fingerprint": "4b6d0ccd135173a4deb2d5b6b95c6f05700ee74e7ab3b1e8a25a34acf1c5c230",
+  "findings": [
+    {
+      "assumptions": [],
+      "evidence": {
+        "actual": 40,
+        "adjustment": -0.3400000000000001,
+        "computed": 38,
+        "diverges": true,
+        "karsten_base": 38.78645762711864
+      },
+      "id": "audit.land_count",
+      "limitations": [
+        "The land formula is a configured heuristic, not a castability proof."
+      ],
+      "message": "40 lands versus computed 38",
+      "outcome": "fail",
+      "related_cards": [],
+      "severity": "warning",
+      "status": "approximate"
+    },
+    {
+      "assumptions": [],
+      "evidence": {
+        "freshness": {
+          "oracle_cards": "unknown",
+          "oracle_tags": "unknown"
+        }
+      },
+      "id": "data.provenance",
+      "limitations": [],
+      "message": "one or more required data timestamps are unavailable",
+      "outcome": "unknown",
+      "related_cards": [],
+      "severity": "warning",
+      "status": "unavailable"
+    }
+  ],
+  "limitations": [],
+  "metrics": {
+    "audit": {
+      "category_flags": [
+        "Land count diverges from the formula by 2 (ref \u00a71: divergence >=2 is a signal)",
+        "Only 1/3 game changer slots used -- headroom, per SPEC.md \u00a75",
+        "Draw (7) below the community-consensus floor of ~10 (ref \u00a73)"
+      ],
+      "census": {
+        "avg_creature_toughness": 4.8,
+        "avg_mv_nonland": 3.9322033898305087,
+        "creature_count_with_numeric_toughness": 35,
+        "draw": 7,
+        "fast_mana": 3,
+        "game_changers": 1,
+        "lands": 40,
+        "low_toughness_creature_count": 4,
+        "nonland_count": 59,
+        "ramp_extra_land_drop": 1,
+        "ramp_land_search": 7,
+        "ramp_ritual": 0,
+        "ramp_rock_dork": 6,
+        "removal": 10,
+        "symmetrical_wipes": [],
+        "tagged_cards": {
+          "draw": [
+            "Curious Altisaur",
+            "Garruk's Uprising",
+            "Migration Path",
+            "Regal Behemoth",
+            "Ripjaw Raptor",
+            "Runic Armasaur",
+            "Vaultborn Tyrant"
+          ],
+          "game_changers": [
+            "Worldly Tutor"
+          ],
+          "ramp_extra_land_drop": [
+            "Wayward Swordtooth"
+          ],
+          "ramp_land_search": [
+            "Cultivate",
+            "Migration Path",
+            "Farseek",
+            "Rampant Growth",
+            "Ranging Raptors",
+            "Skyshroud Claim",
+            "Topiary Stomper"
+          ],
+          "ramp_rock_dork": [
+            "Arcane Signet",
+            "Atzocan Seer",
+            "Hulking Raptor",
+            "Intrepid Paleontologist",
+            "Regal Behemoth",
+            "Sol Ring"
+          ],
+          "ramp_via_oracle_tag_only": [
+            "Path to Exile"
+          ],
+          "removal": [
+            "Apex Altisaur",
+            "Bronzebeak Foragers",
+            "Don't Move",
+            "Generous Gift",
+            "Get Lost",
+            "Path to Exile",
+            "Scion of Calamity",
+            "Tranquil Frillback",
+            "Wakening Sun's Avatar",
+            "Zacama, Primal Calamity"
+          ],
+          "wipes": [
+            "Chandra's Ignition",
+            "Don't Move",
+            "Tranquil Frillback",
+            "Wakening Sun's Avatar"
+          ]
+        },
+        "wipes": 4
+      },
+      "deck_name": "gishath",
+      "land_formula": {
+        "actual": 40,
+        "adjustment": -0.3400000000000001,
+        "computed": 38,
+        "diverges": true,
+        "karsten_base": 38.78645762711864
+      },
+      "ramp_target": {
+        "actual": 13,
+        "gap": 2.0,
+        "target": 13,
+        "target_turn": 6
+      },
+      "threshold": {
+        "base_cmc": 8.0,
+        "overridden": false,
+        "recast_budget": 10.0,
+        "taxed": true,
+        "threshold": 8.0
+      }
+    }
+  },
+  "schema_version": 1
+}

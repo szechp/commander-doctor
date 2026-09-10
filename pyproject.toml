@@ -1,0 +1,33 @@
+[project]
+name = "deckdoctor"
+version = "0.1.0"
+description = "Commander deck doctor: audits a decklist against a plain-language gameplan."
+requires-python = ">=3.11"
+dependencies = [
+    "scipy>=1.17",
+    "requests>=2.31",
+    "mtg-parser>=0.0.1a57",
+    "pyyaml>=6.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "hypothesis>=6.100",
+    "pytest>=8.0",
+]
+
+[project.scripts]
+deckdoctor = "deckdoctor.cli:main"
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+addopts = "-m 'not integration'"
+markers = [
+    "integration: requires the personal mirror, Forge checkout, or a live provider",
+]

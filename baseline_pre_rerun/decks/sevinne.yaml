@@ -1,0 +1,51 @@
+commander: Sevinne, the Chronoclasm
+bracket: 3
+gameplan: >
+  Redirect massive damage from cards like Blasphemous Act via Stuffy Doll
+  type creatures, with flashback for repeatability.
+feedback:
+  - date: '2026-09-03'
+    kind: swap
+    status: accepted
+    current: Phyrexian Vindicator
+    suggested: Nahiri, the Harbinger
+    reason: 'Vindicator needed ~50 W sources for a turn-4 cast against 23 actual (worst
+      colour offender in the deck) and was the 6th member of an already-over-ceiling
+      redirect_body class (5/6). Nahiri''s -2 fills the missing enchantment-removal
+      coverage slot now; her -8 ultimate is a slow bonus tutor for the remaining redirect
+      bodies (loyalty math: starts at 4, +2/turn, needs turn 7+ to fire -- doesn''t
+      help the turn-5 success-condition window, so not counted as the fix for that).'
+  - date: '2026-09-03'
+    kind: swap
+    status: accepted
+    current: Council's Deliberation
+    suggested: Imperial Recruiter
+    reason: Council's Deliberation was a generic one-shot draw spell with no tie to
+      any effect class. Imperial Recruiter is live turn 3 and fetches 2 of the deck's
+      5 remaining redirect_body creatures (Stuffy Doll power 0, Brash Taunter power
+      1) to hand -- the only piece of this session's plan that actually lands inside
+      the turn-5 success-condition measurement window; goldfish showed only 15% success-condition-met
+      despite 60% commander resolution, so raising assembly odds by turn 5 (not adding
+      more raw copies of an already-saturated class) was the goal.
+  - date: '2026-09-03'
+    kind: note
+    text: 'User declined the planeswalker-removal coverage gap fix (would have needed
+      Get Lost, dropped in favor of Nahiri). Reasoning, and it holds up against oracle
+      text: Boros Reckoner and Spitemare both redirect damage to ''any target'', which
+      includes planeswalkers under the rules, plus normal combat pressure -- so the
+      deck already has some reach into enemy planeswalkers without a dedicated answer.'
+  - date: '2026-09-03'
+    kind: swap
+    status: accepted
+    current: Fear, Fire, Foes!
+    suggested: City on Fire
+    reason: Not just narrow -- actively anti-synergy with the commander. Fear, Fire,
+      Foes!'s own line ('Damage can't be prevented this turn') strips Sevinne's static
+      'Prevent all damage that would be dealt to Sevinne' for the rest of that turn,
+      exposing her to the deck's own board wipes or combat. Caught by the user, not
+      the first pass (which compared it role-vs-role against other damage_source cards,
+      not against the commander's text). City on Fire triples damage from sources you
+      control only (safer than the deck's existing Dictate of the Twin Gods, which is
+      symmetrical and can double an opponent's damage too); Convoke offsets its 8 cmc
+      using the deck's own redirect bodies, which need to be on board for the plan to
+      work anyway.

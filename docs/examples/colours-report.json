@@ -1,0 +1,1568 @@
+{
+  "command": "colours",
+  "config_fingerprint": null,
+  "data_versions": {
+    "forge_parser_version": null,
+    "forge_revision": null,
+    "freshness": {
+      "oracle_cards": "unknown",
+      "oracle_tags": "unknown"
+    },
+    "last_sync": "2026-09-06T16:08:55.633094+00:00",
+    "oracle_cards_sha256": null,
+    "oracle_cards_timestamp": null,
+    "oracle_tags_sha256": null,
+    "oracle_tags_timestamp": null,
+    "role_evidence_input_hash": null,
+    "role_evidence_version": null
+  },
+  "deck_fingerprint": "4b6d0ccd135173a4deb2d5b6b95c6f05700ee74e7ab3b1e8a25a34acf1c5c230",
+  "findings": [
+    {
+      "assumptions": [],
+      "evidence": {
+        "unmet_cards": [
+          "Gishath, Sun's Avatar",
+          "Gishath, Sun's Avatar",
+          "Gishath, Sun's Avatar",
+          "Akroma's Will",
+          "Apex Altisaur",
+          "Atzocan Seer",
+          "Atzocan Seer",
+          "Bonehoard Dracosaur",
+          "Boros Charm",
+          "Boros Charm",
+          "Bronzebeak Foragers",
+          "Chandra's Ignition",
+          "Congregation at Dawn",
+          "Congregation at Dawn",
+          "Cultivate",
+          "Curious Altisaur",
+          "Deathgorge Scavenger",
+          "Don't Move",
+          "Etali, Primal Conqueror // Etali, Primal Sickness",
+          "Garruk's Uprising",
+          "Generous Gift",
+          "Get Lost",
+          "Ghalta and Mavren",
+          "Ghalta and Mavren",
+          "Growing Rites of Itlimoc // Itlimoc, Cradle of the Sun",
+          "Heroic Intervention",
+          "Huatli, Poet of Unity // Roar of the Fifth People",
+          "Hulking Raptor",
+          "Hunting Velociraptor",
+          "Intrepid Paleontologist",
+          "Kinjalli's Sunwing",
+          "Marauding Raptor",
+          "Migration Path",
+          "Farseek",
+          "Otepec Huntmaster",
+          "Pantlaza, Sun-Favored",
+          "Pantlaza, Sun-Favored",
+          "Pantlaza, Sun-Favored",
+          "Path to Exile",
+          "Quartzwood Crasher",
+          "Quartzwood Crasher",
+          "Rampant Growth",
+          "Ranging Raptors",
+          "Regal Behemoth",
+          "Regisaur Alpha",
+          "Regisaur Alpha",
+          "Rhythm of the Wild",
+          "Rhythm of the Wild",
+          "Ripjaw Raptor",
+          "Runic Armasaur",
+          "Scion of Calamity",
+          "Skyshroud Claim",
+          "Sunfrill Imitator",
+          "The Skullspore Nexus",
+          "Topiary Stomper",
+          "Tranquil Frillback",
+          "Trumpeting Carnosaur",
+          "Turntimber Symbiosis // Turntimber, Serpentine Wood",
+          "Vaultborn Tyrant",
+          "Wakening Sun's Avatar",
+          "Wayward Swordtooth",
+          "Welcome to . . . // Jurassic Park",
+          "Worldly Tutor",
+          "Wrathful Raptors",
+          "Xenagos, God of Revels",
+          "Xenagos, God of Revels",
+          "Zacama, Primal Calamity",
+          "Zacama, Primal Calamity",
+          "Zetalpa, Primal Dawn"
+        ],
+        "usable_mana_on_turn": null
+      },
+      "id": "colours.source_access",
+      "limitations": [
+        "Drawing a source does not prove it is deployed and usable on the required turn."
+      ],
+      "message": "colour evidence is incomplete",
+      "outcome": "unknown",
+      "related_cards": [],
+      "severity": "warning",
+      "status": "unsupported"
+    },
+    {
+      "assumptions": [],
+      "evidence": {
+        "freshness": {
+          "oracle_cards": "unknown",
+          "oracle_tags": "unknown"
+        }
+      },
+      "id": "data.provenance",
+      "limitations": [],
+      "message": "one or more required data timestamps are unavailable",
+      "outcome": "unknown",
+      "related_cards": [],
+      "severity": "warning",
+      "status": "unavailable"
+    }
+  ],
+  "limitations": [],
+  "metrics": {
+    "colours": {
+      "command": "colours",
+      "limitations": [
+        "Drawing a candidate source does not prove that it is deployed and usable on the required turn.",
+        "Windswept Heath: missing produced-mana metadata",
+        "Wooded Foothills: missing produced-mana metadata",
+        "Finale of Devastation: unsupported mana cost '{X}{G}{G}'"
+      ],
+      "metrics": {
+        "approximately_untapped_sources": {
+          "G": 13,
+          "R": 10,
+          "W": 9
+        },
+        "candidate_sources": {
+          "G": 29,
+          "R": 24,
+          "W": 23
+        },
+        "conditional_sources": {
+          "G": [
+            "Arcane Signet (nonland source must first be cast and deployed)",
+            "Atzocan Seer (nonland source must first be cast and deployed)",
+            "Bountiful Promenade (depends on an opponent's or another permanent's colours)",
+            "Canopy Vista (may enter tapped)",
+            "Cinder Glade (may enter tapped)",
+            "Exotic Orchard (depends on an opponent's or another permanent's colours)",
+            "Hulking Raptor (nonland source must first be cast and deployed)",
+            "Intrepid Paleontologist (depends on an opponent's or another permanent's colours)",
+            "Jetmir's Garden (may enter tapped)",
+            "Mosswort Bridge (may enter tapped)",
+            "Path of Ancestry (may enter tapped)",
+            "Regal Behemoth (nonland source must first be cast and deployed)",
+            "Rockfall Vale (may enter tapped)",
+            "Rootbound Crag (may enter tapped)",
+            "Temple Garden (may enter tapped)",
+            "Turntimber Symbiosis // Turntimber, Serpentine Wood (depends on an opponent's or another permanent's colours)"
+          ],
+          "R": [
+            "Arcane Signet (nonland source must first be cast and deployed)",
+            "Atzocan Seer (nonland source must first be cast and deployed)",
+            "Cinder Glade (may enter tapped)",
+            "Clifftop Retreat (may enter tapped)",
+            "Exotic Orchard (depends on an opponent's or another permanent's colours)",
+            "Intrepid Paleontologist (depends on an opponent's or another permanent's colours)",
+            "Jetmir's Garden (may enter tapped)",
+            "Legion Leadership // Legion Stronghold (may enter tapped)",
+            "Path of Ancestry (may enter tapped)",
+            "Regal Behemoth (nonland source must first be cast and deployed)",
+            "Rockfall Vale (may enter tapped)",
+            "Rootbound Crag (may enter tapped)",
+            "Sacred Foundry (may enter tapped)",
+            "Spectator Seating (depends on an opponent's or another permanent's colours)"
+          ],
+          "W": [
+            "Arcane Signet (nonland source must first be cast and deployed)",
+            "Atzocan Seer (nonland source must first be cast and deployed)",
+            "Bountiful Promenade (depends on an opponent's or another permanent's colours)",
+            "Canopy Vista (may enter tapped)",
+            "Clifftop Retreat (may enter tapped)",
+            "Exotic Orchard (depends on an opponent's or another permanent's colours)",
+            "Intrepid Paleontologist (depends on an opponent's or another permanent's colours)",
+            "Jetmir's Garden (may enter tapped)",
+            "Legion Leadership // Legion Stronghold (may enter tapped)",
+            "Path of Ancestry (may enter tapped)",
+            "Regal Behemoth (nonland source must first be cast and deployed)",
+            "Sacred Foundry (may enter tapped)",
+            "Spectator Seating (depends on an opponent's or another permanent's colours)",
+            "Temple Garden (may enter tapped)"
+          ]
+        },
+        "requirements": [
+          {
+            "colour": "R",
+            "face": null,
+            "floor": 14,
+            "name": "Gishath, Sun's Avatar",
+            "payment_options": [
+              [
+                "R",
+                "G",
+                "W"
+              ]
+            ],
+            "pips": 1,
+            "sources": 10,
+            "supported": true,
+            "turn": 8,
+            "untapped_sources": 10,
+            "zone": "command_zone"
+          },
+          {
+            "colour": "G",
+            "face": null,
+            "floor": 14,
+            "name": "Gishath, Sun's Avatar",
+            "payment_options": [
+              [
+                "R",
+                "G",
+                "W"
+              ]
+            ],
+            "pips": 1,
+            "sources": 13,
+            "supported": true,
+            "turn": 8,
+            "untapped_sources": 13,
+            "zone": "command_zone"
+          },
+          {
+            "colour": "W",
+            "face": null,
+            "floor": 14,
+            "name": "Gishath, Sun's Avatar",
+            "payment_options": [
+              [
+                "R",
+                "G",
+                "W"
+              ]
+            ],
+            "pips": 1,
+            "sources": 9,
+            "supported": true,
+            "turn": 8,
+            "untapped_sources": 9,
+            "zone": "command_zone"
+          },
+          {
+            "colour": "W",
+            "face": null,
+            "floor": 18,
+            "name": "Akroma's Will",
+            "payment_options": [
+              [
+                "W"
+              ]
+            ],
+            "pips": 1,
+            "sources": 9,
+            "supported": true,
+            "turn": 4,
+            "untapped_sources": 9,
+            "zone": "library"
+          },
+          {
+            "colour": "G",
+            "face": null,
+            "floor": 21,
+            "name": "Apex Altisaur",
+            "payment_options": [
+              [
+                "G",
+                "G"
+              ]
+            ],
+            "pips": 2,
+            "sources": 13,
+            "supported": true,
+            "turn": 9,
+            "untapped_sources": 13,
+            "zone": "library"
+          },
+          {
+            "colour": "G",
+            "face": null,
+            "floor": 20,
+            "name": "Atzocan Seer",
+            "payment_options": [
+              [
+                "G",
+                "W"
+              ]
+            ],
+            "pips": 1,
+            "sources": 13,
+            "supported": true,
+            "turn": 3,
+            "untapped_sources": 13,
+            "zone": "library"
+          },
+          {
+            "colour": "W",
+            "face": null,
+            "floor": 20,
+            "name": "Atzocan Seer",
+            "payment_options": [
+              [
+                "G",
+                "W"
+              ]
+            ],
+            "pips": 1,
+            "sources": 9,
+            "supported": true,
+            "turn": 3,
+            "untapped_sources": 9,
+            "zone": "library"
+          },
+          {
+            "colour": "R",
+            "face": null,
+            "floor": 28,
+            "name": "Bonehoard Dracosaur",
+            "payment_options": [
+              [
+                "R",
+                "R"
+              ]
+            ],
+            "pips": 2,
+            "sources": 10,
+            "supported": true,
+            "turn": 5,
+            "untapped_sources": 10,
+            "zone": "library"
+          },
+          {
+            "colour": "R",
+            "face": null,
+            "floor": 22,
+            "name": "Boros Charm",
+            "payment_options": [
+              [
+                "R",
+                "W"
+              ]
+            ],
+            "pips": 1,
+            "sources": 10,
+            "supported": true,
+            "turn": 2,
+            "untapped_sources": 10,
+            "zone": "library"
+          },
+          {
+            "colour": "W",
+            "face": null,
+            "floor": 22,
+            "name": "Boros Charm",
+            "payment_options": [
+              [
+                "R",
+                "W"
+              ]
+            ],
+            "pips": 1,
+            "sources": 9,
+            "supported": true,
+            "turn": 2,
+            "untapped_sources": 9,
+            "zone": "library"
+          },
+          {
+            "colour": "W",
+            "face": null,
+            "floor": 18,
+            "name": "Bronzebeak Foragers",
+            "payment_options": [
+              [
+                "W"
+              ]
+            ],
+            "pips": 1,
+            "sources": 9,
+            "supported": true,
+            "turn": 4,
+            "untapped_sources": 9,
+            "zone": "library"
+          },
+          {
+            "colour": "R",
+            "face": null,
+            "floor": 28,
+            "name": "Chandra's Ignition",
+            "payment_options": [
+              [
+                "R",
+                "R"
+              ]
+            ],
+            "pips": 2,
+            "sources": 10,
+            "supported": true,
+            "turn": 5,
+            "untapped_sources": 10,
+            "zone": "library"
+          },
+          {
+            "colour": "G",
+            "face": null,
+            "floor": 33,
+            "name": "Congregation at Dawn",
+            "payment_options": [
+              [
+                "G",
+                "G",
+                "W"
+              ]
+            ],
+            "pips": 2,
+            "sources": 13,
+            "supported": true,
+            "turn": 3,
+            "untapped_sources": 13,
+            "zone": "library"
+          },
+          {
+            "colour": "W",
+            "face": null,
+            "floor": 20,
+            "name": "Congregation at Dawn",
+            "payment_options": [
+              [
+                "G",
+                "G",
+                "W"
+              ]
+            ],
+            "pips": 1,
+            "sources": 9,
+            "supported": true,
+            "turn": 3,
+            "untapped_sources": 9,
+            "zone": "library"
+          },
+          {
+            "colour": "G",
+            "face": null,
+            "floor": 20,
+            "name": "Cultivate",
+            "payment_options": [
+              [
+                "G"
+              ]
+            ],
+            "pips": 1,
+            "sources": 13,
+            "supported": true,
+            "turn": 3,
+            "untapped_sources": 13,
+            "zone": "library"
+          },
+          {
+            "colour": "G",
+            "face": null,
+            "floor": 18,
+            "name": "Curious Altisaur",
+            "payment_options": [
+              [
+                "G"
+              ]
+            ],
+            "pips": 1,
+            "sources": 13,
+            "supported": true,
+            "turn": 4,
+            "untapped_sources": 13,
+            "zone": "library"
+          },
+          {
+            "colour": "G",
+            "face": null,
+            "floor": 20,
+            "name": "Deathgorge Scavenger",
+            "payment_options": [
+              [
+                "G"
+              ]
+            ],
+            "pips": 1,
+            "sources": 13,
+            "supported": true,
+            "turn": 3,
+            "untapped_sources": 13,
+            "zone": "library"
+          },
+          {
+            "colour": "W",
+            "face": null,
+            "floor": 28,
+            "name": "Don't Move",
+            "payment_options": [
+              [
+                "W",
+                "W"
+              ]
+            ],
+            "pips": 2,
+            "sources": 9,
+            "supported": true,
+            "turn": 5,
+            "untapped_sources": 9,
+            "zone": "library"
+          },
+          {
+            "colour": "R",
+            "face": "0",
+            "floor": 24,
+            "name": "Etali, Primal Conqueror // Etali, Primal Sickness",
+            "payment_options": [
+              [
+                "R",
+                "R"
+              ]
+            ],
+            "pips": 2,
+            "sources": 10,
+            "supported": true,
+            "turn": 7,
+            "untapped_sources": 10,
+            "zone": "library"
+          },
+          {
+            "colour": "G",
+            "face": null,
+            "floor": 20,
+            "name": "Garruk's Uprising",
+            "payment_options": [
+              [
+                "G"
+              ]
+            ],
+            "pips": 1,
+            "sources": 13,
+            "supported": true,
+            "turn": 3,
+            "untapped_sources": 13,
+            "zone": "library"
+          },
+          {
+            "colour": "W",
+            "face": null,
+            "floor": 20,
+            "name": "Generous Gift",
+            "payment_options": [
+              [
+                "W"
+              ]
+            ],
+            "pips": 1,
+            "sources": 9,
+            "supported": true,
+            "turn": 3,
+            "untapped_sources": 9,
+            "zone": "library"
+          },
+          {
+            "colour": "W",
+            "face": null,
+            "floor": 22,
+            "name": "Get Lost",
+            "payment_options": [
+              [
+                "W"
+              ]
+            ],
+            "pips": 1,
+            "sources": 9,
+            "supported": true,
+            "turn": 2,
+            "untapped_sources": 9,
+            "zone": "library"
+          },
+          {
+            "colour": "G",
+            "face": null,
+            "floor": 24,
+            "name": "Ghalta and Mavren",
+            "payment_options": [
+              [
+                "G",
+                "G",
+                "W",
+                "W"
+              ]
+            ],
+            "pips": 2,
+            "sources": 13,
+            "supported": true,
+            "turn": 7,
+            "untapped_sources": 13,
+            "zone": "library"
+          },
+          {
+            "colour": "W",
+            "face": null,
+            "floor": 24,
+            "name": "Ghalta and Mavren",
+            "payment_options": [
+              [
+                "G",
+                "G",
+                "W",
+                "W"
+              ]
+            ],
+            "pips": 2,
+            "sources": 9,
+            "supported": true,
+            "turn": 7,
+            "untapped_sources": 9,
+            "zone": "library"
+          },
+          {
+            "colour": "G",
+            "face": "0",
+            "floor": 20,
+            "name": "Growing Rites of Itlimoc // Itlimoc, Cradle of the Sun",
+            "payment_options": [
+              [
+                "G"
+              ]
+            ],
+            "pips": 1,
+            "sources": 13,
+            "supported": true,
+            "turn": 3,
+            "untapped_sources": 13,
+            "zone": "library"
+          },
+          {
+            "colour": "G",
+            "face": null,
+            "floor": 22,
+            "name": "Heroic Intervention",
+            "payment_options": [
+              [
+                "G"
+              ]
+            ],
+            "pips": 1,
+            "sources": 13,
+            "supported": true,
+            "turn": 2,
+            "untapped_sources": 13,
+            "zone": "library"
+          },
+          {
+            "colour": "G",
+            "face": "0",
+            "floor": 20,
+            "name": "Huatli, Poet of Unity // Roar of the Fifth People",
+            "payment_options": [
+              [
+                "G"
+              ]
+            ],
+            "pips": 1,
+            "sources": 13,
+            "supported": true,
+            "turn": 3,
+            "untapped_sources": 13,
+            "zone": "library"
+          },
+          {
+            "colour": "G",
+            "face": null,
+            "floor": 30,
+            "name": "Hulking Raptor",
+            "payment_options": [
+              [
+                "G",
+                "G"
+              ]
+            ],
+            "pips": 2,
+            "sources": 13,
+            "supported": true,
+            "turn": 4,
+            "untapped_sources": 13,
+            "zone": "library"
+          },
+          {
+            "colour": "R",
+            "face": null,
+            "floor": 20,
+            "name": "Hunting Velociraptor",
+            "payment_options": [
+              [
+                "R"
+              ]
+            ],
+            "pips": 1,
+            "sources": 10,
+            "supported": true,
+            "turn": 3,
+            "untapped_sources": 10,
+            "zone": "library"
+          },
+          {
+            "colour": "G",
+            "face": null,
+            "floor": 22,
+            "name": "Intrepid Paleontologist",
+            "payment_options": [
+              [
+                "G"
+              ]
+            ],
+            "pips": 1,
+            "sources": 13,
+            "supported": true,
+            "turn": 2,
+            "untapped_sources": 13,
+            "zone": "library"
+          },
+          {
+            "colour": "W",
+            "face": null,
+            "floor": 20,
+            "name": "Kinjalli's Sunwing",
+            "payment_options": [
+              [
+                "W"
+              ]
+            ],
+            "pips": 1,
+            "sources": 9,
+            "supported": true,
+            "turn": 3,
+            "untapped_sources": 9,
+            "zone": "library"
+          },
+          {
+            "colour": "R/W",
+            "face": "0",
+            "floor": null,
+            "name": "Legion Leadership // Legion Stronghold",
+            "payment_options": [
+              [
+                "R"
+              ],
+              [
+                "W"
+              ]
+            ],
+            "pips": 1,
+            "sources": 0,
+            "supported": false,
+            "turn": 2,
+            "untapped_sources": 0,
+            "zone": "library"
+          },
+          {
+            "colour": "R",
+            "face": null,
+            "floor": 22,
+            "name": "Marauding Raptor",
+            "payment_options": [
+              [
+                "R"
+              ]
+            ],
+            "pips": 1,
+            "sources": 10,
+            "supported": true,
+            "turn": 2,
+            "untapped_sources": 10,
+            "zone": "library"
+          },
+          {
+            "colour": "G",
+            "face": null,
+            "floor": 18,
+            "name": "Migration Path",
+            "payment_options": [
+              [
+                "G"
+              ]
+            ],
+            "pips": 1,
+            "sources": 13,
+            "supported": true,
+            "turn": 4,
+            "untapped_sources": 13,
+            "zone": "library"
+          },
+          {
+            "colour": "G",
+            "face": null,
+            "floor": 22,
+            "name": "Farseek",
+            "payment_options": [
+              [
+                "G"
+              ]
+            ],
+            "pips": 1,
+            "sources": 13,
+            "supported": true,
+            "turn": 2,
+            "untapped_sources": 13,
+            "zone": "library"
+          },
+          {
+            "colour": "R",
+            "face": null,
+            "floor": 22,
+            "name": "Otepec Huntmaster",
+            "payment_options": [
+              [
+                "R"
+              ]
+            ],
+            "pips": 1,
+            "sources": 10,
+            "supported": true,
+            "turn": 2,
+            "untapped_sources": 10,
+            "zone": "library"
+          },
+          {
+            "colour": "R",
+            "face": null,
+            "floor": 17,
+            "name": "Pantlaza, Sun-Favored",
+            "payment_options": [
+              [
+                "R",
+                "G",
+                "W"
+              ]
+            ],
+            "pips": 1,
+            "sources": 10,
+            "supported": true,
+            "turn": 5,
+            "untapped_sources": 10,
+            "zone": "library"
+          },
+          {
+            "colour": "G",
+            "face": null,
+            "floor": 17,
+            "name": "Pantlaza, Sun-Favored",
+            "payment_options": [
+              [
+                "R",
+                "G",
+                "W"
+              ]
+            ],
+            "pips": 1,
+            "sources": 13,
+            "supported": true,
+            "turn": 5,
+            "untapped_sources": 13,
+            "zone": "library"
+          },
+          {
+            "colour": "W",
+            "face": null,
+            "floor": 17,
+            "name": "Pantlaza, Sun-Favored",
+            "payment_options": [
+              [
+                "R",
+                "G",
+                "W"
+              ]
+            ],
+            "pips": 1,
+            "sources": 9,
+            "supported": true,
+            "turn": 5,
+            "untapped_sources": 9,
+            "zone": "library"
+          },
+          {
+            "colour": "W",
+            "face": null,
+            "floor": 24,
+            "name": "Path to Exile",
+            "payment_options": [
+              [
+                "W"
+              ]
+            ],
+            "pips": 1,
+            "sources": 9,
+            "supported": true,
+            "turn": 1,
+            "untapped_sources": 9,
+            "zone": "library"
+          },
+          {
+            "colour": "R",
+            "face": null,
+            "floor": 28,
+            "name": "Quartzwood Crasher",
+            "payment_options": [
+              [
+                "R",
+                "R",
+                "G"
+              ]
+            ],
+            "pips": 2,
+            "sources": 10,
+            "supported": true,
+            "turn": 5,
+            "untapped_sources": 10,
+            "zone": "library"
+          },
+          {
+            "colour": "G",
+            "face": null,
+            "floor": 17,
+            "name": "Quartzwood Crasher",
+            "payment_options": [
+              [
+                "R",
+                "R",
+                "G"
+              ]
+            ],
+            "pips": 1,
+            "sources": 13,
+            "supported": true,
+            "turn": 5,
+            "untapped_sources": 13,
+            "zone": "library"
+          },
+          {
+            "colour": "G",
+            "face": null,
+            "floor": 22,
+            "name": "Rampant Growth",
+            "payment_options": [
+              [
+                "G"
+              ]
+            ],
+            "pips": 1,
+            "sources": 13,
+            "supported": true,
+            "turn": 2,
+            "untapped_sources": 13,
+            "zone": "library"
+          },
+          {
+            "colour": "G",
+            "face": null,
+            "floor": 20,
+            "name": "Ranging Raptors",
+            "payment_options": [
+              [
+                "G"
+              ]
+            ],
+            "pips": 1,
+            "sources": 13,
+            "supported": true,
+            "turn": 3,
+            "untapped_sources": 13,
+            "zone": "library"
+          },
+          {
+            "colour": "G",
+            "face": null,
+            "floor": 26,
+            "name": "Regal Behemoth",
+            "payment_options": [
+              [
+                "G",
+                "G"
+              ]
+            ],
+            "pips": 2,
+            "sources": 13,
+            "supported": true,
+            "turn": 6,
+            "untapped_sources": 13,
+            "zone": "library"
+          },
+          {
+            "colour": "R",
+            "face": null,
+            "floor": 17,
+            "name": "Regisaur Alpha",
+            "payment_options": [
+              [
+                "R",
+                "G"
+              ]
+            ],
+            "pips": 1,
+            "sources": 10,
+            "supported": true,
+            "turn": 5,
+            "untapped_sources": 10,
+            "zone": "library"
+          },
+          {
+            "colour": "G",
+            "face": null,
+            "floor": 17,
+            "name": "Regisaur Alpha",
+            "payment_options": [
+              [
+                "R",
+                "G"
+              ]
+            ],
+            "pips": 1,
+            "sources": 13,
+            "supported": true,
+            "turn": 5,
+            "untapped_sources": 13,
+            "zone": "library"
+          },
+          {
+            "colour": "R",
+            "face": null,
+            "floor": 20,
+            "name": "Rhythm of the Wild",
+            "payment_options": [
+              [
+                "R",
+                "G"
+              ]
+            ],
+            "pips": 1,
+            "sources": 10,
+            "supported": true,
+            "turn": 3,
+            "untapped_sources": 10,
+            "zone": "library"
+          },
+          {
+            "colour": "G",
+            "face": null,
+            "floor": 20,
+            "name": "Rhythm of the Wild",
+            "payment_options": [
+              [
+                "R",
+                "G"
+              ]
+            ],
+            "pips": 1,
+            "sources": 13,
+            "supported": true,
+            "turn": 3,
+            "untapped_sources": 13,
+            "zone": "library"
+          },
+          {
+            "colour": "G",
+            "face": null,
+            "floor": 30,
+            "name": "Ripjaw Raptor",
+            "payment_options": [
+              [
+                "G",
+                "G"
+              ]
+            ],
+            "pips": 2,
+            "sources": 13,
+            "supported": true,
+            "turn": 4,
+            "untapped_sources": 13,
+            "zone": "library"
+          },
+          {
+            "colour": "G",
+            "face": null,
+            "floor": 33,
+            "name": "Runic Armasaur",
+            "payment_options": [
+              [
+                "G",
+                "G"
+              ]
+            ],
+            "pips": 2,
+            "sources": 13,
+            "supported": true,
+            "turn": 3,
+            "untapped_sources": 13,
+            "zone": "library"
+          },
+          {
+            "colour": "G",
+            "face": null,
+            "floor": 28,
+            "name": "Scion of Calamity",
+            "payment_options": [
+              [
+                "G",
+                "G"
+              ]
+            ],
+            "pips": 2,
+            "sources": 13,
+            "supported": true,
+            "turn": 5,
+            "untapped_sources": 13,
+            "zone": "library"
+          },
+          {
+            "colour": "G",
+            "face": null,
+            "floor": 18,
+            "name": "Skyshroud Claim",
+            "payment_options": [
+              [
+                "G"
+              ]
+            ],
+            "pips": 1,
+            "sources": 13,
+            "supported": true,
+            "turn": 4,
+            "untapped_sources": 13,
+            "zone": "library"
+          },
+          {
+            "colour": "G",
+            "face": null,
+            "floor": 20,
+            "name": "Sunfrill Imitator",
+            "payment_options": [
+              [
+                "G"
+              ]
+            ],
+            "pips": 1,
+            "sources": 13,
+            "supported": true,
+            "turn": 3,
+            "untapped_sources": 13,
+            "zone": "library"
+          },
+          {
+            "colour": "G",
+            "face": null,
+            "floor": 23,
+            "name": "The Skullspore Nexus",
+            "payment_options": [
+              [
+                "G",
+                "G"
+              ]
+            ],
+            "pips": 2,
+            "sources": 13,
+            "supported": true,
+            "turn": 8,
+            "untapped_sources": 13,
+            "zone": "library"
+          },
+          {
+            "colour": "G",
+            "face": null,
+            "floor": 33,
+            "name": "Topiary Stomper",
+            "payment_options": [
+              [
+                "G",
+                "G"
+              ]
+            ],
+            "pips": 2,
+            "sources": 13,
+            "supported": true,
+            "turn": 3,
+            "untapped_sources": 13,
+            "zone": "library"
+          },
+          {
+            "colour": "G",
+            "face": null,
+            "floor": 20,
+            "name": "Tranquil Frillback",
+            "payment_options": [
+              [
+                "G"
+              ]
+            ],
+            "pips": 1,
+            "sources": 13,
+            "supported": true,
+            "turn": 3,
+            "untapped_sources": 13,
+            "zone": "library"
+          },
+          {
+            "colour": "R",
+            "face": null,
+            "floor": 26,
+            "name": "Trumpeting Carnosaur",
+            "payment_options": [
+              [
+                "R",
+                "R"
+              ]
+            ],
+            "pips": 2,
+            "sources": 10,
+            "supported": true,
+            "turn": 6,
+            "untapped_sources": 10,
+            "zone": "library"
+          },
+          {
+            "colour": "G",
+            "face": "0",
+            "floor": 33,
+            "name": "Turntimber Symbiosis // Turntimber, Serpentine Wood",
+            "payment_options": [
+              [
+                "G",
+                "G",
+                "G"
+              ]
+            ],
+            "pips": 3,
+            "sources": 13,
+            "supported": true,
+            "turn": 7,
+            "untapped_sources": 13,
+            "zone": "library"
+          },
+          {
+            "colour": "G",
+            "face": null,
+            "floor": 24,
+            "name": "Vaultborn Tyrant",
+            "payment_options": [
+              [
+                "G",
+                "G"
+              ]
+            ],
+            "pips": 2,
+            "sources": 13,
+            "supported": true,
+            "turn": 7,
+            "untapped_sources": 13,
+            "zone": "library"
+          },
+          {
+            "colour": "W",
+            "face": null,
+            "floor": 31,
+            "name": "Wakening Sun's Avatar",
+            "payment_options": [
+              [
+                "W",
+                "W",
+                "W"
+              ]
+            ],
+            "pips": 3,
+            "sources": 9,
+            "supported": true,
+            "turn": 8,
+            "untapped_sources": 9,
+            "zone": "library"
+          },
+          {
+            "colour": "G",
+            "face": null,
+            "floor": 20,
+            "name": "Wayward Swordtooth",
+            "payment_options": [
+              [
+                "G"
+              ]
+            ],
+            "pips": 1,
+            "sources": 13,
+            "supported": true,
+            "turn": 3,
+            "untapped_sources": 13,
+            "zone": "library"
+          },
+          {
+            "colour": "G",
+            "face": "0",
+            "floor": 33,
+            "name": "Welcome to . . . // Jurassic Park",
+            "payment_options": [
+              [
+                "G",
+                "G"
+              ]
+            ],
+            "pips": 2,
+            "sources": 13,
+            "supported": true,
+            "turn": 3,
+            "untapped_sources": 13,
+            "zone": "library"
+          },
+          {
+            "colour": "G",
+            "face": null,
+            "floor": 24,
+            "name": "Worldly Tutor",
+            "payment_options": [
+              [
+                "G"
+              ]
+            ],
+            "pips": 1,
+            "sources": 13,
+            "supported": true,
+            "turn": 1,
+            "untapped_sources": 13,
+            "zone": "library"
+          },
+          {
+            "colour": "R",
+            "face": null,
+            "floor": 17,
+            "name": "Wrathful Raptors",
+            "payment_options": [
+              [
+                "R"
+              ]
+            ],
+            "pips": 1,
+            "sources": 10,
+            "supported": true,
+            "turn": 5,
+            "untapped_sources": 10,
+            "zone": "library"
+          },
+          {
+            "colour": "R",
+            "face": null,
+            "floor": 17,
+            "name": "Xenagos, God of Revels",
+            "payment_options": [
+              [
+                "R",
+                "G"
+              ]
+            ],
+            "pips": 1,
+            "sources": 10,
+            "supported": true,
+            "turn": 5,
+            "untapped_sources": 10,
+            "zone": "library"
+          },
+          {
+            "colour": "G",
+            "face": null,
+            "floor": 17,
+            "name": "Xenagos, God of Revels",
+            "payment_options": [
+              [
+                "R",
+                "G"
+              ]
+            ],
+            "pips": 1,
+            "sources": 13,
+            "supported": true,
+            "turn": 5,
+            "untapped_sources": 13,
+            "zone": "library"
+          },
+          {
+            "colour": "R",
+            "face": null,
+            "floor": 13,
+            "name": "Zacama, Primal Calamity",
+            "payment_options": [
+              [
+                "R",
+                "G",
+                "W"
+              ]
+            ],
+            "pips": 1,
+            "sources": 10,
+            "supported": true,
+            "turn": 9,
+            "untapped_sources": 10,
+            "zone": "library"
+          },
+          {
+            "colour": "G",
+            "face": null,
+            "floor": 13,
+            "name": "Zacama, Primal Calamity",
+            "payment_options": [
+              [
+                "R",
+                "G",
+                "W"
+              ]
+            ],
+            "pips": 1,
+            "sources": 13,
+            "supported": true,
+            "turn": 9,
+            "untapped_sources": 13,
+            "zone": "library"
+          },
+          {
+            "colour": "W",
+            "face": null,
+            "floor": 13,
+            "name": "Zacama, Primal Calamity",
+            "payment_options": [
+              [
+                "R",
+                "G",
+                "W"
+              ]
+            ],
+            "pips": 1,
+            "sources": 9,
+            "supported": true,
+            "turn": 9,
+            "untapped_sources": 9,
+            "zone": "library"
+          },
+          {
+            "colour": "W",
+            "face": null,
+            "floor": 23,
+            "name": "Zetalpa, Primal Dawn",
+            "payment_options": [
+              [
+                "W",
+                "W"
+              ]
+            ],
+            "pips": 2,
+            "sources": 9,
+            "supported": true,
+            "turn": 8,
+            "untapped_sources": 9,
+            "zone": "library"
+          }
+        ],
+        "source_membership": {
+          "G": [
+            "Ancient Ziggurat",
+            "Arcane Signet",
+            "Atzocan Seer",
+            "Bountiful Promenade",
+            "Canopy Vista",
+            "Cavern of Souls",
+            "Cinder Glade",
+            "Command Tower",
+            "Exotic Orchard",
+            "Forest",
+            "Forest",
+            "Forest",
+            "Forest",
+            "Forest",
+            "Forest",
+            "Forest",
+            "Hulking Raptor",
+            "Intrepid Paleontologist",
+            "Jetmir's Garden",
+            "Karplusan Forest",
+            "Mosswort Bridge",
+            "Path of Ancestry",
+            "Regal Behemoth",
+            "Rockfall Vale",
+            "Rootbound Crag",
+            "Secluded Courtyard",
+            "Temple Garden",
+            "Turntimber Symbiosis // Turntimber, Serpentine Wood",
+            "Unclaimed Territory"
+          ],
+          "R": [
+            "Ancient Ziggurat",
+            "Arcane Signet",
+            "Atzocan Seer",
+            "Battlefield Forge",
+            "Cavern of Souls",
+            "Cinder Glade",
+            "Clifftop Retreat",
+            "Command Tower",
+            "Exotic Orchard",
+            "Intrepid Paleontologist",
+            "Jetmir's Garden",
+            "Karplusan Forest",
+            "Legion Leadership // Legion Stronghold",
+            "Mountain",
+            "Mountain",
+            "Mountain",
+            "Path of Ancestry",
+            "Regal Behemoth",
+            "Rockfall Vale",
+            "Rootbound Crag",
+            "Sacred Foundry",
+            "Secluded Courtyard",
+            "Spectator Seating",
+            "Unclaimed Territory"
+          ],
+          "W": [
+            "Ancient Ziggurat",
+            "Arcane Signet",
+            "Atzocan Seer",
+            "Battlefield Forge",
+            "Bountiful Promenade",
+            "Canopy Vista",
+            "Cavern of Souls",
+            "Clifftop Retreat",
+            "Command Tower",
+            "Exotic Orchard",
+            "Intrepid Paleontologist",
+            "Jetmir's Garden",
+            "Legion Leadership // Legion Stronghold",
+            "Path of Ancestry",
+            "Plains",
+            "Plains",
+            "Plains",
+            "Regal Behemoth",
+            "Sacred Foundry",
+            "Secluded Courtyard",
+            "Spectator Seating",
+            "Temple Garden",
+            "Unclaimed Territory"
+          ]
+        },
+        "unconditional_sources": {
+          "G": 13,
+          "R": 10,
+          "W": 9
+        },
+        "usable_mana_on_turn": null
+      },
+      "outcome": "unknown",
+      "schema_version": 1,
+      "status": "unsupported"
+    }
+  },
+  "schema_version": 1
+}

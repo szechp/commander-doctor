@@ -1,0 +1,5 @@
+// Synthetic mechanics fixture; the controller contains no branches for these names.
+1 Anje Falkenrath
+19 Swamp
+18 Mountain
+62 Kitchen Imp

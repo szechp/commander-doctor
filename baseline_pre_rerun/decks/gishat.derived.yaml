@@ -1,0 +1,71 @@
+# Derived per SPEC.md §4 -- reasoned through in this conversation (not an
+# API call), reviewed by the user on first generation as required.
+# Classification grounded in real oracle text pulled from the local mirror
+# (see the queries this session ran against data/deckdoctor.sqlite3).
+#
+# This is the exact commander-IS-the-plan case SKILL.md contrasts against
+# Sevinne: Gishath's own text --
+#   "Whenever Gishath deals combat damage to a player, reveal that many
+#   cards from the top of your library. Put any number of Dinosaur
+#   creature cards from among them onto the battlefield..."
+# -- is the deck's actual win condition, not an enabler for something
+# else. Every other piece in the 99 supports getting HER connected:
+# cost reducers (Marauding Raptor, Kinjalli's Caller, Otepec Huntmaster),
+# haste enablers (Regisaur Alpha, Otepec Huntmaster), and a stack of
+# oversized Dinosaurs (Ghalta x3, Zacama, Etali x2, Trumpeting Carnosaur)
+# that are worth cheating into play precisely because Gishath's trigger
+# doesn't care what they cost.
+#
+# Caveat carried into goldfish/success-condition checks: "commander on the
+# battlefield" is a proxy for the true condition ("Gishath resolved AND
+# attacked AND connected"), same blind spot as always -- no Layer-3
+# combat-simulation, so unblocked/connects can't be checked. A goldfish
+# result where Gishath resolves but the success rate stays low would point
+# at removal/blockers on the opposing side, not a deck flaw this schema
+# can see.
+
+commander: Gishath, Sun's Avatar
+
+effect_classes:
+  commander:
+    rationale: >
+      Gishath's own combat-damage trigger ("put any number of Dinosaur
+      creature cards from among them onto the battlefield") is the deck's
+      actual win condition -- nothing else in the 99 substitutes for it.
+    members:
+      - Gishath, Sun's Avatar
+
+  connection_enabler:
+    rationale: >
+      Not gated in success_condition below (see note), but the real
+      reason this deck runs haste/evasion-adjacent pieces: getting
+      Gishath through unblocked is the actual bottleneck her own text
+      can't solve alone.
+    members:
+      - Otepec Huntmaster    # "{T}: Target Dinosaur gains haste until end of turn."
+      - Regisaur Alpha       # "Other Dinosaurs you control have haste."
+      - Swiftfoot Boots      # haste + hexproof equipment
+      - Heroic Intervention  # protects the attack from a wipe/removal mid-combat
+
+  extra_damage_trigger:
+    rationale: >
+      Converts "a creature enters" into free damage independent of combat
+      -- redundant, alternate routes to value when Gishath herself is
+      answered, not required for her own line.
+    members:
+      - Warstorm Surge   # "Whenever a creature you control enters, it deals damage equal to its power to any target."
+      - Marauding Raptor # "Whenever another creature you control enters, this creature deals 2 damage to it..."
+
+success_condition:
+  description: commander resolved and on the battlefield
+  requires:
+    - {class: commander, zone: battlefield, count: 1}
+  target_turn: 8
+  note: >
+    target_turn matches audit's operational threshold (= commander cmc 8,
+    ref §0.1) rather than the schema's usual default of 6 -- Gishath is a
+    genuine 8-drop with no cost-reduction guarantee, so 6 would understate
+    how late she's expected to land. "On the battlefield" doesn't capture
+    "attacked and connected" (Layer 3 not built, ref SKILL.md §7) -- a low
+    goldfish success rate despite frequent resolution would mean removal/
+    blockers are the real bottleneck, not a missing deck piece.

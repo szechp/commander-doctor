@@ -1,0 +1,11 @@
+# T09 — Shared workflow and assistant adapters
+
+Priority P1; after T06/T07/T08/T10. Own new shared workflow documentation, `.claude/skills/deck-doctor/SKILL.md` adapter and a Codex-compatible entry point. Read relevant installed skill-creation instructions when implementing actual skills; these task docs do not themselves modify a skill.
+
+Write one evidence-driven workflow: resolve project/data; validate deck/config; obtain missing gameplan context; run template/colour/coverage/bracket checks; optional consistency; retrieve and inspect grounded alternatives; validate proposed swaps; present caveats and save explicitly requested feedback. The same evidence is available from terminal without an assistant. Prose gameplan interpretation remains visibly authored judgment.
+
+Keep Claude `/deck-doctor` usable through a thin reference to the shared process. Add a thin entry point for the actual supported Codex skill mechanism without inventing unsupported plugin configuration. Do not duplicate thresholds, semantic logic or required report fields. Repair stale sync claims, nonexistent derived-file references, truncated-text assumptions and simulated-success language. Document output statuses and input correction flow.
+
+Tests/verification: same saved JSON produces consistent required evidence through both entry points; all referenced files/commands exist; non-root cwd example works; missing gameplan is surfaced; no adapter instructs an agent to skip validation or fabricate card rules; no default Java call. Review the workflow manually with one simple valid deck and one invalid/partial-data case. Update SPEC with a concise supersession pointer while preserving its history. Deliver CLI-only and assistant examples.
+
+Verified local Codex entry point: `.agents/skills/deck-doctor/SKILL.md`, per [official skill discovery documentation](https://learn.chatgpt.com/docs/build-skills). The staged adapter under `docs/adapters/codex` needs its workflow link changed to `../../../docs/workflow.md` when installed there. This session protects `.agents` as read-only: prepare and validate the concrete adapter first, then use the filesystem approval mechanism for that installation. No global skill or account configuration change is required.

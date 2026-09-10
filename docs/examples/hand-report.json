@@ -1,0 +1,206 @@
+{
+  "command": "hand",
+  "config_fingerprint": null,
+  "data_versions": {
+    "forge_parser_version": null,
+    "forge_revision": null,
+    "freshness": {
+      "oracle_cards": "unknown",
+      "oracle_tags": "unknown"
+    },
+    "last_sync": "2026-09-06T16:08:55.633094+00:00",
+    "oracle_cards_sha256": null,
+    "oracle_cards_timestamp": null,
+    "oracle_tags_sha256": null,
+    "oracle_tags_timestamp": null,
+    "role_evidence_input_hash": null,
+    "role_evidence_version": null
+  },
+  "deck_fingerprint": "4b6d0ccd135173a4deb2d5b6b95c6f05700ee74e7ab3b1e8a25a34acf1c5c230",
+  "findings": [
+    {
+      "assumptions": [],
+      "evidence": {},
+      "id": "hand.result",
+      "limitations": [],
+      "message": "hand result produced",
+      "outcome": "pass",
+      "related_cards": [],
+      "severity": "info",
+      "status": "approximate"
+    },
+    {
+      "assumptions": [],
+      "evidence": {
+        "freshness": {
+          "oracle_cards": "unknown",
+          "oracle_tags": "unknown"
+        }
+      },
+      "id": "data.provenance",
+      "limitations": [],
+      "message": "one or more required data timestamps are unavailable",
+      "outcome": "unknown",
+      "related_cards": [],
+      "severity": "warning",
+      "status": "unavailable"
+    }
+  ],
+  "limitations": [
+    "Keepability is a disclosed heuristic."
+  ],
+  "metrics": {
+    "hand": {
+      "blanks_by_prereq": [],
+      "curve": {
+        "2": 1,
+        "4": 1,
+        "5": 1
+      },
+      "hand": [
+        {
+          "cmc": 0.0,
+          "color_identity": [
+            "R",
+            "W"
+          ],
+          "commander_legal": true,
+          "draw_kind": null,
+          "is_game_changer": false,
+          "layout": "normal",
+          "name": "Sacred Foundry",
+          "oracle_text": "({T}: Add {R} or {W}.)\nAs this land enters, you may pay 2 life. If you don't, it enters tapped.",
+          "power": null,
+          "prereq": null,
+          "ramp_kind": null,
+          "toughness": null,
+          "type_line": "Land \u2014 Mountain Plains"
+        },
+        {
+          "cmc": 5.0,
+          "color_identity": [
+            "G",
+            "R"
+          ],
+          "commander_legal": true,
+          "draw_kind": null,
+          "is_game_changer": false,
+          "layout": "normal",
+          "name": "Quartzwood Crasher",
+          "oracle_text": "Trample\nWhenever one or more creatures you control with trample deal combat damage to a player, create an X/X green Dinosaur Beast creature token with trample, where X is the amount of damage those creatures dealt to that player.",
+          "power": "6",
+          "prereq": null,
+          "ramp_kind": null,
+          "toughness": "6",
+          "type_line": "Creature \u2014 Dinosaur Beast"
+        },
+        {
+          "cmc": 3.0,
+          "color_identity": [
+            "G"
+          ],
+          "commander_legal": true,
+          "draw_kind": null,
+          "is_game_changer": false,
+          "layout": "transform",
+          "name": "Welcome to . . . // Jurassic Park",
+          "oracle_text": "(As this Saga enters and after your draw step, add a lore counter.)\nI \u2014 For each opponent, up to one target noncreature artifact they control becomes a 0/4 Wall artifact creature with defender for as long as you control this Saga.\nII \u2014 Create a 3/3 green Dinosaur creature token with trample. It gains haste until end of turn.\nIII \u2014 Destroy all Walls. Exile this Saga, then return it to the battlefield transformed under your control.\n//\n(Transforms from Welcome to ....)\nEach Dinosaur card in your graveyard has escape. The escape cost is equal to the card's mana cost plus exile three other cards from your graveyard. (You may cast cards from your graveyard for their escape cost.)\n{T}: Add {G} for each Dinosaur you control.",
+          "power": null,
+          "prereq": null,
+          "ramp_kind": null,
+          "toughness": null,
+          "type_line": "Enchantment \u2014 Saga // Legendary Land"
+        },
+        {
+          "cmc": 4.0,
+          "color_identity": [
+            "W"
+          ],
+          "commander_legal": true,
+          "draw_kind": null,
+          "is_game_changer": false,
+          "layout": "normal",
+          "name": "Bronzebeak Foragers",
+          "oracle_text": "When this creature enters, for each opponent, exile up to one target nonland permanent that player controls until this creature leaves the battlefield.\n{X}{W}: Put target card with mana value X exiled with this creature into its owner's graveyard. You gain X life.",
+          "power": "3",
+          "prereq": null,
+          "ramp_kind": null,
+          "toughness": "4",
+          "type_line": "Creature \u2014 Dinosaur"
+        },
+        {
+          "cmc": 2.0,
+          "color_identity": [
+            "W"
+          ],
+          "commander_legal": true,
+          "draw_kind": null,
+          "is_game_changer": false,
+          "layout": "normal",
+          "name": "Get Lost",
+          "oracle_text": "Destroy target creature, enchantment, or planeswalker. Its controller creates two Map tokens. (They're artifacts with \"{1}, {T}, Sacrifice this token: Target creature you control explores. Activate only as a sorcery.\")",
+          "power": null,
+          "prereq": null,
+          "ramp_kind": null,
+          "toughness": null,
+          "type_line": "Instant"
+        },
+        {
+          "cmc": 0.0,
+          "color_identity": [
+            "G"
+          ],
+          "commander_legal": true,
+          "draw_kind": null,
+          "is_game_changer": false,
+          "layout": "normal",
+          "name": "Forest",
+          "oracle_text": "({T}: Add {G}.)",
+          "power": null,
+          "prereq": null,
+          "ramp_kind": null,
+          "toughness": null,
+          "type_line": "Basic Land \u2014 Forest"
+        },
+        {
+          "cmc": 0.0,
+          "color_identity": [],
+          "commander_legal": true,
+          "draw_kind": null,
+          "is_game_changer": false,
+          "layout": "normal",
+          "name": "Ancient Ziggurat",
+          "oracle_text": "{T}: Add one mana of any color. Spend this mana only to cast a creature spell.",
+          "power": null,
+          "prereq": null,
+          "ramp_kind": null,
+          "toughness": null,
+          "type_line": "Land"
+        }
+      ],
+      "keepable": false,
+      "land_count": 4,
+      "live_by_turn_3": [
+        {
+          "cmc": 2.0,
+          "color_identity": [
+            "W"
+          ],
+          "commander_legal": true,
+          "draw_kind": null,
+          "is_game_changer": false,
+          "layout": "normal",
+          "name": "Get Lost",
+          "oracle_text": "Destroy target creature, enchantment, or planeswalker. Its controller creates two Map tokens. (They're artifacts with \"{1}, {T}, Sacrifice this token: Target creature you control explores. Activate only as a sorcery.\")",
+          "power": null,
+          "prereq": null,
+          "ramp_kind": null,
+          "toughness": null,
+          "type_line": "Instant"
+        }
+      ],
+      "nonland_count": 3
+    }
+  },
+  "schema_version": 1
+}

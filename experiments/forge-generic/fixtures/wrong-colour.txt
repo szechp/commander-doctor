@@ -1,0 +1,6 @@
+// Deliberately invalid identity fixture: white spells must not be paid with Islands.
+1 Isamaru, Hound of Konda
+37 Island
+20 Wall of Omens
+20 Savannah Lions
+22 Revitalize

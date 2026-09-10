@@ -1,0 +1,100 @@
+{
+  "command": "card",
+  "config_fingerprint": null,
+  "data_versions": {
+    "forge_parser_version": null,
+    "forge_revision": null,
+    "freshness": {
+      "oracle_cards": "unknown",
+      "oracle_tags": "unknown"
+    },
+    "last_sync": "2026-09-06T16:08:55.633094+00:00",
+    "oracle_cards_sha256": null,
+    "oracle_cards_timestamp": null,
+    "oracle_tags_sha256": null,
+    "oracle_tags_timestamp": null,
+    "role_evidence_input_hash": null,
+    "role_evidence_version": null
+  },
+  "deck_fingerprint": null,
+  "findings": [
+    {
+      "assumptions": [],
+      "evidence": {
+        "requested": [
+          "Arcane Signet"
+        ],
+        "resolved": [
+          "Arcane Signet"
+        ]
+      },
+      "id": "card.lookup",
+      "limitations": [],
+      "message": "resolved 1 of 1 requested cards",
+      "outcome": "pass",
+      "related_cards": [],
+      "severity": "info",
+      "status": "checked"
+    }
+  ],
+  "limitations": [],
+  "metrics": {
+    "cards": [
+      {
+        "cmc": 2.0,
+        "color_identity": [],
+        "colors": [],
+        "commander_legal": 1,
+        "draw_kind": null,
+        "faces": [],
+        "is_game_changer": 0,
+        "keywords": [],
+        "layout": "normal",
+        "mana_cost": "{2}",
+        "name": "Arcane Signet",
+        "oracle_text": "{T}: Add one mana of any color in your commander's color identity.",
+        "parsed": {
+          "abilities": [
+            {
+              "AB": "Mana",
+              "Cost": "T",
+              "Produced": "Combo ColorIdentity",
+              "SpellDescription": "Add one mana of any color in your commander's color identity.",
+              "raw": "AB$ Mana | Cost$ T | Produced$ Combo ColorIdentity | SpellDescription$ Add one mana of any color in your commander's color identity."
+            }
+          ],
+          "keywords": [],
+          "mana_cost": "2",
+          "pt": "",
+          "replacements": [],
+          "statics": [],
+          "svars": {},
+          "triggers": [],
+          "types": "Artifact"
+        },
+        "power": null,
+        "prereq": null,
+        "produced_mana": [
+          "B",
+          "G",
+          "R",
+          "U",
+          "W"
+        ],
+        "ramp_kind": "rock",
+        "requested_name": "Arcane Signet",
+        "set_type": "commander",
+        "tags": [
+          "activated-ability",
+          "commander-identity-matters",
+          "mana-rock-with-set-s-mechanic",
+          "mini-refund",
+          "synergy-commander"
+        ],
+        "toughness": null,
+        "type_line": "Artifact"
+      }
+    ]
+  },
+  "schema_version": 1
+}

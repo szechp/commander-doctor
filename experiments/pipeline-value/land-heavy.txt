@@ -1,0 +1,76 @@
+// Diagnostic variant, not a suggested deck edit
+1 Anje Falkenrath
+1 Gorgon Recluse
+1 Alchemist's Greeting
+1 Murderous Compulsion
+1 Terminal Agony
+1 Nightshade Assassin
+1 Stromkirk Occultist
+1 Avacyn's Judgment
+1 Reckless Wurm
+14 Swamp
+1 Steal the Show
+1 Dark Withering
+1 Kitchen Imp
+1 Blazing Rootwalla
+1 Violent Eruption
+1 Mount Doom
+1 Barren Moor
+1 Necrogoyf
+1 Ash Barrens
+1 Skirge Familiar
+1 Raucous Theater
+1 Grave Scrabbler
+1 Squee, Goblin Nabob
+1 Thrill of Possibility
+1 Thrór's Map
+1 Command Tower
+1 Exotic Orchard
+1 From Under the Floorboards
+1 Psychotic Haze
+1 Mortuary Mire
+1 Rix Maadi, Dungeon Palace
+1 Tinybones, Pocket Nuisance
+1 Myriad Landscape
+1 Fiery Temper
+1 Big Game Hunter
+1 Rakdos Locket
+13 Mountain
+1 Kolaghan's Command
+1 Foreboding Ruins
+1 Call to the Netherworld
+1 Mox Diamond
+1 Banefire
+1 Night's Whisper
+1 Bedevil
+1 Chaos Warp
+1 Archfiend of Ifnir
+1 K'rrik, Son of Yawgmoth
+1 Archfiend of Spite
+1 Alms of the Vein
+1 Marauding Mako
+1 Magus of the Wheel
+1 Dragonskull Summit
+1 Sol Ring
+1 Bitter Triumph
+1 Rakdos Signet
+1 Blasphemous Act
+1 Blackcleave Cliffs
+1 Geier Reach Sanitarium
+1 Songs of the Damned
+1 Talisman of Indulgence
+1 Unexpected Windfall
+1 Ozai, the Phoenix King
+1 Phyrexian Arena
+1 Feed the Swarm
+1 Crackle with Power
+1 Shadowgrange Archfiend
+1 Shadowblood Ridge
+1 Blazemire Verge
+1 Blood Crypt
+1 Olivia, Mobilized for War
+1 Smoldering Marsh
+1 Surly Badgersaur
+1 Monument to Endurance
+1 Misty Knight, Hero for Hire
+1 Jeska's Will

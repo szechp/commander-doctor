@@ -1,0 +1,6 @@
+// Synthetic mechanics fixture for modes and targeted spell choices.
+1 Torbran, Thane of Red Fell
+37 Mountain
+20 Shock
+20 Rakdos Cackler
+22 Abrade

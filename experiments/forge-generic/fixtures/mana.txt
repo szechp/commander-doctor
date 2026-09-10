@@ -1,0 +1,6 @@
+// Synthetic mechanics fixture for multi-mana and colour-choice mana abilities.
+1 Isamaru, Hound of Konda
+37 Plains
+20 Sol Ring
+20 Arcane Signet
+22 Wall of Omens

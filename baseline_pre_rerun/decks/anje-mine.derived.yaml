@@ -1,0 +1,67 @@
+# Derived per SPEC.md §4, for anje-mine.txt specifically (NOT the same
+# decklist as anje.txt -- only 53/86 nonland cards overlap; this is a
+# distinct build with the same commander). Reuses anje.derived.yaml's core
+# read (discard_outlet -> madness_payoff, commander is a repeatable engine
+# piece, not just an enabler) because that part of the plan survived the
+# rebuild intact and got MORE outlets (Chainer, Nightmare Adept and Skirge
+# Familiar are new repeatable discard outlets not in the old build).
+#
+# What's new here and genuinely not modeled by the zone-membership schema:
+# a second, mana-heavy sub-plan (Dark Ritual/Cabal Ritual/Songs of the
+# Damned/Crypt Ghast/K'rrik, Son of Yawgmoth feeding Exsanguinate/Crackle
+# with Power/Banefire/Jeska's Will) that wants to go wide on mana and close
+# the game with a big X spell rather than grind on madness value. Recorded
+# as `ritual_finisher` for visibility (and so goldfish/`card` checks don't
+# miss it) but NOT included in success_condition -- it's a "win faster if
+# it's there" line, not a reliable turn-6 checkpoint the way discard-outlet-
+# plus-madness-in-hand is; there's no single zone state that reliably marks
+# "about to combo off" the way there is for the madness plan.
+
+commander: Anje Falkenrath
+
+effect_classes:
+  discard_outlet:
+    rationale: permanents that discard cards repeatably -- excludes one-shot spell outlets (Faithless Looting, Thrill of Possibility, Big Score, Unexpected Windfall), which never sit in a zone this checks.
+    members:
+      - Anje Falkenrath
+      - Currency Converter
+      - Chainer, Nightmare Adept
+      - Skirge Familiar
+
+  madness_payoff:
+    rationale: cards that want to be discarded rather than cast normally.
+    members:
+      - Stromkirk Occultist
+      - Big Game Hunter
+      - Grave Scrabbler
+      - Call to the Netherworld
+      - From Under the Floorboards
+      - Violent Eruption
+      - Psychotic Haze
+      - Gorgon Recluse
+      - Terminal Agony
+      - Dark Withering
+      - Shadowgrange Archfiend
+
+  ritual_finisher:
+    rationale: >
+      mana acceleration + payoff pieces for the deck's secondary big-mana
+      burn/drain plan. Not required by success_condition -- see header note.
+    members:
+      - Dark Ritual
+      - Cabal Ritual
+      - Songs of the Damned
+      - Crypt Ghast
+      - K'rrik, Son of Yawgmoth
+      - Exsanguinate
+      - Crackle with Power
+      - Banefire
+      - Jeska's Will
+
+success_condition:
+  description: a discard outlet on board with a madness payoff in hand
+  requires:
+    - {class: discard_outlet, zone: battlefield, count: 1}
+    - {class: madness_payoff, zone: hand, count: 1}
+  target_turn: 6
+  confidence: medium -- core plan carried over from anje.derived.yaml (there rated low for the same excluded-spell-outlet reason), but this build has more repeatable outlets and a real secondary win line the schema can't check; treat the goldfish P(success) number as a floor on "the grind plan is live," not the deck's only way to win.

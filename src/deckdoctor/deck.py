@@ -1,0 +1,135 @@
+"""Decklist loading -- SPEC.md §2 "Resolve decklist names" (code, not LLM).
+
+Reads the Arena-format interchange file (SPEC.md §10c: `COUNT NAME (SET)
+NUMBER`, one line per card, first non-blank line is the commander) and
+resolves each name against the local sqlite mirror built by `sync`.
+"""
+
+from __future__ import annotations
+
+import re
+import sqlite3
+import json
+from dataclasses import dataclass, field
+
+_LINE_RE = re.compile(r"^\s*(-?\d+)\s+(.+?)(?:\s+\([A-Za-z0-9]+\)\s+\S+)?\s*$")
+
+
+@dataclass
+class Card:
+    name: str
+    cmc: float
+    type_line: str
+    ramp_kind: str | None
+    draw_kind: str | None
+    prereq: dict | None
+    is_game_changer: bool
+    power: str | None = None       # Scryfall string, e.g. "1", "*", "1+*" -- not always numeric
+    toughness: str | None = None
+    color_identity: tuple[str, ...] | None = None
+    commander_legal: bool | None = None
+    layout: str | None = None
+    oracle_text: str | None = None
+
+
+@dataclass
+class Deck:
+    name: str
+    commander: Card
+    library: list[Card] = field(default_factory=list)  # 99 cards, duplicates expanded out
+    commander_count: int = 1
+    quantities: dict[str, int] = field(default_factory=dict)
+    line_numbers: dict[str, list[int]] = field(default_factory=dict)
+
+    @property
+    def size(self) -> int:
+        return len(self.library) + 1
+
+
+def _parse_decklist_detailed(path: str) -> list[tuple[int, str, int]]:
+    entries: list[tuple[int, str, int]] = []
+    with open(path, encoding="utf-8") as f:
+        for line_number, raw_line in enumerate(f, 1):
+            line = raw_line.strip()
+            if not line or line.startswith("//"):
+                continue
+            m = _LINE_RE.match(line)
+            if not m:
+                raise ValueError(f"line {line_number}: unparsed decklist line: {line!r}")
+            entries.append((int(m.group(1)), m.group(2), line_number))
+    if not entries:
+        raise ValueError(f"no cards found in {path}")
+    return entries
+
+
+def parse_decklist(path: str) -> tuple[str, list[tuple[int, str]]]:
+    """Returns (commander_name, [(count, name), ...]) -- first card line is
+    the commander per SPEC.md's example files. Blank lines and `//` comments
+    are skipped."""
+    detailed = _parse_decklist_detailed(path)
+    entries = [(count, name) for count, name, _ in detailed]
+    commander_name = entries[0][1]
+    return commander_name, entries[1:]
+
+
+def _row_to_card(row: tuple) -> Card:
+    name, cmc, type_line, ramp_kind, draw_kind, prereq_json, is_gc, power, toughness, color_json, commander_legal, layout, oracle_text = row
+    return Card(
+        name=name,
+        cmc=cmc or 0.0,
+        type_line=type_line or "",
+        ramp_kind=ramp_kind,
+        draw_kind=draw_kind,
+        prereq=json.loads(prereq_json) if prereq_json else None,
+        is_game_changer=bool(is_gc),
+        power=power,
+        toughness=toughness,
+        color_identity=None if color_json is None else tuple(json.loads(color_json)),
+        commander_legal=None if commander_legal is None else bool(commander_legal),
+        layout=layout,
+        oracle_text=oracle_text,
+    )
+
+
+_SELECT = ("SELECT name, cmc, type_line, ramp_kind, draw_kind, prereq, is_game_changer, "
+           "power, toughness, color_identity, commander_legal, layout, oracle_text FROM cards WHERE ")
+
+
+def _resolve(con: sqlite3.Connection, name: str) -> Card:
+    row = con.execute(_SELECT + "name = ?", [name]).fetchone()
+    if row is None:
+        # MDFCs: Scryfall's canonical name is "Front // Back"; decklist
+        # exporters (Moxfield included) commonly give only the front face.
+        row = con.execute(_SELECT + "name LIKE ?", [name + " // %"]).fetchone()
+    if row is None:
+        raise ValueError(f"card not found in local mirror: {name!r} -- run `deckdoctor sync`?")
+    return _row_to_card(row)
+
+
+def load_deck(path: str, con: sqlite3.Connection) -> Deck:
+    detailed = _parse_decklist_detailed(path)
+    commander_name = detailed[0][1]
+    commander_count = detailed[0][0]
+    entries = [(count, name, line) for count, name, line in detailed[1:]]
+    commander = _resolve(con, commander_name)
+    library: list[Card] = []
+    unresolved: list[str] = []
+    quantities: dict[str, int] = {}
+    line_numbers: dict[str, list[int]] = {}
+    for count, name, line in entries:
+        try:
+            card = _resolve(con, name)
+        except ValueError:
+            unresolved.append(name)
+            continue
+        library.extend([card] * count)
+        quantities[card.name] = quantities.get(card.name, 0) + count
+        line_numbers.setdefault(card.name, []).append(line)
+    if unresolved:
+        raise ValueError(f"{len(unresolved)} card(s) not found in local mirror: {unresolved}")
+
+    import os
+
+    deck_name = os.path.basename(path).rsplit(".", 1)[0]
+    return Deck(name=deck_name, commander=commander, library=library, commander_count=commander_count,
+                quantities=quantities, line_numbers=line_numbers)

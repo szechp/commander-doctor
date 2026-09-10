@@ -1,0 +1,2197 @@
+{
+  "source_sha256": "197d1b31f6afe7c1f45b3dfbfb2d7d03e62f595a0126e28ab628eefc6412e28e",
+  "variants": {
+    "original": {
+      "deck": [
+        "Anje Falkenrath",
+        "Gorgon Recluse",
+        "Alchemist's Greeting",
+        "Murderous Compulsion",
+        "Terminal Agony",
+        "Nightshade Assassin",
+        "Stromkirk Occultist",
+        "Avacyn's Judgment",
+        "Reckless Wurm",
+        "Swamp",
+        "Swamp",
+        "Swamp",
+        "Swamp",
+        "Swamp",
+        "Swamp",
+        "Swamp",
+        "Swamp",
+        "Steal the Show",
+        "Dark Withering",
+        "Kitchen Imp",
+        "Blazing Rootwalla",
+        "Violent Eruption",
+        "Mount Doom",
+        "Barren Moor",
+        "Necrogoyf",
+        "Ash Barrens",
+        "Skirge Familiar",
+        "Raucous Theater",
+        "Grave Scrabbler",
+        "Squee, Goblin Nabob",
+        "Thrill of Possibility",
+        "Thr\u00f3r's Map",
+        "Command Tower",
+        "Exotic Orchard",
+        "From Under the Floorboards",
+        "Psychotic Haze",
+        "Mortuary Mire",
+        "Rix Maadi, Dungeon Palace",
+        "Tinybones, Pocket Nuisance",
+        "Myriad Landscape",
+        "Fiery Temper",
+        "Big Game Hunter",
+        "Rakdos Locket",
+        "Arcane Signet",
+        "Mountain",
+        "Mountain",
+        "Mountain",
+        "Mountain",
+        "Mountain",
+        "Mountain",
+        "Mountain",
+        "Exsanguinate",
+        "Kolaghan's Command",
+        "Foreboding Ruins",
+        "Chainer, Nightmare Adept",
+        "Call to the Netherworld",
+        "Mox Diamond",
+        "Banefire",
+        "Night's Whisper",
+        "Bedevil",
+        "Chaos Warp",
+        "Archfiend of Ifnir",
+        "Faithless Looting",
+        "K'rrik, Son of Yawgmoth",
+        "Archfiend of Spite",
+        "Anger",
+        "Alms of the Vein",
+        "Marauding Mako",
+        "Big Score",
+        "Magus of the Wheel",
+        "Dragonskull Summit",
+        "Currency Converter",
+        "Sol Ring",
+        "Bitter Triumph",
+        "Rakdos Signet",
+        "Blasphemous Act",
+        "Blackcleave Cliffs",
+        "Geier Reach Sanitarium",
+        "Songs of the Damned",
+        "Talisman of Indulgence",
+        "Unexpected Windfall",
+        "Ozai, the Phoenix King",
+        "Phyrexian Arena",
+        "Feed the Swarm",
+        "Glint-Horn Buccaneer",
+        "Crackle with Power",
+        "Shadowgrange Archfiend",
+        "Shadowblood Ridge",
+        "Blazemire Verge",
+        "Dark Ritual",
+        "Blood Crypt",
+        "Olivia, Mobilized for War",
+        "Smoldering Marsh",
+        "Surly Badgersaur",
+        "Monument to Endurance",
+        "Crypt Ghast",
+        "Misty Knight, Hero for Hire",
+        "Cabal Ritual",
+        "Bone Miser",
+        "Jeska's Will"
+      ],
+      "removed": [],
+      "added": [],
+      "composition": {
+        "land": 32,
+        "interaction": 23,
+        "payoff": 11,
+        "madness": 22,
+        "ramp": 18,
+        "draw": 10
+      }
+    },
+    "land-heavy": {
+      "deck": [
+        "Anje Falkenrath",
+        "Gorgon Recluse",
+        "Alchemist's Greeting",
+        "Murderous Compulsion",
+        "Terminal Agony",
+        "Nightshade Assassin",
+        "Stromkirk Occultist",
+        "Avacyn's Judgment",
+        "Reckless Wurm",
+        "Swamp",
+        "Swamp",
+        "Swamp",
+        "Swamp",
+        "Swamp",
+        "Swamp",
+        "Swamp",
+        "Swamp",
+        "Steal the Show",
+        "Dark Withering",
+        "Kitchen Imp",
+        "Blazing Rootwalla",
+        "Violent Eruption",
+        "Mount Doom",
+        "Barren Moor",
+        "Necrogoyf",
+        "Ash Barrens",
+        "Skirge Familiar",
+        "Raucous Theater",
+        "Grave Scrabbler",
+        "Squee, Goblin Nabob",
+        "Thrill of Possibility",
+        "Thr\u00f3r's Map",
+        "Command Tower",
+        "Exotic Orchard",
+        "From Under the Floorboards",
+        "Psychotic Haze",
+        "Mortuary Mire",
+        "Rix Maadi, Dungeon Palace",
+        "Tinybones, Pocket Nuisance",
+        "Myriad Landscape",
+        "Fiery Temper",
+        "Big Game Hunter",
+        "Rakdos Locket",
+        "Mountain",
+        "Mountain",
+        "Mountain",
+        "Mountain",
+        "Mountain",
+        "Mountain",
+        "Mountain",
+        "Kolaghan's Command",
+        "Foreboding Ruins",
+        "Call to the Netherworld",
+        "Mox Diamond",
+        "Banefire",
+        "Night's Whisper",
+        "Bedevil",
+        "Chaos Warp",
+        "Archfiend of Ifnir",
+        "K'rrik, Son of Yawgmoth",
+        "Archfiend of Spite",
+        "Alms of the Vein",
+        "Marauding Mako",
+        "Magus of the Wheel",
+        "Dragonskull Summit",
+        "Sol Ring",
+        "Bitter Triumph",
+        "Rakdos Signet",
+        "Blasphemous Act",
+        "Blackcleave Cliffs",
+        "Geier Reach Sanitarium",
+        "Songs of the Damned",
+        "Talisman of Indulgence",
+        "Unexpected Windfall",
+        "Ozai, the Phoenix King",
+        "Phyrexian Arena",
+        "Feed the Swarm",
+        "Crackle with Power",
+        "Shadowgrange Archfiend",
+        "Shadowblood Ridge",
+        "Blazemire Verge",
+        "Blood Crypt",
+        "Olivia, Mobilized for War",
+        "Smoldering Marsh",
+        "Surly Badgersaur",
+        "Monument to Endurance",
+        "Misty Knight, Hero for Hire",
+        "Jeska's Will",
+        "Swamp",
+        "Mountain",
+        "Swamp",
+        "Mountain",
+        "Swamp",
+        "Mountain",
+        "Swamp",
+        "Mountain",
+        "Swamp",
+        "Mountain",
+        "Swamp",
+        "Mountain"
+      ],
+      "removed": [
+        "Anger",
+        "Arcane Signet",
+        "Big Score",
+        "Bone Miser",
+        "Cabal Ritual",
+        "Chainer, Nightmare Adept",
+        "Crypt Ghast",
+        "Currency Converter",
+        "Dark Ritual",
+        "Exsanguinate",
+        "Faithless Looting",
+        "Glint-Horn Buccaneer"
+      ],
+      "added": [
+        "Swamp",
+        "Mountain",
+        "Swamp",
+        "Mountain",
+        "Swamp",
+        "Mountain",
+        "Swamp",
+        "Mountain",
+        "Swamp",
+        "Mountain",
+        "Swamp",
+        "Mountain"
+      ],
+      "composition": {
+        "land": 44,
+        "interaction": 23,
+        "payoff": 11,
+        "madness": 22,
+        "ramp": 11,
+        "draw": 6
+      }
+    },
+    "interaction-heavy": {
+      "deck": [
+        "Anje Falkenrath",
+        "Gorgon Recluse",
+        "Alchemist's Greeting",
+        "Murderous Compulsion",
+        "Terminal Agony",
+        "Nightshade Assassin",
+        "Stromkirk Occultist",
+        "Avacyn's Judgment",
+        "Reckless Wurm",
+        "Swamp",
+        "Swamp",
+        "Swamp",
+        "Swamp",
+        "Swamp",
+        "Swamp",
+        "Swamp",
+        "Swamp",
+        "Steal the Show",
+        "Dark Withering",
+        "Kitchen Imp",
+        "Blazing Rootwalla",
+        "Violent Eruption",
+        "Mount Doom",
+        "Barren Moor",
+        "Necrogoyf",
+        "Ash Barrens",
+        "Skirge Familiar",
+        "Raucous Theater",
+        "Grave Scrabbler",
+        "Squee, Goblin Nabob",
+        "Thrill of Possibility",
+        "Thr\u00f3r's Map",
+        "Command Tower",
+        "Exotic Orchard",
+        "From Under the Floorboards",
+        "Psychotic Haze",
+        "Mortuary Mire",
+        "Rix Maadi, Dungeon Palace",
+        "Tinybones, Pocket Nuisance",
+        "Myriad Landscape",
+        "Fiery Temper",
+        "Big Game Hunter",
+        "Rakdos Locket",
+        "Mountain",
+        "Mountain",
+        "Mountain",
+        "Mountain",
+        "Mountain",
+        "Mountain",
+        "Mountain",
+        "Kolaghan's Command",
+        "Foreboding Ruins",
+        "Call to the Netherworld",
+        "Mox Diamond",
+        "Banefire",
+        "Night's Whisper",
+        "Bedevil",
+        "Chaos Warp",
+        "Archfiend of Ifnir",
+        "K'rrik, Son of Yawgmoth",
+        "Archfiend of Spite",
+        "Alms of the Vein",
+        "Marauding Mako",
+        "Magus of the Wheel",
+        "Dragonskull Summit",
+        "Sol Ring",
+        "Bitter Triumph",
+        "Rakdos Signet",
+        "Blasphemous Act",
+        "Blackcleave Cliffs",
+        "Geier Reach Sanitarium",
+        "Songs of the Damned",
+        "Talisman of Indulgence",
+        "Unexpected Windfall",
+        "Ozai, the Phoenix King",
+        "Phyrexian Arena",
+        "Feed the Swarm",
+        "Crackle with Power",
+        "Shadowgrange Archfiend",
+        "Shadowblood Ridge",
+        "Blazemire Verge",
+        "Blood Crypt",
+        "Olivia, Mobilized for War",
+        "Smoldering Marsh",
+        "Surly Badgersaur",
+        "Monument to Endurance",
+        "Misty Knight, Hero for Hire",
+        "Jeska's Will",
+        "Doom Blade",
+        "Go for the Throat",
+        "Infernal Grasp",
+        "Murder",
+        "Terminate",
+        "Dreadbore",
+        "Hero's Downfall",
+        "Cast Down",
+        "Ultimate Price",
+        "Victim of Night",
+        "Heartless Act",
+        "Power Word Kill"
+      ],
+      "removed": [
+        "Anger",
+        "Arcane Signet",
+        "Big Score",
+        "Bone Miser",
+        "Cabal Ritual",
+        "Chainer, Nightmare Adept",
+        "Crypt Ghast",
+        "Currency Converter",
+        "Dark Ritual",
+        "Exsanguinate",
+        "Faithless Looting",
+        "Glint-Horn Buccaneer"
+      ],
+      "added": [
+        "Doom Blade",
+        "Go for the Throat",
+        "Infernal Grasp",
+        "Murder",
+        "Terminate",
+        "Dreadbore",
+        "Hero's Downfall",
+        "Cast Down",
+        "Ultimate Price",
+        "Victim of Night",
+        "Heartless Act",
+        "Power Word Kill"
+      ],
+      "composition": {
+        "land": 32,
+        "interaction": 35,
+        "payoff": 11,
+        "madness": 22,
+        "ramp": 11,
+        "draw": 6
+      }
+    },
+    "payoff-light": {
+      "deck": [
+        "Anje Falkenrath",
+        "Alchemist's Greeting",
+        "Murderous Compulsion",
+        "Terminal Agony",
+        "Avacyn's Judgment",
+        "Swamp",
+        "Swamp",
+        "Swamp",
+        "Swamp",
+        "Swamp",
+        "Swamp",
+        "Swamp",
+        "Swamp",
+        "Steal the Show",
+        "Dark Withering",
+        "Violent Eruption",
+        "Mount Doom",
+        "Barren Moor",
+        "Ash Barrens",
+        "Skirge Familiar",
+        "Raucous Theater",
+        "Squee, Goblin Nabob",
+        "Thrill of Possibility",
+        "Thr\u00f3r's Map",
+        "Command Tower",
+        "Exotic Orchard",
+        "From Under the Floorboards",
+        "Psychotic Haze",
+        "Mortuary Mire",
+        "Rix Maadi, Dungeon Palace",
+        "Tinybones, Pocket Nuisance",
+        "Myriad Landscape",
+        "Fiery Temper",
+        "Rakdos Locket",
+        "Arcane Signet",
+        "Mountain",
+        "Mountain",
+        "Mountain",
+        "Mountain",
+        "Mountain",
+        "Mountain",
+        "Mountain",
+        "Exsanguinate",
+        "Kolaghan's Command",
+        "Foreboding Ruins",
+        "Chainer, Nightmare Adept",
+        "Call to the Netherworld",
+        "Mox Diamond",
+        "Banefire",
+        "Night's Whisper",
+        "Bedevil",
+        "Chaos Warp",
+        "Archfiend of Ifnir",
+        "Faithless Looting",
+        "K'rrik, Son of Yawgmoth",
+        "Anger",
+        "Alms of the Vein",
+        "Marauding Mako",
+        "Big Score",
+        "Magus of the Wheel",
+        "Dragonskull Summit",
+        "Currency Converter",
+        "Sol Ring",
+        "Bitter Triumph",
+        "Rakdos Signet",
+        "Blasphemous Act",
+        "Blackcleave Cliffs",
+        "Geier Reach Sanitarium",
+        "Songs of the Damned",
+        "Talisman of Indulgence",
+        "Unexpected Windfall",
+        "Ozai, the Phoenix King",
+        "Phyrexian Arena",
+        "Feed the Swarm",
+        "Glint-Horn Buccaneer",
+        "Crackle with Power",
+        "Shadowblood Ridge",
+        "Blazemire Verge",
+        "Dark Ritual",
+        "Blood Crypt",
+        "Olivia, Mobilized for War",
+        "Smoldering Marsh",
+        "Surly Badgersaur",
+        "Monument to Endurance",
+        "Crypt Ghast",
+        "Misty Knight, Hero for Hire",
+        "Cabal Ritual",
+        "Bone Miser",
+        "Jeska's Will",
+        "Barktooth Warbeard",
+        "Balduvian Barbarians",
+        "Dwarven Trader",
+        "Bonebreaker Giant",
+        "Barbarian Horde",
+        "Borderland Minotaur",
+        "Canal Monitor",
+        "Canyon Minotaur",
+        "Catacomb Crocodile",
+        "Hexplate Golem",
+        "Barony Vampire"
+      ],
+      "removed": [
+        "Archfiend of Spite",
+        "Big Game Hunter",
+        "Blazing Rootwalla",
+        "Gorgon Recluse",
+        "Grave Scrabbler",
+        "Kitchen Imp",
+        "Necrogoyf",
+        "Nightshade Assassin",
+        "Reckless Wurm",
+        "Shadowgrange Archfiend",
+        "Stromkirk Occultist"
+      ],
+      "added": [
+        "Barktooth Warbeard",
+        "Balduvian Barbarians",
+        "Dwarven Trader",
+        "Bonebreaker Giant",
+        "Barbarian Horde",
+        "Borderland Minotaur",
+        "Canal Monitor",
+        "Canyon Minotaur",
+        "Catacomb Crocodile",
+        "Hexplate Golem",
+        "Barony Vampire"
+      ],
+      "composition": {
+        "land": 32,
+        "interaction": 18,
+        "payoff": 0,
+        "madness": 11,
+        "ramp": 18,
+        "draw": 10
+      }
+    }
+  },
+  "features": {
+    "Grave Scrabbler": {
+      "land": false,
+      "interaction": false,
+      "payoff": true,
+      "madness": true,
+      "ramp": false,
+      "draw": false,
+      "cmc": 4.0,
+      "proactive": true,
+      "type": "Creature \u2014 Zombie",
+      "identity": [
+        "B"
+      ],
+      "oracle": "Madness {1}{B} (If you discard this card, discard it into exile. When you do, cast it for its madness cost or put it into your graveyard.)\nWhen this creature enters, if its madness cost was paid, you may return target creature card from a graveyard to its owner's hand."
+    },
+    "Necrogoyf": {
+      "land": false,
+      "interaction": false,
+      "payoff": true,
+      "madness": true,
+      "ramp": false,
+      "draw": false,
+      "cmc": 5.0,
+      "proactive": true,
+      "type": "Creature \u2014 Lhurgoyf",
+      "identity": [
+        "B"
+      ],
+      "oracle": "Necrogoyf's power is equal to the number of creature cards in all graveyards.\nAt the beginning of each player's upkeep, that player discards a card.\nMadness {1}{B}{B} (If you discard this card, discard it into exile. When you do, cast it for its madness cost or put it into your graveyard.)"
+    },
+    "Banefire": {
+      "land": false,
+      "interaction": true,
+      "payoff": false,
+      "madness": false,
+      "ramp": false,
+      "draw": false,
+      "cmc": 1.0,
+      "proactive": false,
+      "type": "Sorcery",
+      "identity": [
+        "R"
+      ],
+      "oracle": "Banefire deals X damage to any target.\nIf X is 5 or more, this spell can't be countered and the damage can't be prevented."
+    },
+    "Unexpected Windfall": {
+      "land": false,
+      "interaction": false,
+      "payoff": false,
+      "madness": false,
+      "ramp": true,
+      "draw": true,
+      "cmc": 4.0,
+      "proactive": true,
+      "type": "Instant",
+      "identity": [
+        "R"
+      ],
+      "oracle": "As an additional cost to cast this spell, discard a card.\nDraw two cards and create two Treasure tokens. (They're artifacts with \"{T}, Sacrifice this token: Add one mana of any color.\")"
+    },
+    "Currency Converter": {
+      "land": false,
+      "interaction": false,
+      "payoff": false,
+      "madness": false,
+      "ramp": true,
+      "draw": true,
+      "cmc": 1.0,
+      "proactive": true,
+      "type": "Artifact",
+      "identity": [],
+      "oracle": "Whenever you discard a card, you may exile that card from your graveyard.\n{2}, {T}: Draw a card, then discard a card.\n{T}: Put a card exiled with this artifact into its owner's graveyard. If it's a land card, create a Treasure token. If it's a nonland card, create a 2/2 black Rogue creature token."
+    },
+    "Phyrexian Arena": {
+      "land": false,
+      "interaction": false,
+      "payoff": false,
+      "madness": false,
+      "ramp": false,
+      "draw": false,
+      "cmc": 3.0,
+      "proactive": true,
+      "type": "Enchantment",
+      "identity": [
+        "B"
+      ],
+      "oracle": "At the beginning of your upkeep, you draw a card and you lose 1 life."
+    },
+    "Command Tower": {
+      "land": true,
+      "interaction": false,
+      "payoff": false,
+      "madness": false,
+      "ramp": false,
+      "draw": false,
+      "cmc": 0.0,
+      "proactive": false,
+      "type": "Land",
+      "identity": [],
+      "oracle": "{T}: Add one mana of any color in your commander's color identity."
+    },
+    "Gorgon Recluse": {
+      "land": false,
+      "interaction": true,
+      "payoff": true,
+      "madness": true,
+      "ramp": false,
+      "draw": false,
+      "cmc": 5.0,
+      "proactive": false,
+      "type": "Creature \u2014 Gorgon",
+      "identity": [
+        "B"
+      ],
+      "oracle": "Whenever this creature blocks or becomes blocked by a nonblack creature, destroy that creature at end of combat.\nMadness {B}{B} (If you discard this card, discard it into exile. When you do, cast it for its madness cost or put it into your graveyard.)"
+    },
+    "Bedevil": {
+      "land": false,
+      "interaction": true,
+      "payoff": false,
+      "madness": false,
+      "ramp": false,
+      "draw": false,
+      "cmc": 3.0,
+      "proactive": false,
+      "type": "Instant",
+      "identity": [
+        "B",
+        "R"
+      ],
+      "oracle": "Destroy target artifact, creature, or planeswalker."
+    },
+    "Magus of the Wheel": {
+      "land": false,
+      "interaction": false,
+      "payoff": false,
+      "madness": false,
+      "ramp": false,
+      "draw": false,
+      "cmc": 3.0,
+      "proactive": true,
+      "type": "Creature \u2014 Human Wizard",
+      "identity": [
+        "R"
+      ],
+      "oracle": "{1}{R}, {T}, Sacrifice this creature: Each player discards their hand, then draws seven cards."
+    },
+    "Bone Miser": {
+      "land": false,
+      "interaction": false,
+      "payoff": false,
+      "madness": false,
+      "ramp": true,
+      "draw": false,
+      "cmc": 5.0,
+      "proactive": true,
+      "type": "Creature \u2014 Zombie Wizard",
+      "identity": [
+        "B"
+      ],
+      "oracle": "Whenever you discard a creature card, create a 2/2 black Zombie creature token.\nWhenever you discard a land card, add {B}{B}.\nWhenever you discard a noncreature, nonland card, draw a card."
+    },
+    "Misty Knight, Hero for Hire": {
+      "land": false,
+      "interaction": false,
+      "payoff": false,
+      "madness": false,
+      "ramp": false,
+      "draw": true,
+      "cmc": 2.0,
+      "proactive": true,
+      "type": "Legendary Creature \u2014 Human Detective Hero",
+      "identity": [
+        "R"
+      ],
+      "oracle": "{2}, {T}, Discard a card: Draw a card for each card you've discarded this turn."
+    },
+    "Rakdos Signet": {
+      "land": false,
+      "interaction": false,
+      "payoff": false,
+      "madness": false,
+      "ramp": true,
+      "draw": false,
+      "cmc": 2.0,
+      "proactive": true,
+      "type": "Artifact",
+      "identity": [
+        "B",
+        "R"
+      ],
+      "oracle": "{1}, {T}: Add {B}{R}."
+    },
+    "Skirge Familiar": {
+      "land": false,
+      "interaction": false,
+      "payoff": false,
+      "madness": false,
+      "ramp": true,
+      "draw": false,
+      "cmc": 5.0,
+      "proactive": true,
+      "type": "Creature \u2014 Phyrexian Imp",
+      "identity": [
+        "B"
+      ],
+      "oracle": "Flying\nDiscard a card: Add {B}."
+    },
+    "Kitchen Imp": {
+      "land": false,
+      "interaction": false,
+      "payoff": true,
+      "madness": true,
+      "ramp": false,
+      "draw": false,
+      "cmc": 4.0,
+      "proactive": true,
+      "type": "Creature \u2014 Imp",
+      "identity": [
+        "B"
+      ],
+      "oracle": "Flying, haste\nMadness {B} (If you discard this card, discard it into exile. When you do, cast it for its madness cost or put it into your graveyard.)"
+    },
+    "Chaos Warp": {
+      "land": false,
+      "interaction": true,
+      "payoff": false,
+      "madness": false,
+      "ramp": false,
+      "draw": false,
+      "cmc": 3.0,
+      "proactive": false,
+      "type": "Instant",
+      "identity": [
+        "R"
+      ],
+      "oracle": "The owner of target permanent shuffles it into their library, then reveals the top card of their library. If it's a permanent card, they put it onto the battlefield."
+    },
+    "Faithless Looting": {
+      "land": false,
+      "interaction": false,
+      "payoff": false,
+      "madness": false,
+      "ramp": false,
+      "draw": true,
+      "cmc": 1.0,
+      "proactive": true,
+      "type": "Sorcery",
+      "identity": [
+        "R"
+      ],
+      "oracle": "Draw two cards, then discard two cards.\nFlashback {2}{R} (You may cast this card from your graveyard for its flashback cost. Then exile it.)"
+    },
+    "K'rrik, Son of Yawgmoth": {
+      "land": false,
+      "interaction": false,
+      "payoff": false,
+      "madness": false,
+      "ramp": false,
+      "draw": false,
+      "cmc": 7.0,
+      "proactive": true,
+      "type": "Legendary Creature \u2014 Phyrexian Horror Minion",
+      "identity": [
+        "B"
+      ],
+      "oracle": "({B/P} can be paid with either {B} or 2 life.)\nLifelink\nFor each {B} in a cost, you may pay 2 life rather than pay that mana.\nWhenever you cast a black spell, put a +1/+1 counter on K'rrik."
+    },
+    "Mortuary Mire": {
+      "land": true,
+      "interaction": false,
+      "payoff": false,
+      "madness": false,
+      "ramp": false,
+      "draw": false,
+      "cmc": 0.0,
+      "proactive": false,
+      "type": "Land",
+      "identity": [
+        "B"
+      ],
+      "oracle": "This land enters tapped.\nWhen this land enters, you may put target creature card from your graveyard on top of your library.\n{T}: Add {B}."
+    },
+    "Feed the Swarm": {
+      "land": false,
+      "interaction": true,
+      "payoff": false,
+      "madness": false,
+      "ramp": false,
+      "draw": false,
+      "cmc": 2.0,
+      "proactive": false,
+      "type": "Sorcery",
+      "identity": [
+        "B"
+      ],
+      "oracle": "Destroy target creature or enchantment an opponent controls. You lose life equal to that permanent's mana value."
+    },
+    "Tinybones, Pocket Nuisance": {
+      "land": false,
+      "interaction": false,
+      "payoff": false,
+      "madness": false,
+      "ramp": false,
+      "draw": false,
+      "cmc": 3.0,
+      "proactive": true,
+      "type": "Legendary Creature \u2014 Skeleton Rogue",
+      "identity": [
+        "B"
+      ],
+      "oracle": "When Tinybones enters, each opponent discards a card.\nWhenever a player discards one or more cards, Tinybones deals 1 damage to each opponent."
+    },
+    "Reckless Wurm": {
+      "land": false,
+      "interaction": false,
+      "payoff": true,
+      "madness": true,
+      "ramp": false,
+      "draw": false,
+      "cmc": 5.0,
+      "proactive": true,
+      "type": "Creature \u2014 Wurm",
+      "identity": [
+        "R"
+      ],
+      "oracle": "Trample\nMadness {2}{R} (If you discard this card, discard it into exile. When you do, cast it for its madness cost or put it into your graveyard.)"
+    },
+    "Swamp": {
+      "land": true,
+      "interaction": false,
+      "payoff": false,
+      "madness": false,
+      "ramp": false,
+      "draw": false,
+      "cmc": 0.0,
+      "proactive": false,
+      "type": "Basic Land \u2014 Swamp",
+      "identity": [
+        "B"
+      ],
+      "oracle": "({T}: Add {B}.)"
+    },
+    "Crackle with Power": {
+      "land": false,
+      "interaction": true,
+      "payoff": false,
+      "madness": false,
+      "ramp": false,
+      "draw": false,
+      "cmc": 2.0,
+      "proactive": false,
+      "type": "Sorcery",
+      "identity": [
+        "R"
+      ],
+      "oracle": "Crackle with Power deals five times X damage to each of up to X targets."
+    },
+    "Rix Maadi, Dungeon Palace": {
+      "land": true,
+      "interaction": false,
+      "payoff": false,
+      "madness": false,
+      "ramp": false,
+      "draw": false,
+      "cmc": 0.0,
+      "proactive": false,
+      "type": "Land",
+      "identity": [
+        "B",
+        "R"
+      ],
+      "oracle": "{T}: Add {C}.\n{1}{B}{R}, {T}: Each player discards a card. Activate only as a sorcery."
+    },
+    "Alms of the Vein": {
+      "land": false,
+      "interaction": false,
+      "payoff": false,
+      "madness": true,
+      "ramp": false,
+      "draw": false,
+      "cmc": 3.0,
+      "proactive": true,
+      "type": "Sorcery",
+      "identity": [
+        "B"
+      ],
+      "oracle": "Target opponent loses 3 life and you gain 3 life.\nMadness {B} (If you discard this card, discard it into exile. When you do, cast it for its madness cost or put it into your graveyard.)"
+    },
+    "Fiery Temper": {
+      "land": false,
+      "interaction": true,
+      "payoff": false,
+      "madness": true,
+      "ramp": false,
+      "draw": false,
+      "cmc": 3.0,
+      "proactive": false,
+      "type": "Instant",
+      "identity": [
+        "R"
+      ],
+      "oracle": "Fiery Temper deals 3 damage to any target.\nMadness {R} (If you discard this card, discard it into exile. When you do, cast it for its madness cost or put it into your graveyard.)"
+    },
+    "Archfiend of Spite": {
+      "land": false,
+      "interaction": true,
+      "payoff": true,
+      "madness": true,
+      "ramp": false,
+      "draw": false,
+      "cmc": 7.0,
+      "proactive": false,
+      "type": "Creature \u2014 Demon",
+      "identity": [
+        "B"
+      ],
+      "oracle": "Flying\nWhenever a source an opponent controls deals damage to this creature, that source's controller loses that much life unless they sacrifice that many permanents of their choice.\nMadness {3}{B}{B} (If you discard this card, discard it into exile. When you do, cast it for its madness cost or put it into your graveyard.)"
+    },
+    "Myriad Landscape": {
+      "land": true,
+      "interaction": false,
+      "payoff": false,
+      "madness": false,
+      "ramp": false,
+      "draw": false,
+      "cmc": 0.0,
+      "proactive": false,
+      "type": "Land",
+      "identity": [],
+      "oracle": "This land enters tapped.\n{T}: Add {C}.\n{2}, {T}, Sacrifice this land: Search your library for up to two basic land cards that share a land type, put them onto the battlefield tapped, then shuffle."
+    },
+    "Anger": {
+      "land": false,
+      "interaction": false,
+      "payoff": false,
+      "madness": false,
+      "ramp": false,
+      "draw": false,
+      "cmc": 4.0,
+      "proactive": true,
+      "type": "Creature \u2014 Incarnation",
+      "identity": [
+        "R"
+      ],
+      "oracle": "Haste\nAs long as this card is in your graveyard and you control a Mountain, creatures you control have haste."
+    },
+    "Thr\u00f3r's Map": {
+      "land": false,
+      "interaction": false,
+      "payoff": false,
+      "madness": false,
+      "ramp": true,
+      "draw": true,
+      "cmc": 2.0,
+      "proactive": true,
+      "type": "Legendary Artifact",
+      "identity": [],
+      "oracle": "When Thr\u00f3r's Map enters, search your library for a basic land card, reveal it, put it into your hand, then shuffle.\n{2}, {T}: Draw a card, then discard a card."
+    },
+    "Dark Withering": {
+      "land": false,
+      "interaction": true,
+      "payoff": false,
+      "madness": true,
+      "ramp": false,
+      "draw": false,
+      "cmc": 6.0,
+      "proactive": false,
+      "type": "Instant",
+      "identity": [
+        "B"
+      ],
+      "oracle": "Destroy target nonblack creature.\nMadness {B} (If you discard this card, discard it into exile. When you do, cast it for its madness cost or put it into your graveyard.)"
+    },
+    "Blasphemous Act": {
+      "land": false,
+      "interaction": true,
+      "payoff": false,
+      "madness": false,
+      "ramp": false,
+      "draw": false,
+      "cmc": 9.0,
+      "proactive": false,
+      "type": "Sorcery",
+      "identity": [
+        "R"
+      ],
+      "oracle": "This spell costs {1} less to cast for each creature on the battlefield.\nBlasphemous Act deals 13 damage to each creature."
+    },
+    "Sol Ring": {
+      "land": false,
+      "interaction": false,
+      "payoff": false,
+      "madness": false,
+      "ramp": true,
+      "draw": false,
+      "cmc": 1.0,
+      "proactive": true,
+      "type": "Artifact",
+      "identity": [],
+      "oracle": "{T}: Add {C}{C}."
+    },
+    "Blackcleave Cliffs": {
+      "land": true,
+      "interaction": false,
+      "payoff": false,
+      "madness": false,
+      "ramp": false,
+      "draw": false,
+      "cmc": 0.0,
+      "proactive": false,
+      "type": "Land",
+      "identity": [
+        "B",
+        "R"
+      ],
+      "oracle": "This land enters tapped unless you control two or fewer other lands.\n{T}: Add {B} or {R}."
+    },
+    "Glint-Horn Buccaneer": {
+      "land": false,
+      "interaction": false,
+      "payoff": false,
+      "madness": false,
+      "ramp": false,
+      "draw": true,
+      "cmc": 3.0,
+      "proactive": true,
+      "type": "Creature \u2014 Minotaur Pirate",
+      "identity": [
+        "R"
+      ],
+      "oracle": "Haste\nWhenever you discard a card, this creature deals 1 damage to each opponent.\n{1}{R}, Discard a card: Draw a card. Activate only if this creature is attacking."
+    },
+    "Surly Badgersaur": {
+      "land": false,
+      "interaction": false,
+      "payoff": false,
+      "madness": false,
+      "ramp": true,
+      "draw": false,
+      "cmc": 4.0,
+      "proactive": true,
+      "type": "Creature \u2014 Badger Dinosaur",
+      "identity": [
+        "R"
+      ],
+      "oracle": "Whenever you discard a creature card, put a +1/+1 counter on this creature.\nWhenever you discard a land card, create a Treasure token. (It's an artifact with \"{T}, Sacrifice this token: Add one mana of any color.\")\nWhenever you discard a noncreature, nonland card, this creature fights up to one target creature you don't control."
+    },
+    "Avacyn's Judgment": {
+      "land": false,
+      "interaction": true,
+      "payoff": false,
+      "madness": true,
+      "ramp": false,
+      "draw": false,
+      "cmc": 2.0,
+      "proactive": false,
+      "type": "Sorcery",
+      "identity": [
+        "R"
+      ],
+      "oracle": "Madness {X}{R} (If you discard this card, discard it into exile. When you do, cast it for its madness cost or put it into your graveyard.)\nAvacyn's Judgment deals 2 damage divided as you choose among any number of targets. If this spell's madness cost was paid, it deals X damage divided as you choose among those permanents and/or players instead."
+    },
+    "Raucous Theater": {
+      "land": true,
+      "interaction": false,
+      "payoff": false,
+      "madness": false,
+      "ramp": false,
+      "draw": false,
+      "cmc": 0.0,
+      "proactive": false,
+      "type": "Land \u2014 Swamp Mountain",
+      "identity": [
+        "B",
+        "R"
+      ],
+      "oracle": "({T}: Add {B} or {R}.)\nThis land enters tapped.\nWhen this land enters, surveil 1. (Look at the top card of your library. You may put it into your graveyard.)"
+    },
+    "Shadowblood Ridge": {
+      "land": true,
+      "interaction": false,
+      "payoff": false,
+      "madness": false,
+      "ramp": false,
+      "draw": false,
+      "cmc": 0.0,
+      "proactive": false,
+      "type": "Land",
+      "identity": [
+        "B",
+        "R"
+      ],
+      "oracle": "{1}, {T}: Add {B}{R}."
+    },
+    "Dark Ritual": {
+      "land": false,
+      "interaction": false,
+      "payoff": false,
+      "madness": false,
+      "ramp": true,
+      "draw": false,
+      "cmc": 1.0,
+      "proactive": true,
+      "type": "Instant",
+      "identity": [
+        "B"
+      ],
+      "oracle": "Add {B}{B}{B}."
+    },
+    "Thrill of Possibility": {
+      "land": false,
+      "interaction": false,
+      "payoff": false,
+      "madness": false,
+      "ramp": false,
+      "draw": true,
+      "cmc": 2.0,
+      "proactive": true,
+      "type": "Instant",
+      "identity": [
+        "R"
+      ],
+      "oracle": "As an additional cost to cast this spell, discard a card.\nDraw two cards."
+    },
+    "Mox Diamond": {
+      "land": false,
+      "interaction": false,
+      "payoff": false,
+      "madness": false,
+      "ramp": true,
+      "draw": false,
+      "cmc": 0.0,
+      "proactive": true,
+      "type": "Artifact",
+      "identity": [],
+      "oracle": "If this artifact would enter, you may discard a land card instead. If you do, put this artifact onto the battlefield. If you don't, put it into its owner's graveyard.\n{T}: Add one mana of any color."
+    },
+    "Anje Falkenrath": {
+      "land": false,
+      "interaction": false,
+      "payoff": false,
+      "madness": false,
+      "ramp": false,
+      "draw": true,
+      "cmc": 3.0,
+      "proactive": true,
+      "type": "Legendary Creature \u2014 Vampire",
+      "identity": [
+        "B",
+        "R"
+      ],
+      "oracle": "Haste\n{T}, Discard a card: Draw a card.\nWhenever you discard a card, if it has madness, untap Anje Falkenrath."
+    },
+    "Blazing Rootwalla": {
+      "land": false,
+      "interaction": false,
+      "payoff": true,
+      "madness": true,
+      "ramp": false,
+      "draw": false,
+      "cmc": 1.0,
+      "proactive": true,
+      "type": "Creature \u2014 Lizard",
+      "identity": [
+        "R"
+      ],
+      "oracle": "{R}: This creature gets +2/+0 until end of turn. Activate only once each turn.\nMadness {0} (If you discard this card, discard it into exile. When you do, cast it for its madness cost or put it into your graveyard.)"
+    },
+    "Big Score": {
+      "land": false,
+      "interaction": false,
+      "payoff": false,
+      "madness": false,
+      "ramp": true,
+      "draw": true,
+      "cmc": 4.0,
+      "proactive": true,
+      "type": "Instant",
+      "identity": [
+        "R"
+      ],
+      "oracle": "As an additional cost to cast this spell, discard a card.\nDraw two cards and create two Treasure tokens. (They're artifacts with \"{T}, Sacrifice this token: Add one mana of any color.\")"
+    },
+    "Dragonskull Summit": {
+      "land": true,
+      "interaction": false,
+      "payoff": false,
+      "madness": false,
+      "ramp": false,
+      "draw": false,
+      "cmc": 0.0,
+      "proactive": false,
+      "type": "Land",
+      "identity": [
+        "B",
+        "R"
+      ],
+      "oracle": "This land enters tapped unless you control a Swamp or a Mountain.\n{T}: Add {B} or {R}."
+    },
+    "Monument to Endurance": {
+      "land": false,
+      "interaction": false,
+      "payoff": false,
+      "madness": false,
+      "ramp": true,
+      "draw": false,
+      "cmc": 3.0,
+      "proactive": true,
+      "type": "Artifact",
+      "identity": [],
+      "oracle": "Whenever you discard a card, choose one that hasn't been chosen this turn \u2014\n\u2022 Draw a card.\n\u2022 Create a Treasure token.\n\u2022 Each opponent loses 3 life."
+    },
+    "Shadowgrange Archfiend": {
+      "land": false,
+      "interaction": true,
+      "payoff": true,
+      "madness": true,
+      "ramp": false,
+      "draw": false,
+      "cmc": 7.0,
+      "proactive": false,
+      "type": "Creature \u2014 Demon",
+      "identity": [
+        "B"
+      ],
+      "oracle": "When this creature enters, each opponent sacrifices a creature with the greatest power among creatures they control. You gain life equal to the greatest power among creatures sacrificed this way.\nMadness\u2014{2}{B}, Pay 8 life. (If you discard this card, discard it into exile. When you do, cast it for its madness cost or put it into your graveyard.)"
+    },
+    "Rakdos Locket": {
+      "land": false,
+      "interaction": false,
+      "payoff": false,
+      "madness": false,
+      "ramp": true,
+      "draw": true,
+      "cmc": 3.0,
+      "proactive": true,
+      "type": "Artifact",
+      "identity": [
+        "B",
+        "R"
+      ],
+      "oracle": "{T}: Add {B} or {R}.\n{B/R}{B/R}{B/R}{B/R}, {T}, Sacrifice this artifact: Draw two cards."
+    },
+    "Night's Whisper": {
+      "land": false,
+      "interaction": false,
+      "payoff": false,
+      "madness": false,
+      "ramp": false,
+      "draw": true,
+      "cmc": 2.0,
+      "proactive": true,
+      "type": "Sorcery",
+      "identity": [
+        "B"
+      ],
+      "oracle": "You draw two cards and lose 2 life."
+    },
+    "Steal the Show": {
+      "land": false,
+      "interaction": true,
+      "payoff": false,
+      "madness": false,
+      "ramp": false,
+      "draw": false,
+      "cmc": 3.0,
+      "proactive": false,
+      "type": "Sorcery",
+      "identity": [
+        "R"
+      ],
+      "oracle": "Choose one or both \u2014\n\u2022 Target player discards any number of cards, then draws that many cards.\n\u2022 Steal the Show deals damage equal to the number of instant and sorcery cards in your graveyard to target creature or planeswalker."
+    },
+    "Jeska's Will": {
+      "land": false,
+      "interaction": false,
+      "payoff": false,
+      "madness": false,
+      "ramp": false,
+      "draw": false,
+      "cmc": 3.0,
+      "proactive": true,
+      "type": "Sorcery",
+      "identity": [
+        "R"
+      ],
+      "oracle": "Choose one. If you control a commander as you cast this spell, you may choose both instead.\n\u2022 Add {R} for each card in target opponent's hand.\n\u2022 Exile the top three cards of your library. You may play them this turn."
+    },
+    "Smoldering Marsh": {
+      "land": true,
+      "interaction": false,
+      "payoff": false,
+      "madness": false,
+      "ramp": false,
+      "draw": false,
+      "cmc": 0.0,
+      "proactive": false,
+      "type": "Land \u2014 Swamp Mountain",
+      "identity": [
+        "B",
+        "R"
+      ],
+      "oracle": "({T}: Add {B} or {R}.)\nThis land enters tapped unless you control two or more basic lands."
+    },
+    "Nightshade Assassin": {
+      "land": false,
+      "interaction": true,
+      "payoff": true,
+      "madness": true,
+      "ramp": false,
+      "draw": false,
+      "cmc": 4.0,
+      "proactive": false,
+      "type": "Creature \u2014 Human Assassin",
+      "identity": [
+        "B"
+      ],
+      "oracle": "First strike\nWhen this creature enters, you may reveal X black cards in your hand. If you do, target creature gets -X/-X until end of turn.\nMadness {1}{B} (If you discard this card, discard it into exile. When you do, cast it for its madness cost or put it into your graveyard.)"
+    },
+    "Foreboding Ruins": {
+      "land": true,
+      "interaction": false,
+      "payoff": false,
+      "madness": false,
+      "ramp": false,
+      "draw": false,
+      "cmc": 0.0,
+      "proactive": false,
+      "type": "Land",
+      "identity": [
+        "B",
+        "R"
+      ],
+      "oracle": "As this land enters, you may reveal a Swamp or Mountain card from your hand. If you don't, this land enters tapped.\n{T}: Add {B} or {R}."
+    },
+    "Cabal Ritual": {
+      "land": false,
+      "interaction": false,
+      "payoff": false,
+      "madness": false,
+      "ramp": true,
+      "draw": false,
+      "cmc": 2.0,
+      "proactive": true,
+      "type": "Instant",
+      "identity": [
+        "B"
+      ],
+      "oracle": "Add {B}{B}{B}.\nThreshold \u2014 Add {B}{B}{B}{B}{B} instead if there are seven or more cards in your graveyard."
+    },
+    "Marauding Mako": {
+      "land": false,
+      "interaction": false,
+      "payoff": false,
+      "madness": false,
+      "ramp": false,
+      "draw": false,
+      "cmc": 1.0,
+      "proactive": true,
+      "type": "Creature \u2014 Shark Pirate",
+      "identity": [
+        "R"
+      ],
+      "oracle": "Whenever you discard one or more cards, put that many +1/+1 counters on this creature.\nCycling {2} ({2}, Discard this card: Draw a card.)"
+    },
+    "Olivia, Mobilized for War": {
+      "land": false,
+      "interaction": false,
+      "payoff": false,
+      "madness": false,
+      "ramp": false,
+      "draw": false,
+      "cmc": 3.0,
+      "proactive": true,
+      "type": "Legendary Creature \u2014 Vampire Knight",
+      "identity": [
+        "B",
+        "R"
+      ],
+      "oracle": "Flying\nWhenever another creature you control enters, you may discard a card. If you do, put a +1/+1 counter on that creature, it gains haste until end of turn, and it becomes a Vampire in addition to its other types."
+    },
+    "Ash Barrens": {
+      "land": true,
+      "interaction": false,
+      "payoff": false,
+      "madness": false,
+      "ramp": false,
+      "draw": false,
+      "cmc": 0.0,
+      "proactive": false,
+      "type": "Land",
+      "identity": [],
+      "oracle": "{T}: Add {C}.\nBasic landcycling {1} ({1}, Discard this card: Search your library for a basic land card, reveal it, put it into your hand, then shuffle.)"
+    },
+    "Archfiend of Ifnir": {
+      "land": false,
+      "interaction": true,
+      "payoff": false,
+      "madness": false,
+      "ramp": false,
+      "draw": false,
+      "cmc": 5.0,
+      "proactive": false,
+      "type": "Creature \u2014 Demon",
+      "identity": [
+        "B"
+      ],
+      "oracle": "Flying\nWhenever you cycle or discard another card, put a -1/-1 counter on each creature your opponents control.\nCycling {2} ({2}, Discard this card: Draw a card.)"
+    },
+    "Squee, Goblin Nabob": {
+      "land": false,
+      "interaction": false,
+      "payoff": false,
+      "madness": false,
+      "ramp": false,
+      "draw": false,
+      "cmc": 3.0,
+      "proactive": true,
+      "type": "Legendary Creature \u2014 Goblin",
+      "identity": [
+        "R"
+      ],
+      "oracle": "At the beginning of your upkeep, you may return this card from your graveyard to your hand."
+    },
+    "Kolaghan's Command": {
+      "land": false,
+      "interaction": true,
+      "payoff": false,
+      "madness": false,
+      "ramp": false,
+      "draw": false,
+      "cmc": 3.0,
+      "proactive": false,
+      "type": "Instant",
+      "identity": [
+        "B",
+        "R"
+      ],
+      "oracle": "Choose two \u2014\n\u2022 Return target creature card from your graveyard to your hand.\n\u2022 Target player discards a card.\n\u2022 Destroy target artifact.\n\u2022 Kolaghan's Command deals 2 damage to any target."
+    },
+    "Terminal Agony": {
+      "land": false,
+      "interaction": true,
+      "payoff": false,
+      "madness": true,
+      "ramp": false,
+      "draw": false,
+      "cmc": 4.0,
+      "proactive": false,
+      "type": "Sorcery",
+      "identity": [
+        "B",
+        "R"
+      ],
+      "oracle": "Destroy target creature.\nMadness {B}{R} (If you discard this card, discard it into exile. When you do, cast it for its madness cost or put it into your graveyard.)"
+    },
+    "Ozai, the Phoenix King": {
+      "land": false,
+      "interaction": false,
+      "payoff": false,
+      "madness": false,
+      "ramp": false,
+      "draw": false,
+      "cmc": 6.0,
+      "proactive": true,
+      "type": "Legendary Creature \u2014 Human Noble",
+      "identity": [
+        "B",
+        "R"
+      ],
+      "oracle": "Trample, firebending 4, haste\nIf you would lose unspent mana, that mana becomes red instead.\nOzai has flying and indestructible as long as you have six or more unspent mana."
+    },
+    "Big Game Hunter": {
+      "land": false,
+      "interaction": true,
+      "payoff": true,
+      "madness": true,
+      "ramp": false,
+      "draw": false,
+      "cmc": 3.0,
+      "proactive": false,
+      "type": "Creature \u2014 Human Rebel Assassin",
+      "identity": [
+        "B"
+      ],
+      "oracle": "When this creature enters, destroy target creature with power 4 or greater. It can't be regenerated.\nMadness {B} (If you discard this card, discard it into exile. When you do, cast it for its madness cost or put it into your graveyard.)"
+    },
+    "Mountain": {
+      "land": true,
+      "interaction": false,
+      "payoff": false,
+      "madness": false,
+      "ramp": false,
+      "draw": false,
+      "cmc": 0.0,
+      "proactive": false,
+      "type": "Basic Land \u2014 Mountain",
+      "identity": [
+        "R"
+      ],
+      "oracle": "({T}: Add {R}.)"
+    },
+    "Stromkirk Occultist": {
+      "land": false,
+      "interaction": false,
+      "payoff": true,
+      "madness": true,
+      "ramp": false,
+      "draw": false,
+      "cmc": 3.0,
+      "proactive": true,
+      "type": "Creature \u2014 Vampire Horror",
+      "identity": [
+        "R"
+      ],
+      "oracle": "Trample\nWhenever this creature deals combat damage to a player, exile the top card of your library. Until end of turn, you may play that card.\nMadness {1}{R} (If you discard this card, discard it into exile. When you do, cast it for its madness cost or put it into your graveyard.)"
+    },
+    "Songs of the Damned": {
+      "land": false,
+      "interaction": false,
+      "payoff": false,
+      "madness": false,
+      "ramp": true,
+      "draw": false,
+      "cmc": 1.0,
+      "proactive": true,
+      "type": "Instant",
+      "identity": [
+        "B"
+      ],
+      "oracle": "Add {B} for each creature card in your graveyard."
+    },
+    "Geier Reach Sanitarium": {
+      "land": true,
+      "interaction": false,
+      "payoff": false,
+      "madness": false,
+      "ramp": false,
+      "draw": false,
+      "cmc": 0.0,
+      "proactive": false,
+      "type": "Legendary Land",
+      "identity": [],
+      "oracle": "{T}: Add {C}.\n{2}, {T}: Each player draws a card, then discards a card."
+    },
+    "Barren Moor": {
+      "land": true,
+      "interaction": false,
+      "payoff": false,
+      "madness": false,
+      "ramp": false,
+      "draw": false,
+      "cmc": 0.0,
+      "proactive": false,
+      "type": "Land",
+      "identity": [
+        "B"
+      ],
+      "oracle": "This land enters tapped.\n{T}: Add {B}.\nCycling {B} ({B}, Discard this card: Draw a card.)"
+    },
+    "Blazemire Verge": {
+      "land": true,
+      "interaction": false,
+      "payoff": false,
+      "madness": false,
+      "ramp": false,
+      "draw": false,
+      "cmc": 0.0,
+      "proactive": false,
+      "type": "Land",
+      "identity": [
+        "B",
+        "R"
+      ],
+      "oracle": "{T}: Add {B}.\n{T}: Add {R}. Activate only if you control a Swamp or a Mountain."
+    },
+    "Crypt Ghast": {
+      "land": false,
+      "interaction": false,
+      "payoff": false,
+      "madness": false,
+      "ramp": true,
+      "draw": false,
+      "cmc": 4.0,
+      "proactive": true,
+      "type": "Creature \u2014 Spirit",
+      "identity": [
+        "B"
+      ],
+      "oracle": "Extort (Whenever you cast a spell, you may pay {W/B}. If you do, each opponent loses 1 life and you gain that much life.)\nWhenever you tap a Swamp for mana, add an additional {B}."
+    },
+    "Exsanguinate": {
+      "land": false,
+      "interaction": false,
+      "payoff": false,
+      "madness": false,
+      "ramp": false,
+      "draw": false,
+      "cmc": 2.0,
+      "proactive": true,
+      "type": "Sorcery",
+      "identity": [
+        "B"
+      ],
+      "oracle": "Each opponent loses X life. You gain life equal to the life lost this way."
+    },
+    "Murderous Compulsion": {
+      "land": false,
+      "interaction": true,
+      "payoff": false,
+      "madness": true,
+      "ramp": false,
+      "draw": false,
+      "cmc": 2.0,
+      "proactive": false,
+      "type": "Sorcery",
+      "identity": [
+        "B"
+      ],
+      "oracle": "Destroy target tapped creature.\nMadness {1}{B} (If you discard this card, discard it into exile. When you do, cast it for its madness cost or put it into your graveyard.)"
+    },
+    "Arcane Signet": {
+      "land": false,
+      "interaction": false,
+      "payoff": false,
+      "madness": false,
+      "ramp": true,
+      "draw": false,
+      "cmc": 2.0,
+      "proactive": true,
+      "type": "Artifact",
+      "identity": [],
+      "oracle": "{T}: Add one mana of any color in your commander's color identity."
+    },
+    "Call to the Netherworld": {
+      "land": false,
+      "interaction": false,
+      "payoff": false,
+      "madness": true,
+      "ramp": false,
+      "draw": false,
+      "cmc": 1.0,
+      "proactive": true,
+      "type": "Sorcery",
+      "identity": [
+        "B"
+      ],
+      "oracle": "Return target black creature card from your graveyard to your hand.\nMadness {0} (If you discard this card, discard it into exile. When you do, cast it for its madness cost or put it into your graveyard.)"
+    },
+    "Mount Doom": {
+      "land": true,
+      "interaction": false,
+      "payoff": false,
+      "madness": false,
+      "ramp": false,
+      "draw": false,
+      "cmc": 0.0,
+      "proactive": false,
+      "type": "Legendary Land",
+      "identity": [
+        "B",
+        "R"
+      ],
+      "oracle": "{T}, Pay 1 life: Add {B} or {R}.\n{1}{B}{R}, {T}: Mount Doom deals 1 damage to each opponent.\n{5}{B}{R}, {T}, Sacrifice Mount Doom and a legendary artifact: Choose up to two creatures, then destroy the rest. Activate only as a sorcery."
+    },
+    "Chainer, Nightmare Adept": {
+      "land": false,
+      "interaction": false,
+      "payoff": false,
+      "madness": false,
+      "ramp": false,
+      "draw": false,
+      "cmc": 4.0,
+      "proactive": true,
+      "type": "Legendary Creature \u2014 Human Minion",
+      "identity": [
+        "B",
+        "R"
+      ],
+      "oracle": "Discard a card: You may cast a creature spell from your graveyard this turn. Activate only once each turn.\nWhenever a nontoken creature you control enters, if you didn't cast it from your hand, it gains haste until your next turn."
+    },
+    "Bitter Triumph": {
+      "land": false,
+      "interaction": true,
+      "payoff": false,
+      "madness": false,
+      "ramp": false,
+      "draw": false,
+      "cmc": 2.0,
+      "proactive": false,
+      "type": "Instant",
+      "identity": [
+        "B"
+      ],
+      "oracle": "As an additional cost to cast this spell, discard a card or pay 3 life.\nDestroy target creature or planeswalker."
+    },
+    "Psychotic Haze": {
+      "land": false,
+      "interaction": true,
+      "payoff": false,
+      "madness": true,
+      "ramp": false,
+      "draw": false,
+      "cmc": 4.0,
+      "proactive": false,
+      "type": "Instant",
+      "identity": [
+        "B"
+      ],
+      "oracle": "Psychotic Haze deals 1 damage to each creature and each player.\nMadness {1}{B} (If you discard this card, discard it into exile. When you do, cast it for its madness cost or put it into your graveyard.)"
+    },
+    "Violent Eruption": {
+      "land": false,
+      "interaction": true,
+      "payoff": false,
+      "madness": true,
+      "ramp": false,
+      "draw": false,
+      "cmc": 4.0,
+      "proactive": false,
+      "type": "Instant",
+      "identity": [
+        "R"
+      ],
+      "oracle": "Violent Eruption deals 4 damage divided as you choose among any number of targets.\nMadness {1}{R}{R} (If you discard this card, discard it into exile. When you do, cast it for its madness cost or put it into your graveyard.)"
+    },
+    "Alchemist's Greeting": {
+      "land": false,
+      "interaction": true,
+      "payoff": false,
+      "madness": true,
+      "ramp": false,
+      "draw": false,
+      "cmc": 5.0,
+      "proactive": false,
+      "type": "Sorcery",
+      "identity": [
+        "R"
+      ],
+      "oracle": "Alchemist's Greeting deals 4 damage to target creature.\nMadness {1}{R} (If you discard this card, discard it into exile. When you do, cast it for its madness cost or put it into your graveyard.)"
+    },
+    "Exotic Orchard": {
+      "land": true,
+      "interaction": false,
+      "payoff": false,
+      "madness": false,
+      "ramp": false,
+      "draw": false,
+      "cmc": 0.0,
+      "proactive": false,
+      "type": "Land",
+      "identity": [],
+      "oracle": "{T}: Add one mana of any color that a land an opponent controls could produce."
+    },
+    "Talisman of Indulgence": {
+      "land": false,
+      "interaction": false,
+      "payoff": false,
+      "madness": false,
+      "ramp": true,
+      "draw": false,
+      "cmc": 2.0,
+      "proactive": true,
+      "type": "Artifact",
+      "identity": [
+        "B",
+        "R"
+      ],
+      "oracle": "{T}: Add {C}.\n{T}: Add {B} or {R}. This artifact deals 1 damage to you."
+    },
+    "From Under the Floorboards": {
+      "land": false,
+      "interaction": false,
+      "payoff": false,
+      "madness": true,
+      "ramp": false,
+      "draw": false,
+      "cmc": 5.0,
+      "proactive": true,
+      "type": "Sorcery",
+      "identity": [
+        "B"
+      ],
+      "oracle": "Madness {X}{B}{B} (If you discard this card, discard it into exile. When you do, cast it for its madness cost or put it into your graveyard.)\nCreate three tapped 2/2 black Zombie creature tokens and you gain 3 life. If this spell's madness cost was paid, instead create X of those tokens and you gain X life."
+    },
+    "Blood Crypt": {
+      "land": true,
+      "interaction": false,
+      "payoff": false,
+      "madness": false,
+      "ramp": false,
+      "draw": false,
+      "cmc": 0.0,
+      "proactive": false,
+      "type": "Land \u2014 Swamp Mountain",
+      "identity": [
+        "B",
+        "R"
+      ],
+      "oracle": "({T}: Add {B} or {R}.)\nAs this land enters, you may pay 2 life. If you don't, it enters tapped."
+    },
+    "Doom Blade": {
+      "land": false,
+      "interaction": true,
+      "payoff": false,
+      "madness": false,
+      "ramp": false,
+      "draw": false,
+      "cmc": 2.0,
+      "proactive": false,
+      "type": "Instant",
+      "identity": [
+        "B"
+      ],
+      "oracle": "Destroy target nonblack creature."
+    },
+    "Go for the Throat": {
+      "land": false,
+      "interaction": true,
+      "payoff": false,
+      "madness": false,
+      "ramp": false,
+      "draw": false,
+      "cmc": 2.0,
+      "proactive": false,
+      "type": "Instant",
+      "identity": [
+        "B"
+      ],
+      "oracle": "Destroy target nonartifact creature."
+    },
+    "Infernal Grasp": {
+      "land": false,
+      "interaction": true,
+      "payoff": false,
+      "madness": false,
+      "ramp": false,
+      "draw": false,
+      "cmc": 2.0,
+      "proactive": false,
+      "type": "Instant",
+      "identity": [
+        "B"
+      ],
+      "oracle": "Destroy target creature. You lose 2 life."
+    },
+    "Murder": {
+      "land": false,
+      "interaction": true,
+      "payoff": false,
+      "madness": false,
+      "ramp": false,
+      "draw": false,
+      "cmc": 3.0,
+      "proactive": false,
+      "type": "Instant",
+      "identity": [
+        "B"
+      ],
+      "oracle": "Destroy target creature."
+    },
+    "Terminate": {
+      "land": false,
+      "interaction": true,
+      "payoff": false,
+      "madness": false,
+      "ramp": false,
+      "draw": false,
+      "cmc": 2.0,
+      "proactive": false,
+      "type": "Instant",
+      "identity": [
+        "B",
+        "R"
+      ],
+      "oracle": "Destroy target creature. It can't be regenerated."
+    },
+    "Dreadbore": {
+      "land": false,
+      "interaction": true,
+      "payoff": false,
+      "madness": false,
+      "ramp": false,
+      "draw": false,
+      "cmc": 2.0,
+      "proactive": false,
+      "type": "Sorcery",
+      "identity": [
+        "B",
+        "R"
+      ],
+      "oracle": "Destroy target creature or planeswalker."
+    },
+    "Hero's Downfall": {
+      "land": false,
+      "interaction": true,
+      "payoff": false,
+      "madness": false,
+      "ramp": false,
+      "draw": false,
+      "cmc": 3.0,
+      "proactive": false,
+      "type": "Instant",
+      "identity": [
+        "B"
+      ],
+      "oracle": "Destroy target creature or planeswalker."
+    },
+    "Cast Down": {
+      "land": false,
+      "interaction": true,
+      "payoff": false,
+      "madness": false,
+      "ramp": false,
+      "draw": false,
+      "cmc": 2.0,
+      "proactive": false,
+      "type": "Instant",
+      "identity": [
+        "B"
+      ],
+      "oracle": "Destroy target nonlegendary creature."
+    },
+    "Ultimate Price": {
+      "land": false,
+      "interaction": true,
+      "payoff": false,
+      "madness": false,
+      "ramp": false,
+      "draw": false,
+      "cmc": 2.0,
+      "proactive": false,
+      "type": "Instant",
+      "identity": [
+        "B"
+      ],
+      "oracle": "Destroy target monocolored creature."
+    },
+    "Victim of Night": {
+      "land": false,
+      "interaction": true,
+      "payoff": false,
+      "madness": false,
+      "ramp": false,
+      "draw": false,
+      "cmc": 2.0,
+      "proactive": false,
+      "type": "Instant",
+      "identity": [
+        "B"
+      ],
+      "oracle": "Destroy target non-Vampire, non-Werewolf, non-Zombie creature."
+    },
+    "Heartless Act": {
+      "land": false,
+      "interaction": true,
+      "payoff": false,
+      "madness": false,
+      "ramp": false,
+      "draw": false,
+      "cmc": 2.0,
+      "proactive": false,
+      "type": "Instant",
+      "identity": [
+        "B"
+      ],
+      "oracle": "Choose one \u2014\n\u2022 Destroy target creature with no counters on it.\n\u2022 Remove up to three counters from target creature."
+    },
+    "Power Word Kill": {
+      "land": false,
+      "interaction": true,
+      "payoff": false,
+      "madness": false,
+      "ramp": false,
+      "draw": false,
+      "cmc": 2.0,
+      "proactive": false,
+      "type": "Instant",
+      "identity": [
+        "B"
+      ],
+      "oracle": "Destroy target non-Angel, non-Demon, non-Devil, non-Dragon creature."
+    },
+    "Barktooth Warbeard": {
+      "land": false,
+      "interaction": false,
+      "payoff": false,
+      "madness": false,
+      "ramp": false,
+      "draw": false,
+      "cmc": 7.0,
+      "proactive": true,
+      "type": "Legendary Creature \u2014 Human Warrior",
+      "identity": [
+        "B",
+        "R"
+      ],
+      "oracle": ""
+    },
+    "Balduvian Barbarians": {
+      "land": false,
+      "interaction": false,
+      "payoff": false,
+      "madness": false,
+      "ramp": false,
+      "draw": false,
+      "cmc": 3.0,
+      "proactive": true,
+      "type": "Creature \u2014 Human Barbarian",
+      "identity": [
+        "R"
+      ],
+      "oracle": ""
+    },
+    "Dwarven Trader": {
+      "land": false,
+      "interaction": false,
+      "payoff": false,
+      "madness": false,
+      "ramp": false,
+      "draw": false,
+      "cmc": 1.0,
+      "proactive": true,
+      "type": "Creature \u2014 Dwarf",
+      "identity": [
+        "R"
+      ],
+      "oracle": ""
+    },
+    "Bonebreaker Giant": {
+      "land": false,
+      "interaction": false,
+      "payoff": false,
+      "madness": false,
+      "ramp": false,
+      "draw": false,
+      "cmc": 5.0,
+      "proactive": true,
+      "type": "Creature \u2014 Giant",
+      "identity": [
+        "R"
+      ],
+      "oracle": ""
+    },
+    "Barbarian Horde": {
+      "land": false,
+      "interaction": false,
+      "payoff": false,
+      "madness": false,
+      "ramp": false,
+      "draw": false,
+      "cmc": 4.0,
+      "proactive": true,
+      "type": "Creature \u2014 Human Barbarian Soldier",
+      "identity": [
+        "R"
+      ],
+      "oracle": ""
+    },
+    "Borderland Minotaur": {
+      "land": false,
+      "interaction": false,
+      "payoff": false,
+      "madness": false,
+      "ramp": false,
+      "draw": false,
+      "cmc": 4.0,
+      "proactive": true,
+      "type": "Creature \u2014 Minotaur Warrior",
+      "identity": [
+        "R"
+      ],
+      "oracle": ""
+    },
+    "Canal Monitor": {
+      "land": false,
+      "interaction": false,
+      "payoff": false,
+      "madness": false,
+      "ramp": false,
+      "draw": false,
+      "cmc": 5.0,
+      "proactive": true,
+      "type": "Creature \u2014 Lizard",
+      "identity": [
+        "B"
+      ],
+      "oracle": ""
+    },
+    "Canyon Minotaur": {
+      "land": false,
+      "interaction": false,
+      "payoff": false,
+      "madness": false,
+      "ramp": false,
+      "draw": false,
+      "cmc": 4.0,
+      "proactive": true,
+      "type": "Creature \u2014 Minotaur Warrior",
+      "identity": [
+        "R"
+      ],
+      "oracle": ""
+    },
+    "Catacomb Crocodile": {
+      "land": false,
+      "interaction": false,
+      "payoff": false,
+      "madness": false,
+      "ramp": false,
+      "draw": false,
+      "cmc": 5.0,
+      "proactive": true,
+      "type": "Creature \u2014 Crocodile",
+      "identity": [
+        "B"
+      ],
+      "oracle": ""
+    },
+    "Hexplate Golem": {
+      "land": false,
+      "interaction": false,
+      "payoff": false,
+      "madness": false,
+      "ramp": false,
+      "draw": false,
+      "cmc": 7.0,
+      "proactive": true,
+      "type": "Artifact Creature \u2014 Golem",
+      "identity": [],
+      "oracle": ""
+    },
+    "Barony Vampire": {
+      "land": false,
+      "interaction": false,
+      "payoff": false,
+      "madness": false,
+      "ramp": false,
+      "draw": false,
+      "cmc": 3.0,
+      "proactive": true,
+      "type": "Creature \u2014 Vampire",
+      "identity": [
+        "B"
+      ],
+      "oracle": ""
+    }
+  },
+  "assumptions": [
+    "Payoff proxy = madness creature, not Anje's entire strategy",
+    "Role categories overlap; cache tags are incomplete",
+    "Land/interaction excess variants share 12 proactive cuts; these are composite changes, not isolated causal effects",
+    "Vanilla replacements approximately match mana value, not exact costs or strategic value",
+    "Simple sampler ignores colours, tapped lands, ramp execution and effect draws; its seed is not a matched Forge hand",
+    "50 Forge seeds per variant is a coverage/value pilot, not a precise success-rate estimate",
+    "Do not recommend default Forge integration if any variant has <90% clean completion; inspect limitations even above that threshold"
+  ]
+}

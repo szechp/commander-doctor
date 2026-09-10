@@ -1,0 +1,18 @@
+# Derived per SPEC.md §4. Confirmed directly: "for gishath it definitely
+# is [the commander]" -- unlike Sevinne, the commander genuinely is the
+# whole plan here (deckbuilding.md §4.2: "Nothing works without the
+# commander, so protecting and recasting it is the deck").
+
+commander: Gishath, Sun's Avatar
+
+effect_classes:
+  commander:
+    rationale: the entire dinosaur-cheat plan is downstream of Gishath connecting.
+    members:
+      - Gishath, Sun's Avatar
+
+success_condition:
+  description: commander resolved and on the battlefield
+  requires:
+    - {class: commander, zone: battlefield, count: 1}
+  target_turn: 6

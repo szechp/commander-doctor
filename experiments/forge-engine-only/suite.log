@@ -1,0 +1,340 @@
+unknown preference: UI_SR_OPTIMIZE=false
+unknown preference: UI_PRESELECT_PREVIOUS_ABILITY_ORDER=false
+unknown preference: UI_AUTO_YIELD_MODE=Per Ability (Each Match)
+unknown preference: UI_NETPLAY_COMPAT=false
+unknown preference: UI_FOR_TOUCHSCREN=false
+unknown preference: UI_MANABURN=false
+Language 'en-US' loaded successfully.
+(ThreadUtil first call): Running with priority 5
+Read cards: 33587 files in 1 ms (25 parts) using thread pool
+Upcoming set Star Trek (TRK) dated in the future. All `upcoming` cards will be added to this set with unknown rarity.
+The card A-Alrund's Epiphany was not assigned to any set. Adding it to UNKNOWN set... to fix see res/editions/ folder. 
+The card A-Baba Lysaga, Night Witch was not assigned to any set. Adding it to UNKNOWN set... to fix see res/editions/ folder. 
+The card A-Divide by Zero was not assigned to any set. Adding it to UNKNOWN set... to fix see res/editions/ folder. 
+The card A-Esika's Chariot was not assigned to any set. Adding it to UNKNOWN set... to fix see res/editions/ folder. 
+The card A-Faceless Haven was not assigned to any set. Adding it to UNKNOWN set... to fix see res/editions/ folder. 
+The card A-Fires of Invention was not assigned to any set. Adding it to UNKNOWN set... to fix see res/editions/ folder. 
+The card A-Goldspan Dragon was not assigned to any set. Adding it to UNKNOWN set... to fix see res/editions/ folder. 
+The card A-Hullbreaker Horror was not assigned to any set. Adding it to UNKNOWN set... to fix see res/editions/ folder. 
+The card A-Kumano Faces Kakkazan was not assigned to any set. Adding it to UNKNOWN set... to fix see res/editions/ folder. 
+The card A-Luminarch Aspirant was not assigned to any set. Adding it to UNKNOWN set... to fix see res/editions/ folder. 
+The card A-Monster Manual was not assigned to any set. Adding it to UNKNOWN set... to fix see res/editions/ folder. 
+The card A-Omnath, Locus of Creation was not assigned to any set. Adding it to UNKNOWN set... to fix see res/editions/ folder. 
+The card A-The Meathook Massacre was not assigned to any set. Adding it to UNKNOWN set... to fix see res/editions/ folder. 
+The card A-Unholy Heat was not assigned to any set. Adding it to UNKNOWN set... to fix see res/editions/ folder. 
+The card Blinding Radiance was not assigned to any set. Adding it to UNKNOWN set... to fix see res/editions/ folder. 
+The card Goblin Bruiser was not assigned to any set. Adding it to UNKNOWN set... to fix see res/editions/ folder. 
+The card Ogre Painbringer was not assigned to any set. Adding it to UNKNOWN set... to fix see res/editions/ folder. 
+The card Titanic Pelagosaur was not assigned to any set. Adding it to UNKNOWN set... to fix see res/editions/ folder. 
+The card Treetop Recluse was not assigned to any set. Adding it to UNKNOWN set... to fix see res/editions/ folder. 
+Upcoming set Star Trek (TRK) dated in the future. All `upcoming` cards will be added to this set with unknown rarity.
+Read cards: 836 files in 0 ms (8 parts) using thread pool
+SCENARIO draw synthetic mechanics fixture, not a legal singleton deck
+MULLIGAN hand=[Wall of Omens (28), Plains (94), Revitalize (22), Revitalize (15), Plains (87), Plains (96), Savannah Lions (61)] bottom=0 keep=true
+TURN 1 hand=[Wall of Omens (28), Plains (94), Revitalize (22), Revitalize (15), Plains (87), Plains (96), Savannah Lions (61)] board=[]
+DRAW turn=1 kind=turn card=Revitalize
+ACTION turn=1 card=Plains accepted=true pool=forge.game.mana.ManaPool@352e4b6d
+ACTION turn=1 card=Isamaru, Hound of Konda accepted=true pool=forge.game.mana.ManaPool@352e4b6d
+ACTION turn=1 card=Wall of Omens accepted=false pool=forge.game.mana.ManaPool@352e4b6d
+ACTION turn=1 card=Revitalize accepted=false pool=forge.game.mana.ManaPool@352e4b6d
+ACTION turn=1 card=Revitalize accepted=false pool=forge.game.mana.ManaPool@352e4b6d
+ACTION turn=1 card=Savannah Lions accepted=false pool=forge.game.mana.ManaPool@352e4b6d
+ACTION turn=1 card=Revitalize accepted=false pool=forge.game.mana.ManaPool@352e4b6d
+TURN 2 hand=[Wall of Omens (28), Revitalize (22), Revitalize (15), Plains (87), Plains (96), Savannah Lions (61), Revitalize (17)] board=[Plains (94), Isamaru, Hound of Konda (100)]
+DRAW turn=2 kind=turn card=Revitalize
+ACTION turn=2 card=Plains accepted=true pool=forge.game.mana.ManaPool@352e4b6d
+ACTION turn=2 card=Wall of Omens accepted=true pool=forge.game.mana.ManaPool@352e4b6d
+DRAW turn=2 kind=effect card=Wall of Omens
+RESOLVED Wall of Omens effect=Draw hand=7
+ACTION turn=2 card=Revitalize accepted=false pool=forge.game.mana.ManaPool@352e4b6d
+ACTION turn=2 card=Revitalize accepted=false pool=forge.game.mana.ManaPool@352e4b6d
+ACTION turn=2 card=Savannah Lions accepted=false pool=forge.game.mana.ManaPool@352e4b6d
+ACTION turn=2 card=Revitalize accepted=false pool=forge.game.mana.ManaPool@352e4b6d
+ACTION turn=2 card=Revitalize accepted=false pool=forge.game.mana.ManaPool@352e4b6d
+ACTION turn=2 card=Wall of Omens accepted=false pool=forge.game.mana.ManaPool@352e4b6d
+TURN 3 hand=[Revitalize (22), Revitalize (15), Plains (96), Savannah Lions (61), Revitalize (17), Revitalize (12), Wall of Omens (35)] board=[Plains (94), Isamaru, Hound of Konda (100), Plains (87), Wall of Omens (28)]
+DRAW turn=3 kind=turn card=Plains
+ACTION turn=3 card=Plains accepted=true pool=forge.game.mana.ManaPool@352e4b6d
+ACTION turn=3 card=Revitalize accepted=true pool=forge.game.mana.ManaPool@352e4b6d
+DRAW turn=3 kind=effect card=Wall of Omens
+ACTION turn=3 card=Revitalize accepted=false pool=forge.game.mana.ManaPool@352e4b6d
+ACTION turn=3 card=Savannah Lions accepted=true pool=forge.game.mana.ManaPool@352e4b6d
+ACTION turn=3 card=Revitalize accepted=false pool=forge.game.mana.ManaPool@352e4b6d
+ACTION turn=3 card=Revitalize accepted=false pool=forge.game.mana.ManaPool@352e4b6d
+ACTION turn=3 card=Revitalize accepted=false pool=forge.game.mana.ManaPool@352e4b6d
+ACTION turn=3 card=Wall of Omens accepted=false pool=forge.game.mana.ManaPool@352e4b6d
+ACTION turn=3 card=Wall of Omens accepted=false pool=forge.game.mana.ManaPool@352e4b6d
+TURN 4 hand=[Revitalize (15), Revitalize (17), Revitalize (12), Wall of Omens (35), Plains (79), Wall of Omens (29)] board=[Plains (94), Isamaru, Hound of Konda (100), Plains (87), Wall of Omens (28), Plains (96), Savannah Lions (61)]
+DRAW turn=4 kind=turn card=Savannah Lions
+ACTION turn=4 card=Plains accepted=true pool=forge.game.mana.ManaPool@352e4b6d
+ACTION turn=4 card=Revitalize accepted=true pool=forge.game.mana.ManaPool@352e4b6d
+DRAW turn=4 kind=effect card=Wall of Omens
+ACTION turn=4 card=Revitalize accepted=true pool=forge.game.mana.ManaPool@352e4b6d
+DRAW turn=4 kind=effect card=Wall of Omens
+ACTION turn=4 card=Revitalize accepted=false pool=forge.game.mana.ManaPool@352e4b6d
+ACTION turn=4 card=Wall of Omens accepted=false pool=forge.game.mana.ManaPool@352e4b6d
+ACTION turn=4 card=Wall of Omens accepted=false pool=forge.game.mana.ManaPool@352e4b6d
+ACTION turn=4 card=Savannah Lions accepted=false pool=forge.game.mana.ManaPool@352e4b6d
+ACTION turn=4 card=Wall of Omens accepted=false pool=forge.game.mana.ManaPool@352e4b6d
+ACTION turn=4 card=Wall of Omens accepted=false pool=forge.game.mana.ManaPool@352e4b6d
+TURN 5 hand=[Revitalize (12), Wall of Omens (35), Wall of Omens (29), Savannah Lions (47), Wall of Omens (41), Wall of Omens (23)] board=[Plains (94), Isamaru, Hound of Konda (100), Plains (87), Wall of Omens (28), Plains (96), Savannah Lions (61), Plains (79)]
+DRAW turn=5 kind=turn card=Savannah Lions
+ACTION turn=5 card=Revitalize accepted=true pool=forge.game.mana.ManaPool@352e4b6d
+DRAW turn=5 kind=effect card=Plains
+ACTION turn=5 card=Plains accepted=true pool=forge.game.mana.ManaPool@352e4b6d
+ACTION turn=5 card=Wall of Omens accepted=true pool=forge.game.mana.ManaPool@352e4b6d
+DRAW turn=5 kind=effect card=Savannah Lions
+RESOLVED Wall of Omens effect=Draw hand=6
+ACTION turn=5 card=Wall of Omens accepted=false pool=forge.game.mana.ManaPool@352e4b6d
+ACTION turn=5 card=Savannah Lions accepted=true pool=forge.game.mana.ManaPool@352e4b6d
+ACTION turn=5 card=Wall of Omens accepted=false pool=forge.game.mana.ManaPool@352e4b6d
+ACTION turn=5 card=Wall of Omens accepted=false pool=forge.game.mana.ManaPool@352e4b6d
+ACTION turn=5 card=Wall of Omens accepted=false pool=forge.game.mana.ManaPool@352e4b6d
+ACTION turn=5 card=Savannah Lions accepted=false pool=forge.game.mana.ManaPool@352e4b6d
+ACTION turn=5 card=Savannah Lions accepted=false pool=forge.game.mana.ManaPool@352e4b6d
+TURN 6 hand=[Wall of Omens (29), Wall of Omens (41), Wall of Omens (23), Savannah Lions (53), Savannah Lions (55)] board=[Plains (94), Isamaru, Hound of Konda (100), Plains (87), Wall of Omens (28), Plains (96), Savannah Lions (61), Plains (79), Plains (74), Wall of Omens (35), Savannah Lions (47)]
+DRAW turn=6 kind=turn card=Plains
+ACTION turn=6 card=Plains accepted=true pool=forge.game.mana.ManaPool@352e4b6d
+ACTION turn=6 card=Wall of Omens accepted=true pool=forge.game.mana.ManaPool@352e4b6d
+DRAW turn=6 kind=effect card=Plains
+RESOLVED Wall of Omens effect=Draw hand=5
+ACTION turn=6 card=Wall of Omens accepted=true pool=forge.game.mana.ManaPool@352e4b6d
+DRAW turn=6 kind=effect card=Revitalize
+RESOLVED Wall of Omens effect=Draw hand=5
+ACTION turn=6 card=Wall of Omens accepted=true pool=forge.game.mana.ManaPool@352e4b6d
+DRAW turn=6 kind=effect card=Savannah Lions
+RESOLVED Wall of Omens effect=Draw hand=5
+ACTION turn=6 card=Savannah Lions accepted=false pool=forge.game.mana.ManaPool@352e4b6d
+ACTION turn=6 card=Savannah Lions accepted=false pool=forge.game.mana.ManaPool@352e4b6d
+ACTION turn=6 card=Revitalize accepted=false pool=forge.game.mana.ManaPool@352e4b6d
+ACTION turn=6 card=Savannah Lions accepted=false pool=forge.game.mana.ManaPool@352e4b6d
+TURN 7 hand=[Savannah Lions (53), Savannah Lions (55), Plains (85), Revitalize (18), Savannah Lions (58)] board=[Plains (94), Isamaru, Hound of Konda (100), Plains (87), Wall of Omens (28), Plains (96), Savannah Lions (61), Plains (79), Plains (74), Wall of Omens (35), Savannah Lions (47), Plains (70), Wall of Omens (29), Wall of Omens (41), Wall of Omens (23)]
+PROBE_OK scenario=draw normal_draws=6 effect_draws=9 casts=12 resolved_draw_triggers=5 commander_turn=1 mulligans=0 madness_casts=0 untap_triggers=0 elapsed_ms=4823.247625
+SCENARIO wrong-colour synthetic mechanics fixture, not a legal singleton deck
+MULLIGAN hand=[Island (28), Savannah Lions (94), Revitalize (22), Revitalize (15), Savannah Lions (87), Savannah Lions (96), Wall of Omens (61)] bottom=0 keep=false
+MULLIGAN hand=[Wall of Omens (70), Island (28), Island (38), Wall of Omens (78), Island (59), Savannah Lions (99), Revitalize (4)] bottom=0 keep=true
+TURN 1 hand=[Wall of Omens (70), Island (28), Island (38), Wall of Omens (78), Island (59), Savannah Lions (99), Revitalize (4)] board=[]
+DRAW turn=1 kind=turn card=Revitalize
+ACTION turn=1 card=Island accepted=true pool=forge.game.mana.ManaPool@50e24ea4
+ACTION turn=1 card=Isamaru, Hound of Konda accepted=false pool=forge.game.mana.ManaPool@50e24ea4
+ACTION turn=1 card=Wall of Omens accepted=false pool=forge.game.mana.ManaPool@50e24ea4
+ACTION turn=1 card=Wall of Omens accepted=false pool=forge.game.mana.ManaPool@50e24ea4
+ACTION turn=1 card=Savannah Lions accepted=false pool=forge.game.mana.ManaPool@50e24ea4
+ACTION turn=1 card=Revitalize accepted=false pool=forge.game.mana.ManaPool@50e24ea4
+ACTION turn=1 card=Revitalize accepted=false pool=forge.game.mana.ManaPool@50e24ea4
+TURN 2 hand=[Wall of Omens (70), Island (38), Wall of Omens (78), Island (59), Savannah Lions (99), Revitalize (4), Revitalize (11)] board=[Island (28)]
+DRAW turn=2 kind=turn card=Island
+ACTION turn=2 card=Island accepted=true pool=forge.game.mana.ManaPool@50e24ea4
+ACTION turn=2 card=Isamaru, Hound of Konda accepted=false pool=forge.game.mana.ManaPool@50e24ea4
+ACTION turn=2 card=Wall of Omens accepted=false pool=forge.game.mana.ManaPool@50e24ea4
+ACTION turn=2 card=Wall of Omens accepted=false pool=forge.game.mana.ManaPool@50e24ea4
+ACTION turn=2 card=Savannah Lions accepted=false pool=forge.game.mana.ManaPool@50e24ea4
+ACTION turn=2 card=Revitalize accepted=false pool=forge.game.mana.ManaPool@50e24ea4
+ACTION turn=2 card=Revitalize accepted=false pool=forge.game.mana.ManaPool@50e24ea4
+TURN 3 hand=[Wall of Omens (70), Wall of Omens (78), Island (59), Savannah Lions (99), Revitalize (4), Revitalize (11), Island (52)] board=[Island (28), Island (38)]
+DRAW turn=3 kind=turn card=Revitalize
+ACTION turn=3 card=Island accepted=true pool=forge.game.mana.ManaPool@50e24ea4
+ACTION turn=3 card=Isamaru, Hound of Konda accepted=false pool=forge.game.mana.ManaPool@50e24ea4
+ACTION turn=3 card=Wall of Omens accepted=false pool=forge.game.mana.ManaPool@50e24ea4
+ACTION turn=3 card=Wall of Omens accepted=false pool=forge.game.mana.ManaPool@50e24ea4
+ACTION turn=3 card=Savannah Lions accepted=false pool=forge.game.mana.ManaPool@50e24ea4
+ACTION turn=3 card=Revitalize accepted=false pool=forge.game.mana.ManaPool@50e24ea4
+ACTION turn=3 card=Revitalize accepted=false pool=forge.game.mana.ManaPool@50e24ea4
+ACTION turn=3 card=Revitalize accepted=false pool=forge.game.mana.ManaPool@50e24ea4
+TURN 4 hand=[Wall of Omens (70), Wall of Omens (78), Savannah Lions (99), Revitalize (4), Revitalize (11), Island (52), Revitalize (10)] board=[Island (28), Island (38), Island (59)]
+DRAW turn=4 kind=turn card=Revitalize
+ACTION turn=4 card=Island accepted=true pool=forge.game.mana.ManaPool@50e24ea4
+ACTION turn=4 card=Isamaru, Hound of Konda accepted=false pool=forge.game.mana.ManaPool@50e24ea4
+ACTION turn=4 card=Wall of Omens accepted=false pool=forge.game.mana.ManaPool@50e24ea4
+ACTION turn=4 card=Wall of Omens accepted=false pool=forge.game.mana.ManaPool@50e24ea4
+ACTION turn=4 card=Savannah Lions accepted=false pool=forge.game.mana.ManaPool@50e24ea4
+ACTION turn=4 card=Revitalize accepted=false pool=forge.game.mana.ManaPool@50e24ea4
+ACTION turn=4 card=Revitalize accepted=false pool=forge.game.mana.ManaPool@50e24ea4
+ACTION turn=4 card=Revitalize accepted=false pool=forge.game.mana.ManaPool@50e24ea4
+ACTION turn=4 card=Revitalize accepted=false pool=forge.game.mana.ManaPool@50e24ea4
+TURN 5 hand=[Wall of Omens (70), Wall of Omens (78), Savannah Lions (99), Revitalize (4), Revitalize (11), Revitalize (10), Revitalize (9)] board=[Island (28), Island (38), Island (59), Island (52)]
+DRAW turn=5 kind=turn card=Wall of Omens
+ACTION turn=5 card=Isamaru, Hound of Konda accepted=false pool=forge.game.mana.ManaPool@50e24ea4
+ACTION turn=5 card=Wall of Omens accepted=false pool=forge.game.mana.ManaPool@50e24ea4
+ACTION turn=5 card=Wall of Omens accepted=false pool=forge.game.mana.ManaPool@50e24ea4
+ACTION turn=5 card=Savannah Lions accepted=false pool=forge.game.mana.ManaPool@50e24ea4
+ACTION turn=5 card=Revitalize accepted=false pool=forge.game.mana.ManaPool@50e24ea4
+ACTION turn=5 card=Revitalize accepted=false pool=forge.game.mana.ManaPool@50e24ea4
+ACTION turn=5 card=Revitalize accepted=false pool=forge.game.mana.ManaPool@50e24ea4
+ACTION turn=5 card=Revitalize accepted=false pool=forge.game.mana.ManaPool@50e24ea4
+ACTION turn=5 card=Wall of Omens accepted=false pool=forge.game.mana.ManaPool@50e24ea4
+TURN 6 hand=[Wall of Omens (78), Savannah Lions (99), Revitalize (4), Revitalize (11), Revitalize (10), Revitalize (9), Wall of Omens (72)] board=[Island (28), Island (38), Island (59), Island (52)]
+DRAW turn=6 kind=turn card=Savannah Lions
+ACTION turn=6 card=Isamaru, Hound of Konda accepted=false pool=forge.game.mana.ManaPool@50e24ea4
+ACTION turn=6 card=Wall of Omens accepted=false pool=forge.game.mana.ManaPool@50e24ea4
+ACTION turn=6 card=Savannah Lions accepted=false pool=forge.game.mana.ManaPool@50e24ea4
+ACTION turn=6 card=Revitalize accepted=false pool=forge.game.mana.ManaPool@50e24ea4
+ACTION turn=6 card=Revitalize accepted=false pool=forge.game.mana.ManaPool@50e24ea4
+ACTION turn=6 card=Revitalize accepted=false pool=forge.game.mana.ManaPool@50e24ea4
+ACTION turn=6 card=Revitalize accepted=false pool=forge.game.mana.ManaPool@50e24ea4
+ACTION turn=6 card=Wall of Omens accepted=false pool=forge.game.mana.ManaPool@50e24ea4
+ACTION turn=6 card=Savannah Lions accepted=false pool=forge.game.mana.ManaPool@50e24ea4
+TURN 7 hand=[Savannah Lions (99), Revitalize (4), Revitalize (11), Revitalize (10), Revitalize (9), Wall of Omens (72), Savannah Lions (97)] board=[Island (28), Island (38), Island (59), Island (52)]
+PROBE_OK scenario=wrong-colour normal_draws=6 effect_draws=0 casts=0 resolved_draw_triggers=0 commander_turn=0 mulligans=1 madness_casts=0 untap_triggers=0 elapsed_ms=2064.80103
+SCENARIO tapped synthetic mechanics fixture, not a legal singleton deck
+MULLIGAN hand=[Wall of Omens (28), Secluded Steppe (94), Revitalize (22), Revitalize (15), Secluded Steppe (87), Secluded Steppe (96), Savannah Lions (61)] bottom=0 keep=true
+TURN 1 hand=[Wall of Omens (28), Secluded Steppe (94), Revitalize (22), Revitalize (15), Secluded Steppe (87), Secluded Steppe (96), Savannah Lions (61)] board=[]
+DRAW turn=1 kind=turn card=Revitalize
+RESOLVED Secluded Steppe effect=Tap hand=8
+ACTION turn=1 card=Secluded Steppe accepted=true pool=forge.game.mana.ManaPool@19fc0ef7
+ACTION turn=1 card=Isamaru, Hound of Konda accepted=false pool=forge.game.mana.ManaPool@19fc0ef7
+ACTION turn=1 card=Wall of Omens accepted=false pool=forge.game.mana.ManaPool@19fc0ef7
+ACTION turn=1 card=Revitalize accepted=false pool=forge.game.mana.ManaPool@19fc0ef7
+ACTION turn=1 card=Revitalize accepted=false pool=forge.game.mana.ManaPool@19fc0ef7
+ACTION turn=1 card=Savannah Lions accepted=false pool=forge.game.mana.ManaPool@19fc0ef7
+ACTION turn=1 card=Revitalize accepted=false pool=forge.game.mana.ManaPool@19fc0ef7
+TURN 2 hand=[Wall of Omens (28), Revitalize (22), Revitalize (15), Secluded Steppe (87), Secluded Steppe (96), Savannah Lions (61), Revitalize (17)] board=[Secluded Steppe (94)]
+DRAW turn=2 kind=turn card=Revitalize
+RESOLVED Secluded Steppe effect=Tap hand=8
+ACTION turn=2 card=Secluded Steppe accepted=true pool=forge.game.mana.ManaPool@19fc0ef7
+ACTION turn=2 card=Isamaru, Hound of Konda accepted=true pool=forge.game.mana.ManaPool@19fc0ef7
+ACTION turn=2 card=Wall of Omens accepted=false pool=forge.game.mana.ManaPool@19fc0ef7
+ACTION turn=2 card=Revitalize accepted=false pool=forge.game.mana.ManaPool@19fc0ef7
+ACTION turn=2 card=Revitalize accepted=false pool=forge.game.mana.ManaPool@19fc0ef7
+ACTION turn=2 card=Savannah Lions accepted=false pool=forge.game.mana.ManaPool@19fc0ef7
+ACTION turn=2 card=Revitalize accepted=false pool=forge.game.mana.ManaPool@19fc0ef7
+ACTION turn=2 card=Revitalize accepted=false pool=forge.game.mana.ManaPool@19fc0ef7
+TURN 3 hand=[Wall of Omens (28), Revitalize (22), Revitalize (15), Secluded Steppe (96), Savannah Lions (61), Revitalize (17), Revitalize (12)] board=[Secluded Steppe (94), Secluded Steppe (87), Isamaru, Hound of Konda (100)]
+DRAW turn=3 kind=turn card=Wall of Omens
+RESOLVED Secluded Steppe effect=Tap hand=8
+ACTION turn=3 card=Secluded Steppe accepted=true pool=forge.game.mana.ManaPool@19fc0ef7
+ACTION turn=3 card=Wall of Omens accepted=true pool=forge.game.mana.ManaPool@19fc0ef7
+DRAW turn=3 kind=effect card=Secluded Steppe
+RESOLVED Wall of Omens effect=Draw hand=7
+ACTION turn=3 card=Revitalize accepted=false pool=forge.game.mana.ManaPool@19fc0ef7
+ACTION turn=3 card=Revitalize accepted=false pool=forge.game.mana.ManaPool@19fc0ef7
+ACTION turn=3 card=Savannah Lions accepted=false pool=forge.game.mana.ManaPool@19fc0ef7
+ACTION turn=3 card=Revitalize accepted=false pool=forge.game.mana.ManaPool@19fc0ef7
+ACTION turn=3 card=Revitalize accepted=false pool=forge.game.mana.ManaPool@19fc0ef7
+ACTION turn=3 card=Wall of Omens accepted=false pool=forge.game.mana.ManaPool@19fc0ef7
+TURN 4 hand=[Revitalize (22), Revitalize (15), Savannah Lions (61), Revitalize (17), Revitalize (12), Wall of Omens (35), Secluded Steppe (79)] board=[Secluded Steppe (94), Secluded Steppe (87), Isamaru, Hound of Konda (100), Secluded Steppe (96), Wall of Omens (28)]
+DRAW turn=4 kind=turn card=Wall of Omens
+RESOLVED Secluded Steppe effect=Tap hand=8
+ACTION turn=4 card=Secluded Steppe accepted=true pool=forge.game.mana.ManaPool@19fc0ef7
+ACTION turn=4 card=Revitalize accepted=true pool=forge.game.mana.ManaPool@19fc0ef7
+DRAW turn=4 kind=effect card=Savannah Lions
+ACTION turn=4 card=Revitalize accepted=false pool=forge.game.mana.ManaPool@19fc0ef7
+ACTION turn=4 card=Savannah Lions accepted=true pool=forge.game.mana.ManaPool@19fc0ef7
+ACTION turn=4 card=Revitalize accepted=false pool=forge.game.mana.ManaPool@19fc0ef7
+ACTION turn=4 card=Revitalize accepted=false pool=forge.game.mana.ManaPool@19fc0ef7
+ACTION turn=4 card=Revitalize accepted=false pool=forge.game.mana.ManaPool@19fc0ef7
+ACTION turn=4 card=Wall of Omens accepted=false pool=forge.game.mana.ManaPool@19fc0ef7
+ACTION turn=4 card=Wall of Omens accepted=false pool=forge.game.mana.ManaPool@19fc0ef7
+ACTION turn=4 card=Savannah Lions accepted=false pool=forge.game.mana.ManaPool@19fc0ef7
+TURN 5 hand=[Revitalize (15), Revitalize (17), Revitalize (12), Wall of Omens (35), Wall of Omens (29), Savannah Lions (47)] board=[Secluded Steppe (94), Secluded Steppe (87), Isamaru, Hound of Konda (100), Secluded Steppe (96), Wall of Omens (28), Secluded Steppe (79), Savannah Lions (61)]
+DRAW turn=5 kind=turn card=Wall of Omens
+ACTION turn=5 card=Revitalize accepted=true pool=forge.game.mana.ManaPool@19fc0ef7
+DRAW turn=5 kind=effect card=Wall of Omens
+ACTION turn=5 card=Revitalize accepted=true pool=forge.game.mana.ManaPool@19fc0ef7
+DRAW turn=5 kind=effect card=Savannah Lions
+ACTION turn=5 card=Revitalize accepted=false pool=forge.game.mana.ManaPool@19fc0ef7
+ACTION turn=5 card=Wall of Omens accepted=false pool=forge.game.mana.ManaPool@19fc0ef7
+ACTION turn=5 card=Wall of Omens accepted=false pool=forge.game.mana.ManaPool@19fc0ef7
+ACTION turn=5 card=Savannah Lions accepted=false pool=forge.game.mana.ManaPool@19fc0ef7
+ACTION turn=5 card=Wall of Omens accepted=false pool=forge.game.mana.ManaPool@19fc0ef7
+ACTION turn=5 card=Wall of Omens accepted=false pool=forge.game.mana.ManaPool@19fc0ef7
+ACTION turn=5 card=Savannah Lions accepted=false pool=forge.game.mana.ManaPool@19fc0ef7
+TURN 6 hand=[Revitalize (12), Wall of Omens (35), Wall of Omens (29), Savannah Lions (47), Wall of Omens (41), Wall of Omens (23), Savannah Lions (53)] board=[Secluded Steppe (94), Secluded Steppe (87), Isamaru, Hound of Konda (100), Secluded Steppe (96), Wall of Omens (28), Secluded Steppe (79), Savannah Lions (61)]
+DRAW turn=6 kind=turn card=Secluded Steppe
+RESOLVED Secluded Steppe effect=Tap hand=8
+ACTION turn=6 card=Secluded Steppe accepted=true pool=forge.game.mana.ManaPool@19fc0ef7
+ACTION turn=6 card=Revitalize accepted=true pool=forge.game.mana.ManaPool@19fc0ef7
+DRAW turn=6 kind=effect card=Savannah Lions
+ACTION turn=6 card=Wall of Omens accepted=true pool=forge.game.mana.ManaPool@19fc0ef7
+DRAW turn=6 kind=effect card=Secluded Steppe
+RESOLVED Wall of Omens effect=Draw hand=7
+ACTION turn=6 card=Wall of Omens accepted=false pool=forge.game.mana.ManaPool@19fc0ef7
+ACTION turn=6 card=Savannah Lions accepted=false pool=forge.game.mana.ManaPool@19fc0ef7
+ACTION turn=6 card=Wall of Omens accepted=false pool=forge.game.mana.ManaPool@19fc0ef7
+ACTION turn=6 card=Wall of Omens accepted=false pool=forge.game.mana.ManaPool@19fc0ef7
+ACTION turn=6 card=Savannah Lions accepted=false pool=forge.game.mana.ManaPool@19fc0ef7
+ACTION turn=6 card=Savannah Lions accepted=false pool=forge.game.mana.ManaPool@19fc0ef7
+TURN 7 hand=[Wall of Omens (29), Savannah Lions (47), Wall of Omens (41), Wall of Omens (23), Savannah Lions (53), Savannah Lions (55), Secluded Steppe (70)] board=[Secluded Steppe (94), Secluded Steppe (87), Isamaru, Hound of Konda (100), Secluded Steppe (96), Wall of Omens (28), Secluded Steppe (79), Savannah Lions (61), Secluded Steppe (74), Wall of Omens (35)]
+PROBE_OK scenario=tapped normal_draws=6 effect_draws=6 casts=8 resolved_draw_triggers=2 commander_turn=2 mulligans=0 madness_casts=0 untap_triggers=0 elapsed_ms=3089.553808
+SCENARIO mulligan synthetic mechanics fixture, not a legal singleton deck
+MULLIGAN hand=[Plains (28), Plains (94), Plains (22), Plains (15), Plains (87), Plains (96), Plains (61)] bottom=0 keep=false
+MULLIGAN hand=[Plains (70), Plains (28), Plains (38), Plains (78), Plains (59), Plains (99), Plains (4)] bottom=0 keep=false
+MULLIGAN hand=[Plains (16), Plains (15), Plains (58), Plains (86), Plains (85), Plains (97)] bottom=1 keep=true
+TURN 1 hand=[Plains (16), Plains (15), Plains (58), Plains (86), Plains (85), Plains (97)] board=[]
+DRAW turn=1 kind=turn card=Plains
+ACTION turn=1 card=Plains accepted=true pool=forge.game.mana.ManaPool@75784062
+ACTION turn=1 card=Isamaru, Hound of Konda accepted=true pool=forge.game.mana.ManaPool@75784062
+TURN 2 hand=[Plains (15), Plains (58), Plains (86), Plains (85), Plains (97), Plains (24)] board=[Plains (16), Isamaru, Hound of Konda (100)]
+DRAW turn=2 kind=turn card=Plains
+ACTION turn=2 card=Plains accepted=true pool=forge.game.mana.ManaPool@75784062
+TURN 3 hand=[Plains (58), Plains (86), Plains (85), Plains (97), Plains (24), Plains (33)] board=[Plains (16), Isamaru, Hound of Konda (100), Plains (15)]
+DRAW turn=3 kind=turn card=Plains
+ACTION turn=3 card=Plains accepted=true pool=forge.game.mana.ManaPool@75784062
+TURN 4 hand=[Plains (86), Plains (85), Plains (97), Plains (24), Plains (33), Plains (55)] board=[Plains (16), Isamaru, Hound of Konda (100), Plains (15), Plains (58)]
+DRAW turn=4 kind=turn card=Plains
+ACTION turn=4 card=Plains accepted=true pool=forge.game.mana.ManaPool@75784062
+TURN 5 hand=[Plains (85), Plains (97), Plains (24), Plains (33), Plains (55), Plains (31)] board=[Plains (16), Isamaru, Hound of Konda (100), Plains (15), Plains (58), Plains (86)]
+DRAW turn=5 kind=turn card=Plains
+ACTION turn=5 card=Plains accepted=true pool=forge.game.mana.ManaPool@75784062
+TURN 6 hand=[Plains (97), Plains (24), Plains (33), Plains (55), Plains (31), Plains (46)] board=[Plains (16), Isamaru, Hound of Konda (100), Plains (15), Plains (58), Plains (86), Plains (85)]
+DRAW turn=6 kind=turn card=Plains
+ACTION turn=6 card=Plains accepted=true pool=forge.game.mana.ManaPool@75784062
+TURN 7 hand=[Plains (24), Plains (33), Plains (55), Plains (31), Plains (46), Plains (19)] board=[Plains (16), Isamaru, Hound of Konda (100), Plains (15), Plains (58), Plains (86), Plains (85), Plains (97)]
+PROBE_OK scenario=mulligan normal_draws=6 effect_draws=0 casts=1 resolved_draw_triggers=0 commander_turn=1 mulligans=2 madness_casts=0 untap_triggers=0 elapsed_ms=1356.573811
+SCENARIO anje synthetic mechanics fixture, not a legal singleton deck
+MULLIGAN hand=[Mountain (28), Kitchen Imp (94), Mountain (22), Swamp (15), Kitchen Imp (87), Kitchen Imp (96), Kitchen Imp (61)] bottom=0 keep=true
+TURN 1 hand=[Mountain (28), Kitchen Imp (94), Mountain (22), Swamp (15), Kitchen Imp (87), Kitchen Imp (96), Kitchen Imp (61)] board=[]
+DRAW turn=1 kind=turn card=Swamp
+ACTION turn=1 card=Mountain accepted=true pool=forge.game.mana.ManaPool@38856d6e
+ACTION turn=1 card=Anje Falkenrath accepted=false pool=forge.game.mana.ManaPool@38856d6e
+TURN 2 hand=[Kitchen Imp (94), Mountain (22), Swamp (15), Kitchen Imp (87), Kitchen Imp (96), Kitchen Imp (61), Swamp (17)] board=[Mountain (28)]
+DRAW turn=2 kind=turn card=Swamp
+ACTION turn=2 card=Mountain accepted=true pool=forge.game.mana.ManaPool@38856d6e
+ACTION turn=2 card=Anje Falkenrath accepted=false pool=forge.game.mana.ManaPool@38856d6e
+TURN 3 hand=[Kitchen Imp (94), Swamp (15), Kitchen Imp (87), Kitchen Imp (96), Kitchen Imp (61), Swamp (17), Swamp (12)] board=[Mountain (28), Mountain (22)]
+DRAW turn=3 kind=turn card=Mountain
+ACTION turn=3 card=Swamp accepted=true pool=forge.game.mana.ManaPool@38856d6e
+ACTION turn=3 card=Anje Falkenrath accepted=true pool=forge.game.mana.ManaPool@38856d6e
+DISCARD_COST Kitchen Imp
+RESOLVED Kitchen Imp effect=ChangeZone hand=6
+ACTION turn=3 card=Anje Falkenrath accepted=true pool=forge.game.mana.ManaPool@38856d6e
+RESOLVED Anje Falkenrath effect=Untap hand=6
+MADNESS_PAYMENT cost={B} paid=false
+EFFECT_CAST Kitchen Imp cost= accepted=false
+RESOLVED Kitchen Imp effect=Play hand=6
+DRAW turn=3 kind=effect card=Kitchen Imp
+TURN 4 hand=[Kitchen Imp (87), Kitchen Imp (96), Kitchen Imp (61), Swamp (17), Swamp (12), Mountain (35), Kitchen Imp (79)] board=[Mountain (28), Mountain (22), Swamp (15), Anje Falkenrath (100)]
+DRAW turn=4 kind=turn card=Mountain
+ACTION turn=4 card=Swamp accepted=true pool=forge.game.mana.ManaPool@38856d6e
+DISCARD_COST Kitchen Imp
+RESOLVED Kitchen Imp effect=ChangeZone hand=6
+ACTION turn=4 card=Anje Falkenrath accepted=true pool=forge.game.mana.ManaPool@38856d6e
+RESOLVED Anje Falkenrath effect=Untap hand=6
+MADNESS_PAYMENT cost={B} paid=true
+EFFECT_CAST Kitchen Imp cost= accepted=true
+RESOLVED Kitchen Imp effect=Play hand=6
+DRAW turn=4 kind=effect card=Kitchen Imp
+TURN 5 hand=[Kitchen Imp (96), Kitchen Imp (61), Swamp (12), Mountain (35), Kitchen Imp (79), Mountain (29), Kitchen Imp (47)] board=[Mountain (28), Mountain (22), Swamp (15), Anje Falkenrath (100), Swamp (17), Kitchen Imp (87)]
+DRAW turn=5 kind=turn card=Kitchen Imp
+ACTION turn=5 card=Swamp accepted=true pool=forge.game.mana.ManaPool@38856d6e
+DISCARD_COST Kitchen Imp
+RESOLVED Kitchen Imp effect=ChangeZone hand=6
+ACTION turn=5 card=Anje Falkenrath accepted=true pool=forge.game.mana.ManaPool@38856d6e
+RESOLVED Anje Falkenrath effect=Untap hand=6
+MADNESS_PAYMENT cost={B} paid=true
+EFFECT_CAST Kitchen Imp cost= accepted=true
+RESOLVED Kitchen Imp effect=Play hand=6
+DRAW turn=5 kind=effect card=Mountain
+TURN 6 hand=[Kitchen Imp (61), Mountain (35), Kitchen Imp (79), Mountain (29), Kitchen Imp (47), Kitchen Imp (41), Mountain (23)] board=[Mountain (28), Mountain (22), Swamp (15), Anje Falkenrath (100), Swamp (17), Kitchen Imp (87), Swamp (12), Kitchen Imp (96)]
+DRAW turn=6 kind=turn card=Kitchen Imp
+ACTION turn=6 card=Mountain accepted=true pool=forge.game.mana.ManaPool@38856d6e
+DISCARD_COST Kitchen Imp
+RESOLVED Kitchen Imp effect=ChangeZone hand=6
+ACTION turn=6 card=Anje Falkenrath accepted=true pool=forge.game.mana.ManaPool@38856d6e
+RESOLVED Anje Falkenrath effect=Untap hand=6
+MADNESS_PAYMENT cost={B} paid=true
+EFFECT_CAST Kitchen Imp cost= accepted=true
+RESOLVED Kitchen Imp effect=Play hand=6
+DRAW turn=6 kind=effect card=Kitchen Imp
+TURN 7 hand=[Kitchen Imp (79), Mountain (29), Kitchen Imp (47), Kitchen Imp (41), Mountain (23), Kitchen Imp (53), Kitchen Imp (74)] board=[Mountain (28), Mountain (22), Swamp (15), Anje Falkenrath (100), Swamp (17), Kitchen Imp (87), Swamp (12), Kitchen Imp (96), Mountain (35), Kitchen Imp (61)]
+PROBE_OK scenario=anje normal_draws=6 effect_draws=4 casts=1 resolved_draw_triggers=0 commander_turn=3 mulligans=0 madness_casts=3 untap_triggers=4 elapsed_ms=2617.329034

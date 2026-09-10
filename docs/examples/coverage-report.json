@@ -1,0 +1,150 @@
+{
+  "command": "coverage",
+  "config_fingerprint": null,
+  "data_versions": {
+    "forge_parser_version": null,
+    "forge_revision": null,
+    "freshness": {
+      "oracle_cards": "unknown",
+      "oracle_tags": "unknown"
+    },
+    "last_sync": "2026-09-06T16:08:55.633094+00:00",
+    "oracle_cards_sha256": null,
+    "oracle_cards_timestamp": null,
+    "oracle_tags_sha256": null,
+    "oracle_tags_timestamp": null,
+    "role_evidence_input_hash": null,
+    "role_evidence_version": null
+  },
+  "deck_fingerprint": "4b6d0ccd135173a4deb2d5b6b95c6f05700ee74e7ab3b1e8a25a34acf1c5c230",
+  "findings": [
+    {
+      "assumptions": [],
+      "evidence": {
+        "missing": [
+          "artifact",
+          "graveyard"
+        ]
+      },
+      "id": "coverage.required_answers",
+      "limitations": [],
+      "message": "missing: artifact, graveyard",
+      "outcome": "fail",
+      "related_cards": [],
+      "severity": "warning",
+      "status": "checked"
+    },
+    {
+      "assumptions": [],
+      "evidence": {
+        "freshness": {
+          "oracle_cards": "unknown",
+          "oracle_tags": "unknown"
+        }
+      },
+      "id": "data.provenance",
+      "limitations": [],
+      "message": "one or more required data timestamps are unavailable",
+      "outcome": "unknown",
+      "related_cards": [],
+      "severity": "warning",
+      "status": "unavailable"
+    }
+  ],
+  "limitations": [],
+  "metrics": {
+    "coverage": {
+      "deck_name": "gishath",
+      "entries": [
+        {
+          "answer_type": "creature",
+          "db_cheapest_cmc": 2.0,
+          "db_cheapest_edict": null,
+          "db_cheapest_name": "Blizzard",
+          "deck_cheapest_cmc": 2.0,
+          "deck_cheapest_edict": false,
+          "deck_cheapest_name": "Get Lost",
+          "deck_has": true,
+          "waiver_note": null
+        },
+        {
+          "answer_type": "artifact",
+          "db_cheapest_cmc": 1.0,
+          "db_cheapest_edict": false,
+          "db_cheapest_name": "Crush",
+          "deck_cheapest_cmc": null,
+          "deck_cheapest_edict": null,
+          "deck_cheapest_name": null,
+          "deck_has": false,
+          "waiver_note": null
+        },
+        {
+          "answer_type": "enchantment",
+          "db_cheapest_cmc": 2.0,
+          "db_cheapest_edict": false,
+          "db_cheapest_name": "Get Lost",
+          "deck_cheapest_cmc": 2.0,
+          "deck_cheapest_edict": false,
+          "deck_cheapest_name": "Get Lost",
+          "deck_has": true,
+          "waiver_note": null
+        },
+        {
+          "answer_type": "planeswalker",
+          "db_cheapest_cmc": 2.0,
+          "db_cheapest_edict": false,
+          "db_cheapest_name": "Get Lost",
+          "deck_cheapest_cmc": 2.0,
+          "deck_cheapest_edict": false,
+          "deck_cheapest_name": "Get Lost",
+          "deck_has": true,
+          "waiver_note": null
+        },
+        {
+          "answer_type": "permanent (catch-all)",
+          "db_cheapest_cmc": 3.0,
+          "db_cheapest_edict": false,
+          "db_cheapest_name": "Generous Gift",
+          "deck_cheapest_cmc": 3.0,
+          "deck_cheapest_edict": false,
+          "deck_cheapest_name": "Generous Gift",
+          "deck_has": true,
+          "waiver_note": null
+        },
+        {
+          "answer_type": "graveyard",
+          "db_cheapest_cmc": 2.0,
+          "db_cheapest_edict": null,
+          "db_cheapest_name": "Blessed Respite",
+          "deck_cheapest_cmc": null,
+          "deck_cheapest_edict": null,
+          "deck_cheapest_name": null,
+          "deck_has": false,
+          "waiver_note": null
+        }
+      ],
+      "flexible_answers": [
+        {
+          "breadth": 3,
+          "cost": 2.0,
+          "edict": false,
+          "in_deck": true,
+          "name": "Get Lost",
+          "types": [
+            "creature",
+            "enchantment",
+            "planeswalker"
+          ]
+        }
+      ],
+      "instant_speed_count": 3,
+      "universal_present": {
+        "Arcane Signet": true,
+        "Command Tower": true,
+        "Sol Ring": true,
+        "Talisman of Conviction": false
+      }
+    }
+  },
+  "schema_version": 1
+}
