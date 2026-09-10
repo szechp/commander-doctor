@@ -299,6 +299,76 @@ def has_self_sacrifice_ability(parsed_dict: dict) -> bool:
     )
 
 
+def _resolve_trigger_effect(trigger: dict, svars: dict) -> dict | None:
+    """Follow a trigger's `Execute$` reference one hop into `svars` and
+    parse the resolved sub-effect's `Key$value` pairs into a dict (same
+    shape as an `abilities`/`triggers` node), or None if there's no
+    reference or it doesn't resolve to a parseable string. Deliberately
+    minimal (one hop, no recursive chain-following like `_chained_effect_
+    names` in roles.py) -- this module can't import roles.py's version
+    (roles.py imports FROM this module; see the module docstring on the
+    import direction) and only needs to look one level deep for the ETB-
+    self-trigger shapes `has_free_etb_removal_trigger` checks."""
+    ref = trigger.get("Execute")
+    if not ref:
+        return None
+    raw = svars.get(ref)
+    if not isinstance(raw, str):
+        return None
+    node: dict[str, str] = {}
+    for part in raw.split("|"):
+        if "$" in part:
+            key, value = part.split("$", 1)
+            node[key.strip()] = value.strip()
+    return node
+
+
+def has_free_etb_removal_trigger(parsed_dict: dict) -> bool:
+    """True when the card has a reliable ETB-self trigger (`is_etb_self_
+    trigger`) whose resolved effect is itself removal-shaped: a direct
+    Destroy/DestroyAll/Exile/ExileAll, or a graveyard-hate ChangeZone/
+    ChangeZoneAll (`Origin$ Graveyard`, `Destination$ Exile`).
+
+    Real bug this fixes (KNOWN_ISSUES.md): Soul-Guide Lantern has a free
+    ETB trigger ("exile target card from a graveyard", no cost at all)
+    PLUS two unrelated `Sac<1/CARDNAME>`-gated activated abilities
+    (exile each opponent's graveyard; draw a card). `has_self_sacrifice_
+    ability` scans ALL of `abilities` and, finding a sacrifice cost
+    ANYWHERE, excluded the whole card -- even though the free ETB
+    trigger alone already delivers a real, always-available graveyard
+    answer, functionally the same shape as Angel of Finality's ETB
+    (already correctly credited: no sacrifice-gated ability anywhere on
+    that card at all). This is the card's rescue path: a self-sacrifice-
+    gated OTHER ability no longer disqualifies the whole card when an
+    independent free trigger already grants a comparable effect.
+
+    Deliberately narrow, matching this module's directional-not-fully-
+    modelled stance (see `_is_modal_charm` in upgrades.py for the same
+    stance stated elsewhere): checks that the FREE trigger is itself
+    removal-shaped, not merely "any ETB trigger exists" -- an unrelated
+    free ETB upside (e.g. "draw a card") must not rescue a card whose
+    real removal capability genuinely does require sacrifice. Graveyard-
+    hate is checked as `Origin$ Graveyard -> Destination$ Exile`
+    specifically (not roles.py's `_changezone_removal_shape`, which
+    requires `Origin$ Battlefield` -- a different shape, battlefield
+    permanent removal, that doesn't apply to a graveyard-hate ETB at
+    all; can't import that function anyway, see `_resolve_trigger_
+    effect`'s docstring)."""
+    svars = parsed_dict.get("svars") if isinstance(parsed_dict.get("svars"), dict) else {}
+    for trigger in parsed_dict.get("triggers", []):
+        if not isinstance(trigger, dict) or not is_etb_self_trigger(trigger):
+            continue
+        node = _resolve_trigger_effect(trigger, svars)
+        if node is None:
+            continue
+        effect = node.get("DB")
+        if effect in ("Destroy", "DestroyAll", "Exile", "ExileAll"):
+            return True
+        if effect in ("ChangeZone", "ChangeZoneAll") and node.get("Origin") == "Graveyard" and node.get("Destination") == "Exile":
+            return True
+    return False
+
+
 # Substrings, not exact key names -- Forge compounds these into longer key
 # names (`ConditionCheckSVar$`, `ConditionSVarCompare$`, `BranchCondition
 # SVar$`), found via independent code review after the exact-match version
@@ -387,7 +457,7 @@ def passes_generic_reliability_filters(parsed_json: str | None, mana_cost: str |
         return None
     if has_conditional_activation(parsed_dict):
         return None
-    if has_self_sacrifice_ability(parsed_dict):
+    if has_self_sacrifice_ability(parsed_dict) and not has_free_etb_removal_trigger(parsed_dict):
         return None
     return parsed_dict
 

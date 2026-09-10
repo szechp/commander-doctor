@@ -51,7 +51,12 @@ import sqlite3
 from dataclasses import dataclass, field
 
 from deckdoctor.deck import Deck
-from deckdoctor.reliability import cost_evidence, mana_value_of_forge_cost, passes_removal_reliability_filters
+from deckdoctor.reliability import (
+    cost_evidence,
+    has_free_etb_removal_trigger,
+    mana_value_of_forge_cost,
+    passes_removal_reliability_filters,
+)
 from deckdoctor.roles import extract_role_evidence
 
 COVERAGE_TYPES: dict[str, str] = {
@@ -337,6 +342,23 @@ def effective_cost(cmc: float, parsed_json: str | None) -> float | None:
         return cmc
 
     costs = []
+    # A free ETB-self trigger (Soul-Guide Lantern: "When this artifact
+    # enters, exile target card from a graveyard.", no cost at all)
+    # already delivers a real capability at cmc alone, same as if
+    # `abilities` were empty -- regardless of what OTHER, unrelated
+    # activated abilities the card also has (Soul-Guide Lantern's other
+    # two are both `Sac<1/CARDNAME>`-gated and irrelevant to the ETB
+    # effect). Seeded into `costs` rather than an early return so it
+    # still loses a min() comparison to a genuinely cheaper/simpler path
+    # if one exists -- this only ever LOWERS the result, never raises it
+    # above what the unmodified loop below would have found. Real bug
+    # this fixes (KNOWN_ISSUES.md): this function never looked at
+    # `triggers` at all, so a card like Soul-Guide Lantern -- whose only
+    # `abilities` are both cost-unknown (Sac<> isn't a mana cost) --
+    # returned None (no comparable cost at all) even once the matching
+    # reliability-gate exclusion was separately fixed.
+    if has_free_etb_removal_trigger(parsed):
+        costs.append(0.0)
     unknown_activation = False
     for a in abilities:
         if a.get("SP") is not None:

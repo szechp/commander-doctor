@@ -811,3 +811,83 @@ file read of `data/bracket_cache/<deck-name>.json` (the exact file
 via `deckdoctor combos`/`bracket` remains the only way to populate or
 update the cache, unchanged. 1 new CLI-level regression test
 (test_swaps.py), verified to fail without the fix and pass with it.
+
+### Soul-Guide Lantern gets zero coverage/reliability credit despite having a free, non-sacrifice mode -- 2026-09-10
+Command: `deckdoctor coverage decks/mystic-intellect-turbo.txt` / `deckdoctor health decks/mystic-intellect-turbo.txt`
+What happened: added Soul-Guide Lantern ({1} artifact) to close a flagged
+`missing: graveyard` coverage gap. `coverage.required_answers` still
+reported the gap as open, and `deck_has` for the `graveyard` entry stayed
+`false`, even though the card is in the decklist and carries the
+`sweeper-graveyard` tag the checker matches on.
+Why it's wrong: Soul-Guide Lantern has three abilities -- a free ETB
+trigger ("When this artifact enters, exile target card from a
+graveyard.", no cost at all), and two activated abilities gated behind
+`Sac<1/CARDNAME>` (exile each opponent's graveyard; draw a card).
+`reliability.py`'s `has_self_sacrifice_ability()` -- called from
+`passes_generic_reliability_filters()`, the shared gate `coverage.py`'s
+`_cheapest_in_deck` (and every other removal-tag ranking) runs through --
+scans `parsed_dict.get("abilities", [])` for ANY ability with a
+`Sac<1/CARDNAME>`/`Sac<1/Self>`/`Exile<1/CARDNAME>`/`Exile<1/Self>` cost
+token and, if found ANYWHERE on the card, excludes the WHOLE card from
+that reliability-gated tag -- not just the specific ability that costs
+sacrifice. The free ETB trigger lives in `parsed_dict["triggers"]`, not
+`"abilities"`, so it isn't even inspected by this function, but it also
+isn't what the exclusion is reacting to: the check trips because the
+card's *other*, unrelated activated abilities happen to cost sacrifice,
+even though the ETB trigger alone already delivers a real, always-
+available, zero-commitment graveyard answer -- functionally closer to
+Angel of Finality's ETB (also a one-shot trigger, also credited) than to
+Tormod's Crypt (whose ONLY ability is the self-sac one, correctly
+excluded). This is a real false negative, the same shape as the entry
+above but at ability-granularity instead of tag-family granularity: a
+card with one genuinely free, reliable mode is being scored identically
+to a card that has no free mode at all, because the whole-card scan
+can't tell "this card's only relevant ability requires sacrifice" apart
+from "this card has an unrelated ability that happens to require
+sacrifice too."
+Likely cause: `reliability.py`'s `has_self_sacrifice_ability()` and the
+generic gate that calls it operate at whole-card granularity
+(`parsed_dict.get("abilities", [])`, no ability-to-tag linkage), not at
+the granularity of the specific ability that earned the tag being
+checked. Fixing it properly likely needs the tag-granting ability
+identified (or at minimum, ETB/triggered abilities checked as an
+independent free path before falling back to the self-sacrifice
+exclusion on the activated abilities).
+Status: fixed -- took the "at minimum" option above, not full ability-to-
+tag linkage (a bigger change; see the still-open residual note below).
+Added `reliability.has_free_etb_removal_trigger()`: true when the card
+has a reliable ETB-self trigger (`is_etb_self_trigger`, already existed)
+whose resolved effect (one svar hop via a new `_resolve_trigger_effect`
+helper -- this module can't import roles.py's chain-follower, see the
+import-direction note in its own docstring) is itself removal-shaped
+(Destroy/DestroyAll/Exile/ExileAll, or a graveyard-hate ChangeZone/
+ChangeZoneAll with `Origin$ Graveyard -> Destination$ Exile`).
+`passes_generic_reliability_filters` now only excludes for self-
+sacrifice when this ISN'T also true. Deliberately narrow: verified this
+does NOT rescue Sentinel Totem (its ETB is `DB$ Scry`, unrelated to its
+sac-gated exile ability -- stays correctly excluded) or a synthetic
+card whose free ETB is "draw a card" alongside a sac-gated removal
+ability (stays correctly excluded; a real capability that genuinely
+needs sacrifice must not be papered over just because the card ALSO has
+an unrelated free upside).
+Second, compounding bug found verifying the first fix, also fixed:
+`coverage.py::effective_cost()` never looked at `triggers` at all -- so
+even with the exclusion fixed, Soul-Guide Lantern's cost still computed
+`None` (both its activated abilities cost `Sac<1/CARDNAME>`, a non-mana
+burden, so neither contributes a comparable cost, and the function had
+no path back to "the free ETB alone already delivers this at printed
+cmc"). Fixed by seeding `costs` with `0.0` when `has_free_etb_removal_
+trigger` is true, before the final `min()` -- only ever lowers the
+result, never raises it. Verified end to end against the real card's
+production parsed data: `effective_cost` went from `None` to `1.0`
+(its printed cmc); Tormod's Crypt (no ETB trigger at all) stays `None`,
+unaffected. 8 new regression tests (`tests/test_reliability.py`, new;
+`tests/test_coverage.py`).
+Residual, still open: this rescues the WHOLE CARD once any qualifying
+free trigger exists, same whole-card (not per-tag) granularity the
+original bug report flagged as the deeper root cause -- a card with a
+free ETB removal-shaped trigger for tag A and ALSO a genuinely
+sacrifice-gated ability for a DIFFERENT tag B would have tag B's cost
+incorrectly floor at cmc too, since `effective_cost()` still has no
+role/tag parameter in the general (non-Spree) case. Not exercised by any
+real card found so far; flagged rather than silently accepted.

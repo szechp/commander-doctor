@@ -260,6 +260,63 @@ def test_self_exile_ability_treated_like_self_sacrifice(con):
     assert has_self_sacrifice_ability(parse_json(row[0])) is True
 
 
+def test_soul_guide_lantern_credited_for_graveyard_coverage_despite_unrelated_sac_abilities(con):
+    # Real bug (KNOWN_ISSUES.md): Soul-Guide Lantern has a free ETB
+    # trigger ("exile target card from a graveyard", no cost) PLUS two
+    # unrelated Sac<1/CARDNAME>-gated activated abilities (exile each
+    # opponent's graveyard; draw a card). `has_self_sacrifice_ability`
+    # scanned ALL abilities and excluded the whole card for the sac cost
+    # on the OTHER, unrelated abilities -- even though the free ETB
+    # trigger alone already earns the card's `sweeper-graveyard` tag.
+    # Compounding bug in the same report: `effective_cost()` never looked
+    # at `triggers` at all, so even fixing the exclusion alone still left
+    # the card's cost at None (incomparable). Real parsed data copied
+    # from the mirror -- not in the pinned fixture catalog, so inserted
+    # directly, same pattern as the Disenchant coverage-alias test above.
+    con.execute(
+        "INSERT INTO cards (name,mana_cost,cmc,type_line,oracle_text,color_identity,colors,"
+        "produced_mana,keywords,commander_legal,is_game_changer,layout,set_type,parsed) "
+        "VALUES ('Test Soul-Guide Lantern','{1}',1.0,'Artifact',"
+        "'When this artifact enters, exile target card from a graveyard.\n"
+        "{T}, Sacrifice this artifact: Exile each opponent''s graveyard.\n"
+        "{1}, {T}, Sacrifice this artifact: Draw a card.',"
+        "'[]','[]',NULL,'[]',1,0,'normal','core',?)",
+        (json.dumps({
+            "mana_cost": "1", "types": "Artifact", "pt": "", "keywords": [],
+            "abilities": [
+                {"AB": "ChangeZoneAll", "Cost": "T Sac<1/CARDNAME>", "Origin": "Graveyard",
+                 "Destination": "Exile", "ChangeType": "Card.OppOwn"},
+                {"AB": "Draw", "Cost": "1 T Sac<1/CARDNAME>", "NumCards": "1"},
+            ],
+            "statics": [], "replacements": [],
+            "triggers": [{"Mode": "ChangesZone", "Origin": "Any", "Destination": "Battlefield",
+                          "ValidCard": "Card.Self", "Execute": "TrigChange"}],
+            "svars": {"TrigChange": "DB$ ChangeZone | Origin$ Graveyard | Destination$ Exile | "
+                                    "ValidTgts$ Card | TgtZone$ Graveyard"},
+        }),),
+    )
+    con.execute("INSERT INTO card_tags (card_name, tag) VALUES ('Test Soul-Guide Lantern', 'sweeper-graveyard')")
+    con.commit()
+
+    from deckdoctor.deck import Card, Deck
+    commander = Card(name="Fixture Commander", cmc=4, type_line="Legendary Creature — Human",
+                      ramp_kind=None, draw_kind=None, prereq=None, is_game_changer=False,
+                      color_identity=("W",), commander_legal=True)
+    lantern = Card(name="Test Soul-Guide Lantern", cmc=1, type_line="Artifact", ramp_kind=None,
+                    draw_kind=None, prereq=None, is_game_changer=False, color_identity=(),
+                    commander_legal=True)
+    plains = Card(name="Fixture Plains 0", cmc=0, type_line="Basic Land — Plains",
+                  ramp_kind=None, draw_kind=None, prereq=None, is_game_changer=False,
+                  color_identity=(), commander_legal=True)
+    deck = Deck(name="thin", commander=commander, library=[lantern] + [plains] * 98, commander_count=1,
+                quantities={"Test Soul-Guide Lantern": 1, "Fixture Plains 0": 98})
+    report = compute_coverage(deck, con)
+    entry = next(e for e in report.entries if e.answer_type == "graveyard")
+    assert entry.deck_has is True
+    assert entry.deck_cheapest_name == "Test Soul-Guide Lantern"
+    assert entry.deck_cheapest_cmc == 1.0
+
+
 def test_is_edict_recognizes_defined_opponent_shape(con):
     # Real bug found running `deckdoctor upgrades` against a real deck
     # (logged in KNOWN_ISSUES.md): Sheoldred's Edict ("Each opponent
