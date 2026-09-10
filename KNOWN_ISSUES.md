@@ -891,3 +891,47 @@ sacrifice-gated ability for a DIFFERENT tag B would have tag B's cost
 incorrectly floor at cmc too, since `effective_cost()` still has no
 role/tag parameter in the general (non-Spree) case. Not exercised by any
 real card found so far; flagged rather than silently accepted.
+
+### health.py's "Draw" row has no formula floor, despite SPEC.md documenting one -- 2026-09-10
+Command: `deckdoctor health decks/mystic-intellect-turbo.txt`
+What happened: `health.draw` always renders as `"<n> in deck (no formula
+floor for this category)"` with outcome `unknown`/status `n/a`, regardless
+of the actual count -- there is no pass/fail signal for card draw at all,
+unlike lands (§6.1 Karsten formula, implemented), ramp (threshold-derived
+target, implemented), and colour sources (§6.2, implemented). User caught
+it: pointed out draw is "a total necessity, and is in the template."
+Why it's wrong: `SPEC.md` §6.3 ("Category ratios -- community consensus")
+explicitly documents a target: `Card draw: 8-12`, plus "most experienced
+players want at least ten draw effects, because seeing more cards makes
+everything else more reliable." Ramp gets the identical treatment in that
+same table (`Ramp: 8-12`) AND a real enforced formula elsewhere in the
+codebase (audit.py's threshold-derived ramp_target) -- draw gets the
+SPEC.md table entry but no corresponding implementation at all. A user
+reviewing `health` output has no way to see that draw count is a real,
+documented category without reading SPEC.md directly; the assistant-
+facing check silently treats it as informational only.
+Likely cause: `health.py`'s draw row was written before ramp's threshold-
+derived target formula existed (or draw's equivalent was never built) --
+no `draw_target` function in `audit.py`/`health.py` to mirror
+`ramp_target`.
+Status: fixed -- and the real cause turned out to be narrower than "no
+formula exists": `audit_deck`'s own `category_flags` already computes
+`census.draw < 8` -> "Draw (N) below the community-consensus floor of
+~10 (ref §3)" (audit.py, predates this session). `health.py` never read
+that computation at all, hardcoding `n/a` -- the same "a real check
+existed one layer away and nothing wired it in" shape as the self-
+sacrifice entry directly above. Fixed by reusing `audit.py`'s EXACT
+trigger (`< 8`) in `health.py`'s Draw row instead of inventing a
+different threshold for the same concept in a second place (deliberately
+did NOT build a RampTarget-style threshold-scaled formula -- neither
+SPEC.md §6.3 nor deckbuilding.md documents draw scaling with threshold
+turn the way ramp does; both give a flat number regardless of plan
+speed, so a flat constant is the grounded choice, not a fabricated
+scaling relationship). "Removal" stays `n/a` on purpose even though
+`audit.py` flags it the identical way (`census.removal < 8`) -- unlike
+draw, removal already has a more precise, threshold-aware proxy in the
+same table ("Survival window", defence.py's interaction target, which
+already counts removal/wipe-tagged cards); a flat floor there would be
+redundant with, and less accurate than, that. 3 new regression tests
+(`tests/test_health.py`), verified to fail without the fix and pass
+with it.

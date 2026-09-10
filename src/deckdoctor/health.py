@@ -98,7 +98,35 @@ def compute_health_summary(
     ramp_status = "SHORT" if rt.actual < rt.target else "OK"
     rows.append(HealthRow("Ramp", ramp_status, f"{rt.actual} actual vs {rt.target} target"))
 
-    rows.append(HealthRow("Draw", "n/a", f"{audit.census.draw} in deck (no formula floor for this category)"))
+    # Real gap fixed here (KNOWN_ISSUES.md): "Draw" rendered as `n/a` with
+    # no floor at all, even though a floor already exists -- just not
+    # here. `audit_deck`'s own `category_flags` already computes
+    # `census.draw < 8` -> "Draw (N) below the community-consensus floor
+    # of ~10 (ref §3)" (SPEC.md §6.3: "Card draw: 8-12"; deckbuilding.md's
+    # cross-source table derives a single flat "10", the same "at least
+    # ten draw effects... makes everything else more reliable" number).
+    # `health.py` just never read that computation, hardcoding `n/a`
+    # instead of reusing it -- the SAME asymmetry the self-sacrifice entry
+    # above was: a real check existed one layer away and nothing wired it
+    # in. Reuses `audit.py`'s exact trigger (`< 8`) rather than inventing
+    # a different threshold for the same concept in a second place.
+    # Unlike ramp, neither source scales this by threshold turn -- both
+    # give a flat number regardless of how fast or slow the plan is, so
+    # this stays a plain constant, not a RampTarget-style formula;
+    # inventing a scaling relationship neither source documents would be
+    # a fabricated floor, not a grounded one. "Removal" is deliberately
+    # left as `n/a` here even though `audit.py` flags it the identical
+    # way (`census.removal < 8`) -- unlike draw, removal already has a
+    # real, MORE precise, threshold-aware proxy elsewhere in this same
+    # table ("Survival window" below, defence.py's interaction target,
+    # which already counts removal-or-wipe-tagged cards): a flat count
+    # floor here would be redundant with, and less accurate than, that.
+    DRAW_FLOOR = 8
+    draw_status = "SHORT" if audit.census.draw < DRAW_FLOOR else "OK"
+    rows.append(HealthRow(
+        "Draw", draw_status,
+        f"{audit.census.draw} actual vs {DRAW_FLOOR} floor (community-consensus target ~10, ref SPEC.md §6.3)",
+    ))
     rows.append(HealthRow("Removal", "n/a", f"{audit.census.removal} in deck, {audit.census.wipes} board wipe(s)"))
 
     gc_status = "GAP" if audit.census.game_changers > 3 else "OK"
