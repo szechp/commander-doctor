@@ -1,0 +1,86 @@
+// COMMANDER
+1 Sevinne, the Chronoclasm
+
+1 Archmage Emeritus
+1 Archmage of Runes
+1 Boros Reckoner
+1 Brash Taunter
+1 Phyrexian Vindicator
+1 Snapcaster Mage
+1 Solphim, Mayhem Dominus
+1 Stingcaster Mage
+1 Storm-Kiln Artist
+1 Stuffy Doll
+1 Truefire Captain
+1 Arcane Signet
+1 Blazing Sunsteel
+1 Chromatic Lantern
+1 Coalition Relic
+1 Commander's Sphere
+1 Darksteel Plate
+1 Fellwar Stone
+1 Lotus Petal
+1 Mind Stone
+1 Sol Ring
+1 Talisman of Conviction
+1 Talisman of Creativity
+1 Talisman of Progress
+1 Boomerang
+1 Boros Charm
+1 Chaos Warp
+1 Chemister's Insight
+1 Counterspell
+1 Desperate Ravings
+1 Disallow
+1 Dovin's Veto
+1 Faithful Mending
+1 Flawless Maneuver
+1 Frantic Search
+1 Generous Gift
+1 Mana Drain
+1 Mystic Confluence
+1 Mystical Tutor
+1 Prismatic Lens
+1 Swan Song
+1 Swords to Plowshares
+1 Think Twice
+1 Wayfarer's Bauble
+1 Banefire
+1 Blasphemous Act
+1 Deep Analysis
+1 Devil's Play
+1 Earthquake
+1 Faithless Looting
+1 Idyllic Tutor
+1 Jeska's Will
+1 Mystic Retrieval
+1 Sevinne's Reclamation
+1 Soul-Guide Lantern
+1 Solve the Equation
+1 Star of Extinction
+1 Dictate of the Twin Gods
+1 Jace's Sanctum
+1 Pain for All
+1 Pariah
+1 Whirlwind of Thought
+1 With Great Power . . .
+1 Ghostly Prison
+1 Ash Barrens
+1 Clifftop Retreat
+1 Command Tower
+1 Evolving Wilds
+1 Exotic Orchard
+1 Glacial Fortress
+1 Hallowed Fountain
+6 Island
+6 Mountain
+1 Myriad Landscape
+7 Plains
+1 Prairie Stream
+1 Radiant Summit
+1 Sacred Foundry
+1 Scorched Geyser
+1 Sea of Clouds
+1 Steam Vents
+1 Sulfur Falls
+1 Terramorphic Expanse

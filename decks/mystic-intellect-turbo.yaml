@@ -1,0 +1,210 @@
+commander: Sevinne, the Chronoclasm
+bracket: 3
+threshold: 8  # turn the redirect/burn kill is actually online, NOT Sevinne's own cmc (5) --
+  # confirmed with user 2026-09-10.
+gameplan: >
+  Jeskai (WUR) damage-redirection wincon, not a value/control pile. The core is a
+  package of damage-redirect creatures (Boros Reckoner: "whenever dealt damage,
+  deals that much to any target"; Brash Taunter, indestructible, redirects to
+  target opponent; Stuffy Doll, indestructible, redirects to a chosen player;
+  Truefire Captain, redirects to target player; Phyrexian Vindicator, prevents
+  damage to itself and redirects it to any other target instead) that turns
+  self-inflicted board damage into reach. Payoff spells are symmetrical/self-
+  damage effects cast while these bodies are on board -- Blasphemous Act (13 to
+  each creature), Earthquake (X to each creature without flying and each
+  player -- also hits players directly), Star of Extinction (20 to each
+  creature/planeswalker), Pain for All (enchanted creature deals its power then
+  reflects damage taken to each opponent) -- doubled through Dictate of the Twin
+  Gods. Ramp (9 rocks including Sol Ring/Lotus Petal) gets the redirect bodies
+  and Sevinne down early; graveyard fill (Faithless Looting, Desperate Ravings,
+  Frantic Search, Deep Analysis, Think Twice) sets up Sevinne's copy trigger
+  (first instant/sorcery cast from graveyard each turn is copied) so the same
+  board-wipe/burn spell can be recast late-game for a second redirected hit --
+  the deck's actual finisher, not an early kill. Real threshold is ~turn 7-8:
+  when redirect bodies + a symmetrical damage spell + (ideally) Sevinne
+  recursion are all live, not when Sevinne alone resolves.
+feedback:
+  - date: '2026-09-10'
+    kind: legality_exception
+    card: Stingcaster Mage
+    reason: user confirmed acceptable for their playgroup; likely a recently-printed
+      card the local mirror hasn't synced Commander legality for yet
+  - date: '2026-09-10'
+    kind: swap
+    status: accepted
+    current: Azorius Chancery
+    suggested: Island
+    reason: always enters tapped + bounces a land, no fixing upside over a basic; raises
+      unconditional U sources (colour_sources was flagged short)
+  - date: '2026-09-10'
+    kind: swap
+    status: accepted
+    current: Izzet Boilerworks
+    suggested: Mountain
+    reason: same bounceland issue; raises unconditional R sources
+  - date: '2026-09-10'
+    kind: swap
+    status: accepted
+    current: Mystic Monastery
+    suggested: Plains
+    reason: always-tapped tri-land; converts to unconditional W, the color under the
+      most pip pressure (Phyrexian Vindicator WWWW, Truefire Captain RRWW)
+  - date: '2026-09-10'
+    kind: swap
+    status: accepted
+    current: Rebuff the Wicked
+    suggested: Plains
+    reason: narrowest counterspell in the suite (only protects your own permanents)
+      with 6 other counters already in the 99; converted to a land to help close the
+      land_count gap (34 vs 37 computed)
+  - date: '2026-09-10'
+    kind: swap
+    status: accepted
+    current: Unsummon
+    suggested: Wayfarer's Bauble
+    reason: Unsummon's job (cheap single-target creature answer) overlaps with Swords
+      to Plowshares at the same 1cmc with a strictly better effect (exile vs bounce);
+      Wayfarer's Bauble closes both the ramp gap (9 vs 13 target) and land gap (fetches
+      a land to battlefield) at once
+  - date: '2026-09-10'
+    kind: swap
+    status: accepted
+    current: Mogg Maniac
+    suggested: Chromatic Lantern
+    reason: weakest of 6 redirect-package bodies (no indestructible, no damage prevention,
+      unlike Stuffy Doll/Brash Taunter/Phyrexian Vindicator); Chromatic Lantern directly
+      fixes the flagged colour_sources shortfall (lands you control tap for any color)
+      while also counting as ramp
+  - date: '2026-09-10'
+    kind: swap
+    status: accepted
+    current: Personal Tutor
+    suggested: Angel of Finality
+    reason: 'Personal Tutor''s job (find a sorcery, to top) is a strict subset of Solve
+      the Equation already in the 99 (instant or sorcery, to hand); freed slot closes
+      the graveyard coverage gap. Note: first tried Soul-Guide Lantern for this slot
+      but its graveyard-hate ability requires self-sacrifice, which the tool''s reliability
+      filter excludes from coverage credit (same treatment as Tormod''s Crypt) -- Angel
+      of Finality''s persistent ETB body passes the filter'
+  - date: '2026-09-10'
+    kind: swap
+    status: accepted
+    current: Stormwild Capridor
+    suggested: Coalition Relic
+    reason: Stormwild Capridor prevents/grows off noncombat damage but doesn't redirect
+      to opponents, the weakest fit to the stated redirect plan among the damage-triggered
+      creatures; Coalition Relic closes ramp gap (11 vs 13 target) and adds any-color
+      fixing
+  - date: '2026-09-10'
+    kind: swap
+    status: accepted
+    current: Whirlwind of Thought
+    suggested: Prismatic Lens
+    reason: Whirlwind of Thought demands a pip in all 3 colors simultaneously (WUR),
+      the single worst 3-color fixing demand among noncreature spells; Prismatic Lens
+      closes the remaining ramp gap without straining the manabase further
+  - date: '2026-09-10'
+    kind: swap
+    status: accepted
+    current: With Great Power . . .
+    suggested: Island
+    reason: niche 4-mana aura scaling only +2/+2 off itself, narrowest fit; converted
+      to a land to help close land_count gap (35 vs 37 computed)
+  - date: '2026-09-10'
+    kind: swap
+    status: accepted
+    current: Ghostly Prison
+    suggested: Plains
+    reason: conditional tax effect (does nothing unless opponents attack), not part
+      of the redirect/recursion engine; converted to a land, closing land_count gap
+      exactly to formula target (37)
+  - date: '2026-09-10'
+    kind: swap
+    status: accepted
+    current: Angel of Finality
+    suggested: Soul-Guide Lantern
+    reason: 'user preference after comparing both: Soul-Guide Lantern is 1 mana with
+      zero colored pips (Angel is 4 mana with a W pip, straining the already-flagged
+      colour base), and its sac mode hits ALL opponents'' graveyards (broader than Angel''s
+      single-player ETB) or cantrips if unneeded. Known limitation: coverage/health
+      will keep flagging this as missing graveyard answer due to a logged tool bug (KNOWN_ISSUES.md)
+      -- has_self_sacrifice_ability excludes the whole card because of its OTHER activated
+      abilities, even though its free ETB trigger already provides a real answer'
+  - date: '2026-09-10'
+    kind: swap
+    status: accepted
+    current: Plains
+    suggested: Ghostly Prison
+    reason: 'reverting an earlier over-eager cut, per user pushback: ''conditional,
+      does nothing unless opponents attack'' is not a real weakness -- that''s true
+      of nearly all interaction. Cheap, efficient tax that directly protects the confirmed
+      threshold-8 gameplan (survive to turn 7-8 while the engine assembles). Cut was
+      made to hit the exact 37-land formula target, not on card quality'
+  - date: '2026-09-10'
+    kind: swap
+    status: accepted
+    current: Island
+    suggested: With Great Power . . .
+    reason: 'reverting an earlier misread, per user pushback: original cut reasoning
+      focused on the weaker +2/+2 clause and ignored the actually-relevant line (''All
+      damage that would be dealt to you is dealt to enchanted creature instead.'') --
+      on Stuffy Doll/Phyrexian Vindicator this chains directly into their own redirect
+      text, amplifying the deck''s core mechanic. Real synergy piece, not niche'
+  - date: '2026-09-10'
+    kind: swap
+    status: accepted
+    current: Prismatic Lens
+    suggested: Whirlwind of Thought
+    reason: 'reverting an earlier cut, per user pushback: weighed the WUR 3-pip fixing
+      cost too heavily against the effect -- a repeatable draw-on-every-noncreature-spell
+      engine is one of the strongest payoffs available for a deck this dense with instants/sorceries
+      (burn/counters/loot/tutors). Kept weaker single-shot cantrips over it by mistake'
+  - date: '2026-09-10'
+    kind: swap
+    status: accepted
+    current: Darksteel Plate
+    suggested: Mountain
+    reason: 5 total mana (3 cast + 2 equip) to make ONE creature indestructible; Flawless
+      Maneuver already gives the whole team indestructible for free. Mana-inefficiency
+      grounded in tags (gives-indestructible/protects-creature vs Flawless Maneuver's
+      protects-all), not a redundancy/resilience claim
+  - date: '2026-09-10'
+    kind: swap
+    status: accepted
+    current: Negate
+    suggested: Prismatic Lens
+    reason: 'strict subset of Dovin''s Veto: same counterspell-noncreature restriction,
+      same total cost, Dovin''s Veto also can''t itself be countered. Verified via tags
+      (both counterspell-noncreature)'
+  - date: '2026-09-10'
+    kind: swap
+    status: rejected
+    current: Boomerang
+    suggested: Island
+    reason: 'individually grounded (weakest of 3 overlapping removal-permanent cards,
+      UU pip strain) but cutting it alongside Negate pushed health.survival_window below
+      its own floor (14 vs 15 interaction by turn 8) -- reverted, kept in the 99. Real
+      lesson: check a batch against survival_window/interaction totals together, not
+      just each cut individually'
+  - date: '2026-09-10'
+    kind: swap
+    status: accepted
+    current: Mountain
+    suggested: Darksteel Plate
+    reason: 'reverting the earlier cut, per user pushback: I evaluated it in isolation
+      (''5 mana for one creature'') instead of against the deck''s actual recursion
+      plan. Boros Reckoner has no built-in resilience (dies to its own Blasphemous Act,
+      a 3/3 facing 13 damage) -- Darksteel Plate makes it survive every subsequent recast
+      of the same wipe via Sevinne/Snapcaster/Mystic Retrieval, turning it into a permanent
+      engine piece equivalent to Stuffy Doll/Phyrexian Vindicator''s built-in resilience.
+      Same error class as the Ghostly Prison/With Great Power/Whirlwind of Thought misses
+      this session'
+  - date: '2026-09-10'
+    kind: pin
+    card: Darksteel Plate
+    reason: protects Boros Reckoner (no built-in indestructible/prevention) so it survives
+      repeated recast board wipes and stays a live redirect body for future recursion,
+      the same job Stuffy Doll/Brash Taunter/Phyrexian Vindicator get for free. Do not
+      suggest cutting this as 'inefficient single-target protection' without weighing
+      it against the repeat-recast recursion plan first -- got this wrong twice already
+      this session on adjacent cards

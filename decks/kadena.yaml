@@ -1,0 +1,124 @@
+commander: Kadena, Slinking Sorcerer
+bracket: 3
+threshold: 5
+gameplan: >
+  Sultai (BUG) morph-value/toolbox midrange-control deck. Kadena's discount
+  and card-draw trigger turns a dense morph package (Deathmist Raptor,
+  Stratus Dancer, Willbender, Vesuvan Shapeshifter, Sagu Mauler, Hooded
+  Hydra, Voidmage Apprentice, Ainok Survivalist, Silumgar Assassin, Nantuko
+  Vigilante, Kadena's Silencer, Mischievous Quanar) into repeated card
+  advantage as they enter face-down and later unmorph for value; Ixidron
+  turns the rest of the board face-down as a one-sided value sweeper that
+  also re-triggers Kadena; Temur Sabertooth bounces and recurs morphs for
+  more ETB value. This sits on a heavy ramp base (Birds of Paradise,
+  Fyndhorn Elves, Bloom Tender, Sylvan Caryatid, Sakura-Tribe Elder, Coiling
+  Oracle, Deathrite Shaman, plus 6 ramp spells) and real card advantage
+  (Rhystic Study, Mystic Remora, Beast Whisperer), backed by hard
+  interaction (Mana Drain, Cyclonic Rift, Abrupt Decay, Assassin's Trophy,
+  Putrefy, Swan Song, Flusterstorm). Threshold set to turn 5 to reflect when
+  ramp + Kadena + morph engine should realistically be online, not the
+  commander's own cmc (4).
+
+  Bracket capped at 3: the deck already carries exactly 3 Game Changers
+  (Cyclonic Rift, Rhystic Study, Seedborn Muse), so no further Game Changers
+  should be added without cutting one of these.
+
+  Former open gap (now solved, see feedback log): the deck had no real
+  finisher/closer -- it could grind out card advantage and board control
+  indefinitely but lacked a reliable way to convert that into a win. Voice
+  of Many is pure card draw (draws a card per opponent with fewer creatures
+  than you), not damage -- corrected after checking its real oracle text.
+
+  Finisher package added: Yedora, Grave Gardener + Ashnod's Altar (plus
+  Sakura-Tribe Elder as an alternate sac outlet) combo with any of Ainok
+  Survivalist / Nantuko Vigilante / Den Protector / Zimone, Mystery
+  Unraveler -- all already in the 99 or added alongside -- for infinite
+  colorless/green mana per Commander Spellbook's verified combo data (6
+  independent lines, bracket estimate holds at 3, no Game Changer cap
+  impact). That mana closes games via Exsanguinate or Profane Command's
+  "target player loses X life" mode. Green Sun's Zenith gives a cheap
+  on-color tutor for Yedora specifically. This is reported combo evidence,
+  not something hand-verified against the comprehensive rules -- sanity
+  check the Yedora face-down interaction at the table before relying on it.
+
+  Draw floor was also closed (6 -> 8) by cutting Reliquary Tower (the one
+  land in the 37 producing zero colored mana) for Guardian Project, and one
+  Forest (land count was 8 over the Karsten formula, ramp already 60%+ over
+  target) for Sylvan Library.
+feedback:
+  - date: '2026-09-10'
+    kind: swap
+    status: accepted
+    current: Willbender
+    suggested: Yedora, Grave Gardener
+    reason: Willbender's redirect trick is narrow (only relevant when specifically targeted);
+      Yedora anchors a triple-redundant infinite-mana combo package with cards already
+      in the 99
+  - date: '2026-09-10'
+    kind: swap
+    status: accepted
+    current: Gift of Doom
+    suggested: Ashnod's Altar
+    reason: single-target protection aura, redundant once Altar gives a dedicated sac
+      outlet for the Yedora combo
+  - date: '2026-09-10'
+    kind: swap
+    status: accepted
+    current: Chromeshell Crab
+    suggested: Zimone, Mystery Unraveler
+    reason: steal-a-creature morph is situational; Zimone opens 2 more verified combo
+      lines with Yedora and converts infinite landfall triggers into free value
+  - date: '2026-09-10'
+    kind: swap
+    status: accepted
+    current: Mischievous Quanar
+    suggested: Green Sun's Zenith
+    reason: copy-a-spell morph is situational; GSZ is a cheap on-color tutor for Yedora
+      specifically
+  - date: '2026-09-10'
+    kind: swap
+    status: accepted
+    current: Bane of the Living
+    suggested: Exsanguinate
+    reason: symmetrical -X/-X wipe hits the deck's own board of 2/2 morphs too; Exsanguinate
+      is the X-spell finisher that spends the combo's infinite mana to actually win
+  - date: '2026-09-10'
+    kind: swap
+    status: accepted
+    current: Reliquary Tower
+    suggested: Guardian Project
+    reason: only land in the 37 that produced zero colored mana; Guardian Project draws
+      on almost every creature ETB in a singleton deck, stacking with Kadena's own draw
+      trigger to fix the draw floor
+  - date: '2026-09-10'
+    kind: swap
+    status: accepted
+    current: Forest
+    suggested: Sylvan Library
+    reason: land count was 8 over the Karsten formula with ramp already 60%+ over target;
+      trimmed one land for Sylvan Library to close the draw floor (6 -> 8)
+  - date: '2026-09-10'
+    kind: swap
+    status: rejected
+    current: Reality Shift
+    suggested: Pongify
+    reason: cheaper (1 vs 2 mana) but destroy instead of exile, so it gives up denying
+      graveyard recursion/reanimation; kept since the deck already runs graveyard-hate
+      pieces (Dauthi Voidwalker, Deathrite Shaman) implying recursion decks are expected
+      in the pod
+  - date: '2026-09-10'
+    kind: swap
+    status: rejected
+    current: Beast Within
+    suggested: Boomerang
+    reason: cheaper (2 vs 3 mana) but bounce instead of destroy -- opponent just replays
+      whatever gets bounced, and Beast Within is the deck's cheapest catch-all answer
+      across 4 permanent types per coverage; not worth losing the permanent answer for
+      1 mana
+  - date: '2026-09-10'
+    kind: note
+    text: 'Considered adding Disallow/Counterspell for more countermagic; declined.
+      Interaction is already 18 vs target 11 (64% over) and instant-speed answers 13
+      vs floor 4 -- no real gap to fill. Also: Kadena''s Silencer already covers ''counter
+      an ability'' (one-shot on flip, not a held-up instant), so the deck isn''t actually
+      starting from zero on that axis like it looked at a glance.'

@@ -49,6 +49,18 @@ The "present a few prioritized changes" guidance further down is calibrated for 
 - Validate the WHOLE batch with `validate --swaps` (below) in one pass. With `bracket:` set (previous section), this now actually checks the Game Changer cap and, once bracket/combo cache data is supplied, combo legality -- read `quality_findings` and `combo_findings`, not just `accepted`, since those are reported as evidence rather than a pass/fail gate by design. If the batch itself introduces a new gap (e.g. it pushes Game Changer count over the configured bracket's cap), fix that within the same batch before presenting it, not as a second round.
 - Present the full package at once: what's cut, what's added, why, and what if anything is still an open trade-off -- then get confirmation before saving anything to the deck file. A batch this size is still the user's decision to apply, not an autonomous rewrite.
 
+## Never eyeball a cut
+
+Before naming ANY existing decklist card as weak, narrow, inefficient, redundant, or a good cut candidate -- in a prioritized-changes list, a "try it out" batch, anything -- pull its real oracle text (`deckdoctor card`) and check its role tags FIRST, in that order, before saying it out loud. Not after the user pushes back. This is the exact same grounding discipline swap-in candidates already get; it applies equally to the cut side, and skipping it there is just as much an unsupported claim as skipping it on the add side.
+
+Two failure shapes, both real, both found by cutting real cards from real decks this way:
+- **Evaluating a card in isolation instead of against the deck's own confirmed gameplan/threshold.** A card that looks generically inefficient on its own (e.g. "5 mana to protect one creature") can be doing real, specific work for THIS deck's plan (e.g. keeping a fragile redirect/combo piece alive across repeated recasts of the same effect) that a generic efficiency read will never surface. Check the gameplan angle before the mana-cost angle.
+- **Substituting a vibe ("conditional," "narrow," "niche") for the card's actual role tags.** `deckdoctor card` returns a `tags` list built from the same role vocabulary `review`/`candidates`/`coverage` use -- a card tagged `draw-engine`/`repeatable-pure-draw` or matching an existing core piece's own tag (e.g. sharing the `pariah` tag with a card already confirmed central to the plan) is not a card to describe as "niche" from a read of the flavor text. Pull the tags before forming the opinion, not to justify one already formed.
+
+A card does not need to visibly reference the deck's headline mechanic to be well-grounded -- being a strong, unconditional payoff for what the decklist actually IS (e.g. a real draw engine in a spell-dense noncreature-heavy 99) is sufficient justification on its own, separate from whether it synergizes with the named wincon.
+
+If, after actually checking, no clean grounded cut is found: say so plainly and ask, rather than manufacturing one to fill a slot or hit a round formula number. Never trade a real, working card for formula compliance alone -- see "Category ratios" below for why hitting an exact number is not itself the goal.
+
 ## Gameplan-led recommendations
 
 When the user wants a streamlined deck or the best-fitting cards, run `deckdoctor review decks/example.txt --format json --limit 3` after validation. This is an evidence packet for strategic review, not an automatic deck-quality verdict. Read the saved gameplan and feedback first; reuse answers already supplied. If needed, ask one bundled question about the intended win route, desired pace, pod constraints and budget. Do not invent a bracket from a Game Changer count or treat a bracket estimate as a quality score.

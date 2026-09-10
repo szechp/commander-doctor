@@ -11,7 +11,7 @@ Core T00–T10 is implemented and reviewed. See [STATUS.md](STATUS.md) for exact
 Final verification command (working directory `/private/tmp`):
 
 ```sh
-/Users/philipp/Downloads/commander-doctor/.venv/bin/python -m pytest -q -c /Users/philipp/Downloads/commander-doctor/pyproject.toml /Users/philipp/Downloads/commander-doctor/tests
+<repo>/.venv/bin/python -m pytest -q -c <repo>/pyproject.toml <repo>/tests
 ```
 
 Result: **384 passed, 24 integration tests deselected, 18.05 seconds**. No failures or skips in the selected offline suite.

@@ -1,0 +1,18 @@
+1 Chromatic Lantern
+1 Coalition Relic
+1 Prismatic Lens
+1 Soul-Guide Lantern
+1 Wayfarer's Bauble
+1 Island
+1 Mountain
+2 Plains
+
+SB: 1 Azorius Chancery
+SB: 1 Izzet Boilerworks
+SB: 1 Mystic Monastery
+SB: 1 Mogg Maniac
+SB: 1 Negate
+SB: 1 Personal Tutor
+SB: 1 Rebuff the Wicked
+SB: 1 Stormwild Capridor
+SB: 1 Unsummon

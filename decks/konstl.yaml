@@ -1,0 +1,12 @@
+commander: Jolrael, Voice of Zhalfir
+bracket: 3
+threshold: 6
+gameplan: >
+  Ramp out early (dorks + land ramp), use the dense draw-engine package to
+  stockpile a large hand, then use Jolrael, Voice of Zhalfir to animate a
+  land into a hasty, flying X/X (X = cards in hand) as the closer. Combat
+  damage from that land-creature draws another card, refueling the engine
+  and letting the attack repeat turn over turn. Threshold turn 6: the deck's
+  average nonland mana value is low (2.8), so it is not inherently a
+  late-game curve, but the plan needs a couple of turns of ramp and draw
+  before the land-animation attack is a real threat.

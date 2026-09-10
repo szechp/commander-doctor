@@ -1,0 +1,66 @@
+1 Jolrael, Voice of Zhalfir (MAT) 33
+18 Forest (MSH) 296
+18 Island (MSH) 290
+1 Opt (FDN) 512
+1 Fractal Anomaly (SOS) 50
+1 Pym Particles (MSH) 70
+1 Spectral Sailor (FDN) 164
+1 Splash Portal (BLB) 74
+1 Bold Biochemist (MSH) 48
+1 Buzz Bots (TMT) 32
+1 Council's Deliberation (LTR) 46
+1 Cryogen Relic (EOE) 52
+1 Lakeshore Apothecary (HOB) 43
+1 Mental Modulation (EOE) 67
+1 Mischievous Mystic (FDN) 47
+1 Oracle of Tragedy (MOM) 71
+1 Plunder the Trollshaws (HOB) 51
+1 Shoreline Looter (BLB) 70
+1 Spreading Seas (WOT) 26
+1 Bilbo Baggins, Burglar (HOB) 34
+1 Cloudkin Seer (ANB) 25
+1 Erudite Wizard (FDN) 37
+1 Furtive Analyst (MOM) 59
+1 Kiora, the Rising Tide (FDN) 45
+1 Quick Study (SOS) 65
+1 Ravenhill Flock (HOB) 52
+1 Archmage of Runes (FDN) 30
+1 Gandalf, Wandering Wizard (HOB) 41
+1 Into the Fae Court (WOE) 57
+1 Stockman, Mad Fly-entist (TMT) 54
+1 Arcanis the Omnipotent (FDN) 585
+1 Windreader Sphinx (ANB) 41
+1 Oracle's Restoration (SOS) 156
+1 Glorious Decay (SOS) 150
+1 Season of Growth (WOT) 61
+1 Colossal Majesty (ANB) 92
+1 Historian's Wisdom (NEO) 192
+1 Trade Route Envoy (TDM) 163
+1 Moon Girl and Devil Dinosaur (MSH) 223
+1 Silvan Reveler (HOB) 163
+1 Embrace the Paradox (SOS) 186
+1 Bushwhack (FDN) 215
+1 Delighted Halfling (LTR) 158
+1 Elvish Mystic (M14) 169
+1 Hard-Hitting Question (MKM) 164
+1 Llanowar Elves (FDN) 227
+1 Environmental Scientist (SOS) 147
+1 Frog Butler (TMT) 114
+1 Ilysian Caryatid (ANB) 98
+1 Chomping Changeling (ECL) 172
+1 Hermitic Herbalist (TLA) 226
+1 Triskaidekaphile (MID) 81
+1 Ms. Marvel, Kamala Khan (MSH) 67
+1 Reed Richards, Smartest Man (MSC) 636
+1 Nezahal, Primal Tide (RIX) 45
+1 Tishana, Voice of Thunder (XLN) 230
+1 Planar Engineering (SOS) 158
+1 Rhystic Study
+1 Cyclonic Rift
+1 Consecrated Sphinx
+1 Beast Within
+1 Pongify
+1 Arcane Signet
+1 Aetherize
+1 Simic Signet
+1 Nature's Lore

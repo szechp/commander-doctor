@@ -1,0 +1,21 @@
+commander: Anje Falkenrath
+bracket: 3
+threshold: 6
+gameplan: >
+  Rakdos discard/madness value-burn deck. Anje Falkenrath and other rummage/loot
+  effects (Key to the City, Faithless Looting, Magus of the Wheel, Thrill of
+  Possibility, Big Score, Unexpected Windfall, Currency Converter, Glint-Horn
+  Buccaneer, Skirge Familiar, Stromkirk Occultist) discard a large madness suite
+  of removal and threats (Fiery Temper, Violent Eruption, Big Game Hunter,
+  Terminal Agony, Avacyn's Judgment, Archfiend of Ifnir/Spite, Necrogoyf,
+  Shadowgrange Archfiend, etc.) that are otherwise 4-7 mana hardcasts, while
+  Chainer, Necrogoyf, Squee, and other graveyard recursion refill the discard
+  pile. In parallel, rituals (Dark Ritual, Cabal Ritual, Songs of the Damned,
+  Jeska's Will) plus mana rocks push toward a ritual-fueled X-spell finish
+  (Exsanguinate, Crackle with Power, Banefire) as an alternate win route, with
+  Glint-Horn Buccaneer, Archfiend of Ifnir, Alms of the Vein, and Exsanguinate
+  itself contributing incidental direct damage along the way. Threshold set to
+  turn 6 to reflect the realistic ritual-into-X-spell finish turn, not the
+  commander's own cmc (3) -- the deck's real plan is a mid-game grind/burn
+  assembly, not resolving Anje on curve.
+feedback: []
