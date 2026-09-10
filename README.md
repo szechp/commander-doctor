@@ -1,34 +1,38 @@
-# commander-doctor
+# Commander Doctor
 
-`commander-doctor` validates Commander decklists and produces evidence-backed offline audits from a local card mirror. Start with the shared [deck review workflow](docs/workflow.md).
+Commander Doctor helps you build and improve *Magic: The Gathering* Commander decks with an AI assistant that checks its own work against real card data and real rules — instead of just guessing.
 
-Install from this folder:
+## What it actually does
 
-```sh
-python3 -m venv .venv
-source .venv/bin/activate
-python -m pip install -e '.[dev]'
-```
+When you ask your AI assistant to review a deck with Commander Doctor, it:
 
-Ordinary analysis needs a populated local card database. `deckdoctor sync` explicitly downloads the card/tag sources; it does not run automatically during reports. `deckdoctor parse-forge --cardsfolder /path/to/cardsfolder` enriches the mirror from local Forge card scripts without launching Java. Missing parser/provider evidence stays visible. Use `--db /path/to/mirror.sqlite3` or `DECKDOCTOR_DB` for another database.
+- Checks the deck is actually legal — right size, right colors, no banned or miscounted cards.
+- Looks for real gaps: not enough answers to a particular kind of threat, a mana base that's thinner than it looks, missing removal for the specific things your deck struggles against.
+- Suggests real replacement cards, backed by their actual printed rules text — not a vague "this feels weak."
+- Tells you plainly when it doesn't know something, instead of making something up to sound confident.
 
-```sh
-deckdoctor validate decks/example.txt
-deckdoctor audit decks/example.txt --format json
-deckdoctor colours decks/example.txt --format json
-deckdoctor coverage decks/example.txt --format json
-deckdoctor health decks/example.txt --format json
-deckdoctor consistency decks/example.txt --format json
-deckdoctor review decks/example.txt --format json --limit 3
-deckdoctor compare decks/example.txt --current "City on Fire" --candidate "Collective Inferno" --format json
-```
+It's a very well-informed second pair of eyes on your deck — one that never gets tired of re-reading rules text before it says something. It won't quietly rebuild your whole deck on its own; changes are things it proposes and explains, for you to say yes or no to.
 
-Review assembles evidence for a gameplan-led assistant review; compare checks named alternatives and prospective swaps, including cards without shared role tags. Direct-upgrade labels have an explicit narrow scope; strategic fit remains an explained judgment. Neither command overwrites your deck.
+## Using it
 
-The consistency command uses versioned goals in the deck's sibling YAML file. It samples opening hands, mulligans and six normal draws; it measures ingredient access, not gameplan execution. See the [configuration and swap examples](docs/workflow.md).
+You don't need to learn any commands. Open this folder with an AI coding assistant that supports Claude Code-style "skills" (Claude Code itself, or a compatible agent), and just ask something like:
 
-In Claude, invoke `/deck-doctor`. In Codex opened in this project, invoke `$deck-doctor`; the project skill is installed under `.agents/skills`. Both entry points read the same workflow. Other assistants can read that document or call the CLI directly.
+> "Can you review my deck at decks/mydeck.txt?"
 
-Run `python -m pytest -q` for the frozen offline regression suite. Provider/Forge integration tests are explicitly excluded by default. Implementation decisions, remaining limitations and acceptance evidence are tracked in [STATUS.md](docs/implementation/STATUS.md).
+or
 
-The terminal workflow and assistant adapters use the same validation and report pipeline. Provider-backed combo data is optional and status-bearing. Forge/Java goldfish diagnostics require explicit experimental opt-in and are not a normal deck review or a verified success-rate model.
+> "Why does my deck keep losing before it gets going?"
+
+The assistant uses the built-in deck-doctor skill automatically — you don't need to name it.
+
+## First time opening this project?
+
+If nothing has been set up yet (no local card database, dependencies not installed), just tell your assistant:
+
+> "Set this project up — see SETUP.md"
+
+and it will handle the rest. [SETUP.md](SETUP.md) is written for the assistant to follow, not for you to read.
+
+## Curious how it works under the hood?
+
+The technical documentation — the exact commands, the review process the assistant follows, the internal design — lives in [docs/](docs/) and [SPEC.md](SPEC.md). It's written for developers and AI agents; nothing in there is required reading just to use the tool.
