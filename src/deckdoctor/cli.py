@@ -560,7 +560,6 @@ def main(argv: list[str] | None = None) -> int:
         from deckdoctor.deck_config import config_path_for, load_deck_config
 
         con = connect_readonly(args.db)
-        _require_layer2(con, args)
         deck = load_deck(args.deck, con)
         config = load_deck_config(args.deck)
         threshold = args.threshold if args.threshold is not None else (config.threshold if config else None)
@@ -579,7 +578,6 @@ def main(argv: list[str] | None = None) -> int:
         from deckdoctor.deck import load_deck
 
         con = connect_readonly(args.db)
-        _require_layer2(con, args)
         deck = load_deck(args.deck, con)
         result = compute_coverage(deck, con)
         structured = coverage_report(result, deck, con)
@@ -596,7 +594,6 @@ def main(argv: list[str] | None = None) -> int:
         from deckdoctor.assessment_reports import assessment_report
 
         con = connect_readonly(args.db)
-        _require_layer2(con, args)
         deck = load_deck(args.deck, con)
         config = load_deck_config(args.deck)
         threshold_override = args.threshold if args.threshold is not None else (config.threshold if config else None)
@@ -734,7 +731,6 @@ def main(argv: list[str] | None = None) -> int:
         from deckdoctor.health import HealthRow, compute_health_summary, render_table
 
         con = connect_readonly(args.db)
-        _require_layer2(con, args)
         deck = load_deck(args.deck, con)
         config = load_deck_config(args.deck)
         threshold = args.threshold if args.threshold is not None else (config.threshold if config else None)
@@ -930,13 +926,16 @@ def main(argv: list[str] | None = None) -> int:
     if args.command == "candidates":
         import json
 
-        from deckdoctor.candidates import find_candidates
+        from deckdoctor.candidates import DRAW_KINDS, RAMP_KINDS, find_candidates
         from deckdoctor.db import connect_readonly
         from deckdoctor.deck import load_deck
         from deckdoctor.assessment_reports import assessment_report
 
         con = connect_readonly(args.db)
-        _require_layer2(con, args)
+        # Only the ramp/draw role queries read Layer 2 columns; tag-based
+        # roles and game_changer work from Layer 1 and must NOT be gated.
+        if args.role in RAMP_KINDS or args.role in DRAW_KINDS or args.role in ("ramp", "draw"):
+            _require_layer2(con, args)
         deck = load_deck(args.deck, con)
         commander_row = con.execute("SELECT color_identity FROM cards WHERE name = ?", [deck.commander.name]).fetchone()
         commander_ci = json.loads(commander_row[0]) if commander_row and commander_row[0] else []
