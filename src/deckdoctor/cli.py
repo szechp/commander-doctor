@@ -303,6 +303,10 @@ def main(argv: list[str] | None = None) -> int:
     p_card.add_argument("--db", default=None)
     p_card.add_argument("--format", choices=["text", "json"], default="text")
 
+    p_archetype = sub.add_parser("archetype", help="detect the deck's synergy engine: which cards are plan-critical, never cut blind (run before whole-deck work)")
+    p_archetype.add_argument("deck", help="path to a decklist, e.g. decks/anje.txt")
+    p_archetype.add_argument("--db", default=None, help="mirror path (default: data/deckdoctor.sqlite3 or $DECKDOCTOR_DB)")
+    p_archetype.add_argument("--format", choices=["text", "json"], default="text")
     p_feedback = sub.add_parser("feedback", help="log a suggestion's outcome or a pin into decks/<name>.yaml, so future runs don't repeat it")
     p_feedback.add_argument("deck", help="path to a decklist, e.g. decks/ugluk.txt")
     p_fb_sub = p_feedback.add_subparsers(dest="feedback_action", required=True)
@@ -843,6 +847,30 @@ def main(argv: list[str] | None = None) -> int:
                     print(f"  loses: {', '.join(details['lost_roles'])}")
                 if details["gained_roles"]:
                     print(f"  gains: {', '.join(details['gained_roles'])}")
+        return 0
+
+    if args.command == "archetype":
+        import json as _json
+        from deckdoctor.archetype import detect_archetype
+        from deckdoctor.db import connect_readonly
+        from deckdoctor.deck import load_deck
+
+        con = connect_readonly(args.db)
+        deck = load_deck(args.deck, con)
+        report = detect_archetype(con, [c.name for c in deck.library] + [deck.commander.name])
+        report.deck_name = deck.name
+        if args.format == "json":
+            from deckdoctor.reports import json_report
+            print(_json.dumps({
+                "schema_version": 1, "command": "archetype",
+                "metrics": {
+                    "keys": report.keys,
+                    "engine": report.engine,
+                    "standalone": sorted(report.standalone),
+                },
+            }, indent=2, sort_keys=True))
+        else:
+            print(report.summary())
         return 0
 
     if args.command == "card":
