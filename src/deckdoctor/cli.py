@@ -18,7 +18,6 @@ NOT_YET_IMPLEMENTED = {
     "calibrate": "step 7 (§7.3.36)",
 }
 
-DEFAULT_DB = "data/deckdoctor.sqlite3"
 DEFAULT_CARDSFOLDER = "forge-spike/forge/forge-gui/res/cardsfolder"
 
 
@@ -156,10 +155,10 @@ def main(argv: list[str] | None = None) -> int:
     sub = parser.add_subparsers(dest="command", required=True)
 
     p_sync = sub.add_parser("sync", help="Scryfall mirror + tags + game changers")
-    p_sync.add_argument("--db", default=DEFAULT_DB)
+    p_sync.add_argument("--db", default=None, help="card database path (default: DECKDOCTOR_DB, then data/deckdoctor.sqlite3)")
 
     p_parse = sub.add_parser("parse-forge", help="Forge cardsfolder -> ramp_kind/draw_kind/prereq/parsed (Layers 1-2, §3.1)")
-    p_parse.add_argument("--db", default=DEFAULT_DB)
+    p_parse.add_argument("--db", default=None, help="card database path (default: DECKDOCTOR_DB, then data/deckdoctor.sqlite3)")
     p_parse.add_argument("--cardsfolder", default=DEFAULT_CARDSFOLDER)
 
     p_hand = sub.add_parser("hand", help="opening-hand composition + keepability (§7.3.2)")
@@ -279,7 +278,7 @@ def main(argv: list[str] | None = None) -> int:
                          help="raw Forge turnNumber (P1's round N is turnNumber 2N-1 in this 2-player mirror). "
                               "Default: derived from the deck's .derived.yaml target_turn if present, else 11. "
                               "An explicit raw horizon takes precedence; personal-turn timing is unsupported.")
-    p_gold.add_argument("--db", default=DEFAULT_DB)
+    p_gold.add_argument("--db", default=None, help="card database path (default: DECKDOCTOR_DB, then data/deckdoctor.sqlite3)")
     p_gold.add_argument("--jar", default=None, help="Forge jar path (default: forge_batch.JAR_DEFAULT)")
     p_gold.add_argument("--java-bin", default=None, help="java executable (default: forge_batch.JAVA17_DEFAULT)")
     p_gold.add_argument("--timeout", type=float, default=None, help="subprocess timeout in seconds (default: n*65+60)")
@@ -439,7 +438,7 @@ def main(argv: list[str] | None = None) -> int:
 
     gated_commands = {"hand", "audit", "coverage", "colours", "defence", "combos", "bracket", "edhrec", "health", "upgrades", "candidates", "goldfish", "consistency"}
     if args.command in gated_commands:
-        gate_code = _validation_gate(args.deck, getattr(args, "db", DEFAULT_DB), getattr(args, "format", "text"))
+        gate_code = _validation_gate(args.deck, getattr(args, "db", None), getattr(args, "format", "text"))
         if gate_code:
             return gate_code
 
@@ -483,12 +482,32 @@ def main(argv: list[str] | None = None) -> int:
         from deckdoctor.db import connect
         from deckdoctor.forge_parse import apply_to_db, build_coverage_report
 
-        report, rows = build_coverage_report(Path(args.cardsfolder))
+        from deckdoctor.db import resolve_db_path
+
+        cardsfolder = Path(args.cardsfolder)
+        if not cardsfolder.is_dir():
+            print(f"Forge cardsfolder not found: {cardsfolder.resolve()} -- see SETUP.md step 3", file=sys.stderr)
+            return 2
+        report, rows = build_coverage_report(cardsfolder)
         print(report.summary(), file=sys.stderr)
-        con = connect(args.db)
+        if not rows:
+            print(f"no Forge card scripts parsed under {cardsfolder.resolve()} -- nothing written", file=sys.stderr)
+            return 2
+        db_path = resolve_db_path(args.db)
+        if not db_path.is_file():
+            print(f"card database not found: {db_path} -- run `deckdoctor sync` first", file=sys.stderr)
+            return 3
+        con = connect(db_path)
+        changes_before = con.total_changes
         n = apply_to_db(con, rows)
+        matched = con.total_changes - changes_before
         con.close()
-        print(f"{n} cards in the mirror now have Layer 2 data.", file=sys.stderr)
+        print(f"{matched} parsed Forge face(s) matched the mirror; {n} cards in {db_path} now have Layer 2 data.",
+              file=sys.stderr)
+        if matched == 0:
+            print("no parsed Forge card matched a card in the mirror -- is this the database `sync` built?",
+                  file=sys.stderr)
+            return 2
         return 0
 
     if args.command == "hand":
