@@ -53,6 +53,7 @@ WIPE_TAGS = {"sweeper", "sweeper-one-sided", "sweeper-graveyard"}
 # the tag is NOT proof a wipe is safe, only its presence is a solid signal.
 SYMMETRICAL_TAG = "symmetrical"
 LOW_TOUGHNESS_THRESHOLD = 2  # ref deckbuilding.md §4.4's qualitative note, no sourced number -- a starting point
+COMMUNITY_LAND_FLOOR = 35  # ref §0.2/community: the widely-cited Commander minimum (see compute_land_formula)
 # Ramp/draw roles come from deckdoctor.card_roles (Forge structure first,
 # Scryfall tags as fallback, one precedence for both roles).
 
@@ -126,6 +127,7 @@ class LandFormula:
     computed: int
     actual: int
     diverges: bool  # |computed - actual| >= 2, ref §1
+    floored: bool = False  # computed was raised to COMMUNITY_LAND_FLOOR
 
 
 @dataclass
@@ -184,7 +186,10 @@ class AuditReport:
             "Land formula (ref §1.1, §0.2):",
             f"  Karsten base       {self.land_formula.karsten_base:.1f}",
             f"  ref §0.2 adjustment {self.land_formula.adjustment:+.1f}",
-            f"  computed           {self.land_formula.computed}",
+            f"  computed           {self.land_formula.computed}"
+            + ("  (community floor 35 applied -- the raw curve model says"
+               f" {round(self.land_formula.karsten_base + self.land_formula.adjustment)},"
+               " but 35 is the Commander community minimum)" if self.land_formula.floored else ""),
             f"  actual             {self.land_formula.actual}",
         ]
         if self.land_formula.diverges:
@@ -395,8 +400,20 @@ def compute_land_formula(census: Census, threshold: float, commanders: int = 1) 
     computed = karsten_base + adjustment
     if threshold >= 6:
         computed = max(computed, 37)
+    # Community floor: 35 lands is the widely-cited minimum for Commander
+    # (CoolstuffInc's mana-base surveys, EDH forums, and precon templates
+    # all converge on 35-38 as the sane range, with 35 named as the
+    # "never below" line even for low-curve decks with heavy ramp).
+    # The Karsten curve model answers a narrower question -- "lands needed
+    # to hit the first N drops on time with rocks substituting" -- and can
+    # legitimately land in the high 20s for a cheap, rocky deck, where a
+    # real Commander game (multiplayer, 10+ turns, rock vulnerability to
+    # wipes, no draw guarantee) mana-screws you. Ramp substitution shrinks
+    # with each wiped rock; lands don't. So the formula's output is floored
+    # at the community minimum and reported as a target, never below it.
+    computed = max(computed, COMMUNITY_LAND_FLOOR)
+    floored = round(karsten_base + adjustment) < COMMUNITY_LAND_FLOOR
     computed_int = round(computed)
-
     diverges = abs(computed_int - census.lands) >= 2
     return LandFormula(
         karsten_base=karsten_base,
@@ -404,6 +421,7 @@ def compute_land_formula(census: Census, threshold: float, commanders: int = 1) 
         computed=computed_int,
         actual=census.lands,
         diverges=diverges,
+        floored=floored,
     )
 
 

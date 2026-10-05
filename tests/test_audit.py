@@ -151,3 +151,27 @@ def test_parse_forge_fails_when_no_card_matches_the_mirror(fixture_db, tmp_path,
     code = main(["parse-forge", "--db", str(tmp_path / "fixture.sqlite3"), "--cardsfolder", str(tmp_path / "cardsfolder")])
     assert code == 2
     assert "no parsed Forge card matched" in capsys.readouterr().err
+
+
+def test_land_formula_floored_at_community_minimum():
+    # The raw Karsten curve model (lands needed to hit the first N drops
+    # with rocks substituting) legitimately lands in the high 20s for a
+    # cheap, rocky deck -- but the Commander community guideline is clear
+    # that 35 is the minimum (multiplayer games run long, wiped rocks
+    # don't substitute for lands, and mana screw loses games). Found on a
+    # real Sevinne list: formula said 27, deck had 35, every guide says
+    # 34-38. The formula output is floored at 35 and reports that it was.
+    from deckdoctor.audit import COMMUNITY_LAND_FLOOR
+
+    c = Census(lands=35, ramp_rock_dork=12, fast_mana=9, draw=14,
+               avg_mv_nonland=2.84, nonland_count=64)
+    result = compute_land_formula(c, threshold=5)
+    assert result.computed >= COMMUNITY_LAND_FLOOR
+    assert result.floored is True
+
+    # A deck whose raw formula already clears the floor is untouched.
+    heavy = Census(lands=39, ramp_rock_dork=8, fast_mana=5, draw=6,
+                   avg_mv_nonland=3.85, nonland_count=60)
+    heavy_result = compute_land_formula(heavy, threshold=8)
+    assert heavy_result.floored is False
+    assert heavy_result.computed == max(37, round(heavy_result.karsten_base + heavy_result.adjustment))
