@@ -153,40 +153,33 @@ def test_parse_forge_fails_when_no_card_matches_the_mirror(fixture_db, tmp_path,
     assert "no parsed Forge card matched" in capsys.readouterr().err
 
 
-def test_land_formula_floored_at_community_minimum():
-    # The raw Karsten curve model legitimately lands in the high 20s for a
-    # cheap, rocky deck, but Commander guidance gives a 33-38 range with 35
-    # as the default minimum. Found on a real Sevinne list: formula said
-    # 27, deck had 35.
-    from deckdoctor.audit import COMMUNITY_LAND_FLOOR, LAND_FLOOR_MAX, LAND_FLOOR_MIN, community_land_floor
+def test_land_formula_floor_follows_deckbuilding_7_4():
+    # deckbuilding.md §7.4 ("Resolved: P13"): the formula subtracts each
+    # cheap rock as a full land, which is right about mana and wrong about
+    # land drops, so the target is floored at 35 with 37 as the default.
+    # Found on a real Sevinne list: raw model 27, deck 35 -- the audit was
+    # telling the user to cut 8 lands.
+    from deckdoctor.audit import LAND_DEFAULT, LAND_FLOOR
 
-    # Little ramp, little draw: the full 35, and a 35-land deck is fine.
-    lean = Census(lands=35, ramp_rock_dork=4, fast_mana=4, draw=3, avg_mv_nonland=2.2, nonland_count=60)
-    assert community_land_floor(lean) == COMMUNITY_LAND_FLOOR
-    lean_result = compute_land_formula(lean, threshold=5)
-    assert lean_result.floored is True
-    assert lean_result.computed == COMMUNITY_LAND_FLOOR
-    assert lean_result.diverges is False
-
-    # The triggering Sevinne list: 12 rocks but only 9 cheap (<= 2 MV), so
-    # only the draw trim applies -> 34. Its 35 lands are inside [34, 38]:
-    # no GAP (the original version of this PR still reported one).
     sevinne = Census(lands=35, ramp_rock_dork=12, fast_mana=9, draw=14, avg_mv_nonland=2.84, nonland_count=64)
-    assert community_land_floor(sevinne) == COMMUNITY_LAND_FLOOR - 1
     result = compute_land_formula(sevinne, threshold=5)
-    assert result.floored is True and result.computed == 34
+    assert round(result.karsten_base + result.adjustment) == 27
+    assert result.floored is True and result.computed == LAND_FLOOR == 35
     assert result.diverges is False
 
-    # 10+ cheap ramp AND heavy draw: both trims -> 33.
-    both = Census(lands=33, ramp_rock_dork=11, fast_mana=10, draw=8, avg_mv_nonland=2.5, nonland_count=66)
-    assert community_land_floor(both) == LAND_FLOOR_MIN
+    # No trimming below 35 for heavy cheap ramp + draw (§7.4: the low
+    # counts in the literature need fast mana that bracket 3 doesn't allow).
+    rocky = Census(lands=35, ramp_rock_dork=14, fast_mana=12, draw=12, avg_mv_nonland=2.5, nonland_count=64)
+    assert compute_land_formula(rocky, threshold=4).computed == LAND_FLOOR
 
-    # Outside the range by >= 2 is still flagged, at either edge.
-    assert compute_land_formula(Census(**{**vars(sevinne), "lands": 32}), threshold=5).diverges is True
-    assert compute_land_formula(Census(**{**vars(sevinne), "lands": LAND_FLOOR_MAX + 2}), threshold=5).diverges is True
+    # Floored: anything from 35 to the 37 default is accepted; >= 2 outside
+    # either edge is still flagged.
+    def at(lands):
+        return compute_land_formula(Census(**{**vars(sevinne), "lands": lands}), threshold=5)
+    assert not at(LAND_DEFAULT).diverges and not at(LAND_FLOOR - 1).diverges
+    assert at(LAND_FLOOR - 2).diverges and at(LAND_DEFAULT + 2).diverges
 
-    # The threshold >= 6 rule (37) decides the number, not the community
-    # floor: not reported as floored.
+    # The threshold >= 6 rule (37) decides the number, not the floor.
     slow = compute_land_formula(Census(**{**vars(sevinne), "lands": 37}), threshold=6)
     assert slow.computed == 37 and slow.floored is False
 
@@ -195,3 +188,16 @@ def test_land_formula_floored_at_community_minimum():
     heavy_result = compute_land_formula(heavy, threshold=8)
     assert heavy_result.floored is False
     assert heavy_result.computed == max(37, round(heavy_result.karsten_base + heavy_result.adjustment))
+
+
+def test_land_drop_check_is_reported_not_gating():
+    # §7.4's gate (P(3 by T3) >= 85%, P(4 by T4) >= 75%) fails at every
+    # count from 33 to 39 as written, so it is reported, not applied.
+    from deckdoctor.audit import AuditReport, RampTarget, ThresholdInfo
+
+    census = Census(lands=35, ramp_rock_dork=12, fast_mana=9, draw=14, avg_mv_nonland=2.84, nonland_count=64)
+    lf = compute_land_formula(census, threshold=5)
+    assert lf.computed == 35  # not raised by the failing check
+    assert round(lf.land_drop_check["p_3_lands_by_turn_3"], 2) == 0.76
+    text = AuditReport("t", census, ThresholdInfo(5, False, 5, 5), lf, RampTarget(5, 0, 10, 12), []).render()
+    assert "P(3 by T3) 76% [target 85%]" in text and "reported only" in text

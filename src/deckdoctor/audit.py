@@ -35,6 +35,7 @@ from deckdoctor.card_roles import (
     summarize_roles,
 )
 from deckdoctor.deck import Card, Deck
+from deckdoctor.probability import p_land_drop_check
 
 REMOVAL_TAGS = {
     "removal-creature", "removal-artifact", "removal-enchantment",
@@ -53,28 +54,17 @@ WIPE_TAGS = {"sweeper", "sweeper-one-sided", "sweeper-graveyard"}
 # the tag is NOT proof a wipe is safe, only its presence is a solid signal.
 SYMMETRICAL_TAG = "symmetrical"
 LOW_TOUGHNESS_THRESHOLD = 2  # ref deckbuilding.md §4.4's qualitative note, no sourced number -- a starting point
-COMMUNITY_LAND_FLOOR = 35  # ref §0.2/community: the widely-cited Commander minimum (see community_land_floor)
-LAND_FLOOR_MIN = 33  # sanctioned floor for decks with 10+ cheap ramp AND heavy draw (community guidance)
-LAND_FLOOR_MAX = 38  # top of the community range; with the floor applied, a deck inside [floor, 38] is not flagged
-
-
-CHEAP_RAMP_FOR_TRIM = 10  # "10+ one/two-mana acceleration" (Nerd Leagues)
-DRAW_FOR_TRIM = 6  # the tool's own reading of "engines that churn through the library"
-
-
-def community_land_floor(census: "Census") -> int:
-    """Bottom of the community land range for this deck (see
-    COMMUNITY_LAND_FLOOR): 35 by default, trimmed by one for each of the
-    two traits the guidance names -- 10+ cheap (mana value <= 2) rocks/
-    dorks, i.e. `census.fast_mana`, and heavy draw -- down to LAND_FLOOR_MIN.
-    The thresholds and the one-per-trait stacking are this tool's reading
-    of the quoted guidance, not sourced numbers; the range itself is."""
-    floor = COMMUNITY_LAND_FLOOR
-    if census.fast_mana >= CHEAP_RAMP_FOR_TRIM:
-        floor -= 1
-    if census.draw >= DRAW_FOR_TRIM:
-        floor -= 1
-    return max(LAND_FLOOR_MIN, floor)
+# deckbuilding.md §7.4 ("Resolved: P13"): the formula's full-weight fast-mana
+# subtraction is right about mana availability and wrong about land-drop
+# reliability ("a Sol Ring does not let you play a land"), so the land target
+# is floored at 35 and 37 stays the default count.
+LAND_FLOOR = 35
+LAND_DEFAULT = 37
+# §7.4's land-drop gate: P(>=3 lands by turn 3) / P(>=4 by turn 4), on the
+# draw. The doc calls these thresholds provisional; as written they fail at
+# every count from 33 to 39 (no mulligans modelled), so the check is REPORTED
+# and does not raise the target until it is calibrated.
+LAND_DROP_TARGETS = {"p_3_lands_by_turn_3": 0.85, "p_4_lands_by_turn_4": 0.75}
 
 
 # Ramp/draw roles come from deckdoctor.card_roles (Forge structure first,
@@ -150,7 +140,8 @@ class LandFormula:
     computed: int
     actual: int
     diverges: bool  # |computed - actual| >= 2, ref §1
-    floored: bool = False  # computed was raised to COMMUNITY_LAND_FLOOR
+    floored: bool = False  # computed was raised to LAND_FLOOR (deckbuilding.md §7.4)
+    land_drop_check: dict[str, float] = field(default_factory=dict)  # §7.4 / probability.p_land_drop_check
 
 
 @dataclass
@@ -210,12 +201,19 @@ class AuditReport:
             f"  Karsten base       {self.land_formula.karsten_base:.1f}",
             f"  ref §0.2 adjustment {self.land_formula.adjustment:+.1f}",
             f"  computed           {self.land_formula.computed}"
-            + (f"  (community floor applied -- the raw curve model says"
-               f" {round(self.land_formula.karsten_base + self.land_formula.adjustment)},"
-               f" {self.land_formula.computed}-{LAND_FLOOR_MAX} is the community range for this deck"
-               " (35, one less each for 10+ cheap ramp and heavy draw))" if self.land_formula.floored else ""),
+            + (f"  (floor applied, ref §7.4 -- the raw curve model says"
+               f" {round(self.land_formula.karsten_base + self.land_formula.adjustment)}, but cheap rocks"
+               f" don't make land drops; {LAND_FLOOR}-{LAND_DEFAULT} accepted)" if self.land_formula.floored else ""),
             f"  actual             {self.land_formula.actual}",
         ]
+        if self.land_formula.land_drop_check:
+            check = self.land_formula.land_drop_check
+            lines.append(
+                f"  land drops (ref §7.4, on the draw, no mulligans): "
+                f"P(3 by T3) {check['p_3_lands_by_turn_3']:.0%} [target {LAND_DROP_TARGETS['p_3_lands_by_turn_3']:.0%}], "
+                f"P(4 by T4) {check['p_4_lands_by_turn_4']:.0%} [target {LAND_DROP_TARGETS['p_4_lands_by_turn_4']:.0%}] "
+                f"-- reported only; the targets are provisional and not yet calibrated"
+            )
         if self.land_formula.diverges:
             lines.append(
                 f"  ** DIVERGES by {abs(self.land_formula.computed - self.land_formula.actual)} "
@@ -424,28 +422,16 @@ def compute_land_formula(census: Census, threshold: float, commanders: int = 1) 
     computed = karsten_base + adjustment
     if threshold >= 6:
         computed = max(computed, 37)
-    # Community floor: 35 lands is the widely-cited minimum for Commander
-    # (CoolstuffInc's mana-base surveys, EDH forums, and precon templates
-    # all converge on 35-38 as the sane range, with 35 named as the
-    # "never below" line even for low-curve decks with heavy ramp).
-    # The Karsten curve model answers a narrower question -- "lands needed
-    # to hit the first N drops on time with rocks substituting" -- and can
-    # legitimately land in the high 20s for a cheap, rocky deck, where a
-    # real Commander game (multiplayer, 10+ turns, rock vulnerability to
-    # wipes, no draw guarantee) mana-screws you. Ramp substitution shrinks
-    # with each wiped rock; lands don't. So the formula's output is floored
-    # at the community minimum and reported as a target, never below it.
-    # When the floor decides the number, the curve model has no usable
-    # point estimate for this deck, so the community RANGE [floor, 38] is
-    # the target: a deck inside it is not flagged (a 35-land Sevinne list
-    # with a raw model of 27 and a floor of 34 is fine), and outside it the
-    # usual >= 2 divergence tolerance applies to the nearer edge.
-    floor = community_land_floor(census)
-    floored = round(computed) < floor  # after the threshold>=6 rule, so 37 isn't reported as the floor
-    computed = max(computed, floor)
+    # deckbuilding.md §7.4: target = max(computed, 35). When the floor
+    # decides the number the curve model has no usable point estimate for
+    # this deck, so anything from the floor to the 37 default is accepted
+    # (a 35-land Sevinne list with a raw model of 27 is not "8 too many");
+    # outside that, the usual >= 2 tolerance applies to the nearer edge.
+    floored = round(computed) < LAND_FLOOR  # after the threshold >= 6 rule, so its 37 isn't reported as the floor
+    computed = max(computed, LAND_FLOOR)
     computed_int = round(computed)
     if floored:
-        diverges = census.lands <= floor - 2 or census.lands >= LAND_FLOOR_MAX + 2
+        diverges = census.lands <= LAND_FLOOR - 2 or census.lands >= LAND_DEFAULT + 2
     else:
         diverges = abs(computed_int - census.lands) >= 2
     return LandFormula(
@@ -455,6 +441,7 @@ def compute_land_formula(census: Census, threshold: float, commanders: int = 1) 
         actual=census.lands,
         diverges=diverges,
         floored=floored,
+        land_drop_check=p_land_drop_check(census.lands),
     )
 
 
