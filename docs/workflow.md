@@ -124,18 +124,45 @@ consistency:
 
 Run `deckdoctor consistency decks/example.txt --format json`, or include it in health with `deckdoctor health decks/example.txt --consistency --format json`. Inspect the retained-hand/draw distributions, role overlap, mulligans, goal intervals and representative trials alongside the template checks. Rejected mulligan hands and bottomed cards do not count as available ingredients. Defaults are seven cards, one free mulligan, at most two mulligans and six normal draws. Unknown role evidence produces an unsupported result, not a zero-percent conclusion. Source counts and front-face land policy do not prove that spells can be cast. No simulated execution or win-rate claim follows from an access rate.
 
+## Whole-deck optimizationWhen the request is whole-deck optimization (not a single-slot question), use the confirmed gameplan, pod context, budget, collection, exclusions, pins, configured bracket and the user's existing authorization as the binding inputs. Passing `health`/`audit` floors is a sanity check, not the objective -- a deck can clear every floor and still fail the user's actual plan.
+
+Consider coordinated packages, not isolated swaps: enablers, payoffs, lands, ramp, draw, protection and recovery are one system, so a package that changes the draw engine may need its land count or curve to move with it. Validate the complete batch with `validate --swaps` and evaluate the COMPLETE prospective deck (rerun the evidence pass against the prospective state, or use the structural before/after summaries), not per-pair. Explain gains, losses, uncertainty and candidate-pool coverage honestly: what roles the local pool could not retrieve candidates for, and what was therefore never considered.
+
+## Preliminary community discovery passWhen browsing is available and the user did not request offline-only work, run a short, bounded discovery pass BEFORE local analysis, and say you are doing it:
+
+- 2–4 focused searches for the commander, the strategy and the budget/bracket context.
+- Inspect up to six useful sources; nominate up to ten cards or packages as candidate discoveries.
+- Cite URLs and access dates in the proposal; preserve package dependencies (a discovered "package" is cards PLUS the reasons they go together).
+- Resolve discovered names to canonical identities against the local mirror and verify their actual current rules text before proposing them -- community pages go stale.
+- Apply the user's constraints (budget, collection, exclusions, pins, bracket) and identify promising candidates the local tools' pools omit -- that gap is the discovery pass's main value.
+- Merge eligible discoveries into the local candidate pool and use named `compare` for cards outside supported roles. Discovery supplements local retrieval; it does not replace it.
+- Popularity or "this card is OP" claims are hypotheses about prevalence, never performance evidence for this deck.
+- Reuse the discovery packet across the session. If browsing is unavailable, say so plainly and continue with local tools only. The Python core never requires a live API; the discovery pass is an optional preface, not a dependency.
+
 ## Alternatives and swaps
 
 Use `deckdoctor card "Card A" --format json` to inspect full current card evidence and face details. Compact text lookup is abbreviated. Use `candidates` or `upgrades` to retrieve legal, colour-compatible alternatives, then compare supported roles, costs, conditions, and full text. A shared tag supports retrieval; it does not prove that one card is better. Respect pins and rejected swaps in the sibling YAML feedback log.
 
 Validate the complete proposed batch with `deckdoctor validate decks/example.txt --swaps proposal.json --format json`. The proposal format is `{"schema_version":1,"swaps":[{"cut":"Card A","add":"Card B","quantity":1}]}`. Optional `--pool pool.json` restricts additions to `{"schema_version":1,"cards":["Card B"],"provenance":{}}`.
 
-Acceptance checks structural legality, pins, rejected pairs and batch constraints. Review the before/after quality findings and unknown prospective combo data separately; an accepted batch is not a gameplay endorsement. This command produces an in-memory prospective diff and leaves the deck file unchanged. Present proposed cuts/additions with evidence and caveats. Save feedback only when the user asks or supplies a verdict:
+Acceptance checks structural legality, pins, rejected pairs and batch constraints. The current Game Changer cap violations in `quality_findings` are QUALITY WARNINGS, not hard acceptance gates: an accepted batch may still breach the configured bracket's cap, and structural acceptance never establishes budget compliance or complete bracket compliance (combo/bracket cache data may be missing or stale -- see `combo_status`/`unknowns`). Review the before/after quality findings and unknown prospective combo data separately; an accepted batch is not a gameplay endorsement. This command produces an in-memory prospective diff and leaves the deck file unchanged. Present proposed cuts/additions with evidence and caveats. Save feedback only when the user asks or supplies a verdict:
 
 ```sh
 deckdoctor feedback decks/example.txt swap --current "Card A" --suggested "Card B" --status rejected --reason "user's reason"
 deckdoctor feedback decks/example.txt pin --card "Card C" --reason "user's reason"
 ```
+
+## Shared constraint policy (versioned)
+
+All constraint handling is classified by ONE shared, versioned policy (`src/deckdoctor/constraint_policy.py`, embedded as `constraint_policy` in swap results):
+
+- **Structural legality** (game-enforced: commander legality, colour identity, singleton, size, eligibility): blocking errors, with the single recorded-exception downgrade (`legality_exception_accepted`, visible warning).
+- **Explicit user restrictions** (pins, rejected pairs, playgroup exclusions): blocking where the user's authority applies; never silently dropped.
+- **Heuristic performance goals** (bracket caps, category floors, quality findings): visible warnings, never acceptance gates.
+
+Evidence discipline across all classes: missing prices, inventory/collection data, or required combo evidence are UNKNOWN and never pass. Budget and inventory accounting is per-card-quantity (one owned copy cannot back two slots). Every classification carries provenance. Bracket enforcement is explicitly versioned so future tightening cannot silently change existing behavior. Acceptance is severity-based: an accepted batch may still carry warnings.
+
+Later milestones (not yet built, do not claim otherwise): explicit plan objectives; bounded whole-package search; meaningful trade-off alternatives; supported evaluation with held-out trials; deployment models and calibration against real games. The current access sampling measures INGREDIENTS SEEN, not execution and not win rate; equal seeds alone do not establish paired comparisons. Never claim a globally optimal deck or implement speculative scoring.
 
 ## Experimental route
 

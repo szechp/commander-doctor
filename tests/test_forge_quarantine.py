@@ -19,6 +19,7 @@ import pytest
 
 from deckdoctor.cli import main
 from deckdoctor.db import SCHEMA
+import deckdoctor.forge_batch as forge_batch
 from deckdoctor.forge_batch import (
     BatchResult,
     ForgeOutputError,
@@ -162,6 +163,7 @@ def test_missing_java_executable_raises_cleanly(tmp_path, monkeypatch):
     jar.write_bytes(b"")
     deck = tmp_path / "deck.txt"
     deck.write_text("1 Fixture Commander\n")
+    monkeypatch.setattr(forge_batch, "FORGE_GUI_DESKTOP_DIR", str(tmp_path))
 
     def _raise_not_found(*a, **kw):
         raise FileNotFoundError("no such file")

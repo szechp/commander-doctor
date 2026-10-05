@@ -209,6 +209,7 @@ def main(argv: list[str] | None = None) -> int:
     p_edhrec.add_argument("deck", help="path to a decklist, e.g. decks/ugluk.txt")
     p_edhrec.add_argument("--threshold", type=float, default=None, help="inclusion rate below which a card is flagged (default 0.02 = 2%%)")
     p_edhrec.add_argument("--refresh", action="store_true", help="bypass the weekly cache")
+    p_edhrec.add_argument("--db", default=None, help="card database path (default: DECKDOCTOR_DB, then data/deckdoctor.sqlite3)")
 
     p_health = sub.add_parser("health", help="one-page health check: audit/coverage/defence/colours (+ EDHREC if cached) as a single table")
     p_health.add_argument("deck", help="path to a decklist, e.g. decks/ugluk.txt")
@@ -549,7 +550,7 @@ def main(argv: list[str] | None = None) -> int:
         from deckdoctor.audit import compute_threshold
         from deckdoctor.db import connect_readonly
         from deckdoctor.deck import load_deck
-        from deckdoctor.deck_config import load_deck_config
+        from deckdoctor.deck_config import config_path_for, load_deck_config
         from deckdoctor.defence import compute_defence
         from deckdoctor.assessment_reports import assessment_report
 
@@ -560,7 +561,8 @@ def main(argv: list[str] | None = None) -> int:
         t = compute_threshold(deck, threshold_override)
         report = compute_defence(deck, con, t.threshold, board_presence=args.board_presence)
         structured = assessment_report("defence", report, deck, con, status="approximate",
-                                       limitation="Survival-window targets are heuristic.")
+                                       limitation="Survival-window targets are heuristic.",
+                                       config_path=config_path_for(args.deck))
         con.close()
         print(structured.to_json() if args.format == "json" else report.render())
         return 0
@@ -661,11 +663,15 @@ def main(argv: list[str] | None = None) -> int:
         return 0
 
     if args.command == "edhrec":
-        from deckdoctor.db import connect
+        from deckdoctor.db import connect_readonly
         from deckdoctor.deck import load_deck
         from deckdoctor.edhrec import NEAR_UNPLAYED_THRESHOLD, fetch_commander_data, find_near_unplayed_cards, render
 
-        con = connect(DEFAULT_DB)
+        try:
+            con = connect_readonly(args.db)
+        except FileNotFoundError as exc:
+            print(str(exc), file=sys.stderr)
+            return 3
         deck = load_deck(args.deck, con)
         con.close()
         data = fetch_commander_data(deck.commander.name, force=args.refresh)
@@ -682,7 +688,7 @@ def main(argv: list[str] | None = None) -> int:
         from deckdoctor.assessment_reports import health_report
         from deckdoctor.db import connect_readonly
         from deckdoctor.deck import load_deck
-        from deckdoctor.deck_config import load_deck_config
+        from deckdoctor.deck_config import config_path_for, load_deck_config
         from deckdoctor.health import HealthRow, compute_health_summary, render_table
 
         con = connect_readonly(args.db)
@@ -703,7 +709,7 @@ def main(argv: list[str] | None = None) -> int:
         )
         if args.edhrec and edhrec_data is None:
             summary.rows.append(HealthRow("EDHREC guardrail", "unavailable", "cached/provider data unavailable"))
-        structured = health_report(summary, deck, con)
+        structured = health_report(summary, deck, con, config_path=config_path_for(args.deck))
         if args.consistency:
             from deckdoctor.deck_config import config_path_for
             from deckdoctor.reports import Finding
