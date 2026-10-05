@@ -184,3 +184,47 @@ def test_cli_validate_swaps_reuses_the_cached_combo_data_without_a_network_call(
     payload = json.loads(capsys.readouterr().out)
     assert payload["swaps"]["combo_status"] == "approximate"
     assert payload["swaps"]["combo_findings"][0]["code"] == "prospective_bracket_estimate"
+
+
+def _combo(*cards, produces="Infinite damage"):
+    return {
+        "combo": {"uses": [{"card": {"name": name}} for name in cards], "manaValueNeeded": 4,
+                  "produces": [{"feature": {"name": produces}}]},
+        "speed": 2, "definitelyTwoCard": len(cards) == 2, "arguablyTwoCard": len(cards) == 2,
+        "massLandDenial": False, "extraTurn": False, "lock": False, "relevant": True,
+    }
+
+
+def test_cut_that_breaks_a_known_combo_is_warned(fixture_db, fixture_deck):
+    # A combo piece looks like a weak standalone card to role logic (the
+    # Ugluk/Sevinne rebuild failures); the deck's own Spellbook cache says
+    # otherwise, so cutting it is a warning, not a silent "upgrade".
+    deck = _deck(fixture_db, fixture_deck)
+    cache = {"schema_version": 1, "deck_fingerprint": combos._request_fingerprint(deck), "cached_at": 1,
+             "response": {"bracketTag": "C", "cards": [], "combos": [
+                 _combo("Phyrexian Vindicator", "Fixture Plains 3"),
+                 _combo("Fixture Plains 5", "Fixture Plains 6"),
+             ]}}
+    broken = validate_swaps(deck, {"schema_version": 1, "swaps": [
+        {"cut": "Phyrexian Vindicator", "add": "Replacement A", "quantity": 1},
+    ]}, fixture_db, combo_data=cache)
+    assert broken.accepted  # a warning, never a block: the owner may mean it
+    found = [f for f in broken.quality_findings if f["code"] == "breaks_combo"]
+    assert found == [{"code": "breaks_combo", "status": "checked", "outcome": "warning",
+                      "cut": ["Phyrexian Vindicator"], "combo": ["Phyrexian Vindicator", "Fixture Plains 3"],
+                      "produces": ["Infinite damage"]}]
+
+    untouched = validate_swaps(deck, {"schema_version": 1, "swaps": [
+        {"cut": "Fixture Plains 0", "add": "Replacement A", "quantity": 1},
+    ]}, fixture_db, combo_data=cache)
+    assert not [f for f in untouched.quality_findings if f["code"] == "breaks_combo"]
+    assert not any("combo pieces were not checked" in u for u in untouched.unknowns)
+
+
+def test_combo_pieces_unchecked_without_a_cache_is_an_unknown(fixture_db, fixture_deck):
+    deck = _deck(fixture_db, fixture_deck)
+    result = validate_swaps(deck, {"schema_version": 1, "swaps": [
+        {"cut": "Phyrexian Vindicator", "add": "Replacement A", "quantity": 1},
+    ]}, fixture_db)
+    assert result.accepted
+    assert any("combo pieces were not checked" in u for u in result.unknowns)

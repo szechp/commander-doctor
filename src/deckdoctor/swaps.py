@@ -86,6 +86,41 @@ def _quality_findings(before: dict[str, Any], after: dict[str, Any], config: Dec
     return tuple(findings)
 
 
+def _combo_break_findings(
+    deck: Deck, final: Counter, combo_data: dict[str, Any] | None,
+) -> tuple[tuple[dict[str, Any], ...], str | None]:
+    """Combos the CURRENT deck has (per its fingerprint-bound Commander
+    Spellbook cache) that the batch would break: a piece is cut and not
+    re-added. Spellbook's own combo list is evidence, not a heuristic, so
+    this is the one mechanical "engine card" signal worth enforcing -- it
+    would have flagged cutting a combo piece as "redundant" outright.
+    Returns (findings, unknown_note); a missing/stale cache is an unknown,
+    never an all-clear."""
+    from deckdoctor.combos import _cache_data, _report_from_data
+
+    note = ("combo pieces were not checked: no Commander Spellbook cache bound to the current decklist "
+            "(run `deckdoctor combos <deck> --refresh`)")
+    if combo_data is None:
+        return (), note
+    try:
+        bound = _cache_data(deck, combo_data)
+        report = _report_from_data(deck, bound) if bound is not None else None
+    except (KeyError, TypeError, ValueError):
+        report = None
+    if report is None:
+        return (), note
+    findings = []
+    for combo in report.combos:
+        lost = sorted({name for name in combo.cards if name != deck.commander.name and final.get(name, 0) <= 0})
+        if lost:
+            findings.append({
+                "code": "breaks_combo", "status": "checked", "outcome": "warning",
+                "cut": lost, "combo": list(combo.cards),
+                "produces": [p for p in combo.produces if p],
+            })
+    return tuple(findings), None
+
+
 def validate_swaps(
     deck: Deck, proposal: object, metadata: sqlite3.Connection, *,
     pool: dict[str, Any] | None = None, config: DeckConfig | None = None,
@@ -231,6 +266,10 @@ def validate_swaps(
         structural_before = _structural_summary(deck, metadata)
         structural_after = _structural_summary(prospective, metadata)
         quality_findings = _quality_findings(structural_before, structural_after, config)
+        combo_breaks, combo_note = _combo_break_findings(deck, final, combo_data)
+        quality_findings += combo_breaks
+        if combo_note:
+            unknowns.append(combo_note)
     return SwapValidationResult(
         not blocking, tuple(diagnostics), diff, prospective if not blocking else None,
         pool_bound=pool is not None, pool_provenance=provenance,
