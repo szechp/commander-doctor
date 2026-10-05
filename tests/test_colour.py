@@ -83,3 +83,23 @@ def test_token_producing_card_is_not_counted_as_a_mana_source(fixture_db, fixtur
     # either false-positive card were still being counted.
     assert report.total_sources["B"] == 24
     assert report.total_sources["R"] == 27
+
+
+def test_render_counts_spells_not_colour_requirements():
+    # Requirements are per (spell, colour): a two-colour spell short on
+    # both colours is one spell short, and an unknown floor is reported as
+    # not assessable rather than as clearing the target.
+    from deckdoctor.colour import CardRequirement, ColourReport
+
+    reqs = [
+        CardRequirement("Two Colour Spell", "B", 2, 3, floor=20, sources=10, untapped_sources=10),
+        CardRequirement("Two Colour Spell", "R", 2, 3, floor=20, sources=10, untapped_sources=10),
+        CardRequirement("Easy Spell", "B", 1, 2, floor=12, sources=20, untapped_sources=20),
+        CardRequirement("Odd Spell", "R", 1, 2, floor=None, sources=20, untapped_sources=20, supported=False),
+    ]
+    report = ColourReport(deck_name="t", total_sources={"B": 20, "R": 20}, untapped_sources={},
+                          requirements=reqs)
+    text = report.render()
+    assert "1/3 spells clear it, 1 fall short, 1 not assessable" in text
+    assert "Two Colour Spell: " in text and "chance of 2 B sources by turn 3" in text
+    assert "you have 10" in text

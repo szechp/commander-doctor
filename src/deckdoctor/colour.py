@@ -234,14 +234,29 @@ class ColourReport:
             return "\n".join(lines)
 
         unmet = self.unmet
-        lines.append(f"{len(self.requirements)} cards checked, {len(unmet)} short of their floor "
-                      f"(target: P(enough sources on curve) >= {TARGET_P:.0%})")
+        # Worded as what a player experiences -- per-spell odds on curve --
+        # rather than "61 cards short", which read like missing cards.
+        # Requirements are per (spell, colour), so spells are counted by
+        # name: a spell falls short if any of its colours does, and one with
+        # an unknown floor is reported as not assessable, never as passing.
+        short = {r.name for r in unmet}
+        unknown = {r.name for r in self.requirements if r.meets_floor is None} - short
+        total = {r.name for r in self.requirements}
+        summary = (f"Colour odds on curve (target: >= {TARGET_P:.0%} chance of enough coloured sources "
+                   f"by each spell's turn): {len(total - short - unknown)}/{len(total)} spells clear it, "
+                   f"{len(short)} fall short")
+        if unknown:
+            summary += f", {len(unknown)} not assessable"
+        lines.append(summary)
         if unmet:
+            lines.append("  These aren't missing cards -- each line is one colour of one spell that this "
+                         f"mana base supports below {TARGET_P:.0%}:")
             lines.append("")
             for r in sorted(unmet, key=lambda r: -(r.shortfall or 0)):
+                p_colour = p_at_least(r.pips, r.sources, cards_seen_by_turn(r.turn), DECK_SIZE)
                 lines.append(
-                    f"  {r.name}: needs ~{r.floor} {r.colour} sources for a turn-{r.turn} cast "
-                    f"({r.pips} pip{'s' if r.pips > 1 else ''}), have {r.sources} unconditional -> short {r.shortfall}"
+                    f"  {r.name}: {p_colour:.0%} chance of {r.pips} {r.colour} source{'s' if r.pips > 1 else ''} "
+                    f"by turn {r.turn} (~{r.floor} {r.colour} sources needed for {TARGET_P:.0%}, you have {r.sources})"
                 )
         return "\n".join(lines)
 
