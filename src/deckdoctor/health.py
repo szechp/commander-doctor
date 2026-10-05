@@ -96,7 +96,11 @@ def compute_health_summary(
 
     rt = audit.ramp_target
     ramp_status = "SHORT" if rt.actual < rt.target else "OK"
-    rows.append(HealthRow("Ramp", ramp_status, f"{rt.actual} actual vs {rt.target} target"))
+    ramp_detail = f"{rt.actual} actual vs {rt.target} target"
+    if audit.census.forge_unparsed:
+        ramp_detail += (f"  (approximate: no Forge data for {len(audit.census.forge_unparsed)} nonland card(s), "
+                        f"{audit.census.ramp_from_tag_fallback} counted from oracle tags -- run `deckdoctor parse-forge`)")
+    rows.append(HealthRow("Ramp", ramp_status, ramp_detail))
 
     # Real gap fixed here (KNOWN_ISSUES.md): "Draw" rendered as `n/a` with
     # no floor at all, even though a floor already exists -- just not

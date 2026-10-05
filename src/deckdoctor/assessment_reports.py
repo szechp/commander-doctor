@@ -101,6 +101,17 @@ def audit_report(result, deck: Deck, con, *, config_path: str | os.PathLike[str]
         "fail" if result.land_formula.diverges else "pass", evidence=asdict(result.land_formula),
         limitations=["The land formula is a configured heuristic, not a castability proof."],
     )]
+    census = result.census
+    if census.forge_unparsed:
+        findings.append(Finding(
+            "audit.ramp_classification", "warning", "approximate",
+            f"{len(census.forge_unparsed)} nonland card(s) have no Forge data; ramp for them is counted from "
+            f"Scryfall oracle tags ({census.ramp_from_tag_fallback} found). Run `deckdoctor parse-forge`.",
+            "unknown",
+            evidence={"forge_unparsed": census.forge_unparsed,
+                      "ramp_from_oracle_tag_fallback": census.tagged_cards.get("ramp_from_oracle_tag_fallback", [])},
+            limitations=["Oracle tags identify ramp cards but not their mechanism precisely."],
+        ))
     return _report("audit", deck, con, result, findings, config_path=config_path)
 
 

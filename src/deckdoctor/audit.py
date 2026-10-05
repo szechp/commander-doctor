@@ -46,6 +46,10 @@ SYMMETRICAL_TAG = "symmetrical"
 LOW_TOUGHNESS_THRESHOLD = 2  # ref deckbuilding.md §4.4's qualitative note, no sourced number -- a starting point
 DRAW_TAGS = {"draw-engine", "pure-draw", "repeatable-draw", "burst-draw"}
 RAMP_TAGS = {"mana-rock", "mana-dork", "land-ramp"}
+# Fallback only for cards with NO Forge parse at all (`parsed IS NULL`): the
+# Scryfall oracle tag is then the only ramp evidence available. A card Forge
+# DID parse and found no mana/land-search ability stays out of the count.
+_RAMP_TAG_FALLBACK = (("mana-rock", "rock"), ("mana-dork", "dork"), ("land-ramp", "land_search"))
 
 
 def _is_land(card: Card) -> bool:
@@ -70,6 +74,11 @@ class Census:
     low_toughness_creature_count: int = 0  # toughness <= LOW_TOUGHNESS_THRESHOLD, numeric only
     creature_count_with_numeric_toughness: int = 0
     symmetrical_wipes: list[str] = field(default_factory=list)
+    # Nonland cards with no Forge parse in the mirror (`parse-forge` not run,
+    # or the card has no matching cardsfolder entry). Their ramp_kind is
+    # unknown, not "not ramp" -- counted via oracle-tag fallback instead.
+    forge_unparsed: list[str] = field(default_factory=list)
+    ramp_from_tag_fallback: int = 0
     tagged_cards: dict[str, list[str]] = field(default_factory=dict)  # category -> card names, for the report
 
     @property
@@ -182,6 +191,11 @@ class AuditReport:
             f"  target             {self.ramp_target.target}",
             f"  actual             {self.ramp_target.actual}",
         ]
+        if c.forge_unparsed:
+            lines.append(
+                f"  ** APPROXIMATE: {len(c.forge_unparsed)} nonland card(s) have no Forge data; "
+                f"{c.ramp_from_tag_fallback} counted as ramp from Scryfall oracle tags only"
+            )
         if self.category_flags:
             lines.append("")
             lines.append("Flags:")
@@ -201,9 +215,19 @@ def _card_tags(con: sqlite3.Connection, names: list[str]) -> dict[str, set[str]]
     return out
 
 
+def _unparsed_names(con: sqlite3.Connection, names: list[str]) -> set[str]:
+    unique = list(dict.fromkeys(names))
+    if not unique:
+        return set()
+    placeholders = ",".join("?" for _ in unique)
+    rows = con.execute(f"SELECT name FROM cards WHERE parsed IS NULL AND name IN ({placeholders})", unique)
+    return {row[0] for row in rows}
+
+
 def compute_census(deck: Deck, con: sqlite3.Connection) -> Census:
     names = [c.name for c in deck.library]
     tags_by_card = _card_tags(con, names)
+    unparsed = _unparsed_names(con, names)
 
     c = Census()
     # The commander is part of the deck-wide game-changer cap, while it
@@ -223,18 +247,27 @@ def compute_census(deck: Deck, con: sqlite3.Connection) -> Census:
 
         nonland_mvs.append(card.cmc)
 
-        if card.ramp_kind in ("rock", "dork"):
+        ramp_kind = card.ramp_kind
+        if card.name in unparsed:
+            c.forge_unparsed.append(card.name)
+            if ramp_kind is None:
+                ramp_kind = next((kind for tag, kind in _RAMP_TAG_FALLBACK if tag in card_tags), None)
+                if ramp_kind is not None:
+                    c.ramp_from_tag_fallback += 1
+                    c.tagged_cards.setdefault("ramp_from_oracle_tag_fallback", []).append(card.name)
+
+        if ramp_kind in ("rock", "dork"):
             c.ramp_rock_dork += 1
             c.tagged_cards.setdefault("ramp_rock_dork", []).append(card.name)
             if card.cmc <= 2:
                 c.fast_mana += 1
-        elif card.ramp_kind == "ritual":
+        elif ramp_kind == "ritual":
             c.ramp_ritual += 1
             c.tagged_cards.setdefault("ramp_ritual", []).append(card.name)
-        elif card.ramp_kind == "land_search":
+        elif ramp_kind == "land_search":
             c.ramp_land_search += 1
             c.tagged_cards.setdefault("ramp_land_search", []).append(card.name)
-        elif card.ramp_kind == "extra_land_drop":
+        elif ramp_kind == "extra_land_drop":
             c.ramp_extra_land_drop += 1
             c.tagged_cards.setdefault("ramp_extra_land_drop", []).append(card.name)
         elif card_tags & RAMP_TAGS:
@@ -362,6 +395,13 @@ def audit_deck(deck: Deck, con: sqlite3.Connection, threshold_override: float | 
     land_formula = compute_land_formula(census, threshold.threshold)
 
     flags: list[str] = []
+    if census.forge_unparsed:
+        flags.append(
+            f"{len(census.forge_unparsed)} of {census.nonland_count} nonland card(s) have no Forge data in the "
+            f"mirror, so ramp (and the land formula) for them falls back to Scryfall oracle tags "
+            f"({census.ramp_from_tag_fallback} found). Run `deckdoctor parse-forge` (SETUP.md step 3) "
+            f"for a mechanism-based count."
+        )
     if land_formula.diverges:
         flags.append(
             f"Land count diverges from the formula by "

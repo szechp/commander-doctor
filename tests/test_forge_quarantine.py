@@ -64,6 +64,10 @@ def _db_and_deck(tmp_path):
               type_line="Creature — Phyrexian", color_identity=("W",)),
     ]
     rows.extend(_card(f"Fixture Plains {i}", mana_cost="", cmc=0, type_line="Basic Land — Plains") for i in range(98))
+    # One card with Layer 2 data: the audit/health commands hard-stop on a
+    # mirror with no parsed cards (layer2 gate), and these tests exercise
+    # the Forge-quarantine assertion, not the gate itself.
+    rows.append((*_card("Fixture Parsed Rock", mana_cost="{2}", cmc=2, type_line="Artifact")[:13], None, "rock", None, None, None, None))
     con.executemany(
         "INSERT INTO cards (name,mana_cost,cmc,type_line,oracle_text,color_identity,colors,produced_mana,"
         "keywords,commander_legal,is_game_changer,layout,set_type,prereq,ramp_kind,draw_kind,parsed,power,toughness) "

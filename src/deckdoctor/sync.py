@@ -28,7 +28,7 @@ from datetime import datetime, timezone
 
 import requests
 
-from deckdoctor.db import EXCLUDED_LAYOUTS, EXCLUDED_SET_TYPES, connect
+from deckdoctor.db import EXCLUDED_LAYOUTS, EXCLUDED_SET_TYPES, connect, resolve_db_path
 
 BULK_INDEX_URL = "https://api.scryfall.com/bulk-data"
 USER_AGENT = "deckdoctor/0.1 (local commander deck audit tool)"
@@ -142,8 +142,9 @@ def _classification_signature(card_row: tuple, faces: list[tuple], tags: list[st
     return hashlib.sha256(json.dumps(relevant, sort_keys=True, separators=(",", ":")).encode()).hexdigest()
 
 
-def sync(db_path: str = "data/deckdoctor.sqlite3") -> None:
+def sync(db_path: str | None = None) -> None:
     t0 = time.time()
+    db_path = str(resolve_db_path(db_path))
 
     print("Fetching oracle_cards bulk URI...", file=sys.stderr)
     oracle_uri = _get_bulk_uri("oracle_cards")
