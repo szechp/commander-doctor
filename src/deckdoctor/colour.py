@@ -234,24 +234,14 @@ class ColourReport:
             return "\n".join(lines)
 
         unmet = self.unmet
-        # Worded as what a player actually experiences: per-spell odds of
-        # casting that card on curve, not "61 cards short", which read like
-        # a missing-cards error when it means "61 spells cast below the
-        # 90% confidence line in this exact mana base".
-        lines.append(
-            f"Cast odds on curve (target: >= {TARGET_P:.0%} chance you can cast each spell by its turn): "
-            f"{len(self.requirements) - len(unmet)}/{len(self.requirements)} spells make it, "
-            f"{len(unmet)} fall short in this mana base"
-        )
+        lines.append(f"{len(self.requirements)} cards checked, {len(unmet)} short of their floor "
+                      f"(target: P(enough sources on curve) >= {TARGET_P:.0%})")
         if unmet:
-            lines.append("  These aren't missing cards -- each line is one spell whose pip "
-                         "count this mana base can't support at 90% confidence:")
             lines.append("")
             for r in sorted(unmet, key=lambda r: -(r.shortfall or 0)):
-                p_cast = p_at_least(r.pips, r.sources, cards_seen_by_turn(r.turn), DECK_SIZE)
                 lines.append(
-                    f"  {r.name}: {p_cast:.0%} chance to cast on turn {r.turn} "
-                    f"(needs {r.pips} {r.colour}; ~{r.floor} {r.colour} sources for 90%, you have {r.sources})"
+                    f"  {r.name}: needs ~{r.floor} {r.colour} sources for a turn-{r.turn} cast "
+                    f"({r.pips} pip{'s' if r.pips > 1 else ''}), have {r.sources} unconditional -> short {r.shortfall}"
                 )
         return "\n".join(lines)
 
