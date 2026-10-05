@@ -178,6 +178,21 @@ def resolve_card_roles(con: sqlite3.Connection, names: Iterable[str]) -> dict[st
     }
 
 
+def classifier_stale(con: sqlite3.Connection) -> bool:
+    """True when the mirror's Forge data came from an older classifier than
+    this checkout's (`forge_parse.CLASSIFIER_VERSION`), or predates the
+    version stamp -- fixes such as Wood Elves' land search only take effect
+    after `parse-forge` re-runs."""
+    from deckdoctor.forge_parse import CLASSIFIER_VERSION
+
+    try:
+        has_parsed = con.execute("SELECT EXISTS(SELECT 1 FROM cards WHERE parsed IS NOT NULL)").fetchone()[0]
+        row = con.execute("SELECT value FROM sync_meta WHERE key = 'forge_classifier_version'").fetchone()
+    except sqlite3.Error:
+        return False
+    return bool(has_parsed) and (row is None or row[0] != CLASSIFIER_VERSION)
+
+
 def summarize_roles(roles: Iterable[CardRoles]) -> RoleSummary:
     """Roll up per-card calls (one entry per library copy) for one deck's
     nonland cards."""
@@ -236,7 +251,12 @@ def names_with_role(con: sqlite3.Connection, role: str) -> list[str]:
 
 
 def mirror_forge_coverage(con: sqlite3.Connection) -> float:
-    """Share of commander-legal nonland cards in the mirror with Forge data."""
+    """Share of commander-legal nonland cards in the mirror with Forge data.
+
+    Deliberately excludes every card whose type line mentions Land --
+    including artifact lands (Ancient Den) and spell // land MDFCs. Lands are
+    never ramp/draw candidates in the census (`audit._is_land`), so counting
+    them would only dilute the share that matters for role searches."""
     total, parsed = con.execute(
         "SELECT count(*), sum(parsed IS NOT NULL) FROM cards "
         "WHERE commander_legal = 1 AND type_line NOT LIKE '%Land%'"

@@ -186,3 +186,42 @@ def test_sync_runs_parse_forge_when_cardsfolder_is_present(tmp_path, monkeypatch
     calls.clear()
     assert cli.main(["sync", "--db", str(tmp_path / "x.db"), "--cardsfolder", str(tmp_path / "missing")]) == 0
     assert calls == [("sync", str(tmp_path / "x.db"))]
+
+
+def test_audit_flags_a_mirror_parsed_by_an_older_classifier():
+    from deckdoctor.card_roles import classifier_stale
+    from deckdoctor.forge_parse import CLASSIFIER_VERSION
+
+    con = _mirror()
+    assert classifier_stale(con) is True  # parsed data, no version stamp
+    con.execute("INSERT INTO sync_meta VALUES ('forge_classifier_version', ?)", [CLASSIFIER_VERSION])
+    assert classifier_stale(con) is False
+    con.execute("UPDATE cards SET parsed = NULL")
+    con.execute("UPDATE sync_meta SET value = '0'")
+    assert classifier_stale(con) is False  # nothing parsed: coverage, not staleness, reports it
+
+
+def test_parse_forge_stamps_the_classifier_version(fixture_db, tmp_path):
+    from deckdoctor.cli import main
+    from deckdoctor.db import get_meta
+    from deckdoctor.forge_parse import CLASSIFIER_VERSION
+
+    folder = tmp_path / "cardsfolder"
+    folder.mkdir()
+    (folder / "sol_ring.txt").write_text(
+        "Name:Sol Ring\nManaCost:1\nTypes:Artifact\nA:AB$ Mana | Cost$ T | Produced$ C | Amount$ 2\n",
+        encoding="utf-8",
+    )
+    assert main(["parse-forge", "--db", str(tmp_path / "fixture.sqlite3"), "--cardsfolder", str(folder)]) == 0
+    assert get_meta(fixture_db, "forge_classifier_version") == CLASSIFIER_VERSION
+
+
+def test_note_distinguishes_disagreements_from_missing_forge_data():
+    from deckdoctor.audit import role_source_note
+
+    parsed = [roles_from_row(f"P{i}", None, None, True, ()) for i in range(9)]
+    treasure = roles_from_row("Treasure Maker", None, None, True, ("mana-rock",))
+    note = role_source_note(summarize_roles(parsed + [treasure]))
+    assert "all 10 nonland" in note and "Treasure Maker" in note and "parse-forge" not in note
+    note = role_source_note(summarize_roles(parsed + [roles_from_row("U", None, None, False, ())]))
+    assert "9/10" in note and "parse-forge" in note

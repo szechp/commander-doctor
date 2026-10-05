@@ -29,6 +29,7 @@ from deckdoctor.card_roles import (
     DRAW_TAGS,
     MIN_DECK_FORGE_COVERAGE,
     RoleSummary,
+    classifier_stale,
     resolve_card_roles,
     roles_from_row,
     summarize_roles,
@@ -221,6 +222,13 @@ def _card_tags(con: sqlite3.Connection, names: list[str]) -> dict[str, set[str]]
 
 def role_source_note(roles: RoleSummary) -> str:
     """One line on where ramp/draw counts came from, for any report."""
+    if not roles.forge_unparsed:
+        # Full coverage: the only reason this isn't `checked` is a few
+        # Forge/tag disagreements -- say that, not a coverage problem.
+        flagged = sorted({name for names in roles.disagreements.values() for name in names})
+        return (f"Forge data for all {roles.nonland_cards} nonland card(s); "
+                f"{len(flagged)} card(s) where a Scryfall tag claims a role Forge does not find "
+                f"({', '.join(flagged)})")
     parts = [f"Forge data for {roles.forge_parsed}/{roles.nonland_cards} nonland card(s) "
              f"({roles.forge_coverage:.0%}, need {MIN_DECK_FORGE_COVERAGE:.0%} for a usable count)"]
     for role in ("ramp", "draw"):
@@ -407,6 +415,11 @@ def audit_deck(deck: Deck, con: sqlite3.Connection, threshold_override: float | 
     land_formula = compute_land_formula(census, threshold.threshold)
 
     flags: list[str] = []
+    if classifier_stale(con):
+        flags.append(
+            "The mirror's Forge data was parsed by an older classifier; re-run `deckdoctor parse-forge` "
+            "(or `deckdoctor sync`) so ramp/draw classification fixes take effect."
+        )
     role_status = census.roles.status
     if role_status == "unavailable":
         flags.append(

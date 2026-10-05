@@ -60,6 +60,10 @@ def _run_parse_forge(db: str | None, cardsfolder_arg: str) -> int:
     changes_before = con.total_changes
     n = apply_to_db(con, rows)
     matched = con.total_changes - changes_before
+    if matched:
+        from deckdoctor.db import set_meta
+        from deckdoctor.forge_parse import CLASSIFIER_VERSION
+        set_meta(con, "forge_classifier_version", CLASSIFIER_VERSION)
     con.close()
     print(f"{matched} mirror card(s) matched parsed Forge scripts; {n} cards in {db_path} now have Layer 2 data.",
           file=sys.stderr)
@@ -511,8 +515,8 @@ def main(argv: list[str] | None = None) -> int:
         sync(args.db)
         cardsfolder = _resolve_cardsfolder(args.cardsfolder)
         if cardsfolder.is_dir():
-            print("\nForge cardsfolder found -- running parse-forge so ramp/draw roles are classified...",
-                  file=sys.stderr)
+            print("\nForge cardsfolder found -- running parse-forge so ramp/draw roles are classified. "
+                  "This parses ~30k card scripts and usually takes a few minutes...", file=sys.stderr)
             return _run_parse_forge(args.db, str(cardsfolder))
         print(f"\nWARNING: no Forge cardsfolder at {cardsfolder} -- ramp/draw classification is missing "
               f"until you run `deckdoctor parse-forge` (SETUP.md step 3). Deck assessments will report those "

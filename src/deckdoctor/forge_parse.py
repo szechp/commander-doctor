@@ -407,6 +407,11 @@ def build_coverage_report(cardsfolder: Path) -> tuple[CoverageReport, list[tuple
     return report, rows
 
 
+# Bump whenever classify_ramp_kind/classify_draw_kind/the name join change
+# what they write, so readers can tell an existing mirror needs re-parsing.
+CLASSIFIER_VERSION = "2"
+
+
 def _match_mirror_names(con, rows: list[tuple]) -> list[tuple]:
     """Map parsed rows onto mirror names. Exact name first; otherwise a
     Forge face name that is the FRONT face of a multi-face Scryfall name
