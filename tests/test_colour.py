@@ -83,3 +83,48 @@ def test_token_producing_card_is_not_counted_as_a_mana_source(fixture_db, fixtur
     # either false-positive card were still being counted.
     assert report.total_sources["B"] == 24
     assert report.total_sources["R"] == 27
+
+
+def _fetch_row(con, name):
+    pm, text = con.execute("SELECT produced_mana, oracle_text FROM cards WHERE name = ?", [name]).fetchone()
+    return {"produced_mana": pm, "oracle_text": text}
+
+
+def test_fetchlands_count_only_colours_the_deck_can_fetch(fixture_db):
+    # Real bug found on a user's Sevinne list: Evolving Wilds / Terramorphic
+    # Expanse / Wooded Foothills have produced_mana NULL (Scryfall: they
+    # fetch rather than tap), so colour.py counted them as unknown. A fetch
+    # is a source only of colours it can actually find in THIS deck.
+    from deckdoctor.colour import _fetchland_colours
+
+    basics_wr = [(True, frozenset({"plains"})), (True, frozenset({"mountain"}))]
+    shock_br = [(False, frozenset({"swamp", "mountain"}))]  # Blood Crypt
+    foothills = _fetch_row(fixture_db, "Wooded Foothills")  # "a Mountain or Forest card"
+    wilds = _fetch_row(fixture_db, "Evolving Wilds")  # "a basic land card"
+    assert _fetchland_colours(foothills, basics_wr) == ["R"]  # no Forest in the deck: not green
+    assert _fetchland_colours(foothills, shock_br) == ["R"]  # finds Blood Crypt's Mountain type only
+    assert _fetchland_colours(wilds, basics_wr) == ["W", "R"]
+    assert _fetchland_colours(wilds, shock_br) == []  # "basic" only: a shockland is not a target
+    # Not a fetch at all.
+    assert _fetchland_colours(_fetch_row(fixture_db, "Blood Crypt"), basics_wr) is None
+
+
+def test_fetchland_in_deck_counts_as_a_full_source(fixture_db, tmp_path):
+    decklist = tmp_path / "fetch.txt"
+    decklist.write_text(
+        "1 Fixture Commander\n"
+        "1 Wooded Foothills\n"
+        "1 Evolving Wilds\n"
+        + "".join(f"1 Fixture Plains {i}\n" for i in range(97)),
+        encoding="utf-8",
+    )
+    deck = load_deck(str(decklist), fixture_db)
+    report = compute_colour_report(deck, fixture_db)
+    # 97 Plains + Evolving Wilds (finds a basic Plains) = 98, counted toward
+    # the per-card floors (unconditional), not parked as conditional.
+    assert report.total_sources["W"] == 98
+    assert report.unconditional_sources["W"] == 98
+    # Foothills can't find a Mountain or Forest here: contributes nothing,
+    # and is no longer reported as unknown evidence.
+    assert "R" not in report.total_sources and "G" not in report.total_sources
+    assert not any("Wooded Foothills" in u or "Evolving Wilds" in u for u in report.unknowns)
