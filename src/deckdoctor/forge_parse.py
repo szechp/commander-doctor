@@ -36,7 +36,7 @@ import re
 from dataclasses import dataclass, field
 from pathlib import Path
 
-from deckdoctor.roles import RoleEvidence, RoleOverride, extract_role_evidence
+from deckdoctor.roles import RoleEvidence, RoleOverride, extract_role_evidence, is_land_search_change_type
 
 # ---------------------------------------------------------------------------
 # Layer 0: raw file -> structured lines
@@ -160,23 +160,11 @@ _GRAVEYARD_KEYWORDS = {
 _COUNT_KEYWORDS_IN_TEXT = ("metalcraft", "delirium", "threshold", "descend", "hellbent", "landfall")
 
 
-_BASIC_LAND_TYPES = {"Plains", "Island", "Swamp", "Mountain", "Forest"}
-
-
 def _is_land_search_change_type(change_type: str) -> bool:
-    """"Land"/"Land.Basic" (Rampant Growth-style) OR a specific basic land
-    type name (Farseek: "Plains,Island,Swamp,Mountain", Nature's Lore:
-    "Forest") -- Forge doesn't always spell a land-search effect's
-    ChangeType$ with the generic "Land" prefix, it can list the exact
-    type(s) instead. Missed before this fix: Farseek and Nature's Lore --
-    two extremely common Commander ramp staples -- were classified
-    ramp_kind=None entirely, found via a real deck audit undercounting
-    ramp."""
-    if not change_type:
-        return False
-    if change_type.startswith("Land"):
-        return True
-    return any(tok.strip() in _BASIC_LAND_TYPES for tok in change_type.split(","))
+    """See `roles.is_land_search_change_type` -- one definition for both the
+    column classifier and the role evidence. Farseek/Nature's Lore (bare
+    basic types) and Wood Elves ("Card.Forest") were each once missed."""
+    return is_land_search_change_type(change_type)
 
 
 def _ramp_kind_from_ability(a: dict, is_creature: bool) -> str | None:
@@ -251,6 +239,15 @@ def classify_ramp_kind(card: ParsedCard) -> str | None:
     for t in card.triggers:
         if t.get("Origin") == "Hand" and "ChangeZone" in t.get("raw", ""):
             return "extra_land_drop"
+        # Burgeoning's trigger line has no Origin$ -- the hand->battlefield
+        # land drop lives in the Execute$ svar, which this used to miss.
+        execute = card.svars.get(t.get("Execute") or "")
+        if execute:
+            sub = _parse_kv_string(execute)
+            if (sub.get("DB") == "ChangeZone" and sub.get("Origin") == "Hand"
+                    and sub.get("Destination") == "Battlefield"
+                    and _is_land_search_change_type(sub.get("ChangeType") or "")):
+                return "extra_land_drop"
 
     for a in card.abilities:
         kind = _ramp_kind_from_ability(a, is_creature)
@@ -274,6 +271,16 @@ def classify_draw_kind(card: ParsedCard) -> str | None:
             return "repeatable"
         if a.get("SP") == "Draw":
             return "oneshot"
+    # Triggered draw lives in the trigger's Execute$ svar (Phyrexian Arena,
+    # Rhystic Study, Skullclamp, Mulldrifter) and was invisible to the
+    # abilities-only scan above. A trigger on this card itself entering the
+    # battlefield fires once (Mulldrifter); any other trigger recurs.
+    for t in card.triggers:
+        execute = card.svars.get(t.get("Execute") or "")
+        if execute and _parse_kv_string(execute).get("DB") == "Draw":
+            self_etb = (t.get("Mode") == "ChangesZone" and t.get("Destination") == "Battlefield"
+                        and t.get("ValidCard") == "Card.Self")
+            return "oneshot" if self_etb else "repeatable"
     return None
 
 
@@ -400,16 +407,46 @@ def build_coverage_report(cardsfolder: Path) -> tuple[CoverageReport, list[tuple
     return report, rows
 
 
+# Bump whenever classify_ramp_kind/classify_draw_kind/the name join change
+# what they write, so readers can tell an existing mirror needs re-parsing.
+CLASSIFIER_VERSION = "2"
+
+
+def _match_mirror_names(con, rows: list[tuple]) -> list[tuple]:
+    """Map parsed rows onto mirror names. Exact name first; otherwise a
+    Forge face name that is the FRONT face of a multi-face Scryfall name
+    ("Fire" -> "Fire // Ice", "Bonecrusher Giant" -> "Bonecrusher Giant //
+    Stomp") -- Forge names each face separately, Scryfall joins them, so an
+    exact-only join left every split/MDFC/adventure card unparsed. Back-face
+    rows and names with no home row are skipped; a mirror card is only ever
+    updated from one row."""
+    mirror_names = {row[0] for row in con.execute("SELECT name FROM cards")}
+    by_front: dict[str, list[str]] = {}
+    for name in mirror_names:
+        if " // " in name:
+            by_front.setdefault(name.split(" // ", 1)[0], []).append(name)
+    matched: dict[str, tuple] = {}
+    for name, ramp, draw, prereq_json, parsed_json in rows:
+        if name in mirror_names:
+            target = name
+        elif len(by_front.get(name, ())) == 1:
+            target = by_front[name][0]
+        else:
+            continue
+        matched.setdefault(target, (ramp, draw, prereq_json, parsed_json, target))
+    return list(matched.values())
+
+
 def apply_to_db(con, rows: list[tuple]) -> int:
-    """Joins parsed rows onto the `cards` table (built by sync.py) by name.
-    Cards in cardsfolder but not in the Scryfall mirror (un-oracle'd
-    variants, alternate-face rows) are silently skipped -- they have no
-    home row to update.
+    """Joins parsed rows onto the `cards` table (built by sync.py) by name
+    (see `_match_mirror_names` for multi-face cards). Cards in cardsfolder
+    but not in the Scryfall mirror (un-oracle'd variants, back faces) are
+    skipped -- they have no home row to update.
 
     One `executemany` in a single transaction, not one UPDATE per row --
     see sync.py's docstring for why that distinction is worth ~2 orders of
     magnitude on a set this size."""
-    reordered = [(ramp, draw, prereq_json, parsed_json, name) for name, ramp, draw, prereq_json, parsed_json in rows]
+    reordered = _match_mirror_names(con, rows)
     con.execute("BEGIN TRANSACTION")
     con.executemany(
         "UPDATE cards SET ramp_kind = ?, draw_kind = ?, prereq = ?, parsed = ? WHERE name = ?",

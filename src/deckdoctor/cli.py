@@ -29,6 +29,51 @@ def _open_validation_db(db_path: str) -> sqlite3.Connection:
         raise sqlite3.OperationalError(str(exc)) from exc
 
 
+def _resolve_cardsfolder(path: str) -> Path:
+    """Relative cardsfolder paths resolve from the working directory when
+    they exist there, else from the project root (like the database)."""
+    candidate = Path(path)
+    if candidate.is_absolute() or candidate.is_dir():
+        return candidate
+    from deckdoctor.db import PROJECT_ROOT
+    return PROJECT_ROOT / candidate
+
+
+def _run_parse_forge(db: str | None, cardsfolder_arg: str) -> int:
+    from deckdoctor.db import connect, resolve_db_path
+    from deckdoctor.forge_parse import apply_to_db, build_coverage_report
+
+    cardsfolder = _resolve_cardsfolder(cardsfolder_arg)
+    if not cardsfolder.is_dir():
+        print(f"Forge cardsfolder not found: {cardsfolder.resolve()} -- see SETUP.md step 3", file=sys.stderr)
+        return 2
+    report, rows = build_coverage_report(cardsfolder)
+    print(report.summary(), file=sys.stderr)
+    if not rows:
+        print(f"no Forge card scripts parsed under {cardsfolder.resolve()} -- nothing written", file=sys.stderr)
+        return 2
+    db_path = resolve_db_path(db)
+    if not db_path.is_file():
+        print(f"card database not found: {db_path} -- run `deckdoctor sync` first", file=sys.stderr)
+        return 3
+    con = connect(db_path)
+    changes_before = con.total_changes
+    n = apply_to_db(con, rows)
+    matched = con.total_changes - changes_before
+    if matched:
+        from deckdoctor.db import set_meta
+        from deckdoctor.forge_parse import CLASSIFIER_VERSION
+        set_meta(con, "forge_classifier_version", CLASSIFIER_VERSION)
+    con.close()
+    print(f"{matched} mirror card(s) matched parsed Forge scripts; {n} cards in {db_path} now have Layer 2 data.",
+          file=sys.stderr)
+    if matched == 0:
+        print("no parsed Forge card matched a card in the mirror -- is this the database `sync` built?",
+              file=sys.stderr)
+        return 2
+    return 0
+
+
 def _require_layer2(con, args) -> None:
     """Hard stop for role-dependent commands when Layer 2 is missing.
 
@@ -176,6 +221,8 @@ def main(argv: list[str] | None = None) -> int:
 
     p_sync = sub.add_parser("sync", help="Scryfall mirror + tags + game changers")
     p_sync.add_argument("--db", default=None, help="card database path (default: DECKDOCTOR_DB, then data/deckdoctor.sqlite3)")
+    p_sync.add_argument("--cardsfolder", default=DEFAULT_CARDSFOLDER,
+                        help="Forge cardsfolder; when present, sync runs parse-forge afterwards")
 
     p_parse = sub.add_parser("parse-forge", help="Forge cardsfolder -> ramp_kind/draw_kind/prereq/parsed (Layers 1-2, §3.1)")
     p_parse.add_argument("--db", default=None, help="card database path (default: DECKDOCTOR_DB, then data/deckdoctor.sqlite3)")
@@ -466,6 +513,14 @@ def main(argv: list[str] | None = None) -> int:
         from deckdoctor.sync import sync
 
         sync(args.db)
+        cardsfolder = _resolve_cardsfolder(args.cardsfolder)
+        if cardsfolder.is_dir():
+            print("\nForge cardsfolder found -- running parse-forge so ramp/draw roles are classified. "
+                  "This parses ~30k card scripts and usually takes a few minutes...", file=sys.stderr)
+            return _run_parse_forge(args.db, str(cardsfolder))
+        print(f"\nWARNING: no Forge cardsfolder at {cardsfolder} -- ramp/draw classification is missing "
+              f"until you run `deckdoctor parse-forge` (SETUP.md step 3). Deck assessments will report those "
+              f"counts as approximate or unavailable.", file=sys.stderr)
         return 0
 
     if args.command == "consistency":
@@ -497,38 +552,7 @@ def main(argv: list[str] | None = None) -> int:
         return 0 if result.ok else 2
 
     if args.command == "parse-forge":
-        from pathlib import Path
-
-        from deckdoctor.db import connect
-        from deckdoctor.forge_parse import apply_to_db, build_coverage_report
-
-        from deckdoctor.db import resolve_db_path
-
-        cardsfolder = Path(args.cardsfolder)
-        if not cardsfolder.is_dir():
-            print(f"Forge cardsfolder not found: {cardsfolder.resolve()} -- see SETUP.md step 3", file=sys.stderr)
-            return 2
-        report, rows = build_coverage_report(cardsfolder)
-        print(report.summary(), file=sys.stderr)
-        if not rows:
-            print(f"no Forge card scripts parsed under {cardsfolder.resolve()} -- nothing written", file=sys.stderr)
-            return 2
-        db_path = resolve_db_path(args.db)
-        if not db_path.is_file():
-            print(f"card database not found: {db_path} -- run `deckdoctor sync` first", file=sys.stderr)
-            return 3
-        con = connect(db_path)
-        changes_before = con.total_changes
-        n = apply_to_db(con, rows)
-        matched = con.total_changes - changes_before
-        con.close()
-        print(f"{matched} parsed Forge face(s) matched the mirror; {n} cards in {db_path} now have Layer 2 data.",
-              file=sys.stderr)
-        if matched == 0:
-            print("no parsed Forge card matched a card in the mirror -- is this the database `sync` built?",
-                  file=sys.stderr)
-            return 2
-        return 0
+        return _run_parse_forge(args.db, args.cardsfolder)
 
     if args.command == "hand":
         import random

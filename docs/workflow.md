@@ -100,7 +100,7 @@ deckdoctor coverage decks/example.txt --format json
 deckdoctor health decks/example.txt --format json
 ```
 
-Omit `--format json` for text. Findings distinguish `checked`, `approximate`, `unsupported`, and `unavailable`; outcome is separately `pass`, `fail`, `unknown`, or `not_applicable`. Unknown and unavailable evidence never means healthy. Colour counts estimate access to sources and do not prove that mana is deployed and usable on a given turn.
+Omit `--format json` for text. Findings distinguish `checked`, `approximate`, `unsupported`, and `unavailable`; outcome is separately `pass`, `fail`, `unknown`, or `not_applicable`. Unknown and unavailable evidence never means healthy. Ramp and draw counts come from one shared resolver (`card_roles.py`): the Forge classification first, Scryfall tags where Forge has no data, and a flagged disagreement where Forge parsed the card and a tag still claims the role (a Treasure maker counts as *indirect* ramp, never as a mana source). The `audit.role_sources` finding states each count's sources and the deck's Forge coverage: below 80% of nonland cards, ramp/draw are `unavailable` and their floors are not assessed — say so rather than quoting the number. Colour counts estimate access to sources and do not prove that mana is deployed and usable on a given turn.
 
 Bracket/combo checks use fingerprint-bound Commander Spellbook caches by default. Pass --refresh explicitly to request provider data over the network. Run them when bracket evidence matters, and report whether data was cached, unavailable, or refreshed explicitly. Missing provider data is not an empty result.
 

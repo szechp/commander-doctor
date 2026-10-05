@@ -41,9 +41,9 @@ uv run deckdoctor card "Sol Ring"
 
 Should print real oracle text (`{T}: Add {C}{C}.` and its role tags), not an error.
 
-## 3. Add Forge's card-structure data (strongly recommended)
+## 3. Add Forge's card-structure data (required)
 
-Scryfall gives card *text*; Forge gives card *structure* — parsed costs, targets, triggers — that the tool's deeper checks (removal reliability, role matching, upgrade suggestions) depend on. The tool still runs without this step, but a large share of its analysis silently degrades to "unknown" instead of a real answer.
+Scryfall gives card identity, legality, text and community role tags; Forge gives card *structure* — parsed costs, targets, triggers — which is how the tool tells a mana rock from a ritual from a land search, and what its deeper checks (removal reliability, role matching, upgrade suggestions) compare. Ramp and draw counts take the Forge classification first and fall back to Scryfall tags only where Forge has no data. Without this step, deck assessments report those counts as **unavailable** (never as zero), and `upgrades` / ramp-and-draw `candidates` refuse to run.
 
 Clone only Forge's card-script data folder, not its full game engine (this is a sparse checkout — verified to pull down ~265MB instead of the ~870MB a full clone would take):
 
@@ -59,6 +59,8 @@ Then parse it into the mirror:
 ```sh
 uv run deckdoctor parse-forge
 ```
+
+It exits non-zero, with the reason, if the cardsfolder is missing or empty, the database doesn't exist, or nothing matched. Once the cardsfolder exists, every later `deckdoctor sync` re-runs `parse-forge` automatically, so the two never drift apart.
 
 Verify:
 
@@ -84,8 +86,7 @@ uv run deckdoctor validate decks/<their-deck>.txt
 
 ## What's required vs. optional
 
-- **Required for anything to work at all:** step 2 (Scryfall sync).
-- **Strongly recommended, most of the tool's real value depends on it:** step 3 (Forge parse).
+- **Required:** step 2 (Scryfall sync) and step 3 (Forge parse). Without step 2 nothing runs; without step 3 ramp/draw counts are unavailable and the deeper comparisons refuse to run.
 - **Optional, fetched automatically per-deck on first use, needs no setup:** Commander Spellbook combo/bracket data (`deckdoctor combos`/`bracket`) and EDHREC inclusion-rate data (`deckdoctor edhrec`) — both cache to disk and never refetch unless explicitly asked to `--refresh`.
 - **Not needed for normal use, do not build or attempt to run it:** anything under `forge-spike/forge` beyond `res/cardsfolder` — that's Forge's actual Java game engine, explicitly quarantined behind `--experimental` in this tool and out of scope for a standard setup.
 
