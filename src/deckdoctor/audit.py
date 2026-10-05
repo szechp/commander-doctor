@@ -25,6 +25,14 @@ from __future__ import annotations
 import sqlite3
 from dataclasses import dataclass, field
 
+from deckdoctor.card_roles import (
+    DRAW_TAGS,
+    MIN_DECK_FORGE_COVERAGE,
+    RoleSummary,
+    resolve_card_roles,
+    roles_from_row,
+    summarize_roles,
+)
 from deckdoctor.deck import Card, Deck
 
 REMOVAL_TAGS = {
@@ -44,12 +52,8 @@ WIPE_TAGS = {"sweeper", "sweeper-one-sided", "sweeper-graveyard"}
 # the tag is NOT proof a wipe is safe, only its presence is a solid signal.
 SYMMETRICAL_TAG = "symmetrical"
 LOW_TOUGHNESS_THRESHOLD = 2  # ref deckbuilding.md §4.4's qualitative note, no sourced number -- a starting point
-DRAW_TAGS = {"draw-engine", "pure-draw", "repeatable-draw", "burst-draw"}
-RAMP_TAGS = {"mana-rock", "mana-dork", "land-ramp"}
-# Fallback only for cards with NO Forge parse at all (`parsed IS NULL`): the
-# Scryfall oracle tag is then the only ramp evidence available. A card Forge
-# DID parse and found no mana/land-search ability stays out of the count.
-_RAMP_TAG_FALLBACK = (("mana-rock", "rock"), ("mana-dork", "dork"), ("land-ramp", "land_search"))
+# Ramp/draw roles come from deckdoctor.card_roles (Forge structure first,
+# Scryfall tags as fallback, one precedence for both roles).
 
 
 def _is_land(card: Card) -> bool:
@@ -63,6 +67,10 @@ class Census:
     ramp_ritual: int = 0  # one-shot mana burst (Dark Ritual) -- does NOT substitute for lands, ref §0.2.1's docstring
     ramp_land_search: int = 0
     ramp_extra_land_drop: int = 0
+    # Scryfall tags it ramp, but Forge parsed the card and found no mana or
+    # land-search ability on it (e.g. a Treasure maker). Counts toward the
+    # ramp target, never toward the land formula or fast mana.
+    ramp_indirect: int = 0
     fast_mana: int = 0  # rock/dork, cmc <= 2
     draw: int = 0
     removal: int = 0
@@ -74,11 +82,9 @@ class Census:
     low_toughness_creature_count: int = 0  # toughness <= LOW_TOUGHNESS_THRESHOLD, numeric only
     creature_count_with_numeric_toughness: int = 0
     symmetrical_wipes: list[str] = field(default_factory=list)
-    # Nonland cards with no Forge parse in the mirror (`parse-forge` not run,
-    # or the card has no matching cardsfolder entry). Their ramp_kind is
-    # unknown, not "not ramp" -- counted via oracle-tag fallback instead.
-    forge_unparsed: list[str] = field(default_factory=list)
-    ramp_from_tag_fallback: int = 0
+    # Where the ramp/draw counts came from (Forge vs. tag), per-deck Forge
+    # coverage, and the resulting status: checked | approximate | unavailable.
+    roles: RoleSummary = field(default_factory=RoleSummary)
     tagged_cards: dict[str, list[str]] = field(default_factory=dict)  # category -> card names, for the report
 
     @property
@@ -90,7 +96,7 @@ class Census:
         rituals don't substitute for lands the way a persistent rock/dork
         does. Land-search is included per the original scheme (neutral for
         land count, but a real turn-sequencing tool toward the threshold)."""
-        return self.ramp_rock_dork + self.ramp_ritual + self.ramp_land_search
+        return self.ramp_rock_dork + self.ramp_ritual + self.ramp_land_search + self.ramp_indirect
 
     @property
     def has_fragile_board(self) -> bool:
@@ -161,6 +167,7 @@ class AuditReport:
             f"        ritual       {c.ramp_ritual}   (one-shot burst, doesn't substitute for lands, ref §0.2.1)",
             f"        land search  {c.ramp_land_search}",
             f"        extra land drop {c.ramp_extra_land_drop}",
+            f"        indirect     {c.ramp_indirect}   (tagged ramp; no mana ability on the card itself, e.g. Treasure)",
             f"  draw               {c.draw}",
             f"  removal            {c.removal}",
             f"  board wipes        {c.wipes}",
@@ -191,11 +198,8 @@ class AuditReport:
             f"  target             {self.ramp_target.target}",
             f"  actual             {self.ramp_target.actual}",
         ]
-        if c.forge_unparsed:
-            lines.append(
-                f"  ** APPROXIMATE: {len(c.forge_unparsed)} nonland card(s) have no Forge data; "
-                f"{c.ramp_from_tag_fallback} counted as ramp from Scryfall oracle tags only"
-            )
+        if c.roles.status != "checked":
+            lines.append(f"  ** {c.roles.status.upper()}: {role_source_note(c.roles)}")
         if self.category_flags:
             lines.append("")
             lines.append("Flags:")
@@ -215,19 +219,24 @@ def _card_tags(con: sqlite3.Connection, names: list[str]) -> dict[str, set[str]]
     return out
 
 
-def _unparsed_names(con: sqlite3.Connection, names: list[str]) -> set[str]:
-    unique = list(dict.fromkeys(names))
-    if not unique:
-        return set()
-    placeholders = ",".join("?" for _ in unique)
-    rows = con.execute(f"SELECT name FROM cards WHERE parsed IS NULL AND name IN ({placeholders})", unique)
-    return {row[0] for row in rows}
+def role_source_note(roles: RoleSummary) -> str:
+    """One line on where ramp/draw counts came from, for any report."""
+    parts = [f"Forge data for {roles.forge_parsed}/{roles.nonland_cards} nonland card(s) "
+             f"({roles.forge_coverage:.0%}, need {MIN_DECK_FORGE_COVERAGE:.0%} for a usable count)"]
+    for role in ("ramp", "draw"):
+        tag_count = roles.sources[role]["tag"]
+        if tag_count:
+            parts.append(f"{tag_count} {role} card(s) from Scryfall tags only")
+    if roles.forge_unparsed:
+        parts.append("run `deckdoctor parse-forge` (SETUP.md step 3)")
+    return "; ".join(parts)
 
 
 def compute_census(deck: Deck, con: sqlite3.Connection) -> Census:
     names = [c.name for c in deck.library]
     tags_by_card = _card_tags(con, names)
-    unparsed = _unparsed_names(con, names)
+    resolved = resolve_card_roles(con, names)
+    nonland_roles = []
 
     c = Census()
     # The commander is part of the deck-wide game-changer cap, while it
@@ -247,14 +256,21 @@ def compute_census(deck: Deck, con: sqlite3.Connection) -> Census:
 
         nonland_mvs.append(card.cmc)
 
-        ramp_kind = card.ramp_kind
-        if card.name in unparsed:
-            c.forge_unparsed.append(card.name)
-            if ramp_kind is None:
-                ramp_kind = next((kind for tag, kind in _RAMP_TAG_FALLBACK if tag in card_tags), None)
-                if ramp_kind is not None:
-                    c.ramp_from_tag_fallback += 1
-                    c.tagged_cards.setdefault("ramp_from_oracle_tag_fallback", []).append(card.name)
+        # A card missing from the mirror (only possible for an in-memory
+        # Deck) is treated as Forge-parsed when it carries a Forge kind.
+        roles = resolved.get(card.name) or roles_from_row(
+            card.name, card.ramp_kind, card.draw_kind,
+            card.ramp_kind is not None or card.draw_kind is not None, card_tags)
+        nonland_roles.append(roles)
+        ramp_kind = roles.ramp.kind
+        if roles.ramp.disagreement:
+            c.ramp_indirect += 1
+            c.tagged_cards.setdefault("ramp_indirect", []).append(card.name)
+            ramp_kind = None
+        if roles.ramp.source == "tag":
+            c.tagged_cards.setdefault("ramp_from_oracle_tag", []).append(card.name)
+        if roles.draw.source == "tag":
+            c.tagged_cards.setdefault("draw_from_oracle_tag", []).append(card.name)
 
         if ramp_kind in ("rock", "dork"):
             c.ramp_rock_dork += 1
@@ -270,13 +286,8 @@ def compute_census(deck: Deck, con: sqlite3.Connection) -> Census:
         elif ramp_kind == "extra_land_drop":
             c.ramp_extra_land_drop += 1
             c.tagged_cards.setdefault("ramp_extra_land_drop", []).append(card.name)
-        elif card_tags & RAMP_TAGS:
-            # Forge cardsfolder fell back to unclassified for this card, but
-            # Scryfall's oracle tags still caught it -- report separately
-            # rather than silently merging into ramp_kind's count.
-            c.tagged_cards.setdefault("ramp_via_oracle_tag_only", []).append(card.name)
 
-        if card.draw_kind is not None or card_tags & DRAW_TAGS:
+        if roles.draw.present:
             c.draw += 1
             c.tagged_cards.setdefault("draw", []).append(card.name)
 
@@ -305,6 +316,7 @@ def compute_census(deck: Deck, con: sqlite3.Connection) -> Census:
                     c.low_toughness_creature_count += 1
 
     c.nonland_count = len(nonland_mvs)
+    c.roles = summarize_roles(nonland_roles)
     c.avg_mv_nonland = sum(nonland_mvs) / len(nonland_mvs) if nonland_mvs else 0.0
     c.creature_count_with_numeric_toughness = len(toughness_values)
     c.avg_creature_toughness = sum(toughness_values) / len(toughness_values) if toughness_values else None
@@ -395,13 +407,14 @@ def audit_deck(deck: Deck, con: sqlite3.Connection, threshold_override: float | 
     land_formula = compute_land_formula(census, threshold.threshold)
 
     flags: list[str] = []
-    if census.forge_unparsed:
+    role_status = census.roles.status
+    if role_status == "unavailable":
         flags.append(
-            f"{len(census.forge_unparsed)} of {census.nonland_count} nonland card(s) have no Forge data in the "
-            f"mirror, so ramp (and the land formula) for them falls back to Scryfall oracle tags "
-            f"({census.ramp_from_tag_fallback} found). Run `deckdoctor parse-forge` (SETUP.md step 3) "
-            f"for a mechanism-based count."
+            "Ramp/draw counts UNAVAILABLE (not zero): " + role_source_note(census.roles)
+            + ". Ramp/draw floors are not assessed, and the land formula's ramp/draw terms are unreliable."
         )
+    elif role_status == "approximate":
+        flags.append("Ramp/draw counts are approximate: " + role_source_note(census.roles))
     if land_formula.diverges:
         flags.append(
             f"Land count diverges from the formula by "
@@ -411,9 +424,9 @@ def audit_deck(deck: Deck, con: sqlite3.Connection, threshold_override: float | 
         flags.append(f"{census.game_changers} game changers exceeds the bracket-3 cap of 3 (SPEC.md §5/§8)")
     elif census.game_changers < 3:
         flags.append(f"Only {census.game_changers}/3 game changer slots used -- headroom, per SPEC.md §5")
-    if ramp_target.actual < ramp_target.target - 2:
+    if role_status != "unavailable" and ramp_target.actual < ramp_target.target - 2:
         flags.append(f"Ramp ({ramp_target.actual}) short of the derived target ({ramp_target.target}, ref §0.2)")
-    if census.draw < 8:
+    if role_status != "unavailable" and census.draw < 8:
         flags.append(f"Draw ({census.draw}) below the community-consensus floor of ~10 (ref §3)")
     if census.removal < 8:
         flags.append(f"Removal ({census.removal}) below the community-consensus floor of ~10 (ref §3)")

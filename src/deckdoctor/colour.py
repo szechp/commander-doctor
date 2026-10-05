@@ -65,6 +65,7 @@ import re
 import sqlite3
 from dataclasses import asdict, dataclass, field
 
+from deckdoctor.card_roles import resolve_card_roles
 from deckdoctor.deck import Card, Deck
 from deckdoctor.probability import DECK_SIZE, cards_seen_by_turn, p_at_least
 
@@ -304,6 +305,9 @@ def compute_colour_report(deck: Deck, con: sqlite3.Connection) -> ColourReport:
     for card_name, face_index, mana_cost, type_line in faces:
         faces_by_name.setdefault(card_name, []).append((face_index, mana_cost or "", type_line or ""))
 
+    # Same Forge-then-tag role precedence as `audit` (deckdoctor.card_roles):
+    # a rock/dork with no Forge data still counts via its Scryfall tag.
+    roles = resolve_card_roles(con, [c.name for c in deck.library])
     total_sources: dict[str, int] = {}
     untapped_sources: dict[str, int] = {}
     unconditional_sources: dict[str, int] = {}
@@ -318,7 +322,8 @@ def compute_colour_report(deck: Deck, con: sqlite3.Connection) -> ColourReport:
         is_land = "Land" in front_type.split() or (
             card.layout == "modal_dfc" and any("Land" in face_type.split() for face_type in face_types)
         )
-        if not is_land and card.ramp_kind not in ("rock", "dork"):
+        ramp = roles[card.name].ramp if card.name in roles else None
+        if not is_land and (ramp is None or ramp.kind not in ("rock", "dork") or ramp.disagreement):
             continue  # doesn't itself have a mana ability -- see module docstring bug 2
         try:
             if row["produced_mana"] is None:

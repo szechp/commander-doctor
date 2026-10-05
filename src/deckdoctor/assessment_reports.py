@@ -101,16 +101,15 @@ def audit_report(result, deck: Deck, con, *, config_path: str | os.PathLike[str]
         "fail" if result.land_formula.diverges else "pass", evidence=asdict(result.land_formula),
         limitations=["The land formula is a configured heuristic, not a castability proof."],
     )]
-    census = result.census
-    if census.forge_unparsed:
+    roles = result.census.roles
+    if roles.status != "checked":
+        from deckdoctor.audit import role_source_note
         findings.append(Finding(
-            "audit.ramp_classification", "warning", "approximate",
-            f"{len(census.forge_unparsed)} nonland card(s) have no Forge data; ramp for them is counted from "
-            f"Scryfall oracle tags ({census.ramp_from_tag_fallback} found). Run `deckdoctor parse-forge`.",
+            "audit.role_sources", "warning", roles.status,
+            f"ramp/draw counts are {roles.status}: {role_source_note(roles)}",
             "unknown",
-            evidence={"forge_unparsed": census.forge_unparsed,
-                      "ramp_from_oracle_tag_fallback": census.tagged_cards.get("ramp_from_oracle_tag_fallback", [])},
-            limitations=["Oracle tags identify ramp cards but not their mechanism precisely."],
+            evidence=roles.to_dict(),
+            limitations=["Scryfall oracle tags identify a role but not its mechanism precisely."],
         ))
     return _report("audit", deck, con, result, findings, config_path=config_path)
 

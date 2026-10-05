@@ -20,8 +20,7 @@ from deckdoctor.deck_config import DeckConfig, pinned_cards, rejected_swaps
 from deckdoctor.reliability import cost_evidence
 from deckdoctor.roles import RoleEvidence, evidence_for_role, extract_role_evidence
 
-RAMP_KINDS = {"rock", "dork", "ritual", "land_search", "extra_land_drop"}
-DRAW_KINDS = {"repeatable", "oneshot"}
+from deckdoctor.card_roles import DRAW_KINDS, RAMP_KINDS, names_with_role
 _CARDS_COLS = ["name", "mana_cost", "type_line", "oracle_text", "color_identity",
                "ramp_kind", "draw_kind", "prereq", "is_game_changer"]
 
@@ -32,10 +31,13 @@ def _color_identity_subset(card_ci: list[str], commander_ci: set[str]) -> bool:
 
 def _candidate_names_for_role(con: sqlite3.Connection, role: str) -> list[str] | None:
     """Returns the (usually small) set of candidate card names for a role,
-    filtered in SQL, or None if `role` needs the whole-table Layer-1 scan
-    (ramp_kind/draw_kind/game_changer -- already indexed-cheap columns)."""
-    if role in RAMP_KINDS or role in DRAW_KINDS or role in {"ramp", "draw", "game_changer"}:
+    filtered in SQL, or None for `game_changer` (a whole-table column scan).
+    Ramp/draw roles resolve through `card_roles.names_with_role`: Forge kind
+    first, Scryfall tag as fallback -- the same precedence `audit` uses."""
+    if role == "game_changer":
         return None
+    if role in RAMP_KINDS or role in DRAW_KINDS or role in {"ramp", "draw"}:
+        return names_with_role(con, role)
     rows = con.execute(
         "SELECT DISTINCT card_name FROM card_tags WHERE tag = ? OR tag LIKE ?",
         [role, role + "%"],
@@ -70,24 +72,9 @@ def find_candidates(
             ).fetchall())
         tags_by_name = {n: {role} for n in tag_filtered_names}  # good enough: role membership already established
     else:
-        # Broad family roles must NOT fall through to the Game Changer
-        # query: "ramp"/"draw" mean "any card with a ramp/draw role", not
-        # "Game Changers only" (the narrow kinds and game_changer keep
-        # their exact-match behavior).
-        if role == "ramp":
-            rows = con.execute(
-                f"SELECT {cols_sql} FROM cards WHERE commander_legal = 1 AND ramp_kind IS NOT NULL"
-            ).fetchall()
-        elif role == "draw":
-            rows = con.execute(
-                f"SELECT {cols_sql} FROM cards WHERE commander_legal = 1 AND draw_kind IS NOT NULL"
-            ).fetchall()
-        else:
-            column = "ramp_kind" if role in RAMP_KINDS else "draw_kind" if role in DRAW_KINDS else "is_game_changer"
-            value = role if column != "is_game_changer" else 1
-            rows = con.execute(
-                f"SELECT {cols_sql} FROM cards WHERE commander_legal = 1 AND {column} = ?", [value]
-            ).fetchall()
+        rows = con.execute(
+            f"SELECT {cols_sql} FROM cards WHERE commander_legal = 1 AND is_game_changer = 1"
+        ).fetchall()
         tags_by_name = {}
 
     matches: list[tuple[dict, set]] = []
@@ -308,14 +295,7 @@ def find_candidate_comparisons(
     rejected = rejected_swaps(config)
     names = _candidate_names_for_role(con, role)
     if names is None:
-        if role == "ramp":
-            names = [row[0] for row in con.execute("SELECT name FROM cards WHERE commander_legal=1 AND ramp_kind IS NOT NULL")]
-        elif role == "draw":
-            names = [row[0] for row in con.execute("SELECT name FROM cards WHERE commander_legal=1 AND draw_kind IS NOT NULL")]
-        else:
-            column = "ramp_kind" if role in RAMP_KINDS else "draw_kind" if role in DRAW_KINDS else "is_game_changer"
-            value = role if column != "is_game_changer" else 1
-            names = [row[0] for row in con.execute(f"SELECT name FROM cards WHERE commander_legal=1 AND {column}=?", (value,))]
+        names = [row[0] for row in con.execute("SELECT name FROM cards WHERE commander_legal=1 AND is_game_changer=1")]
     commander_ci = set(commander_color_identity)
     eligible = []
     for name in set(names):

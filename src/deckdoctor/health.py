@@ -17,7 +17,7 @@ from __future__ import annotations
 import sqlite3
 from dataclasses import dataclass
 
-from deckdoctor.audit import audit_deck, compute_threshold
+from deckdoctor.audit import audit_deck, compute_threshold, role_source_note
 from deckdoctor.colour import compute_colour_report
 from deckdoctor.combos import BRACKET_TAG_NAME, cached_bracket_report
 from deckdoctor.coverage import compute_coverage
@@ -95,12 +95,10 @@ def compute_health_summary(
     ))
 
     rt = audit.ramp_target
-    ramp_status = "SHORT" if rt.actual < rt.target else "OK"
-    ramp_detail = f"{rt.actual} actual vs {rt.target} target"
-    if audit.census.forge_unparsed:
-        ramp_detail += (f"  (approximate: no Forge data for {len(audit.census.forge_unparsed)} nonland card(s), "
-                        f"{audit.census.ramp_from_tag_fallback} counted from oracle tags -- run `deckdoctor parse-forge`)")
-    rows.append(HealthRow("Ramp", ramp_status, ramp_detail))
+    roles = audit.census.roles
+    role_note = "" if roles.status == "checked" else f"  ({roles.status}: {role_source_note(roles)})"
+    ramp_status = "UNKNOWN" if roles.status == "unavailable" else ("SHORT" if rt.actual < rt.target else "OK")
+    rows.append(HealthRow("Ramp", ramp_status, f"{rt.actual} actual vs {rt.target} target" + role_note))
 
     # Real gap fixed here (KNOWN_ISSUES.md): "Draw" rendered as `n/a` with
     # no floor at all, even though a floor already exists -- just not
@@ -126,10 +124,11 @@ def compute_health_summary(
     # which already counts removal-or-wipe-tagged cards): a flat count
     # floor here would be redundant with, and less accurate than, that.
     DRAW_FLOOR = 8
-    draw_status = "SHORT" if audit.census.draw < DRAW_FLOOR else "OK"
+    draw_status = "UNKNOWN" if roles.status == "unavailable" else ("SHORT" if audit.census.draw < DRAW_FLOOR else "OK")
     rows.append(HealthRow(
         "Draw", draw_status,
-        f"{audit.census.draw} actual vs {DRAW_FLOOR} floor (community-consensus target ~10, ref SPEC.md §6.3)",
+        f"{audit.census.draw} actual vs {DRAW_FLOOR} floor (community-consensus target ~10, ref SPEC.md §6.3)"
+        + role_note,
     ))
     rows.append(HealthRow("Removal", "n/a", f"{audit.census.removal} in deck, {audit.census.wipes} board wipe(s)"))
 

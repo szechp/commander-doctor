@@ -298,9 +298,10 @@ def test_layer2_gate_blocks_upgrades_on_unparsed_mirror(fixture_db, fixture_deck
     assert "parse-forge" in err
 
 
-def test_audit_reports_approximate_ramp_on_unparsed_mirror(fixture_db, fixture_deck, monkeypatch, capsys):
-    # With the PR #7 fallback merged, audit must NOT hard-stop on an
-    # unparsed mirror -- it counts ramp from oracle tags and flags it.
+def test_audit_reports_unavailable_ramp_on_unparsed_mirror(fixture_db, fixture_deck, monkeypatch, capsys):
+    # audit must NOT hard-stop on an unparsed mirror, and must not report a
+    # confident zero either: with 0% of the deck's nonland cards parsed the
+    # ramp/draw counts are reported as UNAVAILABLE (card_roles policy).
     import sys
     from deckdoctor.cli import main
     db_file = fixture_db.execute("PRAGMA database_list").fetchone()[2]
@@ -320,7 +321,9 @@ def test_audit_reports_approximate_ramp_on_unparsed_mirror(fixture_db, fixture_d
     code = main()
     assert code == 0
     out = capsys.readouterr().out
-    assert "APPROXIMATE" in out or "approximate" in out
+    assert "UNAVAILABLE" in out
+    assert "parse-forge" in out
+    assert "Ramp (0) short" not in out
 
 
 def test_layer2_ready_true_on_parsed_mirror(fixture_db):

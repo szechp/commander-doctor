@@ -52,7 +52,7 @@ def test_audit_runs_end_to_end_on_all_four_decks(con):
         assert name in rendered
 
 
-def _ramp_fixture_deck(con, tmp_path):
+def _ramp_fixture_deck(con, tmp_path, *, parsed_plains: bool = True):
     from .fixture_support import _card
 
     cols = ("name,mana_cost,cmc,type_line,oracle_text,color_identity,colors,produced_mana,keywords,"
@@ -60,50 +60,74 @@ def _ramp_fixture_deck(con, tmp_path):
     con.executemany(f"INSERT INTO cards ({cols}) VALUES ({','.join('?' * 19)})", [
         _card("Tag Only Rock", cmc=2),
         _card("Tag Only Search", cmc=3, type_line="Sorcery"),
-        _card("Parsed Non Ramp", cmc=2),
+        _card("Treasure Maker", cmc=2),
         _card("Forge Rock", cmc=3),
-    ])
-    con.execute("UPDATE cards SET parsed='{}' WHERE name='Parsed Non Ramp'")
+    ] + [_card(f"Filler {i}", cmc=2) for i in range(16)])
+    con.execute("UPDATE cards SET parsed='{}' WHERE name='Treasure Maker' OR name LIKE 'Filler %'")
     con.execute("UPDATE cards SET parsed='{}', ramp_kind='rock' WHERE name='Forge Rock'")
     con.executemany("INSERT INTO card_tags VALUES (?, ?)", [
-        ("Tag Only Rock", "mana-rock"), ("Tag Only Search", "land-ramp"), ("Parsed Non Ramp", "mana-rock"),
+        ("Tag Only Rock", "mana-rock"), ("Tag Only Search", "land-ramp"), ("Treasure Maker", "mana-rock"),
     ])
     con.commit()
     path = tmp_path / "ramp.txt"
     path.write_text(
-        "1 Fixture Commander\n1 Tag Only Rock\n1 Tag Only Search\n1 Parsed Non Ramp\n1 Forge Rock\n"
-        + "".join(f"1 Fixture Plains {i}\n" for i in range(95)),
+        "1 Fixture Commander\n1 Tag Only Rock\n1 Tag Only Search\n1 Treasure Maker\n1 Forge Rock\n"
+        + "".join(f"1 Filler {i}\n" for i in range(16))
+        + "".join(f"1 Fixture Plains {i}\n" for i in range(79)),
         encoding="utf-8",
     )
     return load_deck(str(path), con)
 
 
-def test_ramp_falls_back_to_oracle_tags_only_when_forge_data_is_missing(fixture_db, tmp_path):
-    # Real-world regression: a mirror without `parse-forge` data (all
-    # ramp_kind NULL) reported ramp 0 for every deck, as if confirmed.
+def test_ramp_uses_one_forge_then_tag_precedence(fixture_db, tmp_path):
+    # Real-world regression: a mirror without `parse-forge` data reported
+    # ramp 0 for every deck, as if confirmed. Roles now come from
+    # card_roles: Forge kind first, Scryfall tag as fallback.
     deck = _ramp_fixture_deck(fixture_db, tmp_path)
     result = audit_deck(deck, fixture_db)
     census = result.census
-    assert census.ramp_rock_dork == 2  # Forge Rock + tag-fallback Tag Only Rock
+    assert census.ramp_rock_dork == 2  # Forge Rock (forge) + Tag Only Rock (tag, unparsed)
     assert census.fast_mana == 1  # Tag Only Rock, cmc 2
-    assert census.ramp_land_search == 1
-    assert result.ramp_target.actual == 3
-    assert census.ramp_from_tag_fallback == 2
-    assert set(census.forge_unparsed) == {"Tag Only Rock", "Tag Only Search"}
-    # Forge parsed this card and found no mana ability: tag stays a side note.
-    assert census.tagged_cards["ramp_via_oracle_tag_only"] == ["Parsed Non Ramp"]
-    assert any("parse-forge" in flag for flag in result.category_flags)
+    assert census.ramp_land_search == 1  # Tag Only Search (tag, unparsed)
+    # Forge parsed Treasure Maker and found no mana ability; its tag still
+    # counts toward the target as indirect ramp, never as a rock.
+    assert census.ramp_indirect == 1
+    assert census.tagged_cards["ramp_indirect"] == ["Treasure Maker"]
+    assert result.ramp_target.actual == 4
+    roles = census.roles
+    assert roles.sources["ramp"] == {"forge": 1, "tag": 3}
+    assert set(roles.forge_unparsed) == {"Tag Only Rock", "Tag Only Search"}
+    assert roles.disagreements["ramp"] == ["Treasure Maker"]
+    assert roles.forge_coverage == 18 / 20
+    assert roles.status == "approximate"
     assert "APPROXIMATE" in result.render()
 
 
-def test_audit_json_marks_tag_fallback_ramp_as_approximate(fixture_db, tmp_path):
+def test_low_deck_forge_coverage_makes_role_counts_unavailable_not_zero(fixture_db, tmp_path):
+    from deckdoctor.health import compute_health_summary
+
+    deck = _ramp_fixture_deck(fixture_db, tmp_path)
+    fixture_db.execute("UPDATE cards SET parsed = NULL WHERE name LIKE 'Filler %'")
+    fixture_db.commit()
+    result = audit_deck(deck, fixture_db)
+    assert result.census.roles.status == "unavailable"
+    assert not any(flag.startswith("Ramp (") for flag in result.category_flags)
+    assert not any(flag.startswith("Draw (") for flag in result.category_flags)
+    assert any("UNAVAILABLE" in flag for flag in result.category_flags)
+    rows = {row.check: row for row in compute_health_summary(deck, fixture_db, threshold_override=4).rows}
+    assert rows["Ramp"].status == "UNKNOWN"
+    assert rows["Draw"].status == "UNKNOWN"
+
+
+def test_audit_json_reports_role_sources(fixture_db, tmp_path):
     from deckdoctor.assessment_reports import audit_report
 
     deck = _ramp_fixture_deck(fixture_db, tmp_path)
     report = audit_report(audit_deck(deck, fixture_db), deck, fixture_db)
-    finding = next(f for f in report.findings if f.id == "audit.ramp_classification")
+    finding = next(f for f in report.findings if f.id == "audit.role_sources")
     assert finding.status == "approximate"
     assert finding.outcome == "unknown"
+    assert finding.evidence["sources"]["ramp"] == {"forge": 1, "tag": 3}
 
 
 def test_parse_forge_fails_loudly_on_missing_cardsfolder(tmp_path, capsys):

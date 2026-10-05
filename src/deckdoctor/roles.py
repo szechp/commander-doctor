@@ -348,6 +348,40 @@ def _ramp_evidence(ability_id: str, node: dict[str, Any], effect: str,
     )
 
 
+_BASIC_LAND_TYPES = frozenset({"Plains", "Island", "Swamp", "Mountain", "Forest", "Wastes"})
+
+
+def is_land_search_change_type(change_type: str) -> bool:
+    """Whether a Forge `ChangeType$` selects lands. Real shapes: "Land",
+    "Land.Basic", "Land.IsRemembered" (Cultivate's second step), a list of
+    basic types ("Plains,Island,Swamp,Mountain" -- Farseek), a bare type
+    ("Forest" -- Nature's Lore) or a qualified card filter ("Card.Forest" --
+    Wood Elves). Shared by `forge_parse.classify_ramp_kind` and the ramp
+    evidence below so the two never disagree on what a land search is."""
+    for option in (change_type or "").split(","):
+        parts = option.strip().split(".")
+        if parts and (parts[0] == "Land" or any(part in _BASIC_LAND_TYPES for part in parts)):
+            return True
+    return False
+
+
+def _land_search_evidence(ability_id: str, node: dict[str, Any], type_line: str,
+                          graph_uncertainty: tuple[str, ...]) -> RoleEvidence:
+    """Library -> battlefield land search (Rampant Growth, Cultivate's
+    battlefield step, Wood Elves' ETB): ramp that adds a land, not mana."""
+    quantity = _as_int(node.get("ChangeNum", 1))
+    uncertainty = list(graph_uncertainty)
+    if quantity is None:
+        uncertainty.append(f"variable-land-count:{node.get('ChangeNum')}")
+    return RoleEvidence(
+        role="ramp", source="parsed", ability_id=ability_id, effect="ChangeZone",
+        quantity=quantity, prerequisites=_conditions(node), benefit="land_search",
+        repeatable=bool(node.get("AB")) and "Instant" not in type_line and "Sorcery" not in type_line,
+        drawback="enters-tapped" if str(node.get("Tapped", "")).lower() == "true" else None,
+        uncertainty=tuple(dict.fromkeys(uncertainty)),
+    )
+
+
 def extract_role_evidence(
     parsed: str | dict[str, Any] | None, *, type_line: str = "",
     tags: Iterable[str] = (), overrides: Iterable[RoleOverride] = (),
@@ -392,6 +426,10 @@ def extract_role_evidence(
                 evidence.append(_draw_evidence(ability_id, node, effect, graph_uncertainty, svars))
             if effect in {"Mana", "ManaReflected"}:
                 evidence.append(_ramp_evidence(ability_id, node, effect, type_line, graph_uncertainty))
+            elif (effect == "ChangeZone" and "Library" in str(node.get("Origin", "")).split(",")
+                  and node.get("Destination") == "Battlefield"
+                  and is_land_search_change_type(str(node.get("ChangeType", "")))):
+                evidence.append(_land_search_evidence(ability_id, node, type_line, graph_uncertainty))
         effects = tuple(dict.fromkeys(filter(None, (_effect_name(node) for _, node in nodes))))
         mode_count = max((len(str(node["Choices"]).split(",")) for _, node in nodes if node.get("Choices")), default=None)
         evidence = [replace(item, mode_count=mode_count,
