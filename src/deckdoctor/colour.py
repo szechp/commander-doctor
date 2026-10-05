@@ -251,28 +251,54 @@ def _is_land(card: Card) -> bool:
 
 
 _LAND_TYPE_WORDS = {"plains": "W", "island": "U", "swamp": "B", "mountain": "R", "forest": "G"}
+_FETCH_CLAUSE_RE = re.compile(r"search your library for (?:a|an|up to \w+) (.+?) cards?\b", re.IGNORECASE)
 
 
-def _fetchland_colours(row: dict) -> list[str] | None:
-    """Colours a fetch-style land can go get: Scryfall leaves
-    `produced_mana` NULL on them (they don't tap for mana, they fetch),
-    which colour.py used to treat as unknown -- Evolving Wilds and the
-    whole Onslaught/Zen fetch family contributed zero sources to the
-    90%-confidence per-card floors, deflating counts on every deck that
-    ran them. Derived from the oracle text's land-type words
-    ("a Mountain or Plains card" -> R+W; "a basic land card" -> all five,
-    intersected with commander identity at the call site like any other
-    source, so the fixer bug 1 guard still applies)."""
-    text = row.get("oracle_text") or ""
-    if not re.search(r"search your library for", text, re.IGNORECASE):
+def _fetch_targets(deck: Deck) -> list[tuple[bool, frozenset[str]]]:
+    """(is_basic, basic land types) for every land in the library -- what a
+    fetchland in this deck can actually find."""
+    targets = []
+    for card in deck.library:
+        front = (card.type_line or "").split(" // ")[0]
+        if "Land" not in front.split():
+            continue
+        supertypes, _, subtypes = front.partition("—")
+        types = frozenset(w for w in subtypes.lower().split() if w in _LAND_TYPE_WORDS)
+        if types:
+            targets.append(("Basic" in supertypes.split(), types))
+    return targets
+
+
+def _fetchland_colours(row: dict, targets: list[tuple[bool, frozenset[str]]]) -> list[str] | None:
+    """Colours a fetch-style land can actually get IN THIS DECK, or None if
+    the card is not a recognisable fetch.
+
+    Scryfall leaves `produced_mana` NULL on fetches (they don't tap for
+    mana), so colour.py used to report every Evolving Wilds / Onslaught /
+    Zendikar fetch as unknown, which also made the whole colour finding
+    "incomplete". Only the "search your library for ... card" clause is
+    read, and a colour counts only when the deck holds a land the fetch can
+    find: Wooded Foothills ("a Mountain or Forest card") in a deck whose
+    only Mountain is Blood Crypt is a red source, not a green one, and
+    Evolving Wilds ("a basic land card") gets only the colours of the
+    deck's basics. That is how Karsten counts fetches, so the result is a
+    full (unconditional) source; the caller still intersects with
+    commander identity."""
+    match = _FETCH_CLAUSE_RE.search(row.get("oracle_text") or "")
+    if not match:
         return None
-    words = re.findall(r"[a-z]+", text.lower())
-    types = sorted({_LAND_TYPE_WORDS[w] for w in words if w in _LAND_TYPE_WORDS})
-    if types:
-        return types
-    if "basic" in words:
-        return ["W", "U", "B", "R", "G"]
-    return None
+    words = re.findall(r"[a-z]+", match.group(1).lower())
+    wanted = {w for w in words if w in _LAND_TYPE_WORDS}
+    basic_only = "basic" in words
+    if not wanted and "land" not in words:
+        return None  # searches for something other than a land
+    colours: set[str] = set()
+    for is_basic, types in targets:
+        if basic_only and not is_basic:
+            continue
+        reachable = types & wanted if wanted else types
+        colours.update(_LAND_TYPE_WORDS[t] for t in reachable)
+    return sorted(colours, key="WUBRG".index)
 
 
 def _source_condition(card: Card, row: dict) -> str | None:
@@ -333,6 +359,7 @@ def compute_colour_report(deck: Deck, con: sqlite3.Connection) -> ColourReport:
     # Same Forge-then-tag role precedence as `audit` (deckdoctor.card_roles):
     # a rock/dork with no Forge data still counts via its Scryfall tag.
     roles = resolve_card_roles(con, [c.name for c in deck.library])
+    fetch_targets = _fetch_targets(deck)
     total_sources: dict[str, int] = {}
     untapped_sources: dict[str, int] = {}
     unconditional_sources: dict[str, int] = {}
@@ -351,12 +378,11 @@ def compute_colour_report(deck: Deck, con: sqlite3.Connection) -> ColourReport:
         if not is_land and (ramp is None or ramp.kind not in ("rock", "dork") or ramp.disagreement):
             continue  # doesn't itself have a mana ability -- see module docstring bug 2
         # Fetch-style lands have NULL produced_mana by design: they don't
-        # tap for mana, they fetch -- which still counts as a (tapped,
-        # searchable) source of the fetched colours, intersected with
-        # commander identity like any other source.
+        # tap for mana, they fetch -- a full source of each colour the deck
+        # holds a fetchable land for (see _fetchland_colours).
         fetched = None
         if row["produced_mana"] is None and is_land:
-            fetched = _fetchland_colours(row)
+            fetched = _fetchland_colours(row, fetch_targets)
             if fetched is None:
                 unknowns.append(f"{card.name}: missing produced-mana metadata")
                 continue
@@ -372,8 +398,6 @@ def compute_colour_report(deck: Deck, con: sqlite3.Connection) -> ColourReport:
             continue
         maybe_tapped = land_enters_tapped(row["parsed"], row["oracle_text"])
         condition = _source_condition(card, row)
-        if fetched is not None:
-            condition = condition or "fetched land enters tapped"
         if condition == "mana ability metadata is malformed":
             unknowns.append(f"{card.name}: {condition}")
         for colour in produced:

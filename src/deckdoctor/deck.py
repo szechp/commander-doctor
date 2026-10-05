@@ -46,20 +46,36 @@ class Deck:
         return len(self.library) + 1
 
 
+# `// NAME` section headers written by Moxfield/Archidekt-style exports.
+# Cards under an excluded section are not part of the 100; an included
+# header resumes counting. Any other `//` line is an ordinary comment and
+# never changes the section (so "// cut from sideboard last week" is safe).
+_SECTION_RE = re.compile(r"^//\s*([A-Za-z ]+?)\s*:?\s*$")
+_EXCLUDED_SECTIONS = {"sideboard", "maybeboard", "considering", "tokens"}
+_INCLUDED_SECTIONS = {"commander", "commanders", "deck", "main", "mainboard", "maindeck", "companion"}
+
+
 def _parse_decklist_detailed(path: str) -> list[tuple[int, str, int]]:
-    """Stops at a `// SIDEBOARD` marker: Commander decklists are maindeck-
-    only, and a sideboard listed in the same file is a suggestion pool, not
-    part of the 100. Found on a real user list whose sideboard's 4 cards
+    """Commander decklists are maindeck-only: cards under a `// SIDEBOARD`
+    (or maybeboard/considering/tokens) section are a suggestion pool, not
+    part of the 100. Found on a real user list whose 4-card sideboard
     pushed validate to 104 and failed deck_size."""
     entries: list[tuple[int, str, int]] = []
+    excluded = False
     with open(path, encoding="utf-8") as f:
         for line_number, raw_line in enumerate(f, 1):
             line = raw_line.strip()
             if not line:
                 continue
             if line.startswith("//"):
-                if "SIDEBOARD" in line.upper():
-                    break
+                section = _SECTION_RE.match(line)
+                name = section.group(1).lower() if section else ""
+                if name in _EXCLUDED_SECTIONS:
+                    excluded = True
+                elif name in _INCLUDED_SECTIONS:
+                    excluded = False
+                continue
+            if excluded:
                 continue
             m = _LINE_RE.match(line)
             if not m:

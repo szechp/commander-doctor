@@ -218,3 +218,25 @@ def test_sideboard_cards_are_excluded_from_maindeck(tmp_path):
     assert len(entries) == 99
     names = [name for _, name in entries]
     assert "Negate" not in names and "Rebuff the Wicked" not in names
+
+
+def test_decklist_sections_include_and_exclude_by_header(tmp_path):
+    # Excluded sections (sideboard/maybeboard) stop counting until an
+    # included header resumes it; ordinary comments never change sections.
+    from deckdoctor.deck import _parse_decklist_detailed
+
+    path = tmp_path / "sections.txt"
+    path.write_text(
+        "// Maybeboard\n1 Negate\n"
+        "// Commander\n1 Fixture Commander\n"
+        "// cut from the sideboard last week\n"  # a comment, not a header
+        "1 Phyrexian Vindicator\n"
+        "// SIDEBOARD:\n1 Rebuff the Wicked\n"
+        "// Mainboard\n"
+        + "".join(f"1 Fixture Plains {i}\n" for i in range(98)),
+        encoding="utf-8",
+    )
+    names = [name for _, name, _ in _parse_decklist_detailed(str(path))]
+    assert names[:2] == ["Fixture Commander", "Phyrexian Vindicator"]
+    assert len(names) == 100
+    assert "Negate" not in names and "Rebuff the Wicked" not in names
