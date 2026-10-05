@@ -12,8 +12,13 @@ mechanical, gameplan-independent checks instead of a curated list:
 
 Graveyard answers use the `sweeper-graveyard` tag (same tag audit.py's
 WIPE_TAGS already includes) -- confirmed against three known graveyard-hate
-cards (Bojuka Bog, Rest in Peace, Tormod's Crypt) this session; there is no
-separate "graveyard-hate" tag family in the mirror's vocabulary.
+cards (Bojuka Bog, Rest in Peace, Tormod's Crypt) this session. The mirror
+ALSO has a second, disjoint `hate-graveyard` family (290 cards, zero
+overlap with sweeper-graveyard): targeted/repeatable hate like Scavenging
+Ooze ("{G}: Exile target card from a graveyard") -- a real graveyard
+answer the sweeper family misses, found when a deck review reported a
+coverage GAP that Scavenging Ooze already in the deck closed. Credited
+via COVERAGE_TAG_ALIASES, same as disenchant-naturalize above.
 
 Known simplification: "cheapest unconditional" (SPEC.md §6.3's exact
 phrasing) isn't mechanically checkable without deeper parsing of each
@@ -99,6 +104,7 @@ COVERAGE_TAG_ALIASES: dict[str, tuple[str, ...]] = {
     "removal-artifact": ("removal-permanent", "disenchant-naturalize"),
     "removal-enchantment": ("removal-permanent", "disenchant-naturalize"),
     "removal-planeswalker": ("removal-permanent",),
+    "sweeper-graveyard": ("hate-graveyard",),
 }
 
 

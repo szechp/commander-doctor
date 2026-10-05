@@ -425,3 +425,60 @@ def test_instant_speed_count_matches_defence_module(con):
     coverage_report = compute_coverage(deck, con)
     defence_report = compute_defence(deck, con, threshold_turn=3, board_presence="normal")
     assert coverage_report.instant_speed_count == defence_report.instant_speed_actual
+
+
+def test_targeted_graveyard_hate_credited_for_graveyard_coverage(con):
+    # Real bug, found mid deck review: Scavenging Ooze ("{G}: Exile target
+    # card from a graveyard") carries ONLY `hate-graveyard` in the mirror
+    # -- a 290-card family DISJOINT from `sweeper-graveyard` (83 cards,
+    # zero overlap) -- so a deck whose only graveyard answer is targeted
+    # hate reported a false coverage GAP, pushing a needless swap. Same
+    # shape as the disenchant-naturalize alias bug; fixed the same way.
+    # The fixture catalog doesn't carry Scavenging Ooze itself, so this
+    # inserts one synthetic card tagged the real way the mirror tags the
+    # family (real Forge parsed shape -- reliability filters deny-by-default
+    # on a missing `parsed` field).
+    parsed_json = json.dumps({
+        "mana_cost": "1 G", "types": "Creature Ooze", "pt": "2/2", "keywords": [],
+        "abilities": [{
+            "raw": "AB$ ChangeZone | Cost$ G | Origin$ Graveyard | Destination$ Exile | "
+                   "TgtPrompt$ Choose target card in a graveyard | ValidTgts$ Card | "
+                   "SubAbility$ DBPutCounter | SpellDescription$ Exile target card from a "
+                   "graveyard. If it was a creature card, put a +1/+1 counter on CARDNAME "
+                   "and you gain 1 life.",
+            "AB": "ChangeZone", "Cost": "G", "Origin": "Graveyard", "Destination": "Exile",
+            "TgtPrompt": "Choose target card in a graveyard", "ValidTgts": "Card",
+            "SubAbility": "DBPutCounter",
+            "SpellDescription": "Exile target card from a graveyard.",
+        }],
+        "statics": [], "replacements": [], "triggers": [], "svars": {},
+    })
+    con.execute(
+        "INSERT INTO cards (name,mana_cost,cmc,type_line,oracle_text,color_identity,colors,"
+        "produced_mana,keywords,commander_legal,is_game_changer,layout,set_type,parsed) "
+        "VALUES ('Test Graveyard Ooze','{1}{G}',2.0,'Creature — Ooze',"
+        "'{G}: Exile target card from a graveyard.','[\"G\"]','[\"G\"]',NULL,'[]',1,0,'normal','core',?)",
+        (parsed_json,),
+    )
+    con.execute("INSERT INTO card_tags (card_name, tag) VALUES ('Test Graveyard Ooze', 'hate-graveyard')")
+    con.commit()
+    from deckdoctor.deck import Card, Deck
+    commander = Card(name="Fixture Commander", cmc=4, type_line="Legendary Creature — Human",
+                     ramp_kind=None, draw_kind=None, prereq=None, is_game_changer=False,
+                     color_identity=("G",), commander_legal=True)
+    ooze = Card(name="Test Graveyard Ooze", cmc=2, type_line="Creature — Ooze", ramp_kind=None,
+                draw_kind=None, prereq=None, is_game_changer=False,
+                color_identity=("G",), commander_legal=True)
+    forest = Card(name="Fixture Forest 0", cmc=0, type_line="Basic Land — Forest",
+                  ramp_kind=None, draw_kind=None, prereq=None, is_game_changer=False,
+                  color_identity=(), commander_legal=True)
+    deck = Deck(name="ooze", commander=commander, library=[ooze] + [forest] * 98, commander_count=1,
+                quantities={"Test Graveyard Ooze": 1, "Fixture Forest 0": 98})
+    report = compute_coverage(deck, con)
+    gy = next(e for e in report.entries if e.answer_type == "graveyard")
+    assert gy.deck_has is True
+    assert gy.deck_cheapest_name == "Test Graveyard Ooze"
+    # Scoped: targeted grave hate answers nothing else.
+    for answer_type in ("creature", "artifact", "enchantment", "planeswalker"):
+        entry = next(e for e in report.entries if e.answer_type == answer_type)
+        assert entry.deck_cheapest_name != "Test Graveyard Ooze"
