@@ -264,6 +264,20 @@ def classify_ramp_kind(card: ParsedCard) -> str | None:
     return None
 
 
+def _svar_chain_reaches_draw(card: ParsedCard, sub_name: str, *, depth: int = 3) -> bool:
+    """True if following `SubAbility$ NAME` links from `sub_name` through
+    `card.svars` reaches a `DB$ Draw` svar within `depth` hops. Depth-capped
+    so a malformed/cyclic chain can't spin; Forge chains are 1-2 long
+    (The Great Henge: TrigPutCounter -> SubAbility$ DBDraw -> DB$ Draw)."""
+    while sub_name and depth > 0:
+        sub = _parse_kv_string(card.svars.get(sub_name.strip()) or "")
+        if sub.get("DB") == "Draw":
+            return True
+        sub_name = sub.get("SubAbility") or ""
+        depth -= 1
+    return False
+
+
 def classify_draw_kind(card: ParsedCard) -> str | None:
     """repeatable | oneshot | None. ref deckbuilding.md §3 favours repeatable."""
     for a in card.abilities:
@@ -271,16 +285,42 @@ def classify_draw_kind(card: ParsedCard) -> str | None:
             return "repeatable"
         if a.get("SP") == "Draw":
             return "oneshot"
+        # Modal spells (SP$ Charm | Choices$ DBDraw,DBPumpAll) keep each
+        # mode in its own svar; the draw mode is a DB$ Draw svar named in
+        # the comma-separated Choices$ list (Return of the Wildspeaker,
+        # Kolaghan's Command). A Charm draw resolves once per cast: oneshot
+        # for SP$, repeatable only if the modal ability is itself AB$.
+        choices = a.get("Choices")
+        if choices:
+            for choice in choices.split(","):
+                if _svar_chain_reaches_draw(card, choice, depth=1):
+                    return "repeatable" if a.get("AB") else "oneshot"
+        # A top-level ability can also chain through SubAbility$ into a
+        # draw svar without ever mentioning Draw itself.
+        if _svar_chain_reaches_draw(card, a.get("SubAbility") or ""):
+            return "repeatable" if a.get("AB") else "oneshot"
     # Triggered draw lives in the trigger's Execute$ svar (Phyrexian Arena,
     # Rhystic Study, Skullclamp, Mulldrifter) and was invisible to the
     # abilities-only scan above. A trigger on this card itself entering the
     # battlefield fires once (Mulldrifter); any other trigger recurs.
+    # The Execute$ svar may only be the head of a SubAbility$ chain: The
+    # Great Henge's creature-ETB trigger executes PutCounter with a
+    # SubAbility$ DBDraw tail, so the chain must be followed too.
     for t in card.triggers:
         execute = card.svars.get(t.get("Execute") or "")
-        if execute and _parse_kv_string(execute).get("DB") == "Draw":
-            self_etb = (t.get("Mode") == "ChangesZone" and t.get("Destination") == "Battlefield"
-                        and t.get("ValidCard") == "Card.Self")
-            return "oneshot" if self_etb else "repeatable"
+        if execute:
+            sub = _parse_kv_string(execute)
+            if sub.get("DB") == "Draw" or _svar_chain_reaches_draw(card, sub.get("SubAbility") or ""):
+                self_etb = (t.get("Mode") == "ChangesZone" and t.get("Destination") == "Battlefield"
+                            and t.get("ValidCard") == "Card.Self")
+                return "oneshot" if self_etb else "repeatable"
+    # Keyword draw costs (K:Cycling:3 -- Jetmir's Garden; also BasicLandCycle
+    # on Ash Barrens etc.) discard for a card: one-shot, and only usable from
+    # a zone where the card isn't doing its main job, so not repeatable.
+    for k in card.keywords:
+        kw = k.split(":")[0].strip()
+        if kw in ("Cycling", "BasicLandCycle"):
+            return "oneshot"
     return None
 
 
@@ -409,7 +449,7 @@ def build_coverage_report(cardsfolder: Path) -> tuple[CoverageReport, list[tuple
 
 # Bump whenever classify_ramp_kind/classify_draw_kind/the name join change
 # what they write, so readers can tell an existing mirror needs re-parsing.
-CLASSIFIER_VERSION = "2"
+CLASSIFIER_VERSION = "3"
 
 
 def _match_mirror_names(con, rows: list[tuple]) -> list[tuple]:

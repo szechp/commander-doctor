@@ -111,12 +111,13 @@ def test_apply_to_db_matches_front_face_of_multi_face_cards():
         ("oneshot", '{"face": "front"}')
 
 
-def _card(name, *, types="Sorcery", abilities=(), triggers=(), svars=None) -> ParsedCard:
+def _card(name, *, types="Sorcery", abilities=(), triggers=(), svars=None, keywords=()) -> ParsedCard:
     return ParsedCard(
         name=name, types=types,
         abilities=[_parse_kv_string(a) for a in abilities],
         triggers=[_parse_kv_string(t) for t in triggers],
         svars=dict(svars or {}),
+        keywords=list(keywords),
     )
 
 
@@ -136,6 +137,34 @@ PHYREXIAN_ARENA = _card(
     triggers=["Mode$ Phase | Phase$ Upkeep | ValidPlayer$ You | Execute$ TrigDraw"],
     svars={"TrigDraw": "DB$ Draw | Defined$ You | NumCards$ 1 | SubAbility$ DBLoseLife"},
 )
+# Real Forge cardsfolder lines (Card-Forge/forge master), trimmed.
+RETURN_OF_THE_WILDSPEAKER = _card(
+    "Return of the Wildspeaker", types="Instant",
+    abilities=["SP$ Charm | Choices$ DBDraw,DBPumpAll"],
+    svars={
+        "DBDraw": "DB$ Draw | Defined$ You | NumCards$ X",
+        "DBPumpAll": "DB$ PumpAll | ValidCards$ Creature.YouCtrl+nonHuman | NumAtt$ +3 | NumDef$ +3",
+    },
+)
+THE_GREAT_HENGE = _card(
+    "The Great Henge", types="Legendary Artifact",
+    abilities=["AB$ Mana | Cost$ T | Produced$ G | Amount$ 2 | SubAbility$ DBGainLife"],
+    triggers=["Mode$ ChangesZone | Origin$ Any | Destination$ Battlefield | ValidCard$ Creature.!token+YouCtrl | Execute$ TrigPutCounter"],
+    svars={
+        "DBGainLife": "DB$ GainLife | LifeAmount$ 2",
+        "TrigPutCounter": "DB$ PutCounter | CounterType$ P1P1 | CounterNum$ 1 | SubAbility$ DBDraw",
+        "DBDraw": "DB$ Draw | Defined$ You | NumCards$ 1",
+    },
+)
+CHOICECLIFF_RIDGE = _card(
+    "Repeatable Charm Thing", types="Creature",
+    abilities=["AB$ Charm | Choices$ DBDraw"],
+    svars={"DBDraw": "DB$ Draw | Defined$ You | NumCards$ 1"},
+)
+JETMIRS_GARDEN = _card(
+    "Jetmir's Garden", types="Land Mountain Forest Plains",
+    keywords=["Cycling:3"],
+)
 MULLDRIFTER = _card(
     "Mulldrifter", types="Creature Elemental",
     triggers=["Mode$ ChangesZone | Origin$ Any | Destination$ Battlefield | ValidCard$ Card.Self | Execute$ TrigDraw"],
@@ -152,6 +181,17 @@ def test_classifier_gaps_found_while_unifying_roles():
     assert classify_ramp_kind(BURGEONING) == "extra_land_drop"  # land drop lives in the Execute$ svar
     assert classify_draw_kind(PHYREXIAN_ARENA) == "repeatable"  # triggered draw
     assert classify_draw_kind(MULLDRIFTER) == "oneshot"  # self-ETB trigger fires once
+
+
+def test_classifier_gaps_found_on_live_gishath_deck():
+    # "Why are the ramp/draw cards not classified anymore" -- these two
+    # deck cards fell back to (disagreeing or absent) oracle tags because
+    # their draw effects live in Forge script shapes the classifier missed.
+    assert classify_draw_kind(RETURN_OF_THE_WILDSPEAKER) == "oneshot"  # Charm Choices$ -> DB$ Draw svar
+    assert classify_draw_kind(THE_GREAT_HENGE) == "repeatable"  # trigger -> SubAbility$ chain -> DB$ Draw
+    assert classify_draw_kind(JETMIRS_GARDEN) == "oneshot"  # K:Cycling:3 keyword draw
+    # A modal AB$ ability draws every activation, not once.
+    assert classify_draw_kind(CHOICECLIFF_RIDGE) == "repeatable"
 
 
 @pytest.mark.parametrize("change_type, expected", [
