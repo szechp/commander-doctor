@@ -35,6 +35,7 @@ from deckdoctor.card_roles import (
     summarize_roles,
 )
 from deckdoctor.deck import Card, Deck
+from deckdoctor.probability import p_land_drop_check
 
 REMOVAL_TAGS = {
     "removal-creature", "removal-artifact", "removal-enchantment",
@@ -53,6 +54,19 @@ WIPE_TAGS = {"sweeper", "sweeper-one-sided", "sweeper-graveyard"}
 # the tag is NOT proof a wipe is safe, only its presence is a solid signal.
 SYMMETRICAL_TAG = "symmetrical"
 LOW_TOUGHNESS_THRESHOLD = 2  # ref deckbuilding.md §4.4's qualitative note, no sourced number -- a starting point
+# deckbuilding.md §7.4 ("Resolved: P13"): the formula's full-weight fast-mana
+# subtraction is right about mana availability and wrong about land-drop
+# reliability ("a Sol Ring does not let you play a land"), so the land target
+# is floored at 35 and 37 stays the default count.
+LAND_FLOOR = 35
+LAND_DEFAULT = 37
+# §7.4's land-drop gate: P(>=3 lands by turn 3) / P(>=4 by turn 4), on the
+# draw. The doc calls these thresholds provisional; as written they fail at
+# every count from 33 to 39 (no mulligans modelled), so the check is REPORTED
+# and does not raise the target until it is calibrated.
+LAND_DROP_TARGETS = {"p_3_lands_by_turn_3": 0.85, "p_4_lands_by_turn_4": 0.75}
+
+
 # Ramp/draw roles come from deckdoctor.card_roles (Forge structure first,
 # Scryfall tags as fallback, one precedence for both roles).
 
@@ -126,6 +140,8 @@ class LandFormula:
     computed: int
     actual: int
     diverges: bool  # |computed - actual| >= 2, ref §1
+    floored: bool = False  # computed was raised to LAND_FLOOR (deckbuilding.md §7.4)
+    land_drop_check: dict[str, float] = field(default_factory=dict)  # §7.4 / probability.p_land_drop_check
 
 
 @dataclass
@@ -184,9 +200,20 @@ class AuditReport:
             "Land formula (ref §1.1, §0.2):",
             f"  Karsten base       {self.land_formula.karsten_base:.1f}",
             f"  ref §0.2 adjustment {self.land_formula.adjustment:+.1f}",
-            f"  computed           {self.land_formula.computed}",
+            f"  computed           {self.land_formula.computed}"
+            + (f"  (floor applied, ref §7.4 -- the raw curve model says"
+               f" {round(self.land_formula.karsten_base + self.land_formula.adjustment)}, but cheap rocks"
+               f" don't make land drops; {LAND_FLOOR}-{LAND_DEFAULT} accepted)" if self.land_formula.floored else ""),
             f"  actual             {self.land_formula.actual}",
         ]
+        if self.land_formula.land_drop_check:
+            check = self.land_formula.land_drop_check
+            lines.append(
+                f"  land drops (ref §7.4, on the draw, no mulligans): "
+                f"P(3 by T3) {check['p_3_lands_by_turn_3']:.0%} [target {LAND_DROP_TARGETS['p_3_lands_by_turn_3']:.0%}], "
+                f"P(4 by T4) {check['p_4_lands_by_turn_4']:.0%} [target {LAND_DROP_TARGETS['p_4_lands_by_turn_4']:.0%}] "
+                f"-- reported only; the targets are provisional and not yet calibrated"
+            )
         if self.land_formula.diverges:
             lines.append(
                 f"  ** DIVERGES by {abs(self.land_formula.computed - self.land_formula.actual)} "
@@ -395,15 +422,26 @@ def compute_land_formula(census: Census, threshold: float, commanders: int = 1) 
     computed = karsten_base + adjustment
     if threshold >= 6:
         computed = max(computed, 37)
+    # deckbuilding.md §7.4: target = max(computed, 35). When the floor
+    # decides the number the curve model has no usable point estimate for
+    # this deck, so anything from the floor to the 37 default is accepted
+    # (a 35-land Sevinne list with a raw model of 27 is not "8 too many");
+    # outside that, the usual >= 2 tolerance applies to the nearer edge.
+    floored = round(computed) < LAND_FLOOR  # after the threshold >= 6 rule, so its 37 isn't reported as the floor
+    computed = max(computed, LAND_FLOOR)
     computed_int = round(computed)
-
-    diverges = abs(computed_int - census.lands) >= 2
+    if floored:
+        diverges = census.lands <= LAND_FLOOR - 2 or census.lands >= LAND_DEFAULT + 2
+    else:
+        diverges = abs(computed_int - census.lands) >= 2
     return LandFormula(
         karsten_base=karsten_base,
         adjustment=adjustment,
         computed=computed_int,
         actual=census.lands,
         diverges=diverges,
+        floored=floored,
+        land_drop_check=p_land_drop_check(census.lands),
     )
 
 

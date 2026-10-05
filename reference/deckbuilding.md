@@ -763,6 +763,15 @@ fast mana, the low land counts in the literature are not available.
 The two threshold percentages above are provisional and should be recalibrated
 after running real decks through the check.
 
+**Implementation status (audit.py):** the floor is implemented: target =
+max(computed, 35), and when the floor applies, 35-37 lands is accepted. The
+land-drop check is computed and shown in the audit output but does **not**
+raise the target yet: as written (hypergeometric on the draw, no mulligans)
+it fails at every count from 33 to 39 (35 lands: 76% / 59%; 39 lands:
+84% / 70%), so gating on it would push every deck past 40. Calibrate the
+thresholds -- or switch the check to the mulligan-aware sampling in
+`consistency.py` -- before letting it raise the count.
+
 ### 7.5 Note on the land-drop check
 
 The check is a hypergeometric, not a simulation:
