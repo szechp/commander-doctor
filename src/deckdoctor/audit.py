@@ -55,38 +55,28 @@ SYMMETRICAL_TAG = "symmetrical"
 LOW_TOUGHNESS_THRESHOLD = 2  # ref deckbuilding.md §4.4's qualitative note, no sourced number -- a starting point
 COMMUNITY_LAND_FLOOR = 35  # ref §0.2/community: the widely-cited Commander minimum (see community_land_floor)
 LAND_FLOOR_MIN = 33  # sanctioned floor for decks with 10+ cheap ramp AND heavy draw (community guidance)
-LAND_FLOOR_MAX = 38  # top of the community 34-38 range; landfall/high-curve decks go above it by design
+LAND_FLOOR_MAX = 38  # top of the community range; with the floor applied, a deck inside [floor, 38] is not flagged
+
+
+CHEAP_RAMP_FOR_TRIM = 10  # "10+ one/two-mana acceleration" (Nerd Leagues)
+DRAW_FOR_TRIM = 6  # the tool's own reading of "engines that churn through the library"
 
 
 def community_land_floor(census: "Census") -> int:
-    """Adaptive version of the community minimum (see COMMUNITY_LAND_FLOOR).
-
-    Community guidance is a range, not a single number: 35 is the default
-    "never below" line, but decks with abundant cheap ramp AND repeatable
-    draw are sanctioned down to 33-35 (Nerd Leagues: "trim toward 33-35
-    when you have 10+ one/two-mana acceleration and engines that churn
-    through the library"), because ramp patches missed drops and draw
-    finds the lands you do run. Conversely a deck with little ramp and
-    little draw leans on its land count and should not shave below the
-    full 35.
-
-    Modelled as three community sanctions stacked, transparently:
-    - base: 35
-    - >= 10 nonfast rock/dork ramp (rocks survive nothing, but they are
-      the drop-patching the guidance counts): -1
-    - >= 6 repeatable-draw-weighted draw (an engine like Rhystic Study
-      finds lands all game): -1
-
-    Clamped to [LAND_FLOOR_MIN, LAND_FLOOR_MAX]. All terms are community
-    quotes, not invented numbers; the stacking is the tool's own reading
-    of "several of these traits" in the source guidance."""
-
+    """Bottom of the community land range for this deck (see
+    COMMUNITY_LAND_FLOOR): 35 by default, trimmed by one for each of the
+    two traits the guidance names -- 10+ cheap (mana value <= 2) rocks/
+    dorks, i.e. `census.fast_mana`, and heavy draw -- down to LAND_FLOOR_MIN.
+    The thresholds and the one-per-trait stacking are this tool's reading
+    of the quoted guidance, not sourced numbers; the range itself is."""
     floor = COMMUNITY_LAND_FLOOR
-    if census.ramp_rock_dork - census.fast_mana + census.fast_mana >= 10:
+    if census.fast_mana >= CHEAP_RAMP_FOR_TRIM:
         floor -= 1
-    if census.draw >= 6:
+    if census.draw >= DRAW_FOR_TRIM:
         floor -= 1
-    return max(LAND_FLOOR_MIN, min(LAND_FLOOR_MAX, floor))
+    return max(LAND_FLOOR_MIN, floor)
+
+
 # Ramp/draw roles come from deckdoctor.card_roles (Forge structure first,
 # Scryfall tags as fallback, one precedence for both roles).
 
@@ -222,8 +212,8 @@ class AuditReport:
             f"  computed           {self.land_formula.computed}"
             + (f"  (community floor applied -- the raw curve model says"
                f" {round(self.land_formula.karsten_base + self.land_formula.adjustment)},"
-               " but the adaptive community minimum (35, less with abundant"
-               " cheap ramp and draw) sets the target)" if self.land_formula.floored else ""),
+               f" {self.land_formula.computed}-{LAND_FLOOR_MAX} is the community range for this deck"
+               " (35, one less each for 10+ cheap ramp and heavy draw))" if self.land_formula.floored else ""),
             f"  actual             {self.land_formula.actual}",
         ]
         if self.land_formula.diverges:
@@ -445,11 +435,19 @@ def compute_land_formula(census: Census, threshold: float, commanders: int = 1) 
     # wipes, no draw guarantee) mana-screws you. Ramp substitution shrinks
     # with each wiped rock; lands don't. So the formula's output is floored
     # at the community minimum and reported as a target, never below it.
+    # When the floor decides the number, the curve model has no usable
+    # point estimate for this deck, so the community RANGE [floor, 38] is
+    # the target: a deck inside it is not flagged (a 35-land Sevinne list
+    # with a raw model of 27 and a floor of 34 is fine), and outside it the
+    # usual >= 2 divergence tolerance applies to the nearer edge.
     floor = community_land_floor(census)
+    floored = round(computed) < floor  # after the threshold>=6 rule, so 37 isn't reported as the floor
     computed = max(computed, floor)
-    floored = round(karsten_base + adjustment) < floor
     computed_int = round(computed)
-    diverges = abs(computed_int - census.lands) >= 2
+    if floored:
+        diverges = census.lands <= floor - 2 or census.lands >= LAND_FLOOR_MAX + 2
+    else:
+        diverges = abs(computed_int - census.lands) >= 2
     return LandFormula(
         karsten_base=karsten_base,
         adjustment=adjustment,

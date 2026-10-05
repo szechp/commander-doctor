@@ -154,39 +154,44 @@ def test_parse_forge_fails_when_no_card_matches_the_mirror(fixture_db, tmp_path,
 
 
 def test_land_formula_floored_at_community_minimum():
-    # The raw Karsten curve model (lands needed to hit the first N drops
-    # with rocks substituting) legitimately lands in the high 20s for a
-    # cheap, rocky deck -- but the Commander community guideline is clear
-    # that 35 is the minimum (multiplayer games run long, wiped rocks
-    # don't substitute for lands, and mana screw loses games). Found on a
-    # real Sevinne list: formula said 27, deck had 35, every guide says
-    # 34-38. The formula output is floored at 35 and reports that it was.
-    from deckdoctor.audit import (
-        COMMUNITY_LAND_FLOOR, LAND_FLOOR_MIN, community_land_floor,
-    )
+    # The raw Karsten curve model legitimately lands in the high 20s for a
+    # cheap, rocky deck, but Commander guidance gives a 33-38 range with 35
+    # as the default minimum. Found on a real Sevinne list: formula said
+    # 27, deck had 35.
+    from deckdoctor.audit import COMMUNITY_LAND_FLOOR, LAND_FLOOR_MAX, LAND_FLOOR_MIN, community_land_floor
 
-    # A deck with little ramp and little draw gets the full 35.
-    lean = Census(lands=35, ramp_rock_dork=4, fast_mana=4, draw=3,
-                  avg_mv_nonland=2.2, nonland_count=60)
+    # Little ramp, little draw: the full 35, and a 35-land deck is fine.
+    lean = Census(lands=35, ramp_rock_dork=4, fast_mana=4, draw=3, avg_mv_nonland=2.2, nonland_count=60)
     assert community_land_floor(lean) == COMMUNITY_LAND_FLOOR
     lean_result = compute_land_formula(lean, threshold=5)
-    assert lean_result.computed >= COMMUNITY_LAND_FLOOR
     assert lean_result.floored is True
+    assert lean_result.computed == COMMUNITY_LAND_FLOOR
+    assert lean_result.diverges is False
 
-    # Abundant cheap ramp AND heavy draw sanction trimming: 35 - 1 - 1 = 33
-    # (community guidance: "trim toward 33-35 with 10+ cheap ramp and
-    # draw engines") -- the Sevinne list that triggered this (12 rocks,
-    # 14 draw) earns exactly the minimum floor.
-    c = Census(lands=35, ramp_rock_dork=12, fast_mana=9, draw=14,
-               avg_mv_nonland=2.84, nonland_count=64)
-    assert community_land_floor(c) == LAND_FLOOR_MIN
-    result = compute_land_formula(c, threshold=5)
-    assert result.computed >= LAND_FLOOR_MIN
-    assert result.floored is True
+    # The triggering Sevinne list: 12 rocks but only 9 cheap (<= 2 MV), so
+    # only the draw trim applies -> 34. Its 35 lands are inside [34, 38]:
+    # no GAP (the original version of this PR still reported one).
+    sevinne = Census(lands=35, ramp_rock_dork=12, fast_mana=9, draw=14, avg_mv_nonland=2.84, nonland_count=64)
+    assert community_land_floor(sevinne) == COMMUNITY_LAND_FLOOR - 1
+    result = compute_land_formula(sevinne, threshold=5)
+    assert result.floored is True and result.computed == 34
+    assert result.diverges is False
+
+    # 10+ cheap ramp AND heavy draw: both trims -> 33.
+    both = Census(lands=33, ramp_rock_dork=11, fast_mana=10, draw=8, avg_mv_nonland=2.5, nonland_count=66)
+    assert community_land_floor(both) == LAND_FLOOR_MIN
+
+    # Outside the range by >= 2 is still flagged, at either edge.
+    assert compute_land_formula(Census(**{**vars(sevinne), "lands": 32}), threshold=5).diverges is True
+    assert compute_land_formula(Census(**{**vars(sevinne), "lands": LAND_FLOOR_MAX + 2}), threshold=5).diverges is True
+
+    # The threshold >= 6 rule (37) decides the number, not the community
+    # floor: not reported as floored.
+    slow = compute_land_formula(Census(**{**vars(sevinne), "lands": 37}), threshold=6)
+    assert slow.computed == 37 and slow.floored is False
 
     # A deck whose raw formula already clears the floor is untouched.
-    heavy = Census(lands=39, ramp_rock_dork=8, fast_mana=5, draw=6,
-                   avg_mv_nonland=3.85, nonland_count=60)
+    heavy = Census(lands=39, ramp_rock_dork=8, fast_mana=5, draw=6, avg_mv_nonland=3.85, nonland_count=60)
     heavy_result = compute_land_formula(heavy, threshold=8)
     assert heavy_result.floored is False
     assert heavy_result.computed == max(37, round(heavy_result.karsten_base + heavy_result.adjustment))
