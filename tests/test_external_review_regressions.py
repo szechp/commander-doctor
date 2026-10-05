@@ -263,3 +263,40 @@ def test_swap_result_carries_policy_summary(fixture_db, fixture_deck):
     assert "pinned_cut" in policy["user"]
     # blocking comes from severity, not from emptiness
     assert set(policy["structural"]) | set(policy["user"]) | set(policy["heuristic"])
+
+
+# ---------------------------------------------------------------------------
+# Layer-2 gate: role-dependent commands hard-stop on an unparsed mirror
+# ---------------------------------------------------------------------------
+
+def test_layer2_gate_blocks_audit_on_unparsed_mirror(fixture_db, fixture_deck, monkeypatch, capsys):
+    import sys
+    from deckdoctor.cli import main
+    # Simulate the fresh-sync state that produced the real false negative:
+    # a fully valid deck + mirror, but with Layer 2 never parsed.
+    db_file = fixture_db.execute("PRAGMA database_list").fetchone()[2]
+    import sqlite3, shutil, tempfile, pathlib
+    tmpdir = pathlib.Path(tempfile.mkdtemp())
+    copy = tmpdir / "stripped.db"
+    shutil.copy(db_file, copy)
+    con = sqlite3.connect(copy)
+    con.execute("UPDATE cards SET ramp_kind = NULL, draw_kind = NULL, parsed = NULL, prereq = NULL")
+    con.commit()
+    con.close()
+    fixture_deck_copy = tmpdir / "fixture.txt"
+    fixture_deck_copy.write_text(fixture_deck.read_text(encoding="utf-8"), encoding="utf-8")
+    monkeypatch.setattr(sys, "argv", [
+        "deckdoctor", "audit", str(fixture_deck_copy), "--db", str(copy),
+    ])
+    with pytest.raises(SystemExit) as excinfo:
+        main()
+    assert excinfo.value.code == 3
+    err = capsys.readouterr().err
+    assert "layer 2" in err.lower()
+    assert "parse-forge" in err
+
+
+def test_layer2_ready_true_on_parsed_mirror(fixture_db):
+    from deckdoctor.layer2 import layer2_ready
+    # The shared fixture catalog includes Forge-parsed cards (Sol Ring etc.)
+    assert layer2_ready(fixture_db) is True

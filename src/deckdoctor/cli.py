@@ -30,6 +30,26 @@ def _open_validation_db(db_path: str) -> sqlite3.Connection:
         raise sqlite3.OperationalError(str(exc)) from exc
 
 
+def _require_layer2(con, args) -> None:
+    """Hard stop for role-dependent commands when Layer 2 is missing.
+
+    Raises SystemExit(3) after printing the fix instructions; running
+    these commands on an unparsed mirror reports ramp: 0 and other
+    false findings, which is exactly what the unknown-never-zero rule
+    exists to prevent.
+    """
+    from deckdoctor.layer2 import GATE_MESSAGE, layer2_ready
+    if layer2_ready(con):
+        return
+    fmt = getattr(args, "format", "text")
+    if fmt == "json":
+        import json
+        print(json.dumps(_error_document("gate", "unavailable", GATE_MESSAGE)))
+    else:
+        print(f"layer 2 data unavailable: {GATE_MESSAGE}", file=sys.stderr)
+    raise SystemExit(3)
+
+
 def _error_document(command: str, status: str, message: str, *, valid: bool = False) -> dict:
     """Common v1 envelope for failures that occur before evidence exists."""
     return {
@@ -521,6 +541,7 @@ def main(argv: list[str] | None = None) -> int:
         from deckdoctor.deck_config import config_path_for, load_deck_config
 
         con = connect_readonly(args.db)
+        _require_layer2(con, args)
         deck = load_deck(args.deck, con)
         config = load_deck_config(args.deck)
         threshold = args.threshold if args.threshold is not None else (config.threshold if config else None)
@@ -539,6 +560,7 @@ def main(argv: list[str] | None = None) -> int:
         from deckdoctor.deck import load_deck
 
         con = connect_readonly(args.db)
+        _require_layer2(con, args)
         deck = load_deck(args.deck, con)
         result = compute_coverage(deck, con)
         structured = coverage_report(result, deck, con)
@@ -555,6 +577,7 @@ def main(argv: list[str] | None = None) -> int:
         from deckdoctor.assessment_reports import assessment_report
 
         con = connect_readonly(args.db)
+        _require_layer2(con, args)
         deck = load_deck(args.deck, con)
         config = load_deck_config(args.deck)
         threshold_override = args.threshold if args.threshold is not None else (config.threshold if config else None)
@@ -692,6 +715,7 @@ def main(argv: list[str] | None = None) -> int:
         from deckdoctor.health import HealthRow, compute_health_summary, render_table
 
         con = connect_readonly(args.db)
+        _require_layer2(con, args)
         deck = load_deck(args.deck, con)
         config = load_deck_config(args.deck)
         threshold = args.threshold if args.threshold is not None else (config.threshold if config else None)
@@ -740,6 +764,7 @@ def main(argv: list[str] | None = None) -> int:
         from deckdoctor.assessment_reports import assessment_report
 
         con = connect_readonly(args.db)
+        _require_layer2(con, args)
         deck = load_deck(args.deck, con)
         config = load_deck_config(args.deck)
         page = find_grounded_upgrades(deck, con, config)
@@ -892,6 +917,7 @@ def main(argv: list[str] | None = None) -> int:
         from deckdoctor.assessment_reports import assessment_report
 
         con = connect_readonly(args.db)
+        _require_layer2(con, args)
         deck = load_deck(args.deck, con)
         commander_row = con.execute("SELECT color_identity FROM cards WHERE name = ?", [deck.commander.name]).fetchone()
         commander_ci = json.loads(commander_row[0]) if commander_row and commander_row[0] else []
