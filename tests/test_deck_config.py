@@ -195,3 +195,26 @@ def test_legality_exception_round_trips_through_append_feedback(tmp_path):
     }
     # A `legality_exception` entry is not a `pin` -- the two are independent.
     assert pinned_cards(config) == {}
+
+
+def test_sideboard_cards_are_excluded_from_maindeck(tmp_path):
+    # Real bug from a user list: 100 maindeck cards plus a 4-card
+    # "// SIDEBOARD" section parsed as 104 and failed deck_size validation.
+    # A sideboard in a Commander list is a suggestion pool, not maindeck.
+    from deckdoctor.deck import _parse_decklist_detailed, parse_decklist
+
+    path = tmp_path / "sideboard.txt"
+    path.write_text(
+        "// COMMANDER\n"
+        "1 Fixture Commander\n"
+        "1 Phyrexian Vindicator\n"
+        + "".join(f"1 Fixture Plains {i}\n" for i in range(98))
+        + "\n// SIDEBOARD\n1 Negate\n1 Rebuff the Wicked\n",
+        encoding="utf-8",
+    )
+    assert len(_parse_decklist_detailed(str(path))) == 100
+    commander, entries = parse_decklist(str(path))
+    assert commander == "Fixture Commander"
+    assert len(entries) == 99
+    names = [name for _, name in entries]
+    assert "Negate" not in names and "Rebuff the Wicked" not in names

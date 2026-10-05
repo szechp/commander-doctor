@@ -250,6 +250,31 @@ def _is_land(card: Card) -> bool:
     return "Land" in card.type_line.split(" ") or card.type_line.startswith("Land")
 
 
+_LAND_TYPE_WORDS = {"plains": "W", "island": "U", "swamp": "B", "mountain": "R", "forest": "G"}
+
+
+def _fetchland_colours(row: dict) -> list[str] | None:
+    """Colours a fetch-style land can go get: Scryfall leaves
+    `produced_mana` NULL on them (they don't tap for mana, they fetch),
+    which colour.py used to treat as unknown -- Evolving Wilds and the
+    whole Onslaught/Zen fetch family contributed zero sources to the
+    90%-confidence per-card floors, deflating counts on every deck that
+    ran them. Derived from the oracle text's land-type words
+    ("a Mountain or Plains card" -> R+W; "a basic land card" -> all five,
+    intersected with commander identity at the call site like any other
+    source, so the fixer bug 1 guard still applies)."""
+    text = row.get("oracle_text") or ""
+    if not re.search(r"search your library for", text, re.IGNORECASE):
+        return None
+    words = re.findall(r"[a-z]+", text.lower())
+    types = sorted({_LAND_TYPE_WORDS[w] for w in words if w in _LAND_TYPE_WORDS})
+    if types:
+        return types
+    if "basic" in words:
+        return ["W", "U", "B", "R", "G"]
+    return None
+
+
 def _source_condition(card: Card, row: dict) -> str | None:
     text = row.get("oracle_text") or ""
     if re.search(r"opponent|among|could produce", text, re.IGNORECASE):
@@ -325,11 +350,18 @@ def compute_colour_report(deck: Deck, con: sqlite3.Connection) -> ColourReport:
         ramp = roles[card.name].ramp if card.name in roles else None
         if not is_land and (ramp is None or ramp.kind not in ("rock", "dork") or ramp.disagreement):
             continue  # doesn't itself have a mana ability -- see module docstring bug 2
-        try:
-            if row["produced_mana"] is None:
+        # Fetch-style lands have NULL produced_mana by design: they don't
+        # tap for mana, they fetch -- which still counts as a (tapped,
+        # searchable) source of the fetched colours, intersected with
+        # commander identity like any other source.
+        fetched = None
+        if row["produced_mana"] is None and is_land:
+            fetched = _fetchland_colours(row)
+            if fetched is None:
                 unknowns.append(f"{card.name}: missing produced-mana metadata")
                 continue
-            produced = json.loads(row["produced_mana"])
+        try:
+            produced = fetched if fetched is not None else json.loads(row["produced_mana"])
         except (json.JSONDecodeError, TypeError):
             unknowns.append(f"{card.name}: malformed produced-mana metadata")
             continue
@@ -340,6 +372,8 @@ def compute_colour_report(deck: Deck, con: sqlite3.Connection) -> ColourReport:
             continue
         maybe_tapped = land_enters_tapped(row["parsed"], row["oracle_text"])
         condition = _source_condition(card, row)
+        if fetched is not None:
+            condition = condition or "fetched land enters tapped"
         if condition == "mana ability metadata is malformed":
             unknowns.append(f"{card.name}: {condition}")
         for colour in produced:

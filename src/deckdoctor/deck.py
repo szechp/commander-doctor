@@ -47,11 +47,19 @@ class Deck:
 
 
 def _parse_decklist_detailed(path: str) -> list[tuple[int, str, int]]:
+    """Stops at a `// SIDEBOARD` marker: Commander decklists are maindeck-
+    only, and a sideboard listed in the same file is a suggestion pool, not
+    part of the 100. Found on a real user list whose sideboard's 4 cards
+    pushed validate to 104 and failed deck_size."""
     entries: list[tuple[int, str, int]] = []
     with open(path, encoding="utf-8") as f:
         for line_number, raw_line in enumerate(f, 1):
             line = raw_line.strip()
-            if not line or line.startswith("//"):
+            if not line:
+                continue
+            if line.startswith("//"):
+                if "SIDEBOARD" in line.upper():
+                    break
                 continue
             m = _LINE_RE.match(line)
             if not m:
