@@ -1,5 +1,35 @@
 # Project review — 2026-09-06
 
+> **Re-verification addendum (independent review, current `main` @ `6ccb754`):**
+> Several findings below have since been fixed in code and no longer
+> reproduce. Verified fixed:
+>
+> - **#2 (goldfish target turn):** `cli.py` now loads the derived success
+>   condition before launch and aligns `--max-turn` to
+>   `expected_raw_turn(sc.target_turn)` when not given, with explicit
+>   stderr notes on what the raw horizon does and does not verify.
+> - **#3 (colour health omits commander):** `colour.py` now includes the
+>   commander in evaluated names and reads its colour identity from the
+>   mirror.
+> - **#4 (feedback append duplicate keys):** `append_feedback` was rewritten
+>   as a locked read-modify-write that locates the `feedback:` value via a
+>   real parse tree, validates in-memory, and writes atomically; its
+>   docstring documents the exact bug described below as fixed.
+> - **#5 (reports on invalid decks):** all gated commands
+>   (`hand`, `audit`, `coverage`, `colours`, `defence`, `combos`, `bracket`,
+>   `edhrec`, `health`, `upgrades`, `candidates`, `goldfish`, `consistency`)
+>   now run `_validation_gate` first and refuse to proceed on an invalid
+>   deck/config.
+> - **#6 (hybrid mana = 0):** `_mana_token_value` now handles `B/R` (1),
+>   `2/B` (2) and phyrexian shards correctly (spot-checked:
+>   `'1 B/R' -> 2.0`, `'2/B' -> 2.0`, `'1 B/P' -> 2.0`).
+> - **#8 (test failures):** the current suite is **439 passed, 24 deselected**
+>   on a clean checkout (one Forge-path-dependent failure is fixed by making
+>   the test hermetic, see PR #2).
+>
+> Not yet re-verified either way: **#1** (upgrade-label overclaiming) and
+> **#7** (skill/truncation contract). Treat those as open until triaged.
+
 The project runs and has useful deterministic building blocks, but its output is not yet reliable enough to treat as a verified deck assessment. The Claude skill supplies substantial manual judgment that the Python commands do not enforce.
 
 ## Checks performed
