@@ -138,6 +138,13 @@ def find_grounded_upgrades(
     ).fetchone()
     commander_ci = json.loads(commander_row[0] or "[]") if commander_row else []
     deck_names = {card.name for card in deck.library}
+    # Candidate additions must exclude both library cards and the
+    # commander: a commander sharing a removal role with a library card
+    # is not a valid replacement for that card. `exclude_names` is also
+    # the candidate-side filter inside find_candidate_comparisons, so the
+    # commander joins it; the iteration over replaceable current cards
+    # below stays library-only (tags_by_name is keyed on deck_names).
+    exclude_names = deck_names | {deck.commander.name}
     names = sorted(deck_names)
     if not names:
         return CandidatePage((), 0, 0, limit, False, pool_provenance or {})
@@ -155,7 +162,7 @@ def find_grounded_upgrades(
     for current in sorted(tags_by_name):
         for role in sorted(tags_by_name[current]):
             page = find_candidate_comparisons(
-                con, current, commander_ci, role, deck_names, config=config,
+                con, current, commander_ci, role, exclude_names, config=config,
                 limit=10_000, pool_names=pool_names, pool_provenance=pool_provenance,
             )
             total += page.total_considered

@@ -70,11 +70,24 @@ def find_candidates(
             ).fetchall())
         tags_by_name = {n: {role} for n in tag_filtered_names}  # good enough: role membership already established
     else:
-        column = "ramp_kind" if role in RAMP_KINDS else "draw_kind" if role in DRAW_KINDS else "is_game_changer"
-        value = role if column != "is_game_changer" else 1
-        rows = con.execute(
-            f"SELECT {cols_sql} FROM cards WHERE commander_legal = 1 AND {column} = ?", [value]
-        ).fetchall()
+        # Broad family roles must NOT fall through to the Game Changer
+        # query: "ramp"/"draw" mean "any card with a ramp/draw role", not
+        # "Game Changers only" (the narrow kinds and game_changer keep
+        # their exact-match behavior).
+        if role == "ramp":
+            rows = con.execute(
+                f"SELECT {cols_sql} FROM cards WHERE commander_legal = 1 AND ramp_kind IS NOT NULL"
+            ).fetchall()
+        elif role == "draw":
+            rows = con.execute(
+                f"SELECT {cols_sql} FROM cards WHERE commander_legal = 1 AND draw_kind IS NOT NULL"
+            ).fetchall()
+        else:
+            column = "ramp_kind" if role in RAMP_KINDS else "draw_kind" if role in DRAW_KINDS else "is_game_changer"
+            value = role if column != "is_game_changer" else 1
+            rows = con.execute(
+                f"SELECT {cols_sql} FROM cards WHERE commander_legal = 1 AND {column} = ?", [value]
+            ).fetchall()
         tags_by_name = {}
 
     matches: list[tuple[dict, set]] = []

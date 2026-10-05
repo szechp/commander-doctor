@@ -7,6 +7,7 @@ from collections import Counter
 from dataclasses import asdict, dataclass, field
 from typing import Any
 
+from deckdoctor.constraint_policy import summarize
 from deckdoctor.deck import Card, Deck, _resolve
 from deckdoctor.deck_config import DeckConfig, pinned_cards, rejected_swaps
 from deckdoctor.validation import ValidationDiagnostic, validate_deck
@@ -38,6 +39,7 @@ class SwapValidationResult:
     def to_dict(self) -> dict[str, Any]:
         result = asdict(self)
         result.pop("prospective_deck", None)
+        result["constraint_policy"] = summarize(d.code for d in self.diagnostics).to_dict()
         return result
 
 
@@ -179,14 +181,19 @@ def validate_swaps(
     if prospective.size != deck.size:
         diagnostics.append(_diag("unexpected_deck_size", f"swap changes deck size from {deck.size} to {prospective.size}"))
     if not diagnostics:
-        structural = validate_deck(prospective, metadata)
+        structural = validate_deck(prospective, metadata, config)
         diagnostics.extend(structural.diagnostics)
 
+    # Acceptance is severity-based, mirroring ValidationReport.valid: a
+    # diagnostic that is only a warning (e.g. an accepted legality_exception)
+    # must stay visible but must not fail the batch nor block the combo
+    # assessment or the structural before/after summaries below.
+    blocking = [d for d in diagnostics if d.severity == "error"]
     combo_status = "unknown"
     combo_findings: tuple[dict[str, Any], ...] = ()
     if combo_data is None:
         unknowns.append("prospective combo/bracket cache data was not supplied")
-    elif diagnostics:
+    elif blocking:
         unknowns.append("combo/bracket data was not assessed because the prospective deck is invalid")
     else:
         # The cache envelope carries the exact request fingerprint. Reuse the
@@ -220,12 +227,12 @@ def validate_swaps(
     structural_before: dict[str, Any] = {}
     structural_after: dict[str, Any] = {}
     quality_findings: tuple[dict[str, Any], ...] = ()
-    if not diagnostics:
+    if not blocking:
         structural_before = _structural_summary(deck, metadata)
         structural_after = _structural_summary(prospective, metadata)
         quality_findings = _quality_findings(structural_before, structural_after, config)
     return SwapValidationResult(
-        not diagnostics, tuple(diagnostics), diff, prospective if not diagnostics else None,
+        not blocking, tuple(diagnostics), diff, prospective if not blocking else None,
         pool_bound=pool is not None, pool_provenance=provenance,
         combo_status=combo_status, combo_findings=combo_findings, unknowns=tuple(unknowns),
         structural_before=structural_before, structural_after=structural_after,
