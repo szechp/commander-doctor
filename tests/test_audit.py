@@ -161,12 +161,27 @@ def test_land_formula_floored_at_community_minimum():
     # don't substitute for lands, and mana screw loses games). Found on a
     # real Sevinne list: formula said 27, deck had 35, every guide says
     # 34-38. The formula output is floored at 35 and reports that it was.
-    from deckdoctor.audit import COMMUNITY_LAND_FLOOR
+    from deckdoctor.audit import (
+        COMMUNITY_LAND_FLOOR, LAND_FLOOR_MIN, community_land_floor,
+    )
 
+    # A deck with little ramp and little draw gets the full 35.
+    lean = Census(lands=35, ramp_rock_dork=4, fast_mana=4, draw=3,
+                  avg_mv_nonland=2.2, nonland_count=60)
+    assert community_land_floor(lean) == COMMUNITY_LAND_FLOOR
+    lean_result = compute_land_formula(lean, threshold=5)
+    assert lean_result.computed >= COMMUNITY_LAND_FLOOR
+    assert lean_result.floored is True
+
+    # Abundant cheap ramp AND heavy draw sanction trimming: 35 - 1 - 1 = 33
+    # (community guidance: "trim toward 33-35 with 10+ cheap ramp and
+    # draw engines") -- the Sevinne list that triggered this (12 rocks,
+    # 14 draw) earns exactly the minimum floor.
     c = Census(lands=35, ramp_rock_dork=12, fast_mana=9, draw=14,
                avg_mv_nonland=2.84, nonland_count=64)
+    assert community_land_floor(c) == LAND_FLOOR_MIN
     result = compute_land_formula(c, threshold=5)
-    assert result.computed >= COMMUNITY_LAND_FLOOR
+    assert result.computed >= LAND_FLOOR_MIN
     assert result.floored is True
 
     # A deck whose raw formula already clears the floor is untouched.

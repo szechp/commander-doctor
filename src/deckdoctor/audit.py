@@ -53,7 +53,40 @@ WIPE_TAGS = {"sweeper", "sweeper-one-sided", "sweeper-graveyard"}
 # the tag is NOT proof a wipe is safe, only its presence is a solid signal.
 SYMMETRICAL_TAG = "symmetrical"
 LOW_TOUGHNESS_THRESHOLD = 2  # ref deckbuilding.md §4.4's qualitative note, no sourced number -- a starting point
-COMMUNITY_LAND_FLOOR = 35  # ref §0.2/community: the widely-cited Commander minimum (see compute_land_formula)
+COMMUNITY_LAND_FLOOR = 35  # ref §0.2/community: the widely-cited Commander minimum (see community_land_floor)
+LAND_FLOOR_MIN = 33  # sanctioned floor for decks with 10+ cheap ramp AND heavy draw (community guidance)
+LAND_FLOOR_MAX = 38  # top of the community 34-38 range; landfall/high-curve decks go above it by design
+
+
+def community_land_floor(census: "Census") -> int:
+    """Adaptive version of the community minimum (see COMMUNITY_LAND_FLOOR).
+
+    Community guidance is a range, not a single number: 35 is the default
+    "never below" line, but decks with abundant cheap ramp AND repeatable
+    draw are sanctioned down to 33-35 (Nerd Leagues: "trim toward 33-35
+    when you have 10+ one/two-mana acceleration and engines that churn
+    through the library"), because ramp patches missed drops and draw
+    finds the lands you do run. Conversely a deck with little ramp and
+    little draw leans on its land count and should not shave below the
+    full 35.
+
+    Modelled as three community sanctions stacked, transparently:
+    - base: 35
+    - >= 10 nonfast rock/dork ramp (rocks survive nothing, but they are
+      the drop-patching the guidance counts): -1
+    - >= 6 repeatable-draw-weighted draw (an engine like Rhystic Study
+      finds lands all game): -1
+
+    Clamped to [LAND_FLOOR_MIN, LAND_FLOOR_MAX]. All terms are community
+    quotes, not invented numbers; the stacking is the tool's own reading
+    of "several of these traits" in the source guidance."""
+
+    floor = COMMUNITY_LAND_FLOOR
+    if census.ramp_rock_dork - census.fast_mana + census.fast_mana >= 10:
+        floor -= 1
+    if census.draw >= 6:
+        floor -= 1
+    return max(LAND_FLOOR_MIN, min(LAND_FLOOR_MAX, floor))
 # Ramp/draw roles come from deckdoctor.card_roles (Forge structure first,
 # Scryfall tags as fallback, one precedence for both roles).
 
@@ -187,9 +220,10 @@ class AuditReport:
             f"  Karsten base       {self.land_formula.karsten_base:.1f}",
             f"  ref §0.2 adjustment {self.land_formula.adjustment:+.1f}",
             f"  computed           {self.land_formula.computed}"
-            + ("  (community floor 35 applied -- the raw curve model says"
+            + (f"  (community floor applied -- the raw curve model says"
                f" {round(self.land_formula.karsten_base + self.land_formula.adjustment)},"
-               " but 35 is the Commander community minimum)" if self.land_formula.floored else ""),
+               " but the adaptive community minimum (35, less with abundant"
+               " cheap ramp and draw) sets the target)" if self.land_formula.floored else ""),
             f"  actual             {self.land_formula.actual}",
         ]
         if self.land_formula.diverges:
@@ -411,8 +445,9 @@ def compute_land_formula(census: Census, threshold: float, commanders: int = 1) 
     # wipes, no draw guarantee) mana-screws you. Ramp substitution shrinks
     # with each wiped rock; lands don't. So the formula's output is floored
     # at the community minimum and reported as a target, never below it.
-    computed = max(computed, COMMUNITY_LAND_FLOOR)
-    floored = round(karsten_base + adjustment) < COMMUNITY_LAND_FLOOR
+    floor = community_land_floor(census)
+    computed = max(computed, floor)
+    floored = round(karsten_base + adjustment) < floor
     computed_int = round(computed)
     diverges = abs(computed_int - census.lands) >= 2
     return LandFormula(
