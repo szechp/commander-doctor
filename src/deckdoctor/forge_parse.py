@@ -264,64 +264,76 @@ def classify_ramp_kind(card: ParsedCard) -> str | None:
     return None
 
 
+def _is_own_draw(node: dict) -> bool:
+    """A Draw effect whose cards go to the card's controller: `Defined$`
+    absent (Forge's default is You) or `You`, and not aimed at an opponent.
+    "Target player draws" (`ValidTgts$ Player`, Ancestral Recall) counts --
+    you target yourself. Phelddagrif's `ValidTgts$ Opponent` draw, or
+    `Defined$ TriggeredPlayer` (Howling Mine, each player), does not:
+    `roles._draw_beneficiary` treats those as uncertain too."""
+    defined = node.get("Defined")
+    return defined in (None, "You") and "Opponent" not in str(node.get("ValidTgts", ""))
+
+
 def _svar_chain_reaches_draw(card: ParsedCard, sub_name: str, *, depth: int = 3) -> bool:
     """True if following `SubAbility$ NAME` links from `sub_name` through
-    `card.svars` reaches a `DB$ Draw` svar within `depth` hops. Depth-capped
-    so a malformed/cyclic chain can't spin; Forge chains are 1-2 long
-    (The Great Henge: TrigPutCounter -> SubAbility$ DBDraw -> DB$ Draw)."""
+    `card.svars` reaches a controller-draw `DB$ Draw` svar within `depth`
+    hops. Depth-capped so a malformed/cyclic chain can't spin; Forge chains
+    are 1-2 long (The Great Henge: TrigPutCounter -> SubAbility$ DBDraw)."""
     while sub_name and depth > 0:
         sub = _parse_kv_string(card.svars.get(sub_name.strip()) or "")
-        if sub.get("DB") == "Draw":
+        if sub.get("DB") == "Draw" and _is_own_draw(sub):
             return True
         sub_name = sub.get("SubAbility") or ""
         depth -= 1
     return False
 
 
+def _ability_draws(card: ParsedCard, a: dict) -> bool:
+    """Whether a top-level ability draws for its controller: directly
+    (`SP$/AB$ Draw`), via a modal `Choices$` svar (Return of the
+    Wildspeaker's `SP$ Charm | Choices$ DBDraw,...`), or via a
+    `SubAbility$` chain ending in a draw."""
+    if (a.get("AB") == "Draw" or a.get("SP") == "Draw") and _is_own_draw(a):
+        return True
+    for choice in (a.get("Choices") or "").split(","):
+        if choice.strip() and _svar_chain_reaches_draw(card, choice, depth=1):
+            return True
+    return _svar_chain_reaches_draw(card, a.get("SubAbility") or "")
+
+
 def classify_draw_kind(card: ParsedCard) -> str | None:
-    """repeatable | oneshot | None. ref deckbuilding.md §3 favours repeatable."""
+    """repeatable | oneshot | None. ref deckbuilding.md §3 favours repeatable.
+
+    Every ability and trigger is checked and `repeatable` wins over
+    `oneshot`, so ability order in the script can't change the answer.
+
+    Keyword draw (Cycling, landcycling) is deliberately NOT draw here: it is
+    card-neutral (discard this card, get one), so counting it would inflate
+    the draw floor, and `upgrades.find_draw_upgrades` relies on cycling-only
+    cards having no draw_kind so they are never offered as a replacement
+    for a real draw spell. The Scryfall tag still covers them, flagged as a
+    Forge/tag disagreement."""
+    kinds: set[str] = set()
     for a in card.abilities:
-        if a.get("AB") == "Draw":
-            return "repeatable"
-        if a.get("SP") == "Draw":
-            return "oneshot"
-        # Modal spells (SP$ Charm | Choices$ DBDraw,DBPumpAll) keep each
-        # mode in its own svar; the draw mode is a DB$ Draw svar named in
-        # the comma-separated Choices$ list (Return of the Wildspeaker,
-        # Kolaghan's Command). A Charm draw resolves once per cast: oneshot
-        # for SP$, repeatable only if the modal ability is itself AB$.
-        choices = a.get("Choices")
-        if choices:
-            for choice in choices.split(","):
-                if _svar_chain_reaches_draw(card, choice, depth=1):
-                    return "repeatable" if a.get("AB") else "oneshot"
-        # A top-level ability can also chain through SubAbility$ into a
-        # draw svar without ever mentioning Draw itself.
-        if _svar_chain_reaches_draw(card, a.get("SubAbility") or ""):
-            return "repeatable" if a.get("AB") else "oneshot"
+        if _ability_draws(card, a):
+            # A modal/chained draw on an activated ability recurs; on a
+            # spell it resolves once per cast.
+            kinds.add("repeatable" if a.get("AB") else "oneshot")
     # Triggered draw lives in the trigger's Execute$ svar (Phyrexian Arena,
-    # Rhystic Study, Skullclamp, Mulldrifter) and was invisible to the
-    # abilities-only scan above. A trigger on this card itself entering the
-    # battlefield fires once (Mulldrifter); any other trigger recurs.
-    # The Execute$ svar may only be the head of a SubAbility$ chain: The
-    # Great Henge's creature-ETB trigger executes PutCounter with a
-    # SubAbility$ DBDraw tail, so the chain must be followed too.
+    # Rhystic Study, Skullclamp, Mulldrifter), possibly as the tail of a
+    # SubAbility$ chain (The Great Henge: PutCounter -> SubAbility$ DBDraw).
+    # A trigger on this card itself entering the battlefield fires once
+    # (Mulldrifter); any other trigger recurs.
     for t in card.triggers:
-        execute = card.svars.get(t.get("Execute") or "")
-        if execute:
-            sub = _parse_kv_string(execute)
-            if sub.get("DB") == "Draw" or _svar_chain_reaches_draw(card, sub.get("SubAbility") or ""):
-                self_etb = (t.get("Mode") == "ChangesZone" and t.get("Destination") == "Battlefield"
-                            and t.get("ValidCard") == "Card.Self")
-                return "oneshot" if self_etb else "repeatable"
-    # Keyword draw costs (K:Cycling:3 -- Jetmir's Garden; also BasicLandCycle
-    # on Ash Barrens etc.) discard for a card: one-shot, and only usable from
-    # a zone where the card isn't doing its main job, so not repeatable.
-    for k in card.keywords:
-        kw = k.split(":")[0].strip()
-        if kw in ("Cycling", "BasicLandCycle"):
-            return "oneshot"
-    return None
+        execute = t.get("Execute") or ""
+        if execute and _svar_chain_reaches_draw(card, execute):
+            self_etb = (t.get("Mode") == "ChangesZone" and t.get("Destination") == "Battlefield"
+                        and t.get("ValidCard") == "Card.Self")
+            kinds.add("oneshot" if self_etb else "repeatable")
+    if "repeatable" in kinds:
+        return "repeatable"
+    return "oneshot" if kinds else None
 
 
 def classify_prereq(card: ParsedCard) -> dict | None:

@@ -156,14 +156,36 @@ THE_GREAT_HENGE = _card(
         "DBDraw": "DB$ Draw | Defined$ You | NumCards$ 1",
     },
 )
-CHOICECLIFF_RIDGE = _card(
-    "Repeatable Charm Thing", types="Creature",
+# Synthetic (not a real card): a modal AB$ ability, to pin repeatable vs. oneshot.
+SYNTHETIC_AB_CHARM = _card(
+    "Synthetic AB Charm", types="Creature",
     abilities=["AB$ Charm | Choices$ DBDraw"],
     svars={"DBDraw": "DB$ Draw | Defined$ You | NumCards$ 1"},
 )
 JETMIRS_GARDEN = _card(
     "Jetmir's Garden", types="Land Mountain Forest Plains",
     keywords=["Cycling:3"],
+)
+GLASSDUST_HULK = _card("Glassdust Hulk", types="Artifact Creature Golem", keywords=["Cycling:WU"])
+ASH_BARRENS = _card(
+    "Ash Barrens", types="Land",
+    abilities=["AB$ Mana | Cost$ T | Produced$ C"], keywords=["TypeCycling:Basic:1"],
+)
+PHELDDAGRIF = _card(
+    "Phelddagrif", types="Legendary Creature Phelddagrif",
+    abilities=["AB$ ChangeZone | Cost$ U | Origin$ Battlefield | Destination$ Hand | SubAbility$ DBDraw"],
+    svars={"DBDraw": "DB$ Draw | ValidTgts$ Opponent | OptionalDecider$ Opponent"},
+)
+HOWLING_MINE = _card(
+    "Howling Mine", types="Artifact",
+    triggers=["Mode$ Phase | Phase$ Draw | ValidPlayer$ Player | Execute$ TrigDraw"],
+    svars={"TrigDraw": "DB$ Draw | Defined$ TriggeredPlayer"},
+)
+# Synthetic: a spell-chain draw listed before an activated draw ability.
+SYNTHETIC_ORDER = _card(
+    "Synthetic Order", types="Artifact",
+    abilities=["SP$ Pump | SubAbility$ DBDraw", "AB$ Draw | Cost$ 2 T | NumCards$ 1"],
+    svars={"DBDraw": "DB$ Draw | NumCards$ 1"},
 )
 MULLDRIFTER = _card(
     "Mulldrifter", types="Creature Elemental",
@@ -189,9 +211,24 @@ def test_classifier_gaps_found_on_live_gishath_deck():
     # their draw effects live in Forge script shapes the classifier missed.
     assert classify_draw_kind(RETURN_OF_THE_WILDSPEAKER) == "oneshot"  # Charm Choices$ -> DB$ Draw svar
     assert classify_draw_kind(THE_GREAT_HENGE) == "repeatable"  # trigger -> SubAbility$ chain -> DB$ Draw
-    assert classify_draw_kind(JETMIRS_GARDEN) == "oneshot"  # K:Cycling:3 keyword draw
     # A modal AB$ ability draws every activation, not once.
-    assert classify_draw_kind(CHOICECLIFF_RIDGE) == "repeatable"
+    assert classify_draw_kind(SYNTHETIC_AB_CHARM) == "repeatable"
+
+
+def test_draw_classifier_rejects_card_neutral_and_opponent_draws():
+    # Cycling/landcycling are card-neutral, and upgrades' kind guard relies
+    # on cycling-only cards having no draw_kind; the Scryfall tag still
+    # covers them as a flagged disagreement.
+    assert classify_draw_kind(JETMIRS_GARDEN) is None
+    assert classify_draw_kind(GLASSDUST_HULK) is None
+    assert classify_draw_kind(ASH_BARRENS) is None
+    # The opponent draws (Phelddagrif) or every player does (Howling Mine).
+    assert classify_draw_kind(PHELDDAGRIF) is None
+    assert classify_draw_kind(HOWLING_MINE) is None
+
+
+def test_draw_classifier_does_not_depend_on_ability_order():
+    assert classify_draw_kind(SYNTHETIC_ORDER) == "repeatable"
 
 
 @pytest.mark.parametrize("change_type, expected", [
