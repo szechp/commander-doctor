@@ -83,25 +83,11 @@ from deckdoctor.deck_config import DeckConfig, load_playgroup_config, pinned_car
 from deckdoctor.candidates import CandidatePage, find_candidate_comparisons
 # Shared reliability-gate logic -- moved to reliability.py so coverage.py's
 # "cheapest legal option" ranking can use the SAME checks (they rank the
-# same removal-*/sweeper-* tags this module does). Imported under their
-# original local names so every call site below is unchanged; see
-# reliability.py's module docstring for why this split exists.
+# same removal-*/sweeper-* tags this module does). Only the names this
+# module still calls directly are imported; see reliability.py's module
+# docstring for why this split exists.
 from deckdoctor.reliability import (
-    X_COST_RE as _X_COST_RE,
     clause_is_narrow as _clause_is_narrow,
-    has_combat_contingent_removal as _has_combat_contingent_removal,
-    has_conditional_activation as _has_conditional_activation,
-    has_extra_cast_cost as _has_extra_cast_cost,
-    has_keyword as _has_keyword,
-    has_lose_the_game as _has_lose_the_game,
-    has_narrow_target_restriction as _has_narrow_target_restriction,
-    has_self_sacrifice_ability as _has_self_sacrifice_ability,
-    has_unusual_enchant_target as _has_unusual_enchant_target,
-    grants_target_a_benefit as _grants_target_a_benefit,
-    is_etb_self_trigger as _is_etb_self_trigger,
-    is_fight_based_removal as _is_fight_based_removal,
-    is_symmetrical_effect as _is_symmetrical_effect,
-    is_temporary_removal as _is_temporary_removal,
     keywords as _keywords,
     mana_value_of_forge_cost as _mana_value_of_forge_cost,
     parsed as _parsed,

@@ -305,7 +305,7 @@ def test_compound_condition_key_names_detected(con):
     # a card if you have no cards in hand", `ConditionCheckSVar$ X |
     # ConditionSVarCompare$ EQ0`) both slipped through undetected. Must
     # now match on substring, not exact key name.
-    from deckdoctor.upgrades import _has_conditional_activation, _parsed
+    from deckdoctor.reliability import has_conditional_activation as _has_conditional_activation, parsed as _parsed
     for name in ["Balance of Power", "Idle Thoughts"]:
         row = con.execute("SELECT parsed FROM cards WHERE name = ?", [name]).fetchone()
         assert row is not None, f"{name} not in mirror"
@@ -336,7 +336,7 @@ def test_conditional_reflection_source_excluded_from_ramp(con):
 
 
 def test_teamwork_trigger_excluded_from_draw_candidates(con):
-    from deckdoctor.upgrades import _has_conditional_activation, _parsed
+    from deckdoctor.reliability import has_conditional_activation as _has_conditional_activation, parsed as _parsed
     row = con.execute("SELECT parsed FROM cards WHERE name = 'Agent Maria Hill'").fetchone()
     assert _has_conditional_activation(_parsed(row[0])) is True
 
