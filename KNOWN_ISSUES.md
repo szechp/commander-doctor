@@ -989,3 +989,30 @@ to me. Just not a blanket but targeted." Two stacked causes:
    Dust's draw). Without a role, or when no ability for it is found, the
    original deny-by-default scan applies. Tests use real Forge scripts:
    tests/test_coverage.py::test_condition_only_disqualifies_the_role_it_gates.
+
+## Restricted lands were invisible to every report (Temple of the False God)
+
+Found on a real deck review, user-called: "What about the weird lands,
+like false gods?" -- followed by "Why did you not flag this?" Temple of
+the False God ("Add {C}{C}. Activate only if you control five or more
+lands") appeared in NO report: colour.py skips colourless-only
+producers by design (not a coloured source), the land census counts
+lands as fungible, and no module evaluated land quality. In a 33-land
+deck already below the floor, one land that cannot make mana before
+turn 5+ is functionally a blank early card -- the "Lands 33 vs 35"
+flag was correct but understated.
+
+Fixed: `restricted_mana_lands()` (colour.py) reads the already-parsed
+Forge structure -- a land is restricted when EVERY mana ability carries
+an IsPresent$/PresentCompare$ gate -- and a new "Restricted lands"
+health row names each one with its parsed restriction. Deliberately
+narrow: partially-gated lands (Blazemire Verge: {B} free, {R} needs
+Swamp-or-Mountain) are NOT restricted -- they always make something.
+Report, never gate: some decks want Temple's late {C}{C}.
+
+Known remaining gap, NOT fixed here: ETB-tapped land DENSITY (6+
+taplands at a below-floor land count is a real tempo cost) has no
+synthesized check -- each tapped land is named individually in the
+colours report, but nothing weighs the total. Would need a stated
+judgment call (how much tapped-land density is too much), which is a
+different, less mechanical feature than this one.

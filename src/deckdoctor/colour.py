@@ -268,6 +268,50 @@ def _is_land(card: Card) -> bool:
 _LAND_TYPE_WORDS = {"plains": "W", "island": "U", "swamp": "B", "mountain": "R", "forest": "G"}
 _FETCH_CLAUSE_RE = re.compile(r"search your library for (?:a|an|up to \w+) (.+?) cards?\b", re.IGNORECASE)
 
+# A land whose EVERY mana ability is presence-gated ("Activate only if
+# you control..." in Forge structure: an IsPresent$/PresentCompare$ pair
+# on the ability) cannot be counted on to make mana early. Found on a
+# real deck: Temple of the False God ("Add {C}{C}. Activate only if you
+# control five or more lands") sat invisible in every report -- the
+# colour pass skips colourless producers, the land census counts lands
+# as fungible -- while functionally blanking the deck's early turns in
+# a 33-land deck already below the floor. Deliberately NARROW: a land
+# with one gated and one unconditional ability (Blazemire Verge: {B}
+# free, {R} needs Swamp-or-Mountain) is NOT restricted -- it always
+# makes something. Same family as the fetchland colour derivation:
+# reads structure the mirror already has, invents nothing.
+def restricted_mana_lands(deck: Deck, con: sqlite3.Connection) -> list[tuple[str, str]]:
+    """(name, restriction) for each library land whose every mana
+    ability is presence-gated. Empty list = no early-game mana risk."""
+    names = list(dict.fromkeys(c.name for c in deck.library))
+    placeholders = ",".join("?" for _ in names)
+    rows = con.execute(
+        f"SELECT name, parsed FROM cards WHERE name IN ({placeholders})",
+        names,
+    ).fetchall()
+    restricted: list[tuple[str, str]] = []
+    for card_name, parsed_json in rows:
+        card = next((c for c in deck.library if c.name == card_name), None)
+        if card is None or not _is_land(card):
+            continue
+        try:
+            parsed = json.loads(parsed_json or "{}")
+        except (json.JSONDecodeError, TypeError):
+            continue
+        abilities = parsed.get("abilities", []) if isinstance(parsed, dict) else []
+        mana_abilities = [a for a in abilities
+                          if isinstance(a, dict) and a.get("AB") in {"Mana", "ManaReflected"}]
+        if not mana_abilities:
+            continue  # no mana ability to restrict (fetches, utility lands)
+        gated = [a for a in mana_abilities if "IsPresent$" in a.get("raw", "")]
+        if len(gated) == len(mana_abilities):
+            raw = gated[0].get("raw", "")
+            m = re.search(r"IsPresent\$ ([^|]+) \| PresentCompare\$ ([^|]+)", raw)
+            restriction = (f"needs {m.group(1).strip()} ({m.group(2).strip()})"
+                           if m else "presence-gated")
+            restricted.append((card_name, restriction))
+    return restricted
+
 
 def _fetch_targets(deck: Deck) -> list[tuple[bool, frozenset[str]]]:
     """(is_basic, basic land types) for every land in the library -- what a
