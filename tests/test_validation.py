@@ -331,3 +331,38 @@ def test_multicommander_count_is_explicitly_invalid():
     deck = Deck("x", commander, [], commander_count=2, quantities={})
     report = validate_deck(deck)
     assert any(d.code == "unsupported_commander_configuration" for d in report.diagnostics)
+
+
+def test_sideboard_cards_are_validated_but_not_counted(tmp_path):
+    con, path = _db_and_deck(tmp_path)
+    rows = [
+        _card("Negate", mana_cost="{1}{U}", cmc=2, type_line="Instant",
+              color_identity=("U",), oracle_text="Counter target noncreature spell."),
+        _card("Rebuff the Wicked", mana_cost="{W}", cmc=1, type_line="Instant",
+              color_identity=("W",), oracle_text="Counter target spell that targets a permanent you control."),
+        _card("Offcolour Pick", mana_cost="{B}", cmc=1, type_line="Sorcery",
+              color_identity=("B",)),
+    ]
+    con.executemany(
+        "INSERT INTO cards (name,mana_cost,cmc,type_line,oracle_text,color_identity,colors,produced_mana,keywords,commander_legal,is_game_changer,layout,set_type,prereq,ramp_kind,draw_kind,parsed,power,toughness) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+        rows,
+    )
+    con.commit()
+    path.write_text(
+        path.read_text(encoding="utf-8")
+        + "\n// SIDEBOARD\n1 Negate\n1 Rebuff the Wicked\n2 Offcolour Pick\n1 Phyrexian Vindicator\n",
+        encoding="utf-8",
+    )
+    report = validate_decklist(str(path), con)
+    # The 4 sideboard cards never enter the 100.
+    assert report.valid
+    assert report.total_cards == 100
+    assert report.metrics["sideboard_cards"] == 5
+    codes = [d.code for d in report.diagnostics]
+    # Singleton consistency spans zones: Vindicator is maindeck + sideboard.
+    assert "sideboard_duplicate" in codes
+    # Off-colour sideboard cards are warnings, not errors.
+    assert "sideboard_off_colour_card" in codes
+    assert "sideboard_duplicate_nonbasic" in codes
+    assert all(d.severity == "warning" for d in report.diagnostics)
+    con.close()

@@ -228,3 +228,41 @@ def test_combo_pieces_unchecked_without_a_cache_is_an_unknown(fixture_db, fixtur
     ]}, fixture_db)
     assert result.accepted
     assert any("combo pieces were not checked" in u for u in result.unknowns)
+
+
+def _sideboard_deck(fixture_db, fixture_deck):
+    _add_cards(fixture_db)
+    for name in ("Sideboard Pick A", "Sideboard Pick B"):
+        fixture_db.execute(
+            "INSERT INTO cards (name,mana_cost,cmc,type_line,oracle_text,color_identity,colors,keywords,commander_legal,is_game_changer,layout,set_type) "
+            "VALUES (?, '{2}', 2, 'Instant', 'Fixture sideboard card.', '[\"W\"]', '[\"W\"]', '[]', 1, 0, 'normal', 'core')",
+            (name,),
+        )
+    fixture_db.commit()
+    fixture_deck.write_text(
+        fixture_deck.read_text(encoding="utf-8")
+        + "\n// SIDEBOARD\n1 Sideboard Pick A\n1 Sideboard Pick B\n",
+        encoding="utf-8",
+    )
+    return load_deck(str(fixture_deck), fixture_db)
+
+
+def test_sideboard_is_a_distinct_zone_not_part_of_the_100(fixture_db, fixture_deck):
+    deck = _sideboard_deck(fixture_db, fixture_deck)
+    assert deck.size == 100
+    assert deck.sideboard_quantities == {"Sideboard Pick A": 1, "Sideboard Pick B": 1}
+    assert "Sideboard Pick A" not in deck.quantities
+
+
+def test_sideboard_card_added_by_a_swap_is_promoted(fixture_db, fixture_deck):
+    deck = _sideboard_deck(fixture_db, fixture_deck)
+    result = validate_swaps(deck, {
+        "schema_version": 1,
+        "swaps": [{"cut": "Fixture Plains 0", "add": "Sideboard Pick B", "quantity": 1}],
+    }, fixture_db)
+    assert result.accepted
+    assert result.prospective_deck is not None
+    assert result.prospective_deck.quantities["Sideboard Pick B"] == 1
+    # Promoted out of the suggestion zone -- not in both zones at once.
+    assert "Sideboard Pick B" not in result.prospective_deck.sideboard_quantities
+    assert result.prospective_deck.sideboard_quantities == {"Sideboard Pick A": 1}

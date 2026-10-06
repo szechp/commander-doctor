@@ -211,7 +211,16 @@ def validate_swaps(
     final.update(adds)
     final += Counter()  # discard zero and negative entries
     final_cards = [cards[name] for name, quantity in sorted(final.items()) for _ in range(quantity) if name in cards]
-    prospective = Deck(deck.name, deck.commander, final_cards, deck.commander_count, dict(final), deck.line_numbers)
+    # Adding a card that sits in the sideboard promotes it: the
+    # prospective deck plays it, so it leaves the suggestion zone
+    # (keeping it in both would trip validate_deck's sideboard_duplicate).
+    promoted = {name for name in adds if name in deck.sideboard_quantities}
+    sideboard_quantities = {name: quantity for name, quantity in deck.sideboard_quantities.items()
+                            if name not in promoted}
+    sideboard = [card for card in deck.sideboard if card.name not in promoted]
+    prospective = Deck(deck.name, deck.commander, final_cards, deck.commander_count, dict(final), deck.line_numbers,
+                       sideboard=sideboard, sideboard_quantities=sideboard_quantities,
+                       sideboard_line_numbers={k: list(v) for k, v in deck.sideboard_line_numbers.items()})
     diff = ProspectiveDiff(tuple(sorted(cuts.items())), tuple(sorted(adds.items())), deck.size, prospective.size)
     if prospective.size != deck.size:
         diagnostics.append(_diag("unexpected_deck_size", f"swap changes deck size from {deck.size} to {prospective.size}"))

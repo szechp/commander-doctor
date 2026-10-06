@@ -989,3 +989,35 @@ to me. Just not a blanket but targeted." Two stacked causes:
    Dust's draw). Without a role, or when no ability for it is found, the
    original deny-by-default scan applies. Tests use real Forge scripts:
    tests/test_coverage.py::test_condition_only_disqualifies_the_role_it_gates.
+
+## Sideboard is a distinct zone, not stripped
+
+Historically `_parse_decklist_detailed` DROPPED `// SIDEBOARD` cards
+entirely (they shared the excluded-section path with maybeboard/
+considering/tokens, the fix for a real bug where a 4-card sideboard
+counted toward deck_size 104). The user's actual workflow keeps a
+rotating sideboard pool and expected the tool to SEE those cards.
+
+RESOLVED: `_parse_decklist_detailed` now returns a two-zone parse
+(main entries, sideboard entries); maybeboard/considering/tokens stay
+dropped. `Deck` gained `sideboard`, `sideboard_quantities`,
+`sideboard_line_numbers`; `load_deck` and `validate_decklist` resolve
+sideboard names (unresolved -> `unresolved_sideboard_card` error, since
+a pool card that cannot be resolved cannot be promoted).
+`validate_deck` checks the zone WITHOUT counting it into the 100:
+cross-zone singleton consistency (`sideboard_duplicate`, error --
+promoting requires cutting the maindeck copy), while pool-internal
+issues (off-colour, illegal, over-limit quantities, legality unknown)
+are WARNINGS, report-not-gate: the sideboard is a suggestion pool, not
+a played card. `validate_swaps` treats an addition that names a
+sideboard card as a PROMOTION: it leaves the prospective sideboard
+(the card moves zones instead of duplicating), so the prospective deck
+never carries the same card in both zones. Coverage/candidate ranking
+still ignores the sideboard by design -- the pool only participates
+via swap promotion, never via deck_has/health metrics.
+Regression tests: tests/test_deck_config.py::
+test_sideboard_cards_are_excluded_from_maindeck (the original 104-card
+bug stays fixed), tests/test_validation.py::
+test_sideboard_cards_are_validated_but_not_counted,
+tests/test_swaps.py::test_sideboard_is_a_distinct_zone_not_part_of_the_100,
+tests/test_swaps.py::test_sideboard_card_added_by_a_swap_is_promoted.
