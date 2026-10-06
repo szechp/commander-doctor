@@ -974,3 +974,16 @@ to me. Just not a blanket but targeted." Two stacked causes:
    `hate-graveyard`-tagged cards whose payoff half is conditional
    remain invisible to coverage's cheapest-answer ranking (deck_has can
    still flip true via cards that pass the gate, e.g. Endurance).
+
+   RESOLVED in the same PR (follow-up commit): `has_conditional_activation`
+   now takes an optional capability predicate. With one, a condition only
+   disqualifies a card when it sits on the node that performs the
+   capability or on a node before it in the `SubAbility$`/`Execute$`
+   chain. Coverage passes `removes_graveyard_cards` for graveyard answers,
+   so Scavenging Ooze and Cling to Dust (unconditional exile, conditional
+   bonus) count, while a condition on the capability itself (Bonecache
+   Overseer's draw, Cling to Dust's draw) still excludes. Without a
+   capability, or when it can't be located in the parsed structure, the
+   original deny-by-default scan applies unchanged. Tests use the real
+   Forge scripts (sub-abilities included): tests/test_coverage.py::
+   test_condition_only_disqualifies_the_capability_it_gates.

@@ -427,58 +427,104 @@ def test_instant_speed_count_matches_defence_module(con):
     assert coverage_report.instant_speed_count == defence_report.instant_speed_actual
 
 
-def test_targeted_graveyard_hate_credited_for_graveyard_coverage(con):
-    # Real bug, found mid deck review: Scavenging Ooze ("{G}: Exile target
-    # card from a graveyard") carries ONLY `hate-graveyard` in the mirror
-    # -- a 290-card family DISJOINT from `sweeper-graveyard` (83 cards,
-    # zero overlap) -- so a deck whose only graveyard answer is targeted
-    # hate reported a false coverage GAP, pushing a needless swap. Same
-    # shape as the disenchant-naturalize alias bug; fixed the same way.
-    # The fixture catalog doesn't carry Scavenging Ooze itself, so this
-    # inserts one synthetic card tagged the real way the mirror tags the
-    # family (real Forge parsed shape -- reliability filters deny-by-default
-    # on a missing `parsed` field).
-    parsed_json = json.dumps({
-        "mana_cost": "1 G", "types": "Creature Ooze", "pt": "2/2", "keywords": [],
-        "abilities": [{
-            "raw": "AB$ ChangeZone | Cost$ G | Origin$ Graveyard | Destination$ Exile | "
-                   "TgtPrompt$ Choose target card in a graveyard | ValidTgts$ Card | "
-                   "SubAbility$ DBPutCounter | SpellDescription$ Exile target card from a "
-                   "graveyard. If it was a creature card, put a +1/+1 counter on CARDNAME "
-                   "and you gain 1 life.",
-            "AB": "ChangeZone", "Cost": "G", "Origin": "Graveyard", "Destination": "Exile",
-            "TgtPrompt": "Choose target card in a graveyard", "ValidTgts": "Card",
-            "SubAbility": "DBPutCounter",
-            "SpellDescription": "Exile target card from a graveyard.",
-        }],
-        "statics": [], "replacements": [], "triggers": [], "svars": {},
-    })
+# Real Card-Forge cardsfolder scripts (master), trimmed to the lines the
+# reliability gate reads.
+_SCAVENGING_OOZE = """Name:Scavenging Ooze
+ManaCost:1 G
+Types:Creature Ooze
+PT:2/2
+A:AB$ ChangeZone | Cost$ G | Origin$ Graveyard | Destination$ Exile | TgtPrompt$ Choose target card in a graveyard | ValidTgts$ Card | SubAbility$ DBPutCounter | SpellDescription$ Exile target card from a graveyard. If it was a creature card, put a +1/+1 counter on CARDNAME and you gain 1 life.
+SVar:DBPutCounter:DB$ PutCounter | Defined$ Self | CounterType$ P1P1 | CounterNum$ 1 | ConditionDefined$ Targeted | ConditionPresent$ Creature | ConditionCompare$ EQ1 | SubAbility$ DBGainLife
+SVar:DBGainLife:DB$ GainLife | Defined$ You | LifeAmount$ 1 | ConditionDefined$ Targeted | ConditionPresent$ Creature | ConditionCompare$ EQ1
+"""
+_CLING_TO_DUST = """Name:Cling to Dust
+ManaCost:B
+Types:Instant
+A:SP$ ChangeZone | Origin$ Graveyard | Destination$ Exile | ValidTgts$ Card | RememberChanged$ True | SubAbility$ DBGainLife | SpellDescription$ Exile target card from a graveyard. If it was a creature card, you gain 3 life. Otherwise, you draw a card.
+SVar:DBGainLife:DB$ GainLife | Defined$ You | LifeAmount$ 3 | ConditionDefined$ Remembered | ConditionPresent$ Creature | ConditionCompare$ EQ1 | SubAbility$ DBDraw
+SVar:DBDraw:DB$ Draw | ConditionDefined$ Remembered | ConditionPresent$ Creature | ConditionCompare$ EQ0 | SubAbility$ DBCleanup
+SVar:DBCleanup:DB$ Cleanup | ClearRemembered$ True
+"""
+_BONECACHE_OVERSEER = """Name:Bonecache Overseer
+ManaCost:B
+Types:Creature Squirrel Warlock
+PT:1/1
+A:AB$ Draw | Cost$ T PayLife<1> | CheckSVar$ X | SVarCompare$ GE3 | SpellDescription$ Draw a card. Activate only if three or more cards left your graveyard this turn.
+"""
+_BOJUKA_BOG = """Name:Bojuka Bog
+ManaCost:no cost
+Types:Land
+A:AB$ Mana | Cost$ T | Produced$ B | SpellDescription$ Add {B}.
+T:Mode$ ChangesZone | Origin$ Any | Destination$ Battlefield | ValidCard$ Card.Self | Execute$ TrigExile | TriggerDescription$ When CARDNAME enters, exile all cards from target player's graveyard.
+SVar:TrigExile:DB$ ChangeZoneAll | ValidTgts$ Player | Origin$ Graveyard | Destination$ Exile | ChangeType$ Card | IsCurse$ True
+"""
+
+
+def _parsed(script, tmp_path):
+    from deckdoctor.forge_parse import parse_card_file
+    path = tmp_path / "card.txt"
+    path.write_text(script, encoding="utf-8")
+    return json.loads(parse_card_file(path)[0].to_json())
+
+
+def _draws(node):
+    return (node.get("AB") or node.get("SP") or node.get("DB")) == "Draw"
+
+
+def test_condition_only_disqualifies_the_capability_it_gates(tmp_path):
+    # The gate used to reject a card for a condition marker ANYWHERE in its
+    # script. Scavenging Ooze's exile is unconditional; only its bonus
+    # (counter + life "if it was a creature card") is gated.
+    from deckdoctor.reliability import has_conditional_activation, removes_graveyard_cards
+
+    ooze = _parsed(_SCAVENGING_OOZE, tmp_path)
+    cling = _parsed(_CLING_TO_DUST, tmp_path)
+    bonecache = _parsed(_BONECACHE_OVERSEER, tmp_path)
+    bog = _parsed(_BOJUKA_BOG, tmp_path)
+    assert has_conditional_activation(ooze, removes_graveyard_cards) is False
+    assert has_conditional_activation(cling, removes_graveyard_cards) is False
+    assert has_conditional_activation(bog, removes_graveyard_cards) is False  # via its ETB trigger
+    # Conditions that DO gate the capability still disqualify.
+    assert has_conditional_activation(cling, _draws) is True  # the draw needs a noncreature exile
+    assert has_conditional_activation(bonecache, _draws) is True  # "activate only if ..."
+    # Without a capability (or if it can't be located), the old
+    # deny-by-default rule is unchanged.
+    assert has_conditional_activation(ooze) is True
+    assert has_conditional_activation(bonecache, removes_graveyard_cards) is True
+
+
+def test_targeted_graveyard_hate_credited_for_graveyard_coverage(con, tmp_path):
+    # Real bug, found mid deck review (Ghired): health reported "missing
+    # graveyard" for a deck with Scavenging Ooze. Two causes: Scooze carries
+    # only the `hate-graveyard` tag (now aliased), and the reliability gate
+    # rejected it for the condition on its bonus. Uses the REAL Forge script,
+    # sub-abilities included -- a stripped one hides the second cause.
     con.execute(
         "INSERT INTO cards (name,mana_cost,cmc,type_line,oracle_text,color_identity,colors,"
         "produced_mana,keywords,commander_legal,is_game_changer,layout,set_type,parsed) "
-        "VALUES ('Test Graveyard Ooze','{1}{G}',2.0,'Creature — Ooze',"
+        "VALUES ('Scavenging Ooze','{1}{G}',2.0,'Creature — Ooze',"
         "'{G}: Exile target card from a graveyard.','[\"G\"]','[\"G\"]',NULL,'[]',1,0,'normal','core',?)",
-        (parsed_json,),
+        (json.dumps(_parsed(_SCAVENGING_OOZE, tmp_path)),),
     )
-    con.execute("INSERT INTO card_tags (card_name, tag) VALUES ('Test Graveyard Ooze', 'hate-graveyard')")
+    con.execute("INSERT INTO card_tags (card_name, tag) VALUES ('Scavenging Ooze', 'hate-graveyard')")
     con.commit()
     from deckdoctor.deck import Card, Deck
     commander = Card(name="Fixture Commander", cmc=4, type_line="Legendary Creature — Human",
                      ramp_kind=None, draw_kind=None, prereq=None, is_game_changer=False,
                      color_identity=("G",), commander_legal=True)
-    ooze = Card(name="Test Graveyard Ooze", cmc=2, type_line="Creature — Ooze", ramp_kind=None,
+    ooze = Card(name="Scavenging Ooze", cmc=2, type_line="Creature — Ooze", ramp_kind=None,
                 draw_kind=None, prereq=None, is_game_changer=False,
                 color_identity=("G",), commander_legal=True)
     forest = Card(name="Fixture Forest 0", cmc=0, type_line="Basic Land — Forest",
                   ramp_kind=None, draw_kind=None, prereq=None, is_game_changer=False,
                   color_identity=(), commander_legal=True)
     deck = Deck(name="ooze", commander=commander, library=[ooze] + [forest] * 98, commander_count=1,
-                quantities={"Test Graveyard Ooze": 1, "Fixture Forest 0": 98})
+                quantities={"Scavenging Ooze": 1, "Fixture Forest 0": 98})
     report = compute_coverage(deck, con)
     gy = next(e for e in report.entries if e.answer_type == "graveyard")
     assert gy.deck_has is True
-    assert gy.deck_cheapest_name == "Test Graveyard Ooze"
+    assert gy.deck_cheapest_name == "Scavenging Ooze"
     # Scoped: targeted grave hate answers nothing else.
     for answer_type in ("creature", "artifact", "enchantment", "planeswalker"):
         entry = next(e for e in report.entries if e.answer_type == answer_type)
-        assert entry.deck_cheapest_name != "Test Graveyard Ooze"
+        assert entry.deck_cheapest_name != "Scavenging Ooze"

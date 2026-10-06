@@ -61,6 +61,7 @@ from deckdoctor.reliability import (
     has_free_etb_removal_trigger,
     mana_value_of_forge_cost,
     passes_removal_reliability_filters,
+    removes_graveyard_cards,
 )
 from deckdoctor.roles import extract_role_evidence
 
@@ -105,6 +106,14 @@ COVERAGE_TAG_ALIASES: dict[str, tuple[str, ...]] = {
     "removal-enchantment": ("removal-permanent", "disenchant-naturalize"),
     "removal-planeswalker": ("removal-permanent",),
     "sweeper-graveyard": ("hate-graveyard",),
+}
+
+
+# The effect each answer type actually needs, so the reliability gate
+# judges conditions on THAT effect rather than anywhere on the card
+# (Scavenging Ooze's exile is unconditional; only its bonus is gated).
+COVERAGE_TAG_CAPABILITIES = {
+    "sweeper-graveyard": removes_graveyard_cards,
 }
 
 
@@ -472,7 +481,7 @@ def _cheapest_in_deck(con: sqlite3.Connection, names: list[str], tag: str) -> tu
         list(tagged),
     ).fetchall()
     rows = [(name, cmc, parsed) for name, cmc, parsed, mana_cost in rows
-            if passes_removal_reliability_filters(parsed, mana_cost) is not None
+            if passes_removal_reliability_filters(parsed, mana_cost, COVERAGE_TAG_CAPABILITIES.get(tag)) is not None
             and effective_cost_for_role(cmc, parsed, tag) is not None]
     if not rows:
         return None, None, None
@@ -497,7 +506,7 @@ def _cheapest_in_db(con: sqlite3.Connection, commander_ci: set[str], tag: str) -
     ).fetchall()
     legal = [(name, cmc, parsed) for name, cmc, ci_json, parsed, mana_cost in candidates
              if set(json.loads(ci_json or "[]")) <= commander_ci
-             and passes_removal_reliability_filters(parsed, mana_cost) is not None
+             and passes_removal_reliability_filters(parsed, mana_cost, COVERAGE_TAG_CAPABILITIES.get(tag)) is not None
              and effective_cost_for_role(cmc, parsed, tag) is not None]
     if not legal:
         return None, None, None

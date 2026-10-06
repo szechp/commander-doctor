@@ -394,7 +394,73 @@ CONDITION_KEY_MARKERS = ("CheckSVar", "IsPresent", "Condition", "Teamwork")
 SVAR_CONDITION_MARKERS = ("CheckSVar$", "IsPresent$", "ConditionDefined$", "ConditionPresent$", "ConditionCompare$")
 
 
-def has_conditional_activation(parsed_dict: dict) -> bool:
+def _kv_node(raw: object) -> dict | None:
+    """Parse one `Key$ value | ...` svar string into a node dict."""
+    if not isinstance(raw, str):
+        return None
+    node: dict[str, str] = {}
+    for part in raw.split("|"):
+        if "$" in part:
+            key, value = part.split("$", 1)
+            node[key.strip()] = value.strip()
+    return node
+
+
+def _effect_paths(parsed_dict: dict, max_depth: int = 8):
+    """Yield every root-to-node path through a card's ability graph: each
+    top-level ability (and each trigger, via its `Execute$` svar) followed
+    down its `SubAbility$` chain. A path's last node is the effect; the
+    earlier nodes are what must resolve for it to happen."""
+    svars = parsed_dict.get("svars") or {}
+    roots = [[ab] for ab in parsed_dict.get("abilities", []) if isinstance(ab, dict)]
+    for trigger in parsed_dict.get("triggers", []):
+        if isinstance(trigger, dict):
+            first = _kv_node(svars.get(trigger.get("Execute", "")))
+            roots.append([trigger, first] if first else [trigger])
+    for path in roots:
+        seen: set[str] = set()
+        while path and len(path) <= max_depth:
+            yield list(path)
+            ref = str(path[-1].get("SubAbility", "")).strip()
+            child = _kv_node(svars.get(ref)) if ref and ref not in seen else None
+            if child is None:
+                break
+            seen.add(ref)
+            path = path + [child]
+
+
+def _node_is_conditional(node: dict) -> bool:
+    return any(marker in key for key in node for marker in CONDITION_KEY_MARKERS)
+
+
+def removes_graveyard_cards(node: dict) -> bool:
+    """Capability predicate: the node moves cards out of a graveyard into
+    exile or a library (Scavenging Ooze, Tormod's Crypt, Bojuka Bog,
+    Cranial Archive)."""
+    effect = node.get("AB") or node.get("SP") or node.get("DB")
+    return (effect in ("ChangeZone", "ChangeZoneAll") and "Graveyard" in str(node.get("Origin", ""))
+            and node.get("Destination") in ("Exile", "Library"))
+
+
+def has_conditional_activation(parsed_dict: dict, capability=None) -> bool:
+    """With `capability` (a predicate over effect nodes), a condition only
+    counts if it gates the capability: it sits on the effect node itself or
+    on a node before it in the chain. Scavenging Ooze's exile is
+    unconditional; only its +1/+1-counter and life-gain sub-abilities after
+    it carry `ConditionPresent$ Creature`, so it IS a reliable graveyard
+    answer. If any path reaches the capability unconditionally, the card
+    passes. If the capability can't be located in the parsed structure,
+    the capability-blind rule below applies (deny-by-default).
+
+    Without `capability`, the original capability-blind rule:"""
+    if capability is not None:
+        reaches = [path for path in _effect_paths(parsed_dict) if capability(path[-1])]
+        if reaches:
+            return all(any(_node_is_conditional(node) for node in path) for path in reaches)
+    return _has_any_condition(parsed_dict)
+
+
+def _has_any_condition(parsed_dict: dict) -> bool:
     """An ability (or a chained sub-ability reached through `SubAbility$`)
     gated behind a condition key. Two shapes found so far:
       - directly on a top-level ability dict: `CheckSVar$`/`SVarCompare$`
@@ -425,7 +491,8 @@ def has_conditional_activation(parsed_dict: dict) -> bool:
     )
 
 
-def passes_generic_reliability_filters(parsed_json: str | None, mana_cost: str | None) -> dict | None:
+def passes_generic_reliability_filters(parsed_json: str | None, mana_cost: str | None,
+                                       capability=None) -> dict | None:
     """Shared gate every candidate pool (removal/ramp/draw, AND
     `coverage.py`'s cheapest-answer ranking) must pass before ANY
     category-specific check runs. Deny-by-default on missing structured
@@ -455,7 +522,7 @@ def passes_generic_reliability_filters(parsed_json: str | None, mana_cost: str |
         return None
     if is_symmetrical_effect(parsed_dict):
         return None
-    if has_conditional_activation(parsed_dict):
+    if has_conditional_activation(parsed_dict, capability):
         return None
     if has_self_sacrifice_ability(parsed_dict) and not has_free_etb_removal_trigger(parsed_dict):
         return None
@@ -686,7 +753,8 @@ def is_fight_based_removal(parsed_dict: dict) -> bool:
     return any("$ Fight" in v for v in parsed_dict.get("svars", {}).values() if isinstance(v, str))
 
 
-def passes_removal_reliability_filters(parsed_json: str | None, mana_cost: str | None) -> dict | None:
+def passes_removal_reliability_filters(parsed_json: str | None, mana_cost: str | None,
+                                       capability=None) -> dict | None:
     """`passes_generic_reliability_filters` PLUS every check specific to
     ranking `removal-*`/`sweeper-*`-tagged cards: an unusual Aura
     attachment target, a narrow ValidTgts$/ValidCards$ restriction, a
@@ -699,7 +767,7 @@ def passes_removal_reliability_filters(parsed_json: str | None, mana_cost: str |
     families, so they need the same reliability bar. Returns the parsed
     dict on success, or None to signal that the candidate should be
     excluded."""
-    parsed_dict = passes_generic_reliability_filters(parsed_json, mana_cost)
+    parsed_dict = passes_generic_reliability_filters(parsed_json, mana_cost, capability)
     if parsed_dict is None:
         return None
     kw = keywords(parsed_dict)
