@@ -102,3 +102,91 @@ def test_render_table_no_gaps_message():
     summary = HealthSummary(deck_name="test", rows=[HealthRow("Lands", "OK", "fine")])
     output = render_table(summary)
     assert "No gaps flagged." in output
+
+
+# Real Card-Forge cardsfolder scripts (master), trimmed.
+_TEMPLE_OF_THE_FALSE_GOD = """Name:Temple of the False God
+ManaCost:no cost
+Types:Land
+A:AB$ Mana | Cost$ T | Produced$ C | Amount$ 2 | IsPresent$ Land.YouCtrl | PresentCompare$ GE5 | SpellDescription$ Add {C}{C}. Activate only if you control five or more lands.
+"""
+_BLAZEMIRE_VERGE = """Name:Blazemire Verge
+ManaCost:no cost
+Types:Land
+A:AB$ Mana | Cost$ T | Produced$ B | SpellDescription$ Add {B}.
+A:AB$ Mana | Cost$ T | Produced$ R | IsPresent$ Swamp.YouCtrl,Mountain.YouCtrl | SpellDescription$ Add {R}. Activate only if you control a Swamp or a Mountain.
+"""
+
+
+def _insert_land(con, tmp_path, script, oracle):
+    import json
+    from deckdoctor.forge_parse import parse_card_file
+
+    path = tmp_path / "land.txt"
+    path.write_text(script, encoding="utf-8")
+    parsed = parse_card_file(path)[0]
+    con.execute(
+        "INSERT OR REPLACE INTO cards (name,mana_cost,cmc,type_line,oracle_text,color_identity,colors,"
+        "produced_mana,keywords,commander_legal,is_game_changer,layout,set_type,parsed) "
+        "VALUES (?,'',0.0,'Land',?,'[]','[]',NULL,'[]',1,0,'normal','core',?)",
+        (parsed.name, oracle, parsed.to_json()),
+    )
+    return Card(name=parsed.name, cmc=0, type_line="Land", ramp_kind=None, draw_kind=None, prereq=None,
+                is_game_changer=False, color_identity=(), commander_legal=True)
+
+
+def test_restricted_mana_lands_noted_in_health(con, tmp_path):
+    # Real gap found on a real deck: Temple of the False God ("Add {C}{C}.
+    # Activate only if you control five or more lands") was invisible to
+    # every report. Flag each land whose EVERY mana ability is gated, with
+    # the restriction; a land with one free ability (Blazemire Verge) is not
+    # restricted. Report, never gate: the row is a NOTE, not a GAP.
+    from deckdoctor.colour import restricted_mana_lands
+    from deckdoctor.health import compute_health_summary
+
+    temple = _insert_land(con, tmp_path, _TEMPLE_OF_THE_FALSE_GOD,
+                          "{T}: Add {C}{C}. Activate only if you control five or more lands.")
+    verge = _insert_land(con, tmp_path, _BLAZEMIRE_VERGE,
+                         "{T}: Add {B}. {T}: Add {R}. Activate only if you control a Swamp or a Mountain.")
+    con.commit()
+    commander = Card(name="Fixture Commander", cmc=4, type_line="Legendary Creature — Human",
+                     ramp_kind=None, draw_kind=None, prereq=None, is_game_changer=False,
+                     color_identity=("B",), commander_legal=True)
+    plains = Card(name="Fixture Plains 0", cmc=0, type_line="Basic Land — Plains",
+                  ramp_kind=None, draw_kind=None, prereq=None, is_game_changer=False,
+                  color_identity=(), commander_legal=True)
+    library = [temple, verge] + [plains] * 97
+    deck = Deck(name="restricted", commander=commander, library=library, commander_count=1,
+                quantities={c.name: library.count(c) for c in library})
+
+    assert restricted_mana_lands(deck, con) == [
+        ("Temple of the False God", "needs IsPresent=Land.YouCtrl, PresentCompare=GE5"),
+    ]
+
+    summary = compute_health_summary(deck, con)
+    row = next(r for r in summary.rows if r.check == "Restricted lands")
+    assert row.status == "NOTE"  # shown, never counted as a gap
+    assert "Temple of the False God" in row.detail and "Blazemire Verge" not in row.detail
+
+
+def test_restricted_mana_lands_empty_library_is_not_an_error(con):
+    from deckdoctor.colour import restricted_mana_lands
+
+    commander = Card(name="Fixture Commander", cmc=4, type_line="Legendary Creature — Human",
+                     ramp_kind=None, draw_kind=None, prereq=None, is_game_changer=False,
+                     color_identity=("W",), commander_legal=True)
+    assert restricted_mana_lands(Deck(name="empty", commander=commander, library=[]), con) == []
+
+
+def test_restricted_lands_row_ok_when_none(con):
+    commander = Card(name="Fixture Commander", cmc=4, type_line="Legendary Creature — Human",
+                     ramp_kind=None, draw_kind=None, prereq=None, is_game_changer=False,
+                     color_identity=("W",), commander_legal=True)
+    plains = Card(name="Fixture Plains 0", cmc=0, type_line="Basic Land — Plains",
+                  ramp_kind=None, draw_kind=None, prereq=None, is_game_changer=False,
+                  color_identity=(), commander_legal=True)
+    deck = Deck(name="clean", commander=commander, library=[plains] * 99, commander_count=1,
+                quantities={"Fixture Plains 0": 99})
+    summary = compute_health_summary(deck, con)
+    row = next(r for r in summary.rows if r.check == "Restricted lands")
+    assert row.status == "OK"
