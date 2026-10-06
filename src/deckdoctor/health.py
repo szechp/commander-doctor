@@ -157,22 +157,18 @@ def compute_health_summary(
     colour_report = compute_colour_report(deck, con)
     rows.append(_colour_health_row(colour_report))
     # Real gap found on a real deck (KNOWN_ISSUES.md): Temple of the False
-    # God was invisible to every report -- colour skips colourless
-    # producers, the land census counts lands as fungible -- while
-    # functionally blanking early turns in a below-floor land deck.
-    # Mechanical fact-reporting from the already-parsed Forge structure:
-    # name each land whose EVERY mana ability is presence-gated. Report,
-    # never gate: a restricted land is a risk to KNOW about, not a
-    # validation error -- some decks want Temple's {C}{C} lategame.
+    # God was invisible to every report. Report, never gate: some decks run
+    # Temple on purpose, so this is a NOTE (shown, never counted as a gap),
+    # not a GAP that would stay red on every health run.
     restricted = restricted_mana_lands(deck, con)
     if restricted:
         detail = ", ".join(f"{name} ({why})" for name, why in restricted)
         rows.append(HealthRow(
-            "Restricted lands", "GAP",
-            f"{len(restricted)} land(s) with no unconditional mana ability: {detail}",
+            "Restricted lands", "NOTE",
+            f"{len(restricted)} land(s) whose every mana ability is gated -- no mana early: {detail}",
         ))
     else:
-        rows.append(HealthRow("Restricted lands", "OK", "no lands with fully-gated mana abilities"))
+        rows.append(HealthRow("Restricted lands", "OK", "no lands whose every mana ability is gated"))
 
     defence = compute_defence(deck, con, threshold_turn=t.threshold, board_presence=board_presence)
     def_status = "SHORT" if defence.interaction_short > 0 else "OK"

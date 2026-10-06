@@ -1002,10 +1002,13 @@ deck already below the floor, one land that cannot make mana before
 turn 5+ is functionally a blank early card -- the "Lands 33 vs 35"
 flag was correct but understated.
 
-Fixed: `restricted_mana_lands()` (colour.py) reads the already-parsed
-Forge structure -- a land is restricted when EVERY mana ability carries
-an IsPresent$/PresentCompare$ gate -- and a new "Restricted lands"
-health row names each one with its parsed restriction. Deliberately
+Fixed: `restricted_mana_lands()` (colour.py) judges each land from the
+same role evidence every reliability check uses (roles.py prerequisites
+via `reliability.has_conditional_activation(parsed, "ramp")`): a land is
+restricted when EVERY mana ability is gated by a real activation
+condition -- `IsPresent$`, `CheckSVar$`, `Condition*$` alike. A new
+"Restricted lands" health row names each one with its restriction, as a
+NOTE (shown, never counted as a gap). Deliberately
 narrow: partially-gated lands (Blazemire Verge: {B} free, {R} needs
 Swamp-or-Mountain) are NOT restricted -- they always make something.
 Report, never gate: some decks want Temple's late {C}{C}.

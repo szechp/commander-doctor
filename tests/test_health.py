@@ -104,82 +104,78 @@ def test_render_table_no_gaps_message():
     assert "No gaps flagged." in output
 
 
-def test_restricted_mana_lands_flagged_in_health(con):
+# Real Card-Forge cardsfolder scripts (master), trimmed.
+_TEMPLE_OF_THE_FALSE_GOD = """Name:Temple of the False God
+ManaCost:no cost
+Types:Land
+A:AB$ Mana | Cost$ T | Produced$ C | Amount$ 2 | IsPresent$ Land.YouCtrl | PresentCompare$ GE5 | SpellDescription$ Add {C}{C}. Activate only if you control five or more lands.
+"""
+_BLAZEMIRE_VERGE = """Name:Blazemire Verge
+ManaCost:no cost
+Types:Land
+A:AB$ Mana | Cost$ T | Produced$ B | SpellDescription$ Add {B}.
+A:AB$ Mana | Cost$ T | Produced$ R | IsPresent$ Swamp.YouCtrl,Mountain.YouCtrl | SpellDescription$ Add {R}. Activate only if you control a Swamp or a Mountain.
+"""
+
+
+def _insert_land(con, tmp_path, script, oracle):
+    import json
+    from deckdoctor.forge_parse import parse_card_file
+
+    path = tmp_path / "land.txt"
+    path.write_text(script, encoding="utf-8")
+    parsed = parse_card_file(path)[0]
+    con.execute(
+        "INSERT OR REPLACE INTO cards (name,mana_cost,cmc,type_line,oracle_text,color_identity,colors,"
+        "produced_mana,keywords,commander_legal,is_game_changer,layout,set_type,parsed) "
+        "VALUES (?,'',0.0,'Land',?,'[]','[]',NULL,'[]',1,0,'normal','core',?)",
+        (parsed.name, oracle, parsed.to_json()),
+    )
+    return Card(name=parsed.name, cmc=0, type_line="Land", ramp_kind=None, draw_kind=None, prereq=None,
+                is_game_changer=False, color_identity=(), commander_legal=True)
+
+
+def test_restricted_mana_lands_noted_in_health(con, tmp_path):
     # Real gap found on a real deck: Temple of the False God ("Add {C}{C}.
     # Activate only if you control five or more lands") was invisible to
-    # every report -- colour.py skips colourless producers, the land
-    # census counts lands as fungible -- while functionally blanking
-    # early turns in a below-floor 33-land deck. The row must name each
-    # land whose EVERY mana ability is presence-gated, with the parsed
-    # Forge restriction, and stay silent for partially-gated lands.
-    import json
-    import sqlite3
+    # every report. Flag each land whose EVERY mana ability is gated, with
+    # the restriction; a land with one free ability (Blazemire Verge) is not
+    # restricted. Report, never gate: the row is a NOTE, not a GAP.
     from deckdoctor.colour import restricted_mana_lands
     from deckdoctor.health import compute_health_summary
 
-    con.execute("DELETE FROM cards WHERE name LIKE 'Test Temple%'")
-    temple = json.dumps({
-        "mana_cost": "no cost", "types": "Land", "pt": "", "keywords": [],
-        "abilities": [{
-            "raw": "AB$ Mana | Cost$ T | Produced$ C | Amount$ 2 | IsPresent$ Land.YouCtrl | "
-                   "PresentCompare$ GE5 | SpellDescription$ Add {C}{C}. Activate only if you "
-                   "control five or more lands.",
-            "AB": "Mana", "Cost": "T", "Produced": "C", "Amount": "2",
-            "IsPresent": "Land.YouCtrl", "PresentCompare": "GE5",
-        }],
-        "statics": [], "replacements": [], "triggers": [], "svars": {},
-    })
-    # partially gated: {B} free, {R} needs Swamp-or-Mountain (Blazemire
-    # Verge's real shape) -- must NOT be restricted
-    half_gated = json.dumps({
-        "mana_cost": "no cost", "types": "Land", "pt": "", "keywords": [],
-        "abilities": [
-            {"raw": "AB$ Mana | Cost$ T | Produced$ B | SpellDescription$ Add {B}.",
-             "AB": "Mana", "Cost": "T", "Produced": "B"},
-            {"raw": "AB$ Mana | Cost$ T | Produced$ R | IsPresent$ Swamp.YouCtrl,Mountain.YouCtrl | "
-                    "SpellDescription$ Add {R}. Activate only if you control a Swamp or a Mountain.",
-             "AB": "Mana", "Cost": "T", "Produced": "R",
-             "IsPresent": "Swamp.YouCtrl,Mountain.YouCtrl"},
-        ],
-        "statics": [], "replacements": [], "triggers": [], "svars": {},
-    })
-    con.execute(
-        "INSERT INTO cards (name,mana_cost,cmc,type_line,oracle_text,color_identity,colors,"
-        "produced_mana,keywords,commander_legal,is_game_changer,layout,set_type,parsed) "
-        "VALUES ('Test Temple','{0}',0.0,'Land','Add {C}{C}. Activate only if you control five "
-        "or more lands.','[]','[]',NULL,'[]',1,0,'normal','core',?)", (temple,))
-    con.execute(
-        "INSERT INTO cards (name,mana_cost,cmc,type_line,oracle_text,color_identity,colors,"
-        "produced_mana,keywords,commander_legal,is_game_changer,layout,set_type,parsed) "
-        "VALUES ('Test Half Gate','{0}',0.0,'Land','Add {B}. Add {R}. Activate only if you control "
-        "a Swamp or a Mountain.','[\"B\",\"R\"]','[\"B\",\"R\"]','[\"B\",\"R\"]','[]',1,0,'normal','core',?)",
-        (half_gated,))
-
+    temple = _insert_land(con, tmp_path, _TEMPLE_OF_THE_FALSE_GOD,
+                          "{T}: Add {C}{C}. Activate only if you control five or more lands.")
+    verge = _insert_land(con, tmp_path, _BLAZEMIRE_VERGE,
+                         "{T}: Add {B}. {T}: Add {R}. Activate only if you control a Swamp or a Mountain.")
+    con.commit()
     commander = Card(name="Fixture Commander", cmc=4, type_line="Legendary Creature — Human",
                      ramp_kind=None, draw_kind=None, prereq=None, is_game_changer=False,
                      color_identity=("B",), commander_legal=True)
-    temple_card = Card(name="Test Temple", cmc=0, type_line="Land", ramp_kind=None,
-                       draw_kind=None, prereq=None, is_game_changer=False,
-                       color_identity=(), commander_legal=True)
-    half_card = Card(name="Test Half Gate", cmc=0, type_line="Land", ramp_kind=None,
-                     draw_kind=None, prereq=None, is_game_changer=False,
-                     color_identity=(), commander_legal=True)
     plains = Card(name="Fixture Plains 0", cmc=0, type_line="Basic Land — Plains",
                   ramp_kind=None, draw_kind=None, prereq=None, is_game_changer=False,
                   color_identity=(), commander_legal=True)
-    library = [temple_card, half_card] + [plains] * 97
+    library = [temple, verge] + [plains] * 97
     deck = Deck(name="restricted", commander=commander, library=library, commander_count=1,
-                quantities={c.name: 1 for c in library})
+                quantities={c.name: library.count(c) for c in library})
 
-    flagged = restricted_mana_lands(deck, con)
-    assert flagged == [("Test Temple", "needs Land.YouCtrl (GE5)")]
-    assert not any(name == "Test Half Gate" for name, _ in flagged)
+    assert restricted_mana_lands(deck, con) == [
+        ("Temple of the False God", "needs IsPresent=Land.YouCtrl, PresentCompare=GE5"),
+    ]
 
     summary = compute_health_summary(deck, con)
     row = next(r for r in summary.rows if r.check == "Restricted lands")
-    assert row.status == "GAP"
-    assert "Test Temple" in row.detail
-    assert "Test Half Gate" not in row.detail
+    assert row.status == "NOTE"  # shown, never counted as a gap
+    assert "Temple of the False God" in row.detail and "Blazemire Verge" not in row.detail
+
+
+def test_restricted_mana_lands_empty_library_is_not_an_error(con):
+    from deckdoctor.colour import restricted_mana_lands
+
+    commander = Card(name="Fixture Commander", cmc=4, type_line="Legendary Creature — Human",
+                     ramp_kind=None, draw_kind=None, prereq=None, is_game_changer=False,
+                     color_identity=("W",), commander_legal=True)
+    assert restricted_mana_lands(Deck(name="empty", commander=commander, library=[]), con) == []
 
 
 def test_restricted_lands_row_ok_when_none(con):
