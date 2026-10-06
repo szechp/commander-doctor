@@ -975,15 +975,17 @@ to me. Just not a blanket but targeted." Two stacked causes:
    remain invisible to coverage's cheapest-answer ranking (deck_has can
    still flip true via cards that pass the gate, e.g. Endurance).
 
-   RESOLVED in the same PR (follow-up commit): `has_conditional_activation`
-   now takes an optional capability predicate. With one, a condition only
-   disqualifies a card when it sits on the node that performs the
-   capability or on a node before it in the `SubAbility$`/`Execute$`
-   chain. Coverage passes `removes_graveyard_cards` for graveyard answers,
-   so Scavenging Ooze and Cling to Dust (unconditional exile, conditional
-   bonus) count, while a condition on the capability itself (Bonecache
-   Overseer's draw, Cling to Dust's draw) still excludes. Without a
-   capability, or when it can't be located in the parsed structure, the
-   original deny-by-default scan applies unchanged. Tests use the real
-   Forge scripts (sub-abilities included): tests/test_coverage.py::
-   test_condition_only_disqualifies_the_capability_it_gates.
+   RESOLVED in the same PR: `has_conditional_activation(parsed, role)`
+   now judges conditions from roles.py's per-ability role evidence (the
+   same evidence audit/review use): a card is conditional for a role only
+   if EVERY ability providing that role has a real activation condition
+   (CheckSVar/IsPresent/Condition*/Teamwork) on the path to it. Every
+   caller passes its role -- coverage (removal per permanent type,
+   graveyard-hate), upgrades (removal, ramp, draw) -- so the fix is not
+   graveyard-only. roles.py gained a `graveyard-hate` role (graveyard ->
+   exile/library, not limited to your own cards). Scavenging Ooze and Cling
+   to Dust count as graveyard hate; a condition on the role's own ability
+   still excludes (Bonecache Overseer's draw, Mox Jasper's mana, Cling to
+   Dust's draw). Without a role, or when no ability for it is found, the
+   original deny-by-default scan applies. Tests use real Forge scripts:
+   tests/test_coverage.py::test_condition_only_disqualifies_the_role_it_gates.

@@ -467,30 +467,59 @@ def _parsed(script, tmp_path):
     return json.loads(parse_card_file(path)[0].to_json())
 
 
-def _draws(node):
-    return (node.get("AB") or node.get("SP") or node.get("DB")) == "Draw"
+_MOX_JASPER = """Name:Mox Jasper
+ManaCost:0
+Types:Legendary Artifact
+A:AB$ Mana | Cost$ T | Produced$ Any | Amount$ 1 | IsPresent$ Dragon.YouCtrl | SpellDescription$ Add one mana of any color. Activate only if you control a Dragon.
+"""
+# Synthetic (not a real card): unconditional removal whose BONUS draw is
+# conditional -- the removal analogue of Scavenging Ooze.
+_REMOVAL_WITH_CONDITIONAL_BONUS = """Name:Synthetic Conditional Bonus Removal
+ManaCost:1 B
+Types:Instant
+A:SP$ Destroy | ValidTgts$ Creature | SubAbility$ DBDraw | SpellDescription$ Destroy target creature. If it was legendary, draw a card.
+SVar:DBDraw:DB$ Draw | ConditionDefined$ Targeted | ConditionPresent$ Card.Legendary | ConditionCompare$ EQ1
+"""
 
 
-def test_condition_only_disqualifies_the_capability_it_gates(tmp_path):
+def test_condition_only_disqualifies_the_role_it_gates(tmp_path):
     # The gate used to reject a card for a condition marker ANYWHERE in its
-    # script. Scavenging Ooze's exile is unconditional; only its bonus
-    # (counter + life "if it was a creature card") is gated.
-    from deckdoctor.reliability import has_conditional_activation, removes_graveyard_cards
+    # script. Now it reads roles.py's per-ability evidence for the role
+    # being judged: a condition counts only on the path to that ability.
+    from deckdoctor.reliability import has_conditional_activation
 
     ooze = _parsed(_SCAVENGING_OOZE, tmp_path)
     cling = _parsed(_CLING_TO_DUST, tmp_path)
     bonecache = _parsed(_BONECACHE_OVERSEER, tmp_path)
     bog = _parsed(_BOJUKA_BOG, tmp_path)
-    assert has_conditional_activation(ooze, removes_graveyard_cards) is False
-    assert has_conditional_activation(cling, removes_graveyard_cards) is False
-    assert has_conditional_activation(bog, removes_graveyard_cards) is False  # via its ETB trigger
-    # Conditions that DO gate the capability still disqualify.
-    assert has_conditional_activation(cling, _draws) is True  # the draw needs a noncreature exile
-    assert has_conditional_activation(bonecache, _draws) is True  # "activate only if ..."
-    # Without a capability (or if it can't be located), the old
-    # deny-by-default rule is unchanged.
+    jasper = _parsed(_MOX_JASPER, tmp_path)
+    bonus = _parsed(_REMOVAL_WITH_CONDITIONAL_BONUS, tmp_path)
+    # Unconditional ability for the role, conditional bonus elsewhere: passes.
+    assert has_conditional_activation(ooze, "graveyard-hate") is False
+    assert has_conditional_activation(cling, "graveyard-hate") is False
+    assert has_conditional_activation(bonus, "removal") is False
+    # An ETB trigger's ValidCard filter is not a condition.
+    assert has_conditional_activation(bog, "graveyard-hate") is False
+    # A condition on the role's own ability still disqualifies.
+    assert has_conditional_activation(cling, "draw") is True  # needs a noncreature exile
+    assert has_conditional_activation(bonus, "draw") is True  # needs a legendary target
+    assert has_conditional_activation(bonecache, "draw") is True  # "activate only if ..."
+    assert has_conditional_activation(jasper, "ramp") is True  # "only if you control a Dragon"
+    # No role, or no ability for the role: the old deny-by-default scan.
     assert has_conditional_activation(ooze) is True
-    assert has_conditional_activation(bonecache, removes_graveyard_cards) is True
+    assert has_conditional_activation(bonecache, "graveyard-hate") is True
+
+
+def test_graveyard_hate_role_evidence(tmp_path):
+    from deckdoctor.roles import extract_role_evidence
+
+    def roles_of(script):
+        return {e.role for e in extract_role_evidence(_parsed(script, tmp_path)) if e.ability_id}
+
+    assert "graveyard-hate" in roles_of(_SCAVENGING_OOZE)
+    assert "graveyard-hate" in roles_of(_BOJUKA_BOG)
+    assert "removal" not in roles_of(_SCAVENGING_OOZE)  # graveyard exile is not permanent removal
+    assert "graveyard-hate" not in roles_of(_REMOVAL_WITH_CONDITIONAL_BONUS)
 
 
 def test_targeted_graveyard_hate_credited_for_graveyard_coverage(con, tmp_path):
