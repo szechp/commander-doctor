@@ -268,6 +268,42 @@ def _is_land(card: Card) -> bool:
 _LAND_TYPE_WORDS = {"plains": "W", "island": "U", "swamp": "B", "mountain": "R", "forest": "G"}
 _FETCH_CLAUSE_RE = re.compile(r"search your library for (?:a|an|up to \w+) (.+?) cards?\b", re.IGNORECASE)
 
+# A land whose EVERY mana ability is gated ("Activate only if you control
+# five or more lands") cannot be counted on to make mana early. Found on a
+# real deck: Temple of the False God sat invisible in every report -- the
+# colour pass skips colourless producers, the land census counts lands as
+# fungible. Deliberately NARROW: a land with one gated and one unconditional
+# mana ability (Blazemire Verge: {B} free, {R} needs a Swamp or Mountain)
+# always makes something and is not restricted. Judged from the same role
+# evidence every other reliability check uses (roles.py prerequisites via
+# reliability.has_conditional_activation), not from raw script text.
+def restricted_mana_lands(deck: Deck, con: sqlite3.Connection) -> list[tuple[str, str]]:
+    """(name, restriction) for each library land whose every mana ability
+    is gated by a real activation condition. Empty list = none."""
+    from deckdoctor.reliability import gating_conditions, has_conditional_activation
+    from deckdoctor.roles import extract_role_evidence
+
+    lands = list(dict.fromkeys(c.name for c in deck.library if _is_land(c)))
+    if not lands:
+        return []
+    placeholders = ",".join("?" for _ in lands)
+    restricted: list[tuple[str, str]] = []
+    for card_name, parsed_json in con.execute(
+        f"SELECT name, parsed FROM cards WHERE name IN ({placeholders}) ORDER BY name", lands,
+    ):
+        try:
+            parsed = json.loads(parsed_json or "null")
+        except (json.JSONDecodeError, TypeError):
+            continue
+        if not isinstance(parsed, dict):
+            continue
+        mana = [e for e in extract_role_evidence(parsed) if e.role == "ramp" and e.ability_id]
+        if not mana or not has_conditional_activation(parsed, "ramp"):
+            continue  # no mana ability (fetches, utility lands) or at least one is unconditional
+        conditions = gating_conditions(mana[0].prerequisites)
+        restricted.append((card_name, "needs " + ", ".join(conditions) if conditions else "condition-gated"))
+    return restricted
+
 
 def _fetch_targets(deck: Deck) -> list[tuple[bool, frozenset[str]]]:
     """(is_basic, basic land types) for every land in the library -- what a

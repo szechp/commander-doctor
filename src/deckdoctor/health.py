@@ -18,7 +18,7 @@ import sqlite3
 from dataclasses import dataclass
 
 from deckdoctor.audit import audit_deck, compute_threshold, role_source_note
-from deckdoctor.colour import compute_colour_report
+from deckdoctor.colour import compute_colour_report, restricted_mana_lands
 from deckdoctor.combos import BRACKET_TAG_NAME, cached_bracket_report
 from deckdoctor.coverage import compute_coverage
 from deckdoctor.deck import Deck
@@ -156,6 +156,19 @@ def compute_health_summary(
 
     colour_report = compute_colour_report(deck, con)
     rows.append(_colour_health_row(colour_report))
+    # Real gap found on a real deck (KNOWN_ISSUES.md): Temple of the False
+    # God was invisible to every report. Report, never gate: some decks run
+    # Temple on purpose, so this is a NOTE (shown, never counted as a gap),
+    # not a GAP that would stay red on every health run.
+    restricted = restricted_mana_lands(deck, con)
+    if restricted:
+        detail = ", ".join(f"{name} ({why})" for name, why in restricted)
+        rows.append(HealthRow(
+            "Restricted lands", "NOTE",
+            f"{len(restricted)} land(s) whose every mana ability is gated -- no mana early: {detail}",
+        ))
+    else:
+        rows.append(HealthRow("Restricted lands", "OK", "no lands whose every mana ability is gated"))
 
     defence = compute_defence(deck, con, threshold_turn=t.threshold, board_presence=board_presence)
     def_status = "SHORT" if defence.interaction_short > 0 else "OK"

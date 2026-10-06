@@ -401,10 +401,16 @@ def role_for_answer_tag(tag: str) -> str:
     return "graveyard-hate" if tag in ("sweeper-graveyard", "hate-graveyard") else "removal"
 
 
+def gating_conditions(prerequisites: tuple[str, ...]) -> tuple[str, ...]:
+    """The real activation conditions in a role-evidence prerequisite list.
+    roles.py also records targeting/trigger filters such as `ValidCard`
+    (every ETB trigger has one), which do not gate anything. A
+    PresentCompare/SVarCompare travels with the condition it qualifies."""
+    markers = CONDITION_KEY_MARKERS + ("PresentCompare", "SVarCompare")
+    return tuple(item for item in prerequisites if any(m in item.split("=", 1)[0] for m in markers))
+
+
 def _gating(prerequisites: tuple[str, ...]) -> bool:
-    """Whether a role-evidence prerequisite list contains a real activation
-    condition. roles.py also records targeting/trigger filters such as
-    `ValidCard` (every ETB trigger has one), which do not gate anything."""
     return any(marker in item.split("=", 1)[0] for item in prerequisites for marker in CONDITION_KEY_MARKERS)
 
 
