@@ -93,6 +93,7 @@ from deckdoctor.reliability import (
     parsed as _parsed,
     passes_generic_reliability_filters as _passes_generic_reliability_filters,
     passes_removal_reliability_filters as _passes_removal_reliability_filters,
+    role_for_answer_tag as _role_for_answer_tag,
 )
 
 
@@ -479,7 +480,8 @@ def find_upgrades(deck: Deck, con: sqlite3.Connection, config: DeckConfig | None
         tags = tags_by_name.get(name, set()) & RELEVANT_TAGS
         if not tags:
             continue
-        parsed = _passes_removal_reliability_filters(parsed_json, mana_cost)
+        role = "graveyard-hate" if all(_role_for_answer_tag(t) == "graveyard-hate" for t in tags) else "removal"
+        parsed = _passes_removal_reliability_filters(parsed_json, mana_cost, role)
         if parsed is None:
             continue
         keywords = _keywords(parsed)
@@ -598,7 +600,7 @@ def find_ramp_upgrades(deck: Deck, con: sqlite3.Connection, config: DeckConfig |
     for name, ramp_kind, cmc, ci_json, text, parsed_json, mana_cost in rows:
         if not set(json.loads(ci_json or "[]")) <= commander_ci:
             continue
-        parsed = _passes_generic_reliability_filters(parsed_json, mana_cost)
+        parsed = _passes_generic_reliability_filters(parsed_json, mana_cost, "ramp")
         if parsed is None:
             continue
         if parsed.get("replacements"):
@@ -718,7 +720,7 @@ def find_draw_upgrades(deck: Deck, con: sqlite3.Connection, config: DeckConfig |
         tags = tags_by_name.get(name, set()) & DRAW_TAGS
         if not tags:
             continue
-        parsed = _passes_generic_reliability_filters(parsed_json, mana_cost)
+        parsed = _passes_generic_reliability_filters(parsed_json, mana_cost, "draw")
         if parsed is None:
             continue
         draw_cost = _draw_comparison_cost(cmc, parsed_json)

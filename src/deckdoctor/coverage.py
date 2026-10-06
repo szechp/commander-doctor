@@ -12,8 +12,13 @@ mechanical, gameplan-independent checks instead of a curated list:
 
 Graveyard answers use the `sweeper-graveyard` tag (same tag audit.py's
 WIPE_TAGS already includes) -- confirmed against three known graveyard-hate
-cards (Bojuka Bog, Rest in Peace, Tormod's Crypt) this session; there is no
-separate "graveyard-hate" tag family in the mirror's vocabulary.
+cards (Bojuka Bog, Rest in Peace, Tormod's Crypt) this session. The mirror
+ALSO has a second, disjoint `hate-graveyard` family (290 cards, zero
+overlap with sweeper-graveyard): targeted/repeatable hate like Scavenging
+Ooze ("{G}: Exile target card from a graveyard") -- a real graveyard
+answer the sweeper family misses, found when a deck review reported a
+coverage GAP that Scavenging Ooze already in the deck closed. Credited
+via COVERAGE_TAG_ALIASES, same as disenchant-naturalize above.
 
 Known simplification: "cheapest unconditional" (SPEC.md §6.3's exact
 phrasing) isn't mechanically checkable without deeper parsing of each
@@ -56,6 +61,7 @@ from deckdoctor.reliability import (
     has_free_etb_removal_trigger,
     mana_value_of_forge_cost,
     passes_removal_reliability_filters,
+    role_for_answer_tag,
 )
 from deckdoctor.roles import extract_role_evidence
 
@@ -99,6 +105,7 @@ COVERAGE_TAG_ALIASES: dict[str, tuple[str, ...]] = {
     "removal-artifact": ("removal-permanent", "disenchant-naturalize"),
     "removal-enchantment": ("removal-permanent", "disenchant-naturalize"),
     "removal-planeswalker": ("removal-permanent",),
+    "sweeper-graveyard": ("hate-graveyard",),
 }
 
 
@@ -466,7 +473,7 @@ def _cheapest_in_deck(con: sqlite3.Connection, names: list[str], tag: str) -> tu
         list(tagged),
     ).fetchall()
     rows = [(name, cmc, parsed) for name, cmc, parsed, mana_cost in rows
-            if passes_removal_reliability_filters(parsed, mana_cost) is not None
+            if passes_removal_reliability_filters(parsed, mana_cost, role_for_answer_tag(tag)) is not None
             and effective_cost_for_role(cmc, parsed, tag) is not None]
     if not rows:
         return None, None, None
@@ -491,7 +498,7 @@ def _cheapest_in_db(con: sqlite3.Connection, commander_ci: set[str], tag: str) -
     ).fetchall()
     legal = [(name, cmc, parsed) for name, cmc, ci_json, parsed, mana_cost in candidates
              if set(json.loads(ci_json or "[]")) <= commander_ci
-             and passes_removal_reliability_filters(parsed, mana_cost) is not None
+             and passes_removal_reliability_filters(parsed, mana_cost, role_for_answer_tag(tag)) is not None
              and effective_cost_for_role(cmc, parsed, tag) is not None]
     if not legal:
         return None, None, None

@@ -59,7 +59,7 @@ class RoleEvidence:
 _REFERENCE_KEYS = ("Execute", "SubAbility", "ReplaceWith", "Choices", "AddTrigger", "AddSVar")
 _CONDITION_PARTS = (
     "Condition", "CheckSVar", "IsPresent", "Activation", "Unless",
-    "ValidPlayer", "ValidActivatingPlayer", "ValidCard", "PresentCompare",
+    "ValidPlayer", "ValidActivatingPlayer", "ValidCard", "PresentCompare", "Teamwork",
 )
 
 
@@ -183,7 +183,33 @@ def _pump_sign_unknown(node: dict[str, Any]) -> bool:
 
 
 def _role_for_tag(tag: str) -> str:
+    if tag in ("sweeper-graveyard", "hate-graveyard"):
+        return "graveyard-hate"
     return "removal" if tag.startswith(("removal-", "sweeper-")) else tag
+
+
+def _is_graveyard_hate(node: dict[str, Any]) -> bool:
+    """Moves cards out of a graveyard into exile or a library, not limited
+    to your own cards (Scavenging Ooze, Cling to Dust, Tormod's Crypt,
+    Bojuka Bog, Cranial Archive). Graveyard-to-hand/battlefield is
+    recursion, and "target card you own" is self-graveyard value."""
+    origins = str(node.get("Origin", "")).split(",")
+    if "Graveyard" not in origins or node.get("Destination") not in ("Exile", "Library"):
+        return False
+    selector = " ".join(str(node.get(k, "")) for k in ("ValidTgts", "ChangeType", "Defined"))
+    return "YouOwn" not in selector and "YouCtrl" not in selector
+
+
+def _graveyard_hate_evidence(ability_id: str, node: dict[str, Any], effect: str,
+                             type_line: str, graph_uncertainty: tuple[str, ...]) -> RoleEvidence:
+    return RoleEvidence(
+        role="graveyard-hate", source="parsed", ability_id=ability_id, effect=effect,
+        target_scope=_target(node), prerequisites=_conditions(node),
+        symmetric=effect.endswith("All"),
+        repeatable=(bool(node.get("AB")) or node.get("_root_group") == "triggers")
+        and "Instant" not in type_line and "Sorcery" not in type_line,
+        uncertainty=graph_uncertainty,
+    )
 
 
 def _removal_evidence(ability_id: str, node: dict[str, Any], effect: str,
@@ -408,6 +434,8 @@ def extract_role_evidence(
             if effect in removal_direct_effects:
                 evidence.append(_removal_evidence(ability_id, node, effect, type_line, graph_uncertainty))
             elif effect in removal_zone_effects:
+                if _is_graveyard_hate(node):
+                    evidence.append(_graveyard_hate_evidence(ability_id, node, effect, type_line, graph_uncertainty))
                 shape = _changezone_removal_shape(node)
                 if shape is not None:
                     item = _removal_evidence(ability_id, node, effect, type_line, graph_uncertainty)

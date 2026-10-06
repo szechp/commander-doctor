@@ -935,3 +935,57 @@ already counts removal/wipe-tagged cards); a flat floor there would be
 redundant with, and less accurate than, that. 3 new regression tests
 (`tests/test_health.py`), verified to fail without the fix and pass
 with it.
+
+## Coverage's graveyard check misses targeted hate (Scavenging Ooze), two stacked causes
+
+Found mid deck review, on a real deck (Ghired tokens): `health` reported
+"Answer coverage GAP: missing graveyard" for a deck where the proposed
+swap (Scavenging Ooze -- "{G}: Exile target card from a graveyard") IS a
+graveyard answer. The user called it directly: "Seems like graveyard hate
+to me. Just not a blanket but targeted." Two stacked causes:
+
+1. Tag-family disjointness (FIXED this session): the mirror carries TWO
+   disjoint graveyard-answer tag families -- `sweeper-graveyard`
+   (83 cards: Bojuka Bog, Rest in Peace, Tormod's Crypt) and
+   `hate-graveyard` (290 cards: Scavenging Ooze and the targeted/
+   repeatable family). Zero overlap. coverage.py's COVERAGE_TYPES only
+   credited the sweeper family, and its module docstring even claimed
+   "there is no separate graveyard-hate tag family in the mirror's
+   vocabulary" -- factually wrong, written as a verification note.
+   Fixed the same way as the earlier disenchant-naturalize alias bug:
+   `COVERAGE_TAG_ALIASES["sweeper-graveyard"] = ("hate-graveyard",)`,
+   all four query sites already route through `_match_tags`.
+   Regression test: tests/test_coverage.py::
+   test_targeted_graveyard_hate_credited_for_graveyard_coverage.
+
+2. Reliability-filter false positive (KNOWN, UNFIXED): even with the
+   alias, a live-mirror Scooze swap still reports graveyard uncovered.
+   `passes_generic_reliability_filters` -> `has_conditional_activation`
+   scans condition markers (ConditionPresent$ etc.) ANYWHERE in the
+   parsed structure, deny-by-default -- by design (it catches Cling to
+   Dust's genuinely-conditional draw this way). But Scooze's exile
+   ability is UNCONDITIONAL; only the *bonus* sub-abilities
+   (DBPutCounter/DBGainLife "if it was a creature card") carry
+   ConditionPresent$ markers, so the whole card is excluded. Loosening
+   the scan to "condition markers on the tracked capability only" is a
+   capability-aware redesign of reliability.py's gate -- not attempted
+   here; the same scan legitimately excludes other cards, and a
+   one-card exception would be worse than the bug. Practical effect:
+   `hate-graveyard`-tagged cards whose payoff half is conditional
+   remain invisible to coverage's cheapest-answer ranking (deck_has can
+   still flip true via cards that pass the gate, e.g. Endurance).
+
+   RESOLVED in the same PR: `has_conditional_activation(parsed, role)`
+   now judges conditions from roles.py's per-ability role evidence (the
+   same evidence audit/review use): a card is conditional for a role only
+   if EVERY ability providing that role has a real activation condition
+   (CheckSVar/IsPresent/Condition*/Teamwork) on the path to it. Every
+   caller passes its role -- coverage (removal per permanent type,
+   graveyard-hate), upgrades (removal, ramp, draw) -- so the fix is not
+   graveyard-only. roles.py gained a `graveyard-hate` role (graveyard ->
+   exile/library, not limited to your own cards). Scavenging Ooze and Cling
+   to Dust count as graveyard hate; a condition on the role's own ability
+   still excludes (Bonecache Overseer's draw, Mox Jasper's mana, Cling to
+   Dust's draw). Without a role, or when no ability for it is found, the
+   original deny-by-default scan applies. Tests use real Forge scripts:
+   tests/test_coverage.py::test_condition_only_disqualifies_the_role_it_gates.

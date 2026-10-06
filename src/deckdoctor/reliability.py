@@ -394,7 +394,42 @@ CONDITION_KEY_MARKERS = ("CheckSVar", "IsPresent", "Condition", "Teamwork")
 SVAR_CONDITION_MARKERS = ("CheckSVar$", "IsPresent$", "ConditionDefined$", "ConditionPresent$", "ConditionCompare$")
 
 
-def has_conditional_activation(parsed_dict: dict) -> bool:
+def role_for_answer_tag(tag: str) -> str:
+    """The role a removal/answer tag family is judged as: graveyard hate
+    for the graveyard families, removal for every other removal-*/sweeper-*
+    family."""
+    return "graveyard-hate" if tag in ("sweeper-graveyard", "hate-graveyard") else "removal"
+
+
+def _gating(prerequisites: tuple[str, ...]) -> bool:
+    """Whether a role-evidence prerequisite list contains a real activation
+    condition. roles.py also records targeting/trigger filters such as
+    `ValidCard` (every ETB trigger has one), which do not gate anything."""
+    return any(marker in item.split("=", 1)[0] for item in prerequisites for marker in CONDITION_KEY_MARKERS)
+
+
+def has_conditional_activation(parsed_dict: dict, role: str | None = None) -> bool:
+    """With `role`, judged from the role evidence roles.py extracts: the card
+    is conditional only if EVERY ability that provides that role has a real
+    condition on the path to it (roles.py's `prerequisites`, inherited down
+    `SubAbility$`/`Execute$` chains). Scavenging Ooze's exile is
+    unconditional -- only its +1/+1-counter/life bonus after it carries
+    `ConditionPresent$ Creature` -- so it is a reliable graveyard answer;
+    Cling to Dust's draw (gated on a noncreature exile) still is not a
+    reliable draw. One source of truth: the same evidence audit/review use.
+
+    Without `role`, or when no ability for the role can be located, the
+    original capability-blind rule applies (deny-by-default):"""
+    if role is not None:
+        from deckdoctor.roles import extract_role_evidence  # roles imports this module
+
+        items = [e for e in extract_role_evidence(parsed_dict) if e.role == role and e.ability_id]
+        if items:
+            return all(_gating(e.prerequisites) for e in items)
+    return _has_any_condition(parsed_dict)
+
+
+def _has_any_condition(parsed_dict: dict) -> bool:
     """An ability (or a chained sub-ability reached through `SubAbility$`)
     gated behind a condition key. Two shapes found so far:
       - directly on a top-level ability dict: `CheckSVar$`/`SVarCompare$`
@@ -425,7 +460,8 @@ def has_conditional_activation(parsed_dict: dict) -> bool:
     )
 
 
-def passes_generic_reliability_filters(parsed_json: str | None, mana_cost: str | None) -> dict | None:
+def passes_generic_reliability_filters(parsed_json: str | None, mana_cost: str | None,
+                                       role: str | None = None) -> dict | None:
     """Shared gate every candidate pool (removal/ramp/draw, AND
     `coverage.py`'s cheapest-answer ranking) must pass before ANY
     category-specific check runs. Deny-by-default on missing structured
@@ -455,7 +491,7 @@ def passes_generic_reliability_filters(parsed_json: str | None, mana_cost: str |
         return None
     if is_symmetrical_effect(parsed_dict):
         return None
-    if has_conditional_activation(parsed_dict):
+    if has_conditional_activation(parsed_dict, role):
         return None
     if has_self_sacrifice_ability(parsed_dict) and not has_free_etb_removal_trigger(parsed_dict):
         return None
@@ -686,7 +722,8 @@ def is_fight_based_removal(parsed_dict: dict) -> bool:
     return any("$ Fight" in v for v in parsed_dict.get("svars", {}).values() if isinstance(v, str))
 
 
-def passes_removal_reliability_filters(parsed_json: str | None, mana_cost: str | None) -> dict | None:
+def passes_removal_reliability_filters(parsed_json: str | None, mana_cost: str | None,
+                                       role: str = "removal") -> dict | None:
     """`passes_generic_reliability_filters` PLUS every check specific to
     ranking `removal-*`/`sweeper-*`-tagged cards: an unusual Aura
     attachment target, a narrow ValidTgts$/ValidCards$ restriction, a
@@ -699,7 +736,7 @@ def passes_removal_reliability_filters(parsed_json: str | None, mana_cost: str |
     families, so they need the same reliability bar. Returns the parsed
     dict on success, or None to signal that the candidate should be
     excluded."""
-    parsed_dict = passes_generic_reliability_filters(parsed_json, mana_cost)
+    parsed_dict = passes_generic_reliability_filters(parsed_json, mana_cost, role)
     if parsed_dict is None:
         return None
     kw = keywords(parsed_dict)
