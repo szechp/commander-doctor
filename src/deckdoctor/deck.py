@@ -43,6 +43,7 @@ class Deck:
     sideboard: list[Card] = field(default_factory=list)  # distinct zone: suggestion pool, never part of the 100
     sideboard_quantities: dict[str, int] = field(default_factory=dict)
     sideboard_line_numbers: dict[str, list[int]] = field(default_factory=dict)
+    sideboard_unresolved: list[str] = field(default_factory=list)  # reported, never fatal
 
     @property
     def size(self) -> int:
@@ -170,8 +171,17 @@ def load_deck(path: str, con: sqlite3.Connection) -> Deck:
     sideboard: list[Card] = []
     sideboard_quantities: dict[str, int] = {}
     sideboard_line_numbers: dict[str, list[int]] = {}
+    sideboard_unresolved: list[str] = []
     for count, name, line in sideboard_detailed:
-        card = _resolve(con, name)
+        # The sideboard is the user's shortlist of cards to consider: a typo
+        # or a card newer than the mirror must never stop the deck loading.
+        try:
+            card = _resolve(con, name)
+        except ValueError:
+            sideboard_unresolved.append(name)
+            continue
+        if count <= 0:
+            continue
         sideboard.extend([card] * count)
         sideboard_quantities[card.name] = sideboard_quantities.get(card.name, 0) + count
         sideboard_line_numbers.setdefault(card.name, []).append(line)
@@ -180,4 +190,4 @@ def load_deck(path: str, con: sqlite3.Connection) -> Deck:
     return Deck(name=deck_name, commander=commander, library=library, commander_count=commander_count,
                 quantities=quantities, line_numbers=line_numbers,
                 sideboard=sideboard, sideboard_quantities=sideboard_quantities,
-                sideboard_line_numbers=sideboard_line_numbers)
+                sideboard_line_numbers=sideboard_line_numbers, sideboard_unresolved=sideboard_unresolved)

@@ -194,10 +194,10 @@ def validate_deck(deck: Deck, metadata: sqlite3.Connection | None = None, config
                 diagnostics.append(_diag("singleton_exception_unknown", f"cannot determine whether {name} has a documented copy exception", card=name, severity="error", status="unsupported", outcome="unknown"))
             elif quantity > limit:
                 diagnostics.append(_diag("duplicate_nonbasic", f"{name} appears {quantity} times (limit {limit})", card=name))
-    # Sideboard: a distinct zone, reported -- never counted into the 100.
-    # Singleton consistency spans zones (promoting a sideboard copy of a
-    # maindeck card would break the 100), while legality/colour problems
-    # stay warnings: the pool is a suggestion, not a played card.
+    # Sideboard: the user's shortlist of cards to consider -- reported,
+    # never counted into the 100 and never a blocking error. Every finding
+    # here is a warning: a card in both zones, or an off-colour/illegal
+    # sideboard card, is worth knowing, not a reason to refuse the deck.
     sideboard_by_name = {card.name: card for card in deck.sideboard}
     for name, quantity in deck.sideboard_quantities.items():
         card = sideboard_by_name.get(name)
@@ -267,11 +267,15 @@ def validate_decklist(path: str, metadata: sqlite3.Connection, config: DeckConfi
     sideboard_line_numbers: dict[str, list[int]] = {}
     for count, name, line in sideboard_detailed:
         if count <= 0:
-            diagnostics.append(_diag("nonpositive_quantity", f"quantity must be positive, got {count}", line=line, card=name))
+            diagnostics.append(_diag("sideboard_nonpositive_quantity", f"sideboard quantity must be positive, got {count}",
+                                     line=line, card=name, severity="warning"))
+            continue
         try:
             card = _resolve(metadata, name)
         except ValueError:
-            diagnostics.append(_diag("unresolved_sideboard_card", f"sideboard card {name!r} is not resolved", line=line, card=name))
+            diagnostics.append(_diag("unresolved_sideboard_card", f"sideboard card {name!r} is not in the local mirror "
+                                     "(typo or newer than the last sync); it is skipped", line=line, card=name,
+                                     severity="warning", status="unavailable", outcome="unknown"))
             continue
         sideboard_cards.extend([card] * max(count, 0))
         sideboard_quantities[card.name] = sideboard_quantities.get(card.name, 0) + count

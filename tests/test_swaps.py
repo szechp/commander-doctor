@@ -266,3 +266,16 @@ def test_sideboard_card_added_by_a_swap_is_promoted(fixture_db, fixture_deck):
     # Promoted out of the suggestion zone -- not in both zones at once.
     assert "Sideboard Pick B" not in result.prospective_deck.sideboard_quantities
     assert result.prospective_deck.sideboard_quantities == {"Sideboard Pick A": 1}
+
+
+def test_promoting_one_copy_keeps_the_rest_of_the_sideboard(fixture_db, fixture_deck):
+    deck = _deck(fixture_db, fixture_deck)
+    replacement = _resolve(fixture_db, "Replacement A")
+    deck.sideboard = [replacement] * 3
+    deck.sideboard_quantities = {"Replacement A": 3}
+    result = validate_swaps(deck, {"schema_version": 1, "swaps": [
+        {"cut": "Fixture Plains 0", "add": "Replacement A", "quantity": 1},
+    ]}, fixture_db)
+    assert result.accepted
+    assert result.prospective_deck.sideboard_quantities == {"Replacement A": 2}
+    assert len(result.prospective_deck.sideboard) == 2

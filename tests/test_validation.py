@@ -366,3 +366,23 @@ def test_sideboard_cards_are_validated_but_not_counted(tmp_path):
     assert "sideboard_duplicate_nonbasic" in codes
     assert all(d.severity == "warning" for d in report.diagnostics)
     con.close()
+
+
+def test_unresolved_sideboard_card_is_a_warning_not_a_blocker(tmp_path):
+    # A typo or a card newer than the mirror in the user's shortlist must
+    # not make the deck invalid (which would block every command).
+    from tests.fixture_support import make_fixture_db
+
+    con = make_fixture_db(tmp_path / "db.sqlite3")
+    path = tmp_path / "deck.txt"
+    path.write_text(
+        "1 Fixture Commander\n1 Phyrexian Vindicator\n" + "".join(f"1 Fixture Plains {i}\n" for i in range(98))
+        + "// Sideboard\n1 Not A Real Card\n0 Fixture Plains 1\n",
+        encoding="utf-8",
+    )
+    report = validate_decklist(str(path), con)
+    assert report.valid
+    codes = {d.code: d.severity for d in report.diagnostics}
+    assert codes["unresolved_sideboard_card"] == "warning"
+    assert codes["sideboard_nonpositive_quantity"] == "warning"
+    con.close()
