@@ -194,6 +194,36 @@ def validate_deck(deck: Deck, metadata: sqlite3.Connection | None = None, config
                 diagnostics.append(_diag("singleton_exception_unknown", f"cannot determine whether {name} has a documented copy exception", card=name, severity="error", status="unsupported", outcome="unknown"))
             elif quantity > limit:
                 diagnostics.append(_diag("duplicate_nonbasic", f"{name} appears {quantity} times (limit {limit})", card=name))
+    # Sideboard: the user's shortlist of cards to consider -- reported,
+    # never counted into the 100 and never a blocking error. Every finding
+    # here is a warning: a card in both zones, or an off-colour/illegal
+    # sideboard card, is worth knowing, not a reason to refuse the deck.
+    sideboard_by_name = {card.name: card for card in deck.sideboard}
+    for name, quantity in deck.sideboard_quantities.items():
+        card = sideboard_by_name.get(name)
+        if card is None:
+            continue
+        if name in all_quantities:
+            diagnostics.append(_diag("sideboard_duplicate", f"{name} appears in both the maindeck and the sideboard; promoting it requires cutting the maindeck copy", card=name, severity="warning"))
+        elif name == deck.commander.name:
+            diagnostics.append(_diag("sideboard_duplicate", f"{name} is the commander and also in the sideboard", card=name, severity="warning"))
+        if not isinstance(quantity, int) or isinstance(quantity, bool) or quantity > 1:
+            if not _is_basic(card):
+                limit = _singleton_limit(card)
+                if limit is None:
+                    diagnostics.append(_diag("sideboard_singleton_exception_unknown", f"cannot determine whether {name} has a documented copy exception", card=name, severity="warning", status="unsupported", outcome="unknown"))
+                elif isinstance(quantity, int) and not isinstance(quantity, bool) and quantity > limit:
+                    diagnostics.append(_diag("sideboard_duplicate_nonbasic", f"{name} appears {quantity} times in the sideboard (limit {limit})", card=name, severity="warning"))
+        if card.commander_legal is False:
+            diagnostics.append(_diag("sideboard_card_not_legal", f"sideboard card {name} is not marked Commander legal", card=name, severity="warning"))
+        elif card.commander_legal is None:
+            diagnostics.append(_diag("sideboard_legality_unknown", f"Commander legality is unavailable for sideboard card {name}", card=name, severity="warning", status="unsupported", outcome="unknown"))
+        if card.color_identity is None or deck.commander.color_identity is None:
+            diagnostics.append(_diag("sideboard_colour_identity_unknown", f"colour identity is unavailable for sideboard card {name}", card=name, severity="warning", status="unsupported", outcome="unknown"))
+        elif not set(card.color_identity) <= set(deck.commander.color_identity):
+            diagnostics.append(_diag("sideboard_off_colour_card", f"sideboard card {name} has colour identity {sorted(card.color_identity)} outside commander identity {sorted(deck.commander.color_identity)}", card=name, severity="warning"))
+    if deck.sideboard_quantities:
+        report.metrics["sideboard_cards"] = sum(deck.sideboard_quantities.values())
 
     report.diagnostics = diagnostics
     report.valid = not any(d.severity == "error" for d in diagnostics)
@@ -203,7 +233,7 @@ def validate_deck(deck: Deck, metadata: sqlite3.Connection | None = None, config
 def validate_decklist(path: str, metadata: sqlite3.Connection, config: DeckConfig | None = None) -> ValidationReport:
     """Parse and resolve a deck while retaining line-specific diagnostics."""
     try:
-        detailed = _parse_decklist_detailed(path)
+        detailed, sideboard_detailed = _parse_decklist_detailed(path)
     except (OSError, UnicodeError, ValueError) as exc:
         return ValidationReport(False, [_diag("malformed_decklist", str(exc))])
     commander_count, commander_name, commander_line = detailed[0]
@@ -232,6 +262,27 @@ def validate_decklist(path: str, metadata: sqlite3.Connection, config: DeckConfi
         return ValidationReport(False, diagnostics, commander=commander_name)
     diagnostics.extend(_diag("unresolved_card", f"card {name!r} is not resolved", line=line, card=name) for name, line in unresolved)
     deck = Deck(Path(path).stem, commander, cards, commander_count, quantities, line_numbers)
+    sideboard_cards: list[Card] = []
+    sideboard_quantities: dict[str, int] = {}
+    sideboard_line_numbers: dict[str, list[int]] = {}
+    for count, name, line in sideboard_detailed:
+        if count <= 0:
+            diagnostics.append(_diag("sideboard_nonpositive_quantity", f"sideboard quantity must be positive, got {count}",
+                                     line=line, card=name, severity="warning"))
+            continue
+        try:
+            card = _resolve(metadata, name)
+        except ValueError:
+            diagnostics.append(_diag("unresolved_sideboard_card", f"sideboard card {name!r} is not in the local mirror "
+                                     "(typo or newer than the last sync); it is skipped", line=line, card=name,
+                                     severity="warning", status="unavailable", outcome="unknown"))
+            continue
+        sideboard_cards.extend([card] * max(count, 0))
+        sideboard_quantities[card.name] = sideboard_quantities.get(card.name, 0) + count
+        sideboard_line_numbers.setdefault(card.name, []).append(line)
+    deck.sideboard = sideboard_cards
+    deck.sideboard_quantities = sideboard_quantities
+    deck.sideboard_line_numbers = sideboard_line_numbers
     report = validate_deck(deck, metadata, config)
     report.diagnostics = diagnostics + report.diagnostics
     report.valid = not any(d.severity == "error" for d in report.diagnostics)

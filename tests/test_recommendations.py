@@ -320,3 +320,40 @@ def test_invalid_deck_size_returns_report_shaped_findings_exit_2(tmp_path, capsy
     assert payload["command"] == "review"
     codes = {f["id"] for f in payload["findings"]}
     assert any(c.endswith("deck_size") for c in codes)
+
+
+def test_review_compares_sideboard_cards_against_same_role_deck_cards(fixture_db, tmp_path):
+    # The sideboard is the user's own shortlist of cards to consider: review
+    # must compare each playable one with the deck cards filling the same
+    # role, show why unplayable ones are skipped, never offer a pinned card
+    # as the cut, and never fail the deck over a sideboard typo.
+    from deckdoctor.deck import load_deck
+    from deckdoctor.deck_config import DeckConfig, FeedbackEntry
+    from deckdoctor.recommendations import build_review_packet
+
+    path = tmp_path / "sb.txt"
+    path.write_text(
+        "1 Fixture Commander\n1 Arcane Signet\n1 Commander's Sphere\n"
+        + "".join(f"1 Fixture Plains {i}\n" for i in range(97))
+        + "// Sideboard\n1 Mind Stone\n1 Black Market\n1 Not A Real Card\n",
+        encoding="utf-8",
+    )
+    deck = load_deck(str(path), fixture_db)  # the unresolved sideboard card doesn't fail the load
+    assert deck.sideboard_unresolved == ["Not A Real Card"]
+    config = DeckConfig(commander="Fixture Commander", feedback=[
+        FeedbackEntry(date="2026-10-06", kind="pin", card="Commander's Sphere", reason="keep"),
+    ])
+    report = build_review_packet(deck, fixture_db, config)
+    sideboard = {entry["sideboard_card"]: entry for entry in report.metrics["sideboard"]}
+
+    mind_stone = sideboard["Mind Stone"]
+    assert mind_stone["roles"] == ["draw", "ramp"]
+    # Ramp and draw both overlap Commander's Sphere, but it is pinned: only
+    # Arcane Signet is offered as the cut, and the comparison says Mind
+    # Stone also brings draw.
+    assert [(m["current"], m["role"]) for m in mind_stone["matches"]] == [("Arcane Signet", "ramp")]
+    assert "draw" in mind_stone["matches"][0]["gained_roles"]
+    assert sideboard["Black Market"]["notes"] == ["outside the commander's colour identity"]
+    assert sideboard["Not A Real Card"]["notes"] == ["not in the local mirror (typo, or newer than the last sync)"]
+    finding = next(f for f in report.findings if f.id == "review.sideboard")
+    assert "Black Market" in finding.evidence["not_playable"]

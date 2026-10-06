@@ -256,6 +256,65 @@ def _direct_upgrade_discovery(
     return found
 
 
+def _sideboard_suggestions(
+    deck: Deck, con: sqlite3.Connection, commander_ci: set[str], deck_roles: dict[str, set[str]],
+    pins: dict, rejected: dict, *, per_card: int = 3,
+) -> list[dict]:
+    """The sideboard is the user's own shortlist of cards to consider. Each
+    playable sideboard card is compared against the deck cards that fill
+    the same supported role (role evidence, not tags), with what the swap
+    gains and loses -- never a verdict, and never offering a pinned card or
+    a rejected pair as the cut. Cards that can't be played here (off
+    colour, not legal, unresolved, already in the deck) are listed with
+    the reason instead of being silently dropped."""
+    names = sorted(set(deck.sideboard_quantities))
+    if not names and not deck.sideboard_unresolved:
+        return []
+    data_by_name = _load_cards(con, names)
+    tags = _tags_by_name(con, names)
+    suggestions: list[dict] = []
+    for name in names:
+        entry: dict = {"sideboard_card": name, "roles": [], "matches": [], "match_count": 0, "notes": []}
+        data = data_by_name.get(name)
+        if data is None:
+            entry["notes"].append("card data unavailable")
+            suggestions.append(entry)
+            continue
+        if name in deck_roles:
+            entry["notes"].append("already in the maindeck")
+        if data["commander_legal"] != 1:
+            entry["notes"].append("not marked Commander legal")
+        if not isinstance(data["color_identity"], list) or not set(data["color_identity"]) <= commander_ci:
+            entry["notes"].append("outside the commander's colour identity")
+        evidence = extract_role_evidence(data["parsed"], type_line=data["type_line"] or "", tags=tags.get(name, ()))
+        entry["roles"] = sorted({e.role for e in evidence if e.strong})
+        if entry["notes"]:
+            suggestions.append(entry)
+            continue
+        if not entry["roles"]:
+            entry["notes"].append("no supported role evidence -- compare it by hand with `deckdoctor compare`")
+        matches = []
+        for role in entry["roles"]:
+            for current in sorted(n for n, roles in deck_roles.items() if role in roles):
+                if current in pins or (current, name) in rejected:
+                    continue
+                try:
+                    comparison = compare_candidates(con, current, name, role)
+                except ValueError:
+                    continue
+                matches.append({"current": current, "candidate": name, "role": role, "status": comparison.status,
+                                "gained_roles": list(comparison.gained_roles),
+                                "lost_roles": list(comparison.lost_roles)})
+        matches.sort(key=lambda m: (len(m["lost_roles"]), m["current"], m["role"]))
+        entry["match_count"] = len(matches)
+        entry["matches"] = matches[:per_card]
+        suggestions.append(entry)
+    for name in deck.sideboard_unresolved:
+        suggestions.append({"sideboard_card": name, "roles": [], "matches": [], "match_count": 0,
+                            "notes": ["not in the local mirror (typo, or newer than the last sync)"]})
+    return suggestions
+
+
 def build_review_packet(
     deck: Deck, con: sqlite3.Connection, config: DeckConfig | None = None, *,
     limit: int = 3, config_path=None,
@@ -309,6 +368,7 @@ def build_review_packet(
     # -- full oracle text belongs to `compare` and `deckdoctor card`, not a
     # ~100-row default packet.
     inventory = []
+    deck_roles: dict[str, set[str]] = {}
     for name in deck_names:
         data = cards_by_name.get(name)
         if data is None:
@@ -317,6 +377,7 @@ def build_review_packet(
         role_evidence = extract_role_evidence(
             data["parsed"], type_line=data["type_line"] or "", tags=tags_by_name.get(name, ()),
         )
+        deck_roles[name] = {e.role for e in role_evidence if e.strong}
         inventory.append({
             "name": name, "quantity": quantities.get(name, 1),
             "type_line": data["type_line"], "mana_cost": data["mana_cost"],
@@ -348,6 +409,21 @@ def build_review_packet(
         for item in broader_page.comparisons
     ]
 
+    sideboard = _sideboard_suggestions(deck, con, commander_ci, deck_roles, pins, rejected)
+    if sideboard:
+        playable = [s for s in sideboard if not s["notes"] or s["matches"]]
+        findings.append(Finding(
+            "review.sideboard", "info", "checked",
+            f"{len(sideboard)} sideboard card(s) -- the user's shortlist -- compared against the deck: "
+            f"{sum(1 for s in sideboard if s['matches'])} with same-role cards to weigh them against",
+            "pass" if playable else "not_applicable",
+            evidence={"cards": len(sideboard),
+                      "not_playable": {s["sideboard_card"]: s["notes"] for s in sideboard
+                                       if s["notes"] and not s["matches"]}},
+            limitations=["Same-role comparisons show what a swap gains and loses; whether it fits the plan "
+                         "is authored judgment."],
+        ))
+
     findings.append(Finding(
         "review.direct_upgrades", "info", "checked",
         f"{len(direct_upgrades)} scoped direct upgrade(s) found (no role tags required; bounded, not exhaustive)",
@@ -373,7 +449,8 @@ def build_review_packet(
                     "mana_cost": cards_by_name.get(deck.commander.name, {}).get("mana_cost"),
                     "color_identity": cards_by_name.get(deck.commander.name, {}).get("color_identity"),
                  }, "inventory": inventory, "curve": curve, "lands": land_count,
-                 "direct_upgrades": direct_upgrades, "alternatives": alternatives},
+                 "direct_upgrades": direct_upgrades, "alternatives": alternatives,
+                 "sideboard": sideboard},
         limitations=[
             "role evidence describes supported ability shapes only; strategic fit is authored judgment, "
             "not inferred from prose",

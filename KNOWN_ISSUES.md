@@ -990,6 +990,42 @@ to me. Just not a blanket but targeted." Two stacked causes:
    original deny-by-default scan applies. Tests use real Forge scripts:
    tests/test_coverage.py::test_condition_only_disqualifies_the_role_it_gates.
 
+## Sideboard is a distinct zone, not stripped
+
+Historically `_parse_decklist_detailed` DROPPED `// SIDEBOARD` cards
+entirely (they shared the excluded-section path with maybeboard/
+considering/tokens, the fix for a real bug where a 4-card sideboard
+counted toward deck_size 104). The user's actual workflow keeps a
+rotating sideboard pool and expected the tool to SEE those cards.
+
+RESOLVED: `_parse_decklist_detailed` now returns a two-zone parse
+(main entries, sideboard entries); maybeboard/considering/tokens stay
+dropped. `Deck` gained `sideboard`, `sideboard_quantities`,
+`sideboard_line_numbers`, `sideboard_unresolved`; `load_deck` and
+`validate_decklist` resolve sideboard names. An unresolved sideboard
+card (typo, or newer than the mirror) is skipped and reported as an
+`unresolved_sideboard_card` WARNING -- an error here made one typo
+invalidate the deck and block every gated command.
+`validate_deck` checks the zone WITHOUT counting it into the 100:
+cross-zone singleton consistency (`sideboard_duplicate` --
+promoting requires cutting the maindeck copy) and pool-internal
+issues (off-colour, illegal, over-limit quantities, legality unknown)
+are all WARNINGS, report-not-gate: the sideboard is a suggestion pool, not
+a played card. `validate_swaps` treats an addition that names a
+sideboard card as a PROMOTION: it leaves the prospective sideboard
+(the card moves zones instead of duplicating), so the prospective deck
+never carries the same card in both zones. Coverage metrics still
+ignore the sideboard by design (never deck_has/health), but `review`
+compares each playable sideboard card against the deck cards filling
+the same role (`recommendations._sideboard_suggestions`), skipping
+pins and rejected pairs, and lists unplayable ones with the reason.
+Regression tests: tests/test_deck_config.py::
+test_sideboard_cards_are_excluded_from_maindeck (the original 104-card
+bug stays fixed), tests/test_validation.py::
+test_sideboard_cards_are_validated_but_not_counted,
+tests/test_swaps.py::test_sideboard_is_a_distinct_zone_not_part_of_the_100,
+tests/test_swaps.py::test_sideboard_card_added_by_a_swap_is_promoted.
+
 ## Restricted lands were invisible to every report (Temple of the False God)
 
 Found on a real deck review, user-called: "What about the weird lands,

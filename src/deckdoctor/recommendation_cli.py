@@ -100,6 +100,19 @@ def _render_text(report: Report) -> str:
                               f"not on {pair['candidate']} -- explain what this costs before cutting)")
             if pair.get("gained_roles"):
                 lines.append(f"  Gains: {', '.join(pair['gained_roles'])}")
+    for entry in report.metrics.get("sideboard", []):
+        roles = ", ".join(entry["roles"]) or "no supported role"
+        lines.append(f"Sideboard: {entry['sideboard_card']} ({roles})")
+        for note in entry["notes"]:
+            lines.append(f"  Note: {note}")
+        for match in entry["matches"]:
+            lines.append(f"  vs {match['current']} [{match['role']}, {match['status']}]")
+            if match["lost_roles"]:
+                lines.append(f"    Loses: {', '.join(match['lost_roles'])}")
+            if match["gained_roles"]:
+                lines.append(f"    Gains: {', '.join(match['gained_roles'])}")
+        if entry["match_count"] > len(entry["matches"]):
+            lines.append(f"  ({entry['match_count'] - len(entry['matches'])} more same-role card(s) in --format json)")
     lines.extend(f"Limit: {limitation}" for limitation in report.limitations)
     if report.metrics:
         lines.append("Use --format json for the full inventory and comparison evidence.")
