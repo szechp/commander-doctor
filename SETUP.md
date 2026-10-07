@@ -33,6 +33,8 @@ uv run deckdoctor sync
 
 Downloads Scryfall's public bulk card + oracle-tag data (no API key needed) into `data/deckdoctor.sqlite3`. Takes 1-3 minutes. Without this step, every deck-review command fails immediately with an "unavailable" error — it's not optional.
 
+Also re-run it on a mirror built before 2026-09-23. That's when sync started storing Scryfall's global `edhrec_rank`, which `candidates` uses for ranking. Older mirrors still work, but rank by commander-specific EDHREC data and mana value only.
+
 Verify:
 
 ```sh

@@ -36,6 +36,7 @@ not an attempt at the whole database.
 from __future__ import annotations
 
 import json
+import re
 import hashlib
 import time
 from dataclasses import dataclass, field
@@ -123,6 +124,9 @@ def fetch_bracket_estimate(deck: Deck, max_age_seconds: int = MAX_AGE_SECONDS, f
     return data
 
 
+NON_WINNING_RESULT_RE = re.compile(r"\blife ?gain\b|\bgain(?:ing)? life\b", re.IGNORECASE)
+
+
 @dataclass
 class ComboEntry:
     cards: list[str]
@@ -134,11 +138,28 @@ class ComboEntry:
     extra_turn: bool
     lock: bool
     produces: list[str]
+    skip_turns: bool = False
+    controls_opponents: bool = False
 
     @property
     def is_fast_two_card(self) -> bool:
         """Spellbook's own bracket-3-pushing threshold, ref module docstring."""
         return self.definitely_two_card and self.speed >= 3
+
+    @property
+    def non_winning(self) -> bool:
+        """Only produces lifegain, with no lock/extra-turn/skip/control flag.
+        Spellbook counts e.g. Swords to Plowshares + Jumbo Cactuar ("Near-
+        infinite lifegain") toward its bracket estimate, but the bracket-3
+        two-card restriction is aimed at combos that end or lock the game.
+        Judgment, deliberately narrow: only lifegain-only results qualify."""
+        if self.lock or self.extra_turn or self.skip_turns or self.controls_opponents or self.mass_land_denial:
+            return False
+        return bool(self.produces) and all(NON_WINNING_RESULT_RE.search(p or "") for p in self.produces)
+
+    @property
+    def is_game_ending_fast_two_card(self) -> bool:
+        return self.is_fast_two_card and not self.non_winning
 
 
 @dataclass
@@ -172,7 +193,14 @@ class ComboReport:
 
     @property
     def fast_two_card_combos(self) -> list[ComboEntry]:
-        return [c for c in self.combos if c.is_fast_two_card]
+        """Fast two-card combos that end or lock the game -- the bracket-3
+        violations. Non-winning ones (see ComboEntry.non_winning) are
+        reported separately, not counted here."""
+        return [c for c in self.combos if c.is_game_ending_fast_two_card]
+
+    @property
+    def non_winning_fast_two_card_combos(self) -> list[ComboEntry]:
+        return [c for c in self.combos if c.is_fast_two_card and c.non_winning]
 
     def card_combo_frequency(self) -> dict[str, int]:
         """How many of `self.combos` each card appears in. The basis for
@@ -245,7 +273,11 @@ class ComboReport:
         lines.append("")
         lines.append(f"Combos found: {len(self.combos)} (SPEC.md §8: report always, even legal ones)")
         for combo in self.combos:
-            flag = "  ** FAST TWO-CARD, bracket-3 violation per Spellbook's own threshold" if combo.is_fast_two_card else ""
+            flag = ("  ** FAST TWO-CARD, bracket-3 violation per Spellbook's own threshold"
+                    if combo.is_game_ending_fast_two_card else
+                    "  (fast two-card but NON-WINNING: counted by Spellbook's estimate; the bracket-3 "
+                    "restriction targets game-ending combos -- a judgment call, confirm with the user)"
+                    if combo.is_fast_two_card else "")
             lines.append(
                 f"  [{', '.join(combo.cards)}] speed={combo.speed} "
                 f"mv_needed={combo.mana_value_needed} "
@@ -259,6 +291,10 @@ class ComboReport:
                 and self.game_changer_count <= 3:
             lines.append("")
             lines.append("No bracket-3 violations found.")
+            if self.non_winning_fast_two_card_combos and (self.bracket_number or 0) > 3:
+                lines.append(f"Spellbook's bracket {self.bracket_number} estimate rests only on non-winning "
+                             f"combo(s) above; by the game-ending-combo reading of the bracket rules this list "
+                             f"is bracket 3.")
 
         freq = self.card_combo_frequency()
         if freq:
@@ -298,6 +334,8 @@ def _report_from_data(deck: Deck, data: dict) -> ComboReport:
             extra_turn=c["extraTurn"],
             lock=c["lock"],
             produces=[p.get("feature", {}).get("name", "") for p in c["combo"].get("produces", [])],
+            skip_turns=bool(c.get("skipTurns")),
+            controls_opponents=bool(c.get("controlAllOpponents") or c.get("controlSomeOpponents")),
         )
         for c in data["combos"]
         if c["relevant"]

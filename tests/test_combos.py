@@ -132,3 +132,29 @@ def test_cache_is_used_on_second_call(con, tmp_path, monkeypatch):
 
     check_deck(deck)  # second call: should be served from cache, not rewritten
     assert cache_file.stat().st_mtime == mtime_before
+
+
+def test_lifegain_only_fast_combo_is_reported_but_not_a_violation():
+    from deckdoctor.combos import _report_from_data
+    from deckdoctor.deck import Card, Deck
+
+    def combo(names, produces, **flags):
+        return {"relevant": True, "definitelyTwoCard": True, "arguablyTwoCard": True, "speed": 5,
+                "massLandDenial": False, "extraTurn": False, "lock": False, **flags,
+                "combo": {"uses": [{"card": {"name": n}} for n in names], "manaValueNeeded": 1,
+                          "produces": [{"feature": {"name": p}} for p in produces]}}
+
+    data = {"bracketTag": "R", "cards": [], "combos": [
+        combo(["Swords to Plowshares", "Jumbo Cactuar"], ["Near-infinite lifegain"]),
+    ]}
+    commander = Card(name="C", cmc=3, type_line="Legendary Creature", ramp_kind=None, draw_kind=None,
+                     prereq=None, is_game_changer=False, power=None, toughness=None)
+    report = _report_from_data(Deck("t", commander, []), data)
+    assert report.fast_two_card_combos == []
+    assert len(report.non_winning_fast_two_card_combos) == 1
+    assert "rests only on non-winning" in report.render()
+
+    data["combos"].append(combo(["A", "B"], ["Infinite lifegain", "Infinite damage"]))
+    data["combos"].append(combo(["C", "D"], ["Infinite lifegain"], lock=True))
+    report = _report_from_data(Deck("t", commander, []), data)
+    assert [c.cards for c in report.fast_two_card_combos] == [["A", "B"], ["C", "D"]]

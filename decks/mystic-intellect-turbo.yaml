@@ -2,6 +2,7 @@ commander: Sevinne, the Chronoclasm
 bracket: 3
 threshold: 8  # turn the redirect/burn kill is actually online, NOT Sevinne's own cmc (5) --
   # confirmed with user 2026-09-10.
+edhrec_theme: burn  # redirect-burn build; low sample (22 decks) -- pinned 2026-09-26
 gameplan: >
   Jeskai (WUR) damage-redirection wincon, not a value/control pile. The core is a
   package of damage-redirect creatures (Boros Reckoner: "whenever dealt damage,
@@ -208,3 +209,24 @@ feedback:
       suggest cutting this as 'inefficient single-target protection' without weighing
       it against the repeat-recast recursion plan first -- got this wrong twice already
       this session on adjacent cards
+  - date: '2026-09-26'
+    kind: swap
+    status: rejected
+    current: Glacial Fortress
+    suggested: Polluted Delta
+    reason: 'user keeps check lands: only tapped on turn 1, and a hand whose sole land
+      is a check land gets mulliganed anyway'
+  - date: '2026-09-26'
+    kind: swap
+    status: rejected
+    current: Sulfur Falls
+    suggested: Bloodstained Mire
+    reason: 'user keeps check lands: only tapped on turn 1, and a hand whose sole land
+      is a check land gets mulliganed anyway'
+  - date: '2026-09-26'
+    kind: swap
+    status: rejected
+    current: Clifftop Retreat
+    suggested: Windswept Heath
+    reason: 'user keeps check lands: only tapped on turn 1, and a hand whose sole land
+      is a check land gets mulliganed anyway'

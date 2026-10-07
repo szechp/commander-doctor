@@ -249,20 +249,68 @@ class ColourReport:
             summary += f", {len(unknown)} not assessable"
         lines.append(summary)
         if unmet:
-            lines.append("  These aren't missing cards -- each line is one colour of one spell that this "
-                         f"mana base supports below {TARGET_P:.0%}:")
+            # A floor depends only on (colour, pips, turn), so spells sharing one
+            # are grouped -- one line per spell buried the few demanding
+            # requirements (a turn-2 double pip) under dozens of single-pip rows.
+            groups: dict[tuple[str, int, int], list[CardRequirement]] = {}
+            for r in unmet:
+                groups.setdefault((r.colour, r.pips, r.turn), []).append(r)
+            lines.append("  These aren't missing cards -- each line is one colour requirement that this "
+                         f"mana base supports below {TARGET_P:.0%}, with the spells that need it:")
             lines.append("")
-            for r in sorted(unmet, key=lambda r: -(r.shortfall or 0)):
-                p_colour = p_at_least(r.pips, r.sources, cards_seen_by_turn(r.turn), DECK_SIZE)
+            for (colour, pips, turn), rs in sorted(groups.items(), key=lambda kv: (-(kv[1][0].shortfall or 0), kv[0])):
+                r = rs[0]
+                p_colour = p_at_least(pips, r.sources, cards_seen_by_turn(turn), DECK_SIZE)
+                names = ", ".join(x.name for x in rs[:5]) + (f" +{len(rs) - 5} more" if len(rs) > 5 else "")
                 lines.append(
-                    f"  {r.name}: {p_colour:.0%} chance of {r.pips} {r.colour} source{'s' if r.pips > 1 else ''} "
-                    f"by turn {r.turn} (~{r.floor} {r.colour} sources needed for {TARGET_P:.0%}, you have {r.sources})"
+                    f"  {p_colour:.0%} chance of {pips} {colour} source{'s' if pips > 1 else ''} by turn {turn} "
+                    f"(~{r.floor} {colour} sources needed for {TARGET_P:.0%}, you have {r.sources}): {names}"
                 )
         return "\n".join(lines)
 
 
 def _is_land(card: Card) -> bool:
     return "Land" in card.type_line.split(" ") or card.type_line.startswith("Land")
+
+
+# Battlebond lands ("enters tapped unless you have two or more opponents")
+# are untapped duals in Commander -- every game starts with 3 opponents.
+MULTIPLAYER_UNTAPPED_RE = re.compile(r"enters tapped unless you have two or more opponents", re.IGNORECASE)
+
+BASIC_TYPE_COLOUR = {"Plains": "W", "Island": "U", "Swamp": "B", "Mountain": "R", "Forest": "G"}
+# A fetch whose land arrives tapped (Evolving Wilds, Terramorphic Expanse).
+FETCHED_TAPPED_RE = re.compile(r"onto the battlefield tapped", re.IGNORECASE)
+FETCH_RE = re.compile(r"search your library for (?:an? |up to \w+ )?([^.]*?) cards?", re.IGNORECASE)
+
+
+def _land_subtypes(type_line: str) -> set[str]:
+    front = (type_line or "").split(" // ")[0]
+    return set(front.split("—", 1)[1].split()) if "—" in front else set()
+
+
+def fetch_colours(oracle_text: str, deck_lands: list[Card]) -> set[str] | None:
+    """Colours a land-fetching land can actually find in THIS deck, or None
+    if the text isn't a recognised fetch. Scryfall gives fetches no
+    produced_mana (they don't tap for mana), which left every fetch as
+    "unknown" and uncounted. "Search your library for a Mountain or Forest
+    card" finds any land with those subtypes (shocks included); "a basic land
+    card" finds only basics. Only types the deck actually contains count."""
+    m = FETCH_RE.search(oracle_text or "")
+    if not m:
+        return None
+    wanted = m.group(1)
+    if "land" not in wanted.lower() and not any(t in wanted for t in BASIC_TYPE_COLOUR):
+        return None
+    basic_only = "basic" in wanted.lower()
+    named = {t for t in BASIC_TYPE_COLOUR if t in wanted}
+    colours: set[str] = set()
+    for land in deck_lands:
+        if basic_only and "Basic" not in (land.type_line or ""):
+            continue
+        for subtype in _land_subtypes(land.type_line):
+            if subtype in BASIC_TYPE_COLOUR and (not named or subtype in named):
+                colours.add(BASIC_TYPE_COLOUR[subtype])
+    return colours
 
 
 _LAND_TYPE_WORDS = {"plains": "W", "island": "U", "swamp": "B", "mountain": "R", "forest": "G"}
@@ -353,7 +401,13 @@ def _fetchland_colours(row: dict, targets: list[tuple[bool, frozenset[str]]]) ->
 
 
 def _source_condition(card: Card, row: dict) -> str | None:
-    text = row.get("oracle_text") or ""
+    """Why this source can't simply be counted, or None. Entering tapped is
+    NOT a condition: a tapped dual is still a source of both colours once
+    drawn -- it costs tempo, which the untapped count reports separately.
+    Counting "may enter tapped" as conditional excluded every shock, check,
+    fast and tapped dual from the floor comparison, so a normal 3-colour
+    manabase failed ~100% of cards and the check had no signal."""
+    text = MULTIPLAYER_UNTAPPED_RE.sub("", row.get("oracle_text") or "")
     if re.search(r"opponent|among|could produce", text, re.IGNORECASE):
         return "depends on an opponent's or another permanent's colours"
     parsed = {}
@@ -374,8 +428,6 @@ def _source_condition(card: Card, row: dict) -> str | None:
                 return "requires mana input"
     if not _is_land(card):
         return "nonland source must first be cast and deployed"
-    if land_enters_tapped(row.get("parsed"), text):
-        return "may enter tapped"
     return None
 
 
@@ -447,7 +499,10 @@ def compute_colour_report(deck: Deck, con: sqlite3.Connection) -> ColourReport:
             continue
         if not produced:
             continue
-        maybe_tapped = land_enters_tapped(row["parsed"], row["oracle_text"])
+        maybe_tapped = (land_enters_tapped(row["parsed"], row["oracle_text"])
+                        and not MULTIPLAYER_UNTAPPED_RE.search(row["oracle_text"] or ""))
+        if fetched is not None and FETCHED_TAPPED_RE.search(row["oracle_text"] or ""):
+            maybe_tapped = True  # Evolving Wilds: the fetched land arrives tapped
         condition = _source_condition(card, row)
         if condition == "mana ability metadata is malformed":
             unknowns.append(f"{card.name}: {condition}")

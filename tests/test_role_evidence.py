@@ -365,3 +365,162 @@ def test_forge_parser_and_json_consumers_share_identical_evidence():
     assert role_evidence_for_card(card) == extract_role_evidence(
         card.to_json(), type_line=card.types,
     )
+
+
+# Board-wipe / mass-removal ("sweeper") role family -- KNOWN_ISSUES.md,
+# "extract_role_evidence has no board-wipe/mass-damage role family, so a
+# DB$ DealDamage-shaped sweeper clause is invisible to compare_candidates
+# entirely." All shapes below are the real Forge cardsfolder parses for
+# the named card, verified against the local mirror
+# (`sqlite3 data/deckdoctor.sqlite3 "select parsed from cards where
+# name=...'"`), not recalled from memory.
+
+def test_destroyall_is_strong_sweeper_alongside_existing_removal():
+    # Real shape (Wrath of God): "SP$ DestroyAll | ValidCards$ Creature |
+    # NoRegen$ True". DestroyAll already produced "removal" evidence; it
+    # must now ALSO produce "sweeper" evidence -- losing a board wipe is a
+    # different, separately nameable loss from losing spot removal.
+    evidence = extract_role_evidence(_parsed(abilities=[{
+        "SP": "DestroyAll", "ValidCards": "Creature", "NoRegen": "True",
+    }]), type_line="Sorcery")
+    removal = evidence_for_role(evidence, "removal")[0]
+    sweeper = evidence_for_role(evidence, "sweeper")[0]
+    assert removal.strong is True
+    assert sweeper.strong is True
+    assert sweeper.symmetric is True
+    assert sweeper.target_scope == "Creature"
+
+
+def test_damageall_is_strong_sweeper_but_not_removal():
+    # Real shape (Blasphemous Act): "SP$ DamageAll | NumDmg$ 13 |
+    # ValidCards$ Creature". DamageAll was entirely invisible before this
+    # family -- the literal gap KNOWN_ISSUES.md named.
+    evidence = extract_role_evidence(_parsed(abilities=[{
+        "SP": "DamageAll", "NumDmg": "13", "ValidCards": "Creature",
+    }]), type_line="Sorcery")
+    assert evidence_for_role(evidence, "removal") == ()
+    sweeper = evidence_for_role(evidence, "sweeper")[0]
+    assert sweeper.strong is True
+    assert sweeper.symmetric is True
+
+
+def test_dealdamage_single_target_is_not_sweeper():
+    # Real shape (Lightning Bolt): "SP$ DealDamage | ValidTgts$ Any |
+    # NumDmg$ 3". Verified against the whole local mirror: no DealDamage
+    # node anywhere uses an "All"/"Each"-shaped target -- Forge always
+    # uses the distinct DamageAll id for a real mass effect, so a
+    # single-target burn spell must never read as a wipe.
+    evidence = extract_role_evidence(_parsed(abilities=[{
+        "SP": "DealDamage", "ValidTgts": "Any", "NumDmg": "3",
+    }]), type_line="Instant")
+    assert evidence_for_role(evidence, "sweeper") == ()
+
+
+def test_damageall_targeting_players_is_not_sweeper():
+    # Real shape (Aggravate): "SP$ DamageAll | ValidCards$ Player |
+    # NumDmg$ 1" -- burns each player, not a board wipe (no permanent is
+    # removed).
+    evidence = extract_role_evidence(_parsed(abilities=[{
+        "SP": "DamageAll", "ValidCards": "Player", "NumDmg": "1",
+    }]), type_line="Sorcery")
+    assert evidence_for_role(evidence, "sweeper") == ()
+
+
+def test_changezoneall_changetype_is_strong_sweeper_despite_weak_removal():
+    # Real shape (Farewell, ExileAllCreatures svar): "DB$ ChangeZoneAll |
+    # ChangeType$ Creature | Origin$ Battlefield | Destination$ Exile".
+    # ChangeType$ (not ValidTgts$/ValidCards$) is not recognized by the
+    # shared _target() helper the "removal" family uses, so this already
+    # shows up as weak/unsupported removal evidence -- the sweeper family
+    # has its own ChangeType$ fallback and must read it as strong.
+    evidence = extract_role_evidence(_parsed(abilities=[{
+        "SP": "Charm", "Choices": "ExileAllCreatures",
+    }], svars={
+        "ExileAllCreatures": "DB$ ChangeZoneAll | ChangeType$ Creature | Origin$ Battlefield | Destination$ Exile",
+    }), type_line="Sorcery")
+    removal = evidence_for_role(evidence, "removal")[0]
+    sweeper = evidence_for_role(evidence, "sweeper")[0]
+    assert removal.strong is False
+    assert sweeper.strong is True
+    assert sweeper.target_scope == "Creature"
+
+
+def test_changezoneall_graveyard_origin_is_not_sweeper():
+    # Real shape (Farewell, ExileAllGraveyards svar): "DB$ ChangeZoneAll |
+    # ChangeType$ Card | Origin$ Graveyard | Destination$ Exile" --
+    # graveyard hate, not a board wipe (nothing comes off the
+    # battlefield).
+    evidence = extract_role_evidence(_parsed(abilities=[{
+        "DB": "ChangeZoneAll", "ChangeType": "Card", "Origin": "Graveyard", "Destination": "Exile",
+    }]), type_line="Sorcery")
+    assert evidence_for_role(evidence, "sweeper") == ()
+
+
+def test_pumpall_variable_negative_magnitude_is_strong_sweeper():
+    # Real shape (Toxic Deluge): "SP$ PumpAll | Cost$ 2 B PayLife<X> |
+    # ValidCards$ Creature | NumAtt$ -X | NumDef$ -X". The magnitude (X)
+    # can't be resolved without walking the payment SVar, but the leading
+    # "-" is a reliable, cheap sign tell -- this stays weak/unsupported
+    # "removal" evidence (unparseable magnitude) but is strong "sweeper"
+    # evidence (a mass debuff is confirmed regardless of its size).
+    evidence = extract_role_evidence(_parsed(abilities=[{
+        "SP": "PumpAll", "Cost": "2 B PayLife<X>", "ValidCards": "Creature",
+        "NumAtt": "-X", "NumDef": "-X",
+    }]), type_line="Sorcery")
+    removal = evidence_for_role(evidence, "removal")[0]
+    sweeper = evidence_for_role(evidence, "sweeper")[0]
+    assert removal.strong is False
+    assert sweeper.strong is True
+    assert sweeper.symmetric is True
+
+
+def test_pumpall_positive_is_not_sweeper():
+    # Real shape (Flawless Maneuver): "SP$ PumpAll | ValidCards$
+    # Creature.YouCtrl | KW$ Indestructible" -- protects your own team,
+    # not a wipe, and has no NumAtt$/NumDef$ at all.
+    evidence = extract_role_evidence(_parsed(abilities=[{
+        "SP": "PumpAll", "ValidCards": "Creature.YouCtrl", "KW": "Indestructible",
+    }]), type_line="Instant")
+    assert evidence_for_role(evidence, "sweeper") == ()
+
+
+def test_one_sided_wipe_is_not_symmetric():
+    # Real shape (Call Forth the Tempest): "DB$ DamageAll | ValidCards$
+    # Creature.OppCtrl | NumDmg$ 5" -- an ownership qualifier scopes the
+    # wipe to one side, matching the `sweeper-one-sided` tag.
+    evidence = extract_role_evidence(_parsed(abilities=[{
+        "DB": "DamageAll", "ValidCards": "Creature.OppCtrl", "NumDmg": "5",
+    }]), type_line="Sorcery")
+    sweeper = evidence_for_role(evidence, "sweeper")[0]
+    assert sweeper.strong is True
+    assert sweeper.symmetric is False
+
+
+def test_strictly_other_qualifier_stays_symmetric():
+    # Real shape (Deathbringer Regent): "DB$ DestroyAll | ValidCards$
+    # Creature.StrictlyOther" -- excludes only the source creature, still
+    # hits every player's board equally.
+    evidence = extract_role_evidence(_parsed(abilities=[{
+        "DB": "DestroyAll", "ValidCards": "Creature.StrictlyOther",
+    }]), type_line="Creature")
+    sweeper = evidence_for_role(evidence, "sweeper")[0]
+    assert sweeper.symmetric is True
+
+
+def test_star_of_extinction_chained_damageall_is_visible_as_sweeper():
+    # Real shape (Star of Extinction): "SP$ Destroy | ValidTgts$ Land |
+    # SubAbility$ DBDealDamage", svars.DBDealDamage = "DB$ DamageAll |
+    # ValidCards$ Creature,Planeswalker | NumDmg$ 20". This is the exact
+    # card KNOWN_ISSUES.md's gap report was written against: before this
+    # family, only the land-destroy half was visible at all.
+    evidence = extract_role_evidence(_parsed(abilities=[{
+        "SP": "Destroy", "ValidTgts": "Land", "SubAbility": "DBDealDamage",
+    }], svars={
+        "DBDealDamage": "DB$ DamageAll | ValidCards$ Creature,Planeswalker | NumDmg$ 20",
+    }), type_line="Sorcery")
+    removal = evidence_for_role(evidence, "removal")[0]
+    sweeper = evidence_for_role(evidence, "sweeper")[0]
+    assert removal.strong is True
+    assert removal.target_scope == "Land"
+    assert sweeper.strong is True
+    assert sweeper.target_scope == "Creature,Planeswalker"

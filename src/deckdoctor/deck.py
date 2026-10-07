@@ -57,6 +57,11 @@ class Deck:
 _SECTION_RE = re.compile(r"^//\s*([A-Za-z ]+?)\s*:?\s*$")
 _EXCLUDED_SECTIONS = {"sideboard", "maybeboard", "considering", "tokens"}
 _INCLUDED_SECTIONS = {"commander", "commanders", "deck", "main", "mainboard", "maindeck", "companion"}
+_KNOWN_SECTIONS = {"sideboard"} | _EXCLUDED_SECTIONS | _INCLUDED_SECTIONS
+# ManaBox/Moxfield/Archidekt exports write the header without `//`
+# (`SIDEBOARD:`, `Sideboard`); only a known section name counts, so an
+# unparsed card line still errors.
+_BARE_SECTION_RE = re.compile(r"^([A-Za-z ]+?)\s*:?\s*$")
 
 
 def _parse_decklist_detailed(
@@ -76,8 +81,9 @@ def _parse_decklist_detailed(
             line = raw_line.strip()
             if not line:
                 continue
-            if line.startswith("//"):
-                section = _SECTION_RE.match(line)
+            header = _BARE_SECTION_RE.match(line) if not line.startswith("//") else None
+            if line.startswith("//") or (header and header.group(1).lower() in _KNOWN_SECTIONS):
+                section = header or _SECTION_RE.match(line)
                 name = section.group(1).lower() if section else ""
                 if name == "sideboard":
                     zone = "sideboard"

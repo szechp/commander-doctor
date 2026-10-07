@@ -60,6 +60,7 @@ from deckdoctor.reliability import (
     cost_evidence,
     has_free_etb_removal_trigger,
     mana_value_of_forge_cost,
+    passes_removal_capability_filters,
     passes_removal_reliability_filters,
     role_for_answer_tag,
 )
@@ -422,11 +423,28 @@ def is_edict(parsed_json: str | None) -> bool | None:
 
 
 def _cheapest_in_deck(con: sqlite3.Connection, names: list[str], tag: str) -> tuple[str | None, float | None, bool | None]:
-    """Cheapest by CMC among answers that pass `reliability.
-    passes_removal_reliability_filters` -- the SAME reliability gate
-    `upgrades.py`'s `find_upgrades` uses (they rank the same removal-*/
-    sweeper-* tags; see `reliability.py`'s module docstring for why this
-    is shared, not duplicated).
+    """Cheapest by CMC among a deck's OWN cards that pass `reliability.
+    passes_removal_capability_filters` -- a deliberately lighter gate than
+    `_cheapest_in_db`/`compute_flexible_answers` below (`reliability.
+    passes_removal_reliability_filters`, the SAME gate `upgrades.py`'s
+    `find_upgrades` uses to rank a REPLACEMENT candidate against what it
+    would replace).
+
+    Real bug this fixes (KNOWN_ISSUES.md, 2026-09-09): this used to run a
+    deck's own cards through the full ranking gate too, so Chaos Warp
+    (`grants_target_a_benefit` -- its Dig sub-ability is `Defined$
+    TargetedOwner`) was invisible to `compute_coverage`'s `deck_has` check
+    even with Chaos Warp in the 99; same story for Assassin's Trophy and
+    Boseiju, Who Endures (`Defined(Player)$ TargetedController`). That gate
+    answers "is X at least as good as some OTHER card at the same cost" --
+    the right question for a REPLACEMENT suggestion, the wrong one for "does
+    a deck's own card do the job at all." See `reliability.
+    passes_removal_capability_filters`'s docstring for exactly which checks
+    stay (only `is_symmetrical_effect` -- a card that also hits the
+    caster's own board isn't a one-sided answer regardless of what it's
+    compared against) and which don't (everything else: those are all
+    comparison-only signals that a deck's own already-run card doesn't
+    need to clear).
 
     Lands are INCLUDED, not excluded -- a real bug, found via a real deck
     audit (the user directly: "the agent suggest Tormod's Crypt over
@@ -448,13 +466,13 @@ def _cheapest_in_deck(con: sqlite3.Connection, names: list[str], tag: str) -> tu
     (`ValidTgts$ Creature.withoutFlying+attackingYou`), not a cost issue
     at all.
 
-    Tormod's Crypt (a one-shot self-sacrifice artifact, not comparable to
-    a persistent answer like Bojuka Bog) is excluded by the shared gate's
-    self-sacrifice check. X-cost spells (previously a stated, unfixed
-    limitation in this module's docstring) are now also excluded by the
-    same shared gate, since it needs `mana_cost` for the same check
-    `find_upgrades` already made -- a real side benefit of sharing this
-    logic instead of re-deriving a narrower version per module."""
+    Note the change from `_cheapest_in_db`/`compute_flexible_answers` below:
+    Tormod's Crypt (a one-shot self-sacrifice artifact) and an X-cost spell
+    are no longer excluded HERE -- `passes_removal_capability_filters`
+    deliberately drops those checks for a deck's own card (see its
+    docstring). They're still excluded from `_cheapest_in_db`'s DB-wide
+    "cheapest legal option to ADD" ranking, where "not comparable to a
+    persistent answer at the same understated cost" is the right call."""
     if not names:
         return None, None, None
     match_tags = _match_tags(tag)
@@ -469,11 +487,11 @@ def _cheapest_in_deck(con: sqlite3.Connection, names: list[str], tag: str) -> tu
         return None, None, None
     tagged_placeholders = ",".join("?" for _ in tagged)
     rows = con.execute(
-        f"SELECT name, cmc, parsed, mana_cost FROM cards WHERE name IN ({tagged_placeholders})",
+        f"SELECT name, cmc, parsed FROM cards WHERE name IN ({tagged_placeholders})",
         list(tagged),
     ).fetchall()
-    rows = [(name, cmc, parsed) for name, cmc, parsed, mana_cost in rows
-            if passes_removal_reliability_filters(parsed, mana_cost, role_for_answer_tag(tag)) is not None
+    rows = [(name, cmc, parsed) for name, cmc, parsed in rows
+            if passes_removal_capability_filters(parsed) is not None
             and effective_cost_for_role(cmc, parsed, tag) is not None]
     if not rows:
         return None, None, None

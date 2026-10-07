@@ -243,12 +243,73 @@ def has_lose_the_game(parsed_dict: dict) -> bool:
 # YOU too, a real, structural difference from one-sided removal.
 SYMMETRICAL_PLAYER_RE = re.compile(r"(?:Defined|ValidPlayers)\$\s*Player\b")
 
+# A THIRD distinct way Forge encodes "this hits everyone," found via a real
+# deck audit: The Tabernacle at Pendrell Vale ("All creatures have 'At the
+# beginning of your upkeep, destroy this creature unless you pay {1}.'") is
+# `Mode$ Continuous | Affected$ Creature | AddTrigger$ ...` on a STATIC --
+# no `Defined$`/`ValidPlayers$ Player` anywhere (the pattern above), no
+# player-targeted spell at all. Symmetry lives in `Affected$ Creature`
+# naming a permanent type with NO controller qualifier -- it grants the
+# triggered tax to every creature in play, including the caster's own.
+# Same real problem class as Renounce the Guilds (SYMMETRICAL_PLAYER_RE)
+# and Magus of the Tabernacle/Pendrell Mists/Energy Flux/Kataki, War's
+# Wage (the identical tax on a creature/artifact body instead of a land) --
+# verified against the mirror's own `statics`/`oracle_text` this session.
+STATIC_AFFECTED_RE = re.compile(r"Affected\$\s*([^|]+)")
+
+# Qualifiers on `Affected$` that scope a static to something OTHER than
+# "every permanent of this type in play, regardless of who controls it" --
+# either a controller/ownership restriction (the static equivalent of
+# BENIGN_TARGET_QUALIFIERS below) or the static being a plain Aura/
+# Equipment/Curse continuous grant on the ONE specific object it's
+# attached to, never "everyone." Calibrated against every commander-legal
+# removal-*/sweeper-*/ramp/draw-tagged card's actual `Affected$`
+# vocabulary this session (259 cards) -- EnchantedBy (158 occurrences) and
+# EquippedBy (50) alone would otherwise have been false-flagged as
+# symmetrical on every removal aura/equipment in the mirror; EnchantedPlayerCtrl
+# (Curse of Death's Hold, Overwhelming Splendor -- a Curse enchanting a
+# PLAYER, only that player's creatures affected) and YouDontCtrl (Toxrill,
+# the Corrosive) would otherwise have flagged genuinely one-sided effects;
+# ExiledWithSource (Hedonist's Trove, a May-play-from-exile grant, not a
+# board-wide effect at all) would otherwise have flagged an unrelated
+# static shape entirely.
+STATIC_SCOPING_QUALIFIERS = {
+    "YouCtrl", "OppCtrl", "YouOwn", "YouDontOwn", "YouDontCtrl",
+    "EnchantedBy", "EquippedBy", "AttachedBy", "Self", "IsCommander",
+    "EnchantedPlayerCtrl", "EnchantedController", "ExiledWithSource",
+}
+
+# Base type names a controller-unscoped static could plausibly grant a
+# symmetrical ability to. Deliberately excludes "Card" -- every `Affected$
+# Card...` static found in the mirror this session was a May-play-from-
+# exile grant (Shared Fate, Uba Mask, The Matrix of Time, Azula, Cunning
+# Usurper, Ian Malcolm, Chaotician), never a board-wide effect; "Player" is
+# also excluded, since `Affected$` names what's affected, not who casts --
+# a symmetrical PLAYER-wide effect is what SYMMETRICAL_PLAYER_RE already
+# checks for via `Defined$`/`ValidPlayers$`.
+STATIC_AFFECTED_PERMANENT_TYPES = {"Creature", "Artifact", "Enchantment", "Planeswalker", "Permanent", "Land", "Battle"}
+
+
+def _static_affected_is_symmetrical(clause: str) -> bool:
+    parts = clause.strip().split(".")
+    if parts[0] not in STATIC_AFFECTED_PERMANENT_TYPES:
+        return False
+    quals = [q for group in parts[1:] for q in group.split("+")]
+    return not any(q in STATIC_SCOPING_QUALIFIERS for q in quals)
+
 
 def is_symmetrical_effect(parsed_dict: dict) -> bool:
     texts = [ab.get("raw", "") for ab in parsed_dict.get("abilities", [])]
     texts += [t.get("raw", "") for t in parsed_dict.get("triggers", [])]
     texts += [v for v in parsed_dict.get("svars", {}).values() if isinstance(v, str)]
-    return any(SYMMETRICAL_PLAYER_RE.search(t) for t in texts)
+    if any(SYMMETRICAL_PLAYER_RE.search(t) for t in texts):
+        return True
+    for static in parsed_dict.get("statics", []):
+        raw = static.get("raw", "") if isinstance(static, dict) else ""
+        for match in STATIC_AFFECTED_RE.finditer(raw):
+            if _static_affected_is_symmetrical(match.group(1)):
+                return True
+    return False
 
 
 MANA_ONLY_TOKEN_RE = re.compile(r"^(\d+|[WUBRGCX])$")
@@ -737,11 +798,18 @@ def passes_removal_reliability_filters(parsed_json: str | None, mana_cost: str |
     combat-contingent (non-ETB) trigger, or a Fight effect instead of a
     guaranteed destroy/exile.
 
-    Used by BOTH `upgrades.py`'s `find_upgrades` and `coverage.py`'s
-    three "cheapest legal option" functions -- they rank the same tag
-    families, so they need the same reliability bar. Returns the parsed
-    dict on success, or None to signal that the candidate should be
-    excluded."""
+    Used by `upgrades.py`'s `find_upgrades` and by `coverage.py`'s
+    `_cheapest_in_db`/`compute_flexible_answers` -- all three are ranking/
+    suggesting a candidate against SOME OTHER card at the same cost, so
+    they need the same "is this a clean, strictly-comparable recommendation"
+    bar. Returns the parsed dict on success, or None to signal that the
+    candidate should be excluded.
+
+    NOT used for `coverage.py`'s `_cheapest_in_deck` (the "does the deck
+    already have an answer" check) -- see `passes_removal_capability_filters`
+    below for why that's a different question with a deliberately lighter
+    gate (KNOWN_ISSUES.md, 2026-09-09: Chaos Warp/Assassin's Trophy/Boseiju,
+    Who Endures are all real answers this gate would wrongly hide)."""
     parsed_dict = passes_generic_reliability_filters(parsed_json, mana_cost, role)
     if parsed_dict is None:
         return None
@@ -757,5 +825,66 @@ def passes_removal_reliability_filters(parsed_json: str | None, mana_cost: str |
     if is_fight_based_removal(parsed_dict):
         return None
     if is_temporary_removal(parsed_dict):
+        return None
+    return parsed_dict
+
+
+def passes_removal_capability_filters(parsed_json: str | None) -> dict | None:
+    """Minimal gate for "does this card, ALREADY IN THE DECK, genuinely do
+    the job" -- a different question from `passes_removal_reliability_
+    filters`'s "is this at least as good as some OTHER card at the same
+    cost" (used to rank suggestions).
+
+    Real bug this fixes (KNOWN_ISSUES.md, 2026-09-09, "coverage.py's 'deck
+    has an answer' check uses the candidate-ranking reliability gate, so
+    Chaos Warp doesn't count as the deck's catch-all"): `coverage.py`'s
+    `_cheapest_in_deck` used to run a deck's own removal-tagged cards
+    through the full `passes_removal_reliability_filters` gate, so Chaos
+    Warp (`removal-permanent`, "The owner of target permanent shuffles it
+    into their library, then reveals the top card...") tripped
+    `grants_target_a_benefit` (its Dig sub-ability is `Defined$
+    TargetedOwner`) and was reported as if the deck had no catch-all
+    answer at all, even with Chaos Warp in the 99. Seen again with
+    Assassin's Trophy (`Defined(Player)$ TargetedController` lets the
+    destroyed permanent's controller fetch a basic) and Boseiju, Who
+    Endures (same shape) both wrongly reported MISSING for `permanent
+    (catch-all)`/`artifact` despite being real, commonly-run answers.
+    `grants_target_a_benefit` is real, correct signal that a card ISN'T a
+    strictly-better-or-equal swap-in for some other removal spell at the
+    same cost (that's what it's for in the ranking gate above) -- it is
+    NOT evidence the card fails to destroy/exile/tuck its target. Every
+    other `passes_removal_reliability_filters` check is the same kind of
+    comparison-only signal (a hidden extra cost, a narrow ValidTgts$
+    restriction, a one-shot self-sacrifice, a Fight effect instead of a
+    guaranteed kill, a temporary O-Ring-style exile, a combat-contingent
+    trigger, an X-cost/Tiered/Suspend cost, a deferred Pact "lose the
+    game"): none of them mean the ability doesn't destroy/exile/tuck the
+    permanent type it's tagged for, only that it's not comparable to
+    something else at the same cost -- a question that doesn't apply to a
+    card the user is already running. Dropped here, on purpose: a deck's
+    own card either has the tag (and a real, resolvable effect) or it
+    doesn't.
+
+    Kept: `is_symmetrical_effect`. An effect that also hits every
+    creature/permanent the CASTER controls (Renounce the Guilds, The
+    Tabernacle at Pendrell Vale, Magus of the Tabernacle) isn't a one-
+    sided answer to an opponent's threat at all -- the one check here
+    where "this card genuinely doesn't function as YOUR answer" is true
+    independent of any other candidate it might be compared against.
+
+    Denies on missing/unparseable `parsed_json` too (deny-by-default on
+    missing structured data, consistent with the rest of this module) --
+    `coverage.effective_cost()`/`effective_cost_for_role()` both already
+    degrade to raw `cmc` when `parsed_json` is falsy, so this only affects
+    whether the symmetry check can run, not whether a cost is available.
+
+    Returns the parsed dict on success, or None to signal that the
+    candidate should be excluded."""
+    if not parsed_json:
+        return None
+    parsed_dict = parsed(parsed_json)
+    if not parsed_dict:
+        return None
+    if is_symmetrical_effect(parsed_dict):
         return None
     return parsed_dict

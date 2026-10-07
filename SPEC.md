@@ -163,17 +163,45 @@ count-dependent cards are blanks on turns 1-3 by definition. This failure is
 invisible to Scryfall data and is why the design needs parsed ability
 structure (§3).
 
-**Non-goals:** popularity ranking in either direction. Card prices (proxy-first,
-cost is not a factor). Collection awareness — everything is proxyable, so
-ownership never constrains a suggestion. Deck building from scratch.
+**Non-goals:** card prices (proxy-first, cost is not a factor). Treating
+spare availability as a hard constraint or as evidence that a card is good — a
+configured inventory of cards not in decks is only an addition-side close-call
+preference, and unlisted cards remain valid suggestions. Popularity as a
+*verdict* — see below for its role as
+retrieval evidence.
 
 **Primary goal:** the deck functions in the **first six turns**. It hits its
 land drops, has a live play available each turn, reaches its operational
 threshold (§6) on schedule, and can answer what opponents do. Theme fills what
 is left.
 
-Secondary and explicitly lower priority: that the deck is *optimal*. Sound
-before great.
+**Second goal, not optional:** the deck is as strong as its plan and bracket
+allow. Sound comes first in *order* (structure before power), but stopping at
+sound is a failure mode. The original version of this spec made "optimal"
+explicitly lower priority, excluded popularity and from-scratch building, and
+had the only loop stop the moment floors passed (§10b). In practice that made
+every session converge on 2-4 sideways swaps, because nothing in the system
+could tell a strong card from a weak one or had any reason to look further.
+
+**Revised 2026-09-23:**
+- *Popularity is retrieval evidence, not a verdict.* EDHREC inclusion rates for
+  this commander, on the deck's own theme page (`edhrec_theme`, chosen with
+  `deckdoctor themes`), plus Scryfall's global `edhrec_rank`, rank candidate
+  pools so the model reads the most likely picks first. Every pick still
+  needs its oracle clause and a reason it serves this plan (F1/F2 still apply).
+- *Building from scratch and rebuilding are supported*, as a target list
+  constructed package by package and diffed against the current list
+  (`deckdoctor diff`). That replaces a queue of 1:1 swaps each justified
+  against one existing card (docs/workflow.md §1, §5).
+
+**Revised 2026-09-26:** a repository-wide `collection_file` identifies available
+spares not currently allocated to decks; it is not a full ownership ledger, and
+all cards already in the reviewed deck are owned regardless of absence from it.
+Spare availability does not change ranking, expand a pool, rescue a card below
+the quality cutoff, or justify a cut. It labels cards only after they reach the
+ordinary results and may break a genuine close call between independently
+recommendable nonland additions. Lands are excluded from the availability
+preference entirely and are selected only for mana-base quality.
 
 ---
 
@@ -1398,6 +1426,14 @@ Reject and return for correction if: `add` not in pool; `add` already in deck;
 swap drops a playability floor below minimum; swap creates a sub-turn-6 combo;
 swap pushes Game Changers above 3; swaps not 1:1.
 
+*Revised 2026-09-23:* the per-swap "name the card it replaces" contract above
+is for the constraint-repair loop. For improvement and rebuilds, the unit of
+output is a whole target list. Its cuts/adds come from `deckdoctor diff`, and
+the same rejections apply to the resulting batch via `validate --swaps`.
+Requiring each add to be paired with a pre-named cut biases toward keeping the
+current list: any change must beat a specific incumbent, while keeping a card
+has to beat nothing.
+
 Rejections go back as a correction turn with reasons. One retry, then surface
 to the user.
 
@@ -1469,6 +1505,12 @@ in a diff of 20 cards.
 The loop runs **only while constraint violations exist**. The moment the deck
 is sound it stops. It never tries to make a sound deck better — that is `tune`,
 and it is human-in-loop for the reasons in §7.3.06.
+
+*Revised 2026-09-23:* this line applies to the **autonomous loop only**. It
+was never meant to stop the assistant from improving a sound deck, but with
+`fix`/`tune` unbuilt it was read that way. Making a sound deck stronger is the
+default assistant workflow (docs/workflow.md "Improve"): human-in-loop, built as
+a target list from ranked pools, and validated as one batch.
 
 #### Scope and what counts as a violation
 

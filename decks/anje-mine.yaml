@@ -1,0 +1,191 @@
+commander: Anje Falkenrath
+bracket: 3
+threshold: 3
+gameplan: >
+  Madness/discard value engine. Anje Falkenrath and a suite of discard
+  outlets (Bone Miser, Faithless Looting, Thrill of Possibility, Big Score,
+  Unexpected Windfall, Skirge Familiar, Currency Converter, Rix Maadi
+  Dungeon Palace, Geier Reach Sanitarium, Magus of the Wheel) feed a large
+  Madness payoff suite (removal: Gorgon Recluse, Terminal Agony, Dark
+  Withering, Big Game Hunter, Nightshade Assassin, Kitchen Imp,
+  Alchemist's Greeting; burn: Fiery Temper, Violent Eruption, Alms of the
+  Vein; value/bodies: Call to the Netherworld, Blazing Rootwalla, Grave
+  Scrabbler, From Under the Floorboards, Necrogoyf, Reckless Wurm,
+  Shadowgrange Archfiend, Archfiend of Spite) at their (usually much
+  cheaper) Madness cost rather than hardcast. A secondary discard-payoff
+  layer (Marauding Mako, Surly Badgersaur, Olivia Mobilized for War,
+  Glint-Horn Buccaneer, Archfiend of Ifnir, Monument to Endurance) turns
+  every discard into a body, counters, or damage regardless of Madness.
+  Graveyard recursion (Chainer Nightmare Adept, Squee Goblin Nabob, Call
+  to the Netherworld, Grave Scrabbler, Mortuary Mire) and B/R removal/burn
+  (Exsanguinate, Banefire, Crackle with Power, Blasphemous Act) round it
+  out as the actual closing power. Stated back to the user from the
+  decklist itself on 2026-09-06.
+feedback:
+  - date: 2026-09-06
+    kind: swap
+    current: "Temple of the False God"
+    suggested: "Mount Doom"
+    status: accepted
+    reason: >
+      User: "fix the mana base first". Colour-source floor check showed
+      37 cards short (B 25 / R 19 sources across 32 lands, mostly
+      colourless-only utility lands). Cutting the 3 weakest-synergy
+      colourless utility lands for real on-colour B/R duals (respecting
+      playgroup.yaml's ABUR-dual exclusion) cut the shortfall to 18 cards
+      with zero land-count change, verified by re-running `deckdoctor
+      colours`/`audit`/`health` against the edited decklist before
+      applying. Remaining 18 flags are genuinely multi-pip-greedy cards
+      (Violent Eruption RRR, Crackle with Power RR at turn 2) that no
+      reasonable land count fixes -- a ceiling, not left undone.
+  - date: 2026-09-06
+    kind: swap
+    current: "Drownyard Temple"
+    suggested: "Raucous Theater"
+    status: accepted
+    reason: "Same mana-base fix as Temple of the False God -> Mount Doom above."
+  - date: 2026-09-06
+    kind: swap
+    current: "Sanctum of Eternity"
+    suggested: "Shadowblood Ridge"
+    status: accepted
+    reason: "Same mana-base fix as Temple of the False God -> Mount Doom above."
+  - date: 2026-09-06
+    kind: swap
+    current: "Lightning Greaves"
+    suggested: "Misty Knight, Hero for Hire"
+    status: accepted
+    reason: >
+      User found Misty Knight independently and asked why `upgrades`
+      never surfaced it (see KNOWN_ISSUES.md's "single cheapest
+      candidate" entry -- it's a real tool gap, not a bad card). First
+      attempt cut Murderous Compulsion, reasoning its Madness cost gave
+      no discount over hardcast -- user caught it: Anje's own text is
+      "whenever you discard a card, IF IT HAS MADNESS, untap Anje
+      Falkenrath" -- the untap trigger cares whether a card has madness
+      at all, not whether the cost is discounted, so any madness card
+      discarded still re-activates the core engine. Reverted; Murderous
+      Compulsion is back in. Lightning Greaves (haste + shroud, equip
+      {0}) is the safer cut -- Anje already has innate haste, so Greaves
+      only contributes redundant Shroud, no discard/madness/graveyard tie
+      to the plan at all.
+  - date: 2026-09-06
+    kind: swap
+    current: "Nightmare Unmaking"
+    suggested: "Thrór's Map"
+    status: accepted
+    reason: >
+      User found Thrór's Map independently, same `upgrades` blind spot as
+      above. Cut target: Nightmare Unmaking ("exile each creature with
+      power greater/less than your hand size") can hit the deck's own
+      board depending on relative hand size/power, redundant with the
+      deck's other 3 board wipes, and was already flagged replaceable
+      (by Archenemy's Charm) in the original audit -- cut outright here
+      instead since Archenemy's Charm's BBB was a poor fit for this
+      deck's colour base anyway.
+  - date: 2026-09-06
+    kind: swap
+    current: "Key to the City"
+    suggested: "Tinybones, Pocket Nuisance"
+    status: accepted
+    reason: >
+      First attempt cut Alms of the Vein for Tinybones -- user caught it
+      immediately: Alms of the Vein has a real Madness discount (Madness
+      {B} vs hardcast {2}{B}), so that cut was thinning the madness suite,
+      not trimming filler, despite Tinybones' function being a genuine
+      upgrade on it. Reverted; Alms of the Vein is back in. Key to the
+      City has NO madness cost at all and is redundant with a deck that
+      already runs 12 discard outlets (its unblockable/loot-artifact
+      upside doesn't add a new capability) -- the safer cut.
+  - date: 2026-09-06
+    kind: note
+    text: >
+      CORRECTED lesson (the first version of this note, reasoning about
+      Madness cost DISCOUNT, was itself wrong and led to a second bad
+      cut -- Murderous Compulsion -- right after the first): do not cut
+      ANY card in madness_payoff (anje-mine.derived.yaml) as "safe
+      filler" regardless of whether its Madness cost is discounted vs
+      hardcast. Anje Falkenrath's own text is "whenever you discard a
+      card, IF IT HAS MADNESS, untap Anje Falkenrath" -- that trigger
+      keys on the card simply HAVING madness, not on cost. Every
+      madness_payoff member re-activates the core engine when discarded,
+      cost parity or not. A real cut from this deck must come from
+      outside madness_payoff (and outside discard_outlet/graveyard_
+      recursion members that produce colour, per the earlier Skirge
+      Familiar/Rakdos Locket note) -- verify a candidate card is in NONE
+      of anje-mine.derived.yaml's effect_classes before proposing it as a
+      cut, not just that its individual power level looks low.
+  - date: 2026-09-06
+    kind: swap
+    current: "Sudden Spoiling"
+    suggested: "Feed the Swarm"
+    status: accepted
+    reason: >
+      Filled the enchantment-removal gap `coverage` flagged (0 answers).
+      Cut target: Sudden Spoiling is a real effect (Split Second fog) but
+      purely situational, doesn't feed the discard engine at all, and
+      needs BB which the colour base still doesn't comfortably support
+      even post mana-base-fix (was still flagged short even after the
+      land swaps).
+  - date: 2026-09-06
+    kind: note
+    text: >
+      Do NOT suggest cutting Skirge Familiar or Rakdos Locket for
+      draw/removal upgrades without re-checking the colour-source count
+      first -- both look like weak/redundant cards by role (a mediocre
+      mana-dork body, a redundant signet-tier rock) but both are also
+      real B/R mana SOURCES for `colours`' count. A first attempt at this
+      round's swaps cut exactly these two and made the colour-source
+      shortfall worse (18 -> 26 cards short) despite the new cards being
+      individually fine -- verified on a scratch copy before catching it.
+      Any future cut proposal touching either card must re-run
+      `deckdoctor colours` before finalizing, not just the role-based
+      reasoning.
+  - date: 2026-09-06
+    kind: note
+    text: >
+      EDHREC guardrail flags Thrór's Map (0.9%, 5/528) and Tinybones,
+      Pocket Nuisance (1.3%, 8/632) as measured-low for this commander --
+      disclosed to the user. Kept anyway: the oracle-text grounding for
+      both (direct synergy with the discard engine) stands on its own,
+      and low EDHREC representation for a niche commander's discard
+      subtheme doesn't override a verified mechanical fit -- but worth
+      re-checking in actual play.
+  - date: 2026-09-06
+    kind: swap
+    current: "Terminate"
+    suggested: "Mox Diamond"
+    status: accepted
+    reason: >
+      User asked for game-changer candidates that fit the theme. Offered
+      a Hellbent (empty-hand payoff) package built around Bloodhall
+      Priest (real card in the Anje precon, Madness {1}{B}{R}, "if you
+      have no cards in hand" damage trigger) plus Lion's Eye Diamond --
+      user declined: "i dont know if its good to change the theme of the
+      deck like this.... it makes it harder to steer, and its not gonna
+      be something that comes up every game... i like to keep my decks
+      simple and stupid lol". Went with Mox Diamond instead (unconditional
+      free ramp, also triggers Bone Miser's/Surly Badgersaur's existing
+      land-discard bonuses -- no new behavior to track). Cut target:
+      Terminate, the deck's plainest, most single-purpose removal spell
+      (unconditional but only hits creatures) in a deck that already runs
+      Bedevil/Chaos Warp/Kolaghan's Command/Bitter Triumph/Feed the Swarm,
+      all more flexible answers that also hit creatures -- verified
+      `coverage`/`bracket` before applying: creature coverage still held
+      (Feed the Swarm), instant-speed answers stayed above floor (7->6,
+      floor 4), bracket stayed Powerful (3), game changers correctly
+      ticked to 2/3.
+  - date: 2026-09-06
+    kind: note
+    text: >
+      User preference, general (also saved to this session's own
+      cross-conversation memory, not just this file): favor simple,
+      unconditional cards over clever conditional subthemes for this
+      deck, even strong ones (Hellbent/empty-hand line declined for
+      exactly this reason). Weight future candidate proposals accordingly.
+  - date: 2026-09-06
+    kind: note
+    text: >
+      Remaining open coverage gaps after this round: "permanent
+      (catch-all)" and "graveyard" answers still both missing (0). Not
+      addressed this round.

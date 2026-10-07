@@ -71,6 +71,8 @@ def _combo_health_row(deck: Deck) -> HealthRow:
         detail += f", BANNED: {', '.join(c.name for c in banned)}"
     if fast_combos:
         detail += f", {len(fast_combos)} fast two-card combo(s)"
+    if report.non_winning_fast_two_card_combos:
+        detail += f", {len(report.non_winning_fast_two_card_combos)} non-winning fast two-card combo(s) (not counted)"
     if stale:
         detail += "  (cached estimate is older than the weekly refresh window)"
     return HealthRow("Combo/bracket", status, detail)

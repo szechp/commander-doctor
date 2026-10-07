@@ -108,6 +108,41 @@ def _error_document(command: str, status: str, message: str, *, valid: bool = Fa
     }
 
 
+def _cached_edhrec_stats(commander: str, theme: str | None) -> tuple[dict, str]:
+    """(card_stats, label) from the local EDHREC cache only -- never the
+    network. Falls back from the theme page to the base page; ({}, reason)
+    when neither is cached."""
+    from deckdoctor.edhrec import card_stats, load_cached_commander_data
+
+    if theme:
+        data = load_cached_commander_data(commander, theme)
+        if data is not None:
+            return card_stats(data), f"EDHREC theme page '{theme}'"
+    data = load_cached_commander_data(commander)
+    if data is not None:
+        note = f" (theme '{theme}' not cached -- run `deckdoctor themes`)" if theme else " (no edhrec_theme configured)"
+        return card_stats(data), "EDHREC base page" + note
+    return {}, "no EDHREC data cached -- run `deckdoctor themes <deck>` first"
+
+
+def _spare_inventory(con: sqlite3.Connection, override_path: str | None):
+    """Load the explicit/project spare inventory and disclose names the local
+    mirror could not resolve. The caller decides whether a load error is a
+    command error; unresolved individual cards do not invalidate the rest."""
+    from deckdoctor.collection import load_configured_collection
+
+    collection = load_configured_collection(con, override_path)
+    if collection is not None:
+        detail = f", {len(collection.unresolved)} unresolved" if collection.unresolved else ""
+        print(f"(spare inventory: {collection.path}; {len(collection.quantities)} available card names{detail})",
+              file=sys.stderr)
+        if collection.unresolved:
+            preview = ", ".join(collection.unresolved[:10])
+            suffix = " ..." if len(collection.unresolved) > 10 else ""
+            print(f"(spare inventory names not in local mirror: {preview}{suffix})", file=sys.stderr)
+    return collection
+
+
 def _validation_gate(deck_path: str, db_path: str | None, output_format: str = "text") -> int:
     from deckdoctor.deck_config import config_path_for, load_deck_config
     from deckdoctor.validation import validate_config, validate_decklist
@@ -224,6 +259,9 @@ def main(argv: list[str] | None = None) -> int:
     p_sync.add_argument("--cardsfolder", default=DEFAULT_CARDSFOLDER,
                         help="Forge cardsfolder; when present, sync runs parse-forge afterwards")
 
+    p_overrides = sub.add_parser("tag-overrides", help="apply data/tag_overrides.yaml (local fixes to wrong Scryfall tags) to the card database")
+    p_overrides.add_argument("--db", default=None, help="card database path (default: DECKDOCTOR_DB, then data/deckdoctor.sqlite3)")
+
     p_parse = sub.add_parser("parse-forge", help="Forge cardsfolder -> ramp_kind/draw_kind/prereq/parsed (Layers 1-2, §3.1)")
     p_parse.add_argument("--db", default=None, help="card database path (default: DECKDOCTOR_DB, then data/deckdoctor.sqlite3)")
     p_parse.add_argument("--cardsfolder", default=DEFAULT_CARDSFOLDER)
@@ -275,7 +313,33 @@ def main(argv: list[str] | None = None) -> int:
     p_edhrec.add_argument("deck", help="path to a decklist, e.g. decks/ugluk.txt")
     p_edhrec.add_argument("--threshold", type=float, default=None, help="inclusion rate below which a card is flagged (default 0.02 = 2%%)")
     p_edhrec.add_argument("--refresh", action="store_true", help="bypass the weekly cache")
+    p_edhrec.add_argument("--theme", default=None, help="EDHREC theme slug (default: the deck YAML's edhrec_theme)")
+    p_edhrec.add_argument("--missing", action="store_true",
+                          help="list EDHREC's most-played cards for this commander/theme that the deck does NOT run")
+    p_edhrec.add_argument("--sort", choices=["inclusion", "synergy"], default="inclusion")
+    p_edhrec.add_argument("--limit", type=int, default=60)
+    p_edhrec.add_argument("--lands", action="store_true", help="include lands in --missing")
     p_edhrec.add_argument("--db", default=None, help="card database path (default: DECKDOCTOR_DB, then data/deckdoctor.sqlite3)")
+    p_edhrec.add_argument("--collection", default=None,
+                          help="available spare-card inventory, excluding cards in decks "
+                               "(default: playgroup.yaml collection_file)")
+    p_edhrec.add_argument("--format", choices=["text", "json"], default="text")
+
+    p_themes = sub.add_parser("themes", help="rank this commander's EDHREC themes by how well the decklist matches each one")
+    p_themes.add_argument("deck", help="path to a decklist, e.g. decks/ghired.txt")
+    p_themes.add_argument("--top", type=int, default=8, help="how many of the most-built themes to score (one fetch each, cached weekly)")
+    p_themes.add_argument("--refresh", action="store_true", help="bypass the weekly cache")
+    p_themes.add_argument("--db", default=None)
+    p_themes.add_argument("--format", choices=["text", "json"], default="text")
+
+    p_diff = sub.add_parser("diff", help="cuts/adds between the current list and a target list, plus a validate --swaps proposal")
+    p_diff.add_argument("deck", help="current decklist (its sibling YAML supplies pins/rejections)")
+    p_diff.add_argument("target", help="target decklist, same COUNT NAME format")
+    p_diff.add_argument("--proposal", default=None, help="write the swap proposal JSON here, for `validate <deck> --swaps`")
+    p_diff.add_argument("--swaps-file", default=None,
+                        help="write the ins/outs in ManaBox format (ins = // SIDEBOARD, outs = // MAYBEBOARD), e.g. decks/<name>-swaps.txt")
+    p_diff.add_argument("--db", default=None)
+    p_diff.add_argument("--format", choices=["text", "json"], default="text")
 
     p_health = sub.add_parser("health", help="one-page health check: audit/coverage/defence/colours (+ EDHREC if cached) as a single table")
     p_health.add_argument("deck", help="path to a decklist, e.g. decks/ugluk.txt")
@@ -291,11 +355,29 @@ def main(argv: list[str] | None = None) -> int:
     p_cand.add_argument("role", help="rock|dork|land_search|extra_land_drop|repeatable|oneshot|game_changer|<oracle tag or family, e.g. removal-enchantment>")
     p_cand.add_argument("--db", default=None)
     p_cand.add_argument("--limit", type=int, default=20)
+    p_cand.add_argument("--theme", default=None, help="EDHREC theme slug to rank by (default: the deck YAML's edhrec_theme)")
+    p_cand.add_argument("--collection", default=None,
+                        help="available spare-card inventory, excluding cards in decks "
+                             "(default: playgroup.yaml collection_file)")
     p_cand.add_argument("--format", choices=["text", "json"], default="text")
+
+    p_screen = sub.add_parser("screen-candidates", help="filter a user-pasted card list (tier list, ranking, "
+                                                          "anything sourced outside this tool) down to what's "
+                                                          "actually worth reading -- see docs/workflow.md's "
+                                                          "'User-supplied candidate lists'")
+    p_screen.add_argument("deck", help="path to a decklist, e.g. decks/gishath.txt")
+    p_screen.add_argument("list_file", help="path to a text file with one card name per line "
+                                             "(rank prefixes like '#12.' and trailing '(...)' commentary are stripped; "
+                                             "' + ' or ' / ' on one line splits into separate names)")
+    p_screen.add_argument("--db", default=None)
+    p_screen.add_argument("--format", choices=["text", "json"], default="text")
 
     p_upgrades = sub.add_parser("upgrades", help="grounded alternatives for the deck's current interaction suite")
     p_upgrades.add_argument("deck", help="path to a decklist, e.g. decks/ugluk.txt")
     p_upgrades.add_argument("--db", default=None)
+    p_upgrades.add_argument("--collection", default=None,
+                            help="available spare-card inventory, excluding cards in decks "
+                                 "(default: playgroup.yaml collection_file)")
     p_upgrades.add_argument("--format", choices=["text", "json"], default="text")
 
     p_card = sub.add_parser("card", help="real oracle text + ramp/draw/prereq/tag roles for one or more cards by name -- look it up, don't recall it from memory")
@@ -503,11 +585,35 @@ def main(argv: list[str] | None = None) -> int:
         con.close()
         return 0 if valid else 2
 
-    gated_commands = {"hand", "audit", "coverage", "colours", "defence", "combos", "bracket", "edhrec", "health", "upgrades", "candidates", "goldfish", "consistency"}
+    gated_commands = {"hand", "audit", "coverage", "colours", "defence", "combos", "bracket", "edhrec", "themes", "diff", "health", "upgrades", "candidates", "screen-candidates", "goldfish", "consistency"}
     if args.command in gated_commands:
         gate_code = _validation_gate(args.deck, getattr(args, "db", None), getattr(args, "format", "text"))
         if gate_code:
             return gate_code
+
+    if args.command == "tag-overrides":
+        from deckdoctor.db import connect
+        from deckdoctor.tag_overrides import TagOverrideError, apply_overrides, load_overrides
+
+        try:
+            overrides = load_overrides()
+        except TagOverrideError as exc:
+            print(str(exc), file=sys.stderr)
+            return 2
+        con = connect(args.db)
+        result = apply_overrides(con, overrides)
+        con.commit()
+        con.close()
+        print(f"{len(overrides)} override(s): {len(result.removed)} tag(s) removed, {len(result.added)} added"
+              + (" (already applied)" if not result.removed and not result.added else ""))
+        for card, tag in result.removed:
+            print(f"  - {card}: {tag}")
+        for card, tag in result.added:
+            print(f"  + {card}: {tag}")
+        if result.unknown_cards:
+            print(f"unknown card(s), check the spelling: {', '.join(result.unknown_cards)}", file=sys.stderr)
+            return 2
+        return 0
 
     if args.command == "sync":
         from deckdoctor.sync import sync
@@ -726,9 +832,12 @@ def main(argv: list[str] | None = None) -> int:
         return 0
 
     if args.command == "edhrec":
+        import json
         from deckdoctor.db import connect_readonly
         from deckdoctor.deck import load_deck
-        from deckdoctor.edhrec import NEAR_UNPLAYED_THRESHOLD, fetch_commander_data, find_near_unplayed_cards, render
+        from deckdoctor.deck_config import load_deck_config
+        from deckdoctor.edhrec import (NEAR_UNPLAYED_THRESHOLD, fetch_commander_data, find_missing_cards,
+                                       find_near_unplayed_cards, render, stat_suffix)
 
         try:
             con = connect_readonly(args.db)
@@ -736,15 +845,139 @@ def main(argv: list[str] | None = None) -> int:
             print(str(exc), file=sys.stderr)
             return 3
         deck = load_deck(args.deck, con)
-        con.close()
-        data = fetch_commander_data(deck.commander.name, force=args.refresh)
+        config = load_deck_config(args.deck)
+        theme = args.theme or (config.edhrec_theme if config else None)
+        data = fetch_commander_data(deck.commander.name, force=args.refresh, theme=theme)
+        page = f"theme '{theme}'" if theme else "base page (all themes mixed -- set edhrec_theme, see `deckdoctor themes`)"
         if data is None:
-            print(f"Couldn't fetch EDHREC data for {deck.commander.name} (network issue, or EDHREC doesn't "
-                  f"have a page for this commander). No guardrail signal available this run.", file=sys.stderr)
+            con.close()
+            print(f"Couldn't fetch EDHREC data for {deck.commander.name} ({page}) -- network issue, or EDHREC "
+                  f"doesn't have that page. No EDHREC signal available this run.", file=sys.stderr)
             return 0
+        if args.missing:
+            try:
+                collection = _spare_inventory(con, args.collection)
+            except ValueError as exc:
+                con.close()
+                print(str(exc), file=sys.stderr)
+                return 2
+            spares = collection.quantities if collection else {}
+            missing = find_missing_cards(
+                deck, con, data, include_lands=args.lands, sort=args.sort, spare_quantities=spares,
+            )[:args.limit]
+            con.close()
+            if args.format == "json":
+                print(json.dumps({"commander": deck.commander.name, "page": page, "sort": args.sort, "cards": [
+                    {"name": m.stat.name, "inclusion": round(m.stat.inclusion, 4), "num_decks": m.stat.num_decks,
+                     "potential_decks": m.stat.potential_decks, "synergy": m.stat.synergy,
+                     "edhrec_lists": list(m.stat.lists), "spare_quantity": m.spare_quantity,
+                     "line": m.line} for m in missing],
+                    "spare_inventory": collection.path if collection else None}, ensure_ascii=False))
+            else:
+                print(f"EDHREC cards NOT in this deck -- {deck.commander.name}, {page}, by {args.sort}.")
+                print("Legality/colour identity checked against the local mirror. Popularity is evidence, "
+                      "not a verdict: read the text against the confirmed gameplan.\n")
+                for m in missing:
+                    print(f"{m.line} | {stat_suffix(m.stat)}")
+            return 0
+        con.close()
         threshold = args.threshold if args.threshold is not None else NEAR_UNPLAYED_THRESHOLD
         flagged = find_near_unplayed_cards(deck, data, threshold=threshold)
+        if args.format == "json":
+            print(json.dumps({"commander": deck.commander.name, "page": page, "threshold": threshold,
+                              "measured_low": [{"name": c.name, "inclusion": round(c.rate, 4), "num_decks": c.num_decks,
+                                                "potential_decks": c.potential_decks}
+                                               for c in flagged if c.rate is not None],
+                              "not_listed": [c.name for c in flagged if c.rate is None],
+                              "limitation": "not_listed = outside EDHREC's top-N lists for this page; a weak signal"},
+                             ensure_ascii=False))
+            return 0
+        print(f"(EDHREC {page})")
         print(render(flagged, deck.commander.name))
+        return 0
+
+    if args.command == "themes":
+        import json
+        import time
+        from deckdoctor.db import connect_readonly
+        from deckdoctor.deck import load_deck
+        from deckdoctor.deck_config import load_deck_config
+        from deckdoctor.edhrec import _cache_path, commander_slug, fetch_commander_data, theme_fit, themes
+
+        con = connect_readonly(args.db)
+        deck = load_deck(args.deck, con)
+        con.close()
+        config = load_deck_config(args.deck)
+        base = fetch_commander_data(deck.commander.name, force=args.refresh)
+        if base is None:
+            print(f"Couldn't fetch EDHREC data for {deck.commander.name}.", file=sys.stderr)
+            return 0
+        fits = []
+        unavailable = []
+        for theme in themes(base)[:args.top]:
+            cached = _cache_path(commander_slug(deck.commander.name), theme.slug).exists()
+            if not cached or args.refresh:
+                time.sleep(0.5)  # be polite to EDHREC between uncached page fetches
+            data = fetch_commander_data(deck.commander.name, force=args.refresh, theme=theme.slug)
+            if data is None:
+                unavailable.append(theme.slug)
+                continue
+            fits.append(theme_fit(deck, base, theme, data))
+        fits.sort(key=lambda f: (-f.lean, -f.theme.deck_count))
+        configured = config.edhrec_theme if config else None
+        if args.format == "json":
+            print(json.dumps({"commander": deck.commander.name, "configured_theme": configured,
+                              "unavailable": unavailable, "themes": [
+                {"slug": f.theme.slug, "name": f.theme.name, "edhrec_decks": f.theme.deck_count,
+                 "share": round(f.share, 3), "lean": round(f.lean, 4), "pulls_toward": list(f.pulls_toward),
+                 "distinctive_cards": list(f.distinctive), "deck_has": list(f.deck_has)} for f in fits]},
+                ensure_ascii=False))
+            return 0
+        print(f"EDHREC themes for {deck.commander.name}, scored against {args.deck}"
+              + (f" (configured: edhrec_theme: {configured})" if configured else " (no edhrec_theme configured)"))
+        print("lean  = how much more (+) or less (-) this list's own cards are played in that theme than for the "
+              "commander overall, in points. Near 0 on a high-share theme means 'this is the typical build'.")
+        print("share = the theme's fraction of all EDHREC decks for this commander.\n")
+        for f in fits:
+            print(f"  {f.theme.slug:<24} lean {f.lean * 100:+5.1f}  share {f.share:4.0%}  "
+                  f"({f.theme.deck_count} decks; runs {len(f.deck_has)}/{len(f.distinctive)} theme-distinctive cards)")
+            if f.pulls_toward:
+                print(f"      deck cards pulling toward it: {', '.join(f.pulls_toward)}")
+            if f.missing:
+                print(f"      theme cards not in deck:      {', '.join(f.missing[:8])}{' ...' if len(f.missing) > 8 else ''}")
+        if unavailable:
+            print(f"\nNo page for: {', '.join(unavailable)}")
+        print("\nThis is evidence about the LIST, not the user's intent -- a deck can deliberately sit between "
+              "themes. Confirm with the user, then set `edhrec_theme: <slug>` in the deck YAML.")
+        return 0
+
+    if args.command == "diff":
+        import json
+        from pathlib import Path
+        from deckdoctor.db import connect_readonly
+        from deckdoctor.deck import load_deck
+        from deckdoctor.deck_config import load_deck_config
+        from deckdoctor.target_diff import diff_decks, manabox_swaps, render as render_diff
+
+        gate = _validation_gate(args.target, args.db, args.format)
+        if gate:
+            return gate
+        con = connect_readonly(args.db)
+        result = diff_decks(load_deck(args.deck, con), load_deck(args.target, con), load_deck_config(args.deck))
+        con.close()
+        if args.proposal and result.proposal is not None:
+            Path(args.proposal).write_text(json.dumps(result.proposal, indent=2, ensure_ascii=False) + "\n")
+        if args.swaps_file:
+            Path(args.swaps_file).write_text(manabox_swaps(result), encoding="utf-8")
+        if args.format == "json":
+            print(json.dumps(result.to_dict(), ensure_ascii=False, sort_keys=True))
+        else:
+            print(render_diff(result))
+            if args.swaps_file:
+                print(f"\nManaBox swaps list written to {args.swaps_file}")
+            if args.proposal and result.proposal is not None:
+                print(f"\nProposal written to {args.proposal} -- next: deckdoctor validate {args.deck} "
+                      f"--swaps {args.proposal} --format json")
         return 0
 
     if args.command == "health":
@@ -799,17 +1032,43 @@ def main(argv: list[str] | None = None) -> int:
         from deckdoctor.db import connect_readonly
         from deckdoctor.deck import load_deck
         from deckdoctor.deck_config import accepted_swaps, config_path_for, load_deck_config, pinned_cards, rejected_swaps
-        from deckdoctor.upgrades import find_grounded_upgrades
+        from deckdoctor.upgrades import find_land_upgrades, find_role_family_pools, find_slow_lands
         from deckdoctor.assessment_reports import assessment_report
 
         con = connect_readonly(args.db)
         _require_layer2(con, args)
         deck = load_deck(args.deck, con)
         config = load_deck_config(args.deck)
-        page = find_grounded_upgrades(deck, con, config)
+        try:
+            collection = _spare_inventory(con, args.collection)
+        except ValueError as exc:
+            con.close()
+            print(str(exc), file=sys.stderr)
+            return 2
+        spares = collection.quantities if collection else {}
+        # Holistic, deck-agnostic: every role family (compact_line.ROLE_TAG_PREFIXES,
+        # plus ramp_kind/draw_kind) that ANY card in this deck belongs to gets the full
+        # legal candidate pool, automatically -- not a hand-picked list of categories.
+        # No computed "supported alternative" verdict: that heuristic is what broke on
+        # ramp/draw the moment it was tried outside removal (see upgrades.py's
+        # find_role_family_pools docstring). Read every pool entry's own oracle text;
+        # this only narrows what to read, it does not decide for you.
+        # Lands: the deck's own slow lands plus the fastest multicolour lands it
+        # doesn't run (land_speed.py tiers, turns 1-4), originals excluded per playgroup.
+        stats, _ = _cached_edhrec_stats(deck.commander.name, config.edhrec_theme if config else None)
+        families = find_role_family_pools(deck, con, edhrec_stats=stats, spare_quantities=spares)
+        land_upgrades = find_land_upgrades(deck, con, config=config)
+        slow_lands = find_slow_lands(deck, con)
+
+        combined = {"families": families, "land_upgrades": [asdict(s) for s in land_upgrades],
+                    "spare_inventory": collection.path if collection else None,
+                    "slow_lands": [asdict(s) for s in slow_lands]}
         structured = assessment_report(
-            "upgrades", page, deck, con, status="approximate",
-            limitation="Grounded role and cost comparisons identify alternatives for review; they do not prove superiority.",
+            "upgrades", combined, deck, con, status="approximate",
+            limitation="Full legal candidate pools per role family the deck's own cards belong to -- no "
+                       "computed verdict; read each entry's oracle text before treating anything as better. "
+                       "Land speed is classified from oracle text for turns 1-4 with one land drop per "
+                       "turn; check lands are always counted as tapped on turn 1 regardless of the deck's mix.",
             config_path=config_path_for(args.deck),
         )
         con.close()
@@ -828,21 +1087,25 @@ def main(argv: list[str] | None = None) -> int:
 
         if args.format == "json":
             print(structured.to_json())
-        elif not page.comparisons:
-            print("No grounded alternatives found.")
         else:
-            for comparison in page.comparisons:
-                details = asdict(comparison)
-                print(f"{comparison.current_card} -> {comparison.candidate_card} "
-                      f"[{comparison.compared_role}; {comparison.status}]")
-                if details["conditions"]:
-                    print(f"  conditions: {'; '.join(details['conditions'])}")
-                if details["unknowns"]:
-                    print(f"  unknowns: {'; '.join(details['unknowns'])}")
-                if details["lost_roles"]:
-                    print(f"  loses: {', '.join(details['lost_roles'])}")
-                if details["gained_roles"]:
-                    print(f"  gains: {', '.join(details['gained_roles'])}")
+            if not families:
+                print("No searchable role families found among this deck's cards.")
+            for family, data in sorted(families.items()):
+                print(f"=== {family} (deck: {', '.join(data['deck_cards'])}) ===")
+                if not data["pool"]:
+                    print("  (no other legal candidates found)")
+                for line in data["pool"]:
+                    print(f"  {line}")
+            print("=== lands: slow on turns 1-4 (replace first) ===")
+            if not slow_lands:
+                print("  (none -- every nonbasic land is untapped on turns 1-4)")
+            for sl in slow_lands:
+                print(f"  {sl.name} [{sl.tier}: {sl.speed}]")
+            print("=== lands: fastest multicolour lands not in the deck ===")
+            if not land_upgrades:
+                print("  (none found)")
+            for lu in land_upgrades:
+                print(f"  {lu.replaces} -> {lu.suggested_land} [{lu.tier}: {lu.speed}]")
         return 0
 
     if args.command == "card":
@@ -947,33 +1210,114 @@ def main(argv: list[str] | None = None) -> int:
         print(f"logged to {path}")
         return 0
 
+    if args.command == "screen-candidates":
+        from dataclasses import asdict
+
+        from deckdoctor.db import connect_readonly
+        from deckdoctor.deck import load_deck
+        from deckdoctor.screen import parse_candidate_names, screen_candidate_list
+        from deckdoctor.assessment_reports import assessment_report
+
+        try:
+            with open(args.list_file, encoding="utf-8") as f:
+                names = parse_candidate_names(f.read())
+        except OSError as exc:
+            print(f"could not read {args.list_file}: {exc}", file=sys.stderr)
+            return 1
+
+        con = connect_readonly(args.db)
+        deck = load_deck(args.deck, con)
+        screened = screen_candidate_list(deck, con, names)
+        by_status: dict[str, list] = {}
+        for s in screened:
+            by_status.setdefault(s.status, []).append(asdict(s))
+        structured = assessment_report(
+            "screen-candidates", {"requested": len(names), "by_status": by_status}, deck, con,
+            status="approximate",
+            limitation="Filtering (colour identity, legality, already-in-deck) is mechanical and reliable; "
+                       "survivor status is not a quality judgment -- read each survivor's oracle text before "
+                       "treating it as a good fit for this deck's gameplan.",
+        )
+        con.close()
+
+        if args.format == "json":
+            print(structured.to_json())
+        else:
+            order = ["survivor", "already_in_deck", "off_color", "not_legal", "not_found"]
+            for status in order:
+                items = by_status.get(status, [])
+                if not items:
+                    continue
+                print(f"=== {status} ({len(items)}) ===")
+                for item in items:
+                    if status == "survivor":
+                        print(f"  {item['resolved_name']} | {item['mana_cost']} | tags={','.join(item['tags'])}")
+                        print(f"    {item['oracle_text']}")
+                    elif status == "off_color":
+                        print(f"  {item['requested_name']} -> {item['resolved_name']} | CI={','.join(item['color_identity'])}")
+                    elif status == "not_found":
+                        print(f"  {item['requested_name']}")
+                    else:
+                        print(f"  {item['requested_name']} -> {item['resolved_name']}")
+        return 0
+
     if args.command == "candidates":
         import json
 
-        from deckdoctor.candidates import DRAW_KINDS, RAMP_KINDS, find_candidates
+        from deckdoctor.candidates import DRAW_KINDS, RAMP_KINDS, find_candidates, normalize_role, role_suggestions
         from deckdoctor.db import connect_readonly
         from deckdoctor.deck import load_deck
         from deckdoctor.assessment_reports import assessment_report
 
         con = connect_readonly(args.db)
+        suggestions = role_suggestions(con, args.role)
+        if suggestions is not None:
+            con.close()
+            print(f"unknown role {args.role!r}: not a column role (ramp, draw, rock, dork, land_search, "
+                  f"extra_land_drop, repeatable/draw_repeatable, oneshot/draw_oneshot, game_changer) and no "
+                  f"oracle tag starts with it.", file=sys.stderr)
+            if suggestions:
+                print("similar tags: " + ", ".join(suggestions), file=sys.stderr)
+            return 2
         # Only the ramp/draw role queries read Layer 2 columns; tag-based
         # roles and game_changer work from Layer 1 and must NOT be gated.
-        if args.role in RAMP_KINDS or args.role in DRAW_KINDS or args.role in ("ramp", "draw"):
+        role = normalize_role(args.role)
+        if role in RAMP_KINDS or role in DRAW_KINDS or role in ("ramp", "draw"):
             _require_layer2(con, args)
         deck = load_deck(args.deck, con)
         commander_row = con.execute("SELECT color_identity FROM cards WHERE name = ?", [deck.commander.name]).fetchone()
         commander_ci = json.loads(commander_row[0]) if commander_row and commander_row[0] else []
         exclude = {c.name for c in deck.library} | {deck.commander.name}
-        lines = find_candidates(con, commander_ci, args.role, exclude, limit=args.limit)
-        structured = assessment_report("candidates", {"role": args.role, "limit": args.limit, "cards": lines},
+        from deckdoctor.deck_config import load_deck_config
+        config = load_deck_config(args.deck)
+        theme = args.theme or (config.edhrec_theme if config else None)
+        stats, ranking_source = _cached_edhrec_stats(deck.commander.name, theme)
+        try:
+            collection = _spare_inventory(con, args.collection)
+        except ValueError as exc:
+            con.close()
+            print(str(exc), file=sys.stderr)
+            return 2
+        spares = collection.quantities if collection else {}
+        lines = find_candidates(
+            con, commander_ci, args.role, exclude, limit=args.limit, edhrec_stats=stats,
+            spare_quantities=spares,
+        )
+        structured = assessment_report("candidates", {"role": args.role, "limit": args.limit, "cards": lines,
+                                                      "spare_inventory": collection.path if collection else None,
+                                                      "ranking": ranking_source},
                                        deck, con, status="approximate",
-                                       limitation="Candidate retrieval is not a superiority judgment.")
+                                       limitation="Spare availability does not affect pool selection or ranking and "
+                                                  "is addition-only evidence for nonlands. Lands ignore it entirely. "
+                                                  "Prefer a spare card only among candidates that independently "
+                                                  "clear the normal quality bar.")
         con.close()
         if not lines:
             print(f"(no commander-legal, colour-identity-legal candidates found for role={args.role!r})", file=sys.stderr)
         if args.format == "json":
             print(structured.to_json())
         else:
+            print(f"(ranked by: {ranking_source}; then global Commander popularity; then mana value)", file=sys.stderr)
             for line in lines:
                 print(line)
         return 0

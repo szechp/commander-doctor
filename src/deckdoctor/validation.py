@@ -118,6 +118,29 @@ def _fingerprint(deck: Deck, quantities: dict[str, int]) -> str:
     return hashlib.sha256(json.dumps(rows, ensure_ascii=False, separators=(",", ":")).encode()).hexdigest()
 
 
+def unreleased_at_sync(metadata: sqlite3.Connection | None, names: list[str]) -> set[str]:
+    """Names whose Scryfall release date is after the mirror's last sync.
+    Scryfall marks every card `not_legal` until release day, so for these
+    the local "not legal" means "not released yet", not a ban -- they pass
+    the legality check silently. The next sync after release brings the
+    real legality, including a ban. Empty for mirrors synced before
+    `card_release` existed."""
+    if metadata is None or not names:
+        return set()
+    try:
+        synced = metadata.execute("SELECT value FROM sync_meta WHERE key = 'last_sync'").fetchone()
+        if not synced or not synced[0]:
+            return set()
+        marks = ",".join("?" for _ in names)
+        rows = metadata.execute(
+            f"SELECT card_name FROM card_release WHERE released_at > ? AND card_name IN ({marks})",
+            [str(synced[0])[:10], *names],
+        ).fetchall()
+    except sqlite3.Error:
+        return set()
+    return {r[0] for r in rows}
+
+
 def validate_deck(deck: Deck, metadata: sqlite3.Connection | None = None, config: DeckConfig | None = None) -> ValidationReport:
     """Validate an already resolved Deck without changing its source file."""
     diagnostics: list[ValidationDiagnostic] = []
@@ -164,12 +187,13 @@ def validate_deck(deck: Deck, metadata: sqlite3.Connection | None = None, config
         if isinstance(existing, int) and not isinstance(existing, bool):
             all_quantities[deck.commander.name] = existing + deck.commander_count
     exceptions = legality_exceptions(config)
+    unreleased = unreleased_at_sync(metadata, [n for n, c in card_by_name.items() if c.commander_legal is False])
     for name, quantity in all_quantities.items():
         card = card_by_name.get(name)
         if card is None:
             diagnostics.append(_diag("unresolved_card", f"{name!r} is not resolved in the local mirror", card=name))
             continue
-        if card.commander_legal is False:
+        if card.commander_legal is False and name not in unreleased:
             if name in exceptions:
                 reason = exceptions[name]
                 diagnostics.append(_diag(
@@ -306,6 +330,9 @@ def validate_config(path: str) -> ValidationReport:
         diagnostics.append(_diag("config_type", "threshold must be a nonnegative number"))
     if "gameplan" in doc and doc["gameplan"] is not None and not isinstance(doc["gameplan"], str):
         diagnostics.append(_diag("config_type", "gameplan must be a string or null"))
+    if "edhrec_theme" in doc and doc["edhrec_theme"] is not None and (
+            not isinstance(doc["edhrec_theme"], str) or not doc["edhrec_theme"].strip()):
+        diagnostics.append(_diag("config_type", "edhrec_theme must be a non-empty string or null"))
     try:
         _validate_feedback_field(doc.get("feedback"))
     except DeckConfigError as exc:

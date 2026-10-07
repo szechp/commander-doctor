@@ -136,6 +136,10 @@ class DeckConfig:
     threshold: float | None = None
     gameplan: str | None = None
     feedback: list[FeedbackEntry] = field(default_factory=list)
+    # EDHREC theme slug (`deckdoctor themes` lists them), e.g. "tokens".
+    # Selects which EDHREC page ranks candidates -- the commander's base page
+    # mixes every way it gets built.
+    edhrec_theme: str | None = None
 
 
 _FEEDBACK_FIELDS = {f.name for f in fields(FeedbackEntry)}
@@ -196,6 +200,7 @@ def load_deck_config(deck_path: str) -> DeckConfig | None:
         threshold=doc.get("threshold"),
         gameplan=doc.get("gameplan"),
         feedback=feedback,
+        edhrec_theme=doc.get("edhrec_theme"),
     )
 
 
@@ -502,6 +507,10 @@ class PlaygroupConfig:
     play group. this needs to be defined somewhere" -- `playgroup.yaml`
     at the repo root is that "somewhere"."""
     exclude_original_dual_lands: bool = False
+    # Optional ManaBox-style inventory of available spares not in decks. It is
+    # positive evidence for nonland additions only, never a full ownership
+    # ledger or a reason to cut a card already in a deck. Lands are ignored.
+    collection_file: str | None = None
 
 
 def load_playgroup_config(path: str = "playgroup.yaml") -> PlaygroupConfig:
@@ -513,4 +522,10 @@ def load_playgroup_config(path: str = "playgroup.yaml") -> PlaygroupConfig:
         return PlaygroupConfig()
     with open(p, encoding="utf-8") as f:
         doc = yaml.safe_load(f) or {}
-    return PlaygroupConfig(exclude_original_dual_lands=bool(doc.get("exclude_original_dual_lands", False)))
+    collection_file = doc.get("collection_file")
+    if collection_file is not None and not isinstance(collection_file, str):
+        raise DeckConfigError("playgroup.yaml 'collection_file' must be a path string or null")
+    return PlaygroupConfig(
+        exclude_original_dual_lands=bool(doc.get("exclude_original_dual_lands", False)),
+        collection_file=collection_file,
+    )

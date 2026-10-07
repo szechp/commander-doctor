@@ -184,7 +184,13 @@ def validate_swaps(
             continue
         if cut == add:
             diagnostics.append(_diag("same_card_swap", f"swap[{index}] cuts and adds {cut!r}", cut))
-        if (cut, add) in seen_pairs or cut in seen_cuts or add in seen_adds:
+        # A repeated identical pair is ambiguous (merge it into `quantity`), and
+        # so is cutting a single-copy card twice. Cutting a multi-copy card
+        # (basics) across several entries is how a target-list diff expresses
+        # "4 Forest out, 4 different cards in"; the batch-wide copy check below
+        # still bounds the total. Repeated adds are left to the final
+        # structural validation, which names any singleton breach precisely.
+        if (cut, add) in seen_pairs or (cut in seen_cuts and original.get(cut, 0) <= 1):
             diagnostics.append(_diag("ambiguous_duplicate_swap", f"swap[{index}] repeats an operation identity"))
         seen_pairs.add((cut, add)); seen_cuts.add(cut); seen_adds.add(add)
         if cut == deck.commander.name:
@@ -235,6 +241,9 @@ def validate_swaps(
     if not diagnostics:
         structural = validate_deck(prospective, metadata, config)
         diagnostics.extend(structural.diagnostics)
+    # Same rule as deck validation: only errors block. A warning such as an
+    # accepted legality exception is reported but must not reject the batch.
+    blocking = [d for d in diagnostics if d.severity == "error"]
 
     # Acceptance is severity-based, mirroring ValidationReport.valid: a
     # diagnostic that is only a warning (e.g. an accepted legality_exception)
@@ -273,6 +282,7 @@ def validate_swaps(
                 "bracket_tag": combo_report.bracket_tag,
                 "game_changers": combo_report.game_changer_count,
                 "fast_two_card_combos": len(combo_report.fast_two_card_combos),
+                "non_winning_fast_two_card_combos": len(combo_report.non_winning_fast_two_card_combos),
                 "banned_cards": [card.name for card in combo_report.banned_cards],
                 "mass_land_denial_cards": [card.name for card in combo_report.mass_land_denial_cards],
             },)

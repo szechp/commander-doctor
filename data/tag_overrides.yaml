@@ -1,0 +1,15 @@
+# Local corrections to Scryfall's community oracle tags (see
+# src/deckdoctor/tag_overrides.py). Applied at the end of every
+# `deckdoctor sync`; run `deckdoctor tag-overrides` to apply edits to the
+# current database without re-syncing.
+#
+# Only for tags that are wrong for this tool's purposes (a card showing up
+# as something it isn't). Each entry needs a reason.
+schema_version: 1
+overrides:
+  - card: Idol of False Gods
+    remove: [removal-permanent, removal-sacrifice, repeatable-removal, spot-removal]
+    reason: >
+      No removal ability. The tags come from its conditional annihilator 2
+      (only with eight +1/+1 counters), so it kept being suggested as a
+      removal upgrade (KNOWN_ISSUES.md, 2026-09-06).

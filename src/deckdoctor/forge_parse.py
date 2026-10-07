@@ -264,25 +264,46 @@ def classify_ramp_kind(card: ParsedCard) -> str | None:
     return None
 
 
+_OPPONENT_DRAWER_RE = re.compile(r"Opponent|Opp\b|\.Opp|TargetedController|ChosenPlayer")
+
+
 def _is_own_draw(node: dict) -> bool:
     """A Draw effect whose cards go to the card's controller: `Defined$`
     absent (Forge's default is You) or `You`, and not aimed at an opponent.
     "Target player draws" (`ValidTgts$ Player`, Ancestral Recall) counts --
     you target yourself. Phelddagrif's `ValidTgts$ Opponent` draw, or
     `Defined$ TriggeredPlayer` (Howling Mine, each player), does not:
-    `roles._draw_beneficiary` treats those as uncertain too."""
+    `roles._draw_beneficiary` treats those as uncertain too. Neither does a
+    chosen player (Gluntch) or a target's controller (Vendilion Clique) --
+    a gift or drawback, not this deck's card draw."""
     defined = node.get("Defined")
-    return defined in (None, "You") and "Opponent" not in str(node.get("ValidTgts", ""))
+    if defined not in (None, "You"):
+        return False
+    return not _OPPONENT_DRAWER_RE.search(str(node.get("ValidTgts", "")))
 
 
-def _svar_chain_reaches_draw(card: ParsedCard, sub_name: str, *, depth: int = 3) -> bool:
+# Forge's other spelling of a loot: the draw is a `Cost$`/`UnlessCost$`
+# token on a differently-typed effect. Smuggler's Copter, Murder of Crows
+# and Baral are `AB$ Discard | ... | Cost$ Draw<1/You>`; Sylvan Library is
+# `AB$ ChooseCard | ... | Cost$ Draw<2/You>`; Force Away and The Celestus
+# use `UnlessCost$ Draw<1/You>`. Restricted to `/You>`: Shakedown Heavy,
+# Academy Loremaster et al. use `Draw<N/Player.X>` to make an OPPONENT draw.
+_DRAW_COST_RE = re.compile(r"Draw<[^/]+/You>")
+
+
+def _svar_chain_reaches_draw(card: ParsedCard, sub_name: str, *, depth: int = 5) -> bool:
     """True if following `SubAbility$ NAME` links from `sub_name` through
-    `card.svars` reaches a controller-draw `DB$ Draw` svar within `depth`
-    hops. Depth-capped so a malformed/cyclic chain can't spin; Forge chains
-    are 1-2 long (The Great Henge: TrigPutCounter -> SubAbility$ DBDraw)."""
+    `card.svars` reaches a controller draw within `depth` hops: a
+    `DB$ Draw` svar, or a node paying a `Draw<N/You>` cost (see
+    `_DRAW_COST_RE`). Depth-capped so a malformed/cyclic chain can't spin;
+    Forge chains are 1-2 long (The Great Henge: TrigPutCounter ->
+    SubAbility$ DBDraw)."""
     while sub_name and depth > 0:
-        sub = _parse_kv_string(card.svars.get(sub_name.strip()) or "")
+        raw = card.svars.get(sub_name.strip()) or ""
+        sub = _parse_kv_string(raw)
         if sub.get("DB") == "Draw" and _is_own_draw(sub):
+            return True
+        if _DRAW_COST_RE.search(raw):
             return True
         sub_name = sub.get("SubAbility") or ""
         depth -= 1

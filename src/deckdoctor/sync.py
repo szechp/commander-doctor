@@ -151,6 +151,8 @@ def sync(db_path: str | None = None) -> None:
     print(f"  -> {oracle_uri}", file=sys.stderr)
 
     card_rows: list[tuple] = []
+    popularity_rows: list[tuple] = []
+    release_rows: list[tuple] = []
     face_rows: list[tuple] = []
     card_objects: list[dict] = []
     oracle_id_to_name: dict[str, str] = {}
@@ -167,6 +169,10 @@ def sync(db_path: str | None = None) -> None:
             excluded += 1
             continue
         card_rows.append(row)
+        if card.get("released_at"):
+            release_rows.append((card["name"], card["released_at"]))
+        if card.get("edhrec_rank") is not None:
+            popularity_rows.append((card["name"], int(card["edhrec_rank"])))
         face_rows.extend(_face_rows(card))
 
     print(f"  {seen} cards seen, {excluded} excluded (tokens/emblems/funny/memorabilia), "
@@ -199,6 +205,11 @@ def sync(db_path: str | None = None) -> None:
     print(f"  {n_tags} distinct oracle tags, {len(tag_rows)} card-tag pairs "
           f"({len(set(t[1] for t in tag_rows))} distinct tags actually attached to a "
           f"card in the mirror)", file=sys.stderr)
+
+    # Loaded (and validated) before the live DB is touched, so a malformed
+    # overrides file can't leave a half-applied sync.
+    from deckdoctor.tag_overrides import apply_overrides, load_overrides
+    overrides = load_overrides()
 
     # Both providers are fully staged before the live DB is touched.
     con = connect(db_path)
@@ -250,14 +261,21 @@ def sync(db_path: str | None = None) -> None:
         con.execute("DELETE FROM cards")
         con.execute("DELETE FROM card_faces")
         con.execute("DELETE FROM card_tags")
+        con.execute("DELETE FROM card_popularity")
+        con.execute("DELETE FROM card_release")
         con.executemany(
             "INSERT INTO cards (name,mana_cost,cmc,type_line,oracle_text,color_identity,colors,produced_mana,keywords,commander_legal,is_game_changer,layout,set_type,power,toughness) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
             card_rows,
         )
+        if release_rows:
+            con.executemany("INSERT OR REPLACE INTO card_release VALUES (?,?)", release_rows)
+        if popularity_rows:
+            con.executemany("INSERT OR REPLACE INTO card_popularity VALUES (?,?)", popularity_rows)
         if face_rows:
             con.executemany("INSERT INTO card_faces VALUES (?,?,?,?,?,?,?)", face_rows)
         if tag_rows:
             con.executemany("INSERT INTO card_tags VALUES (?,?)", tag_rows)
+        override_result = apply_overrides(con, overrides)
         if restored:
             con.executemany("UPDATE cards SET ramp_kind=?,draw_kind=?,prereq=?,parsed=? WHERE name=?", restored)
         n_gc = con.execute("SELECT count(*) FROM cards WHERE is_game_changer").fetchone()[0]
@@ -279,6 +297,10 @@ def sync(db_path: str | None = None) -> None:
     print(f"\nSync complete in {elapsed:.1f}s -> {db_path}", file=sys.stderr)
     print(f"  {len(card_rows)} cards, {n_cmd} commander-legal, {n_gc} game changers, "
           f"{len(tag_rows)} tag attachments", file=sys.stderr)
+    print(f"  Tag overrides (data/tag_overrides.yaml): {len(override_result.removed)} removed, "
+          f"{len(override_result.added)} added"
+          + (f"; unknown cards: {', '.join(override_result.unknown_cards)}" if override_result.unknown_cards else ""),
+          file=sys.stderr)
     dropped_layer2 = invalidated
     print(f"  Layer 2 (ramp_kind/draw_kind/prereq/parsed): carried forward for "
           f"{len(restored)} previously-classified card(s)"

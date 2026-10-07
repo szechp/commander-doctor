@@ -2,9 +2,11 @@
 1 Kadena, Slinking Sorcerer
 
 1 Ainok Survivalist
+1 Bane of the Living
 1 Beast Whisperer
 1 Birds of Paradise
 1 Bloom Tender
+1 Chromeshell Crab
 1 Coiling Oracle
 1 Dauthi Voidwalker
 1 Deathmist Raptor
@@ -13,12 +15,12 @@
 1 Eternal Witness
 1 Fyndhorn Elves
 1 Grim Haruspex
-1 Guardian Project
 1 Hooded Hydra
 1 Hua Tuo, Honored Physician
 1 Hullbreaker Horror
 1 Ixidron
 1 Kadena's Silencer
+1 Mischievous Quanar
 1 Nantuko Vigilante
 1 Sagu Mauler
 1 Sakura-Tribe Elder
@@ -31,15 +33,11 @@
 1 Vesuvan Shapeshifter
 1 Voice of Many
 1 Voidmage Apprentice
-1 Yedora, Grave Gardener
-1 Zimone, Mystery Unraveler
+1 Willbender
 1 Arcane Signet
-1 Ashnod's Altar
 1 Fellwar Stone
-1 Green Sun's Zenith
 1 Scroll of Fate
 1 Sol Ring
-1 Sylvan Library
 1 Talisman of Curiosity
 1 Talisman of Dominance
 1 Abrupt Decay
@@ -47,7 +45,6 @@
 1 Beast Within
 1 Biomass Mutation
 1 Cyclonic Rift
-1 Exsanguinate
 1 Flusterstorm
 1 Mana Drain
 1 Putrefy
@@ -61,6 +58,7 @@
 1 Profane Command
 1 Tempt with Discovery
 1 Three Visits
+1 Gift of Doom
 1 Mystic Remora
 1 Rhystic Study
 1 Secret Plans
@@ -74,7 +72,7 @@
 1 Drowned Catacomb
 1 Exotic Orchard
 1 Flooded Strand
-4 Forest
+5 Forest
 1 Hinterland Harbor
 3 Island
 1 Misty Rainforest
@@ -83,6 +81,7 @@
 1 Polluted Delta
 1 Prismatic Vista
 1 Rejuvenating Springs
+1 Reliquary Tower
 1 Scalding Tarn
 3 Swamp
 1 Thespian's Stage

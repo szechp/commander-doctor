@@ -5,6 +5,12 @@
 # defined somewhere."
 
 exclude_original_dual_lands: true
+collection_file: all cards not in decks.txt
+# This file is the AVAILABLE SPARE inventory: cards not currently allocated to
+# decks. Every card already in a deck is also owned even though absent here.
+# Spare availability is an addition-only tie-breaker; it never justifies a cut,
+# promotes a card into the candidate pool, or excuses weaker colour fixing.
+# Lands in this file are ignored completely by the spare preference.
 # The 10 ABUR dual lands -- Tundra, Underground Sea, Badlands, Taiga,
 # Savannah, Scrubland, Volcanic Island, Bayou, Plateau, Tropical Island
 # (verified against the mirror, one per colour pair, all printed since in

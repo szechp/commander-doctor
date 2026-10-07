@@ -16,6 +16,25 @@ import sqlite3
 
 MAX_ORACLE_LEN = 200
 
+# A curated subset of the oracle-tag vocabulary that's actually useful as a
+# role label -- not every one of the ~4400 distinct tags, just the ones with
+# clear deckbuilding meaning. Module-level (not just a `_roles_for` local) so
+# `upgrades.py`'s holistic per-family candidate search can drive off the same
+# list instead of re-declaring a second, divergent one -- see KNOWN_ISSUES.md
+# on why hardcoding one family (removal) at a time in `upgrades.py` doesn't
+# scale to "any deck": every family here becomes a searchable one for free.
+# Originally: removal/wipe/tutor/recursion/counterspell/sac-outlet, confirmed
+# present against the mirror, same dump used by audit.py. Extended 2026-09-13
+# after a from-scratch build session found real mistakes in exactly the
+# families missing here: counterspell coverage was too narrow to catch a
+# strictly-worse pick, and protection/copy/redirect had no coverage at all.
+ROLE_TAG_PREFIXES = (
+    "removal-", "sweeper", "tutor-", "counterspell", "sacrifice-outlet",
+    "recursion-", "regrowth-", "reanimate", "mana-rock", "mana-dork", "extra-turn",
+    "gives-", "protects-", "copy-", "hexproof", "damage-", "pariah",
+    "burn-", "spite-damage",
+)
+
 
 def _roles_for(row: dict, tags: set[str]) -> list[str]:
     roles: list[str] = []
@@ -30,15 +49,6 @@ def _roles_for(row: dict, tags: set[str]) -> list[str]:
     if row["is_game_changer"]:
         roles.append("game_changer")
 
-    # A curated subset of the oracle-tag vocabulary that's actually useful
-    # as a role label -- not every one of the 4386 distinct tags, just the
-    # ones with clear deckbuilding meaning (removal/wipe/tutor/recursion/
-    # counterspell/sac-outlet families, confirmed present against the
-    # mirror, same dump used by audit.py).
-    ROLE_TAG_PREFIXES = (
-        "removal-", "sweeper", "tutor-", "counterspell", "sacrifice-outlet",
-        "recursion-", "reanimate", "mana-rock", "mana-dork", "extra-turn",
-    )
     for tag in sorted(tags):
         if any(tag == p or tag.startswith(p) for p in ROLE_TAG_PREFIXES):
             roles.append(tag)

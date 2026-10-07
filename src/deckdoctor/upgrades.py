@@ -167,19 +167,6 @@ def find_grounded_upgrades(
     # which specific tag found the candidate. Iteration is in sorted
     # (current, role) order, so this deterministically keeps the
     # alphabetically-last matching tag's `compared_role` per pair.
-    # One row per (current, candidate) PAIR, not per matching tag: a
-    # current card commonly carries more than one removal-* tag (e.g.
-    # Aura Blast: both the target-type `removal-enchantment` and the
-    # mechanism `removal-destroy`), and the same candidate can turn up
-    # under more than one of them. Keying on `compared_role` too (as
-    # before candidates.py started preserving the specific tag there --
-    # KNOWN_ISSUES.md) would show the same pair twice with no new
-    # information between the rows -- the underlying comparison (status,
-    # cost, gained/lost roles) is identical either way, since evidence
-    # matching always runs on the broad "removal" family regardless of
-    # which specific tag found the candidate. Iteration is in sorted
-    # (current, role) order, so this deterministically keeps the
-    # alphabetically-last matching tag's `compared_role` per pair.
     unique = {(item.current_card, item.candidate_card): item for item in comparisons}
     ordered = sorted(unique.values(), key=lambda item: (
         item.status != "supported alternative", bool(item.conditions), bool(item.unknowns),
@@ -434,6 +421,95 @@ class UpgradeSuggestion:
     @property
     def strictly_more_capable(self) -> bool:
         return self.suggested_tags > self.current_tags  # proper superset, not just >=
+
+
+def find_role_family_pools(
+    deck: Deck, con: sqlite3.Connection, limit_per_family: int = 40,
+    edhrec_stats: dict | None = None,
+    spare_quantities: dict[str, int] | None = None,
+) -> dict[str, dict]:
+    """Holistic, deck-agnostic replacement for calling
+    find_grounded_upgrades/find_ramp_upgrades/find_draw_upgrades one
+    hardcoded family at a time. Those each computed an automatic
+    "supported alternative" verdict via tag-superset-plus-cost -- a
+    heuristic that broke down the moment it was exercised outside removal:
+    find_draw_upgrades treated an incidental cycling clause as a card's
+    identity (a board wipe "upgraded" to an unrelated protection spell),
+    and find_ramp_upgrades didn't resolve Arcane Signet's dynamic "any
+    color in your commander's identity" against the actual commander,
+    suggesting a real downgrade as an upgrade. Computing a verdict is
+    where the bugs live, not the retrieval.
+
+    So this makes NO verdict. For every role family in
+    compact_line.ROLE_TAG_PREFIXES (plus ramp_kind/draw_kind, which are
+    structural columns rather than tags) that ANY card in the deck
+    actually belongs to, it returns the deck's own cards in that family
+    alongside the full legal candidate pool as compact lines (real oracle
+    text, not a summary from memory -- SPEC.md's F1). Reading every entry
+    and judging fit against the deck's actual gameplan is the caller's
+    job, exactly as `candidates <role>` always required -- this just does
+    it automatically across every family the deck touches instead of one
+    at a time, so it scales to any deck instead of whatever families
+    someone remembered to hardcode.
+    """
+    from deckdoctor.candidates import find_candidates
+    from deckdoctor.compact_line import ROLE_TAG_PREFIXES
+
+    commander_row = con.execute(
+        "SELECT color_identity FROM cards WHERE name = ?", [deck.commander.name]
+    ).fetchone()
+    commander_ci = json.loads(commander_row[0]) if commander_row and commander_row[0] else []
+
+    deck_names = {c.name for c in deck.library}
+    if not deck_names:
+        return {}
+
+    placeholders = ",".join("?" for _ in deck_names)
+    tag_rows = con.execute(
+        f"SELECT card_name, tag FROM card_tags WHERE card_name IN ({placeholders})", list(deck_names),
+    ).fetchall()
+    kind_rows = con.execute(
+        f"SELECT name, ramp_kind, draw_kind FROM cards WHERE name IN ({placeholders})", list(deck_names),
+    ).fetchall()
+
+    def _family_for_tag(tag: str) -> str | None:
+        for prefix in ROLE_TAG_PREFIXES:
+            if tag == prefix or tag.startswith(prefix):
+                return prefix.rstrip("-") or prefix
+        return None
+
+    # display family name -> (actual find_candidates role, deck card names).
+    # These differ for ramp/draw: find_candidates/_candidate_names_for_role only
+    # recognizes the bare ramp_kind/draw_kind column values ("rock"/"oneshot"/etc.)
+    # as its special whole-table-scan case -- a prefixed display label like
+    # "draw_oneshot" doesn't match that check, falls through to a plain card_tags
+    # lookup for a tag that doesn't exist, and silently returns zero candidates.
+    # Found via a real user report: Brainstorm (draw_kind=oneshot, legal, not in
+    # the deck) was returning an empty draw_oneshot pool because of exactly this.
+    families_present: dict[str, tuple[str, set[str]]] = {}
+    for name, tag in tag_rows:
+        family = _family_for_tag(tag)
+        if family:
+            search_role, names = families_present.get(family, (family, set()))
+            names.add(name)
+            families_present[family] = (search_role, names)
+    for name, ramp_kind, draw_kind in kind_rows:
+        if ramp_kind:
+            search_role, names = families_present.get(ramp_kind, (ramp_kind, set()))
+            names.add(name)
+            families_present[ramp_kind] = (search_role, names)
+        if draw_kind:
+            display = f"draw_{draw_kind}"
+            search_role, names = families_present.get(display, (draw_kind, set()))
+            names.add(name)
+            families_present[display] = (search_role, names)
+
+    result: dict[str, dict] = {}
+    for family, (search_role, cards_with_it) in sorted(families_present.items()):
+        pool = find_candidates(con, commander_ci, search_role, deck_names, limit=limit_per_family,
+                               edhrec_stats=edhrec_stats, spare_quantities=spare_quantities)
+        result[family] = {"deck_cards": sorted(cards_with_it), "pool": pool}
+    return result
 
 
 def find_upgrades(deck: Deck, con: sqlite3.Connection, config: DeckConfig | None = None) -> list[UpgradeSuggestion]:
@@ -787,10 +863,19 @@ def find_draw_upgrades(deck: Deck, con: sqlite3.Connection, config: DeckConfig |
 
 @dataclass
 class LandUpgrade:
-    basic_land: str  # which basic type it's suggested to replace
+    replaces: str  # the deck's slowest land still unassigned, else its most common basic
     suggested_land: str
-    always_untapped: bool
+    always_untapped: bool  # tier 1: untapped every turn
     oracle_text: str
+    tier: str = ""
+    speed: str = ""
+
+
+@dataclass
+class SlowLand:
+    name: str
+    tier: str
+    speed: str
 
 
 # The 10 ABUR dual lands -- verified against the mirror (each has oracle
@@ -806,106 +891,121 @@ ORIGINAL_DUAL_LANDS = {
 }
 
 
+def _is_land(card) -> bool:
+    return "Land" in (card.type_line or "").split(" // ")[0].split()
+
+
+def _fetchable_colours(oracle_text: str, deck_lands: list) -> set[str]:
+    """Colours of the lands in THIS deck a fetch can find. Flooded Strand
+    names Plains/Island, but in a deck with Godless Shrine (Plains Swamp)
+    it effectively makes black too -- so off-colour fetches count as the
+    colours of what they find, not of the basic types they name."""
+    from deckdoctor.colour import BASIC_TYPE_COLOUR, FETCH_RE, _land_subtypes
+
+    m = FETCH_RE.search(oracle_text or "")
+    if not m:
+        return set()
+    wanted = m.group(1)
+    named = {t for t in BASIC_TYPE_COLOUR if t in wanted}
+    if "land" not in wanted.lower() and not named:
+        return set()  # Eye of Ugin searches for a creature, not a land
+    basic_only = "basic" in wanted.lower()
+    colours: set[str] = set()
+    for land in deck_lands:
+        if basic_only and "Basic" not in (land.type_line or ""):
+            continue
+        subtypes = _land_subtypes(land.type_line) & BASIC_TYPE_COLOUR.keys()
+        if subtypes and (not named or subtypes & named):
+            colours |= {BASIC_TYPE_COLOUR[t] for t in subtypes}
+    return colours
+
+
+def find_slow_lands(deck: Deck, con: sqlite3.Connection) -> list[SlowLand]:
+    """The deck's own nonbasic lands that aren't untapped on turns 1-4
+    (tier 2/3: check/filter lands, triomes, battle lands, slowlands, tapped
+    fetches ...), slowest first -- the upgrade targets for fast lands."""
+    from deckdoctor.land_speed import FAST, FASTLAND, classify_land_speed
+
+    names = sorted({c.name for c in deck.library if _is_land(c) and not c.type_line.startswith("Basic")})
+    if not names:
+        return []
+    marks = ",".join("?" for _ in names)
+    slow = []
+    for name, text, parsed_json in con.execute(
+            f"SELECT name, oracle_text, parsed FROM cards WHERE name IN ({marks})", names):
+        speed = classify_land_speed(text, never_untaps=_never_untaps(_parsed(parsed_json)))
+        if speed.rank not in (FAST, FASTLAND):
+            slow.append((speed.rank, name, speed))
+    return [SlowLand(name, speed.tier, speed.label) for _, name, speed in sorted(slow, key=lambda t: (-t[0], t[1]))]
+
+
 def find_land_upgrades(
-    deck: Deck, con: sqlite3.Connection, limit: int = 5, config: DeckConfig | None = None
+    deck: Deck, con: sqlite3.Connection, limit: int = 10, config: DeckConfig | None = None,
 ) -> list[LandUpgrade]:
-    """Genuine dual lands (produced_mana EXACTLY the commander's colour
-    pair -- not a broader "any colour" fixer, which floods the results
-    with narrow tribal/type-restricted utility lands that aren't
-    comparable to a real dual) not already in the deck, ranked untapped
-    first, suggested as replacements for the deck's basics specifically.
+    """The fastest multicolour lands for this deck that it doesn't run, per
+    the user's standing policy (KNOWN_ISSUES.md, 2026-09-23): untapped on
+    turns 1-4 (tier 1: fetches, shocks, painlands, horizon, Battlebond,
+    Verges, Command Tower; tier 1b: fastlands), minus the original duals
+    when `playgroup.yaml` excludes them. Works for any 2+ colour identity.
 
-    Deliberately does NOT compare against the deck's existing nonbasic
-    lands (Dragonskull Summit, Smoldering Marsh, etc.) -- those carry a
-    conditional-tap replacement effect (`ReplaceWith$ LandTapped`, see
-    colour.py's `land_enters_tapped`) whose condition depends on the
-    deck's actual land mix, which isn't evaluated here (that's Layer 3,
-    not built). Scoped to the safe, unambiguous case instead: a genuine
-    dual is *never* worse than a basic, which only ever produces one
-    colour.
+    A land qualifies when it makes at least two of the commander's colours:
+    `produced_mana`, or for fetches the colours of the typed lands they can
+    find in this deck (`colour.fetch_colours`). Pathways (one face, one
+    colour) and lands whose mana is spend-restricted (Cavern of Souls,
+    tribal lands) are excluded. Each suggestion names what it replaces: the
+    deck's slow lands first (`find_slow_lands`), then its most common basic.
+    """
+    from deckdoctor.candidates import global_ranks
+    from deckdoctor.land_speed import FAST, FASTLAND, classify_land_speed, plain_tap_colours
 
-    Only 2-colour pairs are handled (commander_ci must have exactly 2
-    colours) -- 3+ colour identities would need combinations of pairs, a
-    bigger scope than what was asked for here."""
     commander_row = con.execute(
         "SELECT color_identity FROM cards WHERE name = ?", [deck.commander.name]
     ).fetchone()
     commander_ci = set(json.loads(commander_row[0])) if commander_row and commander_row[0] else set()
-    if len(commander_ci) != 2:
+    if len(commander_ci) < 2:
         return []
 
     playgroup = load_playgroup_config()
-    deck_land_names = {c.name for c in deck.library if "Land" in c.type_line.split(" ") or c.type_line.startswith("Land")}
-    basic_counts = Counter(c.name for c in deck.library if c.type_line.startswith("Basic Land"))
-    if not basic_counts:
-        return []
-    # Deterministic and meaningful: the most-represented basic is the one
-    # most worth diversifying away from. (Previously picked an arbitrary
-    # element of a `set` via `next(iter(...))` -- non-deterministic across
-    # process runs, since Python randomizes string hash seeds by default;
-    # a real bug found when a test asserting on the specific basic name
-    # passed standalone but failed in the full suite.)
-    most_represented_basic = basic_counts.most_common(1)[0][0]
+    deck_lands = [c for c in deck.library if _is_land(c)]
+    deck_land_names = {c.name for c in deck_lands}
 
-    rows = con.execute(
-        "SELECT name, produced_mana, oracle_text, color_identity, parsed FROM cards "
-        "WHERE type_line LIKE '%Land%' AND commander_legal = 1"
-    ).fetchall()
-
-    candidates: list[LandUpgrade] = []
-    for name, pm_json, text, ci_json, parsed_json in rows:
-        if name in deck_land_names:
+    found = []
+    for name, pm_json, text, ci_json, parsed_json, type_line in con.execute(
+            "SELECT name, produced_mana, oracle_text, color_identity, parsed, type_line FROM cards "
+            "WHERE type_line LIKE '%Land%' AND commander_legal = 1"):
+        if name in deck_land_names or "//" in name or (type_line or "").startswith("Basic"):
             continue
         if playgroup.exclude_original_dual_lands and name in ORIGINAL_DUAL_LANDS:
             continue
-        if "//" in name:
-            # Modal DFC lands (Blightstep Pathway // Searstep Pathway): you
-            # choose ONE face when it enters and that's what you have for
-            # the rest of the game -- Scryfall's produced_mana unions both
-            # faces' colours, which makes it LOOK like a simultaneous B/R
-            # source the way Badlands genuinely is, but it's actually a
-            # choice of two mono-colour lands, never both. Real false
-            # positive found testing against Ugluk's actual pool --
-            # type_line containing "//" is a reliable, general MDFC marker.
+        if not set(json.loads(ci_json or "[]")) <= commander_ci or "spend this mana only" in (text or "").lower():
             continue
-        pm = set(json.loads(pm_json)) if pm_json else set()
-        ci = set(json.loads(ci_json)) if ci_json else set()
-        if pm != commander_ci or not ci <= commander_ci:
+        colours = plain_tap_colours(text, commander_ci)
+        if not colours and not pm_json:
+            colours = _fetchable_colours(text or "", deck_lands) & commander_ci
+        if len(colours) < 2:
             continue
-        always_untapped = not land_enters_tapped(parsed_json, text) and not _never_untaps(_parsed(parsed_json))
-        candidates.append(LandUpgrade(
-            basic_land=most_represented_basic, suggested_land=name,
-            always_untapped=always_untapped, oracle_text=text or "",
-        ))
+        speed = classify_land_speed(text, never_untaps=_never_untaps(_parsed(parsed_json)))
+        if speed.rank in (FAST, FASTLAND):
+            found.append((name, text or "", speed))
 
-    candidates.sort(key=lambda c: not c.always_untapped)  # untapped first
-    dropped = _drop_previously_rejected([(c.basic_land, c.suggested_land) for c in candidates], config)
-    candidates = [c for c in candidates if (c.basic_land, c.suggested_land) not in dropped]
-    return candidates[:limit]
+    # Which land a suggestion "replaces" is just the next slow land, so a
+    # logged rejection of a land counts whatever it was paired with.
+    rejected_lands = {suggested for (_, suggested) in rejected_swaps(config)}
+    found = [f for f in found if f[0] not in rejected_lands]
+    ranks = global_ranks(con, [name for name, _, _ in found])
+    found.sort(key=lambda f: (f[2].rank, ranks.get(f[0], float("inf")), f[0]))
 
-
-_CAVEAT = (
-    "These are candidates worth a second look, not verified verdicts -- filtered against every\n"
-    "hidden-cost/hidden-restriction pattern found so far by reading Forge's own structured\n"
-    "ability data (Pact deferred cost, X-cost, Tiered, Suspend, an activated ability's own cost,\n"
-    "an additional casting cost, a narrow attachment/activation condition, a missing alternate\n"
-    "mode like Overload/Kicker) -- not a verified verdict. Two things this still can't see: a\n"
-    "numeric target restriction or deck-specific synergy (Layer 3, not built), and a non-mana\n"
-    "resource cost (sacrifice/tap-a-creature/discard), which this module's cost model treats as\n"
-    "free by design -- see the module docstring. Read the full oracle text of both cards before\n"
-    "touching anything."
-)
-
-
-_LAND_CAVEAT = (
-    "Genuine 2-colour duals only, compared against this deck's BASIC lands specifically --\n"
-    "not against its existing conditional-tap lands (whether those actually come in untapped\n"
-    "depends on the deck's land mix, which isn't simulated here). 'always_untapped' means the\n"
-    "land never enters tapped and never skips an untap step -- it does NOT mean zero drawback:\n"
-    "a painland (Mount Doom: {T}, Pay 1 life) still shows as always-untapped here because the\n"
-    "drawback is a life cost, not a tap restriction. Read the oracle text before swapping."
-)
-
+    basics = Counter(c.name for c in deck.library if c.type_line.startswith("Basic Land"))
+    targets = [s.name for s in find_slow_lands(deck, con)]
+    fallback = basics.most_common(1)[0][0] if basics else None
+    suggestions = []
+    for name, text, speed in found:
+        replaces = targets.pop(0) if targets else fallback
+        if replaces is None:
+            break
+        suggestions.append(LandUpgrade(replaces=replaces, suggested_land=name, always_untapped=speed.rank == FAST,
+                                       oracle_text=text, tier=speed.tier, speed=speed.label))
+    return suggestions[:limit]
 
 def _render_suggestion_lines(suggestions: list[UpgradeSuggestion]) -> list[str]:
     lines: list[str] = []

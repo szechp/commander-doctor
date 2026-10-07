@@ -101,7 +101,7 @@ def test_render_counts_spells_not_colour_requirements():
                           requirements=reqs)
     text = report.render()
     assert "1/3 spells clear it, 1 fall short, 1 not assessable" in text
-    assert "Two Colour Spell: " in text and "chance of 2 B sources by turn 3" in text
+    assert "chance of 2 B sources by turn 3" in text and "you have 10): Two Colour Spell" in text
     assert "you have 10" in text
 
 

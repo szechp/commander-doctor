@@ -186,6 +186,42 @@ def test_cli_validate_swaps_reuses_the_cached_combo_data_without_a_network_call(
     assert payload["swaps"]["combo_findings"][0]["code"] == "prospective_bracket_estimate"
 
 
+def test_multi_copy_cut_may_repeat_across_entries(fixture_db, tmp_path):
+    # A target-list diff that drops 2 of 3 copies of a basic writes one entry
+    # per copy, each paired with a different add. That is not ambiguous.
+    _add_cards(fixture_db)
+    path = tmp_path / "multi.txt"
+    path.write_text("1 Fixture Commander\n1 Phyrexian Vindicator\n3 Fixture Plains 0\n"
+                    + "".join(f"1 Fixture Plains {i}\n" for i in range(1, 96)), encoding="utf-8")
+    deck = load_deck(str(path), fixture_db)
+    ok = validate_swaps(deck, {"schema_version": 1, "swaps": [
+        {"cut": "Fixture Plains 0", "add": "Replacement A", "quantity": 1},
+        {"cut": "Fixture Plains 0", "add": "Replacement B", "quantity": 1},
+    ]}, fixture_db)
+    assert not any(d.code == "ambiguous_duplicate_swap" for d in ok.diagnostics)
+    assert ok.accepted
+    too_many = validate_swaps(deck, {"schema_version": 1, "swaps": [
+        {"cut": "Fixture Plains 0", "add": "Replacement A", "quantity": 2},
+        {"cut": "Fixture Plains 0", "add": "Replacement B", "quantity": 2},
+    ]}, fixture_db)
+    assert any(d.code == "batch_cut_quantity_exceeded" for d in too_many.diagnostics)
+
+
+def test_accepted_legality_exception_carries_into_prospective_deck(fixture_db, fixture_deck):
+    fixture_db.execute("UPDATE cards SET commander_legal = 0 WHERE name = 'Fixture Plains 5'")
+    fixture_db.commit()
+    deck = _deck(fixture_db, fixture_deck)
+    proposal = {"schema_version": 1, "swaps": [{"cut": "Fixture Plains 0", "add": "Replacement A", "quantity": 1}]}
+    blocked = validate_swaps(deck, proposal, fixture_db)
+    assert any(d.code == "card_not_legal" for d in blocked.diagnostics)
+    config = DeckConfig(commander="Fixture Commander", feedback=[
+        FeedbackEntry(date="2026-09-13", kind="legality_exception", card="Fixture Plains 5", reason="table ruling"),
+    ])
+    accepted = validate_swaps(deck, proposal, fixture_db, config=config)
+    assert not any(d.code == "card_not_legal" for d in accepted.diagnostics)
+    assert accepted.accepted
+
+
 def _combo(*cards, produces="Infinite damage"):
     return {
         "combo": {"uses": [{"card": {"name": name}} for name in cards], "manaValueNeeded": 4,

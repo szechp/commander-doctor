@@ -22,11 +22,43 @@ from deckdoctor.roles import RoleEvidence, evidence_for_role, extract_role_evide
 
 from deckdoctor.card_roles import DRAW_KINDS, RAMP_KINDS, names_with_role
 _CARDS_COLS = ["name", "mana_cost", "type_line", "oracle_text", "color_identity",
-               "ramp_kind", "draw_kind", "prereq", "is_game_changer"]
+               "ramp_kind", "draw_kind", "prereq", "is_game_changer", "cmc"]
 
 
 def _color_identity_subset(card_ci: list[str], commander_ci: set[str]) -> bool:
     return set(card_ci) <= commander_ci
+
+
+# The `roles=` labels compact lines print (compact_line._roles_for) for the
+# draw_kind column differ from the query vocabulary; accept both, so the
+# obvious follow-up query on a printed label works.
+ROLE_ALIASES = {"draw_repeatable": "repeatable", "draw_oneshot": "oneshot"}
+# Common deckbuilding words that aren't Scryfall tag names.
+_ROLE_HINTS = {"wipe": "sweeper", "wrath": "sweeper", "boardwipe": "sweeper", "counter": "counterspell",
+               "tutor": "tutor-", "reanimat": "reanimate", "protect": "protects-", "haste": "gives-haste"}
+_COLUMN_ROLES = {*RAMP_KINDS, *DRAW_KINDS, "ramp", "draw", "game_changer"}
+
+
+def normalize_role(role: str) -> str:
+    return ROLE_ALIASES.get(role, role)
+
+
+def role_suggestions(con: sqlite3.Connection, role: str) -> list[str] | None:
+    """None if `role` is queryable; otherwise up to 15 close tag names (maybe
+    empty). Lets the CLI tell "no such role" apart from "every card in the
+    role was filtered out" -- the first used to print as an empty pool."""
+    role = normalize_role(role)
+    if role in _COLUMN_ROLES:
+        return None
+    if con.execute("SELECT 1 FROM card_tags WHERE tag = ? OR tag LIKE ? LIMIT 1", [role, role + "%"]).fetchone():
+        return None
+    words = [w for w in role.replace("_", "-").split("-") if len(w) >= 3]
+    found: list[str] = [hint for word, hint in _ROLE_HINTS.items() if word in role]
+    for word in words or [role]:
+        found += [r[0] for r in con.execute(
+            "SELECT tag FROM card_tags WHERE tag LIKE ? GROUP BY tag ORDER BY count(*) DESC LIMIT 15",
+            [f"%{word}%"])]
+    return list(dict.fromkeys(found))[:15]
 
 
 def _candidate_names_for_role(con: sqlite3.Connection, role: str) -> list[str] | None:
@@ -45,18 +77,49 @@ def _candidate_names_for_role(con: sqlite3.Connection, role: str) -> list[str] |
     return [r[0] for r in rows]
 
 
+def global_ranks(con: sqlite3.Connection, names: list[str]) -> dict[str, int]:
+    """Scryfall's `edhrec_rank` (lower = played in more Commander decks
+    overall) for `names`, from the `card_popularity` table `sync` writes.
+    Empty for a mirror synced before that table existed -- ranking then
+    falls back to commander-specific EDHREC data and mana value."""
+    ranks: dict[str, int] = {}
+    try:
+        for i in range(0, len(names), 500):
+            chunk = names[i:i + 500]
+            marks = ",".join("?" for _ in chunk)
+            ranks.update(con.execute(
+                f"SELECT card_name, edhrec_rank FROM card_popularity WHERE edhrec_rank IS NOT NULL "
+                f"AND card_name IN ({marks})", chunk,
+            ).fetchall())
+    except sqlite3.OperationalError:
+        return {}
+    return ranks
+
+
 def find_candidates(
     con: sqlite3.Connection,
     commander_color_identity: list[str],
     role: str,
     exclude_names: set[str],
     limit: int = 30,
+    edhrec_stats: dict | None = None,
+    spare_quantities: dict[str, int] | None = None,
 ) -> list[str]:
     """Returns compact lines (SPEC.md §10) for up to `limit` commander-legal
     cards in `role`, colour-identity-legal for the commander, not already
-    in `exclude_names`."""
+    in `exclude_names`, best-evidenced first (see the sort below).
+
+    `edhrec_stats` is `edhrec.card_stats()` for this commander's page
+    (ideally the deck's configured theme page); when given, cards EDHREC
+    lists for this commander rank first and carry their inclusion rate.
+
+    Ownership is deliberately not part of the quality sort or pool selection.
+    Cards that clear the ordinary evidence-ranked limit are labelled after the
+    fact. There is no ownership-only pool: a low-ranked card does not get extra
+    consideration merely because the user owns it."""
     commander_ci = set(commander_color_identity)
     cols_sql = ", ".join(_CARDS_COLS)
+    role = normalize_role(role)
 
     tag_filtered_names = _candidate_names_for_role(con, role)
     if tag_filtered_names is not None:
@@ -86,8 +149,41 @@ def find_candidates(
             continue
         matches.append((row, tags_by_name.get(row["name"], set())))
 
-    matches.sort(key=lambda item: (item[0]["name"].casefold(), item[0]["name"]))
-    return [format_line(row, tags) for row, tags in matches[:limit]]
+    # Ranking, best evidence first. Mana value alone (the previous order)
+    # has no notion of quality: a full `removal` pool is ~1,700 cards and
+    # its cheapest slice opens with Abu Ja'far, Active Volcano, Alaborn
+    # Zealot -- unreadable in full and useless when truncated.
+    #   1. lands after nonlands (a land competes for a land drop, not a
+    #      card slot -- a "repeatable draw" search once returned 39/40
+    #      cmc-0 utility lands, crowding out Mystic Remora);
+    #   2. cards EDHREC lists for this commander (theme page if configured),
+    #      by inclusion rate -- real decks built the same way;
+    #   3. global Commander popularity (Scryfall edhrec_rank);
+    #   4. mana value, then name for determinism.
+    stats = edhrec_stats or {}
+    ranks = global_ranks(con, [row["name"] for row, _ in matches])
+    matches.sort(key=lambda item: (
+        "Land" in (item[0]["type_line"] or ""),
+        -(stats[item[0]["name"]].inclusion) if item[0]["name"] in stats else 1.0,
+        ranks.get(item[0]["name"], float("inf")),
+        item[0]["cmc"] if item[0]["cmc"] is not None else float("inf"),
+        item[0]["name"].casefold(), item[0]["name"],
+    ))
+    from deckdoctor.edhrec import stat_suffix
+    from deckdoctor.collection import availability_suffix
+
+    lines = []
+    for row, tags in matches[:limit]:
+        line = format_line(row, tags)
+        name = row["name"]
+        if "Land" not in (row["type_line"] or "").split(" // ")[0].split():
+            line += availability_suffix(name, spare_quantities)
+        if name in stats:
+            line += f" | {stat_suffix(stats[name])}"
+        elif name in ranks:
+            line += f" | rank=#{ranks[name]}"
+        lines.append(line)
+    return lines
 
 
 @dataclass(frozen=True)
@@ -159,6 +255,18 @@ def _mode_preserves(current: RoleEvidence, candidate: RoleEvidence) -> bool:
             return False
         if current.filtering is False and candidate.filtering is True:
             return False
+    if current.role == "sweeper":
+        # Destroy/exile wipes kill regardless of size; damage/-X wipes only up
+        # to their amount. A candidate must reach at least as far: an
+        # unconditional wipe always does, an amount-based one needs a known
+        # amount >= the current card's (and the current card must not be
+        # unconditional itself).
+        amount_based = {"DamageAll", "PumpAll"}
+        if candidate.effect in amount_based:
+            if current.effect not in amount_based or current.quantity is None or candidate.quantity is None:
+                return False
+            if candidate.quantity < current.quantity:
+                return False
     if current.role == "draw" and current.quantity is not None:
         if candidate.quantity is None or candidate.quantity < current.quantity:
             return False
@@ -166,6 +274,23 @@ def _mode_preserves(current: RoleEvidence, candidate: RoleEvidence) -> bool:
             return False
         if candidate.drawback and candidate.drawback != current.drawback:
             return False
+    # `secondary_functions` is every OTHER Forge effect name (AB$/SP$/DB$)
+    # found anywhere in the card's own ability graph, chained sub-abilities
+    # included (roles.py). A candidate that chains an effect the current
+    # card's graph never has at all is doing something this comparison has
+    # no model for -- it might be an uncosted drawback (KNOWN_ISSUES.md:
+    # Devour in Shadow's Destroy chains "DB$ LoseLife | ... | LifeAmount$
+    # X" off the target's own toughness, invisible to a tag+cost check
+    # entirely) or an unrelated bonus; either way it's an unproven
+    # difference, not a proven equal-or-better mode. Only the ADDED side is
+    # checked -- a candidate that simply lacks a bonus effect the current
+    # card has isn't penalized here (that's `lost_roles`'s job for the
+    # role-tracked families; a non-role bonus lost is a real but separate
+    # question from "does this mode still do what the current card's mode
+    # does").
+    if (set(candidate.secondary_functions) - set(candidate.caster_upside)
+            - set(current.secondary_functions) - {current.effect}):
+        return False
     return True
 
 
@@ -330,7 +455,11 @@ def find_candidate_comparisons(
         # doesn't claim to know what Raze loses; it just stops hiding how
         # narrow the match was, so a reader is prompted to check the full
         # text before treating it as a replacement.
-        family_role = "removal" if role.startswith(("removal-", "sweeper-")) else role
+        # roles.py has a real "sweeper" family (mass DestroyAll/DamageAll/
+        # ChangeZoneAll/-X PumpAll); comparing a wipe as "removal" missed
+        # every damage/-X wipe (Blasphemous Act had no removal evidence at all).
+        family_role = ("sweeper" if role == "sweeper" or role.startswith("sweeper-")
+                       else "removal" if role.startswith("removal-") else role)
         comparison = compare_candidates(con, current_name, name, family_role)
         if family_role != role:
             comparison = replace(comparison, compared_role=role)

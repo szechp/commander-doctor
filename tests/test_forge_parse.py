@@ -47,6 +47,59 @@ def test_altars_reap_rejected():
     assert classify_draw_kind(card) == "oneshot"
 
 
+def test_draw_kind_chained_loot_via_cost_token():
+    # Regression, KNOWN_ISSUES.md "keep only the single cheapest candidate"
+    # entry, part 3: real Commander staples whose draw is reached through a
+    # trigger's Execute$ -> svar chain, and whose card-draw is spelled as
+    # Forge's OTHER idiom -- a `Cost$`/`UnlessCost$ Draw<N/You>` token on a
+    # differently-typed ability (Discard, ChooseCard) rather than a literal
+    # `DB$ Draw` -- were entirely unclassified (draw_kind=None) before this
+    # fix, despite being genuine, well-known repeatable draw engines.
+    #
+    # Smuggler's Copter and Murder of Crows: `T:... Execute$ TrigLoot` ->
+    # `SVar:TrigLoot:AB$ Discard | ... | Cost$ Draw<1/You>` -- a classic
+    # attack/death-triggered looter, the same "draw, then discard" shape as
+    # Merfolk Looter (AB$ Draw at the top level) but spelled inverted.
+    assert classify_draw_kind(_card("smugglers_copter.txt")) == "repeatable"
+    assert classify_draw_kind(_card("murder_of_crows.txt")) == "repeatable"
+
+    # Sylvan Library: the trigger's Execute$ svar is `AB$ ChooseCard | ... |
+    # Cost$ Draw<2/You>` -- the draw is the COST of the card-selection
+    # step, not a `DB$ Draw` at all. A staple, top-tier repeatable draw
+    # engine, missed entirely before this fix.
+    assert classify_draw_kind(_card("sylvan_library.txt")) == "repeatable"
+
+
+def test_draw_kind_ignores_opponent_draw_cost_tokens():
+    # Forge reuses the exact same `UnlessCost$ Draw<N/Player.X>` token to
+    # make an OPPONENT draw as a downside/political rider (Shakedown Heavy:
+    # "defending player may have you draw a card" is actually the reverse
+    # -- checked here against the real files) -- these must not register as
+    # this card's OWN draw engine. Restricted to the literal `/You>` suffix
+    # for this reason; confirms the restriction doesn't produce false
+    # negatives on genuinely unrelated cards either.
+    assert classify_draw_kind(_card("shakedown_heavy.txt")) is None
+    assert classify_draw_kind(_card("academy_loremaster.txt")) is None
+
+
+def test_draw_kind_named_cards_from_known_issues():
+    # KNOWN_ISSUES.md's "keep only the single cheapest candidate" entry
+    # names these two cards by hand as real, on-theme draw engines that
+    # should be visible to `upgrades`' draw comparisons.
+    assert classify_draw_kind(_card("misty_knight_hero_for_hire.txt")) == "repeatable"
+    thror_map = parse_card_file(
+        CARDSFOLDER / "upcoming" / "thrors_map.txt"
+    )[0]
+    assert classify_draw_kind(thror_map) == "repeatable"
+
+    # Bone Miser, Phyrexian Arena: the entry's own root-cause analysis
+    # names these as the current-deck engines classify_draw_kind left at
+    # None, which (per cause #1, now obsolete) disabled the oneshot-vs-
+    # repeatable mismatch guard for their upgrade comparisons entirely.
+    assert classify_draw_kind(_card("bone_miser.txt")) == "repeatable"
+    assert classify_draw_kind(_card("phyrexian_arena.txt")) == "repeatable"
+
+
 def test_ramp_kind_rock_vs_dork_vs_search_vs_extra_land():
     assert classify_ramp_kind(_card("sol_ring.txt")) == "rock"
     assert classify_ramp_kind(_card("llanowar_elves.txt")) == "dork"
@@ -132,3 +185,20 @@ def test_coverage_report_runs_over_full_cardsfolder():
     assert report.total_faces > 30000  # ~33.5k files at time of writing
     assert len(report.parse_errors) < report.total_faces * 0.01  # <1% hard parse failures
     print(report.summary())
+
+
+def test_draw_kind_ignores_draws_that_go_to_an_opponent():
+    from deckdoctor.forge_parse import ParsedCard, classify_draw_kind
+
+    def card(triggers, svars):
+        return ParsedCard(name="X", mana_cost="{3}{B}", types="Creature", pt="", keywords=[], abilities=[],
+                          statics=[], replacements=[], triggers=triggers, svars=svars)
+
+    etb = [{"Mode": "ChangesZone", "Execute": "TrigLose"}]
+    # Lord of Tresserhorn: "... and target opponent draws two cards"
+    gift = card(etb, {"TrigLose": "DB$ Sacrifice | Amount$ 2 | SubAbility$ DBDraw",
+                      "DBDraw": "DB$ Draw | ValidTgts$ Opponent | NumCards$ 2"})
+    assert classify_draw_kind(gift) is None
+    mine = card(etb, {"TrigLose": "DB$ GainLife | Defined$ You | SubAbility$ DBDraw",
+                      "DBDraw": "DB$ Draw | Defined$ You | NumCards$ 1"})
+    assert classify_draw_kind(mine) == "repeatable"

@@ -1,19 +1,16 @@
 commander: Ghired, Conclave Exile
 bracket: 3
 threshold: 5
+edhrec_theme: populate
 gameplan: >
-  Ramp (Birds of Paradise, Sol Ring, Arcane Signet, Sakura-Tribe Elder, Cultivate,
-  Farseek, Kodama's Reach, Rampant Growth, Three Visits) into Ghired, Conclave Exile
-  or another token-producing payoff on curve, then compound board presence via
-  populate/token-doubling pieces (Anointed Procession, Doubling Season, Parallel
-  Lives, Growing Ranks, Second Harvest, Ivy Lane Denizen, Emmara Tandris, Trostani,
-  Selesnya's Voice, Vitu-Ghazi Guildmage, Mondrak, Glory Dominus). Protect the board
-  with Heroic Intervention/Rootborn Defenses and answer threats with Path to Exile,
-  Swords to Plowshares, Beast Within, Naya Charm, Angel of Sanctions. Close by
-  attacking with a wide, anthem-buffed token army (Intangible Virtue) backed by
-  big-creature payoffs that convert extra bodies into cards (Rampaging Baloths,
-  Giant Adephage, Colossal Majesty, Elemental Bond, Garruk's Uprising, Garruk,
-  Primal Hunter). User wants this pushed to bracket 3, optimized as far as
-  possible, with the deck's plan operational by turn 5 (threshold intentionally
-  set to the commander's own cmc rather than a later "populate has compounded"
-  turn, per user's explicit request for an aggressive/optimized target).
+  Token multiplication. Ramp into Ghired, Conclave Exile by turn 5 (turn 4 with
+  ramp). Ghired's 4/4 trample Rhino and every populate trigger get multiplied by
+  the deck's duplicators: doublers (Anointed Procession, Parallel Lives, Doubling
+  Season, Mondrak, Glory Dominus, Exalted Sunborn) and the tripler (Ojer Taq,
+  Deepest Foundation), which stack so one token becomes 4x/6x/12x. Repeatable
+  populate (Growing Ranks, Trostani, Vitu-Ghazi Guildmage, Song of the Worldsoul,
+  Ghired's attack) and burst copies (Second Harvest, Full Flowering) copy the
+  biggest token available (Rhino, Beasts, Dragons, 10/10 Eldrazi). Card flow comes
+  from big creatures entering (Garruk's Uprising, Elemental Bond, Garruk's
+  Packleader). Win with trample combat damage from a board of large tokens.
+  Duplicators are the core the user wants to keep.

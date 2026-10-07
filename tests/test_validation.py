@@ -333,6 +333,21 @@ def test_multicommander_count_is_explicitly_invalid():
     assert any(d.code == "unsupported_commander_configuration" for d in report.diagnostics)
 
 
+def test_sideboard_marker_ends_the_maindeck(tmp_path):
+    from deckdoctor.deck import parse_decklist
+    for marker in ("// SIDEBOARD", "SIDEBOARD:", "Sideboard"):
+        path = tmp_path / "d.txt"
+        path.write_text(f"1 Commander\n1 Main Card\n\n{marker}\n1 Side Card\n", encoding="utf-8")
+        assert parse_decklist(str(path)) == ("Commander", [(1, "Main Card")])
+
+
+def test_maybeboard_marker_also_ends_the_maindeck(tmp_path):
+    from deckdoctor.deck import parse_decklist
+    path = tmp_path / "d.txt"
+    path.write_text("// COMMANDER\n1 Commander\n1 Main Card\n\n// MAYBEBOARD\n1 Maybe Card\n", encoding="utf-8")
+    assert parse_decklist(str(path)) == ("Commander", [(1, "Main Card")])
+
+
 def test_sideboard_cards_are_validated_but_not_counted(tmp_path):
     con, path = _db_and_deck(tmp_path)
     rows = [

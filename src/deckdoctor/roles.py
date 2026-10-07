@@ -43,6 +43,7 @@ class RoleEvidence:
     repeatable: bool | None = None
     source_zone: str | None = None
     secondary_functions: tuple[str, ...] = ()
+    caster_upside: tuple[str, ...] = ()  # subset of secondary_functions that only helps the caster
     supported: bool = True
     uncertainty: tuple[str, ...] = ()
     provenance: tuple[str, ...] = (f"role-evidence-v{ROLE_EVIDENCE_VERSION}",)
@@ -129,8 +130,12 @@ def _walk(parsed: dict[str, Any]) -> tuple[list[tuple[str, dict[str, Any]]], tup
 
 def _conditions(node: dict[str, Any]) -> tuple[str, ...]:
     inherited = tuple(node.get("_prerequisites", ()))
+    # `ValidCards$` is the target filter of *All effects (DestroyAll ValidCards$
+    # Creature), recorded as target_scope; the "ValidCard" part matched it by
+    # substring and gave every wipe a fake condition, so none could ever match.
     own = tuple(f"{key}={value}" for key, value in node.items()
-                if not key.startswith("_") and any(part in key for part in _CONDITION_PARTS))
+                if not key.startswith("_") and key != "ValidCards"
+                and any(part in key for part in _CONDITION_PARTS))
     return tuple(dict.fromkeys(inherited + own))
 
 
@@ -180,6 +185,141 @@ def _pump_sign_unknown(node: dict[str, Any]) -> bool:
     if raw_att is None and raw_def is None:
         return False
     return (raw_att is not None and _as_int(raw_att) is None) or (raw_def is not None and _as_int(raw_def) is None)
+
+
+# Board-wipe / mass-removal role family ("sweeper", matching the Scryfall
+# tag of the same name -- see KNOWN_ISSUES.md, "extract_role_evidence has
+# no board-wipe/mass-damage role family, so a DB$ DealDamage-shaped
+# sweeper clause is invisible to compare_candidates entirely"). Kept
+# strictly separate from "removal" above rather than folded into it: a
+# swap that trades a wipe for spot removal is a real, nameable loss (the
+# original gap report), not a same-family substitution.
+#
+# Effect shapes recognized, all verified against real Forge cardsfolder
+# parses in the local mirror (Wrath of God, Blasphemous Act, Anger of the
+# Gods, Toxic Deluge, Farewell, Austere Command, Crux of Fate, Pyroclasm,
+# Star of Extinction -- `sqlite3 data/deckdoctor.sqlite3 "select parsed
+# from cards where name=...`):
+#   - DestroyAll / DamageAll: Forge's own mass-effect ids (Wrath of God /
+#     Blasphemous Act). `ValidCards$` is the target filter, already
+#     recognized by `_target()`.
+#   - ChangeZoneAll, battlefield-origin only: mass zone move off the
+#     board (Farewell's exile-all modes). Unlike the "removal" family's
+#     own ChangeZoneAll handling, the filter key here is `ChangeType$`,
+#     not `ValidTgts$`/`ValidCards$` -- confirmed Farewell's modes use
+#     ONLY `ChangeType$`, which is why they already show up as weak,
+#     unsupported "removal" evidence (`_target()` returns None for them)
+#     rather than strong evidence of either family.
+#   - PumpAll with a negative `NumAtt$`/`NumDef$`: mass -X/-X (Toxic
+#     Deluge). The magnitude is very often a variable SVar ("-X", tied to
+#     life paid) that can't be resolved without walking further, but the
+#     sign is a reliable, cheap check -- Forge always writes a literal
+#     leading "-" for a negative value, resolved or not. Only the sign is
+#     asserted here (this IS a mass debuff), not the size of the wipe.
+#
+# Deliberately NOT included:
+#   - DealDamage (single-target). Verified against the entire local
+#     mirror (every card whose parsed data contains "DealDamage"): no
+#     DealDamage node anywhere uses an "All"/"Each"-shaped ValidTgts/
+#     Defined. Forge always represents "deals N damage to each creature"
+#     as its own DamageAll effect id, never DealDamage with a broadened
+#     target -- gating on effect id alone is sufficient, not a shortcut.
+#   - SacrificeAll. Verified against the whole mirror: the large majority
+#     of real SacrificeAll nodes are narrow single-object bookkeeping
+#     (`ValidCards$ Self`, `DelayTriggerRememberedLKI`, `Card.
+#     IsRemembered`, `Targeted`, `EffectSource` -- a creature-death
+#     cleanup or a sacrifice-as-cost payment) rather than a genuine "each
+#     player sacrifices" edict wipe. Telling the two apart reliably needs
+#     its own scoping pass against the whole mirror -- the same reason
+#     KNOWN_ISSUES.md gave for not attempting this family sooner --
+#     deliberately left open rather than risking a false "sweeper" match
+#     on an unrelated sacrifice cost.
+#   - A hit on a player object rather than a permanent (`DamageAll
+#     ValidCards$ Player` -- a real shape, e.g. Aggravate: burns each
+#     player, not a board wipe) is excluded by `_wipe_hits_players_only`.
+_WIPE_ZONE_DESTINATIONS = _REMOVAL_DESTINATIONS
+_WIPE_PLAYER_ONLY_TARGETS = {"player", "opponent", "you", "targetedcontroller", "targetedplayer", "targetedopponent"}
+_WIPE_ONE_SIDED_MARKERS = ("YouDontCtrl", "YouCtrl", "OppCtrl", "OppOwn", "YouOwn")
+
+
+def _pumpall_is_mass_debuff(node: dict[str, Any]) -> bool:
+    def _leading_minus(raw: Any) -> bool:
+        return isinstance(raw, str) and raw.strip().startswith("-")
+    return _leading_minus(node.get("NumAtt")) or _leading_minus(node.get("NumDef"))
+
+
+def _wipe_shaped_effect(effect: str, node: dict[str, Any]) -> bool:
+    """Whether `node` is presumptively wipe-shaped by effect id (and, for
+    ChangeZoneAll/PumpAll, the fields that distinguish a real mass-removal
+    shape from an unrelated use of the same generic effect id) alone,
+    before trying to resolve a target. False means "not this family, no
+    evidence at all" -- distinct from a resolved shape whose target can't
+    be confirmed, which still produces weak evidence (mirrors
+    `_changezone_removal_shape`/`_pump_is_debuff` above)."""
+    if effect in {"DamageAll", "DestroyAll"}:
+        return True
+    if effect == "PumpAll":
+        return _pumpall_is_mass_debuff(node)
+    if effect == "ChangeZoneAll":
+        origin = node.get("Origin") or node.get("_source_zone")
+        return origin == "Battlefield" and node.get("Destination") in _WIPE_ZONE_DESTINATIONS
+    return False
+
+
+def _wipe_target(effect: str, node: dict[str, Any]) -> str | None:
+    if effect == "ChangeZoneAll":
+        return _target(node) or node.get("ChangeType")
+    return _target(node)
+
+
+def _wipe_hits_players_only(target: str) -> bool:
+    base = target.split(".", 1)[0].strip().casefold()
+    return base in _WIPE_PLAYER_ONLY_TARGETS
+
+
+def _wipe_symmetric(target: str) -> bool:
+    """Whether the wipe hits every player's stuff equally. A `StrictlyOther`/
+    `Other` qualifier (excludes the source permanent itself) doesn't break
+    symmetry -- it still hits everyone else's board. An explicit ownership/
+    control qualifier (`YouCtrl`/`OppCtrl`/`YouOwn`/`OppOwn`) does: the
+    effect is scoped to one side, matching the `sweeper-one-sided` tag."""
+    return not any(marker in target for marker in _WIPE_ONE_SIDED_MARKERS)
+
+
+_CASTER_UPSIDE_EFFECTS = {"Draw", "Scry", "Surveil", "GainLife"}
+
+
+def _benefits_only_caster(node: dict[str, Any]) -> bool:
+    return (_effect_name(node) in _CASTER_UPSIDE_EFFECTS and not node.get("ValidTgts")
+            and str(node.get("Defined") or "You") == "You")
+
+
+def _wipe_magnitude(node: dict[str, Any], effect: str) -> int | None:
+    """Damage (DamageAll) or toughness reduction (PumpAll) as a literal int;
+    None for Destroy/ChangeZone wipes (no amount) and for variable amounts
+    (Toxic Deluge's -X). A 2-damage wipe is not a 13-damage one."""
+    raw = node.get("NumDmg") if effect == "DamageAll" else node.get("NumDef") if effect == "PumpAll" else None
+    text = str(raw).lstrip("+-") if raw is not None else ""
+    return int(text) if text.isdigit() else None
+
+
+def _wipe_evidence(ability_id: str, node: dict[str, Any], effect: str, target: str | None,
+                   type_line: str, graph_uncertainty: tuple[str, ...]) -> RoleEvidence:
+    root_group = node.get("_root_group")
+    speed = "instant" if "Instant" in type_line else "sorcery" if "Sorcery" in type_line else (
+        "activated" if root_group == "abilities" and node.get("AB") else "triggered" if root_group == "triggers" else None
+    )
+    supported = target is not None
+    uncertainty = graph_uncertainty if supported else graph_uncertainty + ("no-resolvable-target",)
+    return RoleEvidence(
+        role="sweeper", source="parsed", ability_id=ability_id, effect=effect,
+        target_scope=target, speed=speed, prerequisites=_conditions(node),
+        quantity=_wipe_magnitude(node, effect),
+        symmetric=_wipe_symmetric(target) if target else None,
+        repeatable=bool(node.get("AB")) or root_group == "triggers",
+        source_zone=node.get("Origin") or node.get("_source_zone"),
+        supported=supported, uncertainty=uncertainty,
+    )
 
 
 def _role_for_tag(tag: str) -> str:
@@ -450,6 +590,10 @@ def extract_role_evidence(
                     item = _removal_evidence(ability_id, node, effect, type_line, graph_uncertainty)
                     item = replace(item, supported=False, uncertainty=item.uncertainty + ("unknown-pump-sign",))
                     evidence.append(item)
+            if effect and _wipe_shaped_effect(effect, node):
+                target = _wipe_target(effect, node)
+                if target is None or not _wipe_hits_players_only(target):
+                    evidence.append(_wipe_evidence(ability_id, node, effect, target, type_line, graph_uncertainty))
             if effect == "Draw":
                 evidence.append(_draw_evidence(ability_id, node, effect, graph_uncertainty, svars))
             if effect in {"Mana", "ManaReflected"}:
@@ -459,9 +603,16 @@ def extract_role_evidence(
                   and is_land_search_change_type(str(node.get("ChangeType", "")))):
                 evidence.append(_land_search_evidence(ability_id, node, type_line, graph_uncertainty))
         effects = tuple(dict.fromkeys(filter(None, (_effect_name(node) for _, node in nodes))))
+        # Effects that only ever help the caster (Slice in Twain's "draw a
+        # card"): candidates.py treats an extra secondary effect as an
+        # unmodelled difference, and a pure upside isn't one. Life gain or a
+        # draw for the target's controller (Swords, Nature's Claim) is not.
+        upside = {name for name in effects
+                  if all(_benefits_only_caster(node) for _, node in nodes if _effect_name(node) == name)}
         mode_count = max((len(str(node["Choices"]).split(",")) for _, node in nodes if node.get("Choices")), default=None)
         evidence = [replace(item, mode_count=mode_count,
-                            secondary_functions=tuple(effect for effect in effects if effect != item.effect))
+                            secondary_functions=tuple(effect for effect in effects if effect != item.effect),
+                            caster_upside=tuple(effect for effect in effects if effect in upside and effect != item.effect))
                     for item in evidence]
         supported_roles = {item.role for item in evidence}
         for tag in tags:

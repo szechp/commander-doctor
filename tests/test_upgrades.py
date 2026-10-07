@@ -184,9 +184,10 @@ def test_depletion_lands_not_ranked_as_always_untapped(con, ugluk):
     # on it" -- a real, comparable drawback a basic doesn't have. Must not
     # rank tied with a genuine zero-drawback dual like Badlands.
     upgrades = find_land_upgrades(ugluk, con, limit=50)
+    # Now stricter: only lands untapped on turns 1-4 are suggested at all,
+    # so a depletion land isn't suggested (or, if it were, never as tier 1).
     lava_tubes = next((u for u in upgrades if u.suggested_land == "Lava Tubes"), None)
-    assert lava_tubes is not None
-    assert lava_tubes.always_untapped is False
+    assert lava_tubes is None or lava_tubes.always_untapped is False
 
 
 def test_land_upgrades_exclude_lands_already_in_deck(con, ugluk):
@@ -398,3 +399,11 @@ def test_conditional_draw_buried_in_sub_ability_excluded(con, ugluk):
     draw = find_draw_upgrades(ugluk, con)
     all_suggested = {s.suggested_card for s in draw}
     assert "Cling to Dust" not in all_suggested
+
+
+def test_land_upgrades_only_suggest_fast_lands_and_name_slow_ones_first(con, ugluk):
+    from deckdoctor.upgrades import find_slow_lands
+    upgrades = find_land_upgrades(ugluk, con, limit=50)
+    assert all(u.tier in ("tier 1", "tier 1b") for u in upgrades)
+    slow = [s.name for s in find_slow_lands(ugluk, con)]
+    assert [u.replaces for u in upgrades[:len(slow)]] == slow[:len(upgrades)]

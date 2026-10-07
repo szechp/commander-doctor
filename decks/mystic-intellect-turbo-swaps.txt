@@ -1,18 +1,27 @@
-1 Chromatic Lantern
-1 Coalition Relic
-1 Prismatic Lens
-1 Soul-Guide Lantern
-1 Wayfarer's Bauble
-1 Island
-1 Mountain
-2 Plains
+// SIDEBOARD
+1 Arid Mesa
+1 Bloodstained Mire
+1 Chain Reaction
+1 Comet Storm
+1 Disenchant
+1 Flooded Strand
+1 Polluted Delta
+1 Refuse // Cooperate
+1 Rolling Earthquake
+1 Scalding Tarn
+1 Screaming Nemesis
+1 Windswept Heath
 
-SB: 1 Azorius Chancery
-SB: 1 Izzet Boilerworks
-SB: 1 Mystic Monastery
-SB: 1 Mogg Maniac
-SB: 1 Negate
-SB: 1 Personal Tutor
-SB: 1 Rebuff the Wicked
-SB: 1 Stormwild Capridor
-SB: 1 Unsummon
+// MAYBEBOARD
+1 Desperate Ravings
+1 Earthquake
+1 Evolving Wilds
+1 Exotic Orchard
+1 Idyllic Tutor
+1 Island
+1 Jace's Sanctum
+1 Mountain
+1 Myriad Landscape
+1 Storm-Kiln Artist
+1 Terramorphic Expanse
+1 Think Twice

@@ -1,7 +1,13 @@
 import json
+import sqlite3
+from pathlib import Path
+
+import pytest
 
 from deckdoctor.candidates import compare_candidates, find_candidate_comparisons
 from deckdoctor.deck_config import DeckConfig, FeedbackEntry
+
+DB_PATH = Path("data/deckdoctor.sqlite3")
 
 
 def _insert(con, name, cost, oracle, parsed, *, tags=("removal-creature",), type_line="Instant"):
@@ -167,3 +173,106 @@ def test_spree_draw_cost_is_bound_to_selected_mode(fixture_db):
     comparison = compare_candidates(fixture_db, "Plain Draw Spell", "Spree Draw", "draw")
     assert comparison.candidate_cost["comparison_value"] == 1
     assert comparison.candidate_cost["effect_access_comparison"] == 4
+
+
+def test_candidate_chained_uncosted_drawback_requires_review(fixture_db):
+    # Real bug (KNOWN_ISSUES.md: "Devour in Shadow suggested over
+    # Azog/Terminate"). Devour in Shadow's real SP$ Destroy chains
+    # "SubAbility$ DBLoseLife" -> "DB$ LoseLife | Defined$ You |
+    # LifeAmount$ X" (X = the target's own toughness) -- a real, uncosted
+    # drawback no removal RoleEvidence field models (unlike draw's Discard
+    # drawback or ramp's nonmana payments). A tag+cost-shaped comparison
+    # sees two identical "Destroy target creature" abilities and nothing
+    # else, and used to call this a "supported alternative".
+    _insert(fixture_db, "Plain Kill", "{1}{B}", "Destroy target creature. It can't be regenerated.",
+            {"abilities": [{"SP": "Destroy", "ValidTgts": "Creature", "NoRegen": "True"}], "svars": {}})
+    _insert(fixture_db, "Costly Kill", "{B}{B}",
+            "Destroy target creature. It can't be regenerated. You lose life equal to that creature's toughness.",
+            {"abilities": [{"SP": "Destroy", "ValidTgts": "Creature", "NoRegen": "True", "SubAbility": "DBLoseLife"}],
+             "svars": {"DBLoseLife": "DB$ LoseLife | Defined$ You | LifeAmount$ X", "X": "Targeted$CardToughness"}})
+    comparison = compare_candidates(fixture_db, "Plain Kill", "Costly Kill", "removal")
+    assert comparison.status == "review required"
+    assert any("not preserved" in item for item in comparison.unknowns)
+
+
+def test_candidate_matching_secondary_effect_does_not_force_review(fixture_db):
+    # Control for the above: when BOTH cards already chain the same extra
+    # effect, that's not a NEW unmodeled difference for the candidate and
+    # must not force review on its own.
+    node = {"abilities": [{"SP": "Destroy", "ValidTgts": "Creature", "SubAbility": "DBLoseLife"}],
+            "svars": {"DBLoseLife": "DB$ LoseLife | Defined$ You | LifeAmount$ 1"}}
+    _insert(fixture_db, "Costly A", "{2}", "Destroy target creature. You lose 1 life.", node)
+    _insert(fixture_db, "Costly B", "{1}", "Destroy target creature. You lose 1 life.", node)
+    comparison = compare_candidates(fixture_db, "Costly A", "Costly B", "removal")
+    assert comparison.status == "supported alternative"
+
+
+@pytest.mark.integration
+class TestKnownIssuesRealCards:
+    """Regression coverage against the real mirror for the specific card
+    pairs KNOWN_ISSUES.md named as false "strictly better/equal" verdicts.
+    None of these may ever come back as `status == "supported alternative"`."""
+
+    @pytest.fixture
+    def con(self):
+        c = sqlite3.connect(str(DB_PATH))
+        yield c
+        c.close()
+
+    def test_dispatch_metalcraft_condition_over_swords(self, con):
+        comparison = compare_candidates(con, "Swords to Plowshares", "Dispatch", "removal")
+        assert comparison.status != "supported alternative"
+        assert any("Metalcraft" in item for item in comparison.conditions)
+
+    def test_unsummon_to_clutch_of_currents_instant_vs_sorcery(self, con):
+        comparison = compare_candidates(con, "Unsummon", "Clutch of Currents", "removal")
+        assert comparison.status != "supported alternative"
+
+    def test_devour_in_shadow_uncosted_life_loss_over_terminate(self, con):
+        comparison = compare_candidates(con, "Terminate", "Devour in Shadow", "removal")
+        assert comparison.status != "supported alternative"
+
+    def test_star_of_extinction_to_crush_scope_mismatch(self, con):
+        comparison = compare_candidates(con, "Star of Extinction", "Crush", "removal")
+        assert comparison.status != "supported alternative"
+
+    def test_mystic_confluence_to_perplexing_test_mode_count(self, con):
+        comparison = compare_candidates(con, "Mystic Confluence", "Perplexing Test", "removal")
+        assert comparison.status != "supported alternative"
+
+
+def _wipe(con, name, cost, parsed):
+    _insert(con, name, cost, f"{name} text.", parsed, tags=("sweeper",), type_line="Sorcery")
+
+
+def test_sweeper_comparison_respects_damage_amount(fixture_db):
+    _wipe(fixture_db, "Big Burn Wipe", "{6}{R}", {"abilities": [{"SP": "DamageAll", "ValidCards": "Creature", "NumDmg": "13"}], "svars": {}})
+    _wipe(fixture_db, "Small Burn Wipe", "{1}{R}", {"abilities": [{"SP": "DamageAll", "ValidCards": "Creature", "NumDmg": "2"}], "svars": {}})
+    _wipe(fixture_db, "Destroy Wipe", "{2}{W}{W}", {"abilities": [{"SP": "DestroyAll", "ValidCards": "Creature"}], "svars": {}})
+    assert compare_candidates(fixture_db, "Big Burn Wipe", "Small Burn Wipe", "sweeper").status == "review required"
+    assert compare_candidates(fixture_db, "Small Burn Wipe", "Big Burn Wipe", "sweeper").status == "supported alternative"
+    assert compare_candidates(fixture_db, "Small Burn Wipe", "Destroy Wipe", "sweeper").status == "supported alternative"
+    assert compare_candidates(fixture_db, "Destroy Wipe", "Big Burn Wipe", "sweeper").status == "review required"
+
+
+def test_mass_effect_target_filter_is_not_a_condition(fixture_db):
+    node = {"abilities": [{"SP": "DestroyAll", "ValidCards": "Creature"}], "svars": {}}
+    _wipe(fixture_db, "Wrath A", "{2}{W}{W}", node)
+    _wipe(fixture_db, "Wrath B", "{2}{W}{W}", node)
+    comparison = compare_candidates(fixture_db, "Wrath A", "Wrath B", "sweeper")
+    assert comparison.conditions == ()
+    assert comparison.status == "supported alternative"
+
+
+def test_caster_only_upside_does_not_force_review(fixture_db):
+    # Slice in Twain-shaped: the extra "draw a card" only helps the caster.
+    _insert(fixture_db, "Plain Naturalize", "{1}{G}", "Destroy target artifact.",
+            {"abilities": [{"SP": "Destroy", "ValidTgts": "Artifact"}], "svars": {}}, tags=("removal-artifact",))
+    _insert(fixture_db, "Naturalize Plus Draw", "{1}{G}", "Destroy target artifact. Draw a card.",
+            {"abilities": [{"SP": "Destroy", "ValidTgts": "Artifact", "SubAbility": "DBDraw"}],
+             "svars": {"DBDraw": "DB$ Draw | NumCards$ 1"}}, tags=("removal-artifact",))
+    _insert(fixture_db, "Naturalize Gift", "{1}{G}", "Destroy target artifact. Its controller gains 4 life.",
+            {"abilities": [{"SP": "Destroy", "ValidTgts": "Artifact", "SubAbility": "DBGain"}],
+             "svars": {"DBGain": "DB$ GainLife | Defined$ TargetedController | LifeAmount$ 4"}}, tags=("removal-artifact",))
+    assert compare_candidates(fixture_db, "Plain Naturalize", "Naturalize Plus Draw", "removal").status == "supported alternative"
+    assert compare_candidates(fixture_db, "Plain Naturalize", "Naturalize Gift", "removal").status == "review required"

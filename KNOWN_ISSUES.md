@@ -236,7 +236,7 @@ the edict fix above -- no check for (a) how many modes a modal spell
 lets you choose, (b) whether tag overlap actually implies scope overlap
 (the `removal-destroy` tag is shared by wildly different effect
 breadths), (c) instant-vs-sorcery speed as a tracked property.
-Status: open.
+Status: fixed (2026-09-23, verified against the real mirror) -- already resolved by the conservative `compare_candidates` rewrite: Star of Extinction -> Crush and Mystic Confluence -> Perplexing Test both return `review required` (mode/scope not preserved). Real-card regression tests in tests/test_candidate_comparisons.py. Previously: open.
 
 ### Devour in Shadow suggested over Azog/Terminate -- 2026-09-03
 Command: `deckdoctor upgrades decks/ugluk.txt`
@@ -257,7 +257,7 @@ entry above -- tag-superset + cost comparison doesn't check that the
 candidate's scope is a strict superset (planeswalker-inclusive), and has
 no model at all for a card's own uncosted drawback (a life-loss clause
 proportional to the target, not a flat/known amount).
-Status: open.
+Status: fixed (2026-09-23, verified against the real mirror) -- `_mode_preserves` now rejects a candidate that chains an effect (roles.py `secondary_functions`) the current card never has -- Devour's chained `DB$ LoseLife` made it a clean match for Terminate. Deliberately broad: on Doran it moves 97 of 176 clean matches to `review required`, mostly real drawbacks (Infernal Grasp life loss, Crib Swap/Generous Gift tokens), but pure bonuses (Slice in Twain's draw) are also sent to review. Previously: open.
 
 ### Mana Cylix suggested as ramp upgrade (net-zero mana rock) -- 2026-09-03
 Command: `deckdoctor upgrades decks/ugluk.txt`
@@ -276,7 +276,7 @@ Likely cause: the ramp "net mana output" comparison in `upgrades.py`
 apparently doesn't subtract a repeatable ability's own per-activation
 mana cost before comparing net output -- a rock that costs mana to
 activate should never rank above one that doesn't.
-Status: open.
+Status: obsolete (2026-09-23) -- no live caller: `upgrades` now returns verdict-free, ranked role-family pools (`find_role_family_pools`), and the per-family verdict functions this entry describes (`find_upgrades`/`find_ramp_upgrades`/`find_draw_upgrades`) are no longer reached from any command. Reopen if they are wired back in. Previously: open.
 
 ### Cryptbreaker suggested as draw upgrade needing 3 Zombies deck barely has -- 2026-09-03
 Command: `deckdoctor upgrades decks/ugluk.txt`
@@ -295,7 +295,7 @@ like "tap three Zombies" are treated as free by design) -- not a new
 bug, just a concrete confirmed instance of it. Recording here per the
 skill's instruction to log every real false positive, even a known-
 category one, so it doesn't need re-diagnosing next time it's hit.
-Status: open (accepted scope boundary, not expected to be fixed without
+Status: obsolete (2026-09-23) -- no live caller: `upgrades` now returns verdict-free, ranked role-family pools (`find_role_family_pools`), and the per-family verdict functions this entry describes (`find_upgrades`/`find_ramp_upgrades`/`find_draw_upgrades`) are no longer reached from any command. Reopen if they are wired back in. Previously: open (accepted scope boundary, not expected to be fixed without
 a real non-mana-cost model).
 
 ### upgrades.py ramp comparison conflates an activation-cost with cast cost -- 2026-09-06
@@ -317,7 +317,7 @@ cost for at least one card shape (untap-cost artifacts). Needs the same
 kind of separation `effective_cost()` already does for casting cost vs.
 alternate-mode cost (see the Spree/ModeCost$ entry above) but for
 post-cast activation costs.
-Status: open.
+Status: obsolete (2026-09-23) -- no live caller: `upgrades` now returns verdict-free, ranked role-family pools (`find_role_family_pools`), and the per-family verdict functions this entry describes (`find_upgrades`/`find_ramp_upgrades`/`find_draw_upgrades`) are no longer reached from any command. Reopen if they are wired back in. Previously: open.
 
 ### Idol of False Gods carries removal-permanent/removal-sacrifice oracle
 tags despite having no removal ability at all -- 2026-09-06
@@ -342,7 +342,7 @@ our side that's attaching another card's tags to this one -- not
 investigated further this session. Worth checking a couple more cards
 from the same tag family (`removal-permanent`, `removal-sacrifice`) for
 the same pattern before assuming it's isolated to this one card.
-Status: open.
+Status: fixed (2026-09-23) -- upstream Scryfall tagging (its conditional annihilator counts as removal), not a join bug. Corrected locally in data/tag_overrides.yaml, applied by every sync and by `deckdoctor tag-overrides`. Previously: open.
 
 ### upgrades.py draw/ramp comparisons ignore lost secondary function and opponent-dependence -- 2026-09-06
 Command: `deckdoctor upgrades decks/sevinne.txt`
@@ -373,7 +373,7 @@ Likely cause: same class of gap as the Mana-Cylix/Cryptbreaker entries
 above -- tag/kind-match comparison has no model for "does the candidate
 preserve every function of the card it's replacing" or "chosen effect
 depends on an opponent's board/choices, not your own."
-Status: open.
+Status: obsolete (2026-09-23) -- no live caller: `upgrades` now returns verdict-free, ranked role-family pools (`find_role_family_pools`), and the per-family verdict functions this entry describes (`find_upgrades`/`find_ramp_upgrades`/`find_draw_upgrades`) are no longer reached from any command. Reopen if they are wired back in. Previously: open.
 
 ### Accumulated Knowledge suggested as draw upgrade, ignoring singleton format -- 2026-09-06
 Command: `deckdoctor upgrades decks/sevinne.txt`
@@ -395,7 +395,7 @@ singleton constraint, which specifically guts any "count copies of this
 card name" effect. A card whose oracle text says "cards named
 <itself>" should probably be excluded from `draw_oneshot` upgrade
 candidacy altogether in a singleton-format tool, or at minimum flagged.
-Status: open.
+Status: obsolete (2026-09-23) -- no live caller: `upgrades` now returns verdict-free, ranked role-family pools (`find_role_family_pools`), and the per-family verdict functions this entry describes (`find_upgrades`/`find_ramp_upgrades`/`find_draw_upgrades`) are no longer reached from any command. Reopen if they are wired back in. Previously: open.
 
 ### Dispatch suggested as strictly-better-or-equal over Swords to Plowshares despite Metalcraft condition -- 2026-09-06
 Command: `deckdoctor upgrades decks/sevinne.txt`
@@ -411,7 +411,7 @@ Likely cause: Dispatch is already tagged `prereq_counts` in the mirror
 this exists -- but `upgrades.py`'s reliability filter apparently doesn't
 exclude `prereq_counts`-tagged removal from "strictly better or equal"
 claims the way it excludes other conditional-effect categories.
-Status: open.
+Status: fixed (2026-09-23, verified against the real mirror) -- already resolved: Dispatch's `Condition$ Metalcraft` appears in `conditions` and forces `review required`. Regression test added. Previously: open.
 
 ### Unsummon -> Clutch of Currents: second confirmed instance of the instant-vs-sorcery blind spot -- 2026-09-06
 Command: `deckdoctor upgrades decks/sevinne.txt`
@@ -424,7 +424,7 @@ because it recurred against a second, different current-deck card in
 this session, confirming it's not a one-off. `defence`'s own instant-
 speed floor check makes this a real, load-bearing distinction for this
 specific deck.
-Status: open (duplicate root cause of the 2026-09-03 entry above).
+Status: fixed (2026-09-23, verified against the real mirror) -- already resolved by the instant-speed check in `_mode_preserves`. Regression test added. Previously: open (duplicate root cause of the 2026-09-03 entry above).
 
 ### Static-granted symmetrical abilities not caught by is_symmetrical_effect -- 2026-09-06
 Command: `deckdoctor coverage decks/anje-mine.txt`
@@ -446,7 +446,7 @@ and now controller-unscoped statics).
 Likely cause: `reliability.is_symmetrical_effect()` only scans for the
 `Defined$`/`ValidPlayers$ Player` pattern; doesn't look at `statics` for
 an `Affected$` field lacking a `.YouCtrl` qualifier at all.
-Status: open -- found via this session's coverage.py integration work,
+Status: fixed (2026-09-23, verified against the real mirror) -- `is_symmetrical_effect` also scans statics for an unscoped `Affected$ <permanent type>`; the qualifier allowlist was calibrated on 259 tagged cards (Tabernacle, Magus of the Tabernacle, Energy Flux, Humility flagged; Aura/Equipment/Curse/YouDontCtrl grants not). Previously: open -- found via this session's coverage.py integration work,
 not yet fixed (this session ran very long; logging per the skill's own
 instruction rather than opening a fourth investigation in one sitting).
 A fix would need to check `parsed.get("statics", [])` for any entry
@@ -484,7 +484,7 @@ refresh," nor does `sync` preserve them across the DELETE (e.g. via
 `INSERT OR REPLACE ... ON CONFLICT` merging old columns, or a
 post-refresh check that re-triggers `parse-forge` if it detects the
 columns went from populated to NULL for previously-classified cards).
-Status: open. Real-world impact confirmed this session: with `draw_kind`
+Status: fixed -- `sync.py` now carries Layer 2 forward for every card whose classifier inputs didn't change and drops it only for changed/removed cards (covered by tests/test_sync.py); confirmed 2026-09-23. Previously: open. Real-world impact confirmed this session: with `draw_kind`
 NULL, `upgrades.py::find_draw_upgrades`'s own repeatable-vs-oneshot guard
 (`if card_draw_kind and draw_kind != card_draw_kind: continue`) is
 completely inert project-wide (the guard can only fire when
@@ -548,7 +548,7 @@ manifesting here as a *coverage* problem (good candidates hidden) rather
 than a *correctness* problem (bad candidate suggested). (3) is a gap in
 `classify_draw_kind()` itself, same family as the Ranging Raptors
 mis-classification already documented in the deck-doctor skill text.
-Status: open. Practical workaround documented in the skill: when
+Status: fixed (2026-09-23) -- (1)+(2) obsolete (ranked pools). (3): the named cards were already classified correctly; the real gap was multi-hop SubAbility chains and Forge's `Cost$ Draw<N/You>` loot idiom (Sylvan Library, Smuggler's Copter, Murder of Crows, Tatyova, Sythis, Moldervine Reclamation, Sword of Fire and Ice were all draw_kind NULL). Draws that go to an opponent, a chosen player or a target's controller (Lord of Tresserhorn, Gluntch, Master of the Feast) no longer count. Whole-mirror blast radius: ~520 cards gain a draw_kind, none lose one. NOT yet applied to data/deckdoctor.sqlite3 -- run `deckdoctor parse-forge` to write it. Remaining gaps: Saga chapter draws, charm modes. Previously: partially obsolete (2026-09-23) -- (1)+(2) are gone: `upgrades` no longer keeps a single winner, it returns ranked pools (EDHREC theme inclusion, then global edhrec_rank, then cmc). (3), the `classify_draw_kind()` gap, is still open. Previously: open. Practical workaround documented in the skill: when
 `upgrades`' draw/ramp section looks thin or its "best" pick looks like an
 oddity (a land, a heavily-gated ability), independently run `deckdoctor
 candidates <deck> repeatable` (or `oneshot`/`rock`/`dork`/`land_search`)
@@ -587,7 +587,15 @@ for ranking candidates. A deck's OWN card either has the tag or it
 doesn't; the "is this a strictly comparable upgrade" filter belongs on
 the suggestion side (`_cheapest_in_db`, `find_upgrades`), not on the
 has-any-answer side (`_cheapest_in_deck`'s use inside `compute_coverage`).
-Status: open.
+Status: fixed (2026-09-23, verified against the real mirror) -- `_cheapest_in_deck` now uses `reliability.passes_removal_capability_filters` (symmetry check only) instead of the ranking gate. anje-mine: catch-all = Chaos Warp; Doran: Assassin's Trophy/Path to Exile now credited (artifact was falsely MISSING). The DB-side search still uses the full ranking gate. Previously: open.
+Seen again 2026-09-23 (decks/doran.txt): Assassin's Trophy (tags
+`removal-destroy,removal-permanent`) in deck, yet `permanent (catch-all)`
+reported MISSING; Boseiju, Who Endures (tags include
+`disenchant-naturalize`, oracle hits artifact/enchantment/nonbasic land)
+in deck, yet `artifact` reported MISSING. Both cards let the target's
+controller search for a land -- consistent with the same reliability gate
+(`grants_target_a_benefit`) rejecting them from the has-any-answer check.
+Not verified by stepping through the code.
 
 ### Generous Gift/Chaos Warp/Disenchant invisible to artifact/enchantment coverage -- coverage.py never credited the catch-all or disenchant-naturalize tag families -- 2026-09-10
 Command: `deckdoctor coverage decks/sevinne.txt` (any deck running one of these)
@@ -721,7 +729,7 @@ Likely cause: `roles.py`'s ability walk (`removal_direct_effects`/
 `removal_zone_effects`/`removal_pump_effects` plus the `Draw`/`Mana`
 checks) never includes `DealDamage`/`DealDamageAll` in any recognized
 effect set.
-Status: open -- deliberately not attempted this session. A real fix needs
+Status: fixed (2026-09-23, verified against the real mirror) -- roles.py has a `sweeper` family (DestroyAll/DamageAll, battlefield ChangeZoneAll incl. `ChangeType$`, negative PumpAll; player-only damage excluded; one-sided via YouCtrl/OppCtrl/... qualifiers). Wipe comparisons now use it (candidates.py routed `sweeper-*` to `removal` before), record the damage/-X amount so Pyroclasm no longer matches Blasphemous Act, and `ValidCards$` is no longer read as a condition (it gave every *All effect a fake condition, so no wipe could ever match). Limitations: Overload wipes (Cyclonic Rift, Vandalblast), Settle the Wreckage, fight-based wipes (Ezuri's Predation), SacrificeAll edicts, and riders like Anger of the Gods' exile aren't modelled. Previously: open -- deliberately not attempted this session. A real fix needs
 its own careful scoping (distinguishing a genuine board-wipe DealDamage
 from a single-target burn spell or a combat-damage trigger, handling
 `ValidTgts$ Creature.All`/`Planeswalker.All`-style symmetric shapes,
@@ -892,6 +900,94 @@ incorrectly floor at cmc too, since `effective_cost()` still has no
 role/tag parameter in the general (non-Spree) case. Not exercised by any
 real card found so far; flagged rather than silently accepted.
 
+### `validate --swaps` never forwards deck config into the prospective-deck legality check, so an unrelated accepted legality exception blocks an otherwise-clean batch -- 2026-09-13
+Command: `deckdoctor validate decks/mystic-intellect-turbo.txt --swaps proposal.json --format json`
+What happened: a 9-cut/9-add swap batch (none of the 18 cards involved was
+Stingcaster Mage) came back `"accepted": false`, with the only diagnostic
+being `card_not_legal` on Stingcaster Mage -- a card the deck's own sibling
+YAML already carries a recorded, accepted `legality_exception` for (visible
+as a separate `pass`-outcome `legality_exception_accepted` finding in the
+SAME response, alongside the hard `fail`). `quality_findings` was empty and
+every other diagnostic was clean.
+Why it's wrong: plain `deckdoctor validate decks/<name>.txt` (no `--swaps`)
+against the same deck correctly shows only the `pass` finding, not the
+`fail` -- `validation.py`'s normal path reads `legality_exceptions(config)`
+and downgrades the diagnostic. The `--swaps` path does not: it re-validates
+Stingcaster Mage from scratch against the prospective deck with no
+exception applied, even though Stingcaster Mage isn't touched by the batch
+at all.
+Likely cause: `swaps.py::validate_swaps` calls `structural = validate_deck(prospective, metadata)`
+(no `config` argument) before appending its diagnostics -- `validate_deck`'s
+signature accepts a `config` used elsewhere to look up
+`legality_exceptions()`, but `validate_swaps` never receives or forwards
+its own `config` parameter into that specific call (it DOES use `config`
+earlier in the same function, for `pinned_cards`/`rejected_swaps`, so the
+parameter is in scope -- it's just not passed to this one call site).
+Practical impact: any swap batch proposed against a deck that has ANY
+accepted `legality_exception` on file will always report `accepted: false`
+regardless of what the batch actually contains, making the `accepted`
+boolean unusable as a real signal for such decks until worked around by
+manually re-deriving before/after numbers outside the tool (which is what
+this session did: built a temporary post-swap decklist file and ran
+`validate`/`health`/`colours` on it directly instead of trusting
+`--swaps`'s verdict).
+Status: fixed (2026-09-23) -- `validate_swaps` now passes `config` to `validate_deck`, and only error-severity diagnostics block a batch (the accepted-exception note is a warning, which previously also rejected it). Test: test_accepted_legality_exception_carries_into_prospective_deck. Previously: open.
+Seen again 2026-09-23 (decks/doran.txt): accepted exception for Ghalta the
+Immovable (newly spoiled, not yet released); a 15-swap batch not touching
+Ghalta still failed `card_not_legal` under `--swaps` while plain `validate`
+passed.
+
+### `edhrec` CLI rejects `--format json`, contradicting docs/workflow.md's own documented invocation -- 2026-09-13
+Command: `deckdoctor edhrec decks/mystic-intellect-turbo.txt --format json`
+What happened: `usage: deckdoctor edhrec [-h] [--threshold THRESHOLD] [--refresh] deck` /
+`deckdoctor: error: unrecognized arguments: --format json`. `docs/workflow.md`'s
+own "Evidence pass" section lists `deckdoctor edhrec decks/example.txt --format json`
+verbatim as one of five commands to run every evidence pass, alongside four
+others (`audit`/`colours`/`coverage`/`health`) that all genuinely support
+`--format json`.
+Why it's wrong: `cli.py`'s `edhrec` subparser only registers `--threshold`
+and `--refresh` -- no `--format` at all -- so the command is text-output-only,
+unlike every other command the same doc section lists next to it. Either the
+CLI is missing an intentional feature (structured output for the one
+outside-authority check in the pipeline, useful for another tool/assistant
+consuming the result the way the doc's own preceding paragraph asks for) or
+the doc line is simply wrong and should drop `--format json` for this one
+command.
+Likely cause: `edhrec`'s argparse subparser in `cli.py` was never given a
+`--format` option when the command was added, and `docs/workflow.md`'s
+example was written assuming parity with the other four evidence-pass
+commands without checking against the actual parser.
+Status: fixed (2026-09-23) -- `edhrec` accepts `--format json` for both the guardrail and `--missing`. Previously: open.
+
+### Decklist parser has no sideboard concept at all -- a `// SIDEBOARD` heading is treated as a plain comment and everything after it silently counts toward the 100-card total -- 2026-09-13
+Command: `deckdoctor validate decks/mystic-intellect-turbo.txt --format json` (deck file had a
+`// SIDEBOARD` section with 4 cards appended after the 100-card maindeck)
+What happened: `validate.deck_size` failed with "expected exactly 100 cards
+including commander, found 104" even though the maindeck portion above the
+`// SIDEBOARD` line was independently confirmed to sum to exactly 100.
+Why it's wrong: `grep -rn "SIDEBOARD\|sideboard" src/deckdoctor/*.py` returns
+zero hits -- the decklist format has no sideboard concept anywhere in the
+codebase. `// COMMANDER` is recognized as a special header (the parser knows
+to read the single commander line after it), but `// SIDEBOARD` is just
+another `//`-prefixed line the parser skips as a comment, same as any other
+comment -- every `QTY NAME` line after it is parsed as an ordinary maindeck
+entry with no warning that a section the user clearly intended as
+out-of-deck was folded into the 100-card count. Nothing in `docs/workflow.md`
+or the decklist format documentation warns a user that this heading does
+nothing.
+Likely cause: no sideboard feature was ever built; a user hand-editing a
+decklist file has no way to discover this except by hitting the `deck_size`
+failure and reading the raw card counts by hand (which is what this session
+did to diagnose it).
+Status: fixed (2026-09-23) -- the parser stops at `// SIDEBOARD`, `SIDEBOARD:` or `Sideboard`; everything after it is outside the 100. Previously: open. Worked around this session by deleting the `// SIDEBOARD`
+block from `decks/mystic-intellect-turbo.txt` entirely and folding its 4
+cards into the candidate-screening list instead, so they'd still get
+evaluated rather than silently miscounted. Two real fixes possible: (a)
+teach the parser to stop reading maindeck quantities at a `// SIDEBOARD`
+marker (mirroring how `// COMMANDER` is already special-cased), or (b) at
+minimum, document in the decklist format reference that no such heading is
+recognized, so a user doesn't reach for one expecting it to work.
+
 ### health.py's "Draw" row has no formula floor, despite SPEC.md documenting one -- 2026-09-10
 Command: `deckdoctor health decks/mystic-intellect-turbo.txt`
 What happened: `health.draw` always renders as `"<n> in deck (no formula
@@ -935,6 +1031,148 @@ already counts removal/wipe-tagged cards); a flat floor there would be
 redundant with, and less accurate than, that. 3 new regression tests
 (`tests/test_health.py`), verified to fail without the fix and pass
 with it.
+
+### `diff --proposal` writes one swap per copy for multi-copy basics, and `validate --swaps` rejects its own output as duplicates -- 2026-09-23
+Command: `deckdoctor diff decks/doran.txt decks/doran.target.txt --proposal proposal.json`, then `deckdoctor validate decks/doran.txt --swaps proposal.json --format json`
+What happened: the target cut 4 Forest and 2 Swamp. `diff` wrote six
+separate `{"cut": "Forest", ...}` / `{"cut": "Swamp", ...}` entries (quantity 1,
+each paired with a different add). `validate --swaps` then failed the batch
+with `validate.ambiguous_duplicate_swap` "swap[N] repeats an operation
+identity" for swap[5], [6], [7], [15] -- so the documented
+`diff` -> `validate --swaps` pipeline (docs/workflow.md section 5) can't
+validate any target list that changes a basic-land count by more than one.
+Why it's wrong: the two commands disagree about how a repeated cut is
+represented. Reducing basics is routine in a target list.
+Workaround used: deduplicated the proposal to one swap per cut name (drops
+4 of the 19 adds from the GC/combo check), then ran `combos`/`health` on the
+target file directly.
+Likely cause: `target_diff.py` emits per-copy entries for multi-copy cuts;
+`swaps.py`'s duplicate-identity check keys on the cut name (or cut+qty)
+rather than on the full pair. One side should change: either `diff`
+aggregates same-name cuts into a single entry with `quantity: N` (which then
+needs a multi-add representation), or the validator treats repeated cuts of a
+card the deck holds multiple copies of as legitimate.
+Status: fixed (2026-09-23) -- `diff` merges identical cut/add pairs into one entry with a quantity, and `validate --swaps` only treats a repeated cut as ambiguous when the deck holds a single copy (the batch-wide copy check still bounds the total). Previously: open.
+
+### `candidates <role>` silently returns empty for a role label the CLI itself prints (`draw_repeatable`) -- 2026-09-23
+Command: `deckdoctor candidates decks/doran.txt draw_repeatable --limit 30`
+What happened: "(no commander-legal, colour-identity-legal candidates found
+for role='draw_repeatable')". But `card`/`candidates`/`edhrec` output labels
+dozens of in-identity cards `roles=draw_repeatable` (Phyrexian Arena, Wall of
+Omens, Betor, Kin to All ...), so the obvious next query is that label.
+`candidates ... draw` works.
+Why it's wrong: an unknown or non-queryable role name reads as "the pool is
+empty", which is the worst kind of silent failure for a search step -- an
+agent can conclude there is no draw to add.
+Likely cause: `candidates.py::_candidate_names_for_role` only special-cases
+`RAMP_KINDS`/`DRAW_KINDS`/`ramp`/`draw`/`game_changer`; anything else is a
+`card_tags` LIKE lookup. The `roles=` display labels (`draw_repeatable`,
+`mana-dork`, ...) come from a different vocabulary than the query side
+accepts. Fix: accept the display labels as aliases, or error out with the
+list of valid roles when a role matches nothing in either vocabulary.
+Status: fixed (2026-09-23) -- `draw_repeatable`/`draw_oneshot` are accepted aliases, and an unknown role now exits 2 with similar tag names (plus hints like wipe -> sweeper) instead of printing an empty pool. Previously: open.
+
+### `colours` flags every card in a 3-colour deck, so the check has no signal -- 2026-09-23
+Command: `deckdoctor colours decks/doran.txt` (also on the target list)
+What happened: "67 cards checked, 67 short of their floor" (71/71 on the
+target). Unconditional sources counted: W 8, B 9, G 14, out of a 38-land
+manabase with 3 shocks, 3 checklands, 3 fastlands, 3 painlands, 3 Verges,
+3 fetches, Command Tower (target). Floors quoted include "Sign in Blood:
+needs ~36 B sources" -- not achievable in any 3-colour 99.
+Why it's wrong: shocklands (untapped for 2 life, the player's choice),
+checklands/fastlands (almost always untapped in a manabase built around
+their conditions) and fetches (reported as "missing produced-mana metadata")
+all land in the conditional bucket, so the unconditional count is roughly
+basics + painlands. When 100% of cards fail, the row can't tell a good
+manabase from a bad one; a reader has to recount sources by hand (did so:
+~17 W / 17 B / 21 G on the target). decks/ghired.yaml's gameplan already
+records the same gap being written off as "accepted structural trade-off",
+which is a sign the check is miscalibrated rather than every 3-colour deck
+being broken.
+Likely cause: `colour.py` source classification -- shocks should count as
+untapped-at-cost, fetches should resolve to the colours of lands they can
+fetch in this deck, check/fast lands could be weighted by the deck's own
+enabling-land count. Floors for 2-pip early cards may also need a 3-colour
+calibration.
+Status: fixed (2026-09-23) -- "may enter tapped" no longer removes a land from the source count (tempo is reported separately as the untapped count); fetches resolve to the colours of lands they can find in this deck; bond lands ("unless you have two or more opponents") count as untapped, not opponent-dependent. Shortfalls are grouped by (colour, pips, turn). Doran now reads W 16 / B 17 / G 22, matching the hand count. The floors are unchanged (hypergeometric at 90%, per deckbuilding.md), so a 3-colour deck at ~17 per colour still shows single-pip shortfalls of 1-5; that's the model's real verdict, now readable. Previously: open.
+
+### `combos` labels a non-winning lifegain two-card combo a "bracket-3 violation" -- 2026-09-23
+Command: `deckdoctor combos decks/doran.target.txt --refresh`
+What happened: `[Swords to Plowshares, Jumbo Cactuar] ... FAST TWO-CARD,
+bracket-3 violation per Spellbook's own threshold -> Near-infinite
+lifegain`, and the whole deck is estimated bracket 4 on that basis.
+Why it's wrong (judgment, check against the bracket rules): Swords on your
+own attacking Jumbo Cactuar gains ~10,000 life once. It doesn't win or
+lock the game; the bracket-3 restriction is aimed at game-ending two-card
+combos. Reporting it is right (SPEC.md section 8: report always); labelling it a
+violation and escalating the bracket estimate overstates it.
+Likely cause: the violation label is applied from Spellbook's speed /
+two-card fields without looking at the result type (lifegain vs
+win/infinite damage/lock). Possibly Spellbook's own bracket estimate --
+confirm which layer decides before changing it.
+Status: fixed (2026-09-23) -- checked: Spellbook itself tags the combo and deck `R`, so their layer drives the estimate. The tool now reports Spellbook's tag unchanged, but labels a fast two-card combo a violation only if it ends or locks the game; lifegain-only results with no lock/extra-turn/skip/control flag are shown as NON-WINNING, excluded from health/validate --swaps violation counts, with a note when the estimate rests only on them. Previously: open.
+
+### Bare `deckdoctor` isn't on PATH; skill/workflow docs invoke it bare -- 2026-09-23
+Command: `deckdoctor validate decks/doran.txt --format json` from the repo root
+What happened: `zsh: command not found`. Works as `.venv/bin/deckdoctor`
+or `uv run deckdoctor` (what SETUP.md uses).
+Why it's wrong: docs/workflow.md and the deck-doctor skill write every
+command as bare `deckdoctor`, so each new session hits this first.
+Likely cause: docs, not code. Either say `uv run deckdoctor` in
+workflow.md/skill, or add a note that the venv must be activated.
+Status: fixed (2026-09-23) -- workflow.md and all three skill copies say to run commands as `uv run deckdoctor ...`. Previously: open.
+
+### Land suggestions don't rank by speed, skip 3-colour decks, and never touch the deck's own slow lands -- 2026-09-23
+Command: `deckdoctor upgrades sevinne-upgrade-turbo.txt` (land section); found building a target list by hand
+What happened: user directly: "i only want the fastest dual lands in there
+ok?" and then "lets just put in the fastest lands, sans the expensive no
+downside dual lands ... write that into the known issues, i wanna fix it to
+that". The land pass had to be done entirely by hand-written SQL: the tool
+gave no land suggestions for this Jeskai deck, and an earlier hand-built
+target added Raugrin Triome (always tapped) and kept three battle lands
+(tapped unless you control 2 basics) without anything flagging them as slow.
+Why it's wrong: the user's standing policy, for every deck, is **fastest
+lands only, excluding the expensive no-downside original duals**
+(`playgroup.yaml`'s `exclude_original_dual_lands`). `find_land_upgrades`
+(`upgrades.py`) doesn't implement that policy:
+1. It returns `[]` for any commander that isn't exactly 2 colours, so 3+
+   colour decks get no land suggestions at all.
+2. It requires `produced_mana == commander colours` exactly, so fetchlands
+   (no produced_mana) and painlands/horizon lands (`{C}` in produced_mana)
+   never appear, even though they're among the fastest options.
+3. It only ranks a binary `always_untapped` flag, not tiers of speed.
+4. It only suggests replacing basics. It never flags the deck's *own* slow
+   lands (always-tapped: triomes, Myriad Landscape, surveil lands,
+   gainlands; usually-tapped: battle lands, slowlands) as upgrade targets.
+User refined the target in the same session: "i wanna be as fast as
+possible with my lands in the first 4 turns" -- fastlands ("fast first,
+tapped later") are fine. So rank by *untapped on turns 1-4 with one land
+drop per turn*, not "untapped forever". That puts fastlands (untapped T1-3
+guaranteed) above check lands (always tapped T1, coin-flip T2).
+Suggested speed tiers, best first:
+- Tier 1: fetches (Flooded Strand, Windswept Heath, Marsh Flats, ...,
+  including off-colour ones: their colours are whatever typed lands they can
+  find in *this* deck; `colour.py::fetch_colours` already computes that),
+  shocks, Command Tower, painlands, horizon lands (Fiery Islet, Sunbaked
+  Canyon), Battlebond lands (untapped in multiplayer; `colour.py`'s
+  `MULTIPLAYER_UNTAPPED_RE` already treats them so, but `upgrades.py` uses
+  `land_enters_tapped` directly and likely calls them tapped), Verges.
+- Tier 1b: fastlands (untapped turns 1-3, tapped from the 4th land drop).
+- Tier 2, conditional: check lands (always tapped turn 1; after that score
+  by the deck's count of matching typed lands, fetches included), filter
+  lands.
+- Tier 3, usually/always tapped: battle lands (need 2 basics), slowlands,
+  triomes, surveil lands, gainlands, Myriad Landscape / Evolving Wilds-style
+  basic fetchers, bouncelands. Suggest replacing these with tier 1.
+- Excluded: the 10 ABUR duals under the playgroup rule. MDFC pathways stay
+  excluded as duals (one colour ever), as now.
+Also flag price per the pod's etiquette: off-colour fetches are pricey
+staples, so show them but mark them rather than silently recommending.
+Likely cause: `upgrades.py::find_land_upgrades`'s deliberately narrow
+2-colour/basics-only scope (its own docstring says 3+ colours was out of
+scope). The tier data mostly exists already in `colour.py`
+(`land_enters_tapped`, `fetch_colours`, `MULTIPLAYER_UNTAPPED_RE`).
+Status: fixed (2026-09-23) -- `land_speed.py` classifies turns-1-4 speed from oracle text (tiers as suggested above, plus old drawback duals like Cinder Marsh/Glimmervoid in tier 2). `upgrades` now lists the deck's own slow lands first and the fastest multicolour lands it doesn't run (tier 1/1b only), for any 2+ colour deck; eligibility needs two of the deck's colours from a plain tap (Nykthos, Gemstone Caverns, Spire of Industry excluded), off-colour fetches count as the colours of the lands they find in the deck, originals still excluded per playgroup.yaml. No price flag (user decision). Previously: open
 
 ## Coverage's graveyard check misses targeted hate (Scavenging Ooze), two stacked causes
 

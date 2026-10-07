@@ -65,6 +65,22 @@ CREATE TABLE IF NOT EXISTS card_faces (
     PRIMARY KEY (card_name, face_index)
 );
 
+-- Scryfall's edhrec_rank per card: lower = in more Commander decks overall.
+-- A separate table (not a `cards` column) so existing mirrors keep working
+-- until their next sync, and readers treat a missing table as "no data".
+CREATE TABLE IF NOT EXISTS card_popularity (
+    card_name   TEXT PRIMARY KEY,
+    edhrec_rank INTEGER
+);
+
+-- Scryfall release date per card. Scryfall marks every card "not_legal"
+-- until it's released, so a card released after the last sync has no real
+-- legality yet (validation.unreleased_at_sync).
+CREATE TABLE IF NOT EXISTS card_release (
+    card_name   TEXT PRIMARY KEY,
+    released_at TEXT
+);
+
 CREATE TABLE IF NOT EXISTS sync_meta (
     key   TEXT PRIMARY KEY,
     value TEXT

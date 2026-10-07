@@ -163,11 +163,21 @@ def test_sevinne_planeswalker_gap_closed_by_generous_gift_catch_all(con):
     # type looked like it answered NONE of the four specific ones. Fixed
     # via COVERAGE_TAG_ALIASES; this asserts the real, corrected result
     # (not a waiver -- a genuine answer was found).
+    #
+    # deck_cheapest_name is Chaos Warp, not Generous Gift, as of the
+    # 2026-09-09 capability-filter fix (KNOWN_ISSUES.md): sevinne.txt runs
+    # both at the same cmc (3), and Chaos Warp -- excluded from the
+    # DB-wide "cheapest legal option to ADD" ranking on `grants_target_a_
+    # benefit` grounds, but a real, resolvable answer once it's already in
+    # the deck -- now also clears `_cheapest_in_deck`'s lighter gate and
+    # wins the tie. Either name would prove the real point of this test
+    # (a genuine answer was found, not a waiver); asserting the actual
+    # name keeps this test honest about what `_cheapest_in_deck` returns.
     deck = load_deck("decks/sevinne.txt", con)
     report = compute_coverage(deck, con)
     pw = next(e for e in report.entries if e.answer_type == "planeswalker")
     assert pw.deck_has is True
-    assert pw.deck_cheapest_name == "Generous Gift"
+    assert pw.deck_cheapest_name == "Chaos Warp"
     assert pw.waiver_note is None
 
 
@@ -425,6 +435,112 @@ def test_instant_speed_count_matches_defence_module(con):
     coverage_report = compute_coverage(deck, con)
     defence_report = compute_defence(deck, con, threshold_turn=3, board_presence="normal")
     assert coverage_report.instant_speed_count == defence_report.instant_speed_actual
+
+
+def test_chaos_warp_credited_as_the_decks_own_catch_all_answer(con):
+    # Real bug (KNOWN_ISSUES.md, 2026-09-09): with Chaos Warp in the deck,
+    # `permanent (catch-all)` was still reported MISSING. Chaos Warp's
+    # `DBDig` sub-ability is `Defined$ TargetedOwner` (its target's owner
+    # gets a shuffle-and-flip consolation), which correctly trips
+    # `grants_target_a_benefit` -- real signal it isn't a strictly-
+    # comparable swap-in for some OTHER removal spell at the same cost,
+    # but not evidence the deck lacks a catch-all answer. `_cheapest_in_
+    # deck` used to run the deck's OWN cards through that same ranking
+    # gate (`passes_removal_reliability_filters`); it now uses the lighter
+    # `passes_removal_capability_filters` instead, which drops that check
+    # for a card already in the 99. decks/anje-mine.txt (the fixture deck
+    # this bug was originally found on) runs Chaos Warp.
+    deck = load_deck("decks/anje-mine.txt", con)
+    report = compute_coverage(deck, con)
+    catch_all = next(e for e in report.entries if e.answer_type == "permanent (catch-all)")
+    assert catch_all.deck_has is True
+    assert catch_all.deck_cheapest_name == "Chaos Warp"
+    assert catch_all.deck_cheapest_cmc == 3.0
+    # Chaos Warp must still be correctly excluded from the DB-wide
+    # "cheapest legal option to ADD" ranking -- that's a real, unrelated,
+    # still-live concern (see test_generous_gift_credited_for_all_four_
+    # permanent_types' comment on this exact card).
+    from deckdoctor.reliability import passes_removal_reliability_filters
+    row = con.execute("SELECT parsed, mana_cost FROM cards WHERE name = 'Chaos Warp'").fetchone()
+    assert passes_removal_reliability_filters(*row) is None
+
+
+def test_cheapest_in_deck_still_excludes_a_static_symmetrical_effect(con):
+    # The lighter capability gate is not "credit the tag no matter what":
+    # a card whose static grants a controller-unscoped symmetrical
+    # ability (The Tabernacle at Pendrell Vale's shape, see
+    # test_reliability.py) still isn't a one-sided answer even if it's
+    # already in the deck. Synthetic card -- not in the pinned fixture
+    # catalog -- same insertion pattern as the Disenchant/Soul-Guide
+    # Lantern tests above.
+    con.execute(
+        "INSERT INTO cards (name,mana_cost,cmc,type_line,oracle_text,color_identity,colors,"
+        "produced_mana,keywords,commander_legal,is_game_changer,layout,set_type,parsed) "
+        "VALUES ('Test Tabernacle','',0.0,'Legendary Land',"
+        "'All creatures have \"At the beginning of your upkeep, destroy this creature unless you pay {1}.\"',"
+        "'[]','[]',NULL,'[]',1,0,'normal','core',?)",
+        (json.dumps({
+            "mana_cost": "no cost", "types": "Legendary Land", "pt": "", "keywords": [],
+            "abilities": [], "replacements": [], "triggers": [],
+            "statics": [{"raw": "Mode$ Continuous | Affected$ Creature | AddTrigger$ TabernacleTrig | "
+                                "AddSVar$ TabernacleDestroy"}],
+            "svars": {"TabernacleTrig": "Mode$ Phase | Phase$ Upkeep | ValidPlayer$ You | "
+                                        "TriggerZones$ Battlefield | Execute$ TabernacleDestroy",
+                      "TabernacleDestroy": "DB$ Destroy | Defined$ Self | UnlessPayer$ You | UnlessCost$ 1"},
+        }),),
+    )
+    con.execute("INSERT INTO card_tags (card_name, tag) VALUES ('Test Tabernacle', 'removal-creature')")
+    con.commit()
+
+    from deckdoctor.deck import Card, Deck
+    commander = Card(name="Fixture Commander", cmc=4, type_line="Legendary Creature — Human",
+                      ramp_kind=None, draw_kind=None, prereq=None, is_game_changer=False,
+                      color_identity=("W",), commander_legal=True)
+    tabernacle = Card(name="Test Tabernacle", cmc=0, type_line="Legendary Land", ramp_kind=None,
+                       draw_kind=None, prereq=None, is_game_changer=False, color_identity=(),
+                       commander_legal=True)
+    plains = Card(name="Fixture Plains 0", cmc=0, type_line="Basic Land — Plains",
+                  ramp_kind=None, draw_kind=None, prereq=None, is_game_changer=False,
+                  color_identity=(), commander_legal=True)
+    deck = Deck(name="thin", commander=commander, library=[tabernacle] + [plains] * 98, commander_count=1,
+                quantities={"Test Tabernacle": 1, "Fixture Plains 0": 98})
+    report = compute_coverage(deck, con)
+    creature = next(e for e in report.entries if e.answer_type == "creature")
+    assert creature.deck_has is False
+    assert creature.deck_cheapest_name is None
+
+
+def test_tabernacle_at_pendrell_vale_never_ranked_as_cheapest_creature_removal(con):
+    # The DB-wide side of the same static-symmetry fix (KNOWN_ISSUES.md,
+    # 2026-09-06): The Tabernacle at Pendrell Vale must never win
+    # `_cheapest_in_db`'s creature-removal search just because it's a
+    # free (cmc 0) land -- it taxes the caster's own creatures too. Real
+    # parsed Forge data (verified against the mirror) -- not in the
+    # pinned fixture catalog, inserted directly as commander-legal and
+    # colourless so it's eligible for EVERY colour identity, same as the
+    # real card.
+    con.execute(
+        "INSERT INTO cards (name,mana_cost,cmc,type_line,oracle_text,color_identity,colors,"
+        "produced_mana,keywords,commander_legal,is_game_changer,layout,set_type,parsed) "
+        "VALUES ('The Tabernacle at Pendrell Vale','',0.0,'Legendary Land',"
+        "'All creatures have \"At the beginning of your upkeep, destroy this creature unless you pay {1}.\"',"
+        "'[]','[]',NULL,'[]',1,0,'normal','core',?)",
+        (json.dumps({
+            "mana_cost": "no cost", "types": "Legendary Land", "pt": "", "keywords": [],
+            "abilities": [], "replacements": [], "triggers": [],
+            "statics": [{"raw": "Mode$ Continuous | Affected$ Creature | AddTrigger$ TabernacleTrig | "
+                                "AddSVar$ TabernacleDestroy"}],
+            "svars": {"TabernacleTrig": "Mode$ Phase | Phase$ Upkeep | ValidPlayer$ You | "
+                                        "TriggerZones$ Battlefield | Execute$ TabernacleDestroy",
+                      "TabernacleDestroy": "DB$ Destroy | Defined$ Self | UnlessPayer$ You | UnlessCost$ 1"},
+        }),),
+    )
+    con.execute("INSERT INTO card_tags (card_name, tag) VALUES ('The Tabernacle at Pendrell Vale', 'removal-creature')")
+    con.commit()
+
+    from deckdoctor.coverage import _cheapest_in_db
+    name, cmc, edict = _cheapest_in_db(con, {"W"}, "removal-creature")
+    assert name != "The Tabernacle at Pendrell Vale"
 
 
 # Real Card-Forge cardsfolder scripts (master), trimmed to the lines the

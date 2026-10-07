@@ -120,3 +120,16 @@ def test_sync_drops_layer2_for_a_card_no_longer_in_the_mirror(db_path):
     names = {r[0] for r in con.execute("SELECT name FROM cards")}
     con.close()
     assert "Some Banned Card" not in names
+
+
+def test_sync_stores_global_edhrec_rank(tmp_path, monkeypatch):
+    path = str(tmp_path / "mirror.sqlite3")
+    ranked = dict(BOLT, edhrec_rank=42)
+    monkeypatch.setattr(sync_mod, "_get_bulk_uri", lambda bulk_type: f"fake://{bulk_type}")
+    monkeypatch.setattr(sync_mod, "_stream_jsonl",
+                        lambda uri: iter([ranked, SIGNET]) if "oracle_cards" in uri else iter([]))
+    sync_mod.sync(path)
+    con = connect(path)
+    rows = con.execute("SELECT card_name, edhrec_rank FROM card_popularity").fetchall()
+    con.close()
+    assert rows == [("Lightning Bolt", 42)]  # unranked cards get no row
