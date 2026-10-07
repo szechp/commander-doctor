@@ -1,5 +1,7 @@
 from pathlib import Path
 
+import pytest
+
 from deckdoctor.collection import load_collection, load_configured_collection, parse_collection_text
 from deckdoctor.db import connect
 
@@ -43,3 +45,13 @@ def test_configured_collection_path_is_relative_to_playgroup_file(tmp_path):
     assert collection is not None
     assert collection.names == {"Sol Ring"}
     assert Path(collection.path) == tmp_path / "inventory.txt"
+
+
+def test_missing_configured_collection_is_skipped_but_explicit_path_still_errors(tmp_path):
+    # playgroup.yaml is committed; the inventory it names is the user's local file.
+    con = connect(":memory:")
+    config = tmp_path / "playgroup.yaml"
+    config.write_text("collection_file: not committed.txt\n", encoding="utf-8")
+    assert load_configured_collection(con, playgroup_path=config) is None
+    with pytest.raises(ValueError, match="could not read collection"):
+        load_configured_collection(con, str(tmp_path / "missing.txt"), playgroup_path=config)
