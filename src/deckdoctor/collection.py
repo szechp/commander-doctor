@@ -87,17 +87,27 @@ def load_configured_collection(
 
     Relative configured paths resolve next to ``playgroup.yaml`` so the
     setting remains stable when a caller supplies an explicit config path.
-    No configured collection is a normal ``None`` result.
+    No configured collection is a normal ``None`` result, and so is a
+    configured file that does not exist: the inventory is the user's local
+    file and is not committed, so a fresh checkout or CI must still run.
+    An explicit ``override_path`` that cannot be read stays an error.
     """
+    if override_path:
+        return load_collection(override_path, con)
+    selected_path = configured_collection_path(playgroup_path)
+    if selected_path is None or not selected_path.is_file():
+        return None
+    return load_collection(selected_path, con)
+
+
+def configured_collection_path(playgroup_path: str | Path = "playgroup.yaml") -> Path | None:
+    """The playgroup's ``collection_file``, resolved next to ``playgroup.yaml``."""
     config_path = Path(playgroup_path)
     configured = load_playgroup_config(str(config_path)).collection_file
-    selected = override_path or configured
-    if not selected:
+    if not configured:
         return None
-    selected_path = Path(selected)
-    if override_path is None and not selected_path.is_absolute():
-        selected_path = config_path.parent / selected_path
-    return load_collection(selected_path, con)
+    selected_path = Path(configured)
+    return selected_path if selected_path.is_absolute() else config_path.parent / selected_path
 
 
 def availability_suffix(name: str, quantities: dict[str, int] | None) -> str:

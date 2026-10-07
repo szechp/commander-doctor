@@ -129,9 +129,13 @@ def _spare_inventory(con: sqlite3.Connection, override_path: str | None):
     """Load the explicit/project spare inventory and disclose names the local
     mirror could not resolve. The caller decides whether a load error is a
     command error; unresolved individual cards do not invalidate the rest."""
-    from deckdoctor.collection import load_configured_collection
+    from deckdoctor.collection import configured_collection_path, load_configured_collection
 
     collection = load_configured_collection(con, override_path)
+    if collection is None and not override_path:
+        missing = configured_collection_path()
+        if missing is not None:
+            print(f"(spare inventory {missing} not found; continuing without spare availability)", file=sys.stderr)
     if collection is not None:
         detail = f", {len(collection.unresolved)} unresolved" if collection.unresolved else ""
         print(f"(spare inventory: {collection.path}; {len(collection.quantities)} available card names{detail})",
