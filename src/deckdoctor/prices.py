@@ -34,6 +34,16 @@ def eur_prices(con: sqlite3.Connection, names: list[str]) -> dict[str, float]:
     return prices
 
 
+def prices_available(con: sqlite3.Connection) -> bool:
+    """True when the mirror carries any price data. A mirror synced before
+    `card_prices` existed has none, and a budget filter over it would drop
+    every card as price-unknown."""
+    try:
+        return con.execute("SELECT EXISTS(SELECT 1 FROM card_prices)").fetchone()[0] == 1
+    except sqlite3.OperationalError:
+        return False
+
+
 def price_suffix(name: str, prices: dict[str, float]) -> str:
     price = prices.get(name)
     return f" | {price:.2f}\N{EURO SIGN}" if price is not None else " | price=unknown"

@@ -125,9 +125,10 @@ def find_candidates(
     `max_price` drops cards whose known nonfoil EUR price (Scryfall snapshot,
     prices.eur) exceeds it, and cards with NO known price: an unpriced card
     is unknown, never assumed affordable (constraint_policy.py).
-    `owned_quantities` (strict owned mode) restricts the pool to cards the
-    user actually owns -- per-card-quantity, like inventory accounting:
-    owning one copy cannot back two slots.
+    `owned_quantities` (strict owned mode) restricts the pool to the cards
+    in the user's collection file -- the genuine cards they own. Decklists
+    never count: many deck cards are proxies. Every pool card is then
+    already owned, so `max_price` filters nothing there (it still labels).
     """
     commander_ci = set(commander_color_identity)
     cols_sql = ", ".join(_CARDS_COLS)
@@ -171,12 +172,11 @@ def find_candidates(
     if max_price is not None:
         from deckdoctor.prices import affordable, eur_prices
         price_data = eur_prices(con, [row["name"] for row, _ in matches])
-        kept = set(affordable([row["name"] for row, _ in matches], price_data, max_price))
-        if owned_quantities is not None:
-            # A budget only prices what the user must BUY: an owned card is
-            # never dropped for an unknown or high price, only unowned ones.
-            kept |= {row["name"] for row, _ in matches if owned_quantities.get(row["name"], 0) >= 1}
-        matches = [item for item in matches if item[0]["name"] in kept]
+        # A budget only prices what the user must BUY: in strict owned mode
+        # every match is owned, so nothing is dropped for price.
+        if owned_quantities is None:
+            kept = set(affordable([row["name"] for row, _ in matches], price_data, max_price))
+            matches = [item for item in matches if item[0]["name"] in kept]
 
     # Ranking, best evidence first. Mana value alone (the previous order)
     # has no notion of quality: a full `removal` pool is ~1,700 cards and

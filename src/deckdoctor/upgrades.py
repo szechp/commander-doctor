@@ -943,6 +943,7 @@ def find_slow_lands(deck: Deck, con: sqlite3.Connection) -> list[SlowLand]:
 
 def find_land_upgrades(
     deck: Deck, con: sqlite3.Connection, limit: int = 10, config: DeckConfig | None = None,
+    max_price: float | None = None, owned_quantities: dict[str, int] | None = None,
 ) -> list[LandUpgrade]:
     """The fastest multicolour lands for this deck that it doesn't run, per
     the user's standing policy (KNOWN_ISSUES.md, 2026-09-23): untapped on
@@ -956,6 +957,9 @@ def find_land_upgrades(
     colour) and lands whose mana is spend-restricted (Cavern of Souls,
     tribal lands) are excluded. Each suggestion names what it replaces: the
     deck's slow lands first (`find_slow_lands`), then its most common basic.
+
+    `owned_quantities`/`max_price` are the same explicit user constraints
+    as in `find_candidates`: owned-only, or known price at most the cap.
     """
     from deckdoctor.candidates import global_ranks
     from deckdoctor.land_speed import FAST, FASTLAND, classify_land_speed, plain_tap_colours
@@ -994,6 +998,12 @@ def find_land_upgrades(
     # logged rejection of a land counts whatever it was paired with.
     rejected_lands = {suggested for (_, suggested) in rejected_swaps(config)}
     found = [f for f in found if f[0] not in rejected_lands]
+    if owned_quantities is not None:
+        found = [f for f in found if owned_quantities.get(f[0], 0) >= 1]
+    elif max_price is not None:
+        from deckdoctor.prices import affordable, eur_prices
+        kept = set(affordable([f[0] for f in found], eur_prices(con, [f[0] for f in found]), max_price))
+        found = [f for f in found if f[0] in kept]
     ranks = global_ranks(con, [name for name, _, _ in found])
     found.sort(key=lambda f: (f[2].rank, ranks.get(f[0], float("inf")), f[0]))
 

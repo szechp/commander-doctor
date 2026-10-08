@@ -1,9 +1,8 @@
 import json
 
 from deckdoctor.candidates import find_candidates
-from deckdoctor.collection import SpareInventory, load_owned_quantities
 from deckdoctor.db import connect
-from deckdoctor.prices import affordable, eur_prices
+from deckdoctor.prices import affordable, eur_prices, prices_available
 
 
 def _insert(con, name, cmc=2.0, type_line="Instant", tags=()):
@@ -51,24 +50,6 @@ def test_max_price_filters_pool_and_labels_known_prices():
     assert all("price=unknown" not in line for line in unfiltered)
 
 
-def test_owned_quantities_combines_spares_and_deck_files_and_sideboards(tmp_path):
-    con = connect(":memory:")
-    for name in ("Sol Ring", "Cultivate", "Harmonize", "Plains", "Boarded Card"):
-        con.execute(
-            "INSERT INTO cards (name,mana_cost,cmc,type_line,oracle_text,color_identity,commander_legal,"
-            "is_game_changer) VALUES (?,?,?,?,?,?,1,0)",
-            (name, "{1}", 1.0, "Artifact", "text", "[]"),
-        )
-    (tmp_path / "a.txt").write_text(
-        "1 Sol Ring\n1 Cultivate\n// SIDEBOARD\n1 Boarded Card\n", encoding="utf-8")
-    spare = SpareInventory(str(tmp_path / "inv.txt"), {"Sol Ring": 1, "Harmonize": 2})
-    owned = load_owned_quantities(con, [tmp_path / "a.txt"], spare)
-    assert owned == {"Sol Ring": 2, "Cultivate": 1, "Boarded Card": 1, "Harmonize": 2}
-    # Unreadable/unparseable deck files are skipped, not fatal.
-    (tmp_path / "broken.txt").write_text("not a decklist line", encoding="utf-8")
-    assert load_owned_quantities(con, [tmp_path / "broken.txt"], None) == {}
-
-
 def test_owned_mode_restricts_pool_to_owned_cards():
     con = connect(":memory:")
     _insert(con, "Owned Removal", tags=("removal-creature",))
@@ -77,16 +58,67 @@ def test_owned_mode_restricts_pool_to_owned_cards():
     assert _names(lines) == ["Owned Removal"]
 
 
-def test_owned_cards_survive_the_price_filter_with_unknown_price():
+def test_max_price_filters_nothing_in_owned_mode():
     con = connect(":memory:")
     _insert(con, "Owned Unpriced", tags=("removal-creature",))
     _insert(con, "Owned Pricey", tags=("removal-creature",))
     _insert(con, "Unowned Cheap", tags=("removal-creature",))
     con.executemany("INSERT INTO card_prices VALUES (?,?)",
                     [("Owned Pricey", 99.0), ("Unowned Cheap", 0.30)])
-    # Strict owned mode already drops unowned cards; the point here is that a
-    # budget never drops an OWNED card, whatever its price or price-unknown
-    # status -- a budget only prices what the user must buy.
+    # Every candidate in owned mode is already owned: a budget only prices
+    # what the user must buy, so nothing is dropped for price.
     lines = find_candidates(con, ["G"], "removal", set(), max_price=1.0,
                             owned_quantities={"Owned Unpriced": 1, "Owned Pricey": 1})
     assert set(_names(lines)) == {"Owned Unpriced", "Owned Pricey"}
+
+
+def test_prices_available_needs_price_rows():
+    con = connect(":memory:")
+    assert prices_available(con) is False
+    con.execute("INSERT INTO card_prices VALUES ('Sol Ring', 0.35)")
+    assert prices_available(con) is True
+    con.execute("DROP TABLE card_prices")
+    assert prices_available(con) is False
+
+
+def test_owned_mode_uses_only_the_collection_file(fixture_db, fixture_decks, tmp_path, capsys):
+    # A card that only appears in another decklist (likely a proxy) is not
+    # owned; only the collection file counts.
+    from deckdoctor.cli import main
+
+    fixture_db.commit()
+    db_file = fixture_db.execute("PRAGMA database_list").fetchone()[2]
+    deck = fixture_decks["ugluk"]
+    (deck.parent / "other.txt").write_text("1 Sol Ring\n1 Arcane Signet\n", encoding="utf-8")
+    inventory = tmp_path / "inventory.txt"
+    inventory.write_text("1 Mind Stone\n", encoding="utf-8")
+    args = ["candidates", str(deck), "ramp", "--db", db_file, "--limit", "200", "--owned",
+            "--collection", str(inventory), "--format", "json"]
+    assert main(args) == 0
+    report = json.loads(capsys.readouterr().out)
+    result = report["metrics"]["candidates"]
+    names = {line.split(" | ")[0] for line in result["cards"]}
+    assert result["owned_only"] is True
+    assert names == {"Mind Stone"}  # Sol Ring/Arcane Signet from other.txt are not owned
+
+
+def test_owned_mode_without_a_collection_file_is_an_error(fixture_db, fixture_decks, tmp_path, monkeypatch, capsys):
+    from deckdoctor.cli import main
+
+    fixture_db.commit()
+    db_file = fixture_db.execute("PRAGMA database_list").fetchone()[2]
+    monkeypatch.chdir(tmp_path)  # no playgroup.yaml -> no configured collection
+    assert main(["candidates", str(fixture_decks["ugluk"]), "ramp", "--db", db_file, "--owned"]) == 2
+    assert "--owned needs a collection file" in capsys.readouterr().err
+
+
+def test_land_upgrades_respect_owned_mode(fixture_db, fixture_decks):
+    from deckdoctor.deck import load_deck
+    from deckdoctor.upgrades import find_land_upgrades
+
+    deck = load_deck(str(fixture_decks["ugluk"]), fixture_db)
+    suggested = [u.suggested_land for u in find_land_upgrades(deck, fixture_db)]
+    assert suggested, "fixture deck should get land suggestions"
+    owned = {suggested[-1]: 1}
+    assert [u.suggested_land for u in find_land_upgrades(deck, fixture_db, owned_quantities=owned)] == [suggested[-1]]
+    assert find_land_upgrades(deck, fixture_db, owned_quantities={}) == []

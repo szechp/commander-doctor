@@ -147,15 +147,31 @@ def _spare_inventory(con: sqlite3.Connection, override_path: str | None):
     return collection
 
 
-def _owned_quantities(con, deck_path: str, collection):
-    """Strict owned mode: spare inventory + every decklist (and sideboard)
-    in the deck's own decks/ directory. A card already in a deck is owned
-    too, and the inventory file itself is explicitly cards NOT in decks,
-    so the two sources only overlap where the user double-counted."""
-    from deckdoctor.collection import load_owned_quantities
-    deck_dir = Path(deck_path).resolve().parent
-    paths = sorted(p for p in deck_dir.glob("*.txt") if p.is_file())
-    return load_owned_quantities(con, paths, collection)
+def _pool_constraints(con, args, collection) -> tuple[dict[str, int] | None, str | None]:
+    """Resolve --owned/--max-price for candidates/upgrades: (owned quantities
+    or None, error message or None). Owned means the collection file only --
+    decklists hold proxies, so they never count as owned."""
+    owned = None
+    if args.owned:
+        if collection is None:
+            return None, ("--owned needs a collection file: set collection_file in playgroup.yaml "
+                          "or pass --collection")
+        owned = dict(collection.quantities)
+        print(f"(strict owned mode: {len(owned)} owned card name(s) from {collection.path})", file=sys.stderr)
+        if args.max_price is not None:
+            print("(--max-price filters nothing in owned mode: every candidate is already owned)", file=sys.stderr)
+    elif args.max_price is not None:
+        from deckdoctor.prices import prices_available
+        if not prices_available(con):
+            return None, ("--max-price: this mirror has no price data (synced before card_prices existed); "
+                          "re-run `deckdoctor sync`")
+        print(f"(budget: known nonfoil EUR price <= {args.max_price:g}; cards with no known price are dropped)",
+              file=sys.stderr)
+    return owned, None
+
+
+def _pool_constraint_fields(args) -> dict:
+    return {"max_price_eur": args.max_price, "owned_only": bool(args.owned)}
 
 
 def _validation_gate(deck_path: str, db_path: str | None, output_format: str = "text") -> int:
@@ -376,10 +392,11 @@ def main(argv: list[str] | None = None) -> int:
                              "(default: playgroup.yaml collection_file)")
     p_cand.add_argument("--max-price", type=float, default=None, metavar="EUR",
                         help="drop candidates whose known nonfoil EUR price (Scryfall snapshot) "
-                             "exceeds this; cards with no known price are dropped too")
+                             "exceeds this; cards with no known price are dropped too "
+                             "(no effect with --owned)")
     p_cand.add_argument("--owned", action="store_true",
-                        help="strict owned mode: only cards you actually own -- spare inventory "
-                             "plus every decklist/sideboard in the deck's own decks/ directory")
+                        help="strict owned mode: only cards in your collection file (playgroup.yaml "
+                             "collection_file or --collection); decklists never count, they may be proxies")
     p_cand.add_argument("--format", choices=["text", "json"], default="text")
 
     p_screen = sub.add_parser("screen-candidates", help="filter a user-pasted card list (tier list, ranking, "
@@ -401,10 +418,11 @@ def main(argv: list[str] | None = None) -> int:
                                  "(default: playgroup.yaml collection_file)")
     p_upgrades.add_argument("--max-price", type=float, default=None, metavar="EUR",
                             help="drop candidates whose known nonfoil EUR price (Scryfall snapshot) "
-                                 "exceeds this; cards with no known price are dropped too")
+                                 "exceeds this; cards with no known price are dropped too "
+                                 "(no effect with --owned)")
     p_upgrades.add_argument("--owned", action="store_true",
-                            help="strict owned mode: only cards you actually own -- spare inventory "
-                                 "plus every decklist/sideboard in the deck's own decks/ directory")
+                            help="strict owned mode: only cards in your collection file (playgroup.yaml "
+                                 "collection_file or --collection); decklists never count, they may be proxies")
     p_upgrades.add_argument("--format", choices=["text", "json"], default="text")
 
     p_card = sub.add_parser("card", help="real oracle text + ramp/draw/prereq/tag roles for one or more cards by name -- look it up, don't recall it from memory")
@@ -1071,7 +1089,11 @@ def main(argv: list[str] | None = None) -> int:
             print(str(exc), file=sys.stderr)
             return 2
         spares = collection.quantities if collection else {}
-        owned = _owned_quantities(con, args.deck, collection) if args.owned else None
+        owned, constraint_error = _pool_constraints(con, args, collection)
+        if constraint_error:
+            con.close()
+            print(constraint_error, file=sys.stderr)
+            return 2
         # Holistic, deck-agnostic: every role family (compact_line.ROLE_TAG_PREFIXES,
         # plus ramp_kind/draw_kind) that ANY card in this deck belongs to gets the full
         # legal candidate pool, automatically -- not a hand-picked list of categories.
@@ -1084,12 +1106,13 @@ def main(argv: list[str] | None = None) -> int:
         stats, _ = _cached_edhrec_stats(deck.commander.name, config.edhrec_theme if config else None)
         families = find_role_family_pools(deck, con, edhrec_stats=stats, spare_quantities=spares,
                                           max_price=args.max_price, owned_quantities=owned)
-        land_upgrades = find_land_upgrades(deck, con, config=config)
+        land_upgrades = find_land_upgrades(deck, con, config=config, max_price=args.max_price,
+                                           owned_quantities=owned)
         slow_lands = find_slow_lands(deck, con)
 
         combined = {"families": families, "land_upgrades": [asdict(s) for s in land_upgrades],
                     "spare_inventory": collection.path if collection else None,
-                    "slow_lands": [asdict(s) for s in slow_lands]}
+                    "slow_lands": [asdict(s) for s in slow_lands], **_pool_constraint_fields(args)}
         structured = assessment_report(
             "upgrades", combined, deck, con, status="approximate",
             limitation="Full legal candidate pools per role family the deck's own cards belong to -- no "
@@ -1326,22 +1349,29 @@ def main(argv: list[str] | None = None) -> int:
             print(str(exc), file=sys.stderr)
             return 2
         spares = collection.quantities if collection else {}
-        owned = _owned_quantities(con, args.deck, collection) if args.owned else None
-        if owned is not None:
-            print(f"(strict owned mode: {len(owned)} owned card name(s) from the spare "
-                  f"inventory + {Path(args.deck).resolve().parent})", file=sys.stderr)
+        owned, constraint_error = _pool_constraints(con, args, collection)
+        if constraint_error:
+            con.close()
+            print(constraint_error, file=sys.stderr)
+            return 2
         lines = find_candidates(
             con, commander_ci, args.role, exclude, limit=args.limit, edhrec_stats=stats,
             spare_quantities=spares, max_price=args.max_price, owned_quantities=owned,
         )
         structured = assessment_report("candidates", {"role": args.role, "limit": args.limit, "cards": lines,
                                                       "spare_inventory": collection.path if collection else None,
-                                                      "ranking": ranking_source},
+                                                      "ranking": ranking_source,
+                                                      **_pool_constraint_fields(args)},
                                        deck, con, status="approximate",
-                                       limitation="Spare availability does not affect pool selection or ranking and "
-                                                  "is addition-only evidence for nonlands. Lands ignore it entirely. "
-                                                  "Prefer a spare card only among candidates that independently "
-                                                  "clear the normal quality bar.")
+                                       limitation=("Strict owned mode: the pool holds only cards in the collection "
+                                                   "file; ranking is unchanged." if args.owned else
+                                                   "Spare availability does not affect pool selection or ranking and "
+                                                   "is addition-only evidence for nonlands. Lands ignore it entirely. "
+                                                   "Prefer a spare card only among candidates that independently "
+                                                   "clear the normal quality bar.")
+                                                  + (f" Budget: candidates with a known nonfoil EUR price above "
+                                                     f"{args.max_price:g} or no known price were dropped."
+                                                     if args.max_price is not None and not args.owned else ""))
         con.close()
         if not lines:
             print(f"(no commander-legal, colour-identity-legal candidates found for role={args.role!r})", file=sys.stderr)
