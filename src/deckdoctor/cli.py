@@ -425,6 +425,18 @@ def main(argv: list[str] | None = None) -> int:
                                  "collection_file or --collection); decklists never count, they may be proxies")
     p_upgrades.add_argument("--format", choices=["text", "json"], default="text")
 
+    p_brew = sub.add_parser("brew", help="which commanders could your owned cards support? discovery, not a deck-builder")
+    p_brew.add_argument("--db", default=None)
+    p_brew.add_argument("--collection", default=None,
+                        help="the cards you own -- genuine cards only, decklists never count since they "
+                             "may be proxies (default: playgroup.yaml collection_file)")
+    p_brew.add_argument("--min-nonlands", type=int, default=50, metavar="N",
+                        help="only report commanders with at least N unique identity-legal owned nonland cards "
+                             "(default 50: land slots are covered by basics and never counted)")
+    p_brew.add_argument("--limit", type=int, default=20, help="how many commanders to report (default 20)")
+    p_brew.add_argument("--max-identity-width", type=int, default=None, metavar="N",
+                        help="only report commanders with at most N colours in their identity (e.g. 3 for two/three-colour options)")
+    p_brew.add_argument("--format", choices=["text", "json"], default="text")
     p_card = sub.add_parser("card", help="real oracle text + ramp/draw/prereq/tag roles for one or more cards by name -- look it up, don't recall it from memory")
     p_card.add_argument("name", nargs="+", help='e.g. deckdoctor card "Ranging Raptors"')
     p_card.add_argument("--db", default=None)
@@ -1156,6 +1168,58 @@ def main(argv: list[str] | None = None) -> int:
                 print("  (none found)")
             for lu in land_upgrades:
                 print(f"  {lu.replaces} -> {lu.suggested_land} [{lu.tier}: {lu.speed}]")
+        return 0
+
+    if args.command == "brew":
+        from dataclasses import asdict
+        from deckdoctor.assessment_reports import assessment_report
+        from deckdoctor.brew import owned_commander_options, render_options
+        from deckdoctor.db import connect_readonly
+        con = connect_readonly(args.db)
+        try:
+            collection = _spare_inventory(con, args.collection)
+        except ValueError as exc:
+            con.close()
+            print(str(exc), file=sys.stderr)
+            return 2
+        # Owned = the collection file only: decklists may hold proxies.
+        owned = dict(collection.quantities) if collection else {}
+        if not owned:
+            con.close()
+            print("no owned cards: brew needs a collection file (playgroup.yaml collection_file "
+                  "or --collection)", file=sys.stderr)
+            return 2
+        print(f"(owned pool: {len(owned)} distinct card name(s))", file=sys.stderr)
+        options = owned_commander_options(con, owned,
+                                          min_legal_nonlands=args.min_nonlands,
+                                          limit=args.limit,
+                                          max_identity_width=args.max_identity_width)
+        from deckdoctor.deck import Card as DeckCard, Deck
+        placeholder = DeckCard(name="owned pool", cmc=0.0, type_line="", ramp_kind=None,
+                               draw_kind=None, prereq=None, is_game_changer=False)
+        owned_deck = Deck(name="brew", commander=placeholder, quantities=dict(owned))
+        structured = assessment_report(
+            "brew", {
+                "owned_names": len(owned),
+                "min_legal_nonlands": args.min_nonlands,
+                "commanders": [asdict(o) for o in options],
+                "spare_inventory": collection.path if collection else None,
+            }, owned_deck, con, status="approximate",
+            limitation="Feasibility only: a commander is reported when it is owned and the "
+                      "owned pool has enough unique identity-legal NONLANDS to fill the "
+                      "nonland slots; land slots are always fillable with basics and are "
+                      "never counted. No computed verdict on playability, synergy or "
+                      "power -- read each commander's EDHREC page and the owned cards' "
+                      "text before committing.",
+        )
+        con.close()
+        if args.format == "json":
+            print(structured.to_json())
+        else:
+            if not options:
+                print(f"(no commander reaches {args.min_nonlands} unique identity-legal owned nonlands)")
+            for line in render_options(options):
+                print(line)
         return 0
 
     if args.command == "card":
