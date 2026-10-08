@@ -35,6 +35,8 @@ Downloads Scryfall's public bulk card + oracle-tag data (no API key needed) into
 
 Also re-run it on a mirror built before 2026-09-23. That's when sync started storing Scryfall's global `edhrec_rank`, which `candidates` uses for ranking. Older mirrors still work, but rank by commander-specific EDHREC data and mana value only.
 
+Re-run it on a mirror built before the `card_prices` table existed, too -- that is where `--max-price` gets its data. On a mirror without it, `--max-price` stops and asks you to re-sync instead of dropping every card as price-unknown.
+
 Verify:
 
 ```sh

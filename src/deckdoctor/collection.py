@@ -113,3 +113,4 @@ def configured_collection_path(playgroup_path: str | Path = "playgroup.yaml") ->
 def availability_suffix(name: str, quantities: dict[str, int] | None) -> str:
     quantity = (quantities or {}).get(name, 0)
     return f" | spare=x{quantity}" if quantity else ""
+

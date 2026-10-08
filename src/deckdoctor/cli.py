@@ -147,6 +147,33 @@ def _spare_inventory(con: sqlite3.Connection, override_path: str | None):
     return collection
 
 
+def _pool_constraints(con, args, collection) -> tuple[dict[str, int] | None, str | None]:
+    """Resolve --owned/--max-price for candidates/upgrades: (owned quantities
+    or None, error message or None). Owned means the collection file only --
+    decklists hold proxies, so they never count as owned."""
+    owned = None
+    if args.owned:
+        if collection is None:
+            return None, ("--owned needs a collection file: set collection_file in playgroup.yaml "
+                          "or pass --collection")
+        owned = dict(collection.quantities)
+        print(f"(strict owned mode: {len(owned)} owned card name(s) from {collection.path})", file=sys.stderr)
+        if args.max_price is not None:
+            print("(--max-price filters nothing in owned mode: every candidate is already owned)", file=sys.stderr)
+    elif args.max_price is not None:
+        from deckdoctor.prices import prices_available
+        if not prices_available(con):
+            return None, ("--max-price: this mirror has no price data (synced before card_prices existed); "
+                          "re-run `deckdoctor sync`")
+        print(f"(budget: known nonfoil EUR price <= {args.max_price:g}; cards with no known price are dropped)",
+              file=sys.stderr)
+    return owned, None
+
+
+def _pool_constraint_fields(args) -> dict:
+    return {"max_price_eur": args.max_price, "owned_only": bool(args.owned)}
+
+
 def _validation_gate(deck_path: str, db_path: str | None, output_format: str = "text") -> int:
     from deckdoctor.deck_config import config_path_for, load_deck_config
     from deckdoctor.validation import validate_config, validate_decklist
@@ -363,6 +390,13 @@ def main(argv: list[str] | None = None) -> int:
     p_cand.add_argument("--collection", default=None,
                         help="available spare-card inventory, excluding cards in decks "
                              "(default: playgroup.yaml collection_file)")
+    p_cand.add_argument("--max-price", type=float, default=None, metavar="EUR",
+                        help="drop candidates whose known nonfoil EUR price (Scryfall snapshot) "
+                             "exceeds this; cards with no known price are dropped too "
+                             "(no effect with --owned)")
+    p_cand.add_argument("--owned", action="store_true",
+                        help="strict owned mode: only cards in your collection file (playgroup.yaml "
+                             "collection_file or --collection); decklists never count, they may be proxies")
     p_cand.add_argument("--format", choices=["text", "json"], default="text")
 
     p_screen = sub.add_parser("screen-candidates", help="filter a user-pasted card list (tier list, ranking, "
@@ -382,8 +416,27 @@ def main(argv: list[str] | None = None) -> int:
     p_upgrades.add_argument("--collection", default=None,
                             help="available spare-card inventory, excluding cards in decks "
                                  "(default: playgroup.yaml collection_file)")
+    p_upgrades.add_argument("--max-price", type=float, default=None, metavar="EUR",
+                            help="drop candidates whose known nonfoil EUR price (Scryfall snapshot) "
+                                 "exceeds this; cards with no known price are dropped too "
+                                 "(no effect with --owned)")
+    p_upgrades.add_argument("--owned", action="store_true",
+                            help="strict owned mode: only cards in your collection file (playgroup.yaml "
+                                 "collection_file or --collection); decklists never count, they may be proxies")
     p_upgrades.add_argument("--format", choices=["text", "json"], default="text")
 
+    p_brew = sub.add_parser("brew", help="which commanders could your owned cards support? discovery, not a deck-builder")
+    p_brew.add_argument("--db", default=None)
+    p_brew.add_argument("--collection", default=None,
+                        help="the cards you own -- genuine cards only, decklists never count since they "
+                             "may be proxies (default: playgroup.yaml collection_file)")
+    p_brew.add_argument("--min-nonlands", type=int, default=50, metavar="N",
+                        help="only report commanders with at least N unique identity-legal owned nonland cards "
+                             "(default 50: land slots are covered by basics and never counted)")
+    p_brew.add_argument("--limit", type=int, default=20, help="how many commanders to report (default 20)")
+    p_brew.add_argument("--max-identity-width", type=int, default=None, metavar="N",
+                        help="only report commanders with at most N colours in their identity (e.g. 3 for two/three-colour options)")
+    p_brew.add_argument("--format", choices=["text", "json"], default="text")
     p_card = sub.add_parser("card", help="real oracle text + ramp/draw/prereq/tag roles for one or more cards by name -- look it up, don't recall it from memory")
     p_card.add_argument("name", nargs="+", help='e.g. deckdoctor card "Ranging Raptors"')
     p_card.add_argument("--db", default=None)
@@ -479,7 +532,6 @@ def main(argv: list[str] | None = None) -> int:
 
     if args.command == "validate":
         import json
-        from pathlib import Path
         from deckdoctor.deck import load_deck
         from deckdoctor.deck_config import config_path_for, load_deck_config
         from deckdoctor.validation import ValidationDiagnostic, ValidationReport, validate_config, validate_decklist
@@ -957,7 +1009,6 @@ def main(argv: list[str] | None = None) -> int:
 
     if args.command == "diff":
         import json
-        from pathlib import Path
         from deckdoctor.db import connect_readonly
         from deckdoctor.deck import load_deck
         from deckdoctor.deck_config import load_deck_config
@@ -1050,6 +1101,11 @@ def main(argv: list[str] | None = None) -> int:
             print(str(exc), file=sys.stderr)
             return 2
         spares = collection.quantities if collection else {}
+        owned, constraint_error = _pool_constraints(con, args, collection)
+        if constraint_error:
+            con.close()
+            print(constraint_error, file=sys.stderr)
+            return 2
         # Holistic, deck-agnostic: every role family (compact_line.ROLE_TAG_PREFIXES,
         # plus ramp_kind/draw_kind) that ANY card in this deck belongs to gets the full
         # legal candidate pool, automatically -- not a hand-picked list of categories.
@@ -1060,13 +1116,15 @@ def main(argv: list[str] | None = None) -> int:
         # Lands: the deck's own slow lands plus the fastest multicolour lands it
         # doesn't run (land_speed.py tiers, turns 1-4), originals excluded per playgroup.
         stats, _ = _cached_edhrec_stats(deck.commander.name, config.edhrec_theme if config else None)
-        families = find_role_family_pools(deck, con, edhrec_stats=stats, spare_quantities=spares)
-        land_upgrades = find_land_upgrades(deck, con, config=config)
+        families = find_role_family_pools(deck, con, edhrec_stats=stats, spare_quantities=spares,
+                                          max_price=args.max_price, owned_quantities=owned)
+        land_upgrades = find_land_upgrades(deck, con, config=config, max_price=args.max_price,
+                                           owned_quantities=owned)
         slow_lands = find_slow_lands(deck, con)
 
         combined = {"families": families, "land_upgrades": [asdict(s) for s in land_upgrades],
                     "spare_inventory": collection.path if collection else None,
-                    "slow_lands": [asdict(s) for s in slow_lands]}
+                    "slow_lands": [asdict(s) for s in slow_lands], **_pool_constraint_fields(args)}
         structured = assessment_report(
             "upgrades", combined, deck, con, status="approximate",
             limitation="Full legal candidate pools per role family the deck's own cards belong to -- no "
@@ -1110,6 +1168,58 @@ def main(argv: list[str] | None = None) -> int:
                 print("  (none found)")
             for lu in land_upgrades:
                 print(f"  {lu.replaces} -> {lu.suggested_land} [{lu.tier}: {lu.speed}]")
+        return 0
+
+    if args.command == "brew":
+        from dataclasses import asdict
+        from deckdoctor.assessment_reports import assessment_report
+        from deckdoctor.brew import owned_commander_options, render_options
+        from deckdoctor.db import connect_readonly
+        con = connect_readonly(args.db)
+        try:
+            collection = _spare_inventory(con, args.collection)
+        except ValueError as exc:
+            con.close()
+            print(str(exc), file=sys.stderr)
+            return 2
+        # Owned = the collection file only: decklists may hold proxies.
+        owned = dict(collection.quantities) if collection else {}
+        if not owned:
+            con.close()
+            print("no owned cards: brew needs a collection file (playgroup.yaml collection_file "
+                  "or --collection)", file=sys.stderr)
+            return 2
+        print(f"(owned pool: {len(owned)} distinct card name(s))", file=sys.stderr)
+        options = owned_commander_options(con, owned,
+                                          min_legal_nonlands=args.min_nonlands,
+                                          limit=args.limit,
+                                          max_identity_width=args.max_identity_width)
+        from deckdoctor.deck import Card as DeckCard, Deck
+        placeholder = DeckCard(name="owned pool", cmc=0.0, type_line="", ramp_kind=None,
+                               draw_kind=None, prereq=None, is_game_changer=False)
+        owned_deck = Deck(name="brew", commander=placeholder, quantities=dict(owned))
+        structured = assessment_report(
+            "brew", {
+                "owned_names": len(owned),
+                "min_legal_nonlands": args.min_nonlands,
+                "commanders": [asdict(o) for o in options],
+                "spare_inventory": collection.path if collection else None,
+            }, owned_deck, con, status="approximate",
+            limitation="Feasibility only: a commander is reported when it is owned and the "
+                      "owned pool has enough unique identity-legal NONLANDS to fill the "
+                      "nonland slots; land slots are always fillable with basics and are "
+                      "never counted. No computed verdict on playability, synergy or "
+                      "power -- read each commander's EDHREC page and the owned cards' "
+                      "text before committing.",
+        )
+        con.close()
+        if args.format == "json":
+            print(structured.to_json())
+        else:
+            if not options:
+                print(f"(no commander reaches {args.min_nonlands} unique identity-legal owned nonlands)")
+            for line in render_options(options):
+                print(line)
         return 0
 
     if args.command == "card":
@@ -1303,18 +1413,29 @@ def main(argv: list[str] | None = None) -> int:
             print(str(exc), file=sys.stderr)
             return 2
         spares = collection.quantities if collection else {}
+        owned, constraint_error = _pool_constraints(con, args, collection)
+        if constraint_error:
+            con.close()
+            print(constraint_error, file=sys.stderr)
+            return 2
         lines = find_candidates(
             con, commander_ci, args.role, exclude, limit=args.limit, edhrec_stats=stats,
-            spare_quantities=spares,
+            spare_quantities=spares, max_price=args.max_price, owned_quantities=owned,
         )
         structured = assessment_report("candidates", {"role": args.role, "limit": args.limit, "cards": lines,
                                                       "spare_inventory": collection.path if collection else None,
-                                                      "ranking": ranking_source},
+                                                      "ranking": ranking_source,
+                                                      **_pool_constraint_fields(args)},
                                        deck, con, status="approximate",
-                                       limitation="Spare availability does not affect pool selection or ranking and "
-                                                  "is addition-only evidence for nonlands. Lands ignore it entirely. "
-                                                  "Prefer a spare card only among candidates that independently "
-                                                  "clear the normal quality bar.")
+                                       limitation=("Strict owned mode: the pool holds only cards in the collection "
+                                                   "file; ranking is unchanged." if args.owned else
+                                                   "Spare availability does not affect pool selection or ranking and "
+                                                   "is addition-only evidence for nonlands. Lands ignore it entirely. "
+                                                   "Prefer a spare card only among candidates that independently "
+                                                   "clear the normal quality bar.")
+                                                  + (f" Budget: candidates with a known nonfoil EUR price above "
+                                                     f"{args.max_price:g} or no known price were dropped."
+                                                     if args.max_price is not None and not args.owned else ""))
         con.close()
         if not lines:
             print(f"(no commander-legal, colour-identity-legal candidates found for role={args.role!r})", file=sys.stderr)
@@ -1327,7 +1448,6 @@ def main(argv: list[str] | None = None) -> int:
         return 0
 
     if args.command == "goldfish":
-        from pathlib import Path
 
         from deckdoctor.forge_batch import JAR_DEFAULT, JAVA17_DEFAULT, ForgeExecutionError, run_forge_batch
         from deckdoctor.success_condition import SuccessConditionError, derived_path_for, expected_raw_turn, load_success_condition

@@ -81,6 +81,16 @@ CREATE TABLE IF NOT EXISTS card_release (
     released_at TEXT
 );
 
+-- Scryfall's prices.eur (nonfoil) per card, as a REAL euro amount.
+-- A separate table (not a `cards` column) so existing mirrors keep working
+-- until their next sync, and readers treat a missing table as "no data"
+-- (the same discipline as card_popularity). A missing price is UNKNOWN,
+-- never affordable under a budget constraint (constraint_policy.py).
+CREATE TABLE IF NOT EXISTS card_prices (
+    card_name TEXT PRIMARY KEY,
+    eur       REAL
+);
+
 CREATE TABLE IF NOT EXISTS sync_meta (
     key   TEXT PRIMARY KEY,
     value TEXT
