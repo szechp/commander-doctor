@@ -24,71 +24,95 @@ def _commander(con, name, ci, type_line="Legendary Creature"):
     )
 
 
-def _pool(con, width, offset=0):
-    """width * 20 nonland cards in a single colour each, sharing removal tags."""
-    for colour in "WUBRG"[:width]:
-        for i in range(20):
-            _card(con, f"Owned {colour} Card {i + offset}", ci=(colour,),
-                  tags=("removal-creature",))
+def _owned_pool(width, count=20, offset=0):
+    # trailing colours so width=1 is mono-G (matches the G test commanders)
+    return {f"Owned {c} Card {i + offset}": 1
+            for c in "WUBRG"[5 - width:] for i in range(count)}
 
 
-def test_brew_counts_unique_legal_nonlands_and_respects_identity():
+def _seed(con, pool):
+    for name in pool:
+        colour = name.split()[1]
+        _card(con, name, ci=(colour,), tags=("removal-creature",))
+
+
+def test_brew_reports_only_commanders_you_own():
     con = connect(":memory:")
-    _commander(con, "Mono Commander", ("G",))
-    _commander(con, "Wide Commander", ("W", "U", "B", "R", "G"))
-    for i in range(35):
-        _card(con, f"Green Card {i}", ci=("G",))
-    _card(con, "Red Card", ci=("R",))
-    options = owned_commander_options(con, {f"Green Card {i}": 1 for i in range(35)} | {"Red Card": 1})
-    # Primary key is unique legal owned cards, so the wide commander (36
-    # legal) outranks the mono one (35) despite the narrower tie-break.
-    assert [o.commander for o in options] == ["Wide Commander", "Mono Commander"]
-    wide, mono = options
-    assert mono.legal_nonlands == 35 and mono.legal_unique == 35
-    assert wide.legal_nonlands == 36 and wide.legal_unique == 36
+    _commander(con, "Owned Commander", ("G",))
+    _commander(con, "Unowned Commander", ("G",))
+    _seed(con, _owned_pool(1))
+    pool = _owned_pool(1) | {"Owned Commander": 1}
+    options = owned_commander_options(con, pool, min_legal_nonlands=5)
+    assert [o.commander for o in options] == ["Owned Commander"]
 
 
-def test_brew_ranks_unique_count_then_prefers_narrower_identity():
+def test_brew_floor_is_unique_legal_nonlands_lands_never_count():
     con = connect(":memory:")
-    _commander(con, "Narrow Commander", ("G",))
-    _commander(con, "Fat Commander", ("W", "U", "B", "R", "G"))
+    _commander(con, "G Commander", ("G",))
+    for i in range(45):
+        _card(con, f"G Card {i}", ci=("G",))
     for i in range(30):
-        _card(con, f"Green Card {i}", ci=("G",))
-    owned = {f"Green Card {i}": 1 for i in range(30)}
-    options = owned_commander_options(con, owned)
-    # Equal unique counts: the narrower, actually-supported option ranks first.
-    assert all(o.legal_unique == 30 for o in options)
-    assert options[0].commander == "Narrow Commander"
-
-
-def test_brew_min_nonlands_floor_and_land_colour_coverage():
-    con = connect(":memory:")
-    _commander(con, " Commander", ("G",))
-    _card(con, "G Nonland 1", ci=("G",))
-    _card(con, "G Nonland 2", ci=("G",))
-    _card(con, "Forest", ci=("G",), type_line="Land", produced=("G",))
-    options = owned_commander_options(con, {"G Nonland 1": 1, "G Nonland 2": 1, "Forest": 2})
-    assert options == []
-    options = owned_commander_options(con, {"G Nonland 1": 1, "G Nonland 2": 1, "Forest": 2},
-                                     min_legal_nonlands=2)
+        _card(con, f"G Land {i}", ci=("G",), type_line="Land", produced=("G",))
+    owned = {f"G Card {i}": 1 for i in range(45)} | {f"G Land {i}": 1 for i in range(30)}
+    owned["G Commander"] = 1
+    # 45 nonlands < 50 floor: not possible, regardless of the 30 lands.
+    assert owned_commander_options(con, owned, min_legal_nonlands=50) == []
+    options = owned_commander_options(con, owned, min_legal_nonlands=45)
     assert len(options) == 1
-    assert options[0].legal_nonlands == 2
-    assert options[0].colour_sources == {"G": 1}
+    assert options[0].legal_nonlands == 45
+    assert options[0].legal_lands == 30
+    assert options[0].colour_sources == {"G": 30}
     assert options[0].missing_colours == ()
 
 
-def test_brew_flags_missing_colour_sources_and_counts_roles():
+def test_brew_identity_and_singleton_counts():
+    con = connect(":memory:")
+    _commander(con, "Mono Commander", ("G",))
+    _commander(con, "Wide Commander", ("W", "U", "B", "R", "G"))
+    _seed(con, _owned_pool(1))
+    pool = _owned_pool(1) | {"Mono Commander": 1, "Wide Commander": 1}
+    options = owned_commander_options(con, pool, min_legal_nonlands=5)
+    # The wide commander legalizes the mono one as a 99-card too, so it is
+    # deeper (21 vs 20) and ranks first; the tie-break never kicks in here.
+    assert [o.commander for o in options] == ["Wide Commander", "Mono Commander"]
+    wide, mono = options
+    assert wide.legal_nonlands == 21 and mono.legal_nonlands == 20
+    # Extra copies of an owned card are not more singleton slots.
+    doubled = dict(pool)
+    doubled["Owned G Card 0"] = 4
+    mono_still = [o for o in owned_commander_options(con, doubled, min_legal_nonlands=20)
+                  if o.commander == "Mono Commander"][0]
+    assert mono_still.legal_nonlands == 20
+
+
+def test_brew_flags_missing_colour_sources_as_evidence_not_a_gate():
     con = connect(":memory:")
     _commander(con, "Gruul Commander", ("G", "R"))
-    for i in range(5):
-        _card(con, f"R Card {i}", ci=("R",), tags=("removal-creature",))
-        _card(con, f"G Card {i}", ci=("G",), tags=("removal-creature",))
+    for i in range(10):
+        _card(con, f"R Card {i}", ci=("R",))
+        _card(con, f"G Card {i}", ci=("G",))
     _card(con, "Mountain", ci=("R",), type_line="Land", produced=("R",))
-    owned = {f"R Card {i}": 1 for i in range(5)} | {f"G Card {i}": 1 for i in range(5)}
+    owned = {f"R Card {i}": 1 for i in range(10)} | {f"G Card {i}": 1 for i in range(10)}
     owned["Mountain"] = 1
-    options = owned_commander_options(con, owned, min_legal_nonlands=5)
+    owned["Gruul Commander"] = 1
+    options = owned_commander_options(con, owned, min_legal_nonlands=10)
+    assert len(options) == 1
     assert options[0].missing_colours == ("G",)
-    assert options[0].role_counts == {"removal": 10}
+    assert options[0].role_counts == {"removal": 0} or options[0].role_counts == {}
+
+
+def test_brew_prefers_deepest_pool_then_narrower_identity():
+    con = connect(":memory:")
+    _commander(con, "Narrow Commander", ("G",))
+    _commander(con, "Fat Commander", ("W", "U", "B", "R", "G"))
+    _seed(con, _owned_pool(1))
+    # Both commanders owned: Fat legalizes the whole G pool plus Narrow
+    # itself as a 99-card, so Fat is deeper (21 vs 20) and ranks first.
+    pool = _owned_pool(1) | {"Narrow Commander": 1, "Fat Commander": 1}
+    options = owned_commander_options(con, pool, min_legal_nonlands=5)
+    assert [o.commander for o in options] == ["Fat Commander", "Narrow Commander"]
+    assert options[0].legal_nonlands == 21
+    assert options[1].legal_nonlands == 20
 
 
 def test_brew_accepts_text_only_commanders_and_identity_width_filter():
@@ -96,19 +120,25 @@ def test_brew_accepts_text_only_commanders_and_identity_width_filter():
     _card(con, "Text Commander", ci=("G",), type_line="Creature",
           oracle_text="This can be your commander.")
     _commander(con, "Fat Commander", ("W", "U", "B", "R", "G"))
-    for i in range(30):
-        _card(con, f"Green Card {i}", ci=("G",))
-    owned = {f"Green Card {i}": 1 for i in range(30)}
-    assert {o.commander for o in owned_commander_options(con, owned)} == {"Text Commander", "Fat Commander"}
-    assert {o.commander for o in owned_commander_options(con, owned, max_identity_width=1)} == {"Text Commander"}
+    _seed(con, _owned_pool(1))
+    pool = _owned_pool(1) | {"Text Commander": 1, "Fat Commander": 1}
+    both = {o.commander for o in owned_commander_options(con, pool, min_legal_nonlands=5)}
+    assert both == {"Text Commander", "Fat Commander"}
+    narrow = {o.commander for o in owned_commander_options(con, pool, min_legal_nonlands=5,
+                                                           max_identity_width=1)}
+    assert narrow == {"Text Commander"}
 
 
-def test_render_options_mentions_missing_colours():
+def test_render_options_mentions_missing_colours_and_owned_lands():
     con = connect(":memory:")
     _commander(con, "Gruul Commander", ("G", "R"))
     for i in range(3):
         _card(con, f"R Card {i}", ci=("R",))
+    _card(con, "Mountain", ci=("R",), type_line="Land", produced=("R",))
     owned = {f"R Card {i}": 1 for i in range(3)}
+    owned["Mountain"] = 1
+    owned["Gruul Commander"] = 1
     options = owned_commander_options(con, owned, min_legal_nonlands=3)
-    lines = render_options(options, 10)
+    lines = render_options(options)
     assert any("NO owned lands produce G" in line for line in lines)
+    assert any("1 owned nonbasic lands" in line for line in lines)

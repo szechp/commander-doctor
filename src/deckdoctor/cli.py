@@ -413,8 +413,9 @@ def main(argv: list[str] | None = None) -> int:
     p_brew.add_argument("--collection", default=None,
                         help="available spare-card inventory, excluding cards in decks "
                              "(default: playgroup.yaml collection_file)")
-    p_brew.add_argument("--min-nonlands", type=int, default=30, metavar="N",
-                        help="only report commanders with at least N unique identity-legal nonland cards owned (default 30)")
+    p_brew.add_argument("--min-nonlands", type=int, default=50, metavar="N",
+                        help="only report commanders with at least N unique identity-legal owned nonland cards "
+                             "(default 50: land slots are covered by basics and never counted)")
     p_brew.add_argument("--limit", type=int, default=20, help="how many commanders to report (default 20)")
     p_brew.add_argument("--max-identity-width", type=int, default=None, metavar="N",
                         help="only report commanders with at most N colours in their identity (e.g. 3 for two/three-colour options)")
@@ -1187,12 +1188,12 @@ def main(argv: list[str] | None = None) -> int:
                 "commanders": [asdict(o) for o in options],
                 "spare_inventory": collection.path if collection else None,
             }, owned_deck, con, status="approximate",
-            limitation="Mechanical discovery only: counts of identity-legal owned cards, "
-                      "colour-source coverage and role-family read counts. No computed "
-                      "verdict on playability, synergy or power -- read each commander's "
-                      "EDHREC page and the owned cards' text before committing. Counts are "
-                      "unique cards (singleton), and lands fixing a colour the commander "
-                      "lacks are not counted.",
+            limitation="Feasibility only: a commander is reported when it is owned and the "
+                      "owned pool has enough unique identity-legal NONLANDS to fill the "
+                      "nonland slots; land slots are always fillable with basics and are "
+                      "never counted. No computed verdict on playability, synergy or "
+                      "power -- read each commander's EDHREC page and the owned cards' "
+                      "text before committing.",
         )
         con.close()
         if args.format == "json":
@@ -1200,7 +1201,7 @@ def main(argv: list[str] | None = None) -> int:
         else:
             if not options:
                 print(f"(no commander reaches {args.min_nonlands} unique identity-legal owned nonlands)")
-            for line in render_options(options, args.limit):
+            for line in render_options(options):
                 print(line)
         return 0
 
