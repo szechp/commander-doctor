@@ -152,6 +152,7 @@ def sync(db_path: str | None = None) -> None:
 
     card_rows: list[tuple] = []
     popularity_rows: list[tuple] = []
+    price_rows: list[tuple] = []
     release_rows: list[tuple] = []
     face_rows: list[tuple] = []
     card_objects: list[dict] = []
@@ -173,6 +174,14 @@ def sync(db_path: str | None = None) -> None:
             release_rows.append((card["name"], card["released_at"]))
         if card.get("edhrec_rank") is not None:
             popularity_rows.append((card["name"], int(card["edhrec_rank"])))
+        # Scryfall prices nonfoil EUR as a plain float ("0.10") or None.
+        prices = card.get("prices") or {}
+        try:
+            eur = float(prices.get("eur")) if prices.get("eur") is not None else None
+        except (TypeError, ValueError):
+            eur = None
+        if eur is not None:
+            price_rows.append((card["name"], eur))
         face_rows.extend(_face_rows(card))
 
     print(f"  {seen} cards seen, {excluded} excluded (tokens/emblems/funny/memorabilia), "
@@ -263,6 +272,7 @@ def sync(db_path: str | None = None) -> None:
         con.execute("DELETE FROM card_tags")
         con.execute("DELETE FROM card_popularity")
         con.execute("DELETE FROM card_release")
+        con.execute("DELETE FROM card_prices")
         con.executemany(
             "INSERT INTO cards (name,mana_cost,cmc,type_line,oracle_text,color_identity,colors,produced_mana,keywords,commander_legal,is_game_changer,layout,set_type,power,toughness) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
             card_rows,
@@ -271,6 +281,8 @@ def sync(db_path: str | None = None) -> None:
             con.executemany("INSERT OR REPLACE INTO card_release VALUES (?,?)", release_rows)
         if popularity_rows:
             con.executemany("INSERT OR REPLACE INTO card_popularity VALUES (?,?)", popularity_rows)
+        if price_rows:
+            con.executemany("INSERT OR REPLACE INTO card_prices VALUES (?,?)", price_rows)
         if face_rows:
             con.executemany("INSERT INTO card_faces VALUES (?,?,?,?,?,?,?)", face_rows)
         if tag_rows:

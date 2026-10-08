@@ -15,7 +15,7 @@ import sqlite3
 from dataclasses import dataclass
 from pathlib import Path
 
-from deckdoctor.deck import _resolve
+from deckdoctor.deck import _parse_decklist_detailed, _resolve
 from deckdoctor.deck_config import load_playgroup_config
 
 
@@ -113,3 +113,36 @@ def configured_collection_path(playgroup_path: str | Path = "playgroup.yaml") ->
 def availability_suffix(name: str, quantities: dict[str, int] | None) -> str:
     quantity = (quantities or {}).get(name, 0)
     return f" | spare=x{quantity}" if quantity else ""
+
+def load_owned_quantities(
+    con: sqlite3.Connection,
+    deck_paths: list[str | Path],
+    spare: SpareInventory | None = None,
+) -> dict[str, int]:
+    """Strict owned-mode pool: canonical card name -> owned quantity.
+
+    Combines the spare inventory (cards not currently allocated to decks)
+    with every given decklist's maindeck AND sideboard -- a card already in
+    a deck is owned too, and a sideboard is the user's own shortlist. All
+    sources are additive per-card-quantity, matching the constraint
+    policy's inventory accounting: one owned copy cannot back two slots.
+    Deck files that cannot be read or parsed are skipped, not fatal: the
+    decks directory is user-controlled and strict mode must not die on a
+    half-edited list.
+    """
+    quantities: dict[str, int] = {}
+    if spare is not None:
+        for name, count in spare.quantities.items():
+            quantities[name] = quantities.get(name, 0) + count
+    for path in deck_paths:
+        try:
+            entries, sideboard = _parse_decklist_detailed(str(path))
+        except (OSError, ValueError):
+            continue
+        for count, name, _ in (*entries, *sideboard):
+            try:
+                canonical = _resolve(con, name).name
+            except ValueError:
+                continue
+            quantities[canonical] = quantities.get(canonical, 0) + count
+    return quantities

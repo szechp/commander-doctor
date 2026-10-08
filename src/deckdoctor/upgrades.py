@@ -427,6 +427,7 @@ def find_role_family_pools(
     deck: Deck, con: sqlite3.Connection, limit_per_family: int = 40,
     edhrec_stats: dict | None = None,
     spare_quantities: dict[str, int] | None = None,
+    max_price: float | None = None, owned_quantities: dict[str, int] | None = None,
 ) -> dict[str, dict]:
     """Holistic, deck-agnostic replacement for calling
     find_grounded_upgrades/find_ramp_upgrades/find_draw_upgrades one
@@ -507,7 +508,8 @@ def find_role_family_pools(
     result: dict[str, dict] = {}
     for family, (search_role, cards_with_it) in sorted(families_present.items()):
         pool = find_candidates(con, commander_ci, search_role, deck_names, limit=limit_per_family,
-                               edhrec_stats=edhrec_stats, spare_quantities=spare_quantities)
+                               edhrec_stats=edhrec_stats, spare_quantities=spare_quantities,
+                               max_price=max_price, owned_quantities=owned_quantities)
         result[family] = {"deck_cards": sorted(cards_with_it), "pool": pool}
     return result
 

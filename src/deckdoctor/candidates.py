@@ -104,6 +104,8 @@ def find_candidates(
     limit: int = 30,
     edhrec_stats: dict | None = None,
     spare_quantities: dict[str, int] | None = None,
+    max_price: float | None = None,
+    owned_quantities: dict[str, int] | None = None,
 ) -> list[str]:
     """Returns compact lines (SPEC.md §10) for up to `limit` commander-legal
     cards in `role`, colour-identity-legal for the commander, not already
@@ -116,7 +118,17 @@ def find_candidates(
     Ownership is deliberately not part of the quality sort or pool selection.
     Cards that clear the ordinary evidence-ranked limit are labelled after the
     fact. There is no ownership-only pool: a low-ranked card does not get extra
-    consideration merely because the user owns it."""
+    consideration merely because the user owns it.
+
+    Two explicit user constraints narrow the pool itself (both optional, both
+    addition-only filters -- neither changes the quality ranking):
+    `max_price` drops cards whose known nonfoil EUR price (Scryfall snapshot,
+    prices.eur) exceeds it, and cards with NO known price: an unpriced card
+    is unknown, never assumed affordable (constraint_policy.py).
+    `owned_quantities` (strict owned mode) restricts the pool to cards the
+    user actually owns -- per-card-quantity, like inventory accounting:
+    owning one copy cannot back two slots.
+    """
     commander_ci = set(commander_color_identity)
     cols_sql = ", ".join(_CARDS_COLS)
     role = normalize_role(role)
@@ -147,7 +159,24 @@ def find_candidates(
             continue
         if not _color_identity_subset(json.loads(row["color_identity"] or "[]"), commander_ci):
             continue
+        if owned_quantities is not None and owned_quantities.get(row["name"], 0) < 1:
+            continue
         matches.append((row, tags_by_name.get(row["name"], set())))
+
+    # The price filter runs after pool assembly but before the limit, so the
+    # returned lines are all affordable rather than a truncated top-N with
+    # unaffordable entries removed. Unknown prices are dropped, never assumed
+    # cheap -- an unpriced card could be a Reserved List staple.
+    price_data: dict[str, float] = {}
+    if max_price is not None:
+        from deckdoctor.prices import affordable, eur_prices
+        price_data = eur_prices(con, [row["name"] for row, _ in matches])
+        kept = set(affordable([row["name"] for row, _ in matches], price_data, max_price))
+        if owned_quantities is not None:
+            # A budget only prices what the user must BUY: an owned card is
+            # never dropped for an unknown or high price, only unowned ones.
+            kept |= {row["name"] for row, _ in matches if owned_quantities.get(row["name"], 0) >= 1}
+        matches = [item for item in matches if item[0]["name"] in kept]
 
     # Ranking, best evidence first. Mana value alone (the previous order)
     # has no notion of quality: a full `removal` pool is ~1,700 cards and
@@ -178,6 +207,9 @@ def find_candidates(
         name = row["name"]
         if "Land" not in (row["type_line"] or "").split(" // ")[0].split():
             line += availability_suffix(name, spare_quantities)
+        if max_price is not None:
+            from deckdoctor.prices import price_suffix
+            line += price_suffix(name, price_data)
         if name in stats:
             line += f" | {stat_suffix(stats[name])}"
         elif name in ranks:

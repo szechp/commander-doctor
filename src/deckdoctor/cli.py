@@ -147,6 +147,17 @@ def _spare_inventory(con: sqlite3.Connection, override_path: str | None):
     return collection
 
 
+def _owned_quantities(con, deck_path: str, collection):
+    """Strict owned mode: spare inventory + every decklist (and sideboard)
+    in the deck's own decks/ directory. A card already in a deck is owned
+    too, and the inventory file itself is explicitly cards NOT in decks,
+    so the two sources only overlap where the user double-counted."""
+    from deckdoctor.collection import load_owned_quantities
+    deck_dir = Path(deck_path).resolve().parent
+    paths = sorted(p for p in deck_dir.glob("*.txt") if p.is_file())
+    return load_owned_quantities(con, paths, collection)
+
+
 def _validation_gate(deck_path: str, db_path: str | None, output_format: str = "text") -> int:
     from deckdoctor.deck_config import config_path_for, load_deck_config
     from deckdoctor.validation import validate_config, validate_decklist
@@ -363,6 +374,12 @@ def main(argv: list[str] | None = None) -> int:
     p_cand.add_argument("--collection", default=None,
                         help="available spare-card inventory, excluding cards in decks "
                              "(default: playgroup.yaml collection_file)")
+    p_cand.add_argument("--max-price", type=float, default=None, metavar="EUR",
+                        help="drop candidates whose known nonfoil EUR price (Scryfall snapshot) "
+                             "exceeds this; cards with no known price are dropped too")
+    p_cand.add_argument("--owned", action="store_true",
+                        help="strict owned mode: only cards you actually own -- spare inventory "
+                             "plus every decklist/sideboard in the deck's own decks/ directory")
     p_cand.add_argument("--format", choices=["text", "json"], default="text")
 
     p_screen = sub.add_parser("screen-candidates", help="filter a user-pasted card list (tier list, ranking, "
@@ -382,6 +399,12 @@ def main(argv: list[str] | None = None) -> int:
     p_upgrades.add_argument("--collection", default=None,
                             help="available spare-card inventory, excluding cards in decks "
                                  "(default: playgroup.yaml collection_file)")
+    p_upgrades.add_argument("--max-price", type=float, default=None, metavar="EUR",
+                            help="drop candidates whose known nonfoil EUR price (Scryfall snapshot) "
+                                 "exceeds this; cards with no known price are dropped too")
+    p_upgrades.add_argument("--owned", action="store_true",
+                            help="strict owned mode: only cards you actually own -- spare inventory "
+                                 "plus every decklist/sideboard in the deck's own decks/ directory")
     p_upgrades.add_argument("--format", choices=["text", "json"], default="text")
 
     p_card = sub.add_parser("card", help="real oracle text + ramp/draw/prereq/tag roles for one or more cards by name -- look it up, don't recall it from memory")
@@ -479,7 +502,6 @@ def main(argv: list[str] | None = None) -> int:
 
     if args.command == "validate":
         import json
-        from pathlib import Path
         from deckdoctor.deck import load_deck
         from deckdoctor.deck_config import config_path_for, load_deck_config
         from deckdoctor.validation import ValidationDiagnostic, ValidationReport, validate_config, validate_decklist
@@ -957,7 +979,6 @@ def main(argv: list[str] | None = None) -> int:
 
     if args.command == "diff":
         import json
-        from pathlib import Path
         from deckdoctor.db import connect_readonly
         from deckdoctor.deck import load_deck
         from deckdoctor.deck_config import load_deck_config
@@ -1050,6 +1071,7 @@ def main(argv: list[str] | None = None) -> int:
             print(str(exc), file=sys.stderr)
             return 2
         spares = collection.quantities if collection else {}
+        owned = _owned_quantities(con, args.deck, collection) if args.owned else None
         # Holistic, deck-agnostic: every role family (compact_line.ROLE_TAG_PREFIXES,
         # plus ramp_kind/draw_kind) that ANY card in this deck belongs to gets the full
         # legal candidate pool, automatically -- not a hand-picked list of categories.
@@ -1060,7 +1082,8 @@ def main(argv: list[str] | None = None) -> int:
         # Lands: the deck's own slow lands plus the fastest multicolour lands it
         # doesn't run (land_speed.py tiers, turns 1-4), originals excluded per playgroup.
         stats, _ = _cached_edhrec_stats(deck.commander.name, config.edhrec_theme if config else None)
-        families = find_role_family_pools(deck, con, edhrec_stats=stats, spare_quantities=spares)
+        families = find_role_family_pools(deck, con, edhrec_stats=stats, spare_quantities=spares,
+                                          max_price=args.max_price, owned_quantities=owned)
         land_upgrades = find_land_upgrades(deck, con, config=config)
         slow_lands = find_slow_lands(deck, con)
 
@@ -1303,9 +1326,13 @@ def main(argv: list[str] | None = None) -> int:
             print(str(exc), file=sys.stderr)
             return 2
         spares = collection.quantities if collection else {}
+        owned = _owned_quantities(con, args.deck, collection) if args.owned else None
+        if owned is not None:
+            print(f"(strict owned mode: {len(owned)} owned card name(s) from the spare "
+                  f"inventory + {Path(args.deck).resolve().parent})", file=sys.stderr)
         lines = find_candidates(
             con, commander_ci, args.role, exclude, limit=args.limit, edhrec_stats=stats,
-            spare_quantities=spares,
+            spare_quantities=spares, max_price=args.max_price, owned_quantities=owned,
         )
         structured = assessment_report("candidates", {"role": args.role, "limit": args.limit, "cards": lines,
                                                       "spare_inventory": collection.path if collection else None,
@@ -1327,7 +1354,6 @@ def main(argv: list[str] | None = None) -> int:
         return 0
 
     if args.command == "goldfish":
-        from pathlib import Path
 
         from deckdoctor.forge_batch import JAR_DEFAULT, JAVA17_DEFAULT, ForgeExecutionError, run_forge_batch
         from deckdoctor.success_condition import SuccessConditionError, derived_path_for, expected_raw_turn, load_success_condition
