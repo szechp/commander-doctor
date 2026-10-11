@@ -1,14 +1,12 @@
 // SIDEBOARD
 1 Beast Within
-1 City of Brass
 1 Deliberate
 1 Dissolve
 1 Fall of Gil-galad
-1 Forbidden Orchard
 1 Herald of Secret Streams
 1 Inspiring Call
+1 Island
 1 Lost Isle Calling
-1 Mana Confluence
 1 Mystic Speculation
 1 Ram Through
 1 Reclamation Sage
@@ -25,7 +23,6 @@
 1 Archive Dragon
 1 Bombadil's Song
 1 Boomerang
-1 Castle Vantress
 1 Council's Deliberation
 1 Freeze in Place
 1 Gift of Strands
@@ -35,7 +32,6 @@
 1 Path of Ancestry
 1 Polluted Delta
 1 Rabid Bite
-1 Temple of Mystery
 1 Tidepool Turtle
 1 Track Down
 1 Vineglimmer Snarl

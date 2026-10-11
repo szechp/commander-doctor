@@ -59,11 +59,8 @@
 1 Misty Rainforest
 1 Cyclonic Rift
 1 Rejuvenating Springs
-1 City of Brass
-1 Mana Confluence
-1 Forbidden Orchard
-12 Forest
-10 Island
+1 Temple of Mystery
+1 Castle Vantress
 1 Herald of Secret Streams
 1 Deliberate
 1 Sigiled Starfish
@@ -78,3 +75,5 @@
 1 Ram Through
 1 Windswift Slice
 1 Reclamation Sage
+12 Forest
+11 Island
