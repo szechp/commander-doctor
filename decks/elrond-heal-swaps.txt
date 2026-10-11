@@ -6,7 +6,7 @@
 1 Gyre Sage
 1 Herald of Secret Streams
 1 Inspiring Call
-2 Island
+1 Island
 1 Llanowar Elves
 1 Lost Isle Calling
 1 Mystic Speculation
@@ -26,7 +26,6 @@
 1 Bombadil's Song
 1 Boomerang
 1 Council's Deliberation
-1 Forest
 1 Freeze in Place
 1 Gift of Strands
 1 Horses of the Bruinen
