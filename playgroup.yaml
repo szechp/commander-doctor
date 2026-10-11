@@ -5,6 +5,14 @@
 # defined somewhere."
 
 exclude_original_dual_lands: true
+
+# User-requested directly: "I don't wanna run off coloured fetchlands" --
+# no fetchland whose named basic types fall outside the commander's colour
+# identity (e.g. Scalding Tarn naming Island/Plains in a UG deck). Applies
+# to `deckdoctor upgrades` land suggestions across every deck. Fetches
+# naming only in-identity basics (Polluted Delta in UG) and fetches that
+# can find any land (judged by what they find, not by name) stay eligible.
+exclude_off_colour_fetches: true
 collection_file: all cards not in decks.txt
 # This file is the AVAILABLE SPARE inventory: cards not currently allocated to
 # decks. Every card already in a deck is also owned even though absent here.

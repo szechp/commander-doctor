@@ -922,6 +922,26 @@ def _fetchable_colours(oracle_text: str, deck_lands: list) -> set[str]:
     return colours
 
 
+def _is_off_colour_fetch(oracle_text: str, commander_ci: set[str]) -> bool:
+    """A fetchland is off-colour when any basic type it names falls outside
+    the commander's identity -- judged by its printed card, not by what it
+    could fetch in this one deck (Windswept Heath names Forest/Plains and
+    is off-colour for UG even though it can find the Forest; Misty
+    Rainforest names Forest/Island and is on-colour). Fetches that name no
+    basic type (Prismatic Vista) are not excluded here -- they are judged
+    by the deck's lands in `_fetchable_colours`."""
+    from deckdoctor.colour import BASIC_TYPE_COLOUR, FETCH_RE
+
+    m = FETCH_RE.search(oracle_text)
+    if not m:
+        return False
+    wanted = m.group(1)
+    named = {t for t in BASIC_TYPE_COLOUR if t in wanted}
+    if not named:
+        return False
+    return not {BASIC_TYPE_COLOUR[t] for t in named} <= commander_ci
+
+
 def find_slow_lands(deck: Deck, con: sqlite3.Connection) -> list[SlowLand]:
     """The deck's own nonbasic lands that aren't untapped on turns 1-4
     (tier 2/3: check/filter lands, triomes, battle lands, slowlands, tapped
@@ -982,6 +1002,8 @@ def find_land_upgrades(
         if name in deck_land_names or "//" in name or (type_line or "").startswith("Basic"):
             continue
         if playgroup.exclude_original_dual_lands and name in ORIGINAL_DUAL_LANDS:
+            continue
+        if playgroup.exclude_off_colour_fetches and _is_off_colour_fetch(text or "", commander_ci):
             continue
         if not set(json.loads(ci_json or "[]")) <= commander_ci or "spend this mana only" in (text or "").lower():
             continue

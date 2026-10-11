@@ -507,6 +507,11 @@ class PlaygroupConfig:
     play group. this needs to be defined somewhere" -- `playgroup.yaml`
     at the repo root is that "somewhere"."""
     exclude_original_dual_lands: bool = False
+    # Off-colour fetchlands (e.g. Polluted Delta in a UG deck, fetching only
+    # this deck's basics) stay out of land suggestions. User-requested
+    # directly: "I don't wanna run off coloured fetchlands" -- a condition
+    # of the playgroup, like the original-dual exclusion above.
+    exclude_off_colour_fetches: bool = False
     # Optional ManaBox-style inventory of available spares not in decks. It is
     # positive evidence for nonland additions only, never a full ownership
     # ledger or a reason to cut a card already in a deck. Lands are ignored.
@@ -527,5 +532,6 @@ def load_playgroup_config(path: str = "playgroup.yaml") -> PlaygroupConfig:
         raise DeckConfigError("playgroup.yaml 'collection_file' must be a path string or null")
     return PlaygroupConfig(
         exclude_original_dual_lands=bool(doc.get("exclude_original_dual_lands", False)),
+        exclude_off_colour_fetches=bool(doc.get("exclude_off_colour_fetches", False)),
         collection_file=collection_file,
     )
