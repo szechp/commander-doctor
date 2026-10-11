@@ -1,0 +1,11 @@
+commander: Elrond, Master of Healing
+bracket: 3
+threshold: 4
+edhrec_theme: scry
+gameplan: >
+  Scry-counters midrange. Scry every turn (cantrips, repeatable scry permanents)
+  to grow the board with +1/+1 counters via Elrond; draw cards when opponents
+  target countered-up creatures. Win turns 6-8 with oversized trample creatures
+  via Overwhelming Stampede / Pathbreaker Ibex, or Simic Ascendancy alt-win.
+  Speed priority: cheaper interaction, faster lands, early dorks to get Elrond
+  down on turn 3 and online turn 4.
