@@ -3,9 +3,11 @@
 1 Deliberate
 1 Dissolve
 1 Fall of Gil-galad
+1 Gyre Sage
 1 Herald of Secret Streams
 1 Inspiring Call
 1 Island
+1 Llanowar Elves
 1 Lost Isle Calling
 1 Mystic Speculation
 1 Ram Through
@@ -35,3 +37,5 @@
 1 Tidepool Turtle
 1 Track Down
 1 Vineglimmer Snarl
+1 Woodland Mystic
+1 Wose Pathfinder

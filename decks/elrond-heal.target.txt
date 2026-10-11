@@ -1,5 +1,5 @@
 1 Elrond, Master of Healing
-1 Wose Pathfinder
+1 Gyre Sage
 1 Omenspeaker
 1 Galadhrim Guide
 1 Bilbo Baggins, Burglar
@@ -25,7 +25,7 @@
 1 Pridemalkin
 1 Deepglow Skate
 1 Giant's Boulder
-1 Woodland Mystic
+1 Llanowar Elves
 1 Candy Trail
 1 Overwhelming Stampede
 1 Celeborn the Wise
