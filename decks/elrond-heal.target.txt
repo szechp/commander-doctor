@@ -75,5 +75,5 @@
 1 Ram Through
 1 Windswift Slice
 1 Reclamation Sage
-12 Forest
-11 Island
+11 Forest
+12 Island
