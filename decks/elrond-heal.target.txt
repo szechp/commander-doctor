@@ -61,7 +61,7 @@
 1 Rejuvenating Springs
 1 City of Brass
 1 Mana Confluence
-1 Flooded Strand
+1 Forbidden Orchard
 12 Forest
 10 Island
 1 Herald of Secret Streams
