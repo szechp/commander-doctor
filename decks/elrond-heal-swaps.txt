@@ -16,6 +16,7 @@
 1 Serum Visions
 1 Sigiled Starfish
 1 Swan Song
+1 Wave Goodbye
 1 Willowrush Verge
 1 Windswift Slice
 
@@ -25,6 +26,7 @@
 1 Archive Dragon
 1 Bombadil's Song
 1 Boomerang
+1 Candy Trail
 1 Council's Deliberation
 1 Freeze in Place
 1 Gift of Strands
