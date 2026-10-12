@@ -1,17 +1,23 @@
 // SIDEBOARD
 1 Beast Within
+1 Bred for the Hunt
 1 Deliberate
 1 Dissolve
 1 Fall of Gil-galad
+1 Fathom Mage
+1 Fierce Guardianship
 1 Gyre Sage
 1 Herald of Secret Streams
 1 Inspiring Call
 1 Island
+1 Kenessos, Priest of Thassa
 1 Llanowar Elves
 1 Lost Isle Calling
+1 Master Biomancer
 1 Mystic Speculation
 1 Proft, Consulting Detective
 1 Ram Through
+1 Rashmi, Eternities Crafter
 1 Reclamation Sage
 1 Rejuvenating Springs
 1 Serum Visions
@@ -25,15 +31,21 @@
 1 Aggressive Mammoth
 1 Applied Biomancy
 1 Archive Dragon
+1 Arwen's Gift
 1 Bombadil's Song
 1 Boomerang
 1 Candy Trail
+1 Celeborn the Wise
 1 Council's Deliberation
 1 Freeze in Place
+1 Gandalf, Friend of the Shire
 1 Giant's Boulder
 1 Gift of Strands
+1 Glorfindel, Dauntless Rescuer
 1 Horses of the Bruinen
+1 Legolas, Counter of Kills
 1 Mystic Redaction
+1 Negate
 1 Nissa, Steward of Elements
 1 Path of Ancestry
 1 Polluted Delta
