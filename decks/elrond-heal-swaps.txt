@@ -10,6 +10,7 @@
 1 Llanowar Elves
 1 Lost Isle Calling
 1 Mystic Speculation
+1 Proft, Consulting Detective
 1 Ram Through
 1 Reclamation Sage
 1 Rejuvenating Springs
@@ -29,6 +30,7 @@
 1 Candy Trail
 1 Council's Deliberation
 1 Freeze in Place
+1 Giant's Boulder
 1 Gift of Strands
 1 Horses of the Bruinen
 1 Mystic Redaction
