@@ -29,3 +29,41 @@ collection_file: all cards not in decks.txt
 # be) and lives in code (`upgrades.py`'s `ORIGINAL_DUAL_LANDS`) rather
 # than being retyped here -- this flag only controls whether the rule is
 # applied.
+
+# User-requested directly: "those staples, rollick chaos warp, force of will
+# and negation, I need them in every deck actually. Those are non negotiable,
+# I wanna find a pool of those, and put them in all decks, as a base."
+# Verified against the local mirror (commander-legal, oracle text read) before
+# inclusion. Each entry is a strong default include for any deck whose colour
+# identity allows it -- the deck's own review still decides the exact count
+# and whether a deck-specific card beats it for a slot.
+#
+# game_changer_flags lists the cards the MIRROR does not flag as Game Changers
+# but the official Commander Bracket list does (or vice versa): Fierce
+# Guardianship is flagged by the mirror; Force of Will is NOT flagged by the
+# mirror but IS on the official bracket Game Changer list. Treat those as
+# GC-counted when computing a deck's 3-GC bracket cap.
+core_staples:
+  white:
+    - Swords to Plowshares        # {W} instant: exile creature, opp gains life
+    - Path to Exile               # {W} instant: exile creature, opp fetches basic
+    - Generous Gift               # {2}{W} instant: destroy any permanent
+    - Flare of Fortitude          # {2}{W}{W}: free w/ nontoken W creature sac; protection+fog
+  blue:
+    - Swan Song                   # {U} instant: counter ench/inst/sorc, opp gets 2/2
+    - Flare of Denial             # {2}{U}: free if you control a power-5+ creature
+    - Force of Negation           # {1}{U}{U}: pitch-free noncreature counter
+    - Fierce Guardianship         # free w/ commander -- GAME CHANGER (mirror GC:1)
+  black:
+    - Deadly Rollick              # {3}{B}: free w/ commander, exile creature
+    - Flare of Malice             # {2}{B}: free if you control a power-5+ creature
+  red:
+    - Deflecting Swat             # {2}{R}: free w/ commander, redirect any spell/ability
+    - Chaos Warp                  # {2}{R} instant: answers any permanent
+    - Flare of Duplication        # {1}{R}{R}: free w/ nontoken R creature sac, copy spell
+  green:
+    - Beast Within                # {2}{G} instant: destroy any permanent, 3/3 downside
+  # Force of Will ({3}{U}{U}, pitch-free hard counter) -- user-named, verified
+  # legal, but the official bracket list classes it as a Game Changer while
+  # the local mirror does not (GC:0). Include per deck only with explicit GC
+  # headroom; see game_changer_flags note above.
