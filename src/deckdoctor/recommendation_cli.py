@@ -113,6 +113,20 @@ def _render_text(report: Report) -> str:
                 lines.append(f"    Gains: {', '.join(match['gained_roles'])}")
         if entry["match_count"] > len(entry["matches"]):
             lines.append(f"  ({entry['match_count'] - len(entry['matches'])} more same-role card(s) in --format json)")
+    for entry in report.metrics.get("staples", []):
+        roles = ", ".join(entry["roles"] or entry["role_tags"]) or "no supported role"
+        rank = f", global #{entry['global_rank']}" if entry.get("global_rank") else ""
+        lines.append(f"Staple: {entry['card']} ({roles}; {'+'.join(entry['source'])}{rank})")
+        for note in entry["notes"]:
+            lines.append(f"  Note: {note}")
+        for match in entry["matches"]:
+            lines.append(f"  vs {match['current']} [{match['role']}, {match['status']}]")
+            if match["lost_roles"]:
+                lines.append(f"    Loses: {', '.join(match['lost_roles'])}")
+            if match["gained_roles"]:
+                lines.append(f"    Gains: {', '.join(match['gained_roles'])}")
+        if entry["match_count"] > len(entry["matches"]):
+            lines.append(f"  ({entry['match_count'] - len(entry['matches'])} more same-role card(s) in --format json)")
     lines.extend(f"Limit: {limitation}" for limitation in report.limitations)
     if report.metrics:
         lines.append("Use --format json for the full inventory and comparison evidence.")

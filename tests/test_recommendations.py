@@ -357,3 +357,57 @@ def test_review_compares_sideboard_cards_against_same_role_deck_cards(fixture_db
     assert sideboard["Not A Real Card"]["notes"] == ["not in the local mirror (typo, or newer than the last sync)"]
     finding = next(f for f in report.findings if f.id == "review.sideboard")
     assert "Black Market" in finding.evidence["not_playable"]
+
+
+def test_review_proposes_staples_the_deck_lacks_with_same_role_comparisons(fixture_db, tmp_path):
+    # The user wants the best cards in most decks, on theme or not, unless
+    # one genuinely doesn't fit (a rejection logged for this deck) or the
+    # deck has a better alternative (the same-role comparison shows it).
+    from deckdoctor.deck import load_deck
+    from deckdoctor.deck_config import DeckConfig, FeedbackEntry
+    from deckdoctor.recommendations import build_review_packet
+
+    path = tmp_path / "staples.txt"
+    path.write_text("1 Fixture Commander\n1 Arcane Signet\n"
+                    + "".join(f"1 Fixture Plains {i}\n" for i in range(98)), encoding="utf-8")
+    deck = load_deck(str(path), fixture_db)
+    fixture_db.execute("INSERT OR REPLACE INTO card_popularity VALUES ('Mind Stone', 40)")
+    fixture_db.execute("INSERT OR REPLACE INTO card_popularity VALUES ('Fellwar Stone', 90)")
+    config = DeckConfig(commander="Fixture Commander", feedback=[
+        FeedbackEntry(date="2026-10-14", kind="swap", current="Arcane Signet", suggested="Commander's Sphere",
+                      status="rejected", reason="too slow here"),
+    ])
+    report = build_review_packet(deck, fixture_db, config, core_staples=(
+        "Mind Stone", "Commander's Sphere", "Black Market", "Arcane Signet", "Not A Real Card"))
+    staples = {entry["card"]: entry for entry in report.metrics["staples"]}
+
+    mind_stone = staples["Mind Stone"]
+    assert mind_stone["source"] == ["playgroup", "popular"] and mind_stone["global_rank"] == 40
+    assert [(m["current"], m["role"]) for m in mind_stone["matches"]] == [("Arcane Signet", "ramp")]
+    assert staples["Fellwar Stone"]["source"] == ["popular"]  # globally played, not on the list
+    assert list(staples)[0] == "Mind Stone"  # the playgroup's own list comes first
+    assert "Commander's Sphere" not in staples  # rejected for this deck
+    assert "Black Market" not in staples and "Arcane Signet" not in staples  # off colour / already in the deck
+
+    finding = next(f for f in report.findings if f.id == "review.staples")
+    assert finding.evidence["rejected_for_this_deck"] == {"Commander's Sphere": "too slow here"}
+    assert finding.evidence["off_colour"] == 1 and finding.evidence["in_deck"] == 1
+    unresolved = next(f for f in report.findings if f.id == "review.staples.unresolved")
+    assert unresolved.evidence["names"] == ["Not A Real Card"]
+
+
+def test_playgroup_core_staples_accepts_a_flat_list_or_colour_groups(tmp_path):
+    import pytest
+
+    from deckdoctor.deck_config import DeckConfigError, load_playgroup_config
+
+    flat = tmp_path / "flat.yaml"
+    flat.write_text("core_staples:\n  - Sol Ring\n  - Deadly Rollick\n  - Sol Ring\n", encoding="utf-8")
+    assert load_playgroup_config(str(flat)).core_staples == ("Sol Ring", "Deadly Rollick")
+    grouped = tmp_path / "grouped.yaml"
+    grouped.write_text("core_staples:\n  black: [Deadly Rollick]\n  red: [Deflecting Swat]\n", encoding="utf-8")
+    assert load_playgroup_config(str(grouped)).core_staples == ("Deadly Rollick", "Deflecting Swat")
+    bad = tmp_path / "bad.yaml"
+    bad.write_text("core_staples: Sol Ring\n", encoding="utf-8")
+    with pytest.raises(DeckConfigError):
+        load_playgroup_config(str(bad))
