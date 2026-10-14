@@ -2,7 +2,6 @@
 1 Blazemire Verge
 1 Bloodstained Mire
 1 Chaos Warp
-1 Chrome Mox
 1 Deadly Rollick
 1 Deflecting Swat
 1 Diabolic Intent
@@ -16,6 +15,7 @@
 1 Mount Doom
 1 Munitions Expert
 1 Nasty End
+1 Night's Whisper
 1 Rakdos Charm
 1 Squee, the Immortal
 1 Sulfurous Springs

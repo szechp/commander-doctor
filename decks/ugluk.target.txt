@@ -66,7 +66,7 @@
 1 Deadly Rollick
 1 Deflecting Swat
 1 Diabolic Intent
-1 Chrome Mox
+1 Night's Whisper
 1 Imperial Recruiter
 1 Goblin Recruiter
 1 Metallic Mimic
