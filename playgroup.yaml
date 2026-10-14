@@ -35,32 +35,14 @@ collection_file: all cards not in decks.txt
 # but still just good. Deflecting Swat, deadly rollick etc. Not playing
 # those puts me at a disadvantage. So I want them in most decks, apart from
 # those where they genuinely don't fit, or have better alternatives."
-# `deckdoctor review` proposes every one the deck's colour identity allows
-# and the deck lacks, compared with the deck's same-role cards, alongside
-# the globally most-played role-bearing cards. Colour identity, legality
-# and Game Changer status come from the mirror -- no need to sort by colour.
-# To keep a staple out of one deck, reject it there:
+# This list holds ONLY cards the user named -- agents don't add to it.
+# Everything else comes from data: `deckdoctor review` also proposes the
+# globally most-played role-bearing cards (Scryfall's Commander rank) the
+# deck could run. Colour identity, legality and Game Changer status come
+# from the mirror. To keep a staple out of one deck, reject it there:
 #   deckdoctor feedback decks/<deck>.txt swap --current <cut> --suggested <staple> --status rejected --reason ...
 core_staples:
-  - Sol Ring
-  - Arcane Signet
-  - Swords to Plowshares
-  - Path to Exile
-  - Generous Gift
-  - Teferi's Protection
-  - Counterspell
-  - Swan Song
-  - Cyclonic Rift
-  - Force of Will
-  - Force of Negation
-  - Fierce Guardianship
   - Deadly Rollick
-  - Feed the Swarm
-  - Toxic Deluge
-  - Infernal Grasp
   - Deflecting Swat
-  - Chaos Warp
-  - Vandalblast
-  - Beast Within
-  - Nature's Claim
-  - Heroic Intervention
+  - Swords to Plowshares
+  - Cyclonic Rift
