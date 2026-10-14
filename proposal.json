@@ -1,0 +1,90 @@
+{
+  "schema_version": 1,
+  "swaps": [
+    {
+      "cut": "Arcane Signet",
+      "add": "Blazemire Verge",
+      "quantity": 1
+    },
+    {
+      "cut": "Blasphemous Act",
+      "add": "Bloodstained Mire",
+      "quantity": 1
+    },
+    {
+      "cut": "Boggart Harbinger",
+      "add": "Brightstone Ritual",
+      "quantity": 1
+    },
+    {
+      "cut": "Empty the Warrens",
+      "add": "Chaos Warp",
+      "quantity": 1
+    },
+    {
+      "cut": "Foreboding Ruins",
+      "add": "Deadly Rollick",
+      "quantity": 1
+    },
+    {
+      "cut": "Idol of Oblivion",
+      "add": "Deflecting Swat",
+      "quantity": 1
+    },
+    {
+      "cut": "Impact Tremors",
+      "add": "Diabolic Intent",
+      "quantity": 1
+    },
+    {
+      "cut": "Jeska's Will",
+      "add": "Fable of the Mirror-Breaker // Reflection of Kiki-Jiki",
+      "quantity": 1
+    },
+    {
+      "cut": "Krenko's Command",
+      "add": "Goblin Recruiter",
+      "quantity": 1
+    },
+    {
+      "cut": "March from the Black Gate",
+      "add": "Imperial Recruiter",
+      "quantity": 1
+    },
+    {
+      "cut": "Mordor Muster",
+      "add": "Metallic Mimic",
+      "quantity": 1
+    },
+    {
+      "cut": "Phyrexian Arena",
+      "add": "Mount Doom",
+      "quantity": 1
+    },
+    {
+      "cut": "Rogue's Passage",
+      "add": "Nasty End",
+      "quantity": 1
+    },
+    {
+      "cut": "Shadowblood Ridge",
+      "add": "Rakdos Charm",
+      "quantity": 1
+    },
+    {
+      "cut": "Smoldering Marsh",
+      "add": "Sulfurous Springs",
+      "quantity": 1
+    },
+    {
+      "cut": "Terminate",
+      "add": "Tainted Peak",
+      "quantity": 1
+    },
+    {
+      "cut": "Thrill of Possibility",
+      "add": "Village Rites",
+      "quantity": 1
+    }
+  ]
+}

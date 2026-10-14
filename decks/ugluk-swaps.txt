@@ -8,17 +8,11 @@
 1 Diabolic Intent
 1 Fable of the Mirror-Breaker // Reflection of Kiki-Jiki
 1 Goblin Recruiter
-1 Gorbag of Minas Morgul
 1 Imperial Recruiter
-1 Kindred Dominance
-1 Lash of the Balrog
 1 Metallic Mimic
 1 Mount Doom
-1 Munitions Expert
 1 Nasty End
-1 Night's Whisper
 1 Rakdos Charm
-1 Squee, the Immortal
 1 Sulfurous Springs
 1 Tainted Peak
 1 Village Rites
@@ -29,21 +23,15 @@
 1 Boggart Harbinger
 1 Empty the Warrens
 1 Foreboding Ruins
-1 Furystoke Giant
-1 Gempalm Incinerator
 1 Idol of Oblivion
 1 Impact Tremors
 1 Jeska's Will
 1 Krenko's Command
-1 Legion Warboss
 1 March from the Black Gate
-1 Mauhúr, Uruk-hai Captain
 1 Mordor Muster
-1 Pashalik Mons
 1 Phyrexian Arena
 1 Rogue's Passage
 1 Shadowblood Ridge
 1 Smoldering Marsh
 1 Terminate
 1 Thrill of Possibility
-1 Worthy Cost

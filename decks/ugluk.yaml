@@ -62,3 +62,27 @@ feedback:
     kind: pin
     card: Bastion of Remembrance
     reason: 'engine pin: combo core / payoff confirmed by user'
+  - date: '2026-10-14'
+    kind: pin
+    card: Pashalik Mons
+    reason: 'user-defended: combo piece / plan payoff, reinstated after contested cut'
+  - date: '2026-10-14'
+    kind: pin
+    card: Worthy Cost
+    reason: 'user-defended: combo piece / plan payoff, reinstated after contested cut'
+  - date: '2026-10-14'
+    kind: pin
+    card: Gempalm Incinerator
+    reason: 'user-defended: combo piece / plan payoff, reinstated after contested cut'
+  - date: '2026-10-14'
+    kind: pin
+    card: Mauhúr, Uruk-hai Captain
+    reason: 'user-defended: combo piece / plan payoff, reinstated after contested cut'
+  - date: '2026-10-14'
+    kind: pin
+    card: Furystoke Giant
+    reason: 'user-defended: combo piece / plan payoff, reinstated after contested cut'
+  - date: '2026-10-14'
+    kind: pin
+    card: Legion Warboss
+    reason: 'user-defended: combo piece / plan payoff, reinstated after contested cut'
