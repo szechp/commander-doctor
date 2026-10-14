@@ -86,3 +86,13 @@ feedback:
     kind: pin
     card: Legion Warboss
     reason: 'user-defended: combo piece / plan payoff, reinstated after contested cut'
+  - date: '2026-10-14'
+    kind: pin
+    card: Impact Tremors
+    reason: 'reinstated on full re-review: token-deck draw engine / infinite-ETB combo
+      payoff -- cut was wrong'
+  - date: '2026-10-14'
+    kind: pin
+    card: Idol of Oblivion
+    reason: 'reinstated on full re-review: token-deck draw engine / infinite-ETB combo
+      payoff -- cut was wrong'

@@ -27,63 +27,53 @@
       "quantity": 1
     },
     {
-      "cut": "Idol of Oblivion",
+      "cut": "Jeska's Will",
       "add": "Deflecting Swat",
       "quantity": 1
     },
     {
-      "cut": "Impact Tremors",
+      "cut": "Krenko's Command",
       "add": "Diabolic Intent",
       "quantity": 1
     },
     {
-      "cut": "Jeska's Will",
-      "add": "Fable of the Mirror-Breaker // Reflection of Kiki-Jiki",
-      "quantity": 1
-    },
-    {
-      "cut": "Krenko's Command",
+      "cut": "March from the Black Gate",
       "add": "Goblin Recruiter",
       "quantity": 1
     },
     {
-      "cut": "March from the Black Gate",
+      "cut": "Mordor Muster",
       "add": "Imperial Recruiter",
       "quantity": 1
     },
     {
-      "cut": "Mordor Muster",
+      "cut": "Phyrexian Arena",
       "add": "Metallic Mimic",
       "quantity": 1
     },
     {
-      "cut": "Phyrexian Arena",
+      "cut": "Rogue's Passage",
       "add": "Mount Doom",
       "quantity": 1
     },
     {
-      "cut": "Rogue's Passage",
+      "cut": "Shadowblood Ridge",
       "add": "Nasty End",
       "quantity": 1
     },
     {
-      "cut": "Shadowblood Ridge",
+      "cut": "Smoldering Marsh",
       "add": "Rakdos Charm",
       "quantity": 1
     },
     {
-      "cut": "Smoldering Marsh",
+      "cut": "Terminate",
       "add": "Sulfurous Springs",
       "quantity": 1
     },
     {
-      "cut": "Terminate",
-      "add": "Tainted Peak",
-      "quantity": 1
-    },
-    {
       "cut": "Thrill of Possibility",
-      "add": "Village Rites",
+      "add": "Tainted Peak",
       "quantity": 1
     }
   ]

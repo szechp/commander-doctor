@@ -48,11 +48,9 @@
 1 Phyrexian Altar
 1 Skullclamp
 1 Muxus, Goblin Grandee
-1 Village Rites
 1 Nasty End
 1 Rakdos Charm
 1 Chaos Warp
-1 Fable of the Mirror-Breaker // Reflection of Kiki-Jiki
 1 Blazemire Verge
 1 Tainted Peak
 1 Mount Doom
@@ -72,3 +70,5 @@
 1 Mauhúr, Uruk-hai Captain
 1 Furystoke Giant
 1 Legion Warboss
+1 Impact Tremors
+1 Idol of Oblivion

@@ -28,6 +28,8 @@
 1 Krenko, Mob Boss
 1 Lightning Crafter
 1 Sol Ring
+1 Impact Tremors
+1 Idol of Oblivion
 1 Pashalik Mons
 1 Goblin Bombardment
 1 Vandalblast
@@ -63,7 +65,6 @@
 1 Deadly Rollick
 1 Deflecting Swat
 1 Diabolic Intent
-1 Fable of the Mirror-Breaker // Reflection of Kiki-Jiki
 1 Goblin Recruiter
 1 Imperial Recruiter
 1 Metallic Mimic
@@ -72,15 +73,12 @@
 1 Rakdos Charm
 1 Sulfurous Springs
 1 Tainted Peak
-1 Village Rites
 // MAYBEBOARD
 1 Arcane Signet
 1 Blasphemous Act
 1 Boggart Harbinger
 1 Empty the Warrens
 1 Foreboding Ruins
-1 Idol of Oblivion
-1 Impact Tremors
 1 Jeska's Will
 1 Krenko's Command
 1 March from the Black Gate
