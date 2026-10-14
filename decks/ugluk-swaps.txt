@@ -1,6 +1,7 @@
 // SIDEBOARD
 1 Blazemire Verge
 1 Bloodstained Mire
+1 Brightstone Ritual
 1 Chaos Warp
 1 Deadly Rollick
 1 Deflecting Swat
@@ -24,6 +25,7 @@
 
 // MAYBEBOARD
 1 Arcane Signet
+1 Blasphemous Act
 1 Boggart Harbinger
 1 Empty the Warrens
 1 Foreboding Ruins

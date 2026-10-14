@@ -18,7 +18,6 @@
 1 My Precious
 1 Talisman of Indulgence
 17 Mountain
-1 Blasphemous Act
 1 Faithless Looting
 1 Krenko, Mob Boss
 1 Lightning Crafter
@@ -72,3 +71,4 @@
 1 Metallic Mimic
 1 The Great Goblin
 1 Squee, the Immortal
+1 Brightstone Ritual
