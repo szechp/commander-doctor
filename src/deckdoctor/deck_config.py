@@ -516,6 +516,13 @@ class PlaygroupConfig:
     # positive evidence for nonland additions only, never a full ownership
     # ledger or a reason to cut a card already in a deck. Lands are ignored.
     collection_file: str | None = None
+    # Cards the user wants in most decks whatever the theme -- the best
+    # cards, not on-plan ones (Deadly Rollick, Deflecting Swat, Swords to
+    # Plowshares, ...). User-requested directly: "I want them in most decks,
+    # apart from those where they genuinely don't fit, or have better
+    # alternatives". `review` proposes each colour-legal one the deck lacks
+    # with same-role comparisons; it never adds anything by itself.
+    core_staples: tuple[str, ...] = ()
 
 
 def load_playgroup_config(path: str = "playgroup.yaml") -> PlaygroupConfig:
@@ -530,8 +537,14 @@ def load_playgroup_config(path: str = "playgroup.yaml") -> PlaygroupConfig:
     collection_file = doc.get("collection_file")
     if collection_file is not None and not isinstance(collection_file, str):
         raise DeckConfigError("playgroup.yaml 'collection_file' must be a path string or null")
+    core_staples = doc.get("core_staples") or []
+    if isinstance(core_staples, dict):  # grouped by colour: the grouping is cosmetic, identity comes from the mirror
+        core_staples = [name for group in core_staples.values() for name in (group or [])]
+    if not isinstance(core_staples, list) or not all(isinstance(n, str) and n.strip() for n in core_staples):
+        raise DeckConfigError("playgroup.yaml 'core_staples' must be a list of card names")
     return PlaygroupConfig(
         exclude_original_dual_lands=bool(doc.get("exclude_original_dual_lands", False)),
         exclude_off_colour_fetches=bool(doc.get("exclude_off_colour_fetches", False)),
         collection_file=collection_file,
+        core_staples=tuple(dict.fromkeys(n.strip() for n in core_staples)),
     )

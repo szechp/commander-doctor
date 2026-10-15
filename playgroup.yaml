@@ -29,3 +29,20 @@ collection_file: all cards not in decks.txt
 # be) and lives in code (`upgrades.py`'s `ORIGINAL_DUAL_LANDS`) rather
 # than being retyped here -- this flag only controls whether the rule is
 # applied.
+
+# Commander staples: the best cards, played in most decks whatever the
+# theme. User-requested directly: "sometimes there are cards not on theme,
+# but still just good. Deflecting Swat, deadly rollick etc. Not playing
+# those puts me at a disadvantage. So I want them in most decks, apart from
+# those where they genuinely don't fit, or have better alternatives."
+# This list holds ONLY cards the user named -- agents don't add to it.
+# Everything else comes from data: `deckdoctor review` also proposes the
+# globally most-played role-bearing cards (Scryfall's Commander rank) the
+# deck could run. Colour identity, legality and Game Changer status come
+# from the mirror. To keep a staple out of one deck, reject it there:
+#   deckdoctor feedback decks/<deck>.txt swap --current <cut> --suggested <staple> --status rejected --reason ...
+core_staples:
+  - Deadly Rollick
+  - Deflecting Swat
+  - Swords to Plowshares
+  - Cyclonic Rift

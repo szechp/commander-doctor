@@ -22,7 +22,8 @@ from deckdoctor.candidates import CandidatePage, compare_candidates
 from deckdoctor.combos import _cache_path as _combo_cache_path
 from deckdoctor.deck import Card, Deck
 from deckdoctor.deck import _resolve as _resolve_card
-from deckdoctor.deck_config import DeckConfig, pinned_cards, rejected_swaps
+from deckdoctor.compact_line import ROLE_TAG_PREFIXES
+from deckdoctor.deck_config import DeckConfig, load_playgroup_config, pinned_cards, rejected_swaps
 from deckdoctor.recommendation_comparison import classify_direct_upgrade
 from deckdoctor.reliability import cost_evidence
 from deckdoctor.reports import Finding, Report
@@ -256,6 +257,145 @@ def _direct_upgrade_discovery(
     return found
 
 
+def _same_role_matches(
+    con: sqlite3.Connection, name: str, roles: list[str], deck_roles: dict[str, set[str]],
+    pins: dict, rejected: dict,
+) -> list[dict]:
+    """`name` compared against every deck card sharing one of `roles`,
+    fewest lost roles first; pinned cuts and rejected pairs are skipped."""
+    matches = []
+    for role in roles:
+        for current in sorted(n for n, current_roles in deck_roles.items() if role in current_roles):
+            if current in pins or (current, name) in rejected:
+                continue
+            try:
+                comparison = compare_candidates(con, current, name, role)
+            except ValueError:
+                continue
+            matches.append({"current": current, "candidate": name, "role": role, "status": comparison.status,
+                            "gained_roles": list(comparison.gained_roles),
+                            "lost_roles": list(comparison.lost_roles)})
+    matches.sort(key=lambda m: (len(m["lost_roles"]), m["current"], m["role"]))
+    return matches
+
+
+# Global Commander popularity (Scryfall `edhrec_rank`, lower = in more decks)
+# at or under which a role-bearing nonland counts as a staple even when the
+# playgroup list doesn't name it: the cards most decks run regardless of theme.
+POPULAR_STAPLE_RANK = 150
+GAME_CHANGER_CAP = 3
+
+
+def _popular_staples(con: sqlite3.Connection, max_rank: int) -> list[tuple[str, int]]:
+    """(name, rank) for commander-legal, role-bearing nonlands within the
+    global top `max_rank`. Empty on a mirror without `card_popularity`."""
+    try:
+        rows = con.execute(
+            "SELECT c.name, p.edhrec_rank, c.ramp_kind, c.draw_kind FROM card_popularity p "
+            "JOIN cards c ON c.name = p.card_name "
+            "WHERE p.edhrec_rank IS NOT NULL AND p.edhrec_rank <= ? AND c.commander_legal = 1 "
+            "AND c.type_line NOT LIKE '%Land%' ORDER BY p.edhrec_rank", [max_rank],
+        ).fetchall()
+    except sqlite3.OperationalError:
+        return []
+    tags = _tags_by_name(con, [r[0] for r in rows])
+    return [(name, rank) for name, rank, ramp_kind, draw_kind in rows
+            if ramp_kind or draw_kind or _role_tags(tags.get(name, ()))]
+
+
+def _role_tags(tags) -> list[str]:
+    return sorted(t for t in tags if any(t == p or t.startswith(p) for p in ROLE_TAG_PREFIXES))
+
+
+def _staple_suggestions(
+    deck: Deck, con: sqlite3.Connection, commander_ci: set[str], deck_roles: dict[str, set[str]],
+    pins: dict, rejected: dict, core_staples: tuple[str, ...], *,
+    popular_rank: int = POPULAR_STAPLE_RANK, popular_limit: int = 15, per_card: int = 3,
+) -> tuple[list[dict], dict]:
+    """Commander staples this deck could run and doesn't: the playgroup's
+    `core_staples` list plus the globally most-played role-bearing cards.
+    The user wants the best cards in most decks, on theme or not -- except
+    where one genuinely doesn't fit or the deck has a better alternative.
+    Each staple is compared with the deck cards filling the same role
+    (that comparison is where "a better alternative" shows), and Game
+    Changers are marked against the bracket cap. Never a verdict, never an
+    automatic add. A staple logged as a rejected swap for this deck is
+    left out: that is how "doesn't fit here" is recorded.
+
+    Returns (entries, summary) -- summary counts what was left out, so a
+    short list is never mistaken for a complete one."""
+    in_deck = set(deck_roles) | {c.name for c in deck.library} | {deck.commander.name}
+    sources: dict[str, dict] = {}
+    unresolved: list[str] = []
+    for requested in core_staples:
+        name = _canonical_name(con, requested)
+        if name is None:
+            unresolved.append(requested)
+            continue
+        entry_source = sources.setdefault(name, {"source": []})["source"]
+        if "playgroup" not in entry_source:  # two spellings of one card
+            entry_source.append("playgroup")
+    popular = _popular_staples(con, popular_rank)
+    for name, rank in popular:
+        sources.setdefault(name, {"source": []})["source"].append("popular")
+    ranks = {name: rank for name, rank in popular}
+    rejected_staples = {suggested: reason for (_, suggested), reason in rejected.items()}
+
+    data_by_name = _load_cards(con, list(sources))
+    tags = _tags_by_name(con, list(sources))
+    try:
+        gc_names = {row[0] for row in con.execute(
+            f"SELECT name FROM cards WHERE is_game_changer = 1 AND name IN ({','.join('?' for _ in sources)})",
+            list(sources)).fetchall()} if sources else set()
+    except sqlite3.OperationalError:
+        gc_names = set()
+    deck_gcs = sum(1 for c in deck.library if c.is_game_changer)
+
+    summary = {"in_deck": 0, "off_colour": 0, "rejected_for_this_deck": {}, "in_sideboard": 0,
+               "popular_truncated": 0, "unresolved_playgroup_names": unresolved}
+    entries: list[dict] = []
+    popular_shown = 0
+    for name in sorted(sources, key=lambda n: ("playgroup" not in sources[n]["source"],
+                                               ranks.get(n, float("inf")), n)):
+        data = data_by_name.get(name)
+        if data is None:
+            continue
+        if name in in_deck:
+            summary["in_deck"] += 1
+            continue
+        if data["commander_legal"] != 1 or not isinstance(data["color_identity"], list) \
+                or not set(data["color_identity"]) <= commander_ci:
+            summary["off_colour"] += 1
+            continue
+        if name in rejected_staples:
+            summary["rejected_for_this_deck"][name] = rejected_staples[name]
+            continue
+        if name in deck.sideboard_quantities:
+            summary["in_sideboard"] += 1  # compared in the sideboard section already
+            continue
+        source = sources[name]["source"]
+        if "playgroup" not in source:
+            if popular_shown >= popular_limit:
+                summary["popular_truncated"] += 1
+                continue
+            popular_shown += 1
+        evidence = extract_role_evidence(data["parsed"], type_line=data["type_line"] or "", tags=tags.get(name, ()))
+        roles = sorted({e.role for e in evidence if e.strong})
+        entry = {"card": name, "source": source, "global_rank": ranks.get(name),
+                 "mana_cost": data["mana_cost"], "roles": roles, "role_tags": _role_tags(tags.get(name, ())),
+                 "game_changer": name in gc_names, "matches": [], "match_count": 0, "notes": []}
+        if entry["game_changer"]:
+            entry["notes"].append(f"Game Changer -- the deck runs {deck_gcs} of the {GAME_CHANGER_CAP} allowed")
+        if not roles:
+            entry["notes"].append("no supported role evidence (counters, protection, ...) -- weigh it against "
+                                  "the deck's weakest flex slot with `deckdoctor compare`")
+        matches = _same_role_matches(con, name, roles, deck_roles, pins, rejected)
+        entry["match_count"] = len(matches)
+        entry["matches"] = matches[:per_card]
+        entries.append(entry)
+    return entries, summary
+
+
 def _sideboard_suggestions(
     deck: Deck, con: sqlite3.Connection, commander_ci: set[str], deck_roles: dict[str, set[str]],
     pins: dict, rejected: dict, *, per_card: int = 3,
@@ -293,19 +433,7 @@ def _sideboard_suggestions(
             continue
         if not entry["roles"]:
             entry["notes"].append("no supported role evidence -- compare it by hand with `deckdoctor compare`")
-        matches = []
-        for role in entry["roles"]:
-            for current in sorted(n for n, roles in deck_roles.items() if role in roles):
-                if current in pins or (current, name) in rejected:
-                    continue
-                try:
-                    comparison = compare_candidates(con, current, name, role)
-                except ValueError:
-                    continue
-                matches.append({"current": current, "candidate": name, "role": role, "status": comparison.status,
-                                "gained_roles": list(comparison.gained_roles),
-                                "lost_roles": list(comparison.lost_roles)})
-        matches.sort(key=lambda m: (len(m["lost_roles"]), m["current"], m["role"]))
+        matches = _same_role_matches(con, name, entry["roles"], deck_roles, pins, rejected)
         entry["match_count"] = len(matches)
         entry["matches"] = matches[:per_card]
         suggestions.append(entry)
@@ -317,7 +445,7 @@ def _sideboard_suggestions(
 
 def build_review_packet(
     deck: Deck, con: sqlite3.Connection, config: DeckConfig | None = None, *,
-    limit: int = 3, config_path=None,
+    limit: int = 3, config_path=None, core_staples: tuple[str, ...] | None = None,
 ) -> Report:
     findings: list[Finding] = []
 
@@ -410,6 +538,27 @@ def build_review_packet(
     ]
 
     sideboard = _sideboard_suggestions(deck, con, commander_ci, deck_roles, pins, rejected)
+    staples, staple_summary = _staple_suggestions(
+        deck, con, commander_ci, deck_roles, pins, rejected,
+        load_playgroup_config().core_staples if core_staples is None else core_staples,
+    )
+    if staple_summary["unresolved_playgroup_names"]:
+        findings.append(Finding(
+            "review.staples.unresolved", "warning", "checked",
+            "playgroup.yaml core_staples names not in the local mirror (typo, or newer than the last sync): "
+            + ", ".join(staple_summary["unresolved_playgroup_names"]),
+            "fail", evidence={"names": staple_summary["unresolved_playgroup_names"]},
+        ))
+    findings.append(Finding(
+        "review.staples", "info", "checked",
+        f"{len(staples)} commander staple(s) this deck could run and doesn't -- include each unless it "
+        "genuinely doesn't fit or a same-role card here is better",
+        "pass" if staples else "not_applicable",
+        evidence=staple_summary,
+        limitations=["Staples are the playgroup's core_staples list plus the globally most-played role-bearing "
+                     f"cards (Commander rank <= {POPULAR_STAPLE_RANK}); fit is authored judgment. Reject a staple "
+                     "for this deck with a swap rejection to stop proposing it."],
+    ))
     if sideboard:
         playable = [s for s in sideboard if not s["notes"] or s["matches"]]
         findings.append(Finding(
@@ -450,7 +599,7 @@ def build_review_packet(
                     "color_identity": cards_by_name.get(deck.commander.name, {}).get("color_identity"),
                  }, "inventory": inventory, "curve": curve, "lands": land_count,
                  "direct_upgrades": direct_upgrades, "alternatives": alternatives,
-                 "sideboard": sideboard},
+                 "sideboard": sideboard, "staples": staples},
         limitations=[
             "role evidence describes supported ability shapes only; strategic fit is authored judgment, "
             "not inferred from prose",
