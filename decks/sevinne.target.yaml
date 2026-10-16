@@ -1,0 +1,50 @@
+commander: Sevinne, the Chronoclasm
+bracket: 3
+threshold: 5
+edhrec_theme: graveyard
+gameplan: >
+  Ramp to 5 and stick Sevinne, then set up a damage-reflection engine:
+  Phyrexian Vindicator, Brash Taunter or Stuffy Doll (with Blazing Sunsteel
+  to redirect damage onto them) plus Pariah / With Great Power to route
+  damage, with Pain for All taxing the table and multipliers (Solphim,
+  City on Fire) doubling the reflected damage. Past in Flames and Sevinne's
+  copy ability re-cast the burn package from the graveyard. Wins by turning
+  symmetric damage into one-sided damage, and by looping Blasphemous Act /
+  Star of Extinction through the reflectors.
+feedback:
+  - date: '2026-10-14'
+    kind: pin
+    card: Phyrexian Vindicator
+    reason: 'engine: damage-reflection core (user-confirmed)'
+  - date: '2026-10-14'
+    kind: pin
+    card: Brash Taunter
+    reason: 'engine: damage-reflection core (user-confirmed)'
+  - date: '2026-10-14'
+    kind: pin
+    card: Stuffy Doll
+    reason: 'engine: damage-reflection core (user-confirmed)'
+  - date: '2026-10-14'
+    kind: pin
+    card: Pariah
+    reason: 'engine: damage-reflection core (user-confirmed)'
+  - date: '2026-10-14'
+    kind: pin
+    card: With Great Power . . .
+    reason: 'engine: damage-reflection core (user-confirmed)'
+  - date: '2026-10-14'
+    kind: pin
+    card: Pain for All
+    reason: 'engine: damage-reflection core (user-confirmed)'
+  - date: '2026-10-14'
+    kind: pin
+    card: Blazing Sunsteel
+    reason: 'engine: damage-reflection core (user-confirmed)'
+  - date: '2026-10-14'
+    kind: pin
+    card: Shivan Meteor
+    reason: 'closer: big damage reflected by the engine for lethal (user-confirmed)'
+  - date: '2026-10-14'
+    kind: pin
+    card: Star of Extinction
+    reason: 'closer: big damage reflected by the engine for lethal (user-confirmed)'
