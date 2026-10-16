@@ -30,58 +30,19 @@ collection_file: all cards not in decks.txt
 # than being retyped here -- this flag only controls whether the rule is
 # applied.
 
-# User-requested directly: "those staples, rollick chaos warp, force of will
-# and negation, I need them in every deck actually. Those are non negotiable,
-# I wanna find a pool of those, and put them in all decks, as a base."
-# Verified against the local mirror (commander-legal, oracle text read) before
-# inclusion. Each entry is a strong default include for any deck whose colour
-# identity allows it -- the deck's own review still decides the exact count
-# and whether a deck-specific card beats it for a slot.
-#
-# game_changer_flags lists the cards the MIRROR does not flag as Game Changers
-# but the official Commander Bracket list does (or vice versa): Fierce
-# Guardianship is flagged by the mirror; Force of Will is NOT flagged by the
-# mirror but IS on the official bracket Game Changer list. Treat those as
-# GC-counted when computing a deck's 3-GC bracket cap.
+# Commander staples: the best cards, played in most decks whatever the
+# theme. User-requested directly: "sometimes there are cards not on theme,
+# but still just good. Deflecting Swat, deadly rollick etc. Not playing
+# those puts me at a disadvantage. So I want them in most decks, apart from
+# those where they genuinely don't fit, or have better alternatives."
+# This list holds ONLY cards the user named -- agents don't add to it.
+# Everything else comes from data: `deckdoctor review` also proposes the
+# globally most-played role-bearing cards (Scryfall's Commander rank) the
+# deck could run. Colour identity, legality and Game Changer status come
+# from the mirror. To keep a staple out of one deck, reject it there:
+#   deckdoctor feedback decks/<deck>.txt swap --current <cut> --suggested <staple> --status rejected --reason ...
 core_staples:
-  white:
-    - Swords to Plowshares        # {W} instant: exile creature, opp gains life
-    - Path to Exile               # {W} instant: exile creature, opp fetches a basic
-    - Generous Gift               # {2}{W} instant: destroy any permanent
-    - Solitude                    # {3}{W}{W}: evoke-pitch, exile a creature (free StP)
-    - Flare of Fortitude          # {2}{W}{W}: free w/ nontoken W creature sac; protection+fog
-    - Abolish                     # {1}{W}{W}: pitch a W card, destroy an artifact or enchantment
-  blue:
-    - Swan Song                   # {U} instant: counter ench/inst/sorc, opp gets 2/2
-    - Flare of Denial             # {2}{U}: free if you control a power-5+ creature
-    - Force of Negation           # {1}{U}{U}: pitch a blue card, counters noncreature -- GAME CHANGER (user bracket rules)
-    - Fierce Guardianship         # free w/ commander -- GAME CHANGER (mirror GC:1)
-    - Force of Will               # {3}{U}{U}: pitch a blue card, hard counter -- GAME CHANGER (user bracket rules)
-    - Misdirection                # {3}{U}{U}: pitch a blue card, change target of a spell
-    - Pact of Negation            # {0}: free counter now, pay {3}{U}{U} next upkeep
-    - Subtlety                    # {2}{U}{U}: evoke-pitch, bounce creature/planeswalker
-    - Daze                        # {1}{U}: free by returning an Island to hand
-    - An Offer You Can't Refuse   # {U}: counter noncreature, opp gets 2 Treasures
-  black:
-    - Deadly Rollick              # {3}{B}: free w/ commander, exile creature
-    - Snuff Out                   # {3}{B}: free by revealing a B card from hand (else pay 4 life)
-    - Flare of Malice             # {2}{B}: free if you control a power-5+ creature
-    - Grief                       # {2}{B}{B}: evoke-pitch, opp discards a card
-  red:
-    - Deflecting Swat             # {2}{R}: free w/ commander, redirect any spell/ability
-    - Chaos Warp                  # {2}{R} instant: answers any permanent
-    - Flare of Duplication        # {1}{R}{R}: free w/ nontoken R creature sac, copy spell
-    - Pyrokinesis                 # {4}{R}{R}: pitch a red card, 4 dmg split among creatures
-    - Fury                        # {3}{R}{R}: evoke-pitch, 3 dmg split among creatures
-  green:
-    - Beast Within                # {2}{G} instant: destroy any permanent, 3/3 downside
-    - Force of Vigor               # {2}{G}{G}: pitch a green card, destroy up to 2 artifacts/enchantments
-    - Endurance                    # {1}{G}{G}: evoke-pitch, exile Gy stuff (anti-graveyard)
-  # Sources consulted (2026-10-14): draftsim.com/mtg-free-spells/ (free-spell
-  # ranking), edh.wiki/staples/overall/ (top-1000 by play rate). Every entry
-  # verified against the local mirror (commander-legal, oracle text read).
-  # Force of Will and Force of Negation are BOTH Game Changers per the user's
-  # bracket rules -- treat as GC-counted even where the mirror disagrees
-  # (mirror GC:0 on both). Flare sac-outlets need NONTOKEN creatures: skip in
-  # token-heavy decks. Evoke elementals (Solitude/Grief/Fury/Subtlety/Endurance)
-  # need a card in hand to pitch -- skip in low-card-advantage decks.
+  - Deadly Rollick
+  - Deflecting Swat
+  - Swords to Plowshares
+  - Cyclonic Rift

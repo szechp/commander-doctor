@@ -1,0 +1,23 @@
+// SIDEBOARD
+1 Battlefield Forge
+1 City of Brass
+1 Fabricate
+1 Gratuitous Violence
+1 Long-Term Plans
+1 Mana Confluence
+1 Open the Armory
+1 Shivan Reef
+1 Talisman of Conviction
+1 Talisman of Creativity
+
+// MAYBEBOARD
+1 Archmage of Runes
+1 City on Fire
+1 Commander's Sphere
+1 Jace's Sanctum
+1 Myriad Landscape
+1 Prairie Stream
+1 Radiant Summit
+1 Scorched Geyser
+1 Wayfarer's Bauble
+1 Whirlwind of Thought

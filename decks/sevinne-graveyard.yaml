@@ -1,0 +1,12 @@
+commander: Sevinne, the Chronoclasm
+bracket: 3
+threshold: 5
+edhrec_theme: graveyard
+gameplan: >
+  Graveyard-matters spellslinger: loot and surveil to fill the graveyard,
+  then re-cast spells via flashback, Past in Flames and Sevinne's Reclamation
+  while Sevinne copies the first graveyard cast each turn. Payoffs that
+  trigger on casting from the graveyard: Secrets of the Dead, Burning
+  Vengeance-style triggers via Vega and Young Pyromancer value, snap-cast
+  recursion. Wins through incremental spell damage and overwhelm.
+feedback: []
