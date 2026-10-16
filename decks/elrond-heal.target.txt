@@ -4,16 +4,16 @@
 1 Galadhrim Guide
 1 Bilbo Baggins, Burglar
 1 Lothlórien Lookout
-1 Arwen's Gift
-1 Negate
-1 Glorfindel, Dauntless Rescuer
-1 Legolas, Counter of Kills
+1 Bred for the Hunt
+1 Fierce Guardianship
+1 Master Biomancer
+1 Fathom Mage
 1 Shower of Arrows
 1 Hithlain Knots
 1 Cavern Stomper
 1 Snakeskin Veil
 1 Elrond, Lord of Rivendell
-1 Gandalf, Friend of the Shire
+1 Rashmi, Eternities Crafter
 1 Elven Farsight
 1 Return to Nature
 1 Didn't Say Please
@@ -24,11 +24,11 @@
 1 Leafkin Druid
 1 Pridemalkin
 1 Deepglow Skate
-1 Giant's Boulder
+1 Proft, Consulting Detective
 1 Llanowar Elves
 1 Wave Goodbye
 1 Overwhelming Stampede
-1 Celeborn the Wise
+1 Kenessos, Priest of Thassa
 1 Opt
 1 Arwen Undómiel
 1 Command Tower
