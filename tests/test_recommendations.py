@@ -359,10 +359,12 @@ def test_review_compares_sideboard_cards_against_same_role_deck_cards(fixture_db
     assert "Black Market" in finding.evidence["not_playable"]
 
 
-def test_review_proposes_staples_the_deck_lacks_with_same_role_comparisons(fixture_db, tmp_path):
-    # The user wants the best cards in most decks, on theme or not, unless
-    # one genuinely doesn't fit (a rejection logged for this deck) or the
-    # deck has a better alternative (the same-role comparison shows it).
+def test_review_proposes_each_colours_top_cards_the_deck_lacks(fixture_db, tmp_path):
+    # The best cards per colour, theme aside (edhrec.com/top): for each
+    # identity colour and colourless, its most-played cards. Each one the
+    # deck lacks is compared with the deck's same-role cards (where "a
+    # better alternative" shows); a rejection logged for this deck is how
+    # "genuinely doesn't fit" is recorded.
     from deckdoctor.deck import load_deck
     from deckdoctor.deck_config import DeckConfig, FeedbackEntry
     from deckdoctor.recommendations import build_review_packet
@@ -371,21 +373,26 @@ def test_review_proposes_staples_the_deck_lacks_with_same_role_comparisons(fixtu
     path.write_text("1 Fixture Commander\n1 Arcane Signet\n"
                     + "".join(f"1 Fixture Plains {i}\n" for i in range(98)), encoding="utf-8")
     deck = load_deck(str(path), fixture_db)
-    fixture_db.execute("INSERT OR REPLACE INTO card_popularity VALUES ('Mind Stone', 40)")
-    fixture_db.execute("INSERT OR REPLACE INTO card_popularity VALUES ('Fellwar Stone', 90)")
+    fixture_db.executemany("INSERT OR REPLACE INTO card_popularity VALUES (?,?)", [
+        ("Arcane Signet", 2), ("Commander's Sphere", 30), ("Mind Stone", 40), ("Fellwar Stone", 90),
+        ("Black Market", 5), ("Phyrexian Vindicator", 70),
+    ])
     config = DeckConfig(commander="Fixture Commander", feedback=[
         FeedbackEntry(date="2026-10-14", kind="swap", current="Arcane Signet", suggested="Commander's Sphere",
                       status="rejected", reason="too slow here"),
     ])
-    report = build_review_packet(deck, fixture_db, config, core_staples=(
-        "Mind Stone", "Commander's Sphere", "Black Market", "Arcane Signet", "Not A Real Card"))
+    report = build_review_packet(deck, fixture_db, config, core_staples=("Black Market", "Not A Real Card"))
     staples = {entry["card"]: entry for entry in report.metrics["staples"]}
 
+    # Colourless top cards by rank (Black Market is off colour for a mono-W deck).
+    by_colour = report.metrics["staples_by_colour"]
+    assert by_colour["C"]["in_deck"] == 1 and by_colour["C"]["missing"][:1] == ["Mind Stone"]
+    assert by_colour["C"]["rejected"] == ["Commander's Sphere"]  # rejected here: not "missing"
+    assert "Phyrexian Vindicator" in by_colour["W"]["missing"]
     mind_stone = staples["Mind Stone"]
-    assert mind_stone["source"] == ["playgroup", "popular"] and mind_stone["global_rank"] == 40
+    assert mind_stone["source"] == ["popular"] and mind_stone["global_rank"] == 40
     assert [(m["current"], m["role"]) for m in mind_stone["matches"]] == [("Arcane Signet", "ramp")]
-    assert staples["Fellwar Stone"]["source"] == ["popular"]  # globally played, not on the list
-    assert list(staples)[0] == "Mind Stone"  # the playgroup's own list comes first
+    assert list(staples)[:2] == ["Mind Stone", "Phyrexian Vindicator"]  # most-played first
     assert "Commander's Sphere" not in staples  # rejected for this deck
     assert "Black Market" not in staples and "Arcane Signet" not in staples  # off colour / already in the deck
 
@@ -394,6 +401,30 @@ def test_review_proposes_staples_the_deck_lacks_with_same_role_comparisons(fixtu
     assert finding.evidence["off_colour"] == 1 and finding.evidence["in_deck"] == 1
     unresolved = next(f for f in report.findings if f.id == "review.staples.unresolved")
     assert unresolved.evidence["names"] == ["Not A Real Card"]
+
+    text = recommendation_cli._render_text(report)
+    assert "Top cards by colour (theme aside), already in the deck: W 0/" in text
+
+
+def test_colour_staples_buckets_like_edhrec_top_one_bucket_per_card():
+    # Mono-coloured cards go to their colour, gold cards that fit the deck to
+    # "multicolour" (never counted twice), colourless to "C"; WUBRG order;
+    # cards outside the identity and lands never appear.
+    from deckdoctor.recommendations import _colour_staples
+
+    con = sqlite3.connect(":memory:")
+    con.executescript(SCHEMA)
+    cards = [("Mono B", '["B"]', "Instant", 1), ("Mono G", '["G"]', "Sorcery", 2), ("Gold BG", '["B","G"]', "Instant", 3),
+             ("Rock", "[]", "Artifact", 4), ("Off U", '["U"]', "Instant", 5), ("Gold Land", '["B","G"]', "Land", 6),
+             ("Mono B 2", '["B"]', "Instant", 7)]
+    for name, ci, type_line, rank in cards:
+        con.execute("INSERT INTO cards (name, type_line, color_identity, commander_legal) VALUES (?,?,?,1)",
+                    (name, type_line, ci))
+        con.execute("INSERT INTO card_popularity VALUES (?,?)", (name, rank))
+    buckets = _colour_staples(con, {"G", "B"}, per_colour=1)
+    assert list(buckets) == ["B", "G", "C", "multicolour"]
+    assert buckets == {"B": [("Mono B", 1)], "G": [("Mono G", 2)], "C": [("Rock", 4)], "multicolour": [("Gold BG", 3)]}
+    assert "multicolour" not in _colour_staples(con, {"B"}, per_colour=1)
 
 
 def test_playgroup_core_staples_accepts_a_flat_list_or_colour_groups(tmp_path):

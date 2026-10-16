@@ -18,7 +18,7 @@ from collections import Counter
 from dataclasses import asdict
 
 from deckdoctor.assessment_reports import config_fingerprint, data_versions, deck_fingerprint
-from deckdoctor.candidates import CandidatePage, compare_candidates
+from deckdoctor.candidates import CandidatePage, compare_candidates, global_ranks
 from deckdoctor.combos import _cache_path as _combo_cache_path
 from deckdoctor.deck import Card, Deck
 from deckdoctor.deck import _resolve as _resolve_card
@@ -279,28 +279,47 @@ def _same_role_matches(
     return matches
 
 
-# Global Commander popularity (Scryfall `edhrec_rank`, lower = in more decks)
-# at or under which a role-bearing nonland counts as a staple even when the
-# playgroup list doesn't name it: the cards most decks run regardless of theme.
-POPULAR_STAPLE_RANK = 150
+# The best cards per colour, theme aside: for each colour of the deck's
+# identity (and colourless), the most-played commander-legal nonlands by
+# Scryfall's `edhrec_rank` -- the same all-decks ranking edhrec.com/top
+# shows per colour (Sol Ring, Swords to Plowshares, Cyclonic Rift, ...).
+# Theme cards don't reach these lists; generally good cheap cards do.
+STAPLES_PER_COLOUR = 10
 GAME_CHANGER_CAP = 3
+COLOURLESS = "C"
+MULTICOLOUR = "multicolour"
+WUBRG = "WUBRG"
 
 
-def _popular_staples(con: sqlite3.Connection, max_rank: int) -> list[tuple[str, int]]:
-    """(name, rank) for commander-legal, role-bearing nonlands within the
-    global top `max_rank`. Empty on a mirror without `card_popularity`."""
+def _colour_staples(con: sqlite3.Connection, commander_ci: set[str], per_colour: int) -> dict[str, list[tuple[str, int]]]:
+    """bucket -> its top `per_colour` (name, rank), most-played first, like
+    edhrec.com/top's per-colour pages: one bucket per identity colour (mono-
+    coloured cards), "C" for colourless, and -- for a multicolour deck --
+    "multicolour" for gold cards whose identity fits. Each card is in
+    exactly one bucket. Empty on a mirror without `card_popularity`."""
+    buckets: dict[str, list[tuple[str, int]]] = {c: [] for c in WUBRG if c in commander_ci}
+    buckets[COLOURLESS] = []
+    if len(commander_ci) > 1:
+        buckets[MULTICOLOUR] = []
     try:
         rows = con.execute(
-            "SELECT c.name, p.edhrec_rank, c.ramp_kind, c.draw_kind FROM card_popularity p "
+            "SELECT c.name, p.edhrec_rank, c.color_identity FROM card_popularity p "
             "JOIN cards c ON c.name = p.card_name "
-            "WHERE p.edhrec_rank IS NOT NULL AND p.edhrec_rank <= ? AND c.commander_legal = 1 "
-            "AND c.type_line NOT LIKE '%Land%' ORDER BY p.edhrec_rank", [max_rank],
-        ).fetchall()
+            "WHERE p.edhrec_rank IS NOT NULL AND c.commander_legal = 1 AND c.type_line NOT LIKE '%Land%' "
+            "ORDER BY p.edhrec_rank"
+        )
+        for name, rank, ci_json in rows:
+            identity = set(json.loads(ci_json or "[]"))
+            if not identity <= commander_ci:
+                continue
+            bucket = MULTICOLOUR if len(identity) > 1 else (next(iter(identity)) if identity else COLOURLESS)
+            if len(buckets[bucket]) < per_colour:
+                buckets[bucket].append((name, rank))
+            if all(len(v) >= per_colour for v in buckets.values()):
+                break
     except sqlite3.OperationalError:
-        return []
-    tags = _tags_by_name(con, [r[0] for r in rows])
-    return [(name, rank) for name, rank, ramp_kind, draw_kind in rows
-            if ramp_kind or draw_kind or _role_tags(tags.get(name, ()))]
+        return {}
+    return buckets
 
 
 def _role_tags(tags) -> list[str]:
@@ -310,12 +329,14 @@ def _role_tags(tags) -> list[str]:
 def _staple_suggestions(
     deck: Deck, con: sqlite3.Connection, commander_ci: set[str], deck_roles: dict[str, set[str]],
     pins: dict, rejected: dict, core_staples: tuple[str, ...], *,
-    popular_rank: int = POPULAR_STAPLE_RANK, popular_limit: int = 15, per_card: int = 3,
+    per_colour: int = STAPLES_PER_COLOUR, per_card: int = 3,
 ) -> tuple[list[dict], dict]:
-    """Commander staples this deck could run and doesn't: the playgroup's
-    `core_staples` list plus the globally most-played role-bearing cards.
-    The user wants the best cards in most decks, on theme or not -- except
-    where one genuinely doesn't fit or the deck has a better alternative.
+    """Commander staples this deck could run and doesn't: for each colour
+    of its identity (and colourless), that colour's most-played cards
+    across all Commander decks, plus any `core_staples` extras from
+    playgroup.yaml. The user wants the best cards in every deck by colour,
+    regardless of theme -- except where one genuinely doesn't fit or the
+    deck has a better alternative.
     Each staple is compared with the deck cards filling the same role
     (that comparison is where "a better alternative" shows), and Game
     Changers are marked against the bracket cap. Never a verdict, never an
@@ -335,10 +356,15 @@ def _staple_suggestions(
         entry_source = sources.setdefault(name, {"source": []})["source"]
         if "playgroup" not in entry_source:  # two spellings of one card
             entry_source.append("playgroup")
-    popular = _popular_staples(con, popular_rank)
-    for name, rank in popular:
-        sources.setdefault(name, {"source": []})["source"].append("popular")
-    ranks = {name: rank for name, rank in popular}
+    buckets = _colour_staples(con, commander_ci, per_colour)
+    ranks: dict[str, int] = {}
+    for bucket, cards in buckets.items():
+        for name, rank in cards:
+            ranks[name] = rank
+            source = sources.setdefault(name, {"source": []})["source"]
+            if "popular" not in source:
+                source.append("popular")
+    ranks.update(global_ranks(con, [n for n in sources if n not in ranks]))  # playgroup-only extras
     rejected_staples = {suggested: reason for (_, suggested), reason in rejected.items()}
 
     data_by_name = _load_cards(con, list(sources))
@@ -352,11 +378,17 @@ def _staple_suggestions(
     deck_gcs = sum(1 for c in deck.library if c.is_game_changer)
 
     summary = {"in_deck": 0, "off_colour": 0, "rejected_for_this_deck": {}, "in_sideboard": 0,
-               "popular_truncated": 0, "unresolved_playgroup_names": unresolved}
+               "unresolved_playgroup_names": unresolved,
+               # per colour: how many of its top cards the deck already runs, and which it
+               # lacks (a staple rejected for this deck is listed as such, not as missing)
+               "by_colour": {bucket: {"top": len(cards), "in_deck": sum(1 for n, _ in cards if n in in_deck),
+                                      "missing": [n for n, _ in cards
+                                                  if n not in in_deck and n not in rejected_staples],
+                                      "rejected": [n for n, _ in cards
+                                                   if n not in in_deck and n in rejected_staples]}
+                             for bucket, cards in buckets.items()}}
     entries: list[dict] = []
-    popular_shown = 0
-    for name in sorted(sources, key=lambda n: ("playgroup" not in sources[n]["source"],
-                                               ranks.get(n, float("inf")), n)):
+    for name in sorted(sources, key=lambda n: (ranks.get(n, float("inf")), n)):
         data = data_by_name.get(name)
         if data is None:
             continue
@@ -374,11 +406,6 @@ def _staple_suggestions(
             summary["in_sideboard"] += 1  # compared in the sideboard section already
             continue
         source = sources[name]["source"]
-        if "playgroup" not in source:
-            if popular_shown >= popular_limit:
-                summary["popular_truncated"] += 1
-                continue
-            popular_shown += 1
         evidence = extract_role_evidence(data["parsed"], type_line=data["type_line"] or "", tags=tags.get(name, ()))
         roles = sorted({e.role for e in evidence if e.strong})
         entry = {"card": name, "source": source, "global_rank": ranks.get(name),
@@ -551,13 +578,14 @@ def build_review_packet(
         ))
     findings.append(Finding(
         "review.staples", "info", "checked",
-        f"{len(staples)} commander staple(s) this deck could run and doesn't -- include each unless it "
-        "genuinely doesn't fit or a same-role card here is better",
+        f"{len(staples)} staple(s) -- the most-played cards of this deck's colours, theme aside -- it could "
+        "run and doesn't; include each unless it genuinely doesn't fit or a same-role card here is better",
         "pass" if staples else "not_applicable",
-        evidence=staple_summary,
-        limitations=["Staples are the playgroup's core_staples list plus the globally most-played role-bearing "
-                     f"cards (Commander rank <= {POPULAR_STAPLE_RANK}); fit is authored judgment. Reject a staple "
-                     "for this deck with a swap rejection to stop proposing it."],
+        evidence={k: v for k, v in staple_summary.items() if k != "by_colour"},  # by_colour is in metrics
+        limitations=[f"Staples are each identity colour's, colourless and (multicolour decks) gold top "
+                     f"{STAPLES_PER_COLOUR} most-played cards across all Commander decks (Scryfall's EDHREC rank, from the last sync), plus any "
+                     "playgroup.yaml core_staples; fit is authored judgment. Reject a staple for this deck with "
+                     "a swap rejection to stop proposing it."],
     ))
     if sideboard:
         playable = [s for s in sideboard if not s["notes"] or s["matches"]]
@@ -599,7 +627,8 @@ def build_review_packet(
                     "color_identity": cards_by_name.get(deck.commander.name, {}).get("color_identity"),
                  }, "inventory": inventory, "curve": curve, "lands": land_count,
                  "direct_upgrades": direct_upgrades, "alternatives": alternatives,
-                 "sideboard": sideboard, "staples": staples},
+                 "sideboard": sideboard, "staples": staples,
+                 "staples_by_colour": staple_summary["by_colour"]},
         limitations=[
             "role evidence describes supported ability shapes only; strategic fit is authored judgment, "
             "not inferred from prose",

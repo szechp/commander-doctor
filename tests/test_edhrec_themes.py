@@ -117,6 +117,30 @@ def test_find_missing_cards_filters_by_local_mirror_and_sorts():
     assert "spare=" not in land.line
 
 
+def test_find_missing_cards_staples_sort_uses_global_rank_with_unknown_last():
+    con = connect(":memory:")
+    _insert(con, "Cmdr", ["G", "W"], "Legendary Creature")
+    _insert(con, "In Deck", ["G"])
+    _insert(con, "Precon Filler", ["G"])   # high on the commander page, format-wide junk
+    _insert(con, "Format Staple", ["G"])   # middling on the commander page, global top-100
+    _insert(con, "Unranked Card", ["W"])   # no global rank in card_popularity
+    data = _page({"Cards": [("In Deck", 900, 1000, 0.1),
+                            ("Precon Filler", 800, 1000, 0.9),
+                            ("Format Staple", 300, 1000, 0.05),
+                            ("Unranked Card", 500, 1000, 0.4)]})
+    deck = _deck("In Deck")
+    con.execute("CREATE TABLE IF NOT EXISTS card_popularity (card_name TEXT PRIMARY KEY, edhrec_rank INTEGER)")
+    con.execute("INSERT INTO card_popularity (card_name, edhrec_rank) VALUES ('Format Staple', 12)")
+    con.execute("INSERT INTO card_popularity (card_name, edhrec_rank) VALUES ('Precon Filler', 9000)")
+    by_staples = [m.stat.name for m in find_missing_cards(deck, con, data, sort="staples")]
+    # Global rank first (12 beats 9000), then unknown-rank cards last, not as if popular.
+    assert by_staples == ["Format Staple", "Precon Filler", "Unranked Card"]
+    assert [m.global_rank for m in find_missing_cards(deck, con, data, sort="staples")] == [12, 9000, None]
+    # The rank is evidence under every sort, not just staples.
+    assert {m.stat.name: m.global_rank for m in find_missing_cards(deck, con, data)} == \
+        {"Precon Filler": 9000, "Unranked Card": None, "Format Staple": 12}
+
+
 def test_theme_pages_cache_next_to_base_page(tmp_path, monkeypatch):
     monkeypatch.setattr(edhrec, "CACHE_DIR", str(tmp_path))
     assert edhrec._cache_path("ghired", None).name == "ghired.json"
