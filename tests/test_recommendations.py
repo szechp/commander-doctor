@@ -386,7 +386,8 @@ def test_review_proposes_each_colours_top_cards_the_deck_lacks(fixture_db, tmp_p
 
     # Colourless top cards by rank (Black Market is off colour for a mono-W deck).
     by_colour = report.metrics["staples_by_colour"]
-    assert by_colour["C"]["in_deck"] == 1 and by_colour["C"]["missing"][:2] == ["Commander's Sphere", "Mind Stone"]
+    assert by_colour["C"]["in_deck"] == 1 and by_colour["C"]["missing"][:1] == ["Mind Stone"]
+    assert by_colour["C"]["rejected"] == ["Commander's Sphere"]  # rejected here: not "missing"
     assert "Phyrexian Vindicator" in by_colour["W"]["missing"]
     mind_stone = staples["Mind Stone"]
     assert mind_stone["source"] == ["popular"] and mind_stone["global_rank"] == 40
@@ -403,6 +404,27 @@ def test_review_proposes_each_colours_top_cards_the_deck_lacks(fixture_db, tmp_p
 
     text = recommendation_cli._render_text(report)
     assert "Top cards by colour (theme aside), already in the deck: W 0/" in text
+
+
+def test_colour_staples_buckets_like_edhrec_top_one_bucket_per_card():
+    # Mono-coloured cards go to their colour, gold cards that fit the deck to
+    # "multicolour" (never counted twice), colourless to "C"; WUBRG order;
+    # cards outside the identity and lands never appear.
+    from deckdoctor.recommendations import _colour_staples
+
+    con = sqlite3.connect(":memory:")
+    con.executescript(SCHEMA)
+    cards = [("Mono B", '["B"]', "Instant", 1), ("Mono G", '["G"]', "Sorcery", 2), ("Gold BG", '["B","G"]', "Instant", 3),
+             ("Rock", "[]", "Artifact", 4), ("Off U", '["U"]', "Instant", 5), ("Gold Land", '["B","G"]', "Land", 6),
+             ("Mono B 2", '["B"]', "Instant", 7)]
+    for name, ci, type_line, rank in cards:
+        con.execute("INSERT INTO cards (name, type_line, color_identity, commander_legal) VALUES (?,?,?,1)",
+                    (name, type_line, ci))
+        con.execute("INSERT INTO card_popularity VALUES (?,?)", (name, rank))
+    buckets = _colour_staples(con, {"G", "B"}, per_colour=1)
+    assert list(buckets) == ["B", "G", "C", "multicolour"]
+    assert buckets == {"B": [("Mono B", 1)], "G": [("Mono G", 2)], "C": [("Rock", 4)], "multicolour": [("Gold BG", 3)]}
+    assert "multicolour" not in _colour_staples(con, {"B"}, per_colour=1)
 
 
 def test_playgroup_core_staples_accepts_a_flat_list_or_colour_groups(tmp_path):

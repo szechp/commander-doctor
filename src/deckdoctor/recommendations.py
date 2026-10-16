@@ -287,15 +287,20 @@ def _same_role_matches(
 STAPLES_PER_COLOUR = 10
 GAME_CHANGER_CAP = 3
 COLOURLESS = "C"
+MULTICOLOUR = "multicolour"
+WUBRG = "WUBRG"
 
 
 def _colour_staples(con: sqlite3.Connection, commander_ci: set[str], per_colour: int) -> dict[str, list[tuple[str, int]]]:
-    """bucket (each identity colour, plus "C" for colourless) -> its top
-    `per_colour` (name, rank), most-played first. A multicolour card counts
-    for each of its colours when the whole identity fits the deck. Empty
-    on a mirror without `card_popularity`."""
-    buckets: dict[str, list[tuple[str, int]]] = {c: [] for c in sorted(commander_ci)}
+    """bucket -> its top `per_colour` (name, rank), most-played first, like
+    edhrec.com/top's per-colour pages: one bucket per identity colour (mono-
+    coloured cards), "C" for colourless, and -- for a multicolour deck --
+    "multicolour" for gold cards whose identity fits. Each card is in
+    exactly one bucket. Empty on a mirror without `card_popularity`."""
+    buckets: dict[str, list[tuple[str, int]]] = {c: [] for c in WUBRG if c in commander_ci}
     buckets[COLOURLESS] = []
+    if len(commander_ci) > 1:
+        buckets[MULTICOLOUR] = []
     try:
         rows = con.execute(
             "SELECT c.name, p.edhrec_rank, c.color_identity FROM card_popularity p "
@@ -307,9 +312,9 @@ def _colour_staples(con: sqlite3.Connection, commander_ci: set[str], per_colour:
             identity = set(json.loads(ci_json or "[]"))
             if not identity <= commander_ci:
                 continue
-            for bucket in (sorted(identity) or [COLOURLESS]):
-                if len(buckets[bucket]) < per_colour:
-                    buckets[bucket].append((name, rank))
+            bucket = MULTICOLOUR if len(identity) > 1 else (next(iter(identity)) if identity else COLOURLESS)
+            if len(buckets[bucket]) < per_colour:
+                buckets[bucket].append((name, rank))
             if all(len(v) >= per_colour for v in buckets.values()):
                 break
     except sqlite3.OperationalError:
@@ -359,7 +364,7 @@ def _staple_suggestions(
             source = sources.setdefault(name, {"source": []})["source"]
             if "popular" not in source:
                 source.append("popular")
-    ranks.update({n: r for n, r in global_ranks(con, list(sources)).items() if n not in ranks})
+    ranks.update(global_ranks(con, [n for n in sources if n not in ranks]))  # playgroup-only extras
     rejected_staples = {suggested: reason for (_, suggested), reason in rejected.items()}
 
     data_by_name = _load_cards(con, list(sources))
@@ -374,9 +379,13 @@ def _staple_suggestions(
 
     summary = {"in_deck": 0, "off_colour": 0, "rejected_for_this_deck": {}, "in_sideboard": 0,
                "unresolved_playgroup_names": unresolved,
-               # per colour: how many of its top cards the deck already runs, and which it lacks
+               # per colour: how many of its top cards the deck already runs, and which it
+               # lacks (a staple rejected for this deck is listed as such, not as missing)
                "by_colour": {bucket: {"top": len(cards), "in_deck": sum(1 for n, _ in cards if n in in_deck),
-                                      "missing": [n for n, _ in cards if n not in in_deck]}
+                                      "missing": [n for n, _ in cards
+                                                  if n not in in_deck and n not in rejected_staples],
+                                      "rejected": [n for n, _ in cards
+                                                   if n not in in_deck and n in rejected_staples]}
                              for bucket, cards in buckets.items()}}
     entries: list[dict] = []
     for name in sorted(sources, key=lambda n: (ranks.get(n, float("inf")), n)):
@@ -572,9 +581,9 @@ def build_review_packet(
         f"{len(staples)} staple(s) -- the most-played cards of this deck's colours, theme aside -- it could "
         "run and doesn't; include each unless it genuinely doesn't fit or a same-role card here is better",
         "pass" if staples else "not_applicable",
-        evidence=staple_summary,
-        limitations=[f"Staples are each identity colour's (and colourless) top {STAPLES_PER_COLOUR} most-played "
-                     "cards across all Commander decks (Scryfall's EDHREC rank, from the last sync), plus any "
+        evidence={k: v for k, v in staple_summary.items() if k != "by_colour"},  # by_colour is in metrics
+        limitations=[f"Staples are each identity colour's, colourless and (multicolour decks) gold top "
+                     f"{STAPLES_PER_COLOUR} most-played cards across all Commander decks (Scryfall's EDHREC rank, from the last sync), plus any "
                      "playgroup.yaml core_staples; fit is authored judgment. Reject a staple for this deck with "
                      "a swap rejection to stop proposing it."],
     ))
