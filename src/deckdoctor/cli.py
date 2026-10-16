@@ -347,7 +347,7 @@ def main(argv: list[str] | None = None) -> int:
     p_edhrec.add_argument("--theme", default=None, help="EDHREC theme slug (default: the deck YAML's edhrec_theme)")
     p_edhrec.add_argument("--missing", action="store_true",
                           help="list EDHREC's most-played cards for this commander/theme that the deck does NOT run")
-    p_edhrec.add_argument("--sort", choices=["inclusion", "synergy"], default="inclusion")
+    p_edhrec.add_argument("--sort", choices=["inclusion", "synergy", "staples"], default="inclusion")
     p_edhrec.add_argument("--limit", type=int, default=60)
     p_edhrec.add_argument("--lands", action="store_true", help="include lands in --missing")
     p_edhrec.add_argument("--db", default=None, help="card database path (default: DECKDOCTOR_DB, then data/deckdoctor.sqlite3)")
@@ -921,11 +921,17 @@ def main(argv: list[str] | None = None) -> int:
             missing = find_missing_cards(
                 deck, con, data, include_lands=args.lands, sort=args.sort, spare_quantities=spares,
             )[:args.limit]
+            if args.sort == "staples":
+                from deckdoctor.candidates import global_ranks
+                rank_map = global_ranks(con, [m.stat.name for m in missing])
+            else:
+                rank_map = {}
             con.close()
             if args.format == "json":
                 print(json.dumps({"commander": deck.commander.name, "page": page, "sort": args.sort, "cards": [
                     {"name": m.stat.name, "inclusion": round(m.stat.inclusion, 4), "num_decks": m.stat.num_decks,
                      "potential_decks": m.stat.potential_decks, "synergy": m.stat.synergy,
+                     "global_rank": rank_map.get(m.stat.name),
                      "edhrec_lists": list(m.stat.lists), "spare_quantity": m.spare_quantity,
                      "line": m.line} for m in missing],
                     "spare_inventory": collection.path if collection else None}, ensure_ascii=False))
@@ -934,7 +940,7 @@ def main(argv: list[str] | None = None) -> int:
                 print("Legality/colour identity checked against the local mirror. Popularity is evidence, "
                       "not a verdict: read the text against the confirmed gameplan.\n")
                 for m in missing:
-                    print(f"{m.line} | {stat_suffix(m.stat)}")
+                    print(f"{m.line} | {stat_suffix(m.stat, rank_map.get(m.stat.name))}")
             return 0
         con.close()
         threshold = args.threshold if args.threshold is not None else NEAR_UNPLAYED_THRESHOLD
