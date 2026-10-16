@@ -30,16 +30,15 @@ collection_file: all cards not in decks.txt
 # than being retyped here -- this flag only controls whether the rule is
 # applied.
 
-# Commander staples: the best cards, played in most decks whatever the
-# theme. User-requested directly: "sometimes there are cards not on theme,
-# but still just good. Deflecting Swat, deadly rollick etc. Not playing
-# those puts me at a disadvantage. So I want them in most decks, apart from
-# those where they genuinely don't fit, or have better alternatives."
-# This list holds ONLY cards the user named -- agents don't add to it.
-# Everything else comes from data: `deckdoctor review` also proposes the
-# globally most-played role-bearing cards (Scryfall's Commander rank) the
-# deck could run. Colour identity, legality and Game Changer status come
-# from the mirror. To keep a staple out of one deck, reject it there:
+# Commander staples. User-requested directly: "I want the best cards per
+# deck ... general good cheap cards. So depending on what color, and
+# disregarding the theme, I want them in." `deckdoctor review` proposes, for
+# each colour of the deck's identity and colourless, that colour's
+# most-played cards across all Commander decks (edhrec.com/top, via the
+# mirror's EDHREC rank) the deck doesn't run -- that is the main source.
+# The list below only adds extras on top of it. Colour identity, legality
+# and Game Changer status come from the mirror. To keep a staple out of one
+# deck, reject it there:
 #   deckdoctor feedback decks/<deck>.txt swap --current <cut> --suggested <staple> --status rejected --reason ...
 core_staples:
   - Deadly Rollick
