@@ -1,0 +1,33 @@
+// SIDEBOARD
+1 Blazemire Verge
+1 Bloodstained Mire
+1 Brightstone Ritual
+1 Chaos Warp
+1 Deadly Rollick
+1 Deflecting Swat
+1 Diabolic Intent
+1 Goblin Recruiter
+1 Imperial Recruiter
+1 Metallic Mimic
+1 Mount Doom
+1 Nasty End
+1 Rakdos Charm
+1 Sulfurous Springs
+1 Tainted Peak
+
+// MAYBEBOARD
+1 Arcane Signet
+1 Blasphemous Act
+1 Boggart Harbinger
+1 Empty the Warrens
+1 Foreboding Ruins
+1 Jeska's Will
+1 Krenko's Command
+1 March from the Black Gate
+1 Mordor Muster
+1 Phyrexian Arena
+1 Rogue's Passage
+1 Shadowblood Ridge
+1 Smoldering Marsh
+1 Terminate
+1 Thrill of Possibility

@@ -1,0 +1,64 @@
+commander: "Uglúk of the White Hand"
+bracket: 3
+threshold: 6
+edhrec_theme: goblins
+gameplan: >
+  Commander is only the Rakdos identity shell. Goblin combo/aristocrats: make
+  goblin bodies (Krenko, Muxus, token spells), convert them into mana and
+  damage through sacrifice outlets (Skirk Prospector, Phyrexian/Ashnod's Altar,
+  Goblin Bombardment), drain with Blood Artist effects, and close with a
+  cataloged combo by around turn 6-7: Krenko + Thornbite Staff + an outlet,
+  Kiki-Jiki + Lightning Crafter/Thornbite, or Snoop value piles.
+feedback:
+  - date: '2026-10-14'
+    kind: pin
+    card: Krenko, Mob Boss
+    reason: 'engine pin: combo core / payoff confirmed by user'
+  - date: '2026-10-14'
+    kind: pin
+    card: Kiki-Jiki, Mirror Breaker
+    reason: 'engine pin: combo core / payoff confirmed by user'
+  - date: '2026-10-14'
+    kind: pin
+    card: Thornbite Staff
+    reason: 'engine pin: combo core / payoff confirmed by user'
+  - date: '2026-10-14'
+    kind: pin
+    card: Skirk Prospector
+    reason: 'engine pin: combo core / payoff confirmed by user'
+  - date: '2026-10-14'
+    kind: pin
+    card: Phyrexian Altar
+    reason: 'engine pin: combo core / payoff confirmed by user'
+  - date: '2026-10-14'
+    kind: pin
+    card: Ashnod's Altar
+    reason: 'engine pin: combo core / payoff confirmed by user'
+  - date: '2026-10-14'
+    kind: pin
+    card: Conspicuous Snoop
+    reason: 'engine pin: combo core / payoff confirmed by user'
+  - date: '2026-10-14'
+    kind: pin
+    card: First Day of Class
+    reason: 'engine pin: combo core / payoff confirmed by user'
+  - date: '2026-10-14'
+    kind: pin
+    card: Purphoros, God of the Forge
+    reason: 'engine pin: combo core / payoff confirmed by user'
+  - date: '2026-10-14'
+    kind: pin
+    card: Blood Artist
+    reason: 'engine pin: combo core / payoff confirmed by user'
+  - date: '2026-10-14'
+    kind: pin
+    card: Zulaport Cutthroat
+    reason: 'engine pin: combo core / payoff confirmed by user'
+  - date: '2026-10-14'
+    kind: pin
+    card: Goblin Bombardment
+    reason: 'engine pin: combo core / payoff confirmed by user'
+  - date: '2026-10-14'
+    kind: pin
+    card: Bastion of Remembrance
+    reason: 'engine pin: combo core / payoff confirmed by user'
