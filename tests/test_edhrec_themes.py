@@ -135,6 +135,8 @@ def test_find_missing_cards_staples_sort_uses_global_rank_with_unknown_last():
     by_staples = [m.stat.name for m in find_missing_cards(deck, con, data, sort="staples")]
     # Global rank first (12 beats 9000), then unknown-rank cards last, not as if popular.
     assert by_staples == ["Format Staple", "Precon Filler", "Unranked Card"]
+    assert [m.global_rank for m in find_missing_cards(deck, con, data, sort="staples")] == [12, 9000, None]
+
 
 def test_theme_pages_cache_next_to_base_page(tmp_path, monkeypatch):
     monkeypatch.setattr(edhrec, "CACHE_DIR", str(tmp_path))

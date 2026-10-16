@@ -38,7 +38,7 @@ import json
 import re
 import time
 import unicodedata
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 from pathlib import Path
 
 import requests
@@ -376,6 +376,7 @@ class MissingCard:
     stat: CardStat
     line: str  # compact line (real oracle text) from the local mirror
     spare_quantity: int = 0
+    global_rank: int | None = None  # Scryfall edhrec_rank; filled for sort="staples"
 
 
 def find_missing_cards(
@@ -435,6 +436,7 @@ def find_missing_cards(
         # ranks unknown, which must NOT sort as if popular -- unknown drops last.
         from deckdoctor.candidates import global_ranks
         ranks = global_ranks(con, [m.stat.name for m in result])
+        result = [replace(m, global_rank=ranks.get(m.stat.name)) for m in result]
         result.sort(key=lambda m: (ranks.get(m.stat.name, 10**9), -m.stat.inclusion, m.stat.name))
     elif sort == "synergy":
         result.sort(key=lambda m: (-(m.stat.synergy or 0.0), -m.stat.inclusion, m.stat.name))
