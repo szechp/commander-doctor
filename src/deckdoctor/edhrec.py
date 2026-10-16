@@ -425,13 +425,25 @@ def find_missing_cards(
         if spare_quantity:
             line += f" | spare=x{spare_quantity}"
         result.append(MissingCard(stat=stats[name], line=line, spare_quantity=spare_quantity))
-    if sort == "synergy":
+    if sort == "staples":
+        # Global Commander popularity (Scryfall's edhrec_rank, lower = played in
+        # more decks format-wide), a DIFFERENT signal from either commander-page
+        # metric: a card can be in 80% of this commander's precon-tainted theme
+        # decks (high inclusion, high synergy) yet be format-wide filler, and a
+        # format staple can be absent from a niche commander's top-N cutoffs.
+        # `card_popularity` is written by `sync`; a mirror predating it leaves
+        # ranks unknown, which must NOT sort as if popular -- unknown drops last.
+        from deckdoctor.candidates import global_ranks
+        ranks = global_ranks(con, [m.stat.name for m in result])
+        result.sort(key=lambda m: (ranks.get(m.stat.name, 10**9), -m.stat.inclusion, m.stat.name))
+    elif sort == "synergy":
         result.sort(key=lambda m: (-(m.stat.synergy or 0.0), -m.stat.inclusion, m.stat.name))
     else:
         result.sort(key=lambda m: (-m.stat.inclusion, -(m.stat.synergy or 0.0), m.stat.name))
     return result
 
 
-def stat_suffix(stat: CardStat) -> str:
+def stat_suffix(stat: CardStat, global_rank: int | None = None) -> str:
     syn = f" syn={stat.synergy:+.0%}" if stat.synergy is not None else ""
-    return f"edhrec={stat.inclusion:.0%} ({stat.num_decks}/{stat.potential_decks}){syn}"
+    rank = f" global_rank={global_rank}" if global_rank is not None else ""
+    return f"edhrec={stat.inclusion:.0%} ({stat.num_decks}/{stat.potential_decks}){syn}{rank}"
