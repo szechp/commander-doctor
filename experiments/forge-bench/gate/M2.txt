@@ -1,0 +1,17 @@
+SWAPS
+1. CUT Mordor Muster -> ADD Goblin Recruiter | Off-plan Orc cantrip out. Recruiter stacks Goblins on top for Snoop and Muxus, and puts Kiki on top so Snoop can copy itself endlessly.
+2. CUT Mauhúr, Uruk-hai Captain -> ADD Deadly Rollick | Mauhúr only grows +1/+1 counters, which isn't the plan. Rollick costs nothing with Uglúk out and exiles any creature at instant speed.
+3. CUT March from the Black Gate -> ADD Chaos Warp | March makes one slow Orc Army. Chaos Warp answers any permanent at instant speed, closing the coverage gap for permanents in general.
+4. CUT Faithless Looting -> ADD Village Rites | Looting loses cards with no graveyard payoff here. Rites turns a token into two cards at instant speed and fires every death trigger.
+5. CUT Goblin Lackey -> ADD Deflecting Swat | Lackey is a 1/1 that must hit a player. Swat is free with the commander out and redirects removal aimed at Krenko or Kiki mid-combo.
+6. CUT Krenko's Command -> ADD Munitions Expert | Same two mana, but a flash Goblin that Muxus, Snoop and Matron can find. It kills a creature or planeswalker, scaling with Goblin count.
+7. CUT Shadowblood Ridge -> ADD Bloodstained Mire | The filter land makes no mana on its own on turn 1. Mire fetches Blood Crypt, Smoldering Marsh or either basic.
+8. CUT Thrill of Possibility -> ADD Nasty End | Same 2-mana instant draw-two, but it costs a spare token instead of a card, and draws three off a legendary.
+9. CUT Putrid Goblin -> ADD Boggart Cursecrafter | A plain persist body out. Cursecrafter deals 1 to each opponent whenever another Goblin dies, on a Goblin body Muxus can hit.
+10. CUT Blasphemous Act -> ADD Delayed Blast Fireball | The audit flags Act as self-destructive (average toughness 2.0). Fireball sweeps only opponents at instant speed, 5 damage when foretold.
+11. CUT Mountain -> ADD Sulfurous Springs | Black sources are short (17; Phyrexian Arena's BB is only 54% by turn 3). This untapped painland adds black without losing red.
+12. CUT My Precious -> ADD Rakdos Charm | Rites, Nasty End, Swat and Greaves now cover its draw and protection. Charm adds graveyard hate (a coverage gap) plus instant artifact removal.
+13. CUT Furystoke Giant -> ADD Mind Stone | A redundant 5-mana non-Goblin finisher that needs untapped, non-summoning-sick creatures. Mind Stone fixes the ramp shortfall (9/10) and keeps draw at 10.
+14. CUT Mountain -> ADD Blazemire Verge | Second Mountain-to-dual swap: black always, red with any Swamp or Mountain. The 14 Mountains left still cover red.
+15. CUT Mountain -> ADD Blackcleave Cliffs | Third dual for a Mountain, untapped on turns 1-3. Black sources go from 22 to 25 in the validated batch.
+ASSUMPTIONS: Improve mode, taking the YAML's goblins theme, bracket 3 and threshold 6 as confirmed; themes and the combo database weren't refreshed to stay read-only, so combo checks are unknown; no expensive tutors or fast mana and no third Game Changer; the batch passes validation with no warnings (removal 5→8, draw stays 10, all coverage gaps closed); I broke the read-only rule once by saving upgrades output to <scratch>/upg.txt.

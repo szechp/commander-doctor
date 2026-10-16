@@ -1,0 +1,47 @@
+cells: 440/440 returned, wall 0s, statuses {'ok': 434, 'not_playable': 6}
+mean cell time 1301 ms (ok cells), error+timeout+looped 0.0%
+determinism: 30/30 reruns identical (both windows)
+empty board: identical across 20 seeds = True; opponent spells+attacks = 0
+
+PASS sev-storm-kiln               treasures_created        round expect ==1  got [1, 1, 1] -> specific  | imm [1, 1, 1] -> specific  | stand-in G [0, 0, 0]
+PASS sev-guttersnipe              opp_life_lost_noncombat  round expect ==6  got [6, 6, 6] -> specific  | imm [6, 6, 6] -> specific  | stand-in G [0, 0, 0]
+PASS sev-electromancer            net_mana_after_b         round expect ==1  got [1, 1, 1] -> specific  | imm [1, 1, 1] -> specific  | stand-in G [0, 0, 0]
+PASS sev-vivi                     opp_life_lost_noncombat  round expect ==3  got [3, 3, 3] -> specific  | imm [3, 3, 3] -> specific  | stand-in G [0, 0, 0]
+PASS sev-sevinne-copy             spells_copied            round expect ==1  got [1, 1, 1] -> specific  | imm [1, 1, 1] -> specific  | stand-in G [0, 0, 0]
+PASS sev-secrets                  cards_drawn              round expect ==1  got [1, 1, 1] -> specific  | imm [1, 1, 1] -> specific  | stand-in G [0, 0, 0]
+PASS sev-past-in-flames           status                   round expect ==enables  got ['enables', 'enables', 'enables']
+PASS ugl-zulaport-bombardment     opp_life_lost_noncombat  round expect ==3  got [3, 3, 3] -> specific  | imm [3, 3, 3] -> specific  | stand-in G [0, 0, 0]
+PASS ugl-blood-artist             opp_life_lost_noncombat  round expect >=1  got [1, 1, 1] -> specific  | imm [1, 1, 1] -> specific  | stand-in G [0, 0, 0]
+PASS ugl-ugluk-counters           p1p1_counters_placed     round expect >=1  got [2, 2, 2] -> specific  | imm [2, 2, 2] -> specific  | stand-in G [0, 0, 0]
+PASS ugl-purphoros                opp_life_lost_noncombat  round expect ==12  got [12, 12, 12] -> specific  | imm [12, 12, 12] -> specific  | stand-in G [0, 0, 0]
+PASS ugl-impact-tremors           opp_life_lost_noncombat  round expect ==6  got [6, 6, 6] -> specific  | imm [6, 6, 6] -> specific  | stand-in G [0, 0, 0]
+PASS ugl-warchief                 net_mana_after_b         round expect ==1  got [1, 1, 1] -> specific  | imm [1, 1, 1] -> specific  | stand-in G [0, 0, 0]
+PASS ugl-skirk-zulaport           opp_life_lost_noncombat  round expect ==3  got [3, 3, 3] -> specific  | imm [3, 3, 3] -> specific  | stand-in G [0, 0, 0]
+PASS rem-taunter-act              opp_life_lost_noncombat  round expect ==13  got [13, 13, 13] -> specific  | imm [13, 13, 13] -> specific  | stand-in G [0, 0, 0]
+PASS rem-rem-protects             our_creatures_died       round expect <0  got [-2, -2, -2] -> specific  | imm [-2, -2, -2] -> specific  | stand-in G [1, 1, 1]
+PASS rem-stuffy-doll              opp_life_lost_noncombat  round expect >=13  got [13, 13, 13] -> specific  | imm [13, 13, 13] -> specific  | stand-in G [0, 0, 0]
+PASS anje-glint-horn              opp_life_lost_noncombat  round expect ==6  got [6, 6, 6] -> specific  | imm [6, 6, 6] -> specific  | stand-in G [0, 0, 0]
+PASS anje-magmakin                opp_life_lost_noncombat  round expect ==6  got [6, 6, 6] -> specific  | imm [6, 6, 6] -> specific  | stand-in G [0, 0, 0]
+PASS anje-bone-miser              net_mana_after_b         round expect ==4  got [4, 4, 4] -> specific  | imm [4, 4, 4] -> specific  | stand-in G [0, 0, 0]
+PASS elrond-opt                   p1p1_counters_placed     round expect ==1  got [1, 1, 1] -> specific  | imm [1, 1, 1] -> specific  | stand-in G [0, 0, 0]
+PASS elrond-hardened-scales       p1p1_counters_placed     round expect ==1  got [1, 1, 1] -> specific  | imm [1, 1, 1] -> specific  | stand-in G [0, 0, 0]
+PASS arwen-opt                    p1p1_counters_placed     round expect ==1  got [1, 1, 1] -> specific  | imm [1, 1, 1] -> specific  | stand-in G [0, 0, 0]
+PASS arwen-elrond-lord            scry_events              round expect ==1  got [1, 1, 1] -> specific  | imm [1, 1, 1] -> specific  | stand-in G [0, 0, 0]
+PASS bifur-gimli                  opp_life_lost_noncombat  round expect >=1  got [1, 1, 1] -> specific  | imm [1, 1, 1] -> specific  | stand-in G [0, 0, 0]
+PASS bifur-fili                   tokens_created           round expect ==1  got [1, 1, 1] -> specific  | imm [1, 1, 1] -> specific  | stand-in G [0, 0, 0]
+PASS neg-storm-kiln-artifact      treasures_created        imm: I [0, 0, 0] S [0, 0, 0]  | round: I [0, 0, 0] S [0, 0, 0]
+PASS neg-guttersnipe-creature     opp_life_lost_noncombat  imm: I [0, 0, 0] S [0, 0, 0]  | round: I [0, 0, 0] S [0, 0, 0]
+PASS neg-electromancer-creature   net_mana_after_b         imm: I [0, 0, 0] S [0, 0, 0]  | round: I [0, 0, 0] S [0, 0, 0]
+PASS neg-tremors-instant          opp_life_lost_noncombat  imm: I [0, 0, 0] S [0, 0, 0]  | round: I [0, 0, 0] S [0, 0, 0]
+PASS neg-zulaport-looting         opp_life_lost_noncombat  imm: I [0, 0, 0] S [0, 0, 0]  | round: I [0, 0, 0] S [0, 0, 0]
+PASS neg-purphoros-looting        opp_life_lost_noncombat  imm: I [0, 0, 0] S [0, 0, 0]  | round: I [0, 0, 0] S [0, 0, 0]
+PASS neg-taunter-looting          opp_life_lost_noncombat  imm: I [0, 0, 0] S [0, 0, 0]  | round: I [0, 0, 0] S [0, 0, 0]
+PASS neg-glint-horn-sol-ring      opp_life_lost_noncombat  imm: I [0, 0, 0] S [0, 0, 0]  | round: I [0, 0, 0] S [0, 0, 0]
+PASS neg-elrond-sol-ring          p1p1_counters_placed     imm: I [0, 0, 0] S [0, 0, 0]  | round: I [0, 0, 0] S [0, 0, 0]
+PASS neg-fili-token               tokens_created           imm: I [0, 0, 0] S [0, 0, 0]  | round: I [0, 0, 0] S [0, 0, 0]
+
+PASS miss-mystic-remora           Mystic Remora SpellCast trigger fired = False (must stay untested)
+
+positives found 26/26 (100%); deterministic exact 22/22; negatives clean 10/10
+positives a map would report as an interaction (stable, not confounded): 26/26
+projection: largest list ~8,320 pair cells (A and stand-in; + contexts/actions alone) x 1.30s = 3.0 h on 1 JVM, 0.8 h on 4 JVMs

@@ -1,0 +1,268 @@
+# Pre-registered known answers for the Forge scenario bench (Phase 0 gate).
+# Written BEFORE the bench exists or has run, from oracle text checked with
+# `deckdoctor card` on 2026-10-16. Do not edit after the first run except to
+# record the user's approval; changing an expectation after seeing results
+# would make the gate meaningless.
+#
+# Interaction I(A,B) = m(A+B) - m(A) - m(B) + m(empty board), measured over one
+# full round of real turns on the fixed board recipe (plan: our seat with 10
+# untapped basics, land drop used, three 1/1 Changeling tokens, one
+# ability-less artifact, a basic-land discard card in hand, 30 basics in the
+# library; three passive opponents at 40 life, each with a tapped Ornithopter
+# and an ability-less enchantment). Every in-game decision is Forge's AI.
+#
+# Metrics (opponent metrics summed over all three opponents):
+#   opp_life_lost, opp_life_lost_noncombat, opp_life_lost_combat, cards_drawn,
+#   net_mana_after_b, treasures_created, tokens_created, our_creatures_died,
+#   opp_creatures_died, spells_cast, spells_copied, p1p1_counters_placed,
+#   scry_events, discards
+#
+# expect: exact value of I for deterministic entries; for non-deterministic
+# ones (AI picks a target/player/mode) the sign and minimum.
+# B "from": hand (cast), graveyard (cast from graveyard, e.g. flashback),
+# battlefield (activate the named ability; the card is put onto the battlefield
+# without summoning sickness first).
+
+schema_version: 1
+approved_by_user: 2026-10-16   # user: "Cool continue then." after reviewing the sheet
+
+positives:
+  # --- Sevinne spellslinger (cards live in the target list, not the current one)
+  - id: sev-storm-kiln
+    list: decks/sevinne-graveyard.target.txt
+    a: Storm-Kiln Artist
+    b: {card: Faithless Looting, from: hand}
+    metric: treasures_created
+    expect: {op: "==", value: 1}
+    deterministic: true
+    reason: "Storm-Kiln: whenever you cast or copy an instant or sorcery spell, create a Treasure."
+  - id: sev-guttersnipe
+    list: decks/sevinne-graveyard.target.txt
+    a: Guttersnipe
+    b: {card: Faithless Looting, from: hand}
+    metric: opp_life_lost_noncombat
+    expect: {op: "==", value: 6}
+    deterministic: true
+    reason: "Guttersnipe: whenever you cast an instant or sorcery, 2 damage to each opponent (3 opponents)."
+  - id: sev-electromancer
+    list: decks/sevinne-graveyard.target.txt
+    a: Goblin Electromancer
+    b: {card: Deep Analysis, from: hand}
+    metric: net_mana_after_b
+    expect: {op: "==", value: 1}
+    deterministic: true
+    reason: "Electromancer: instants and sorceries cost {1} less; Deep Analysis {3}{U} has generic to reduce."
+  - id: sev-vivi
+    list: decks/sevinne-graveyard.target.txt
+    a: Vivi Ornitier
+    b: {card: Faithless Looting, from: hand}
+    metric: opp_life_lost_noncombat
+    expect: {op: "==", value: 3}
+    deterministic: true
+    reason: "Vivi: whenever you cast a noncreature spell, +1/+1 counter and 1 damage to each opponent."
+  - id: sev-sevinne-copy
+    list: decks/sevinne-graveyard.target.txt
+    a: Sevinne, the Chronoclasm
+    b: {card: Faithless Looting, from: graveyard}
+    metric: spells_copied
+    expect: {op: "==", value: 1}
+    deterministic: true
+    reason: "Sevinne: whenever you cast your first instant or sorcery from your graveyard each turn, copy it (flashback {2}{R})."
+  - id: sev-secrets
+    list: decks/sevinne-graveyard.target.txt
+    a: Secrets of the Dead
+    b: {card: Faithless Looting, from: graveyard}
+    metric: cards_drawn
+    expect: {op: "==", value: 1}
+    deterministic: true
+    reason: "Secrets of the Dead: whenever you cast a spell from your graveyard, draw a card."
+  - id: sev-past-in-flames
+    list: decks/sevinne-graveyard.target.txt
+    a: Past in Flames
+    b: {card: Fiery Confluence, from: graveyard}
+    metric: status
+    expect: {op: "==", value: enables}
+    deterministic: true
+    reason: "Past in Flames gives instants/sorceries in the graveyard flashback until end of turn; Fiery Confluence has none on its own."
+
+  # --- Ugluk goblin aristocrats
+  - id: ugl-zulaport-bombardment
+    list: decks/ugluk.txt
+    a: Zulaport Cutthroat
+    b: {card: Goblin Bombardment, from: battlefield, ability: "Sacrifice a creature"}
+    metric: opp_life_lost_noncombat
+    expect: {op: "==", value: 3}
+    deterministic: true
+    reason: "Zulaport: whenever it or another creature you control dies, each opponent loses 1 life (also true if the AI sacrifices Zulaport itself)."
+  - id: ugl-blood-artist
+    list: decks/ugluk.txt
+    a: Blood Artist
+    b: {card: Goblin Bombardment, from: battlefield, ability: "Sacrifice a creature"}
+    metric: opp_life_lost_noncombat
+    expect: {op: ">=", value: 1}
+    deterministic: false
+    reason: "Blood Artist: whenever a creature dies, target player loses 1 life (AI picks the player)."
+  - id: ugl-ugluk-counters
+    list: decks/ugluk.txt
+    a: Uglúk of the White Hand
+    b: {card: Goblin Bombardment, from: battlefield, ability: "Sacrifice a creature"}
+    metric: p1p1_counters_placed
+    expect: {op: ">=", value: 1}
+    deterministic: false
+    reason: "Uglúk: another creature you control dies -> +1 counter, +2 if Goblin or Orc (Changeling fodder is both; AI picks what to sacrifice)."
+  - id: ugl-purphoros
+    list: decks/ugluk.txt
+    a: Purphoros, God of the Forge
+    b: {card: Krenko's Command, from: hand}
+    metric: opp_life_lost_noncombat
+    expect: {op: "==", value: 12}
+    deterministic: true
+    reason: "Purphoros: another creature you control enters -> 2 damage to each opponent; Krenko's Command makes two Goblins (2 x 2 x 3)."
+  - id: ugl-impact-tremors
+    list: decks/ugluk.txt
+    a: Impact Tremors
+    b: {card: Krenko's Command, from: hand}
+    metric: opp_life_lost_noncombat
+    expect: {op: "==", value: 6}
+    deterministic: true
+    reason: "Impact Tremors: a creature you control enters -> 1 damage to each opponent (2 tokens x 3)."
+  - id: ugl-warchief
+    list: decks/ugluk.txt
+    a: Goblin Warchief
+    b: {card: Mogg War Marshal, from: hand}
+    metric: net_mana_after_b
+    expect: {op: "==", value: 1}
+    deterministic: true
+    reason: "Goblin Warchief: Goblin spells you cast cost {1} less; Mogg War Marshal is a Goblin with {1}{R}."
+  - id: ugl-skirk-zulaport
+    list: decks/ugluk.txt
+    a: Zulaport Cutthroat
+    b: {card: Skirk Prospector, from: battlefield, ability: "Sacrifice a Goblin"}
+    metric: opp_life_lost_noncombat
+    expect: {op: "==", value: 3}
+    deterministic: true
+    reason: "Skirk Prospector sacrifices a Goblin (Changeling token); Zulaport makes each opponent lose 1."
+
+  # --- Rem Karolus damage reflection
+  - id: rem-taunter-act
+    list: decks/rem-reflect.txt
+    a: Brash Taunter
+    b: {card: Blasphemous Act, from: hand}
+    metric: opp_life_lost_noncombat
+    expect: {op: "==", value: 13}
+    deterministic: true
+    reason: "Brash Taunter (indestructible): dealt 13 by Blasphemous Act -> deals 13 to target opponent."
+  - id: rem-rem-protects
+    list: decks/rem-reflect.txt
+    a: Rem Karolus, Stalwart Slayer
+    b: {card: Blasphemous Act, from: hand}
+    metric: our_creatures_died
+    expect: {op: "<", value: 0}
+    deterministic: true
+    reason: "Rem: if a spell would deal damage to another permanent you control, prevent it -> our Changelings survive the Act."
+  - id: rem-stuffy-doll
+    list: decks/rem-reflect.txt
+    a: Stuffy Doll
+    b: {card: Blasphemous Act, from: hand}
+    metric: opp_life_lost_noncombat
+    expect: {op: ">=", value: 13}
+    deterministic: false
+    reason: "Stuffy Doll: dealt damage -> that much to the chosen player (AI chooses the player as it enters)."
+
+  # --- Anje discard
+  - id: anje-glint-horn
+    list: decks/anje-ping-to-death.txt
+    a: Glint-Horn Buccaneer
+    b: {card: Faithless Looting, from: hand}
+    metric: opp_life_lost_noncombat
+    expect: {op: "==", value: 6}
+    deterministic: true
+    reason: "Glint-Horn: whenever you discard a card, 1 damage to each opponent; Looting discards two (2 x 3)."
+  - id: anje-magmakin
+    list: decks/anje-ping-to-death.txt
+    a: Magmakin Artillerist
+    b: {card: Faithless Looting, from: hand}
+    metric: opp_life_lost_noncombat
+    expect: {op: "==", value: 6}
+    deterministic: true
+    reason: "Magmakin: whenever you discard one or more cards, that much damage to each opponent (2 x 3)."
+  - id: anje-bone-miser
+    list: decks/anje-ping-to-death.txt
+    a: Bone Miser
+    b: {card: Faithless Looting, from: hand}
+    metric: net_mana_after_b
+    expect: {op: "==", value: 4}
+    deterministic: true
+    reason: "Bone Miser: whenever you discard a land card, add {B}{B}; every discardable card on the bench is a basic land."
+
+  # --- Elrond (heal / scry counters)
+  - id: elrond-opt
+    list: decks/elrond-heal.txt
+    a: Elrond, Master of Healing
+    b: {card: Opt, from: hand}
+    metric: p1p1_counters_placed
+    expect: {op: "==", value: 1}
+    deterministic: true
+    reason: "Elrond: whenever you scry, +1/+1 counter on each of up to X target creatures, X = cards looked at (Opt scries 1)."
+  - id: elrond-hardened-scales
+    list: decks/elrond-heal.txt
+    a: Hardened Scales
+    b: {card: Pridemalkin, from: hand}
+    metric: p1p1_counters_placed
+    expect: {op: "==", value: 1}
+    deterministic: true
+    reason: "Hardened Scales: counters on your creatures get +1; Pridemalkin's ETB puts one +1/+1 counter."
+
+  # --- Arwen (draft)
+  - id: arwen-opt
+    list: decks/arwen.txt
+    a: Arwen Undómiel
+    b: {card: Opt, from: hand}
+    metric: p1p1_counters_placed
+    expect: {op: "==", value: 1}
+    deterministic: true
+    reason: "Arwen: whenever you scry, +1/+1 counter on target creature."
+  - id: arwen-elrond-lord
+    list: decks/arwen.txt
+    a: Elrond, Lord of Rivendell
+    b: {card: Pridemalkin, from: hand}
+    metric: scry_events
+    expect: {op: "==", value: 1}
+    deterministic: true
+    reason: "Elrond, Lord of Rivendell: whenever another creature you control enters, scry 1."
+
+  # --- Bifur (draft)
+  - id: bifur-gimli
+    list: decks/bifur.txt
+    a: Gimli, Counter of Kills
+    b: {card: Bombard, from: hand}
+    metric: opp_life_lost_noncombat
+    expect: {op: ">=", value: 1}
+    deterministic: false
+    reason: "Gimli: a creature an opponent controls dies -> 1 damage to its controller (AI must target an opponent's Ornithopter with Bombard)."
+  - id: bifur-fili
+    list: decks/bifur.txt
+    a: Fíli the Pathfinder
+    b: {card: "Nori, Teller of Tales", from: hand}
+    metric: tokens_created
+    expect: {op: "==", value: 1}
+    deterministic: true
+    reason: "Fíli: another nontoken Dwarf you control enters -> create a 2/2 Dwarf token; Nori is a Dwarf."
+
+negatives:   # interaction must stay inside the placebo noise band (i.e. no measured interaction)
+  - {id: neg-storm-kiln-artifact, list: decks/sevinne-graveyard.target.txt, a: Storm-Kiln Artist, b: {card: Sol Ring, from: hand}, metric: treasures_created, reason: "Sol Ring is not an instant or sorcery."}
+  - {id: neg-guttersnipe-creature, list: decks/sevinne-graveyard.target.txt, a: Guttersnipe, b: {card: Harmonic Prodigy, from: hand}, metric: opp_life_lost_noncombat, reason: "Creature spell, not an instant or sorcery."}
+  - {id: neg-electromancer-creature, list: decks/sevinne-graveyard.target.txt, a: Goblin Electromancer, b: {card: Harmonic Prodigy, from: hand}, metric: net_mana_after_b, reason: "Reduction applies only to instants and sorceries."}
+  - {id: neg-tremors-instant, list: decks/ugluk.txt, a: Impact Tremors, b: {card: Faithless Looting, from: hand}, metric: opp_life_lost_noncombat, reason: "No creature enters."}
+  - {id: neg-zulaport-looting, list: decks/ugluk.txt, a: Zulaport Cutthroat, b: {card: Faithless Looting, from: hand}, metric: opp_life_lost_noncombat, reason: "Nothing dies."}
+  - {id: neg-purphoros-looting, list: decks/ugluk.txt, a: "Purphoros, God of the Forge", b: {card: Faithless Looting, from: hand}, metric: opp_life_lost_noncombat, reason: "No creature enters."}
+  - {id: neg-taunter-looting, list: decks/rem-reflect.txt, a: Brash Taunter, b: {card: Faithless Looting, from: hand}, metric: opp_life_lost_noncombat, reason: "Taunter is not dealt damage."}
+  - {id: neg-glint-horn-sol-ring, list: decks/anje-ping-to-death.txt, a: Glint-Horn Buccaneer, b: {card: Sol Ring, from: hand}, metric: opp_life_lost_noncombat, reason: "No discard."}
+  - {id: neg-elrond-sol-ring, list: decks/elrond-heal.txt, a: "Elrond, Master of Healing", b: {card: Sol Ring, from: hand}, metric: p1p1_counters_placed, reason: "No scry."}
+  - {id: neg-fili-token, list: decks/bifur.txt, a: Fíli the Pathfinder, b: {card: Ancestral Blade, from: hand}, metric: tokens_created, reason: "Ancestral Blade's Soldier token is a token and not a Dwarf, so Fíli does not trigger."}
+
+expected_misses:   # pairwise bench cannot show these; they must NOT be reported as found
+  - {id: miss-prodigy-doubling, list: decks/sevinne-graveyard.target.txt, cards: [Harmonic Prodigy, Storm-Kiln Artist, Faithless Looting], reason: "3-card synergy: Prodigy doubles Storm-Kiln's trigger only when both are present with an instant."}
+  - {id: miss-krenko-thornbite, list: decks/ugluk.txt, cards: ["Krenko, Mob Boss", Thornbite Staff, Goblin Bombardment], reason: "3-card infinite combo; covered by the Commander Spellbook combo data, not by pairs."}
+  - {id: miss-fili-storied, list: decks/bifur.txt, cards: [Fíli the Pathfinder], reason: "Storied threshold (3 artifacts/legendaries/Sagas) is not met by the fixed board."}
+  - {id: miss-mystic-remora, list: decks/sevinne-graveyard.target.txt, cards: [Mystic Remora], reason: "Triggers only on opponents' noncreature spells; passive opponents never cast -> must be reported unsupported, not zero."}

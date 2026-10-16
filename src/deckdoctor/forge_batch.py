@@ -26,18 +26,36 @@ and an observed-at-cap breakdown (see BatchResult.render).
 
 from __future__ import annotations
 
+import glob
 import json
 import math
+import re
 import subprocess
 from dataclasses import dataclass, field
 from pathlib import Path
 
+# The default is a glob, not a pinned file: the Forge version in the jar's
+# name changes on every `git checkout forge-X.Y.Z` + rebuild, and a pinned
+# name silently broke the default path after the 2.0.14 -> 2.0.15 update.
 JAR_DEFAULT = (
     "forge-spike/forge/forge-gui-desktop/target/"
-    "forge-gui-desktop-2.0.14-jar-with-dependencies.jar"
+    "forge-gui-desktop-*-jar-with-dependencies.jar"
 )
-FORGE_GUI_DESKTOP_DIR = str(Path(__file__).resolve().parents[2] / "forge-spike/forge/forge-gui-desktop")
+REPO_ROOT = Path(__file__).resolve().parents[2]
+FORGE_GUI_DESKTOP_DIR = str(REPO_ROOT / "forge-spike/forge/forge-gui-desktop")
 JAVA17_DEFAULT = "java"
+_JAR_VERSION = re.compile(r"forge-gui-desktop-(\d+(?:\.\d+)*)-jar-with-dependencies\.jar$")
+
+
+def resolve_default_jar(root: Path = REPO_ROOT) -> Path | None:
+    """Newest built jar matching JAR_DEFAULT (by the version in its name),
+    or None when nothing has been built yet."""
+    def version(p: Path) -> tuple[int, ...]:
+        m = _JAR_VERSION.search(p.name)
+        return tuple(int(x) for x in m.group(1).split(".")) if m else ()
+    # glob.glob, not Path.glob: JAR_DEFAULT may be patched to an absolute path
+    jars = sorted((Path(p) for p in glob.glob(str(root / JAR_DEFAULT))), key=version)
+    return jars[-1] if jars else None
 
 EVALUATOR_NAME = "GoldfishSpike (real Forge AI + rules engine, turn-capped 2-player mirror)"
 
@@ -206,7 +224,10 @@ def run_forge_batch(
     if timeout is not None and (isinstance(timeout, bool) or not isinstance(timeout, (int, float))
                                 or not math.isfinite(timeout) or timeout <= 0):
         raise ForgeExecutionError("timeout must be finite and positive")
-    jar_path = Path(__file__).resolve().parents[2] / jar if jar == JAR_DEFAULT else Path(jar)
+    if jar == JAR_DEFAULT:
+        jar_path = resolve_default_jar() or REPO_ROOT / JAR_DEFAULT
+    else:
+        jar_path = Path(jar)
     jar_abs = str(jar_path.resolve())
     deck_abs = str(Path(deck_path).resolve())
 
@@ -228,12 +249,15 @@ def run_forge_batch(
     # explicitly, or it keeps running orphaned -- subprocess.run's timeout
     # does not reliably reap it).
     #
-    # -Djava.awt.headless=true: no popups -- this runs unattended (CI,
-    # batch scripts, a worker session with no display), and Forge's AI
-    # path doesn't need a GUI toolkit at all.
+    # No -Djava.awt.headless=true: GoldfishSpike installs GuiDesktop, whose
+    # static initializer reads the default screen device and throws
+    # HeadlessException under headless mode, so the batch never started.
+    # It needs a display (on a display-less Linux box, wrap in xvfb-run).
+    # -Dapple.awt.UIElement=true keeps macOS from adding a Dock icon or
+    # stealing focus; other platforms ignore it. No window is ever shown.
     try:
         proc_handle = subprocess.Popen(
-            [java_bin, "-Djava.awt.headless=true", "-cp", jar_abs,
+            [java_bin, "-Dapple.awt.UIElement=true", "-cp", jar_abs,
              "forge.spike.GoldfishSpike", deck_abs, str(n), str(max_turn)],
             cwd=FORGE_GUI_DESKTOP_DIR,  # relative res/ symlink resolution, see GoldfishSpike's ASSETS_DIR notes
             stdout=subprocess.PIPE,

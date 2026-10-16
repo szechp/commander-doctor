@@ -304,6 +304,17 @@ def main(argv: list[str] | None = None) -> int:
     p_hand.add_argument("--seed", type=int, default=42)
     p_hand.add_argument("--format", choices=["text", "json"], default="text")
 
+    p_deploy = sub.add_parser("deploy", help="mana-deployment goldfish: land drops, colours, commander turn; "
+                                             "paired A/B with --against (mana and speed only, never deck quality)")
+    p_deploy.add_argument("deck", help="path to a decklist (list A)")
+    p_deploy.add_argument("--against", default=None, help="second decklist (list B), same commander: paired comparison")
+    p_deploy.add_argument("--trials", type=int, default=5000)
+    p_deploy.add_argument("--seed", type=int, default=42)
+    p_deploy.add_argument("--turns", type=int, default=6)
+    p_deploy.add_argument("--on-the-play", action="store_true", help="default: on the draw")
+    p_deploy.add_argument("--db", default=None)
+    p_deploy.add_argument("--format", choices=["text", "json"], default="text")
+
     p_audit = sub.add_parser("audit", help="census + playability: land formula, category ratios, game changers (§13 step 3)")
     p_audit.add_argument("deck", help="path to a decklist, e.g. decks/gishath.txt")
     p_audit.add_argument("--db", default=None)
@@ -641,7 +652,7 @@ def main(argv: list[str] | None = None) -> int:
         con.close()
         return 0 if valid else 2
 
-    gated_commands = {"hand", "audit", "coverage", "colours", "defence", "combos", "bracket", "edhrec", "themes", "diff", "health", "upgrades", "candidates", "screen-candidates", "goldfish", "consistency"}
+    gated_commands = {"hand", "audit", "coverage", "colours", "defence", "combos", "bracket", "edhrec", "themes", "diff", "health", "upgrades", "candidates", "screen-candidates", "goldfish", "consistency", "deploy"}
     if args.command in gated_commands:
         gate_code = _validation_gate(args.deck, getattr(args, "db", None), getattr(args, "format", "text"))
         if gate_code:
@@ -715,6 +726,50 @@ def main(argv: list[str] | None = None) -> int:
 
     if args.command == "parse-forge":
         return _run_parse_forge(args.db, args.cardsfolder)
+
+    if args.command == "deploy":
+        from deckdoctor.db import connect_readonly
+        from deckdoctor.deck import load_deck
+        from deckdoctor import deploy
+
+        if args.against:
+            gate_code = _validation_gate(args.against, args.db, args.format)
+            if gate_code:
+                return gate_code
+        con = connect_readonly(args.db)
+        deck_a = load_deck(args.deck, con)
+        deck_b = load_deck(args.against, con) if args.against else None
+        if deck_b is not None and deck_b.commander.name != deck_a.commander.name:
+            print("--against must have the same commander (the comparison isolates the 99)", file=sys.stderr)
+            con.close()
+            return 2
+        identity = deck_a.commander.color_identity or ()
+        names = [c.name for c in deck_a.library] + [deck_a.commander.name]
+        if deck_b is not None:
+            names += [c.name for c in deck_b.library]
+        try:
+            cards = deploy.load_sim_cards(con, names, identity)
+        finally:
+            con.close()
+        lib_a = [cards[c.name] for c in deck_a.library]
+        commander = cards[deck_a.commander.name]
+        try:
+            if deck_b is None:
+                result = deploy.run(deploy._slots(lib_a), commander, frozenset(identity), trials=args.trials,
+                                    seed=args.seed, turns=args.turns, on_the_play=args.on_the_play)
+            else:
+                lib_b = [cards[c.name] for c in deck_b.library]
+                slots_a, slots_b = deploy.pair_slots(lib_a, lib_b)
+                result = deploy.run(slots_a, commander, frozenset(identity), trials=args.trials, seed=args.seed,
+                                    turns=args.turns, on_the_play=args.on_the_play, slots_b=slots_b)
+        except ValueError as exc:
+            print(str(exc), file=sys.stderr)
+            return 2
+        if args.format == "json":
+            print(deploy.to_json(result))
+        else:
+            print(deploy.render(result, args.deck, args.against))
+        return 0
 
     if args.command == "hand":
         import random

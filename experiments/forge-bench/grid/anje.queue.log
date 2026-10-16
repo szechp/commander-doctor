@@ -1,0 +1,15 @@
+anje: 65 contexts, 95 actions, unavailable: []
+stage 1 (seed 1, every pair)
+6250 cells requested, 5318 to run
+  1200/5318 cells, 6.3 min, ~22 min left
+  2400/5318 cells, 12.1 min, ~15 min left
+  3600/5318 cells, 18.4 min, ~9 min left
+  4800/5318 cells, 24.2 min, ~3 min left
+  5318/5318 cells, 28.3 min, ~0 min left
+stage 2: 900 of 6175 pairs show something on seed 1
+6006 cells requested, 4517 to run
+  1200/4517 cells, 6.0 min, ~17 min left
+  2400/4517 cells, 12.1 min, ~11 min left
+  3600/4517 cells, 18.5 min, ~5 min left
+  4517/4517 cells, 23.7 min, ~0 min left
+done

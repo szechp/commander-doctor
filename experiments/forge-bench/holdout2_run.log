@@ -1,0 +1,22 @@
+cells: 161/161 returned, wall 156s, statuses {'ok': 161}
+mean cell time 1909 ms (ok cells), error+timeout+looped 0.0%
+determinism: 30/30 reruns identical (both windows)
+empty board: identical across 20 seeds = True; opponent spells+attacks = 0
+
+PASS h2-mons-act                  opp_life_lost_noncombat  imm   expect ==4  got [4, 4, 4] -> specific  | round [3, 3, 3] -> confounded (AI's own plays changed)  | stand-in G [0, 0, 0]
+PASS h2-bats-command              opp_life_lost_noncombat  imm   expect ==6  got [6, 6, 6] -> specific  | round [6, 6, 6] -> specific  | stand-in G [0, 0, 0]
+PASS h2-bastion-act               opp_life_lost_noncombat  imm   expect ==12  got [12, 12, 12] -> specific  | round [12, 12, 12] -> specific  | stand-in G [0, 0, 0]
+MISS h2-krenko-command            tokens_created           round expect >=2  got [0, 0, 0] -> none  | imm [0, 0, 0] -> none  | stand-in G [0, 0, 0]
+PASS h2-matoya-opt                cards_drawn              imm   expect ==1  got [1, 1, 1] -> specific  | round [1, 1, 1] -> specific  | stand-in G [0, 0, 0]
+PASS h2-celeborn-opt              opp_life_lost_combat     round expect >=1  got [1, 1, 1] -> specific  | imm [0, 0, 0] -> none  | stand-in G [0, 0, 0]
+PASS hn2-ascendancy-pridemalkin   p1p1_counters_placed     imm: I [0, 0, 0] S [0, 0, 0]  | round: I [-1, -1, -1] S [-1, -1, -1] (confounded)
+PASS hn2-bats-act                 opp_life_lost_noncombat  imm: I [0, 0, 0] S [0, 0, 0]  | round: I [0, 0, 0] S [0, 0, 0]
+PASS hn2-lackey-act-mana          net_mana_after_b         imm: I [1, 1, 1] S [0, 0, 0]  | round: I [1, 1, 1] S [0, 0, 0]
+PASS hn2-warchief-act-combat      opp_life_lost_combat     imm: I [0, 0, 0] S [0, 0, 0]  | round: I [-2, -2, -2] S [0, 0, 0]
+PASS hn2-matoya-sol-ring          cards_drawn              imm: I [0, 0, 0] S [0, 0, 0]  | round: I [0, 0, 0] S [0, 0, 0]
+
+PASS hu2-archive-dragon-ward      Archive Dragon BecomesTarget trigger fired = False (must stay untested)
+
+positives found 5/6 (83%); deterministic exact 3/3; negatives clean 5/5
+positives a map would report as an interaction (stable, not confounded): 5/6
+projection: largest list ~8,320 pair cells (A and stand-in; + contexts/actions alone) x 1.91s = 4.4 h on 1 JVM, 1.1 h on 4 JVMs

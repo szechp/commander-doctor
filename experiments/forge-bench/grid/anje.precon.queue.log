@@ -1,0 +1,13 @@
+anje.precon: 60 contexts, 93 actions, unavailable: []
+stage 1 (seed 1, every pair)
+5652 cells requested, 5652 to run
+  1200/5652 cells, 7.0 min, ~26 min left
+  2400/5652 cells, 12.8 min, ~17 min left
+  3600/5652 cells, 19.2 min, ~11 min left
+  4800/5652 cells, 25.0 min, ~4 min left
+  5652/5652 cells, 29.8 min, ~0 min left
+stage 2: 324 of 5580 pairs show something on seed 1
+2415 cells requested, 1973 to run
+  1200/1973 cells, 6.1 min, ~4 min left
+  1973/1973 cells, 11.0 min, ~0 min left
+done

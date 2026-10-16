@@ -1,0 +1,9 @@
+INTERACTION MAP ugluk (Forge rules engine, bench v2). Each line: two deck cards together vs each alone,
+one forced action then one game round on a fixed board, Forge's AI deciding; same sign on 3 seeds.
+Measures pairwise effects only. Not measured: win rate, multi-turn value, tutors, interaction, 3-card combos,
+cost savings (10 spare lands). ALONE = no measurable pair effect here, not 'bad'.
+
+HUB 
+ALONE Aggravated Assault, Arcane Signet, Ashnod's Altar, Azog, Moria's Ruin, Bastion of Remembrance, Blasphemous Act, Blood Artist, Boggart Harbinger, Chandra's Ignition, Conspicuous Snoop, Deadly Dispute, Empty the Warrens, Faithless Looting, Feed the Swarm, First Day of Class, Furystoke Giant, Gempalm Incinerator, General Kreat, the Boltbringer, Goblin Bombardment, Goblin Lackey, Goblin Matron, Goblin Warchief, Idol of Oblivion, Impact Tremors, Jeska's Will, Kiki-Jiki, Mirror Breaker, Krenko's Command, Krenko, Mob Boss, Krenko, Tin Street Kingpin, Legion Warboss, Lightning Crafter, Lightning Greaves, Mana Echoes, March from the Black Gate, Mauhúr, Uruk-hai Captain, Mirkwood Bats, Mogg War Marshal, Mordor Muster, Muxus, Goblin Grandee, Orcish Bowmasters, Pashalik Mons, Phyrexian Altar, Phyrexian Arena, Purphoros, God of the Forge, Putrid Goblin, Rakdos Signet, Siege-Gang Commander, Skirk Prospector, Skullclamp, Sling-Gang Lieutenant, Sol Ring, Staff of Domination, Talisman of Indulgence, Terminate, The Great Goblin, Thornbite Staff, Thrill of Possibility, Uglúk of the White Hand, Vandalblast, Viscera Seer, Warren Soultrader, Worthy Cost, Zulaport Cutthroat
+UNTESTED (a trigger never fired on the bench; zero means unknown): Goblin Lackey, Impact Tremors, Krenko, Tin Street Kingpin, Legion Warboss, Mana Echoes, Mirkwood Bats, Muxus, Goblin Grandee, Orcish Bowmasters, Purphoros, God of the Forge, Putrid Goblin, The Great Goblin, Thornbite Staff, Uglúk of the White Hand, Zulaport Cutthroat
+UNAVAILABLE in Forge: My Precious // Allure of Power

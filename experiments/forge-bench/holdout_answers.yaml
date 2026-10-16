@@ -1,0 +1,162 @@
+# Held-out known answers for the Forge scenario bench, written 2026-10-16
+# AFTER Phase 0's measurement fixes and BEFORE any of these cells has run.
+# Purpose: test that the bench generalizes beyond the cases it was debugged on.
+# The bench code and grader must not change between approval and this run.
+# Deliberately harder than known_answers.yaml: other trigger filters, three
+# different ways of enabling graveyard casts, mass deaths from sweepers,
+# combat-dependent effects, a replacement effect that must suppress a
+# trigger, an ability activated from the hand (cycling), and cards whose
+# triggers need opponents to act and so must come back untested.
+# Same metrics, contrast and recipe as known_answers.yaml.
+
+schema_version: 1
+approved_by_user: 2026-10-16   # user delegated the item-by-item check to Claude; changes below, made before any run
+# Changes after that check (oracle + Forge script + board reasoning only, no bench output):
+# - Snapcaster and Lier get their own B (Frantic Search, Swords to Plowshares) so one
+#   cast-path bug (Fiery Confluence is modal) can't sink all three enabler items; Breach keeps Confluence.
+# - Blood Artist: >=6 -> ==7 (3 Changelings + Blood Artist itself + 3 Ornithopters die).
+# - Stalwart x Colossus Hammer moved to expected_misses (see there); replaced by Thorin, Mountain-king x Hammer.
+
+positives:
+  - id: h-vivi-noncreature
+    list: decks/sevinne-graveyard.target.txt
+    a: Vivi Ornitier
+    b: {card: Sol Ring, from: hand}
+    metric: opp_life_lost_noncombat
+    expect: {op: "==", value: 3}
+    deterministic: true
+    reason: "Vivi triggers on any noncreature spell (an artifact counts), unlike Guttersnipe."
+  - id: h-snapcaster-enables
+    list: decks/sevinne-graveyard.target.txt
+    a: Snapcaster Mage
+    b: {card: Frantic Search, from: graveyard}
+    metric: status
+    expect: {op: "==", value: enables}
+    deterministic: true
+    reason: "Snapcaster ETB: target instant/sorcery in your graveyard gains flashback until end of turn (Frantic Search is the only one there)."
+  - id: h-lier-enables
+    list: decks/sevinne-graveyard.target.txt
+    a: "Lier, Disciple of the Drowned"
+    b: {card: Swords to Plowshares, from: graveyard}
+    metric: status
+    expect: {op: "==", value: enables}
+    deterministic: true
+    reason: "Lier: each instant and sorcery card in your graveyard has flashback (static)."
+  - id: h-breach-enables
+    list: decks/sevinne-graveyard.target.txt
+    a: Underworld Breach
+    b: {card: Fiery Confluence, from: graveyard}
+    metric: status
+    expect: {op: "==", value: enables}
+    deterministic: true
+    reason: "Breach: nonland cards in your graveyard have escape (mana cost + exile three other graveyard cards; the bench graveyard holds four)."
+  - id: h-zulaport-act
+    list: decks/ugluk.txt
+    a: Zulaport Cutthroat
+    b: {card: Blasphemous Act, from: hand}
+    metric: opp_life_lost_noncombat
+    expect: {op: "==", value: 12}
+    deterministic: true
+    reason: "Act kills our 3 Changelings and Zulaport; Zulaport sees all four deaths -> each opponent loses 4."
+  - id: h-purphoros-siege-gang
+    list: decks/ugluk.txt
+    a: "Purphoros, God of the Forge"
+    b: {card: Siege-Gang Commander, from: hand}
+    metric: opp_life_lost_noncombat
+    expect: {op: "==", value: 24}
+    deterministic: true
+    reason: "Siege-Gang enters plus its three Goblin tokens = 4 creatures entering, 2 damage to each opponent each."
+  - id: h-warchief-haste
+    list: decks/ugluk.txt
+    a: Goblin Warchief
+    b: {card: "Krenko's Command", from: hand}
+    metric: opp_life_lost_combat
+    expect: {op: ">=", value: 1}
+    deterministic: false
+    reason: "Warchief gives Goblins haste, so the new tokens can attack this round (the AI decides the attacks)."
+  - id: h-blood-artist-act
+    list: decks/ugluk.txt
+    a: Blood Artist
+    b: {card: Blasphemous Act, from: hand}
+    metric: opp_life_lost_noncombat
+    expect: {op: "==", value: 7}
+    deterministic: false
+    reason: "Blood Artist sees all 7 deaths (3 Changelings, itself, 3 Ornithopters); AI picks the player each time."
+  - id: h-repercussion-act
+    list: decks/rem-reflect.txt
+    a: Repercussion
+    b: {card: Blasphemous Act, from: hand}
+    metric: opp_life_lost_noncombat
+    expect: {op: "==", value: 39}
+    deterministic: true
+    reason: "Each opponent's Ornithopter is dealt 13 -> Repercussion deals 13 to each opponent."
+  - id: h-reckoner-act
+    list: decks/rem-reflect.txt
+    a: Boros Reckoner
+    b: {card: Blasphemous Act, from: hand}
+    metric: opp_life_lost_noncombat
+    expect: {op: ">=", value: 13}
+    deterministic: false
+    reason: "Reckoner dealt 13 -> deals 13 to any target (AI picks)."
+  - id: h-vindicator-act
+    list: decks/rem-reflect.txt
+    a: Phyrexian Vindicator
+    b: {card: Blasphemous Act, from: hand}
+    metric: opp_life_lost_noncombat
+    expect: {op: ">=", value: 13}
+    deterministic: false
+    reason: "Vindicator prevents the 13 and deals that much to any other target (AI picks)."
+  - id: h-archfiend-looting
+    list: decks/anje-ping-to-death.txt
+    a: Archfiend of Ifnir
+    b: {card: Faithless Looting, from: hand}
+    metric: opp_creatures_died
+    expect: {op: "==", value: 3}
+    deterministic: true
+    reason: "Two discards -> two -1/-1 counters on each opponent creature; each 0/2 Ornithopter dies."
+  - id: h-glint-horn-cycling
+    list: decks/anje-ping-to-death.txt
+    a: Glint-Horn Buccaneer
+    b: {card: Magmakin Artillerist, from: hand, ability: Cycling}
+    metric: opp_life_lost_noncombat
+    expect: {op: "==", value: 3}
+    deterministic: true
+    reason: "Cycling discards Magmakin -> Glint-Horn deals 1 to each opponent (Magmakin's own cycle ping is in m(B))."
+  - id: h-kami-counters
+    list: decks/elrond-heal.txt
+    a: Kami of Whispered Hopes
+    b: {card: Pridemalkin, from: hand}
+    metric: p1p1_counters_placed
+    expect: {op: "==", value: 1}
+    deterministic: true
+    reason: "Kami: counters put on your permanents get +1 (replacement), Pridemalkin's ETB puts one."
+  - id: h-arwen-knots
+    list: decks/arwen.txt
+    a: Arwen Undómiel
+    b: {card: Hithlain Knots, from: hand}
+    metric: p1p1_counters_placed
+    expect: {op: "==", value: 1}
+    deterministic: true
+    reason: "Hithlain Knots: tap target creature, scry 1, draw -> one scry -> Arwen puts one +1/+1 counter."
+  - id: h-thorin-hammer
+    list: decks/bifur.txt
+    a: Colossus Hammer
+    b: {card: "Thorin, Mountain-king", from: hand}
+    metric: opp_creatures_died
+    expect: {op: ">=", value: 1}
+    deterministic: false
+    reason: "Thorin ETB attaches the Hammer; the reflexive trigger (only if an Equipment got attached) deals the creature's power to up to one target creature -> an Ornithopter dies. Alone, Thorin has nothing to attach."
+
+negatives:
+  - {id: hn-gimli-lava-coil, list: decks/bifur.txt, a: "Gimli, Counter of Kills", b: {card: Lava Coil, from: hand}, metric: opp_life_lost_noncombat, reason: "Lava Coil exiles instead of letting the creature die, so Gimli must not trigger."}
+  - {id: hn-guttersnipe-sol-ring, list: decks/sevinne-graveyard.target.txt, a: Guttersnipe, b: {card: Sol Ring, from: hand}, metric: opp_life_lost_noncombat, reason: "Noncreature but not an instant or sorcery."}
+  - {id: hn-tremors-act, list: decks/ugluk.txt, a: Impact Tremors, b: {card: Blasphemous Act, from: hand}, metric: opp_life_lost_noncombat, reason: "Creatures die, none enter."}
+  - {id: hn-scales-opt, list: decks/elrond-heal.txt, a: Hardened Scales, b: {card: Opt, from: hand}, metric: p1p1_counters_placed, reason: "No counter is put anywhere without Elrond/Arwen."}
+  - {id: hn-fili-dragon, list: decks/bifur.txt, a: Fíli the Pathfinder, b: {card: Rapacious Dragon, from: hand}, metric: tokens_created, reason: "Rapacious Dragon is not a Dwarf (its own Treasures are in m(B))."}
+
+unsupported:   # triggers that need opponents to act; must never fire on the passive bench
+  - {id: hu-esper-sentinel, list: decks/rem-reflect.txt, card: Esper Sentinel, trigger_mode: SpellCast, reason: "Needs an opponent's noncreature spell."}
+  - {id: hu-bowmasters, list: decks/ugluk.txt, card: Orcish Bowmasters, trigger_mode: Drawn, reason: "Needs an opponent's extra draw (its ETB part fires legitimately)."}
+
+expected_misses:   # documented, not graded (the frozen grader ignores this section)
+  - {id: hm-stalwart-hammer, list: decks/bifur.txt, cards: [Colossus Hammer, Iron Hills Stalwart], reason: "Stalwart's value is a free equip. The board has 10 untapped lands, so in the A-alone cell the AI can pay equip {8} itself; combat I is then ~0 (or -10 if Stalwart takes the Hammer while summoning-sick). Board limitation: abundant mana hides cost savings."}

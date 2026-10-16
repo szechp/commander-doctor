@@ -1,0 +1,8 @@
+ugluk: 64 contexts, 92 actions, unavailable: []
+stage 1 (seed 1, every pair)
+5954 cells requested, 45 to run
+  45/45 cells, 1.2 min, ~0 min left
+stage 2: 1184 of 5888 pairs show something on seed 1
+7746 cells requested, 30 to run
+  30/30 cells, 0.9 min, ~0 min left
+done

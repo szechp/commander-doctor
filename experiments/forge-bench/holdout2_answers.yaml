@@ -1,0 +1,93 @@
+# Second held-out set for the Forge scenario bench (bench v2), written 2026-10-16
+# AFTER the v2 changes (immediate window, stand-in contexts, confound flag) and
+# BEFORE any of these cells has run. The first held-out set is spent: v2 was
+# designed from its Arwen miss.
+# Focus: context cards with their own activated abilities (the class that broke
+# the round window), body-only effects that the stand-in must explain away, and
+# interactions that are real but generic to a card type.
+# Every pair is new: no (A, B) combination appears in known_answers.yaml or
+# holdout_answers.yaml.
+#
+# Fields new in v2:
+#   window:   imm (B and the triggers it caused, before any further AI play) or round (default)
+#   specific: optional; true = A's text causes it (S = I - G consistently nonzero),
+#             false = A's body or card type alone does it too (generic)
+
+schema_version: 2
+approved_by_user: 2026-10-16   # written and checked by Claude under the user's delegation; not reviewed item by item by the user
+
+positives:
+  - id: h2-mons-act
+    list: decks/ugluk.txt
+    a: Pashalik Mons
+    b: {card: Blasphemous Act, from: hand}
+    metric: opp_life_lost_noncombat
+    window: imm
+    expect: {op: "==", value: 4}
+    deterministic: false
+    specific: true
+    reason: "Act kills Mons and our 3 Changelings (all Goblins): 4 triggers x 1 damage. Every creature is dead by then, so only players are legal targets (AI picks). Mons' {3}{R} sacrifice ability is a mana sink, so its round window may be confounded."
+  - id: h2-bats-command
+    list: decks/ugluk.txt
+    a: Mirkwood Bats
+    b: {card: "Krenko's Command", from: hand}
+    metric: opp_life_lost_noncombat
+    window: imm
+    expect: {op: "==", value: 6}
+    deterministic: true
+    specific: true
+    reason: "Bats: whenever you create a token (Forge mode TokenCreated, once per token). Two tokens -> 2 x 1 x 3 opponents."
+  - id: h2-bastion-act
+    list: decks/ugluk.txt
+    a: Bastion of Remembrance
+    b: {card: Blasphemous Act, from: hand}
+    metric: opp_life_lost_noncombat
+    window: imm
+    expect: {op: "==", value: 12}
+    deterministic: true
+    specific: true
+    reason: "Bastion's ETB made a 1/1 Soldier during setup; Act kills it and the 3 Changelings -> 4 deaths x 3 opponents. The stand-in enters without its ETB and has no trigger."
+  - id: h2-krenko-command
+    list: decks/ugluk.txt
+    a: "Krenko, Mob Boss"
+    b: {card: "Krenko's Command", from: hand}
+    metric: tokens_created
+    window: round
+    expect: {op: ">=", value: 2}
+    deterministic: false
+    specific: true
+    reason: "Krenko's {T} makes X tokens, X = Goblins you control; Command's two Goblins raise X by 2 every time the AI uses it. Tests a round-window effect of A's own (free) activated ability."
+  - id: h2-matoya-opt
+    list: decks/elrond-heal.txt
+    a: "Matoya, Archon Elder"
+    b: {card: Opt, from: hand}
+    metric: cards_drawn
+    window: imm
+    expect: {op: "==", value: 1}
+    deterministic: true
+    specific: true
+    reason: "Matoya: whenever you scry or surveil, draw a card. Opt scries 1 (Opt's own draw is in m(B))."
+  - id: h2-celeborn-opt
+    list: decks/elrond-heal.txt
+    a: Celeborn the Wise
+    b: {card: Opt, from: hand}
+    metric: opp_life_lost_combat
+    window: round
+    expect: {op: ">=", value: 1}
+    deterministic: false
+    specific: true
+    reason: "Celeborn gets +1/+1 until end of turn per card looked at while scrying; Opt is cast before combat, the opponents' Ornithopters are tapped, so +1 combat damage if Celeborn attacks (AI decides). Attacking with the Elf Changelings scries too, in A alone as well."
+  # h2-thorin-prying (Prying Blade x Thorin, specific: false) was removed before freezing:
+  # the v2 regression on the spent held-out set showed Thorin x the Hammer's stand-in fires the
+  # reflexive trigger but kills nothing (the damage is the creature's power, and the stand-in adds
+  # no power), so the item's "generic" premise was wrong and it was no longer unseen.
+
+negatives:   # violated if a map would report a text interaction: S consistently nonzero in imm, or in an unconfounded round
+  - {id: hn2-ascendancy-pridemalkin, list: decks/elrond-heal.txt, a: Simic Ascendancy, b: {card: Pridemalkin, from: hand}, metric: p1p1_counters_placed, reason: "Ascendancy's trigger adds growth counters, not +1/+1 counters. Its {1}{G}{U} counter ability is a mana sink, so its round window may be confounded and must not be reported."}
+  - {id: hn2-bats-act, list: decks/ugluk.txt, a: Mirkwood Bats, b: {card: Blasphemous Act, from: hand}, metric: opp_life_lost_noncombat, reason: "Act destroys the Changeling tokens: dying is not sacrificing, and no token is created."}
+  - {id: hn2-lackey-act-mana, list: decks/ugluk.txt, a: Goblin Lackey, b: {card: Blasphemous Act, from: hand}, metric: net_mana_after_b, reason: "Any creature makes Act 1 cheaper: raw I is +1, but the stand-in shows the same, so the text (a combat-damage trigger) adds nothing."}
+  - {id: hn2-warchief-act-combat, list: decks/ugluk.txt, a: Goblin Warchief, b: {card: Blasphemous Act, from: hand}, metric: opp_life_lost_combat, reason: "Act kills Warchief before it attacks (raw I about -2); its vanilla body loses the same attack."}
+  - {id: hn2-matoya-sol-ring, list: decks/elrond-heal.txt, a: "Matoya, Archon Elder", b: {card: Sol Ring, from: hand}, metric: cards_drawn, reason: "No scry or surveil."}
+
+unsupported:   # triggers that need opponents to act; must never fire on the passive bench
+  - {id: hu2-archive-dragon-ward, list: decks/elrond-heal.txt, card: Archive Dragon, trigger_mode: BecomesTarget, reason: "Ward needs an opponent's spell or ability to target it (its ETB scry fires legitimately)."}

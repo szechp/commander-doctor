@@ -1,0 +1,21 @@
+ugluk: 63 contexts, 89 actions, unavailable: ['My Precious // Allure of Power']
+stage 1 (seed 1, every pair)
+5672 cells requested, 5672 to run
+  900/5672 cells, 5.9 min, ~31 min left
+ugluk: 63 contexts, 89 actions, unavailable: ['My Precious // Allure of Power']
+stage 1 (seed 1, every pair)
+5672 cells requested, 4772 to run
+  1200/4772 cells, 8.0 min, ~24 min left
+  2400/4772 cells, 17.3 min, ~17 min left
+  3600/4772 cells, 24.6 min, ~8 min left
+  4772/4772 cells, 31.7 min, ~0 min left
+stage 2: 1167 of 5607 pairs show something on seed 1
+7629 cells requested, 6313 to run
+  1200/6313 cells, 6.3 min, ~27 min left
+  2400/6313 cells, 13.2 min, ~22 min left
+  3600/6313 cells, 19.4 min, ~15 min left
+  4800/6313 cells, 26.3 min, ~8 min left
+  6000/6313 cells, 33.0 min, ~2 min left
+  6313/6313 cells, 36.0 min, ~0 min left
+done
+exit 0

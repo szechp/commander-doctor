@@ -1,0 +1,33 @@
+cells: 329/329 returned, wall 0s, statuses {'ok': 311, 'not_playable': 18}
+mean cell time 1293 ms (ok cells), error+timeout+looped 0.0%
+determinism: 30/30 reruns identical (both windows)
+empty board: identical across 20 seeds = True; opponent spells+attacks = 0
+
+PASS h-vivi-noncreature           opp_life_lost_noncombat  round expect ==3  got [3, 3, 3] -> specific  | imm [3, 3, 3] -> specific  | stand-in G [0, 0, 0]
+PASS h-snapcaster-enables         status                   round expect ==enables  got ['enables', 'enables', 'enables']
+PASS h-lier-enables               status                   round expect ==enables  got ['enables', 'enables', 'enables']
+PASS h-breach-enables             status                   round expect ==enables  got ['enables', 'enables', 'enables']
+PASS h-zulaport-act               opp_life_lost_noncombat  round expect ==12  got [12, 12, 12] -> specific  | imm [12, 12, 12] -> specific  | stand-in G [0, 0, 0]
+PASS h-purphoros-siege-gang       opp_life_lost_noncombat  round expect ==24  got [24, 24, 24] -> specific  | imm [24, 24, 24] -> specific  | stand-in G [0, 0, 0]
+PASS h-warchief-haste             opp_life_lost_combat     round expect >=1  got [2, 2, 2] -> specific  | imm [0, 0, 0] -> none  | stand-in G [0, 0, 0]
+PASS h-blood-artist-act           opp_life_lost_noncombat  round expect ==7  got [7, 7, 7] -> specific  | imm [7, 7, 7] -> specific  | stand-in G [0, 0, 0]
+PASS h-repercussion-act           opp_life_lost_noncombat  round expect ==39  got [39, 39, 39] -> specific  | imm [39, 39, 39] -> specific  | stand-in G [0, 0, 0]
+PASS h-reckoner-act               opp_life_lost_noncombat  round expect >=13  got [13, 13, 13] -> specific  | imm [13, 13, 13] -> specific  | stand-in G [0, 0, 0]
+PASS h-vindicator-act             opp_life_lost_noncombat  round expect >=13  got [13, 13, 13] -> specific  | imm [13, 13, 13] -> specific  | stand-in G [0, 0, 0]
+PASS h-archfiend-looting          opp_creatures_died       round expect ==3  got [3, 3, 3] -> specific  | imm [3, 3, 3] -> specific  | stand-in G [0, 0, 0]
+PASS h-glint-horn-cycling         opp_life_lost_noncombat  round expect ==3  got [3, 3, 3] -> specific  | imm [3, 3, 3] -> specific  | stand-in G [0, 0, 0]
+PASS h-kami-counters              p1p1_counters_placed     round expect ==1  got [1, 1, 1] -> specific  | imm [1, 1, 1] -> specific  | stand-in G [0, 0, 0]
+MISS h-arwen-knots                p1p1_counters_placed     round expect ==1  got [-1, 0, 1] -> confounded (AI's own plays changed)  | imm [1, 1, 1] -> specific  | stand-in G [0, 0, 0]
+PASS h-thorin-hammer              opp_creatures_died       round expect >=1  got [1, 1, 1] -> confounded (AI's own plays changed)  | imm [1, 1, 1] -> specific  | stand-in G [0, 0, 0]
+PASS hn-gimli-lava-coil           opp_life_lost_noncombat  imm: I [0, 0, 0] S [0, 0, 0]  | round: I [0, 0, 0] S [0, 0, 0]
+PASS hn-guttersnipe-sol-ring      opp_life_lost_noncombat  imm: I [0, 0, 0] S [0, 0, 0]  | round: I [0, 0, 0] S [0, 0, 0]
+PASS hn-tremors-act               opp_life_lost_noncombat  imm: I [0, 0, 0] S [0, 0, 0]  | round: I [0, 0, 0] S [0, 0, 0]
+PASS hn-scales-opt                p1p1_counters_placed     imm: I [0, 0, 0] S [0, 0, 0]  | round: I [0, 0, 0] S [0, 0, 0]
+PASS hn-fili-dragon               tokens_created           imm: I [0, 0, 0] S [0, 0, 0]  | round: I [0, 0, 0] S [0, 0, 0]
+
+PASS hu-esper-sentinel            Esper Sentinel SpellCast trigger fired = False (must stay untested)
+PASS hu-bowmasters                Orcish Bowmasters Drawn trigger fired = False (must stay untested)
+
+positives found 15/16 (94%); deterministic exact 10/11; negatives clean 5/5
+positives a map would report as an interaction (stable, not confounded): 16/16
+projection: largest list ~8,320 pair cells (A and stand-in; + contexts/actions alone) x 1.29s = 3.0 h on 1 JVM, 0.7 h on 4 JVMs

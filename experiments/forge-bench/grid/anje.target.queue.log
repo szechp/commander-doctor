@@ -1,0 +1,8 @@
+anje.target: 65 contexts, 93 actions, unavailable: []
+stage 1 (seed 1, every pair)
+6120 cells requested, 770 to run
+  770/770 cells, 4.6 min, ~0 min left
+stage 2: 820 of 6045 pairs show something on seed 1
+5529 cells requested, 200 to run
+  200/200 cells, 2.3 min, ~0 min left
+done

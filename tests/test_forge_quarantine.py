@@ -240,7 +240,20 @@ def test_malformed_result_json_line_is_isolated_not_fatal(tmp_path, monkeypatch)
     assert len(result.early_ended) == 1
 
 
-def test_headless_flag_and_configured_jar_java_bin_are_passed_through(tmp_path, monkeypatch):
+def test_default_jar_resolves_to_newest_built_version(tmp_path):
+    target = tmp_path / "forge-spike/forge/forge-gui-desktop/target"
+    target.mkdir(parents=True)
+    for version in ("2.0.9", "2.0.15", "2.0.14"):
+        (target / f"forge-gui-desktop-{version}-jar-with-dependencies.jar").write_bytes(b"")
+    (target / "forge-gui-desktop-2.0.99.jar").write_bytes(b"")  # thin jar, not the runnable one
+
+    resolved = forge_batch.resolve_default_jar(tmp_path)
+
+    assert resolved.name == "forge-gui-desktop-2.0.15-jar-with-dependencies.jar"
+    assert forge_batch.resolve_default_jar(tmp_path / "empty") is None
+
+
+def test_display_flags_and_configured_jar_java_bin_are_passed_through(tmp_path, monkeypatch):
     jar = tmp_path / "fake.jar"
     jar.write_bytes(b"")
     deck = tmp_path / "deck.txt"
@@ -256,7 +269,9 @@ def test_headless_flag_and_configured_jar_java_bin_are_passed_through(tmp_path, 
     run_forge_batch(str(deck), n=1, jar=str(jar), java_bin="/opt/custom/java")
 
     assert captured["cmd"][0] == "/opt/custom/java"
-    assert "-Djava.awt.headless=true" in captured["cmd"]
+    # GuiDesktop's static initializer throws HeadlessException in headless mode
+    assert "-Djava.awt.headless=true" not in captured["cmd"]
+    assert "-Dapple.awt.UIElement=true" in captured["cmd"]
     assert str(jar.resolve()) in captured["cmd"]
 
 

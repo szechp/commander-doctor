@@ -1,0 +1,8171 @@
+{
+ "results": {
+  "1|||hand|": {
+   "id": "1|||hand|",
+   "seed": 1,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "",
+   "b": "",
+   "b_zone": "hand",
+   "b_ability": "",
+   "metrics_imm": {
+    "net_mana_after_b": 0,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "mana_s0_sb": [
+    10,
+    10
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": 0,
+    "opp_life_lost": 3,
+    "opp_life_lost_combat": 3,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "triggers": [],
+   "our_casts": [],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 5065.0
+  },
+  "1||Pridemalkin|hand|": {
+   "id": "1||Pridemalkin|hand|",
+   "seed": 1,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "",
+   "b": "Pridemalkin",
+   "b_zone": "hand",
+   "b_ability": "",
+   "b_sa": "Pridemalkin - Creature 2 / 1",
+   "metrics_imm": {
+    "net_mana_after_b": -3,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0,
+    "p1p1_counters_placed": 1,
+    "spells_cast": 1
+   },
+   "mana_s0_sb": [
+    10,
+    7
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": -3,
+    "opp_life_lost": 3,
+    "opp_life_lost_combat": 3,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0,
+    "p1p1_counters_placed": 1,
+    "spells_cast": 1
+   },
+   "triggers": [
+    "us:Pridemalkin:ChangesZone"
+   ],
+   "our_casts": [
+    "Pridemalkin"
+   ],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 3854.4
+  },
+  "1|Bastion of Remembrance||hand|": {
+   "id": "1|Bastion of Remembrance||hand|",
+   "seed": 1,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "Bastion of Remembrance",
+   "b": "",
+   "b_zone": "hand",
+   "b_ability": "",
+   "metrics_imm": {
+    "net_mana_after_b": 0,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "mana_s0_sb": [
+    10,
+    10
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": 0,
+    "opp_life_lost": 4,
+    "opp_life_lost_combat": 4,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "triggers": [],
+   "our_casts": [],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 2419.4
+  },
+  "1|Goblin Lackey||hand|": {
+   "id": "1|Goblin Lackey||hand|",
+   "seed": 1,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "Goblin Lackey",
+   "b": "",
+   "b_zone": "hand",
+   "b_ability": "",
+   "metrics_imm": {
+    "net_mana_after_b": 0,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "mana_s0_sb": [
+    10,
+    10
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": 0,
+    "opp_life_lost": 4,
+    "opp_life_lost_combat": 4,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "triggers": [
+    "us:Goblin Lackey:DamageDone"
+   ],
+   "our_casts": [],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 212,
+   "status": "ok",
+   "ms": 2260.5
+  },
+  "1|Krenko, Mob Boss||hand|": {
+   "id": "1|Krenko, Mob Boss||hand|",
+   "seed": 1,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "Krenko, Mob Boss",
+   "b": "",
+   "b_zone": "hand",
+   "b_ability": "",
+   "metrics_imm": {
+    "net_mana_after_b": 0,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "mana_s0_sb": [
+    10,
+    10
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": 0,
+    "opp_life_lost": 6,
+    "opp_life_lost_combat": 6,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "triggers": [],
+   "our_casts": [],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 2251.3
+  },
+  "1|Matoya, Archon Elder|Sol Ring|hand|": {
+   "id": "1|Matoya, Archon Elder|Sol Ring|hand|",
+   "seed": 1,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "Matoya, Archon Elder",
+   "b": "Sol Ring",
+   "b_zone": "hand",
+   "b_ability": "",
+   "b_sa": "Sol Ring",
+   "metrics_imm": {
+    "net_mana_after_b": 1,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0,
+    "spells_cast": 1
+   },
+   "mana_s0_sb": [
+    10,
+    11
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": 1,
+    "opp_life_lost": 4,
+    "opp_life_lost_combat": 4,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0,
+    "spells_cast": 1
+   },
+   "triggers": [],
+   "our_casts": [
+    "Sol Ring"
+   ],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 2491.2
+  },
+  "1|Pashalik Mons||hand|": {
+   "id": "1|Pashalik Mons||hand|",
+   "seed": 1,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "Pashalik Mons",
+   "b": "",
+   "b_zone": "hand",
+   "b_ability": "",
+   "metrics_imm": {
+    "net_mana_after_b": 0,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "mana_s0_sb": [
+    10,
+    10
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": 0,
+    "opp_life_lost": 6,
+    "opp_life_lost_combat": 5,
+    "opp_life_lost_noncombat": 1,
+    "our_creatures_died": 1,
+    "our_life_change": 0,
+    "tokens_created": 2
+   },
+   "triggers": [
+    "us:Pashalik Mons:ChangesZone"
+   ],
+   "our_casts": [],
+   "round_plays": [
+    "Pashalik Mons:Token"
+   ],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 219,
+   "status": "ok",
+   "ms": 2840.0
+  },
+  "1|~Bastion of Remembrance||hand|": {
+   "id": "1|~Bastion of Remembrance||hand|",
+   "seed": 1,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "~Bastion of Remembrance",
+   "b": "",
+   "b_zone": "hand",
+   "b_ability": "",
+   "stand_in": "abilities removed",
+   "metrics_imm": {
+    "net_mana_after_b": 0,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "mana_s0_sb": [
+    10,
+    10
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": 0,
+    "opp_life_lost": 3,
+    "opp_life_lost_combat": 3,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "triggers": [],
+   "our_casts": [],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 2448.4
+  },
+  "1|~Goblin Lackey||hand|": {
+   "id": "1|~Goblin Lackey||hand|",
+   "seed": 1,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "~Goblin Lackey",
+   "b": "",
+   "b_zone": "hand",
+   "b_ability": "",
+   "stand_in": "abilities removed",
+   "metrics_imm": {
+    "net_mana_after_b": 0,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "mana_s0_sb": [
+    10,
+    10
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": 0,
+    "opp_life_lost": 4,
+    "opp_life_lost_combat": 4,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "triggers": [],
+   "our_casts": [],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 2098.7
+  },
+  "1|~Krenko, Mob Boss||hand|": {
+   "id": "1|~Krenko, Mob Boss||hand|",
+   "seed": 1,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "~Krenko, Mob Boss",
+   "b": "",
+   "b_zone": "hand",
+   "b_ability": "",
+   "stand_in": "abilities removed",
+   "metrics_imm": {
+    "net_mana_after_b": 0,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "mana_s0_sb": [
+    10,
+    10
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": 0,
+    "opp_life_lost": 6,
+    "opp_life_lost_combat": 6,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "triggers": [],
+   "our_casts": [],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 2160.0
+  },
+  "1|~Matoya, Archon Elder|Sol Ring|hand|": {
+   "id": "1|~Matoya, Archon Elder|Sol Ring|hand|",
+   "seed": 1,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "~Matoya, Archon Elder",
+   "b": "Sol Ring",
+   "b_zone": "hand",
+   "b_ability": "",
+   "stand_in": "abilities removed",
+   "b_sa": "Sol Ring",
+   "metrics_imm": {
+    "net_mana_after_b": 1,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0,
+    "spells_cast": 1
+   },
+   "mana_s0_sb": [
+    10,
+    11
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": 1,
+    "opp_life_lost": 4,
+    "opp_life_lost_combat": 4,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0,
+    "spells_cast": 1
+   },
+   "triggers": [],
+   "our_casts": [
+    "Sol Ring"
+   ],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 2369.5
+  },
+  "1|~Pashalik Mons||hand|": {
+   "id": "1|~Pashalik Mons||hand|",
+   "seed": 1,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "~Pashalik Mons",
+   "b": "",
+   "b_zone": "hand",
+   "b_ability": "",
+   "stand_in": "abilities removed",
+   "metrics_imm": {
+    "net_mana_after_b": 0,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "mana_s0_sb": [
+    10,
+    10
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": 0,
+    "opp_life_lost": 5,
+    "opp_life_lost_combat": 5,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "triggers": [],
+   "our_casts": [],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 2054.6
+  },
+  "2|||hand|": {
+   "id": "2|||hand|",
+   "seed": 2,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "",
+   "b": "",
+   "b_zone": "hand",
+   "b_ability": "",
+   "metrics_imm": {
+    "net_mana_after_b": 0,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "mana_s0_sb": [
+    10,
+    10
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": 0,
+    "opp_life_lost": 3,
+    "opp_life_lost_combat": 3,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "triggers": [],
+   "our_casts": [],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 1951.9
+  },
+  "2||Pridemalkin|hand|": {
+   "id": "2||Pridemalkin|hand|",
+   "seed": 2,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "",
+   "b": "Pridemalkin",
+   "b_zone": "hand",
+   "b_ability": "",
+   "b_sa": "Pridemalkin - Creature 2 / 1",
+   "metrics_imm": {
+    "net_mana_after_b": -3,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0,
+    "p1p1_counters_placed": 1,
+    "spells_cast": 1
+   },
+   "mana_s0_sb": [
+    10,
+    7
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": -3,
+    "opp_life_lost": 3,
+    "opp_life_lost_combat": 3,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0,
+    "p1p1_counters_placed": 1,
+    "spells_cast": 1
+   },
+   "triggers": [
+    "us:Pridemalkin:ChangesZone"
+   ],
+   "our_casts": [
+    "Pridemalkin"
+   ],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 2470.4
+  },
+  "2|Bastion of Remembrance||hand|": {
+   "id": "2|Bastion of Remembrance||hand|",
+   "seed": 2,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "Bastion of Remembrance",
+   "b": "",
+   "b_zone": "hand",
+   "b_ability": "",
+   "metrics_imm": {
+    "net_mana_after_b": 0,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "mana_s0_sb": [
+    10,
+    10
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": 0,
+    "opp_life_lost": 4,
+    "opp_life_lost_combat": 4,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "triggers": [],
+   "our_casts": [],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 2056.0
+  },
+  "2|Goblin Lackey||hand|": {
+   "id": "2|Goblin Lackey||hand|",
+   "seed": 2,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "Goblin Lackey",
+   "b": "",
+   "b_zone": "hand",
+   "b_ability": "",
+   "metrics_imm": {
+    "net_mana_after_b": 0,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "mana_s0_sb": [
+    10,
+    10
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": 0,
+    "opp_life_lost": 4,
+    "opp_life_lost_combat": 4,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "triggers": [
+    "us:Goblin Lackey:DamageDone"
+   ],
+   "our_casts": [],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 212,
+   "status": "ok",
+   "ms": 2067.8
+  },
+  "2|Krenko, Mob Boss||hand|": {
+   "id": "2|Krenko, Mob Boss||hand|",
+   "seed": 2,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "Krenko, Mob Boss",
+   "b": "",
+   "b_zone": "hand",
+   "b_ability": "",
+   "metrics_imm": {
+    "net_mana_after_b": 0,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "mana_s0_sb": [
+    10,
+    10
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": 0,
+    "opp_life_lost": 6,
+    "opp_life_lost_combat": 6,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "triggers": [],
+   "our_casts": [],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 2095.3
+  },
+  "2|Matoya, Archon Elder|Sol Ring|hand|": {
+   "id": "2|Matoya, Archon Elder|Sol Ring|hand|",
+   "seed": 2,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "Matoya, Archon Elder",
+   "b": "Sol Ring",
+   "b_zone": "hand",
+   "b_ability": "",
+   "b_sa": "Sol Ring",
+   "metrics_imm": {
+    "net_mana_after_b": 1,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0,
+    "spells_cast": 1
+   },
+   "mana_s0_sb": [
+    10,
+    11
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": 1,
+    "opp_life_lost": 4,
+    "opp_life_lost_combat": 4,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0,
+    "spells_cast": 1
+   },
+   "triggers": [],
+   "our_casts": [
+    "Sol Ring"
+   ],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 1967.1
+  },
+  "2|Pashalik Mons||hand|": {
+   "id": "2|Pashalik Mons||hand|",
+   "seed": 2,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "Pashalik Mons",
+   "b": "",
+   "b_zone": "hand",
+   "b_ability": "",
+   "metrics_imm": {
+    "net_mana_after_b": 0,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "mana_s0_sb": [
+    10,
+    10
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": 0,
+    "opp_life_lost": 6,
+    "opp_life_lost_combat": 5,
+    "opp_life_lost_noncombat": 1,
+    "our_creatures_died": 1,
+    "our_life_change": 0,
+    "tokens_created": 2
+   },
+   "triggers": [
+    "us:Pashalik Mons:ChangesZone"
+   ],
+   "our_casts": [],
+   "round_plays": [
+    "Pashalik Mons:Token"
+   ],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 219,
+   "status": "ok",
+   "ms": 2182.9
+  },
+  "2|~Bastion of Remembrance||hand|": {
+   "id": "2|~Bastion of Remembrance||hand|",
+   "seed": 2,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "~Bastion of Remembrance",
+   "b": "",
+   "b_zone": "hand",
+   "b_ability": "",
+   "stand_in": "abilities removed",
+   "metrics_imm": {
+    "net_mana_after_b": 0,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "mana_s0_sb": [
+    10,
+    10
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": 0,
+    "opp_life_lost": 3,
+    "opp_life_lost_combat": 3,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "triggers": [],
+   "our_casts": [],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 1722.0
+  },
+  "2|~Goblin Lackey||hand|": {
+   "id": "2|~Goblin Lackey||hand|",
+   "seed": 2,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "~Goblin Lackey",
+   "b": "",
+   "b_zone": "hand",
+   "b_ability": "",
+   "stand_in": "abilities removed",
+   "metrics_imm": {
+    "net_mana_after_b": 0,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "mana_s0_sb": [
+    10,
+    10
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": 0,
+    "opp_life_lost": 4,
+    "opp_life_lost_combat": 4,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "triggers": [],
+   "our_casts": [],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 1733.0
+  },
+  "2|~Krenko, Mob Boss||hand|": {
+   "id": "2|~Krenko, Mob Boss||hand|",
+   "seed": 2,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "~Krenko, Mob Boss",
+   "b": "",
+   "b_zone": "hand",
+   "b_ability": "",
+   "stand_in": "abilities removed",
+   "metrics_imm": {
+    "net_mana_after_b": 0,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "mana_s0_sb": [
+    10,
+    10
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": 0,
+    "opp_life_lost": 6,
+    "opp_life_lost_combat": 6,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "triggers": [],
+   "our_casts": [],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 1569.1
+  },
+  "2|~Matoya, Archon Elder|Sol Ring|hand|": {
+   "id": "2|~Matoya, Archon Elder|Sol Ring|hand|",
+   "seed": 2,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "~Matoya, Archon Elder",
+   "b": "Sol Ring",
+   "b_zone": "hand",
+   "b_ability": "",
+   "stand_in": "abilities removed",
+   "b_sa": "Sol Ring",
+   "metrics_imm": {
+    "net_mana_after_b": 1,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0,
+    "spells_cast": 1
+   },
+   "mana_s0_sb": [
+    10,
+    11
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": 1,
+    "opp_life_lost": 4,
+    "opp_life_lost_combat": 4,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0,
+    "spells_cast": 1
+   },
+   "triggers": [],
+   "our_casts": [
+    "Sol Ring"
+   ],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 1774.3
+  },
+  "2|~Pashalik Mons||hand|": {
+   "id": "2|~Pashalik Mons||hand|",
+   "seed": 2,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "~Pashalik Mons",
+   "b": "",
+   "b_zone": "hand",
+   "b_ability": "",
+   "stand_in": "abilities removed",
+   "metrics_imm": {
+    "net_mana_after_b": 0,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "mana_s0_sb": [
+    10,
+    10
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": 0,
+    "opp_life_lost": 5,
+    "opp_life_lost_combat": 5,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "triggers": [],
+   "our_casts": [],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 1678.0
+  },
+  "3|||hand|": {
+   "id": "3|||hand|",
+   "seed": 3,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "",
+   "b": "",
+   "b_zone": "hand",
+   "b_ability": "",
+   "metrics_imm": {
+    "net_mana_after_b": 0,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "mana_s0_sb": [
+    10,
+    10
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": 0,
+    "opp_life_lost": 3,
+    "opp_life_lost_combat": 3,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "triggers": [],
+   "our_casts": [],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 1374.4
+  },
+  "3||Pridemalkin|hand|": {
+   "id": "3||Pridemalkin|hand|",
+   "seed": 3,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "",
+   "b": "Pridemalkin",
+   "b_zone": "hand",
+   "b_ability": "",
+   "b_sa": "Pridemalkin - Creature 2 / 1",
+   "metrics_imm": {
+    "net_mana_after_b": -3,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0,
+    "p1p1_counters_placed": 1,
+    "spells_cast": 1
+   },
+   "mana_s0_sb": [
+    10,
+    7
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": -3,
+    "opp_life_lost": 3,
+    "opp_life_lost_combat": 3,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0,
+    "p1p1_counters_placed": 1,
+    "spells_cast": 1
+   },
+   "triggers": [
+    "us:Pridemalkin:ChangesZone"
+   ],
+   "our_casts": [
+    "Pridemalkin"
+   ],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 1897.2
+  },
+  "3|Bastion of Remembrance||hand|": {
+   "id": "3|Bastion of Remembrance||hand|",
+   "seed": 3,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "Bastion of Remembrance",
+   "b": "",
+   "b_zone": "hand",
+   "b_ability": "",
+   "metrics_imm": {
+    "net_mana_after_b": 0,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "mana_s0_sb": [
+    10,
+    10
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": 0,
+    "opp_life_lost": 4,
+    "opp_life_lost_combat": 4,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "triggers": [],
+   "our_casts": [],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 1590.1
+  },
+  "3|Goblin Lackey||hand|": {
+   "id": "3|Goblin Lackey||hand|",
+   "seed": 3,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "Goblin Lackey",
+   "b": "",
+   "b_zone": "hand",
+   "b_ability": "",
+   "metrics_imm": {
+    "net_mana_after_b": 0,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "mana_s0_sb": [
+    10,
+    10
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": 0,
+    "opp_life_lost": 4,
+    "opp_life_lost_combat": 4,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "triggers": [
+    "us:Goblin Lackey:DamageDone"
+   ],
+   "our_casts": [],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 212,
+   "status": "ok",
+   "ms": 1524.4
+  },
+  "3|Krenko, Mob Boss||hand|": {
+   "id": "3|Krenko, Mob Boss||hand|",
+   "seed": 3,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "Krenko, Mob Boss",
+   "b": "",
+   "b_zone": "hand",
+   "b_ability": "",
+   "metrics_imm": {
+    "net_mana_after_b": 0,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "mana_s0_sb": [
+    10,
+    10
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": 0,
+    "opp_life_lost": 6,
+    "opp_life_lost_combat": 6,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "triggers": [],
+   "our_casts": [],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 1490.3
+  },
+  "3|Matoya, Archon Elder|Sol Ring|hand|": {
+   "id": "3|Matoya, Archon Elder|Sol Ring|hand|",
+   "seed": 3,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "Matoya, Archon Elder",
+   "b": "Sol Ring",
+   "b_zone": "hand",
+   "b_ability": "",
+   "b_sa": "Sol Ring",
+   "metrics_imm": {
+    "net_mana_after_b": 1,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0,
+    "spells_cast": 1
+   },
+   "mana_s0_sb": [
+    10,
+    11
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": 1,
+    "opp_life_lost": 4,
+    "opp_life_lost_combat": 4,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0,
+    "spells_cast": 1
+   },
+   "triggers": [],
+   "our_casts": [
+    "Sol Ring"
+   ],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 1517.5
+  },
+  "3|Pashalik Mons||hand|": {
+   "id": "3|Pashalik Mons||hand|",
+   "seed": 3,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "Pashalik Mons",
+   "b": "",
+   "b_zone": "hand",
+   "b_ability": "",
+   "metrics_imm": {
+    "net_mana_after_b": 0,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "mana_s0_sb": [
+    10,
+    10
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": 0,
+    "opp_life_lost": 6,
+    "opp_life_lost_combat": 5,
+    "opp_life_lost_noncombat": 1,
+    "our_creatures_died": 1,
+    "our_life_change": 0,
+    "tokens_created": 2
+   },
+   "triggers": [
+    "us:Pashalik Mons:ChangesZone"
+   ],
+   "our_casts": [],
+   "round_plays": [
+    "Pashalik Mons:Token"
+   ],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 219,
+   "status": "ok",
+   "ms": 1642.1
+  },
+  "3|~Bastion of Remembrance||hand|": {
+   "id": "3|~Bastion of Remembrance||hand|",
+   "seed": 3,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "~Bastion of Remembrance",
+   "b": "",
+   "b_zone": "hand",
+   "b_ability": "",
+   "stand_in": "abilities removed",
+   "metrics_imm": {
+    "net_mana_after_b": 0,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "mana_s0_sb": [
+    10,
+    10
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": 0,
+    "opp_life_lost": 3,
+    "opp_life_lost_combat": 3,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "triggers": [],
+   "our_casts": [],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 1414.1
+  },
+  "3|~Goblin Lackey||hand|": {
+   "id": "3|~Goblin Lackey||hand|",
+   "seed": 3,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "~Goblin Lackey",
+   "b": "",
+   "b_zone": "hand",
+   "b_ability": "",
+   "stand_in": "abilities removed",
+   "metrics_imm": {
+    "net_mana_after_b": 0,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "mana_s0_sb": [
+    10,
+    10
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": 0,
+    "opp_life_lost": 4,
+    "opp_life_lost_combat": 4,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "triggers": [],
+   "our_casts": [],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 1417.3
+  },
+  "3|~Krenko, Mob Boss||hand|": {
+   "id": "3|~Krenko, Mob Boss||hand|",
+   "seed": 3,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "~Krenko, Mob Boss",
+   "b": "",
+   "b_zone": "hand",
+   "b_ability": "",
+   "stand_in": "abilities removed",
+   "metrics_imm": {
+    "net_mana_after_b": 0,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "mana_s0_sb": [
+    10,
+    10
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": 0,
+    "opp_life_lost": 6,
+    "opp_life_lost_combat": 6,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "triggers": [],
+   "our_casts": [],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 1571.1
+  },
+  "3|~Matoya, Archon Elder|Sol Ring|hand|": {
+   "id": "3|~Matoya, Archon Elder|Sol Ring|hand|",
+   "seed": 3,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "~Matoya, Archon Elder",
+   "b": "Sol Ring",
+   "b_zone": "hand",
+   "b_ability": "",
+   "stand_in": "abilities removed",
+   "b_sa": "Sol Ring",
+   "metrics_imm": {
+    "net_mana_after_b": 1,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0,
+    "spells_cast": 1
+   },
+   "mana_s0_sb": [
+    10,
+    11
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": 1,
+    "opp_life_lost": 4,
+    "opp_life_lost_combat": 4,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0,
+    "spells_cast": 1
+   },
+   "triggers": [],
+   "our_casts": [
+    "Sol Ring"
+   ],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 1729.6
+  },
+  "3|~Pashalik Mons||hand|": {
+   "id": "3|~Pashalik Mons||hand|",
+   "seed": 3,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "~Pashalik Mons",
+   "b": "",
+   "b_zone": "hand",
+   "b_ability": "",
+   "stand_in": "abilities removed",
+   "metrics_imm": {
+    "net_mana_after_b": 0,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "mana_s0_sb": [
+    10,
+    10
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": 0,
+    "opp_life_lost": 5,
+    "opp_life_lost_combat": 5,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "triggers": [],
+   "our_casts": [],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 1470.1
+  },
+  "4|||hand|": {
+   "id": "4|||hand|",
+   "seed": 4,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "",
+   "b": "",
+   "b_zone": "hand",
+   "b_ability": "",
+   "metrics_imm": {
+    "net_mana_after_b": 0,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "mana_s0_sb": [
+    10,
+    10
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": 0,
+    "opp_life_lost": 3,
+    "opp_life_lost_combat": 3,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "triggers": [],
+   "our_casts": [],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 1423.0
+  },
+  "8|||hand|": {
+   "id": "8|||hand|",
+   "seed": 8,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "",
+   "b": "",
+   "b_zone": "hand",
+   "b_ability": "",
+   "metrics_imm": {
+    "net_mana_after_b": 0,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "mana_s0_sb": [
+    10,
+    10
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": 0,
+    "opp_life_lost": 3,
+    "opp_life_lost_combat": 3,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "triggers": [],
+   "our_casts": [],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 1248.6
+  },
+  "12|||hand|": {
+   "id": "12|||hand|",
+   "seed": 12,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "",
+   "b": "",
+   "b_zone": "hand",
+   "b_ability": "",
+   "metrics_imm": {
+    "net_mana_after_b": 0,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "mana_s0_sb": [
+    10,
+    10
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": 0,
+    "opp_life_lost": 3,
+    "opp_life_lost_combat": 3,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "triggers": [],
+   "our_casts": [],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 1234.9
+  },
+  "16|||hand|": {
+   "id": "16|||hand|",
+   "seed": 16,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "",
+   "b": "",
+   "b_zone": "hand",
+   "b_ability": "",
+   "metrics_imm": {
+    "net_mana_after_b": 0,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "mana_s0_sb": [
+    10,
+    10
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": 0,
+    "opp_life_lost": 3,
+    "opp_life_lost_combat": 3,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "triggers": [],
+   "our_casts": [],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 935.6
+  },
+  "20|||hand|": {
+   "id": "20|||hand|",
+   "seed": 20,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "",
+   "b": "",
+   "b_zone": "hand",
+   "b_ability": "",
+   "metrics_imm": {
+    "net_mana_after_b": 0,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "mana_s0_sb": [
+    10,
+    10
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": 0,
+    "opp_life_lost": 3,
+    "opp_life_lost_combat": 3,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "triggers": [],
+   "our_casts": [],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 531.6
+  },
+  "1||Blasphemous Act|hand|": {
+   "id": "1||Blasphemous Act|hand|",
+   "seed": 1,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "",
+   "b": "Blasphemous Act",
+   "b_zone": "hand",
+   "b_ability": "",
+   "b_sa": "Blasphemous Act deals 13 damage to each creature.",
+   "metrics_imm": {
+    "net_mana_after_b": -3,
+    "opp_creatures_died": 3,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "opp_permanents_left": 3,
+    "our_creatures_died": 3,
+    "our_life_change": 0,
+    "spells_cast": 1
+   },
+   "mana_s0_sb": [
+    10,
+    7
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": -3,
+    "opp_creatures_died": 3,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "opp_permanents_left": 3,
+    "our_creatures_died": 3,
+    "our_life_change": 0,
+    "spells_cast": 1
+   },
+   "triggers": [],
+   "our_casts": [
+    "Blasphemous Act"
+   ],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 5079.6
+  },
+  "1||Sol Ring|hand|": {
+   "id": "1||Sol Ring|hand|",
+   "seed": 1,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "",
+   "b": "Sol Ring",
+   "b_zone": "hand",
+   "b_ability": "",
+   "b_sa": "Sol Ring",
+   "metrics_imm": {
+    "net_mana_after_b": 1,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0,
+    "spells_cast": 1
+   },
+   "mana_s0_sb": [
+    10,
+    11
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": 1,
+    "opp_life_lost": 3,
+    "opp_life_lost_combat": 3,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0,
+    "spells_cast": 1
+   },
+   "triggers": [],
+   "our_casts": [
+    "Sol Ring"
+   ],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 3389.3
+  },
+  "1|Bastion of Remembrance|Blasphemous Act|hand|": {
+   "id": "1|Bastion of Remembrance|Blasphemous Act|hand|",
+   "seed": 1,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "Bastion of Remembrance",
+   "b": "Blasphemous Act",
+   "b_zone": "hand",
+   "b_ability": "",
+   "b_sa": "Blasphemous Act deals 13 damage to each creature.",
+   "metrics_imm": {
+    "net_mana_after_b": -2,
+    "opp_creatures_died": 3,
+    "opp_life_lost": 12,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 12,
+    "opp_permanents_left": 3,
+    "our_creatures_died": 4,
+    "our_life_change": 4,
+    "spells_cast": 1
+   },
+   "mana_s0_sb": [
+    10,
+    8
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": -2,
+    "opp_creatures_died": 3,
+    "opp_life_lost": 12,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 12,
+    "opp_permanents_left": 3,
+    "our_creatures_died": 4,
+    "our_life_change": 4,
+    "spells_cast": 1
+   },
+   "triggers": [
+    "us:Bastion of Remembrance:ChangesZone",
+    "us:Bastion of Remembrance:ChangesZone",
+    "us:Bastion of Remembrance:ChangesZone",
+    "us:Bastion of Remembrance:ChangesZone"
+   ],
+   "our_casts": [
+    "Blasphemous Act"
+   ],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 1919.3
+  },
+  "1|Goblin Lackey|Blasphemous Act|hand|": {
+   "id": "1|Goblin Lackey|Blasphemous Act|hand|",
+   "seed": 1,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "Goblin Lackey",
+   "b": "Blasphemous Act",
+   "b_zone": "hand",
+   "b_ability": "",
+   "b_sa": "Blasphemous Act deals 13 damage to each creature.",
+   "metrics_imm": {
+    "net_mana_after_b": -2,
+    "opp_creatures_died": 3,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "opp_permanents_left": 3,
+    "our_creatures_died": 4,
+    "our_life_change": 0,
+    "spells_cast": 1
+   },
+   "mana_s0_sb": [
+    10,
+    8
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": -2,
+    "opp_creatures_died": 3,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "opp_permanents_left": 3,
+    "our_creatures_died": 4,
+    "our_life_change": 0,
+    "spells_cast": 1
+   },
+   "triggers": [],
+   "our_casts": [
+    "Blasphemous Act"
+   ],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 1366.2
+  },
+  "1|Krenko, Mob Boss|Krenko's Command|hand|": {
+   "id": "1|Krenko, Mob Boss|Krenko's Command|hand|",
+   "seed": 1,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "Krenko, Mob Boss",
+   "b": "Krenko's Command",
+   "b_zone": "hand",
+   "b_ability": "",
+   "b_sa": "Create two 1/1 red Goblin creature tokens.",
+   "metrics_imm": {
+    "net_mana_after_b": -2,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0,
+    "spells_cast": 1,
+    "tokens_created": 2
+   },
+   "mana_s0_sb": [
+    10,
+    8
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": -2,
+    "opp_life_lost": 6,
+    "opp_life_lost_combat": 6,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0,
+    "spells_cast": 1,
+    "tokens_created": 2
+   },
+   "triggers": [],
+   "our_casts": [
+    "Krenko's Command"
+   ],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 2819.3
+  },
+  "1|Mirkwood Bats||hand|": {
+   "id": "1|Mirkwood Bats||hand|",
+   "seed": 1,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "Mirkwood Bats",
+   "b": "",
+   "b_zone": "hand",
+   "b_ability": "",
+   "metrics_imm": {
+    "net_mana_after_b": 0,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "mana_s0_sb": [
+    10,
+    10
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": 0,
+    "opp_life_lost": 5,
+    "opp_life_lost_combat": 5,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "triggers": [],
+   "our_casts": [],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 2147.2
+  },
+  "1|Pashalik Mons|Blasphemous Act|hand|": {
+   "id": "1|Pashalik Mons|Blasphemous Act|hand|",
+   "seed": 1,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "Pashalik Mons",
+   "b": "Blasphemous Act",
+   "b_zone": "hand",
+   "b_ability": "",
+   "b_sa": "Blasphemous Act deals 13 damage to each creature.",
+   "metrics_imm": {
+    "net_mana_after_b": -2,
+    "opp_creatures_died": 3,
+    "opp_life_lost": 4,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 4,
+    "opp_permanents_left": 3,
+    "our_creatures_died": 4,
+    "our_life_change": 0,
+    "spells_cast": 1
+   },
+   "mana_s0_sb": [
+    10,
+    8
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": -2,
+    "opp_creatures_died": 3,
+    "opp_life_lost": 4,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 4,
+    "opp_permanents_left": 3,
+    "our_creatures_died": 4,
+    "our_life_change": 0,
+    "spells_cast": 1
+   },
+   "triggers": [
+    "us:Pashalik Mons:ChangesZone",
+    "us:Pashalik Mons:ChangesZone",
+    "us:Pashalik Mons:ChangesZone",
+    "us:Pashalik Mons:ChangesZone"
+   ],
+   "our_casts": [
+    "Blasphemous Act"
+   ],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 1661.2
+  },
+  "1|~Bastion of Remembrance|Blasphemous Act|hand|": {
+   "id": "1|~Bastion of Remembrance|Blasphemous Act|hand|",
+   "seed": 1,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "~Bastion of Remembrance",
+   "b": "Blasphemous Act",
+   "b_zone": "hand",
+   "b_ability": "",
+   "stand_in": "abilities removed",
+   "b_sa": "Blasphemous Act deals 13 damage to each creature.",
+   "metrics_imm": {
+    "net_mana_after_b": -3,
+    "opp_creatures_died": 3,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "opp_permanents_left": 3,
+    "our_creatures_died": 3,
+    "our_life_change": 0,
+    "spells_cast": 1
+   },
+   "mana_s0_sb": [
+    10,
+    7
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": -3,
+    "opp_creatures_died": 3,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "opp_permanents_left": 3,
+    "our_creatures_died": 3,
+    "our_life_change": 0,
+    "spells_cast": 1
+   },
+   "triggers": [],
+   "our_casts": [
+    "Blasphemous Act"
+   ],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 1864.1
+  },
+  "1|~Goblin Lackey|Blasphemous Act|hand|": {
+   "id": "1|~Goblin Lackey|Blasphemous Act|hand|",
+   "seed": 1,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "~Goblin Lackey",
+   "b": "Blasphemous Act",
+   "b_zone": "hand",
+   "b_ability": "",
+   "stand_in": "abilities removed",
+   "b_sa": "Blasphemous Act deals 13 damage to each creature.",
+   "metrics_imm": {
+    "net_mana_after_b": -2,
+    "opp_creatures_died": 3,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "opp_permanents_left": 3,
+    "our_creatures_died": 4,
+    "our_life_change": 0,
+    "spells_cast": 1
+   },
+   "mana_s0_sb": [
+    10,
+    8
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": -2,
+    "opp_creatures_died": 3,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "opp_permanents_left": 3,
+    "our_creatures_died": 4,
+    "our_life_change": 0,
+    "spells_cast": 1
+   },
+   "triggers": [],
+   "our_casts": [
+    "Blasphemous Act"
+   ],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 1601.2
+  },
+  "1|~Krenko, Mob Boss|Krenko's Command|hand|": {
+   "id": "1|~Krenko, Mob Boss|Krenko's Command|hand|",
+   "seed": 1,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "~Krenko, Mob Boss",
+   "b": "Krenko's Command",
+   "b_zone": "hand",
+   "b_ability": "",
+   "stand_in": "abilities removed",
+   "b_sa": "Create two 1/1 red Goblin creature tokens.",
+   "metrics_imm": {
+    "net_mana_after_b": -2,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0,
+    "spells_cast": 1,
+    "tokens_created": 2
+   },
+   "mana_s0_sb": [
+    10,
+    8
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": -2,
+    "opp_life_lost": 6,
+    "opp_life_lost_combat": 6,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0,
+    "spells_cast": 1,
+    "tokens_created": 2
+   },
+   "triggers": [],
+   "our_casts": [
+    "Krenko's Command"
+   ],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 2483.9
+  },
+  "1|~Mirkwood Bats||hand|": {
+   "id": "1|~Mirkwood Bats||hand|",
+   "seed": 1,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "~Mirkwood Bats",
+   "b": "",
+   "b_zone": "hand",
+   "b_ability": "",
+   "stand_in": "abilities removed",
+   "metrics_imm": {
+    "net_mana_after_b": 0,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "mana_s0_sb": [
+    10,
+    10
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": 0,
+    "opp_life_lost": 5,
+    "opp_life_lost_combat": 5,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "triggers": [],
+   "our_casts": [],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 2236.4
+  },
+  "1|~Pashalik Mons|Blasphemous Act|hand|": {
+   "id": "1|~Pashalik Mons|Blasphemous Act|hand|",
+   "seed": 1,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "~Pashalik Mons",
+   "b": "Blasphemous Act",
+   "b_zone": "hand",
+   "b_ability": "",
+   "stand_in": "abilities removed",
+   "b_sa": "Blasphemous Act deals 13 damage to each creature.",
+   "metrics_imm": {
+    "net_mana_after_b": -2,
+    "opp_creatures_died": 3,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "opp_permanents_left": 3,
+    "our_creatures_died": 4,
+    "our_life_change": 0,
+    "spells_cast": 1
+   },
+   "mana_s0_sb": [
+    10,
+    8
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": -2,
+    "opp_creatures_died": 3,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "opp_permanents_left": 3,
+    "our_creatures_died": 4,
+    "our_life_change": 0,
+    "spells_cast": 1
+   },
+   "triggers": [],
+   "our_casts": [
+    "Blasphemous Act"
+   ],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 1218.1
+  },
+  "2||Blasphemous Act|hand|": {
+   "id": "2||Blasphemous Act|hand|",
+   "seed": 2,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "",
+   "b": "Blasphemous Act",
+   "b_zone": "hand",
+   "b_ability": "",
+   "b_sa": "Blasphemous Act deals 13 damage to each creature.",
+   "metrics_imm": {
+    "net_mana_after_b": -3,
+    "opp_creatures_died": 3,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "opp_permanents_left": 3,
+    "our_creatures_died": 3,
+    "our_life_change": 0,
+    "spells_cast": 1
+   },
+   "mana_s0_sb": [
+    10,
+    7
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": -3,
+    "opp_creatures_died": 3,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "opp_permanents_left": 3,
+    "our_creatures_died": 3,
+    "our_life_change": 0,
+    "spells_cast": 1
+   },
+   "triggers": [],
+   "our_casts": [
+    "Blasphemous Act"
+   ],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 1227.9
+  },
+  "2||Sol Ring|hand|": {
+   "id": "2||Sol Ring|hand|",
+   "seed": 2,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "",
+   "b": "Sol Ring",
+   "b_zone": "hand",
+   "b_ability": "",
+   "b_sa": "Sol Ring",
+   "metrics_imm": {
+    "net_mana_after_b": 1,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0,
+    "spells_cast": 1
+   },
+   "mana_s0_sb": [
+    10,
+    11
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": 1,
+    "opp_life_lost": 3,
+    "opp_life_lost_combat": 3,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0,
+    "spells_cast": 1
+   },
+   "triggers": [],
+   "our_casts": [
+    "Sol Ring"
+   ],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 2091.7
+  },
+  "2|Bastion of Remembrance|Blasphemous Act|hand|": {
+   "id": "2|Bastion of Remembrance|Blasphemous Act|hand|",
+   "seed": 2,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "Bastion of Remembrance",
+   "b": "Blasphemous Act",
+   "b_zone": "hand",
+   "b_ability": "",
+   "b_sa": "Blasphemous Act deals 13 damage to each creature.",
+   "metrics_imm": {
+    "net_mana_after_b": -2,
+    "opp_creatures_died": 3,
+    "opp_life_lost": 12,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 12,
+    "opp_permanents_left": 3,
+    "our_creatures_died": 4,
+    "our_life_change": 4,
+    "spells_cast": 1
+   },
+   "mana_s0_sb": [
+    10,
+    8
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": -2,
+    "opp_creatures_died": 3,
+    "opp_life_lost": 12,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 12,
+    "opp_permanents_left": 3,
+    "our_creatures_died": 4,
+    "our_life_change": 4,
+    "spells_cast": 1
+   },
+   "triggers": [
+    "us:Bastion of Remembrance:ChangesZone",
+    "us:Bastion of Remembrance:ChangesZone",
+    "us:Bastion of Remembrance:ChangesZone",
+    "us:Bastion of Remembrance:ChangesZone"
+   ],
+   "our_casts": [
+    "Blasphemous Act"
+   ],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 1587.5
+  },
+  "2|Goblin Lackey|Blasphemous Act|hand|": {
+   "id": "2|Goblin Lackey|Blasphemous Act|hand|",
+   "seed": 2,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "Goblin Lackey",
+   "b": "Blasphemous Act",
+   "b_zone": "hand",
+   "b_ability": "",
+   "b_sa": "Blasphemous Act deals 13 damage to each creature.",
+   "metrics_imm": {
+    "net_mana_after_b": -2,
+    "opp_creatures_died": 3,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "opp_permanents_left": 3,
+    "our_creatures_died": 4,
+    "our_life_change": 0,
+    "spells_cast": 1
+   },
+   "mana_s0_sb": [
+    10,
+    8
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": -2,
+    "opp_creatures_died": 3,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "opp_permanents_left": 3,
+    "our_creatures_died": 4,
+    "our_life_change": 0,
+    "spells_cast": 1
+   },
+   "triggers": [],
+   "our_casts": [
+    "Blasphemous Act"
+   ],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 1242.0
+  },
+  "2|Krenko, Mob Boss|Krenko's Command|hand|": {
+   "id": "2|Krenko, Mob Boss|Krenko's Command|hand|",
+   "seed": 2,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "Krenko, Mob Boss",
+   "b": "Krenko's Command",
+   "b_zone": "hand",
+   "b_ability": "",
+   "b_sa": "Create two 1/1 red Goblin creature tokens.",
+   "metrics_imm": {
+    "net_mana_after_b": -2,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0,
+    "spells_cast": 1,
+    "tokens_created": 2
+   },
+   "mana_s0_sb": [
+    10,
+    8
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": -2,
+    "opp_life_lost": 6,
+    "opp_life_lost_combat": 6,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0,
+    "spells_cast": 1,
+    "tokens_created": 2
+   },
+   "triggers": [],
+   "our_casts": [
+    "Krenko's Command"
+   ],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 2409.4
+  },
+  "2|Mirkwood Bats||hand|": {
+   "id": "2|Mirkwood Bats||hand|",
+   "seed": 2,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "Mirkwood Bats",
+   "b": "",
+   "b_zone": "hand",
+   "b_ability": "",
+   "metrics_imm": {
+    "net_mana_after_b": 0,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "mana_s0_sb": [
+    10,
+    10
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": 0,
+    "opp_life_lost": 5,
+    "opp_life_lost_combat": 5,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "triggers": [],
+   "our_casts": [],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 2076.5
+  },
+  "2|Pashalik Mons|Blasphemous Act|hand|": {
+   "id": "2|Pashalik Mons|Blasphemous Act|hand|",
+   "seed": 2,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "Pashalik Mons",
+   "b": "Blasphemous Act",
+   "b_zone": "hand",
+   "b_ability": "",
+   "b_sa": "Blasphemous Act deals 13 damage to each creature.",
+   "metrics_imm": {
+    "net_mana_after_b": -2,
+    "opp_creatures_died": 3,
+    "opp_life_lost": 4,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 4,
+    "opp_permanents_left": 3,
+    "our_creatures_died": 4,
+    "our_life_change": 0,
+    "spells_cast": 1
+   },
+   "mana_s0_sb": [
+    10,
+    8
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": -2,
+    "opp_creatures_died": 3,
+    "opp_life_lost": 4,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 4,
+    "opp_permanents_left": 3,
+    "our_creatures_died": 4,
+    "our_life_change": 0,
+    "spells_cast": 1
+   },
+   "triggers": [
+    "us:Pashalik Mons:ChangesZone",
+    "us:Pashalik Mons:ChangesZone",
+    "us:Pashalik Mons:ChangesZone",
+    "us:Pashalik Mons:ChangesZone"
+   ],
+   "our_casts": [
+    "Blasphemous Act"
+   ],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 1407.6
+  },
+  "2|~Bastion of Remembrance|Blasphemous Act|hand|": {
+   "id": "2|~Bastion of Remembrance|Blasphemous Act|hand|",
+   "seed": 2,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "~Bastion of Remembrance",
+   "b": "Blasphemous Act",
+   "b_zone": "hand",
+   "b_ability": "",
+   "stand_in": "abilities removed",
+   "b_sa": "Blasphemous Act deals 13 damage to each creature.",
+   "metrics_imm": {
+    "net_mana_after_b": -3,
+    "opp_creatures_died": 3,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "opp_permanents_left": 3,
+    "our_creatures_died": 3,
+    "our_life_change": 0,
+    "spells_cast": 1
+   },
+   "mana_s0_sb": [
+    10,
+    7
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": -3,
+    "opp_creatures_died": 3,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "opp_permanents_left": 3,
+    "our_creatures_died": 3,
+    "our_life_change": 0,
+    "spells_cast": 1
+   },
+   "triggers": [],
+   "our_casts": [
+    "Blasphemous Act"
+   ],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 1287.5
+  },
+  "2|~Goblin Lackey|Blasphemous Act|hand|": {
+   "id": "2|~Goblin Lackey|Blasphemous Act|hand|",
+   "seed": 2,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "~Goblin Lackey",
+   "b": "Blasphemous Act",
+   "b_zone": "hand",
+   "b_ability": "",
+   "stand_in": "abilities removed",
+   "b_sa": "Blasphemous Act deals 13 damage to each creature.",
+   "metrics_imm": {
+    "net_mana_after_b": -2,
+    "opp_creatures_died": 3,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "opp_permanents_left": 3,
+    "our_creatures_died": 4,
+    "our_life_change": 0,
+    "spells_cast": 1
+   },
+   "mana_s0_sb": [
+    10,
+    8
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": -2,
+    "opp_creatures_died": 3,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "opp_permanents_left": 3,
+    "our_creatures_died": 4,
+    "our_life_change": 0,
+    "spells_cast": 1
+   },
+   "triggers": [],
+   "our_casts": [
+    "Blasphemous Act"
+   ],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 1345.2
+  },
+  "2|~Krenko, Mob Boss|Krenko's Command|hand|": {
+   "id": "2|~Krenko, Mob Boss|Krenko's Command|hand|",
+   "seed": 2,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "~Krenko, Mob Boss",
+   "b": "Krenko's Command",
+   "b_zone": "hand",
+   "b_ability": "",
+   "stand_in": "abilities removed",
+   "b_sa": "Create two 1/1 red Goblin creature tokens.",
+   "metrics_imm": {
+    "net_mana_after_b": -2,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0,
+    "spells_cast": 1,
+    "tokens_created": 2
+   },
+   "mana_s0_sb": [
+    10,
+    8
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": -2,
+    "opp_life_lost": 6,
+    "opp_life_lost_combat": 6,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0,
+    "spells_cast": 1,
+    "tokens_created": 2
+   },
+   "triggers": [],
+   "our_casts": [
+    "Krenko's Command"
+   ],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 2178.8
+  },
+  "2|~Mirkwood Bats||hand|": {
+   "id": "2|~Mirkwood Bats||hand|",
+   "seed": 2,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "~Mirkwood Bats",
+   "b": "",
+   "b_zone": "hand",
+   "b_ability": "",
+   "stand_in": "abilities removed",
+   "metrics_imm": {
+    "net_mana_after_b": 0,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "mana_s0_sb": [
+    10,
+    10
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": 0,
+    "opp_life_lost": 5,
+    "opp_life_lost_combat": 5,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "triggers": [],
+   "our_casts": [],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 1972.5
+  },
+  "2|~Pashalik Mons|Blasphemous Act|hand|": {
+   "id": "2|~Pashalik Mons|Blasphemous Act|hand|",
+   "seed": 2,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "~Pashalik Mons",
+   "b": "Blasphemous Act",
+   "b_zone": "hand",
+   "b_ability": "",
+   "stand_in": "abilities removed",
+   "b_sa": "Blasphemous Act deals 13 damage to each creature.",
+   "metrics_imm": {
+    "net_mana_after_b": -2,
+    "opp_creatures_died": 3,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "opp_permanents_left": 3,
+    "our_creatures_died": 4,
+    "our_life_change": 0,
+    "spells_cast": 1
+   },
+   "mana_s0_sb": [
+    10,
+    8
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": -2,
+    "opp_creatures_died": 3,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "opp_permanents_left": 3,
+    "our_creatures_died": 4,
+    "our_life_change": 0,
+    "spells_cast": 1
+   },
+   "triggers": [],
+   "our_casts": [
+    "Blasphemous Act"
+   ],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 1070.4
+  },
+  "3||Blasphemous Act|hand|": {
+   "id": "3||Blasphemous Act|hand|",
+   "seed": 3,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "",
+   "b": "Blasphemous Act",
+   "b_zone": "hand",
+   "b_ability": "",
+   "b_sa": "Blasphemous Act deals 13 damage to each creature.",
+   "metrics_imm": {
+    "net_mana_after_b": -3,
+    "opp_creatures_died": 3,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "opp_permanents_left": 3,
+    "our_creatures_died": 3,
+    "our_life_change": 0,
+    "spells_cast": 1
+   },
+   "mana_s0_sb": [
+    10,
+    7
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": -3,
+    "opp_creatures_died": 3,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "opp_permanents_left": 3,
+    "our_creatures_died": 3,
+    "our_life_change": 0,
+    "spells_cast": 1
+   },
+   "triggers": [],
+   "our_casts": [
+    "Blasphemous Act"
+   ],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 1119.9
+  },
+  "3||Sol Ring|hand|": {
+   "id": "3||Sol Ring|hand|",
+   "seed": 3,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "",
+   "b": "Sol Ring",
+   "b_zone": "hand",
+   "b_ability": "",
+   "b_sa": "Sol Ring",
+   "metrics_imm": {
+    "net_mana_after_b": 1,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0,
+    "spells_cast": 1
+   },
+   "mana_s0_sb": [
+    10,
+    11
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": 1,
+    "opp_life_lost": 3,
+    "opp_life_lost_combat": 3,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0,
+    "spells_cast": 1
+   },
+   "triggers": [],
+   "our_casts": [
+    "Sol Ring"
+   ],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 1733.0
+  },
+  "3|Bastion of Remembrance|Blasphemous Act|hand|": {
+   "id": "3|Bastion of Remembrance|Blasphemous Act|hand|",
+   "seed": 3,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "Bastion of Remembrance",
+   "b": "Blasphemous Act",
+   "b_zone": "hand",
+   "b_ability": "",
+   "b_sa": "Blasphemous Act deals 13 damage to each creature.",
+   "metrics_imm": {
+    "net_mana_after_b": -2,
+    "opp_creatures_died": 3,
+    "opp_life_lost": 12,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 12,
+    "opp_permanents_left": 3,
+    "our_creatures_died": 4,
+    "our_life_change": 4,
+    "spells_cast": 1
+   },
+   "mana_s0_sb": [
+    10,
+    8
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": -2,
+    "opp_creatures_died": 3,
+    "opp_life_lost": 12,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 12,
+    "opp_permanents_left": 3,
+    "our_creatures_died": 4,
+    "our_life_change": 4,
+    "spells_cast": 1
+   },
+   "triggers": [
+    "us:Bastion of Remembrance:ChangesZone",
+    "us:Bastion of Remembrance:ChangesZone",
+    "us:Bastion of Remembrance:ChangesZone",
+    "us:Bastion of Remembrance:ChangesZone"
+   ],
+   "our_casts": [
+    "Blasphemous Act"
+   ],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 1183.9
+  },
+  "3|Goblin Lackey|Blasphemous Act|hand|": {
+   "id": "3|Goblin Lackey|Blasphemous Act|hand|",
+   "seed": 3,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "Goblin Lackey",
+   "b": "Blasphemous Act",
+   "b_zone": "hand",
+   "b_ability": "",
+   "b_sa": "Blasphemous Act deals 13 damage to each creature.",
+   "metrics_imm": {
+    "net_mana_after_b": -2,
+    "opp_creatures_died": 3,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "opp_permanents_left": 3,
+    "our_creatures_died": 4,
+    "our_life_change": 0,
+    "spells_cast": 1
+   },
+   "mana_s0_sb": [
+    10,
+    8
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": -2,
+    "opp_creatures_died": 3,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "opp_permanents_left": 3,
+    "our_creatures_died": 4,
+    "our_life_change": 0,
+    "spells_cast": 1
+   },
+   "triggers": [],
+   "our_casts": [
+    "Blasphemous Act"
+   ],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 1099.1
+  },
+  "3|Krenko, Mob Boss|Krenko's Command|hand|": {
+   "id": "3|Krenko, Mob Boss|Krenko's Command|hand|",
+   "seed": 3,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "Krenko, Mob Boss",
+   "b": "Krenko's Command",
+   "b_zone": "hand",
+   "b_ability": "",
+   "b_sa": "Create two 1/1 red Goblin creature tokens.",
+   "metrics_imm": {
+    "net_mana_after_b": -2,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0,
+    "spells_cast": 1,
+    "tokens_created": 2
+   },
+   "mana_s0_sb": [
+    10,
+    8
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": -2,
+    "opp_life_lost": 6,
+    "opp_life_lost_combat": 6,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0,
+    "spells_cast": 1,
+    "tokens_created": 2
+   },
+   "triggers": [],
+   "our_casts": [
+    "Krenko's Command"
+   ],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 1913.7
+  },
+  "3|Mirkwood Bats||hand|": {
+   "id": "3|Mirkwood Bats||hand|",
+   "seed": 3,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "Mirkwood Bats",
+   "b": "",
+   "b_zone": "hand",
+   "b_ability": "",
+   "metrics_imm": {
+    "net_mana_after_b": 0,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "mana_s0_sb": [
+    10,
+    10
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": 0,
+    "opp_life_lost": 5,
+    "opp_life_lost_combat": 5,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "triggers": [],
+   "our_casts": [],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 1488.7
+  },
+  "3|Pashalik Mons|Blasphemous Act|hand|": {
+   "id": "3|Pashalik Mons|Blasphemous Act|hand|",
+   "seed": 3,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "Pashalik Mons",
+   "b": "Blasphemous Act",
+   "b_zone": "hand",
+   "b_ability": "",
+   "b_sa": "Blasphemous Act deals 13 damage to each creature.",
+   "metrics_imm": {
+    "net_mana_after_b": -2,
+    "opp_creatures_died": 3,
+    "opp_life_lost": 4,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 4,
+    "opp_permanents_left": 3,
+    "our_creatures_died": 4,
+    "our_life_change": 0,
+    "spells_cast": 1
+   },
+   "mana_s0_sb": [
+    10,
+    8
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": -2,
+    "opp_creatures_died": 3,
+    "opp_life_lost": 4,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 4,
+    "opp_permanents_left": 3,
+    "our_creatures_died": 4,
+    "our_life_change": 0,
+    "spells_cast": 1
+   },
+   "triggers": [
+    "us:Pashalik Mons:ChangesZone",
+    "us:Pashalik Mons:ChangesZone",
+    "us:Pashalik Mons:ChangesZone",
+    "us:Pashalik Mons:ChangesZone"
+   ],
+   "our_casts": [
+    "Blasphemous Act"
+   ],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 1062.4
+  },
+  "3|~Bastion of Remembrance|Blasphemous Act|hand|": {
+   "id": "3|~Bastion of Remembrance|Blasphemous Act|hand|",
+   "seed": 3,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "~Bastion of Remembrance",
+   "b": "Blasphemous Act",
+   "b_zone": "hand",
+   "b_ability": "",
+   "stand_in": "abilities removed",
+   "b_sa": "Blasphemous Act deals 13 damage to each creature.",
+   "metrics_imm": {
+    "net_mana_after_b": -3,
+    "opp_creatures_died": 3,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "opp_permanents_left": 3,
+    "our_creatures_died": 3,
+    "our_life_change": 0,
+    "spells_cast": 1
+   },
+   "mana_s0_sb": [
+    10,
+    7
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": -3,
+    "opp_creatures_died": 3,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "opp_permanents_left": 3,
+    "our_creatures_died": 3,
+    "our_life_change": 0,
+    "spells_cast": 1
+   },
+   "triggers": [],
+   "our_casts": [
+    "Blasphemous Act"
+   ],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 948.7
+  },
+  "3|~Goblin Lackey|Blasphemous Act|hand|": {
+   "id": "3|~Goblin Lackey|Blasphemous Act|hand|",
+   "seed": 3,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "~Goblin Lackey",
+   "b": "Blasphemous Act",
+   "b_zone": "hand",
+   "b_ability": "",
+   "stand_in": "abilities removed",
+   "b_sa": "Blasphemous Act deals 13 damage to each creature.",
+   "metrics_imm": {
+    "net_mana_after_b": -2,
+    "opp_creatures_died": 3,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "opp_permanents_left": 3,
+    "our_creatures_died": 4,
+    "our_life_change": 0,
+    "spells_cast": 1
+   },
+   "mana_s0_sb": [
+    10,
+    8
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": -2,
+    "opp_creatures_died": 3,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "opp_permanents_left": 3,
+    "our_creatures_died": 4,
+    "our_life_change": 0,
+    "spells_cast": 1
+   },
+   "triggers": [],
+   "our_casts": [
+    "Blasphemous Act"
+   ],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 878.0
+  },
+  "3|~Krenko, Mob Boss|Krenko's Command|hand|": {
+   "id": "3|~Krenko, Mob Boss|Krenko's Command|hand|",
+   "seed": 3,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "~Krenko, Mob Boss",
+   "b": "Krenko's Command",
+   "b_zone": "hand",
+   "b_ability": "",
+   "stand_in": "abilities removed",
+   "b_sa": "Create two 1/1 red Goblin creature tokens.",
+   "metrics_imm": {
+    "net_mana_after_b": -2,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0,
+    "spells_cast": 1,
+    "tokens_created": 2
+   },
+   "mana_s0_sb": [
+    10,
+    8
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": -2,
+    "opp_life_lost": 6,
+    "opp_life_lost_combat": 6,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0,
+    "spells_cast": 1,
+    "tokens_created": 2
+   },
+   "triggers": [],
+   "our_casts": [
+    "Krenko's Command"
+   ],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 1794.4
+  },
+  "3|~Mirkwood Bats||hand|": {
+   "id": "3|~Mirkwood Bats||hand|",
+   "seed": 3,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "~Mirkwood Bats",
+   "b": "",
+   "b_zone": "hand",
+   "b_ability": "",
+   "stand_in": "abilities removed",
+   "metrics_imm": {
+    "net_mana_after_b": 0,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "mana_s0_sb": [
+    10,
+    10
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": 0,
+    "opp_life_lost": 5,
+    "opp_life_lost_combat": 5,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "triggers": [],
+   "our_casts": [],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 1663.6
+  },
+  "3|~Pashalik Mons|Blasphemous Act|hand|": {
+   "id": "3|~Pashalik Mons|Blasphemous Act|hand|",
+   "seed": 3,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "~Pashalik Mons",
+   "b": "Blasphemous Act",
+   "b_zone": "hand",
+   "b_ability": "",
+   "stand_in": "abilities removed",
+   "b_sa": "Blasphemous Act deals 13 damage to each creature.",
+   "metrics_imm": {
+    "net_mana_after_b": -2,
+    "opp_creatures_died": 3,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "opp_permanents_left": 3,
+    "our_creatures_died": 4,
+    "our_life_change": 0,
+    "spells_cast": 1
+   },
+   "mana_s0_sb": [
+    10,
+    8
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": -2,
+    "opp_creatures_died": 3,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "opp_permanents_left": 3,
+    "our_creatures_died": 4,
+    "our_life_change": 0,
+    "spells_cast": 1
+   },
+   "triggers": [],
+   "our_casts": [
+    "Blasphemous Act"
+   ],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 931.4
+  },
+  "5|||hand|": {
+   "id": "5|||hand|",
+   "seed": 5,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "",
+   "b": "",
+   "b_zone": "hand",
+   "b_ability": "",
+   "metrics_imm": {
+    "net_mana_after_b": 0,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "mana_s0_sb": [
+    10,
+    10
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": 0,
+    "opp_life_lost": 3,
+    "opp_life_lost_combat": 3,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "triggers": [],
+   "our_casts": [],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 1274.0
+  },
+  "9|||hand|": {
+   "id": "9|||hand|",
+   "seed": 9,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "",
+   "b": "",
+   "b_zone": "hand",
+   "b_ability": "",
+   "metrics_imm": {
+    "net_mana_after_b": 0,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "mana_s0_sb": [
+    10,
+    10
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": 0,
+    "opp_life_lost": 3,
+    "opp_life_lost_combat": 3,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "triggers": [],
+   "our_casts": [],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 1373.0
+  },
+  "13|||hand|": {
+   "id": "13|||hand|",
+   "seed": 13,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "",
+   "b": "",
+   "b_zone": "hand",
+   "b_ability": "",
+   "metrics_imm": {
+    "net_mana_after_b": 0,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "mana_s0_sb": [
+    10,
+    10
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": 0,
+    "opp_life_lost": 3,
+    "opp_life_lost_combat": 3,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "triggers": [],
+   "our_casts": [],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 1307.2
+  },
+  "17|||hand|": {
+   "id": "17|||hand|",
+   "seed": 17,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "",
+   "b": "",
+   "b_zone": "hand",
+   "b_ability": "",
+   "metrics_imm": {
+    "net_mana_after_b": 0,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "mana_s0_sb": [
+    10,
+    10
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": 0,
+    "opp_life_lost": 3,
+    "opp_life_lost_combat": 3,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "triggers": [],
+   "our_casts": [],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 1338.6
+  },
+  "1||Krenko's Command|hand|": {
+   "id": "1||Krenko's Command|hand|",
+   "seed": 1,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "",
+   "b": "Krenko's Command",
+   "b_zone": "hand",
+   "b_ability": "",
+   "b_sa": "Create two 1/1 red Goblin creature tokens.",
+   "metrics_imm": {
+    "net_mana_after_b": -2,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0,
+    "spells_cast": 1,
+    "tokens_created": 2
+   },
+   "mana_s0_sb": [
+    10,
+    8
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": -2,
+    "opp_life_lost": 3,
+    "opp_life_lost_combat": 3,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0,
+    "spells_cast": 1,
+    "tokens_created": 2
+   },
+   "triggers": [],
+   "our_casts": [
+    "Krenko's Command"
+   ],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 6764.4
+  },
+  "1|Archive Dragon||hand|": {
+   "id": "1|Archive Dragon||hand|",
+   "seed": 1,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "Archive Dragon",
+   "b": "",
+   "b_zone": "hand",
+   "b_ability": "",
+   "metrics_imm": {
+    "net_mana_after_b": 0,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "mana_s0_sb": [
+    10,
+    10
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": 0,
+    "opp_life_lost": 7,
+    "opp_life_lost_combat": 7,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "triggers": [],
+   "our_casts": [],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 3193.3
+  },
+  "1|Celeborn the Wise||hand|": {
+   "id": "1|Celeborn the Wise||hand|",
+   "seed": 1,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "Celeborn the Wise",
+   "b": "",
+   "b_zone": "hand",
+   "b_ability": "",
+   "metrics_imm": {
+    "net_mana_after_b": 0,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "mana_s0_sb": [
+    10,
+    10
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": 0,
+    "opp_life_lost": 7,
+    "opp_life_lost_combat": 7,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0,
+    "scry_events": 1
+   },
+   "triggers": [
+    "us:Celeborn the Wise:AttackersDeclared",
+    "us:Celeborn the Wise:Scry"
+   ],
+   "our_casts": [],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 216,
+   "status": "ok",
+   "ms": 2730.8
+  },
+  "1|Goblin Warchief||hand|": {
+   "id": "1|Goblin Warchief||hand|",
+   "seed": 1,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "Goblin Warchief",
+   "b": "",
+   "b_zone": "hand",
+   "b_ability": "",
+   "metrics_imm": {
+    "net_mana_after_b": 0,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "mana_s0_sb": [
+    10,
+    10
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": 0,
+    "opp_life_lost": 5,
+    "opp_life_lost_combat": 5,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "triggers": [],
+   "our_casts": [],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 2616.2
+  },
+  "1|Matoya, Archon Elder||hand|": {
+   "id": "1|Matoya, Archon Elder||hand|",
+   "seed": 1,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "Matoya, Archon Elder",
+   "b": "",
+   "b_zone": "hand",
+   "b_ability": "",
+   "metrics_imm": {
+    "net_mana_after_b": 0,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "mana_s0_sb": [
+    10,
+    10
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": 0,
+    "opp_life_lost": 4,
+    "opp_life_lost_combat": 4,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "triggers": [],
+   "our_casts": [],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 2112.4
+  },
+  "1|Mirkwood Bats|Blasphemous Act|hand|": {
+   "id": "1|Mirkwood Bats|Blasphemous Act|hand|",
+   "seed": 1,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "Mirkwood Bats",
+   "b": "Blasphemous Act",
+   "b_zone": "hand",
+   "b_ability": "",
+   "b_sa": "Blasphemous Act deals 13 damage to each creature.",
+   "metrics_imm": {
+    "net_mana_after_b": -2,
+    "opp_creatures_died": 3,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "opp_permanents_left": 3,
+    "our_creatures_died": 4,
+    "our_life_change": 0,
+    "spells_cast": 1
+   },
+   "mana_s0_sb": [
+    10,
+    8
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": -2,
+    "opp_creatures_died": 3,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "opp_permanents_left": 3,
+    "our_creatures_died": 4,
+    "our_life_change": 0,
+    "spells_cast": 1
+   },
+   "triggers": [],
+   "our_casts": [
+    "Blasphemous Act"
+   ],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 1463.6
+  },
+  "1|Simic Ascendancy||hand|": {
+   "id": "1|Simic Ascendancy||hand|",
+   "seed": 1,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "Simic Ascendancy",
+   "b": "",
+   "b_zone": "hand",
+   "b_ability": "",
+   "metrics_imm": {
+    "net_mana_after_b": 0,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "mana_s0_sb": [
+    10,
+    10
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": 0,
+    "opp_life_lost": 3,
+    "opp_life_lost_combat": 3,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0,
+    "p1p1_counters_placed": 1
+   },
+   "triggers": [
+    "us:Simic Ascendancy:CounterAddedOnce"
+   ],
+   "our_casts": [],
+   "round_plays": [
+    "Simic Ascendancy:PutCounter"
+   ],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 219,
+   "status": "ok",
+   "ms": 2779.6
+  },
+  "1|~Celeborn the Wise||hand|": {
+   "id": "1|~Celeborn the Wise||hand|",
+   "seed": 1,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "~Celeborn the Wise",
+   "b": "",
+   "b_zone": "hand",
+   "b_ability": "",
+   "stand_in": "abilities removed",
+   "metrics_imm": {
+    "net_mana_after_b": 0,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "mana_s0_sb": [
+    10,
+    10
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": 0,
+    "opp_life_lost": 6,
+    "opp_life_lost_combat": 6,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "triggers": [],
+   "our_casts": [],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 2546.3
+  },
+  "1|~Goblin Warchief||hand|": {
+   "id": "1|~Goblin Warchief||hand|",
+   "seed": 1,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "~Goblin Warchief",
+   "b": "",
+   "b_zone": "hand",
+   "b_ability": "",
+   "stand_in": "abilities removed",
+   "metrics_imm": {
+    "net_mana_after_b": 0,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "mana_s0_sb": [
+    10,
+    10
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": 0,
+    "opp_life_lost": 5,
+    "opp_life_lost_combat": 5,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "triggers": [],
+   "our_casts": [],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 2355.3
+  },
+  "1|~Matoya, Archon Elder||hand|": {
+   "id": "1|~Matoya, Archon Elder||hand|",
+   "seed": 1,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "~Matoya, Archon Elder",
+   "b": "",
+   "b_zone": "hand",
+   "b_ability": "",
+   "stand_in": "abilities removed",
+   "metrics_imm": {
+    "net_mana_after_b": 0,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "mana_s0_sb": [
+    10,
+    10
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": 0,
+    "opp_life_lost": 4,
+    "opp_life_lost_combat": 4,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "triggers": [],
+   "our_casts": [],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 2132.7
+  },
+  "1|~Mirkwood Bats|Blasphemous Act|hand|": {
+   "id": "1|~Mirkwood Bats|Blasphemous Act|hand|",
+   "seed": 1,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "~Mirkwood Bats",
+   "b": "Blasphemous Act",
+   "b_zone": "hand",
+   "b_ability": "",
+   "stand_in": "abilities removed",
+   "b_sa": "Blasphemous Act deals 13 damage to each creature.",
+   "metrics_imm": {
+    "net_mana_after_b": -2,
+    "opp_creatures_died": 3,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "opp_permanents_left": 3,
+    "our_creatures_died": 4,
+    "our_life_change": 0,
+    "spells_cast": 1
+   },
+   "mana_s0_sb": [
+    10,
+    8
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": -2,
+    "opp_creatures_died": 3,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "opp_permanents_left": 3,
+    "our_creatures_died": 4,
+    "our_life_change": 0,
+    "spells_cast": 1
+   },
+   "triggers": [],
+   "our_casts": [
+    "Blasphemous Act"
+   ],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 1408.2
+  },
+  "1|~Simic Ascendancy||hand|": {
+   "id": "1|~Simic Ascendancy||hand|",
+   "seed": 1,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "~Simic Ascendancy",
+   "b": "",
+   "b_zone": "hand",
+   "b_ability": "",
+   "stand_in": "abilities removed",
+   "metrics_imm": {
+    "net_mana_after_b": 0,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "mana_s0_sb": [
+    10,
+    10
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": 0,
+    "opp_life_lost": 3,
+    "opp_life_lost_combat": 3,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "triggers": [],
+   "our_casts": [],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 2095.9
+  },
+  "2||Krenko's Command|hand|": {
+   "id": "2||Krenko's Command|hand|",
+   "seed": 2,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "",
+   "b": "Krenko's Command",
+   "b_zone": "hand",
+   "b_ability": "",
+   "b_sa": "Create two 1/1 red Goblin creature tokens.",
+   "metrics_imm": {
+    "net_mana_after_b": -2,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0,
+    "spells_cast": 1,
+    "tokens_created": 2
+   },
+   "mana_s0_sb": [
+    10,
+    8
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": -2,
+    "opp_life_lost": 3,
+    "opp_life_lost_combat": 3,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0,
+    "spells_cast": 1,
+    "tokens_created": 2
+   },
+   "triggers": [],
+   "our_casts": [
+    "Krenko's Command"
+   ],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 2288.4
+  },
+  "2|Archive Dragon||hand|": {
+   "id": "2|Archive Dragon||hand|",
+   "seed": 2,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "Archive Dragon",
+   "b": "",
+   "b_zone": "hand",
+   "b_ability": "",
+   "metrics_imm": {
+    "net_mana_after_b": 0,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "mana_s0_sb": [
+    10,
+    10
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": 0,
+    "opp_life_lost": 7,
+    "opp_life_lost_combat": 7,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "triggers": [],
+   "our_casts": [],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 2144.2
+  },
+  "2|Celeborn the Wise||hand|": {
+   "id": "2|Celeborn the Wise||hand|",
+   "seed": 2,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "Celeborn the Wise",
+   "b": "",
+   "b_zone": "hand",
+   "b_ability": "",
+   "metrics_imm": {
+    "net_mana_after_b": 0,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "mana_s0_sb": [
+    10,
+    10
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": 0,
+    "opp_life_lost": 7,
+    "opp_life_lost_combat": 7,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0,
+    "scry_events": 1
+   },
+   "triggers": [
+    "us:Celeborn the Wise:AttackersDeclared",
+    "us:Celeborn the Wise:Scry"
+   ],
+   "our_casts": [],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 216,
+   "status": "ok",
+   "ms": 2095.9
+  },
+  "2|Goblin Warchief||hand|": {
+   "id": "2|Goblin Warchief||hand|",
+   "seed": 2,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "Goblin Warchief",
+   "b": "",
+   "b_zone": "hand",
+   "b_ability": "",
+   "metrics_imm": {
+    "net_mana_after_b": 0,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "mana_s0_sb": [
+    10,
+    10
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": 0,
+    "opp_life_lost": 5,
+    "opp_life_lost_combat": 5,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "triggers": [],
+   "our_casts": [],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 2251.0
+  },
+  "2|Matoya, Archon Elder||hand|": {
+   "id": "2|Matoya, Archon Elder||hand|",
+   "seed": 2,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "Matoya, Archon Elder",
+   "b": "",
+   "b_zone": "hand",
+   "b_ability": "",
+   "metrics_imm": {
+    "net_mana_after_b": 0,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "mana_s0_sb": [
+    10,
+    10
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": 0,
+    "opp_life_lost": 4,
+    "opp_life_lost_combat": 4,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "triggers": [],
+   "our_casts": [],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 2143.1
+  },
+  "2|Mirkwood Bats|Blasphemous Act|hand|": {
+   "id": "2|Mirkwood Bats|Blasphemous Act|hand|",
+   "seed": 2,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "Mirkwood Bats",
+   "b": "Blasphemous Act",
+   "b_zone": "hand",
+   "b_ability": "",
+   "b_sa": "Blasphemous Act deals 13 damage to each creature.",
+   "metrics_imm": {
+    "net_mana_after_b": -2,
+    "opp_creatures_died": 3,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "opp_permanents_left": 3,
+    "our_creatures_died": 4,
+    "our_life_change": 0,
+    "spells_cast": 1
+   },
+   "mana_s0_sb": [
+    10,
+    8
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": -2,
+    "opp_creatures_died": 3,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "opp_permanents_left": 3,
+    "our_creatures_died": 4,
+    "our_life_change": 0,
+    "spells_cast": 1
+   },
+   "triggers": [],
+   "our_casts": [
+    "Blasphemous Act"
+   ],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 1235.4
+  },
+  "2|Simic Ascendancy||hand|": {
+   "id": "2|Simic Ascendancy||hand|",
+   "seed": 2,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "Simic Ascendancy",
+   "b": "",
+   "b_zone": "hand",
+   "b_ability": "",
+   "metrics_imm": {
+    "net_mana_after_b": 0,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "mana_s0_sb": [
+    10,
+    10
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": 0,
+    "opp_life_lost": 3,
+    "opp_life_lost_combat": 3,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0,
+    "p1p1_counters_placed": 1
+   },
+   "triggers": [
+    "us:Simic Ascendancy:CounterAddedOnce"
+   ],
+   "our_casts": [],
+   "round_plays": [
+    "Simic Ascendancy:PutCounter"
+   ],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 219,
+   "status": "ok",
+   "ms": 2285.1
+  },
+  "2|~Celeborn the Wise||hand|": {
+   "id": "2|~Celeborn the Wise||hand|",
+   "seed": 2,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "~Celeborn the Wise",
+   "b": "",
+   "b_zone": "hand",
+   "b_ability": "",
+   "stand_in": "abilities removed",
+   "metrics_imm": {
+    "net_mana_after_b": 0,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "mana_s0_sb": [
+    10,
+    10
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": 0,
+    "opp_life_lost": 6,
+    "opp_life_lost_combat": 6,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "triggers": [],
+   "our_casts": [],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 1872.2
+  },
+  "2|~Goblin Warchief||hand|": {
+   "id": "2|~Goblin Warchief||hand|",
+   "seed": 2,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "~Goblin Warchief",
+   "b": "",
+   "b_zone": "hand",
+   "b_ability": "",
+   "stand_in": "abilities removed",
+   "metrics_imm": {
+    "net_mana_after_b": 0,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "mana_s0_sb": [
+    10,
+    10
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": 0,
+    "opp_life_lost": 5,
+    "opp_life_lost_combat": 5,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "triggers": [],
+   "our_casts": [],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 1826.2
+  },
+  "2|~Matoya, Archon Elder||hand|": {
+   "id": "2|~Matoya, Archon Elder||hand|",
+   "seed": 2,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "~Matoya, Archon Elder",
+   "b": "",
+   "b_zone": "hand",
+   "b_ability": "",
+   "stand_in": "abilities removed",
+   "metrics_imm": {
+    "net_mana_after_b": 0,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "mana_s0_sb": [
+    10,
+    10
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": 0,
+    "opp_life_lost": 4,
+    "opp_life_lost_combat": 4,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "triggers": [],
+   "our_casts": [],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 1745.8
+  },
+  "2|~Mirkwood Bats|Blasphemous Act|hand|": {
+   "id": "2|~Mirkwood Bats|Blasphemous Act|hand|",
+   "seed": 2,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "~Mirkwood Bats",
+   "b": "Blasphemous Act",
+   "b_zone": "hand",
+   "b_ability": "",
+   "stand_in": "abilities removed",
+   "b_sa": "Blasphemous Act deals 13 damage to each creature.",
+   "metrics_imm": {
+    "net_mana_after_b": -2,
+    "opp_creatures_died": 3,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "opp_permanents_left": 3,
+    "our_creatures_died": 4,
+    "our_life_change": 0,
+    "spells_cast": 1
+   },
+   "mana_s0_sb": [
+    10,
+    8
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": -2,
+    "opp_creatures_died": 3,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "opp_permanents_left": 3,
+    "our_creatures_died": 4,
+    "our_life_change": 0,
+    "spells_cast": 1
+   },
+   "triggers": [],
+   "our_casts": [
+    "Blasphemous Act"
+   ],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 1083.6
+  },
+  "2|~Simic Ascendancy||hand|": {
+   "id": "2|~Simic Ascendancy||hand|",
+   "seed": 2,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "~Simic Ascendancy",
+   "b": "",
+   "b_zone": "hand",
+   "b_ability": "",
+   "stand_in": "abilities removed",
+   "metrics_imm": {
+    "net_mana_after_b": 0,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "mana_s0_sb": [
+    10,
+    10
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": 0,
+    "opp_life_lost": 3,
+    "opp_life_lost_combat": 3,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "triggers": [],
+   "our_casts": [],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 1726.3
+  },
+  "3||Krenko's Command|hand|": {
+   "id": "3||Krenko's Command|hand|",
+   "seed": 3,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "",
+   "b": "Krenko's Command",
+   "b_zone": "hand",
+   "b_ability": "",
+   "b_sa": "Create two 1/1 red Goblin creature tokens.",
+   "metrics_imm": {
+    "net_mana_after_b": -2,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0,
+    "spells_cast": 1,
+    "tokens_created": 2
+   },
+   "mana_s0_sb": [
+    10,
+    8
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": -2,
+    "opp_life_lost": 3,
+    "opp_life_lost_combat": 3,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0,
+    "spells_cast": 1,
+    "tokens_created": 2
+   },
+   "triggers": [],
+   "our_casts": [
+    "Krenko's Command"
+   ],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 1796.8
+  },
+  "3|Archive Dragon||hand|": {
+   "id": "3|Archive Dragon||hand|",
+   "seed": 3,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "Archive Dragon",
+   "b": "",
+   "b_zone": "hand",
+   "b_ability": "",
+   "metrics_imm": {
+    "net_mana_after_b": 0,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "mana_s0_sb": [
+    10,
+    10
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": 0,
+    "opp_life_lost": 7,
+    "opp_life_lost_combat": 7,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "triggers": [],
+   "our_casts": [],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 1622.8
+  },
+  "3|Celeborn the Wise||hand|": {
+   "id": "3|Celeborn the Wise||hand|",
+   "seed": 3,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "Celeborn the Wise",
+   "b": "",
+   "b_zone": "hand",
+   "b_ability": "",
+   "metrics_imm": {
+    "net_mana_after_b": 0,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "mana_s0_sb": [
+    10,
+    10
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": 0,
+    "opp_life_lost": 7,
+    "opp_life_lost_combat": 7,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0,
+    "scry_events": 1
+   },
+   "triggers": [
+    "us:Celeborn the Wise:AttackersDeclared",
+    "us:Celeborn the Wise:Scry"
+   ],
+   "our_casts": [],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 216,
+   "status": "ok",
+   "ms": 1717.8
+  },
+  "3|Goblin Warchief||hand|": {
+   "id": "3|Goblin Warchief||hand|",
+   "seed": 3,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "Goblin Warchief",
+   "b": "",
+   "b_zone": "hand",
+   "b_ability": "",
+   "metrics_imm": {
+    "net_mana_after_b": 0,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "mana_s0_sb": [
+    10,
+    10
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": 0,
+    "opp_life_lost": 5,
+    "opp_life_lost_combat": 5,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "triggers": [],
+   "our_casts": [],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 1672.8
+  },
+  "3|Matoya, Archon Elder||hand|": {
+   "id": "3|Matoya, Archon Elder||hand|",
+   "seed": 3,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "Matoya, Archon Elder",
+   "b": "",
+   "b_zone": "hand",
+   "b_ability": "",
+   "metrics_imm": {
+    "net_mana_after_b": 0,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "mana_s0_sb": [
+    10,
+    10
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": 0,
+    "opp_life_lost": 4,
+    "opp_life_lost_combat": 4,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "triggers": [],
+   "our_casts": [],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 1675.8
+  },
+  "3|Mirkwood Bats|Blasphemous Act|hand|": {
+   "id": "3|Mirkwood Bats|Blasphemous Act|hand|",
+   "seed": 3,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "Mirkwood Bats",
+   "b": "Blasphemous Act",
+   "b_zone": "hand",
+   "b_ability": "",
+   "b_sa": "Blasphemous Act deals 13 damage to each creature.",
+   "metrics_imm": {
+    "net_mana_after_b": -2,
+    "opp_creatures_died": 3,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "opp_permanents_left": 3,
+    "our_creatures_died": 4,
+    "our_life_change": 0,
+    "spells_cast": 1
+   },
+   "mana_s0_sb": [
+    10,
+    8
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": -2,
+    "opp_creatures_died": 3,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "opp_permanents_left": 3,
+    "our_creatures_died": 4,
+    "our_life_change": 0,
+    "spells_cast": 1
+   },
+   "triggers": [],
+   "our_casts": [
+    "Blasphemous Act"
+   ],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 1029.4
+  },
+  "3|Simic Ascendancy||hand|": {
+   "id": "3|Simic Ascendancy||hand|",
+   "seed": 3,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "Simic Ascendancy",
+   "b": "",
+   "b_zone": "hand",
+   "b_ability": "",
+   "metrics_imm": {
+    "net_mana_after_b": 0,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "mana_s0_sb": [
+    10,
+    10
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": 0,
+    "opp_life_lost": 3,
+    "opp_life_lost_combat": 3,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0,
+    "p1p1_counters_placed": 1
+   },
+   "triggers": [
+    "us:Simic Ascendancy:CounterAddedOnce"
+   ],
+   "our_casts": [],
+   "round_plays": [
+    "Simic Ascendancy:PutCounter"
+   ],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 219,
+   "status": "ok",
+   "ms": 1794.9
+  },
+  "3|~Celeborn the Wise||hand|": {
+   "id": "3|~Celeborn the Wise||hand|",
+   "seed": 3,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "~Celeborn the Wise",
+   "b": "",
+   "b_zone": "hand",
+   "b_ability": "",
+   "stand_in": "abilities removed",
+   "metrics_imm": {
+    "net_mana_after_b": 0,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "mana_s0_sb": [
+    10,
+    10
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": 0,
+    "opp_life_lost": 6,
+    "opp_life_lost_combat": 6,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "triggers": [],
+   "our_casts": [],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 1432.2
+  },
+  "3|~Goblin Warchief||hand|": {
+   "id": "3|~Goblin Warchief||hand|",
+   "seed": 3,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "~Goblin Warchief",
+   "b": "",
+   "b_zone": "hand",
+   "b_ability": "",
+   "stand_in": "abilities removed",
+   "metrics_imm": {
+    "net_mana_after_b": 0,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "mana_s0_sb": [
+    10,
+    10
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": 0,
+    "opp_life_lost": 5,
+    "opp_life_lost_combat": 5,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "triggers": [],
+   "our_casts": [],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 1559.3
+  },
+  "3|~Matoya, Archon Elder||hand|": {
+   "id": "3|~Matoya, Archon Elder||hand|",
+   "seed": 3,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "~Matoya, Archon Elder",
+   "b": "",
+   "b_zone": "hand",
+   "b_ability": "",
+   "stand_in": "abilities removed",
+   "metrics_imm": {
+    "net_mana_after_b": 0,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "mana_s0_sb": [
+    10,
+    10
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": 0,
+    "opp_life_lost": 4,
+    "opp_life_lost_combat": 4,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "triggers": [],
+   "our_casts": [],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 1581.7
+  },
+  "3|~Mirkwood Bats|Blasphemous Act|hand|": {
+   "id": "3|~Mirkwood Bats|Blasphemous Act|hand|",
+   "seed": 3,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "~Mirkwood Bats",
+   "b": "Blasphemous Act",
+   "b_zone": "hand",
+   "b_ability": "",
+   "stand_in": "abilities removed",
+   "b_sa": "Blasphemous Act deals 13 damage to each creature.",
+   "metrics_imm": {
+    "net_mana_after_b": -2,
+    "opp_creatures_died": 3,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "opp_permanents_left": 3,
+    "our_creatures_died": 4,
+    "our_life_change": 0,
+    "spells_cast": 1
+   },
+   "mana_s0_sb": [
+    10,
+    8
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": -2,
+    "opp_creatures_died": 3,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "opp_permanents_left": 3,
+    "our_creatures_died": 4,
+    "our_life_change": 0,
+    "spells_cast": 1
+   },
+   "triggers": [],
+   "our_casts": [
+    "Blasphemous Act"
+   ],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 1043.4
+  },
+  "3|~Simic Ascendancy||hand|": {
+   "id": "3|~Simic Ascendancy||hand|",
+   "seed": 3,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "~Simic Ascendancy",
+   "b": "",
+   "b_zone": "hand",
+   "b_ability": "",
+   "stand_in": "abilities removed",
+   "metrics_imm": {
+    "net_mana_after_b": 0,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "mana_s0_sb": [
+    10,
+    10
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": 0,
+    "opp_life_lost": 3,
+    "opp_life_lost_combat": 3,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "triggers": [],
+   "our_casts": [],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 1589.3
+  },
+  "6|||hand|": {
+   "id": "6|||hand|",
+   "seed": 6,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "",
+   "b": "",
+   "b_zone": "hand",
+   "b_ability": "",
+   "metrics_imm": {
+    "net_mana_after_b": 0,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "mana_s0_sb": [
+    10,
+    10
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": 0,
+    "opp_life_lost": 3,
+    "opp_life_lost_combat": 3,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "triggers": [],
+   "our_casts": [],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 1399.0
+  },
+  "10|||hand|": {
+   "id": "10|||hand|",
+   "seed": 10,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "",
+   "b": "",
+   "b_zone": "hand",
+   "b_ability": "",
+   "metrics_imm": {
+    "net_mana_after_b": 0,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "mana_s0_sb": [
+    10,
+    10
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": 0,
+    "opp_life_lost": 3,
+    "opp_life_lost_combat": 3,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "triggers": [],
+   "our_casts": [],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 1363.5
+  },
+  "14|||hand|": {
+   "id": "14|||hand|",
+   "seed": 14,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "",
+   "b": "",
+   "b_zone": "hand",
+   "b_ability": "",
+   "metrics_imm": {
+    "net_mana_after_b": 0,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "mana_s0_sb": [
+    10,
+    10
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": 0,
+    "opp_life_lost": 3,
+    "opp_life_lost_combat": 3,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "triggers": [],
+   "our_casts": [],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 1238.5
+  },
+  "18|||hand|": {
+   "id": "18|||hand|",
+   "seed": 18,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "",
+   "b": "",
+   "b_zone": "hand",
+   "b_ability": "",
+   "metrics_imm": {
+    "net_mana_after_b": 0,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "mana_s0_sb": [
+    10,
+    10
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": 0,
+    "opp_life_lost": 3,
+    "opp_life_lost_combat": 3,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "triggers": [],
+   "our_casts": [],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 1015.4
+  },
+  "1||Opt|hand|": {
+   "id": "1||Opt|hand|",
+   "seed": 1,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "",
+   "b": "Opt",
+   "b_zone": "hand",
+   "b_ability": "",
+   "b_sa": "Scry 1. Draw a card.",
+   "metrics_imm": {
+    "cards_drawn": 1,
+    "net_mana_after_b": -1,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0,
+    "scry_events": 1,
+    "spells_cast": 1
+   },
+   "mana_s0_sb": [
+    10,
+    9
+   ],
+   "metrics": {
+    "cards_drawn": 2,
+    "net_mana_after_b": -1,
+    "opp_life_lost": 3,
+    "opp_life_lost_combat": 3,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0,
+    "scry_events": 1,
+    "spells_cast": 1
+   },
+   "triggers": [],
+   "our_casts": [
+    "Opt"
+   ],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 5801.1
+  },
+  "1|Archive Dragon|Faithless Looting|hand|": {
+   "id": "1|Archive Dragon|Faithless Looting|hand|",
+   "seed": 1,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "Archive Dragon",
+   "b": "Faithless Looting",
+   "b_zone": "hand",
+   "b_ability": "",
+   "b_sa": "Draw two cards, then discard two cards. ",
+   "metrics_imm": {
+    "cards_drawn": 2,
+    "discards": 2,
+    "net_mana_after_b": -1,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0,
+    "spells_cast": 1
+   },
+   "mana_s0_sb": [
+    10,
+    9
+   ],
+   "metrics": {
+    "cards_drawn": 3,
+    "discards": 2,
+    "net_mana_after_b": -1,
+    "opp_life_lost": 7,
+    "opp_life_lost_combat": 7,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0,
+    "spells_cast": 1
+   },
+   "triggers": [],
+   "our_casts": [
+    "Faithless Looting"
+   ],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 3979.7
+  },
+  "1|Celeborn the Wise|Opt|hand|": {
+   "id": "1|Celeborn the Wise|Opt|hand|",
+   "seed": 1,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "Celeborn the Wise",
+   "b": "Opt",
+   "b_zone": "hand",
+   "b_ability": "",
+   "b_sa": "Scry 1. Draw a card.",
+   "metrics_imm": {
+    "cards_drawn": 1,
+    "net_mana_after_b": -1,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0,
+    "scry_events": 1,
+    "spells_cast": 1
+   },
+   "mana_s0_sb": [
+    10,
+    9
+   ],
+   "metrics": {
+    "cards_drawn": 2,
+    "net_mana_after_b": -1,
+    "opp_life_lost": 8,
+    "opp_life_lost_combat": 8,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0,
+    "scry_events": 2,
+    "spells_cast": 1
+   },
+   "triggers": [
+    "us:Celeborn the Wise:Scry",
+    "us:Celeborn the Wise:AttackersDeclared",
+    "us:Celeborn the Wise:Scry"
+   ],
+   "our_casts": [
+    "Opt"
+   ],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 216,
+   "status": "ok",
+   "ms": 3162.2
+  },
+  "1|Goblin Warchief|Blasphemous Act|hand|": {
+   "id": "1|Goblin Warchief|Blasphemous Act|hand|",
+   "seed": 1,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "Goblin Warchief",
+   "b": "Blasphemous Act",
+   "b_zone": "hand",
+   "b_ability": "",
+   "b_sa": "Blasphemous Act deals 13 damage to each creature.",
+   "metrics_imm": {
+    "net_mana_after_b": -2,
+    "opp_creatures_died": 3,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "opp_permanents_left": 3,
+    "our_creatures_died": 4,
+    "our_life_change": 0,
+    "spells_cast": 1
+   },
+   "mana_s0_sb": [
+    10,
+    8
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": -2,
+    "opp_creatures_died": 3,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "opp_permanents_left": 3,
+    "our_creatures_died": 4,
+    "our_life_change": 0,
+    "spells_cast": 1
+   },
+   "triggers": [],
+   "our_casts": [
+    "Blasphemous Act"
+   ],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 1674.1
+  },
+  "1|Matoya, Archon Elder|Opt|hand|": {
+   "id": "1|Matoya, Archon Elder|Opt|hand|",
+   "seed": 1,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "Matoya, Archon Elder",
+   "b": "Opt",
+   "b_zone": "hand",
+   "b_ability": "",
+   "b_sa": "Scry 1. Draw a card.",
+   "metrics_imm": {
+    "cards_drawn": 2,
+    "net_mana_after_b": -1,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0,
+    "scry_events": 1,
+    "spells_cast": 1
+   },
+   "mana_s0_sb": [
+    10,
+    9
+   ],
+   "metrics": {
+    "cards_drawn": 3,
+    "net_mana_after_b": -1,
+    "opp_life_lost": 4,
+    "opp_life_lost_combat": 4,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0,
+    "scry_events": 1,
+    "spells_cast": 1
+   },
+   "triggers": [
+    "us:Matoya, Archon Elder:Scry"
+   ],
+   "our_casts": [
+    "Opt"
+   ],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 2268.3
+  },
+  "1|Mirkwood Bats|Krenko's Command|hand|": {
+   "id": "1|Mirkwood Bats|Krenko's Command|hand|",
+   "seed": 1,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "Mirkwood Bats",
+   "b": "Krenko's Command",
+   "b_zone": "hand",
+   "b_ability": "",
+   "b_sa": "Create two 1/1 red Goblin creature tokens.",
+   "metrics_imm": {
+    "net_mana_after_b": -2,
+    "opp_life_lost": 6,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 6,
+    "our_life_change": 0,
+    "spells_cast": 1,
+    "tokens_created": 2
+   },
+   "mana_s0_sb": [
+    10,
+    8
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": -2,
+    "opp_life_lost": 11,
+    "opp_life_lost_combat": 5,
+    "opp_life_lost_noncombat": 6,
+    "our_life_change": 0,
+    "spells_cast": 1,
+    "tokens_created": 2
+   },
+   "triggers": [
+    "us:Mirkwood Bats:TokenCreated",
+    "us:Mirkwood Bats:TokenCreated"
+   ],
+   "our_casts": [
+    "Krenko's Command"
+   ],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 2689.2
+  },
+  "1|Simic Ascendancy|Pridemalkin|hand|": {
+   "id": "1|Simic Ascendancy|Pridemalkin|hand|",
+   "seed": 1,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "Simic Ascendancy",
+   "b": "Pridemalkin",
+   "b_zone": "hand",
+   "b_ability": "",
+   "b_sa": "Pridemalkin - Creature 2 / 1",
+   "metrics_imm": {
+    "net_mana_after_b": -3,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0,
+    "p1p1_counters_placed": 1,
+    "spells_cast": 1
+   },
+   "mana_s0_sb": [
+    10,
+    7
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": -3,
+    "opp_life_lost": 3,
+    "opp_life_lost_combat": 3,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0,
+    "p1p1_counters_placed": 1,
+    "spells_cast": 1
+   },
+   "triggers": [
+    "us:Pridemalkin:ChangesZone",
+    "us:Simic Ascendancy:CounterAddedOnce"
+   ],
+   "our_casts": [
+    "Pridemalkin"
+   ],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 3544.6
+  },
+  "1|~Celeborn the Wise|Opt|hand|": {
+   "id": "1|~Celeborn the Wise|Opt|hand|",
+   "seed": 1,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "~Celeborn the Wise",
+   "b": "Opt",
+   "b_zone": "hand",
+   "b_ability": "",
+   "stand_in": "abilities removed",
+   "b_sa": "Scry 1. Draw a card.",
+   "metrics_imm": {
+    "cards_drawn": 1,
+    "net_mana_after_b": -1,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0,
+    "scry_events": 1,
+    "spells_cast": 1
+   },
+   "mana_s0_sb": [
+    10,
+    9
+   ],
+   "metrics": {
+    "cards_drawn": 2,
+    "net_mana_after_b": -1,
+    "opp_life_lost": 6,
+    "opp_life_lost_combat": 6,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0,
+    "scry_events": 1,
+    "spells_cast": 1
+   },
+   "triggers": [],
+   "our_casts": [
+    "Opt"
+   ],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 2649.9
+  },
+  "1|~Goblin Warchief|Blasphemous Act|hand|": {
+   "id": "1|~Goblin Warchief|Blasphemous Act|hand|",
+   "seed": 1,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "~Goblin Warchief",
+   "b": "Blasphemous Act",
+   "b_zone": "hand",
+   "b_ability": "",
+   "stand_in": "abilities removed",
+   "b_sa": "Blasphemous Act deals 13 damage to each creature.",
+   "metrics_imm": {
+    "net_mana_after_b": -2,
+    "opp_creatures_died": 3,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "opp_permanents_left": 3,
+    "our_creatures_died": 4,
+    "our_life_change": 0,
+    "spells_cast": 1
+   },
+   "mana_s0_sb": [
+    10,
+    8
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": -2,
+    "opp_creatures_died": 3,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "opp_permanents_left": 3,
+    "our_creatures_died": 4,
+    "our_life_change": 0,
+    "spells_cast": 1
+   },
+   "triggers": [],
+   "our_casts": [
+    "Blasphemous Act"
+   ],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 1569.3
+  },
+  "1|~Matoya, Archon Elder|Opt|hand|": {
+   "id": "1|~Matoya, Archon Elder|Opt|hand|",
+   "seed": 1,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "~Matoya, Archon Elder",
+   "b": "Opt",
+   "b_zone": "hand",
+   "b_ability": "",
+   "stand_in": "abilities removed",
+   "b_sa": "Scry 1. Draw a card.",
+   "metrics_imm": {
+    "cards_drawn": 1,
+    "net_mana_after_b": -1,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0,
+    "scry_events": 1,
+    "spells_cast": 1
+   },
+   "mana_s0_sb": [
+    10,
+    9
+   ],
+   "metrics": {
+    "cards_drawn": 2,
+    "net_mana_after_b": -1,
+    "opp_life_lost": 4,
+    "opp_life_lost_combat": 4,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0,
+    "scry_events": 1,
+    "spells_cast": 1
+   },
+   "triggers": [],
+   "our_casts": [
+    "Opt"
+   ],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 2343.8
+  },
+  "1|~Mirkwood Bats|Krenko's Command|hand|": {
+   "id": "1|~Mirkwood Bats|Krenko's Command|hand|",
+   "seed": 1,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "~Mirkwood Bats",
+   "b": "Krenko's Command",
+   "b_zone": "hand",
+   "b_ability": "",
+   "stand_in": "abilities removed",
+   "b_sa": "Create two 1/1 red Goblin creature tokens.",
+   "metrics_imm": {
+    "net_mana_after_b": -2,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0,
+    "spells_cast": 1,
+    "tokens_created": 2
+   },
+   "mana_s0_sb": [
+    10,
+    8
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": -2,
+    "opp_life_lost": 5,
+    "opp_life_lost_combat": 5,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0,
+    "spells_cast": 1,
+    "tokens_created": 2
+   },
+   "triggers": [],
+   "our_casts": [
+    "Krenko's Command"
+   ],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 2498.8
+  },
+  "1|~Simic Ascendancy|Pridemalkin|hand|": {
+   "id": "1|~Simic Ascendancy|Pridemalkin|hand|",
+   "seed": 1,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "~Simic Ascendancy",
+   "b": "Pridemalkin",
+   "b_zone": "hand",
+   "b_ability": "",
+   "stand_in": "abilities removed",
+   "b_sa": "Pridemalkin - Creature 2 / 1",
+   "metrics_imm": {
+    "net_mana_after_b": -3,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0,
+    "p1p1_counters_placed": 1,
+    "spells_cast": 1
+   },
+   "mana_s0_sb": [
+    10,
+    7
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": -3,
+    "opp_life_lost": 3,
+    "opp_life_lost_combat": 3,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0,
+    "p1p1_counters_placed": 1,
+    "spells_cast": 1
+   },
+   "triggers": [
+    "us:Pridemalkin:ChangesZone"
+   ],
+   "our_casts": [
+    "Pridemalkin"
+   ],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 2860.5
+  },
+  "2||Opt|hand|": {
+   "id": "2||Opt|hand|",
+   "seed": 2,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "",
+   "b": "Opt",
+   "b_zone": "hand",
+   "b_ability": "",
+   "b_sa": "Scry 1. Draw a card.",
+   "metrics_imm": {
+    "cards_drawn": 1,
+    "net_mana_after_b": -1,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0,
+    "scry_events": 1,
+    "spells_cast": 1
+   },
+   "mana_s0_sb": [
+    10,
+    9
+   ],
+   "metrics": {
+    "cards_drawn": 2,
+    "net_mana_after_b": -1,
+    "opp_life_lost": 3,
+    "opp_life_lost_combat": 3,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0,
+    "scry_events": 1,
+    "spells_cast": 1
+   },
+   "triggers": [],
+   "our_casts": [
+    "Opt"
+   ],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 2006.1
+  },
+  "2|Archive Dragon|Faithless Looting|hand|": {
+   "id": "2|Archive Dragon|Faithless Looting|hand|",
+   "seed": 2,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "Archive Dragon",
+   "b": "Faithless Looting",
+   "b_zone": "hand",
+   "b_ability": "",
+   "b_sa": "Draw two cards, then discard two cards. ",
+   "metrics_imm": {
+    "cards_drawn": 2,
+    "discards": 2,
+    "net_mana_after_b": -1,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0,
+    "spells_cast": 1
+   },
+   "mana_s0_sb": [
+    10,
+    9
+   ],
+   "metrics": {
+    "cards_drawn": 3,
+    "discards": 2,
+    "net_mana_after_b": -1,
+    "opp_life_lost": 7,
+    "opp_life_lost_combat": 7,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0,
+    "spells_cast": 1
+   },
+   "triggers": [],
+   "our_casts": [
+    "Faithless Looting"
+   ],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 2339.2
+  },
+  "2|Celeborn the Wise|Opt|hand|": {
+   "id": "2|Celeborn the Wise|Opt|hand|",
+   "seed": 2,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "Celeborn the Wise",
+   "b": "Opt",
+   "b_zone": "hand",
+   "b_ability": "",
+   "b_sa": "Scry 1. Draw a card.",
+   "metrics_imm": {
+    "cards_drawn": 1,
+    "net_mana_after_b": -1,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0,
+    "scry_events": 1,
+    "spells_cast": 1
+   },
+   "mana_s0_sb": [
+    10,
+    9
+   ],
+   "metrics": {
+    "cards_drawn": 2,
+    "net_mana_after_b": -1,
+    "opp_life_lost": 8,
+    "opp_life_lost_combat": 8,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0,
+    "scry_events": 2,
+    "spells_cast": 1
+   },
+   "triggers": [
+    "us:Celeborn the Wise:Scry",
+    "us:Celeborn the Wise:AttackersDeclared",
+    "us:Celeborn the Wise:Scry"
+   ],
+   "our_casts": [
+    "Opt"
+   ],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 216,
+   "status": "ok",
+   "ms": 2214.3
+  },
+  "2|Goblin Warchief|Blasphemous Act|hand|": {
+   "id": "2|Goblin Warchief|Blasphemous Act|hand|",
+   "seed": 2,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "Goblin Warchief",
+   "b": "Blasphemous Act",
+   "b_zone": "hand",
+   "b_ability": "",
+   "b_sa": "Blasphemous Act deals 13 damage to each creature.",
+   "metrics_imm": {
+    "net_mana_after_b": -2,
+    "opp_creatures_died": 3,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "opp_permanents_left": 3,
+    "our_creatures_died": 4,
+    "our_life_change": 0,
+    "spells_cast": 1
+   },
+   "mana_s0_sb": [
+    10,
+    8
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": -2,
+    "opp_creatures_died": 3,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "opp_permanents_left": 3,
+    "our_creatures_died": 4,
+    "our_life_change": 0,
+    "spells_cast": 1
+   },
+   "triggers": [],
+   "our_casts": [
+    "Blasphemous Act"
+   ],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 1370.4
+  },
+  "2|Matoya, Archon Elder|Opt|hand|": {
+   "id": "2|Matoya, Archon Elder|Opt|hand|",
+   "seed": 2,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "Matoya, Archon Elder",
+   "b": "Opt",
+   "b_zone": "hand",
+   "b_ability": "",
+   "b_sa": "Scry 1. Draw a card.",
+   "metrics_imm": {
+    "cards_drawn": 2,
+    "net_mana_after_b": -1,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0,
+    "scry_events": 1,
+    "spells_cast": 1
+   },
+   "mana_s0_sb": [
+    10,
+    9
+   ],
+   "metrics": {
+    "cards_drawn": 3,
+    "net_mana_after_b": -1,
+    "opp_life_lost": 4,
+    "opp_life_lost_combat": 4,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0,
+    "scry_events": 1,
+    "spells_cast": 1
+   },
+   "triggers": [
+    "us:Matoya, Archon Elder:Scry"
+   ],
+   "our_casts": [
+    "Opt"
+   ],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 2052.4
+  },
+  "2|Mirkwood Bats|Krenko's Command|hand|": {
+   "id": "2|Mirkwood Bats|Krenko's Command|hand|",
+   "seed": 2,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "Mirkwood Bats",
+   "b": "Krenko's Command",
+   "b_zone": "hand",
+   "b_ability": "",
+   "b_sa": "Create two 1/1 red Goblin creature tokens.",
+   "metrics_imm": {
+    "net_mana_after_b": -2,
+    "opp_life_lost": 6,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 6,
+    "our_life_change": 0,
+    "spells_cast": 1,
+    "tokens_created": 2
+   },
+   "mana_s0_sb": [
+    10,
+    8
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": -2,
+    "opp_life_lost": 11,
+    "opp_life_lost_combat": 5,
+    "opp_life_lost_noncombat": 6,
+    "our_life_change": 0,
+    "spells_cast": 1,
+    "tokens_created": 2
+   },
+   "triggers": [
+    "us:Mirkwood Bats:TokenCreated",
+    "us:Mirkwood Bats:TokenCreated"
+   ],
+   "our_casts": [
+    "Krenko's Command"
+   ],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 2254.8
+  },
+  "2|Simic Ascendancy|Pridemalkin|hand|": {
+   "id": "2|Simic Ascendancy|Pridemalkin|hand|",
+   "seed": 2,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "Simic Ascendancy",
+   "b": "Pridemalkin",
+   "b_zone": "hand",
+   "b_ability": "",
+   "b_sa": "Pridemalkin - Creature 2 / 1",
+   "metrics_imm": {
+    "net_mana_after_b": -3,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0,
+    "p1p1_counters_placed": 1,
+    "spells_cast": 1
+   },
+   "mana_s0_sb": [
+    10,
+    7
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": -3,
+    "opp_life_lost": 3,
+    "opp_life_lost_combat": 3,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0,
+    "p1p1_counters_placed": 1,
+    "spells_cast": 1
+   },
+   "triggers": [
+    "us:Pridemalkin:ChangesZone",
+    "us:Simic Ascendancy:CounterAddedOnce"
+   ],
+   "our_casts": [
+    "Pridemalkin"
+   ],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 2795.1
+  },
+  "2|~Celeborn the Wise|Opt|hand|": {
+   "id": "2|~Celeborn the Wise|Opt|hand|",
+   "seed": 2,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "~Celeborn the Wise",
+   "b": "Opt",
+   "b_zone": "hand",
+   "b_ability": "",
+   "stand_in": "abilities removed",
+   "b_sa": "Scry 1. Draw a card.",
+   "metrics_imm": {
+    "cards_drawn": 1,
+    "net_mana_after_b": -1,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0,
+    "scry_events": 1,
+    "spells_cast": 1
+   },
+   "mana_s0_sb": [
+    10,
+    9
+   ],
+   "metrics": {
+    "cards_drawn": 2,
+    "net_mana_after_b": -1,
+    "opp_life_lost": 6,
+    "opp_life_lost_combat": 6,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0,
+    "scry_events": 1,
+    "spells_cast": 1
+   },
+   "triggers": [],
+   "our_casts": [
+    "Opt"
+   ],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 1852.1
+  },
+  "2|~Goblin Warchief|Blasphemous Act|hand|": {
+   "id": "2|~Goblin Warchief|Blasphemous Act|hand|",
+   "seed": 2,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "~Goblin Warchief",
+   "b": "Blasphemous Act",
+   "b_zone": "hand",
+   "b_ability": "",
+   "stand_in": "abilities removed",
+   "b_sa": "Blasphemous Act deals 13 damage to each creature.",
+   "metrics_imm": {
+    "net_mana_after_b": -2,
+    "opp_creatures_died": 3,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "opp_permanents_left": 3,
+    "our_creatures_died": 4,
+    "our_life_change": 0,
+    "spells_cast": 1
+   },
+   "mana_s0_sb": [
+    10,
+    8
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": -2,
+    "opp_creatures_died": 3,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "opp_permanents_left": 3,
+    "our_creatures_died": 4,
+    "our_life_change": 0,
+    "spells_cast": 1
+   },
+   "triggers": [],
+   "our_casts": [
+    "Blasphemous Act"
+   ],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 1164.7
+  },
+  "2|~Matoya, Archon Elder|Opt|hand|": {
+   "id": "2|~Matoya, Archon Elder|Opt|hand|",
+   "seed": 2,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "~Matoya, Archon Elder",
+   "b": "Opt",
+   "b_zone": "hand",
+   "b_ability": "",
+   "stand_in": "abilities removed",
+   "b_sa": "Scry 1. Draw a card.",
+   "metrics_imm": {
+    "cards_drawn": 1,
+    "net_mana_after_b": -1,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0,
+    "scry_events": 1,
+    "spells_cast": 1
+   },
+   "mana_s0_sb": [
+    10,
+    9
+   ],
+   "metrics": {
+    "cards_drawn": 2,
+    "net_mana_after_b": -1,
+    "opp_life_lost": 4,
+    "opp_life_lost_combat": 4,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0,
+    "scry_events": 1,
+    "spells_cast": 1
+   },
+   "triggers": [],
+   "our_casts": [
+    "Opt"
+   ],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 1804.4
+  },
+  "2|~Mirkwood Bats|Krenko's Command|hand|": {
+   "id": "2|~Mirkwood Bats|Krenko's Command|hand|",
+   "seed": 2,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "~Mirkwood Bats",
+   "b": "Krenko's Command",
+   "b_zone": "hand",
+   "b_ability": "",
+   "stand_in": "abilities removed",
+   "b_sa": "Create two 1/1 red Goblin creature tokens.",
+   "metrics_imm": {
+    "net_mana_after_b": -2,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0,
+    "spells_cast": 1,
+    "tokens_created": 2
+   },
+   "mana_s0_sb": [
+    10,
+    8
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": -2,
+    "opp_life_lost": 5,
+    "opp_life_lost_combat": 5,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0,
+    "spells_cast": 1,
+    "tokens_created": 2
+   },
+   "triggers": [],
+   "our_casts": [
+    "Krenko's Command"
+   ],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 1975.3
+  },
+  "2|~Simic Ascendancy|Pridemalkin|hand|": {
+   "id": "2|~Simic Ascendancy|Pridemalkin|hand|",
+   "seed": 2,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "~Simic Ascendancy",
+   "b": "Pridemalkin",
+   "b_zone": "hand",
+   "b_ability": "",
+   "stand_in": "abilities removed",
+   "b_sa": "Pridemalkin - Creature 2 / 1",
+   "metrics_imm": {
+    "net_mana_after_b": -3,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0,
+    "p1p1_counters_placed": 1,
+    "spells_cast": 1
+   },
+   "mana_s0_sb": [
+    10,
+    7
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": -3,
+    "opp_life_lost": 3,
+    "opp_life_lost_combat": 3,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0,
+    "p1p1_counters_placed": 1,
+    "spells_cast": 1
+   },
+   "triggers": [
+    "us:Pridemalkin:ChangesZone"
+   ],
+   "our_casts": [
+    "Pridemalkin"
+   ],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 2044.2
+  },
+  "3||Opt|hand|": {
+   "id": "3||Opt|hand|",
+   "seed": 3,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "",
+   "b": "Opt",
+   "b_zone": "hand",
+   "b_ability": "",
+   "b_sa": "Scry 1. Draw a card.",
+   "metrics_imm": {
+    "cards_drawn": 1,
+    "net_mana_after_b": -1,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0,
+    "scry_events": 1,
+    "spells_cast": 1
+   },
+   "mana_s0_sb": [
+    10,
+    9
+   ],
+   "metrics": {
+    "cards_drawn": 2,
+    "net_mana_after_b": -1,
+    "opp_life_lost": 3,
+    "opp_life_lost_combat": 3,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0,
+    "scry_events": 1,
+    "spells_cast": 1
+   },
+   "triggers": [],
+   "our_casts": [
+    "Opt"
+   ],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 1619.2
+  },
+  "3|Archive Dragon|Faithless Looting|hand|": {
+   "id": "3|Archive Dragon|Faithless Looting|hand|",
+   "seed": 3,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "Archive Dragon",
+   "b": "Faithless Looting",
+   "b_zone": "hand",
+   "b_ability": "",
+   "b_sa": "Draw two cards, then discard two cards. ",
+   "metrics_imm": {
+    "cards_drawn": 2,
+    "discards": 2,
+    "net_mana_after_b": -1,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0,
+    "spells_cast": 1
+   },
+   "mana_s0_sb": [
+    10,
+    9
+   ],
+   "metrics": {
+    "cards_drawn": 3,
+    "discards": 2,
+    "net_mana_after_b": -1,
+    "opp_life_lost": 7,
+    "opp_life_lost_combat": 7,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0,
+    "spells_cast": 1
+   },
+   "triggers": [],
+   "our_casts": [
+    "Faithless Looting"
+   ],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 1742.9
+  },
+  "3|Celeborn the Wise|Opt|hand|": {
+   "id": "3|Celeborn the Wise|Opt|hand|",
+   "seed": 3,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "Celeborn the Wise",
+   "b": "Opt",
+   "b_zone": "hand",
+   "b_ability": "",
+   "b_sa": "Scry 1. Draw a card.",
+   "metrics_imm": {
+    "cards_drawn": 1,
+    "net_mana_after_b": -1,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0,
+    "scry_events": 1,
+    "spells_cast": 1
+   },
+   "mana_s0_sb": [
+    10,
+    9
+   ],
+   "metrics": {
+    "cards_drawn": 2,
+    "net_mana_after_b": -1,
+    "opp_life_lost": 8,
+    "opp_life_lost_combat": 8,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0,
+    "scry_events": 2,
+    "spells_cast": 1
+   },
+   "triggers": [
+    "us:Celeborn the Wise:Scry",
+    "us:Celeborn the Wise:AttackersDeclared",
+    "us:Celeborn the Wise:Scry"
+   ],
+   "our_casts": [
+    "Opt"
+   ],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 216,
+   "status": "ok",
+   "ms": 1916.9
+  },
+  "3|Goblin Warchief|Blasphemous Act|hand|": {
+   "id": "3|Goblin Warchief|Blasphemous Act|hand|",
+   "seed": 3,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "Goblin Warchief",
+   "b": "Blasphemous Act",
+   "b_zone": "hand",
+   "b_ability": "",
+   "b_sa": "Blasphemous Act deals 13 damage to each creature.",
+   "metrics_imm": {
+    "net_mana_after_b": -2,
+    "opp_creatures_died": 3,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "opp_permanents_left": 3,
+    "our_creatures_died": 4,
+    "our_life_change": 0,
+    "spells_cast": 1
+   },
+   "mana_s0_sb": [
+    10,
+    8
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": -2,
+    "opp_creatures_died": 3,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "opp_permanents_left": 3,
+    "our_creatures_died": 4,
+    "our_life_change": 0,
+    "spells_cast": 1
+   },
+   "triggers": [],
+   "our_casts": [
+    "Blasphemous Act"
+   ],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 999.3
+  },
+  "3|Matoya, Archon Elder|Opt|hand|": {
+   "id": "3|Matoya, Archon Elder|Opt|hand|",
+   "seed": 3,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "Matoya, Archon Elder",
+   "b": "Opt",
+   "b_zone": "hand",
+   "b_ability": "",
+   "b_sa": "Scry 1. Draw a card.",
+   "metrics_imm": {
+    "cards_drawn": 2,
+    "net_mana_after_b": -1,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0,
+    "scry_events": 1,
+    "spells_cast": 1
+   },
+   "mana_s0_sb": [
+    10,
+    9
+   ],
+   "metrics": {
+    "cards_drawn": 3,
+    "net_mana_after_b": -1,
+    "opp_life_lost": 4,
+    "opp_life_lost_combat": 4,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0,
+    "scry_events": 1,
+    "spells_cast": 1
+   },
+   "triggers": [
+    "us:Matoya, Archon Elder:Scry"
+   ],
+   "our_casts": [
+    "Opt"
+   ],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 1600.9
+  },
+  "3|Mirkwood Bats|Krenko's Command|hand|": {
+   "id": "3|Mirkwood Bats|Krenko's Command|hand|",
+   "seed": 3,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "Mirkwood Bats",
+   "b": "Krenko's Command",
+   "b_zone": "hand",
+   "b_ability": "",
+   "b_sa": "Create two 1/1 red Goblin creature tokens.",
+   "metrics_imm": {
+    "net_mana_after_b": -2,
+    "opp_life_lost": 6,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 6,
+    "our_life_change": 0,
+    "spells_cast": 1,
+    "tokens_created": 2
+   },
+   "mana_s0_sb": [
+    10,
+    8
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": -2,
+    "opp_life_lost": 11,
+    "opp_life_lost_combat": 5,
+    "opp_life_lost_noncombat": 6,
+    "our_life_change": 0,
+    "spells_cast": 1,
+    "tokens_created": 2
+   },
+   "triggers": [
+    "us:Mirkwood Bats:TokenCreated",
+    "us:Mirkwood Bats:TokenCreated"
+   ],
+   "our_casts": [
+    "Krenko's Command"
+   ],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 1775.7
+  },
+  "3|Simic Ascendancy|Pridemalkin|hand|": {
+   "id": "3|Simic Ascendancy|Pridemalkin|hand|",
+   "seed": 3,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "Simic Ascendancy",
+   "b": "Pridemalkin",
+   "b_zone": "hand",
+   "b_ability": "",
+   "b_sa": "Pridemalkin - Creature 2 / 1",
+   "metrics_imm": {
+    "net_mana_after_b": -3,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0,
+    "p1p1_counters_placed": 1,
+    "spells_cast": 1
+   },
+   "mana_s0_sb": [
+    10,
+    7
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": -3,
+    "opp_life_lost": 3,
+    "opp_life_lost_combat": 3,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0,
+    "p1p1_counters_placed": 1,
+    "spells_cast": 1
+   },
+   "triggers": [
+    "us:Pridemalkin:ChangesZone",
+    "us:Simic Ascendancy:CounterAddedOnce"
+   ],
+   "our_casts": [
+    "Pridemalkin"
+   ],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 2144.8
+  },
+  "3|~Celeborn the Wise|Opt|hand|": {
+   "id": "3|~Celeborn the Wise|Opt|hand|",
+   "seed": 3,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "~Celeborn the Wise",
+   "b": "Opt",
+   "b_zone": "hand",
+   "b_ability": "",
+   "stand_in": "abilities removed",
+   "b_sa": "Scry 1. Draw a card.",
+   "metrics_imm": {
+    "cards_drawn": 1,
+    "net_mana_after_b": -1,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0,
+    "scry_events": 1,
+    "spells_cast": 1
+   },
+   "mana_s0_sb": [
+    10,
+    9
+   ],
+   "metrics": {
+    "cards_drawn": 2,
+    "net_mana_after_b": -1,
+    "opp_life_lost": 6,
+    "opp_life_lost_combat": 6,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0,
+    "scry_events": 1,
+    "spells_cast": 1
+   },
+   "triggers": [],
+   "our_casts": [
+    "Opt"
+   ],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 1798.4
+  },
+  "3|~Goblin Warchief|Blasphemous Act|hand|": {
+   "id": "3|~Goblin Warchief|Blasphemous Act|hand|",
+   "seed": 3,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "~Goblin Warchief",
+   "b": "Blasphemous Act",
+   "b_zone": "hand",
+   "b_ability": "",
+   "stand_in": "abilities removed",
+   "b_sa": "Blasphemous Act deals 13 damage to each creature.",
+   "metrics_imm": {
+    "net_mana_after_b": -2,
+    "opp_creatures_died": 3,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "opp_permanents_left": 3,
+    "our_creatures_died": 4,
+    "our_life_change": 0,
+    "spells_cast": 1
+   },
+   "mana_s0_sb": [
+    10,
+    8
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": -2,
+    "opp_creatures_died": 3,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "opp_permanents_left": 3,
+    "our_creatures_died": 4,
+    "our_life_change": 0,
+    "spells_cast": 1
+   },
+   "triggers": [],
+   "our_casts": [
+    "Blasphemous Act"
+   ],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 975.1
+  },
+  "3|~Matoya, Archon Elder|Opt|hand|": {
+   "id": "3|~Matoya, Archon Elder|Opt|hand|",
+   "seed": 3,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "~Matoya, Archon Elder",
+   "b": "Opt",
+   "b_zone": "hand",
+   "b_ability": "",
+   "stand_in": "abilities removed",
+   "b_sa": "Scry 1. Draw a card.",
+   "metrics_imm": {
+    "cards_drawn": 1,
+    "net_mana_after_b": -1,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0,
+    "scry_events": 1,
+    "spells_cast": 1
+   },
+   "mana_s0_sb": [
+    10,
+    9
+   ],
+   "metrics": {
+    "cards_drawn": 2,
+    "net_mana_after_b": -1,
+    "opp_life_lost": 4,
+    "opp_life_lost_combat": 4,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0,
+    "scry_events": 1,
+    "spells_cast": 1
+   },
+   "triggers": [],
+   "our_casts": [
+    "Opt"
+   ],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 1572.0
+  },
+  "3|~Mirkwood Bats|Krenko's Command|hand|": {
+   "id": "3|~Mirkwood Bats|Krenko's Command|hand|",
+   "seed": 3,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "~Mirkwood Bats",
+   "b": "Krenko's Command",
+   "b_zone": "hand",
+   "b_ability": "",
+   "stand_in": "abilities removed",
+   "b_sa": "Create two 1/1 red Goblin creature tokens.",
+   "metrics_imm": {
+    "net_mana_after_b": -2,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0,
+    "spells_cast": 1,
+    "tokens_created": 2
+   },
+   "mana_s0_sb": [
+    10,
+    8
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": -2,
+    "opp_life_lost": 5,
+    "opp_life_lost_combat": 5,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0,
+    "spells_cast": 1,
+    "tokens_created": 2
+   },
+   "triggers": [],
+   "our_casts": [
+    "Krenko's Command"
+   ],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 1678.4
+  },
+  "3|~Simic Ascendancy|Pridemalkin|hand|": {
+   "id": "3|~Simic Ascendancy|Pridemalkin|hand|",
+   "seed": 3,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "~Simic Ascendancy",
+   "b": "Pridemalkin",
+   "b_zone": "hand",
+   "b_ability": "",
+   "stand_in": "abilities removed",
+   "b_sa": "Pridemalkin - Creature 2 / 1",
+   "metrics_imm": {
+    "net_mana_after_b": -3,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0,
+    "p1p1_counters_placed": 1,
+    "spells_cast": 1
+   },
+   "mana_s0_sb": [
+    10,
+    7
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": -3,
+    "opp_life_lost": 3,
+    "opp_life_lost_combat": 3,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0,
+    "p1p1_counters_placed": 1,
+    "spells_cast": 1
+   },
+   "triggers": [
+    "us:Pridemalkin:ChangesZone"
+   ],
+   "our_casts": [
+    "Pridemalkin"
+   ],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 1684.7
+  },
+  "7|||hand|": {
+   "id": "7|||hand|",
+   "seed": 7,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "",
+   "b": "",
+   "b_zone": "hand",
+   "b_ability": "",
+   "metrics_imm": {
+    "net_mana_after_b": 0,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "mana_s0_sb": [
+    10,
+    10
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": 0,
+    "opp_life_lost": 3,
+    "opp_life_lost_combat": 3,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "triggers": [],
+   "our_casts": [],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 909.9
+  },
+  "11|||hand|": {
+   "id": "11|||hand|",
+   "seed": 11,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "",
+   "b": "",
+   "b_zone": "hand",
+   "b_ability": "",
+   "metrics_imm": {
+    "net_mana_after_b": 0,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "mana_s0_sb": [
+    10,
+    10
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": 0,
+    "opp_life_lost": 3,
+    "opp_life_lost_combat": 3,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "triggers": [],
+   "our_casts": [],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 528.7
+  },
+  "15|||hand|": {
+   "id": "15|||hand|",
+   "seed": 15,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "",
+   "b": "",
+   "b_zone": "hand",
+   "b_ability": "",
+   "metrics_imm": {
+    "net_mana_after_b": 0,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "mana_s0_sb": [
+    10,
+    10
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": 0,
+    "opp_life_lost": 3,
+    "opp_life_lost_combat": 3,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "triggers": [],
+   "our_casts": [],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 367.0
+  },
+  "19|||hand|": {
+   "id": "19|||hand|",
+   "seed": 19,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "",
+   "b": "",
+   "b_zone": "hand",
+   "b_ability": "",
+   "metrics_imm": {
+    "net_mana_after_b": 0,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "mana_s0_sb": [
+    10,
+    10
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": 0,
+    "opp_life_lost": 3,
+    "opp_life_lost_combat": 3,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "triggers": [],
+   "our_casts": [],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 351.4
+  }
+ },
+ "rerun": {
+  "2|~Goblin Warchief||hand|": {
+   "id": "2|~Goblin Warchief||hand|",
+   "seed": 2,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "~Goblin Warchief",
+   "b": "",
+   "b_zone": "hand",
+   "b_ability": "",
+   "stand_in": "abilities removed",
+   "metrics_imm": {
+    "net_mana_after_b": 0,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "mana_s0_sb": [
+    10,
+    10
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": 0,
+    "opp_life_lost": 5,
+    "opp_life_lost_combat": 5,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "triggers": [],
+   "our_casts": [],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 7130.6
+  },
+  "1|Matoya, Archon Elder||hand|": {
+   "id": "1|Matoya, Archon Elder||hand|",
+   "seed": 1,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "Matoya, Archon Elder",
+   "b": "",
+   "b_zone": "hand",
+   "b_ability": "",
+   "metrics_imm": {
+    "net_mana_after_b": 0,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "mana_s0_sb": [
+    10,
+    10
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": 0,
+    "opp_life_lost": 4,
+    "opp_life_lost_combat": 4,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "triggers": [],
+   "our_casts": [],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 3385.7
+  },
+  "9|||hand|": {
+   "id": "9|||hand|",
+   "seed": 9,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "",
+   "b": "",
+   "b_zone": "hand",
+   "b_ability": "",
+   "metrics_imm": {
+    "net_mana_after_b": 0,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "mana_s0_sb": [
+    10,
+    10
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": 0,
+    "opp_life_lost": 3,
+    "opp_life_lost_combat": 3,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "triggers": [],
+   "our_casts": [],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 2531.7
+  },
+  "1|Bastion of Remembrance|Blasphemous Act|hand|": {
+   "id": "1|Bastion of Remembrance|Blasphemous Act|hand|",
+   "seed": 1,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "Bastion of Remembrance",
+   "b": "Blasphemous Act",
+   "b_zone": "hand",
+   "b_ability": "",
+   "b_sa": "Blasphemous Act deals 13 damage to each creature.",
+   "metrics_imm": {
+    "net_mana_after_b": -2,
+    "opp_creatures_died": 3,
+    "opp_life_lost": 12,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 12,
+    "opp_permanents_left": 3,
+    "our_creatures_died": 4,
+    "our_life_change": 4,
+    "spells_cast": 1
+   },
+   "mana_s0_sb": [
+    10,
+    8
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": -2,
+    "opp_creatures_died": 3,
+    "opp_life_lost": 12,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 12,
+    "opp_permanents_left": 3,
+    "our_creatures_died": 4,
+    "our_life_change": 4,
+    "spells_cast": 1
+   },
+   "triggers": [
+    "us:Bastion of Remembrance:ChangesZone",
+    "us:Bastion of Remembrance:ChangesZone",
+    "us:Bastion of Remembrance:ChangesZone",
+    "us:Bastion of Remembrance:ChangesZone"
+   ],
+   "our_casts": [
+    "Blasphemous Act"
+   ],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 2372.3
+  },
+  "1|Krenko, Mob Boss|Krenko's Command|hand|": {
+   "id": "1|Krenko, Mob Boss|Krenko's Command|hand|",
+   "seed": 1,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "Krenko, Mob Boss",
+   "b": "Krenko's Command",
+   "b_zone": "hand",
+   "b_ability": "",
+   "b_sa": "Create two 1/1 red Goblin creature tokens.",
+   "metrics_imm": {
+    "net_mana_after_b": -2,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0,
+    "spells_cast": 1,
+    "tokens_created": 2
+   },
+   "mana_s0_sb": [
+    10,
+    8
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": -2,
+    "opp_life_lost": 6,
+    "opp_life_lost_combat": 6,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0,
+    "spells_cast": 1,
+    "tokens_created": 2
+   },
+   "triggers": [],
+   "our_casts": [
+    "Krenko's Command"
+   ],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 3180.3
+  },
+  "3|Goblin Lackey||hand|": {
+   "id": "3|Goblin Lackey||hand|",
+   "seed": 3,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "Goblin Lackey",
+   "b": "",
+   "b_zone": "hand",
+   "b_ability": "",
+   "metrics_imm": {
+    "net_mana_after_b": 0,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "mana_s0_sb": [
+    10,
+    10
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": 0,
+    "opp_life_lost": 4,
+    "opp_life_lost_combat": 4,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "triggers": [
+    "us:Goblin Lackey:DamageDone"
+   ],
+   "our_casts": [],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 212,
+   "status": "ok",
+   "ms": 2286.1
+  },
+  "3|~Mirkwood Bats|Krenko's Command|hand|": {
+   "id": "3|~Mirkwood Bats|Krenko's Command|hand|",
+   "seed": 3,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "~Mirkwood Bats",
+   "b": "Krenko's Command",
+   "b_zone": "hand",
+   "b_ability": "",
+   "stand_in": "abilities removed",
+   "b_sa": "Create two 1/1 red Goblin creature tokens.",
+   "metrics_imm": {
+    "net_mana_after_b": -2,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0,
+    "spells_cast": 1,
+    "tokens_created": 2
+   },
+   "mana_s0_sb": [
+    10,
+    8
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": -2,
+    "opp_life_lost": 5,
+    "opp_life_lost_combat": 5,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0,
+    "spells_cast": 1,
+    "tokens_created": 2
+   },
+   "triggers": [],
+   "our_casts": [
+    "Krenko's Command"
+   ],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 1719.7
+  },
+  "1|Celeborn the Wise|Opt|hand|": {
+   "id": "1|Celeborn the Wise|Opt|hand|",
+   "seed": 1,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "Celeborn the Wise",
+   "b": "Opt",
+   "b_zone": "hand",
+   "b_ability": "",
+   "b_sa": "Scry 1. Draw a card.",
+   "metrics_imm": {
+    "cards_drawn": 1,
+    "net_mana_after_b": -1,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0,
+    "scry_events": 1,
+    "spells_cast": 1
+   },
+   "mana_s0_sb": [
+    10,
+    9
+   ],
+   "metrics": {
+    "cards_drawn": 2,
+    "net_mana_after_b": -1,
+    "opp_life_lost": 8,
+    "opp_life_lost_combat": 8,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0,
+    "scry_events": 2,
+    "spells_cast": 1
+   },
+   "triggers": [
+    "us:Celeborn the Wise:Scry",
+    "us:Celeborn the Wise:AttackersDeclared",
+    "us:Celeborn the Wise:Scry"
+   ],
+   "our_casts": [
+    "Opt"
+   ],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 216,
+   "status": "ok",
+   "ms": 972.3
+  },
+  "1|~Matoya, Archon Elder||hand|": {
+   "id": "1|~Matoya, Archon Elder||hand|",
+   "seed": 1,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "~Matoya, Archon Elder",
+   "b": "",
+   "b_zone": "hand",
+   "b_ability": "",
+   "stand_in": "abilities removed",
+   "metrics_imm": {
+    "net_mana_after_b": 0,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "mana_s0_sb": [
+    10,
+    10
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": 0,
+    "opp_life_lost": 4,
+    "opp_life_lost_combat": 4,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "triggers": [],
+   "our_casts": [],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 7860.6
+  },
+  "3|~Mirkwood Bats||hand|": {
+   "id": "3|~Mirkwood Bats||hand|",
+   "seed": 3,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "~Mirkwood Bats",
+   "b": "",
+   "b_zone": "hand",
+   "b_ability": "",
+   "stand_in": "abilities removed",
+   "metrics_imm": {
+    "net_mana_after_b": 0,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "mana_s0_sb": [
+    10,
+    10
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": 0,
+    "opp_life_lost": 5,
+    "opp_life_lost_combat": 5,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "triggers": [],
+   "our_casts": [],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 3166.7
+  },
+  "1|Goblin Warchief||hand|": {
+   "id": "1|Goblin Warchief||hand|",
+   "seed": 1,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "Goblin Warchief",
+   "b": "",
+   "b_zone": "hand",
+   "b_ability": "",
+   "metrics_imm": {
+    "net_mana_after_b": 0,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "mana_s0_sb": [
+    10,
+    10
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": 0,
+    "opp_life_lost": 5,
+    "opp_life_lost_combat": 5,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "triggers": [],
+   "our_casts": [],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 3324.0
+  },
+  "1|Mirkwood Bats|Blasphemous Act|hand|": {
+   "id": "1|Mirkwood Bats|Blasphemous Act|hand|",
+   "seed": 1,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "Mirkwood Bats",
+   "b": "Blasphemous Act",
+   "b_zone": "hand",
+   "b_ability": "",
+   "b_sa": "Blasphemous Act deals 13 damage to each creature.",
+   "metrics_imm": {
+    "net_mana_after_b": -2,
+    "opp_creatures_died": 3,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "opp_permanents_left": 3,
+    "our_creatures_died": 4,
+    "our_life_change": 0,
+    "spells_cast": 1
+   },
+   "mana_s0_sb": [
+    10,
+    8
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": -2,
+    "opp_creatures_died": 3,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "opp_permanents_left": 3,
+    "our_creatures_died": 4,
+    "our_life_change": 0,
+    "spells_cast": 1
+   },
+   "triggers": [],
+   "our_casts": [
+    "Blasphemous Act"
+   ],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 1811.2
+  },
+  "2|Goblin Lackey|Blasphemous Act|hand|": {
+   "id": "2|Goblin Lackey|Blasphemous Act|hand|",
+   "seed": 2,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "Goblin Lackey",
+   "b": "Blasphemous Act",
+   "b_zone": "hand",
+   "b_ability": "",
+   "b_sa": "Blasphemous Act deals 13 damage to each creature.",
+   "metrics_imm": {
+    "net_mana_after_b": -2,
+    "opp_creatures_died": 3,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "opp_permanents_left": 3,
+    "our_creatures_died": 4,
+    "our_life_change": 0,
+    "spells_cast": 1
+   },
+   "mana_s0_sb": [
+    10,
+    8
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": -2,
+    "opp_creatures_died": 3,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "opp_permanents_left": 3,
+    "our_creatures_died": 4,
+    "our_life_change": 0,
+    "spells_cast": 1
+   },
+   "triggers": [],
+   "our_casts": [
+    "Blasphemous Act"
+   ],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 1650.4
+  },
+  "1|Goblin Warchief|Blasphemous Act|hand|": {
+   "id": "1|Goblin Warchief|Blasphemous Act|hand|",
+   "seed": 1,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "Goblin Warchief",
+   "b": "Blasphemous Act",
+   "b_zone": "hand",
+   "b_ability": "",
+   "b_sa": "Blasphemous Act deals 13 damage to each creature.",
+   "metrics_imm": {
+    "net_mana_after_b": -2,
+    "opp_creatures_died": 3,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "opp_permanents_left": 3,
+    "our_creatures_died": 4,
+    "our_life_change": 0,
+    "spells_cast": 1
+   },
+   "mana_s0_sb": [
+    10,
+    8
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": -2,
+    "opp_creatures_died": 3,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "opp_permanents_left": 3,
+    "our_creatures_died": 4,
+    "our_life_change": 0,
+    "spells_cast": 1
+   },
+   "triggers": [],
+   "our_casts": [
+    "Blasphemous Act"
+   ],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 1399.8
+  },
+  "18|||hand|": {
+   "id": "18|||hand|",
+   "seed": 18,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "",
+   "b": "",
+   "b_zone": "hand",
+   "b_ability": "",
+   "metrics_imm": {
+    "net_mana_after_b": 0,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "mana_s0_sb": [
+    10,
+    10
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": 0,
+    "opp_life_lost": 3,
+    "opp_life_lost_combat": 3,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "triggers": [],
+   "our_casts": [],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 2043.2
+  },
+  "1|~Goblin Warchief||hand|": {
+   "id": "1|~Goblin Warchief||hand|",
+   "seed": 1,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "~Goblin Warchief",
+   "b": "",
+   "b_zone": "hand",
+   "b_ability": "",
+   "stand_in": "abilities removed",
+   "metrics_imm": {
+    "net_mana_after_b": 0,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "mana_s0_sb": [
+    10,
+    10
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": 0,
+    "opp_life_lost": 5,
+    "opp_life_lost_combat": 5,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "triggers": [],
+   "our_casts": [],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 1440.1
+  },
+  "3||Sol Ring|hand|": {
+   "id": "3||Sol Ring|hand|",
+   "seed": 3,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "",
+   "b": "Sol Ring",
+   "b_zone": "hand",
+   "b_ability": "",
+   "b_sa": "Sol Ring",
+   "metrics_imm": {
+    "net_mana_after_b": 1,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0,
+    "spells_cast": 1
+   },
+   "mana_s0_sb": [
+    10,
+    11
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": 1,
+    "opp_life_lost": 3,
+    "opp_life_lost_combat": 3,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0,
+    "spells_cast": 1
+   },
+   "triggers": [],
+   "our_casts": [
+    "Sol Ring"
+   ],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 6504.9
+  },
+  "1|Pashalik Mons||hand|": {
+   "id": "1|Pashalik Mons||hand|",
+   "seed": 1,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "Pashalik Mons",
+   "b": "",
+   "b_zone": "hand",
+   "b_ability": "",
+   "metrics_imm": {
+    "net_mana_after_b": 0,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "mana_s0_sb": [
+    10,
+    10
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": 0,
+    "opp_life_lost": 6,
+    "opp_life_lost_combat": 5,
+    "opp_life_lost_noncombat": 1,
+    "our_creatures_died": 1,
+    "our_life_change": 0,
+    "tokens_created": 2
+   },
+   "triggers": [
+    "us:Pashalik Mons:ChangesZone"
+   ],
+   "our_casts": [],
+   "round_plays": [
+    "Pashalik Mons:Token"
+   ],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 219,
+   "status": "ok",
+   "ms": 3816.2
+  },
+  "3|~Goblin Lackey|Blasphemous Act|hand|": {
+   "id": "3|~Goblin Lackey|Blasphemous Act|hand|",
+   "seed": 3,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "~Goblin Lackey",
+   "b": "Blasphemous Act",
+   "b_zone": "hand",
+   "b_ability": "",
+   "stand_in": "abilities removed",
+   "b_sa": "Blasphemous Act deals 13 damage to each creature.",
+   "metrics_imm": {
+    "net_mana_after_b": -2,
+    "opp_creatures_died": 3,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "opp_permanents_left": 3,
+    "our_creatures_died": 4,
+    "our_life_change": 0,
+    "spells_cast": 1
+   },
+   "mana_s0_sb": [
+    10,
+    8
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": -2,
+    "opp_creatures_died": 3,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "opp_permanents_left": 3,
+    "our_creatures_died": 4,
+    "our_life_change": 0,
+    "spells_cast": 1
+   },
+   "triggers": [],
+   "our_casts": [
+    "Blasphemous Act"
+   ],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 1774.1
+  },
+  "3|Goblin Warchief|Blasphemous Act|hand|": {
+   "id": "3|Goblin Warchief|Blasphemous Act|hand|",
+   "seed": 3,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "Goblin Warchief",
+   "b": "Blasphemous Act",
+   "b_zone": "hand",
+   "b_ability": "",
+   "b_sa": "Blasphemous Act deals 13 damage to each creature.",
+   "metrics_imm": {
+    "net_mana_after_b": -2,
+    "opp_creatures_died": 3,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "opp_permanents_left": 3,
+    "our_creatures_died": 4,
+    "our_life_change": 0,
+    "spells_cast": 1
+   },
+   "mana_s0_sb": [
+    10,
+    8
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": -2,
+    "opp_creatures_died": 3,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "opp_permanents_left": 3,
+    "our_creatures_died": 4,
+    "our_life_change": 0,
+    "spells_cast": 1
+   },
+   "triggers": [],
+   "our_casts": [
+    "Blasphemous Act"
+   ],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 2068.3
+  },
+  "1|Mirkwood Bats|Krenko's Command|hand|": {
+   "id": "1|Mirkwood Bats|Krenko's Command|hand|",
+   "seed": 1,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "Mirkwood Bats",
+   "b": "Krenko's Command",
+   "b_zone": "hand",
+   "b_ability": "",
+   "b_sa": "Create two 1/1 red Goblin creature tokens.",
+   "metrics_imm": {
+    "net_mana_after_b": -2,
+    "opp_life_lost": 6,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 6,
+    "our_life_change": 0,
+    "spells_cast": 1,
+    "tokens_created": 2
+   },
+   "mana_s0_sb": [
+    10,
+    8
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": -2,
+    "opp_life_lost": 11,
+    "opp_life_lost_combat": 5,
+    "opp_life_lost_noncombat": 6,
+    "our_life_change": 0,
+    "spells_cast": 1,
+    "tokens_created": 2
+   },
+   "triggers": [
+    "us:Mirkwood Bats:TokenCreated",
+    "us:Mirkwood Bats:TokenCreated"
+   ],
+   "our_casts": [
+    "Krenko's Command"
+   ],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 3091.9
+  },
+  "1|~Celeborn the Wise|Opt|hand|": {
+   "id": "1|~Celeborn the Wise|Opt|hand|",
+   "seed": 1,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "~Celeborn the Wise",
+   "b": "Opt",
+   "b_zone": "hand",
+   "b_ability": "",
+   "stand_in": "abilities removed",
+   "b_sa": "Scry 1. Draw a card.",
+   "metrics_imm": {
+    "cards_drawn": 1,
+    "net_mana_after_b": -1,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0,
+    "scry_events": 1,
+    "spells_cast": 1
+   },
+   "mana_s0_sb": [
+    10,
+    9
+   ],
+   "metrics": {
+    "cards_drawn": 2,
+    "net_mana_after_b": -1,
+    "opp_life_lost": 6,
+    "opp_life_lost_combat": 6,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0,
+    "scry_events": 1,
+    "spells_cast": 1
+   },
+   "triggers": [],
+   "our_casts": [
+    "Opt"
+   ],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 2629.8
+  },
+  "17|||hand|": {
+   "id": "17|||hand|",
+   "seed": 17,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "",
+   "b": "",
+   "b_zone": "hand",
+   "b_ability": "",
+   "metrics_imm": {
+    "net_mana_after_b": 0,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "mana_s0_sb": [
+    10,
+    10
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": 0,
+    "opp_life_lost": 3,
+    "opp_life_lost_combat": 3,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "triggers": [],
+   "our_casts": [],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 1822.9
+  },
+  "1|Goblin Lackey||hand|": {
+   "id": "1|Goblin Lackey||hand|",
+   "seed": 1,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "Goblin Lackey",
+   "b": "",
+   "b_zone": "hand",
+   "b_ability": "",
+   "metrics_imm": {
+    "net_mana_after_b": 0,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "mana_s0_sb": [
+    10,
+    10
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": 0,
+    "opp_life_lost": 4,
+    "opp_life_lost_combat": 4,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "triggers": [
+    "us:Goblin Lackey:DamageDone"
+   ],
+   "our_casts": [],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 212,
+   "status": "ok",
+   "ms": 6286.9
+  },
+  "2|~Pashalik Mons|Blasphemous Act|hand|": {
+   "id": "2|~Pashalik Mons|Blasphemous Act|hand|",
+   "seed": 2,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "~Pashalik Mons",
+   "b": "Blasphemous Act",
+   "b_zone": "hand",
+   "b_ability": "",
+   "stand_in": "abilities removed",
+   "b_sa": "Blasphemous Act deals 13 damage to each creature.",
+   "metrics_imm": {
+    "net_mana_after_b": -2,
+    "opp_creatures_died": 3,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "opp_permanents_left": 3,
+    "our_creatures_died": 4,
+    "our_life_change": 0,
+    "spells_cast": 1
+   },
+   "mana_s0_sb": [
+    10,
+    8
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": -2,
+    "opp_creatures_died": 3,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "opp_permanents_left": 3,
+    "our_creatures_died": 4,
+    "our_life_change": 0,
+    "spells_cast": 1
+   },
+   "triggers": [],
+   "our_casts": [
+    "Blasphemous Act"
+   ],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 2208.1
+  },
+  "2|Archive Dragon||hand|": {
+   "id": "2|Archive Dragon||hand|",
+   "seed": 2,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "Archive Dragon",
+   "b": "",
+   "b_zone": "hand",
+   "b_ability": "",
+   "metrics_imm": {
+    "net_mana_after_b": 0,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "mana_s0_sb": [
+    10,
+    10
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": 0,
+    "opp_life_lost": 7,
+    "opp_life_lost_combat": 7,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "triggers": [],
+   "our_casts": [],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 3327.1
+  },
+  "3|Celeborn the Wise|Opt|hand|": {
+   "id": "3|Celeborn the Wise|Opt|hand|",
+   "seed": 3,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "Celeborn the Wise",
+   "b": "Opt",
+   "b_zone": "hand",
+   "b_ability": "",
+   "b_sa": "Scry 1. Draw a card.",
+   "metrics_imm": {
+    "cards_drawn": 1,
+    "net_mana_after_b": -1,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0,
+    "scry_events": 1,
+    "spells_cast": 1
+   },
+   "mana_s0_sb": [
+    10,
+    9
+   ],
+   "metrics": {
+    "cards_drawn": 2,
+    "net_mana_after_b": -1,
+    "opp_life_lost": 8,
+    "opp_life_lost_combat": 8,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0,
+    "scry_events": 2,
+    "spells_cast": 1
+   },
+   "triggers": [
+    "us:Celeborn the Wise:Scry",
+    "us:Celeborn the Wise:AttackersDeclared",
+    "us:Celeborn the Wise:Scry"
+   ],
+   "our_casts": [
+    "Opt"
+   ],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 216,
+   "status": "ok",
+   "ms": 3290.1
+  },
+  "3|~Pashalik Mons|Blasphemous Act|hand|": {
+   "id": "3|~Pashalik Mons|Blasphemous Act|hand|",
+   "seed": 3,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "~Pashalik Mons",
+   "b": "Blasphemous Act",
+   "b_zone": "hand",
+   "b_ability": "",
+   "stand_in": "abilities removed",
+   "b_sa": "Blasphemous Act deals 13 damage to each creature.",
+   "metrics_imm": {
+    "net_mana_after_b": -2,
+    "opp_creatures_died": 3,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "opp_permanents_left": 3,
+    "our_creatures_died": 4,
+    "our_life_change": 0,
+    "spells_cast": 1
+   },
+   "mana_s0_sb": [
+    10,
+    8
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": -2,
+    "opp_creatures_died": 3,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "opp_permanents_left": 3,
+    "our_creatures_died": 4,
+    "our_life_change": 0,
+    "spells_cast": 1
+   },
+   "triggers": [],
+   "our_casts": [
+    "Blasphemous Act"
+   ],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 1574.2
+  },
+  "2|Bastion of Remembrance|Blasphemous Act|hand|": {
+   "id": "2|Bastion of Remembrance|Blasphemous Act|hand|",
+   "seed": 2,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "Bastion of Remembrance",
+   "b": "Blasphemous Act",
+   "b_zone": "hand",
+   "b_ability": "",
+   "b_sa": "Blasphemous Act deals 13 damage to each creature.",
+   "metrics_imm": {
+    "net_mana_after_b": -2,
+    "opp_creatures_died": 3,
+    "opp_life_lost": 12,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 12,
+    "opp_permanents_left": 3,
+    "our_creatures_died": 4,
+    "our_life_change": 4,
+    "spells_cast": 1
+   },
+   "mana_s0_sb": [
+    10,
+    8
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": -2,
+    "opp_creatures_died": 3,
+    "opp_life_lost": 12,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 12,
+    "opp_permanents_left": 3,
+    "our_creatures_died": 4,
+    "our_life_change": 4,
+    "spells_cast": 1
+   },
+   "triggers": [
+    "us:Bastion of Remembrance:ChangesZone",
+    "us:Bastion of Remembrance:ChangesZone",
+    "us:Bastion of Remembrance:ChangesZone",
+    "us:Bastion of Remembrance:ChangesZone"
+   ],
+   "our_casts": [
+    "Blasphemous Act"
+   ],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 1874.7
+  },
+  "2|Bastion of Remembrance||hand|": {
+   "id": "2|Bastion of Remembrance||hand|",
+   "seed": 2,
+   "recipe": "r1",
+   "bench": "v2",
+   "a": "Bastion of Remembrance",
+   "b": "",
+   "b_zone": "hand",
+   "b_ability": "",
+   "metrics_imm": {
+    "net_mana_after_b": 0,
+    "opp_life_lost": 0,
+    "opp_life_lost_combat": 0,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "mana_s0_sb": [
+    10,
+    10
+   ],
+   "metrics": {
+    "cards_drawn": 1,
+    "net_mana_after_b": 0,
+    "opp_life_lost": 4,
+    "opp_life_lost_combat": 4,
+    "opp_life_lost_noncombat": 0,
+    "our_life_change": 0
+   },
+   "triggers": [],
+   "our_casts": [],
+   "round_plays": [],
+   "opp_spells": 0,
+   "opp_attacks": 0,
+   "steps": 208,
+   "status": "ok",
+   "ms": 2429.1
+  }
+ }
+}

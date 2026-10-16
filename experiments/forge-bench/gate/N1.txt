@@ -1,0 +1,17 @@
+SWAPS
+1. CUT March from the Black Gate -> ADD Chaos Warp | The Orc-army enchantment is off-plan. Chaos Warp answers any permanent at instant speed, filling the missing catch-all slot. Today the deck has one instant answer.
+2. CUT Thrill of Possibility -> ADD Village Rites | Thrill discards a card to draw two for 2 mana. Rites draws two for B by sacrificing a spare token, triggering Blood Artist, Zulaport and Uglúk.
+3. CUT Mordor Muster -> ADD Infernal Grasp | Swaps a 2-mana sorcery cantrip that makes a 1/1 Orc army for unconditional instant creature removal. Removal is 5 against a floor of about 10.
+4. CUT My Precious -> ADD Deflecting Swat | Village Rites now covers Allure's job. Swat redirects removal aimed at Krenko or Kiki on combo turns, free while Uglúk is out, 3 mana otherwise.
+5. CUT Boggart Harbinger -> ADD Goblin Recruiter | Harbinger stacks one Goblin for 3 mana. Recruiter stacks any number for 2, feeding Snoop casts and Muxus reveals of Kiki, Crafter and Krenko.
+6. CUT Krenko's Command -> ADD Goblin Instigator | Same 2 mana for two Goblin bodies, but Instigator is a Goblin card that Muxus, Matron, Recruiter, Snoop and Warchief can all use.
+7. CUT Faithless Looting -> ADD Black Market Connections | Looting costs a card and the deck has no graveyard plan. Connections gives a Treasure, a card or a changeling Goblin every turn. Ramp is 9 of 10.
+8. CUT Mauhúr, Uruk-hai Captain -> ADD Munitions Expert | Mauhúr only boosts the counters subtheme. Munitions Expert is a flash Goblin whose enter-the-battlefield damage scales with your Goblin count, and Kiki can copy it.
+9. CUT Chandra's Ignition -> ADD Rakdos Charm | Ignition needs a big creature and kills your own Goblins. Rakdos Charm exiles a graveyard at instant speed (the deck has no graveyard answer) or destroys an artifact.
+10. CUT Shadowblood Ridge -> ADD Sulfurous Springs | The filter land makes no mana alone on turn 1. The painland taps for B or R right away. Black has only 17 unconditional sources.
+11. CUT Mountain -> ADD Bloodstained Mire | The fetch finds Blood Crypt or either basic. More black sources help Phyrexian Arena, whose BB is only 54% likely by turn 3.
+12. CUT Empty the Warrens -> ADD Beetleback Chief | Same 4 mana (3 with Warchief) for three bodies, and it's a Goblin creature card for Muxus, Recruiter, Matron and Kiki copies.
+13. CUT Mountain -> ADD Blackcleave Cliffs | An untapped B/R land on turns 1-3 replaces a basic Mountain. This helps cast Worthy Cost, Viscera Seer and Village Rites on turn 1.
+14. CUT Goblin Lackey -> ADD Fellwar Stone | Lackey must deal damage while you hold a Goblin, and later it's just a 1/1. Fellwar Stone is ramp that always works, toward the turn-6 combo.
+15. CUT Mountain -> ADD Blazemire Verge | Untapped dual (B always, R with any Swamp or Mountain) in place of a basic Mountain. Validation shows black sources rising from 22 to 26.
+ASSUMPTIONS: Used Improve mode and took the YAML's bracket 3, threshold 6, goblins theme and gameplan as confirmed. Commander Spellbook combos weren't checked (no cache, and --refresh would write files), so I kept First Day of Class and Putrid Goblin as a likely combo pair. I left out premium tutors and fast mana. The batch passed validation with one warning: draw falls from 10 to 9, still above the floor of 8.

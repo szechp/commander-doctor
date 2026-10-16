@@ -1,0 +1,39 @@
+LIST COMPARISON ugluk -> ugluk.target (bench v2; pairwise effects on a fixed board, Forge AI). No verdict:
+a lost pair is lost measured synergy, not a worse deck. The bench cannot value tutors (its library is
+basic lands), removal or protection (passive opponents), the mana base, or effects spread over turns.
+Measured pairs: 0 -> 0 (lost 0, gained 0, unchanged 0).
+
+CUT Arcane Signet: measured partners 0 | alone: in play: no measured change; cast Arcane Signet: spells cast +1
+CUT Blasphemous Act: measured partners 0 | alone: in play: combat dmg -3; cast Blasphemous Act: combat dmg -3, our creatures died +3, opp creatures died +3, opp permanents removed +3, mana -3, spells cast +1
+CUT Boggart Harbinger: measured partners 0 | alone: in play: combat dmg +2; cast Boggart Harbinger: mana -3, spells cast +1
+CUT Empty the Warrens: measured partners 0 | alone: in play: not run; cast Empty the Warrens: tokens +2, mana -4, spells cast +1
+CUT Foreboding Ruins: land: not measured
+CUT Jeska's Will: measured partners 0 | alone: in play: not run; cast Jeska's Will: mana -3, spells cast +1
+CUT Krenko's Command: measured partners 0 | alone: in play: not run; cast Krenko's Command: tokens +2, mana -2, spells cast +1
+CUT March from the Black Gate: measured partners 0 | alone: in play: not run; cast March from the Black Gate: combat dmg +4, mana -2, spells cast +1, +1/+1 counters +4
+CUT Mordor Muster: measured partners 0 | alone: in play: not run; cast Mordor Muster: combat dmg +1, our life -1, cards drawn +1, mana -2, spells cast +1, +1/+1 counters +1
+CUT Phyrexian Arena: measured partners 0 | alone: in play: not run; cast Phyrexian Arena: our life -1, cards drawn +1, mana -3, spells cast +1
+CUT Rogue's Passage: land: not measured
+CUT Shadowblood Ridge: land: not measured
+CUT Smoldering Marsh: land: not measured
+CUT Terminate: measured partners 0 | alone: in play: not run; cast Terminate: opp creatures died +1, opp permanents removed +1, mana -2, spells cast +1
+CUT Thrill of Possibility: measured partners 0 | alone: in play: not run; cast Thrill of Possibility: cards drawn +2, discards +1, mana -2, spells cast +1
+
+ADD Blazemire Verge: land: not measured
+ADD Bloodstained Mire: land: not measured
+ADD Brightstone Ritual: measured partners 0 | alone: in play: not run; cast Brightstone Ritual: not run
+ADD Chaos Warp: measured partners 0 | alone: in play: not run; cast Chaos Warp: not run
+ADD Deadly Rollick: measured partners 0 | alone: in play: not run; cast Deadly Rollick: not run
+ADD Deflecting Swat: measured partners 0 | alone: in play: not run; cast Deflecting Swat: not run
+ADD Diabolic Intent: measured partners 0 | alone: in play: not run; cast Diabolic Intent: not run
+ADD Goblin Recruiter: measured partners 0 | alone: in play: not run; cast Goblin Recruiter: not run
+ADD Imperial Recruiter: measured partners 0 | alone: in play: not run; cast Imperial Recruiter: not run
+ADD Metallic Mimic: measured partners 0 | alone: in play: not run; cast Metallic Mimic: not run
+ADD Mount Doom: land: not measured
+ADD Nasty End: measured partners 0 | alone: in play: not run; cast Nasty End: not run
+ADD Rakdos Charm: measured partners 0 | alone: in play: not run; cast Rakdos Charm: not run
+ADD Sulfurous Springs: land: not measured
+ADD Tainted Peak: land: not measured
+
+LOST PAIRS
+GAINED PAIRS

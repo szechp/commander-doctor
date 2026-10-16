@@ -1,0 +1,11 @@
+sevinne.target: 63 contexts, 84 actions, unavailable: []
+stage 1 (seed 1, every pair)
+5361 cells requested, 3250 to run
+  1200/3250 cells, 7.0 min, ~12 min left
+  2400/3250 cells, 13.4 min, ~5 min left
+  3250/3250 cells, 18.2 min, ~0 min left
+stage 2: 639 of 5292 pairs show something on seed 1
+4311 cells requested, 2258 to run
+  1200/2258 cells, 7.9 min, ~7 min left
+  2258/2258 cells, 15.1 min, ~0 min left
+done

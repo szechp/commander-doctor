@@ -1,0 +1,13 @@
+27bc80800798966256b68571f60e8a82eb6f89e4af770b5918d50757be0f9cda  GATE_PREREG.md
+c328f780e853d7a556916cc159bff62f4c019efe5af7b0d13258644d1b89f189  gate/prompt_map.txt
+6f075a038d3c1330d7ce63550d42f0b461ed41cbbc29b7f8ec29ef54fff89350  gate/prompt_nomap.txt
+68fdda03ef420fc70af67d0c9e553166650b471a22415997a47bde17ec25f4f7  gate/ugluk-map.txt
+7d65ecc1d8aa327c33193cecb5df7b7f243851a276cc46aa7689d2bd59dcb1fb  gate/ugluk-gate.txt
+75e6524303ee9d6a14d7a79edd08d1659ddcc0e2268ee09cc6cf70ffe02022eb  gate/ugluk-gate.yaml
+9a298a042196e61ab8d686684c0e98875f0ed2642d1f61b06b767e9624dc1fae  gate/score.py
+# 2026-10-17, after the gate was scored: local paths in the prompt files and M2.txt were redacted to
+# <repo>/<scratch> for publication. The hashes above are of the files as run; post-redaction hashes:
+# 1173d9e07908a30cd2ddd1129811e6ad5ff0ebbefc88df098c36a3079275c89a  gate/prompt_base.txt
+# 2de2a01115089b741f31e636d521e124a7f8a201ff489e7eb9472ff8faefe514  gate/prompt_map.txt
+# 6863d1361dad42ca831ba59aee10e9821eedaebfd3575a3a99fba2134425bfd1  gate/prompt_nomap.txt
+# 715a244cc7a953bad94ffea5fddc115f45bb5cba568ec6a1983274f39edea17a  gate/M2.txt

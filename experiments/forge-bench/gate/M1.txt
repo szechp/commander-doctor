@@ -1,0 +1,17 @@
+SWAPS
+1. CUT Conspicuous Snoop -> ADD Mayhem Devil | Snoop+Kiki-Jiki is Spellbook's flagged fast two-card combo, estimating bracket 4; cut restores bracket 3. Devil pings whenever anything is sacrificed: altars, Skirk, Treasures.
+2. CUT Chandra's Ignition -> ADD Chaos Warp | Ignition damages each other creature, killing your own goblins; Blasphemous Act remains. Chaos Warp: instant answer to any permanent, filling the catch-all gap.
+3. CUT Shadowblood Ridge -> ADD Sulfurous Springs | Shadowblood needs {1} to make mana, so it does nothing on turn 1. Springs gives untapped B or R from turn one.
+4. CUT Thrill of Possibility -> ADD Village Rites | Thrill costs a card from hand. Rites costs a spare token and one mana, draws two and fires Blood Artist/Zulaport/Uglúk death triggers.
+5. CUT March from the Black Gate -> ADD Deadly Rollick | March's later amasses only add counters to one Army. Rollick, a playgroup core staple: instant creature exile, free while Uglúk is out.
+6. CUT Mordor Muster -> ADD Black Market Connections | Muster is a one-shot cantrip feeding the same single Army. Connections draws, makes Treasures (Bats/Devil fodder) or 3/2 changelings counting as Goblins, each turn.
+7. CUT Goblin Lackey -> ADD Beetleback Chief | Lackey only works if it connects in combat and is dead late. Beetleback is three Goblin bodies every time, a Muxus hit, Matron target and Kiki-Jiki copy.
+8. CUT Mauhúr, Uruk-hai Captain -> ADD Murderous Redcap | Mauhúr is an Orc (no Muxus/Matron/Skirk) serving a counters subtheme. Redcap is a Goblin: ETB damage, persist, plus Spellbook's First Day+Viscera Seer loop.
+9. CUT Mountain -> ADD Bloodstained Mire | Mire fetches Blood Crypt, Smoldering Marsh or either basic, untapped. It adds a black source where the deck had only 17.
+10. CUT Faithless Looting -> ADD Deflecting Swat | Looting is card disadvantage with no graveyard payoff here. Swat, a core staple, redirects removal off Krenko/Kiki-Jiki on the combo turn, free with Uglúk.
+11. CUT Azog, Moria's Ruin -> ADD Rakdos Charm | Azog's kill gives the opponent an Army of equal power. Rakdos Charm adds the deck's only graveyard answer, plus instant artifact removal.
+12. CUT Mountain -> ADD Blackcleave Cliffs | Fastland: untapped B/R on turns 1-3. It adds another black source without losing red.
+13. CUT Mountain -> ADD Blazemire Verge | Taps B always and R with any Swamp/Mountain out: an untapped dual in a Mountain slot.
+14. CUT Swamp -> ADD Mana Confluence | Red is now the tighter colour (Krenko, Kiki-Jiki, Warchief need RR/RRR). Confluence adds a red source without losing black.
+15. CUT Mountain -> ADD Prismatic Vista | Fetches either basic untapped. With the other land swaps, spells clearing 90% colour odds rise from 18/52 to 38/52.
+ASSUMPTIONS: Bracket 3 binds, so Snoop goes even though the gameplan names it (the live, uncached Spellbook check of the result shows bracket 3 and no violations); there are no pins or feedback; no Game Changer added (stays 2/3) and premium tutors are excluded; playgroup core staples and the no-off-colour-fetch rule are applied; Uglúk is usually on the battlefield, so Rollick and Swat are often free; the tool's draw count falls 10→8 only because Looting, Thrill and Muster were filters or cantrips and it doesn't count Black Market Connections; nothing was written.

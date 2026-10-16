@@ -1,0 +1,33 @@
+cells: 299/299 returned, wall 122s, statuses {'ok': 272, 'not_playable': 27}
+mean cell time 1390 ms (ok cells), error+timeout+looped 0.0%
+determinism: 30/30 reruns identical
+empty board: identical across 20 seeds = True; opponent spells+attacks = 0
+noise band (max |I| with placebo contexts): {'opp_creatures_died': 0, 'opp_life_lost_combat': 2, 'opp_life_lost_noncombat': 0, 'p1p1_counters_placed': 0, 'tokens_created': 0}
+
+PASS h-vivi-noncreature           opp_life_lost_noncombat  expect ==3  got [3, 3, 3]
+PASS h-snapcaster-enables         status                   expect ==enables  got ['enables', 'enables', 'enables']
+PASS h-lier-enables               status                   expect ==enables  got ['enables', 'enables', 'enables']
+PASS h-breach-enables             status                   expect ==enables  got ['enables', 'enables', 'enables']
+PASS h-zulaport-act               opp_life_lost_noncombat  expect ==12  got [12, 12, 12]
+PASS h-purphoros-siege-gang       opp_life_lost_noncombat  expect ==24  got [24, 24, 24]
+PASS h-warchief-haste             opp_life_lost_combat     expect >=1  got [2, 2, 2]
+PASS h-blood-artist-act           opp_life_lost_noncombat  expect ==7  got [7, 7, 7]
+PASS h-repercussion-act           opp_life_lost_noncombat  expect ==39  got [39, 39, 39]
+PASS h-reckoner-act               opp_life_lost_noncombat  expect >=13  got [13, 13, 13]
+PASS h-vindicator-act             opp_life_lost_noncombat  expect >=13  got [13, 13, 13]
+PASS h-archfiend-looting          opp_creatures_died       expect ==3  got [3, 3, 3]
+PASS h-glint-horn-cycling         opp_life_lost_noncombat  expect ==3  got [3, 3, 3]
+PASS h-kami-counters              p1p1_counters_placed     expect ==1  got [1, 1, 1]
+MISS h-arwen-knots                p1p1_counters_placed     expect ==1  got [-1, 0, 1]
+PASS h-thorin-hammer              opp_creatures_died       expect >=1  got [1, 1, 1]
+PASS hn-gimli-lava-coil           opp_life_lost_noncombat  expect |I|<=0  got [0, 0, 0]
+PASS hn-guttersnipe-sol-ring      opp_life_lost_noncombat  expect |I|<=0  got [0, 0, 0]
+PASS hn-tremors-act               opp_life_lost_noncombat  expect |I|<=0  got [0, 0, 0]
+PASS hn-scales-opt                p1p1_counters_placed     expect |I|<=0  got [0, 0, 0]
+PASS hn-fili-dragon               tokens_created           expect |I|<=0  got [0, 0, 0]
+
+PASS hu-esper-sentinel            Esper Sentinel SpellCast trigger fired = False (must stay untested)
+PASS hu-bowmasters                Orcish Bowmasters Drawn trigger fired = False (must stay untested)
+
+positives found 15/16 (94%); deterministic exact 10/11; negatives clean 5/5
+projection: largest list ~4,160 pair cells (+ contexts/actions alone) x 1.39s = 1.6 h on 1 JVM, 0.4 h on 4 JVMs

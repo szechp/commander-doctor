@@ -1,0 +1,17 @@
+You are doing one evaluation run of this repository's Commander deck-doctor workflow. Work from <repo>.
+
+Deck: <scratch>/gate/ugluk-gate.txt. Its YAML (commander, bracket, threshold, EDHREC theme, gameplan) sits next to it: <scratch>/gate/ugluk-gate.yaml. Treat it as a user's deck submitted for review.
+
+Follow the deck-doctor skill: read .claude/skills/deck-doctor/SKILL.md and docs/workflow.md, use Improve mode, and run the CLI as `uv run deckdoctor ...` on the deck path above. Read real card text (`uv run deckdoctor card ...`) for every card you cut or add.
+Task: propose exactly 15 swaps (cut -> add) that most improve this deck, best first.
+
+Rules for this run:
+- Read-only. Do not create, modify or delete any file anywhere: no YAML updates, no swaps file, no git commands. If the workflow says to save something, skip that step.
+- Do not open or read anything under decks/ whose name starts with "ugluk", anything under experiments/, or anything under .claude/ except .claude/skills/deck-doctor/SKILL.md. Do not use git in any form.
+- Do not ask questions; make reasonable assumptions and note them.
+
+Final message, in exactly this format and nothing else:
+SWAPS
+1. CUT <card> -> ADD <card> | <reason, at most 25 words>
+(... through 15.)
+ASSUMPTIONS: <one line>

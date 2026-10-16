@@ -1,0 +1,77 @@
+INTERACTION MAP for ugluk (Forge rules engine; bench v2)
+How it was made: every pair of nonland cards in this list was played out in Forge (one forced action, one
+game round, fixed board, Forge's AI deciding, 3 seeds). A PARTNER is a card whose text measurably changes
+what this card's text does, beyond what any card of the same type would do. ENGINES are groups of cards
+that are partners of each other. CLOSEST = the card with the most similar partner profile (same role).
+Limits: partner count measures synergy inside this list, not card quality or whether a card earns its
+slot. Invisible to the bench: removal and counterspells (opponents are passive), tutors (dummy library),
+mana and cost savings, value over several turns, 3-card combos, a card being discarded/sacrificed BY
+another card. 'No partners' means no measured pair effect, not 'bad'.
+
+ENGINE 1 (17 cards): Kiki-Jiki, Mirror Breaker, First Day of Class, Muxus, Goblin Grandee, General Kreat, the Boltbringer, Lightning Greaves, Goblin Warchief, Idol of Oblivion, Krenko, Mob Boss, Purphoros, God of the Forge, Legion Warboss, Mogg War Marshal, Krenko's Command, Impact Tremors, Mana Echoes, Krenko, Tin Street Kingpin, Goblin Matron, Goblin Lackey
+ENGINE 2 (15 cards): Chandra's Ignition, March from the Black Gate, Skullclamp, Orcish Bowmasters, Furystoke Giant, Aggravated Assault, The Great Goblin, Mordor Muster, Mauhúr, Uruk-hai Captain, Gempalm Incinerator, Boggart Harbinger, Conspicuous Snoop, Staff of Domination, Putrid Goblin, Thornbite Staff
+ENGINE 3 (14 cards): Siege-Gang Commander, Blasphemous Act, Empty the Warrens, Blood Artist, Worthy Cost, Lightning Crafter, Azog, Moria's Ruin, Terminate, Vandalblast, Talisman of Indulgence, Feed the Swarm, Faithless Looting, Thrill of Possibility, Jeska's Will
+ENGINE 4 (13 cards): Pashalik Mons, Mirkwood Bats, Sling-Gang Lieutenant, Bastion of Remembrance, Zulaport Cutthroat, Skirk Prospector, Uglúk of the White Hand, Warren Soultrader, Phyrexian Altar, Viscera Seer, Ashnod's Altar, Deadly Dispute, Goblin Bombardment
+
+CARD | engine | partners | closest card (similarity)
+Kiki-Jiki, Mirror Breaker | 1 | 34 | Pashalik Mons (0.79)
+First Day of Class | 1 | 28 | Purphoros, God of the Forge (0.88)
+Siege-Gang Commander | 3 | 27 | Pashalik Mons (0.78)
+Pashalik Mons | 4 | 25 | Viscera Seer (0.83)
+Blasphemous Act | 3 | 24 | Siege-Gang Commander (0.65)
+Chandra's Ignition | 2 | 22 | Kiki-Jiki, Mirror Breaker (0.53)
+Mirkwood Bats | 4 | 22 | Uglúk of the White Hand (0.79)
+Bastion of Remembrance | 4 | 21 | Zulaport Cutthroat (0.86)
+Empty the Warrens | 3 | 21 | Krenko's Command (0.75)
+Sling-Gang Lieutenant | 4 | 21 | Ashnod's Altar (0.79)
+Muxus, Goblin Grandee | 1 | 20 | Mirkwood Bats (0.77)
+Blood Artist | 3 | 19 | Zulaport Cutthroat (0.83)
+General Kreat, the Boltbringer | 1 | 19 | Mogg War Marshal (0.75)
+Goblin Warchief | 1 | 18 | First Day of Class (0.72)
+Lightning Greaves | 1 | 18 | Goblin Warchief (0.71)
+March from the Black Gate | 2 | 18 | Blood Artist (0.76)
+Idol of Oblivion | 1 | 17 | Krenko, Mob Boss (0.79)
+Krenko, Mob Boss | 1 | 17 | Idol of Oblivion (0.79)
+Purphoros, God of the Forge | 1 | 16 | Impact Tremors (0.92)
+Worthy Cost | 3 | 15 | Phyrexian Altar (0.84)
+Zulaport Cutthroat | 4 | 15 | Uglúk of the White Hand (0.90)
+Legion Warboss | 1 | 14 | Krenko, Tin Street Kingpin (0.81)
+Mogg War Marshal | 1 | 14 | Krenko's Command (0.86)
+Skirk Prospector | 4 | 14 | Viscera Seer (0.90)
+Uglúk of the White Hand | 4 | 14 | Zulaport Cutthroat (0.90)
+Impact Tremors | 1 | 13 | Purphoros, God of the Forge (0.92)
+Krenko's Command | 1 | 13 | Mogg War Marshal (0.86)
+Lightning Crafter | 3 | 13 | Furystoke Giant (0.63)
+Mana Echoes | 1 | 12 | Impact Tremors (0.82)
+Phyrexian Altar | 4 | 12 | Ashnod's Altar (0.97)
+Warren Soultrader | 4 | 12 | Viscera Seer (0.81)
+Krenko, Tin Street Kingpin | 1 | 11 | Legion Warboss (0.81)
+Skullclamp | 2 | 11 | Mauhúr, Uruk-hai Captain (0.62)
+Aggravated Assault | 2 | 10 | Mauhúr, Uruk-hai Captain (0.56)
+Ashnod's Altar | 4 | 10 | Phyrexian Altar (0.97)
+Furystoke Giant | 2 | 10 | Lightning Crafter (0.63)
+Orcish Bowmasters | 2 | 10 | Mordor Muster (0.82)
+Viscera Seer | 4 | 10 | Goblin Bombardment (0.99)
+Deadly Dispute | 4 | 9 | Mana Echoes (0.70)
+The Great Goblin | 2 | 9 | Mauhúr, Uruk-hai Captain (0.93)
+Azog, Moria's Ruin | 3 | 8 | Vandalblast (0.92)
+Goblin Bombardment | 4 | 8 | Viscera Seer (0.99)
+Mordor Muster | 2 | 8 | Orcish Bowmasters (0.82)
+Mauhúr, Uruk-hai Captain | 2 | 7 | The Great Goblin (0.93)
+Terminate | 3 | 5 | Vandalblast (0.99)
+Vandalblast | 3 | 5 | Terminate (0.99)
+Goblin Lackey | 1 | 3 | Goblin Matron (1.00)
+Goblin Matron | 1 | 3 | Goblin Lackey (1.00)
+Boggart Harbinger | 2 | 2 | Conspicuous Snoop (1.00)
+Conspicuous Snoop | 2 | 2 | Boggart Harbinger (1.00)
+Gempalm Incinerator | 2 | 2 | Boggart Harbinger (1.00)
+Putrid Goblin | 2 | 2 | Boggart Harbinger (1.00)
+Staff of Domination | 2 | 2 | Thornbite Staff (0.83)
+Talisman of Indulgence | 3 | 2 | Zulaport Cutthroat (0.54)
+Faithless Looting | 3 | 1 | Feed the Swarm (1.00)
+Feed the Swarm | 3 | 1 | Faithless Looting (1.00)
+Jeska's Will | 3 | 1 | Faithless Looting (1.00)
+Thornbite Staff | 2 | 1 | Staff of Domination (0.83)
+Thrill of Possibility | 3 | 1 | Faithless Looting (1.00)
+
+NO PARTNERS: Arcane Signet, My Precious, Phyrexian Arena, Rakdos Signet, Sol Ring

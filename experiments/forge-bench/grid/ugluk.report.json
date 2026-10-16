@@ -1,0 +1,27 @@
+{
+ "deck": "ugluk",
+ "cells": 15078,
+ "statuses": {
+  "ok": 14501,
+  "not_playable": 577
+ },
+ "contexts": 64,
+ "actions": 92,
+ "unavailable": [],
+ "pair_metric_states": {
+  "specific": 1367,
+  "pairs_reported": 714,
+  "generic": 280,
+  "pairs_not_reported": 470,
+  "confounded": 1026,
+  "unstable": 28
+ },
+ "specific_findings": 921,
+ "cards_with_specific_interaction": "64/64",
+ "uncovered": [],
+ "untested_triggers": {
+  "Orcish Bowmasters": [
+   "Drawn"
+  ]
+ }
+}

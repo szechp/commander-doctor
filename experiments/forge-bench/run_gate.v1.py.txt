@@ -1,0 +1,220 @@
+"""Phase 0 gate for the Forge scenario bench.
+
+Runs every pre-registered contrast in known_answers.yaml through
+ScenarioBench (one JVM per worker, batched), computes
+I(A,B) = m(A+B) - m(A) - m(B) + m(empty) per seed, and grades it against the
+answer sheet. Also checks the plan's other Phase 0 conditions: quiet board,
+rerun determinism, error rate, noise band from placebo contexts, and a runtime
+projection for full decks.
+
+Usage (repo root):  uv run python experiments/forge-bench/run_gate.py [--seeds 3] [--workers 3]
+"""
+
+from __future__ import annotations
+
+import argparse
+import json
+import os
+import random
+import sqlite3
+import statistics
+import subprocess
+import sys
+import time
+from pathlib import Path
+
+import yaml
+
+ROOT = Path(__file__).resolve().parents[2]
+BENCH = ROOT / "experiments" / "forge-bench"
+FORGE_DIR = ROOT / "forge-spike" / "forge" / "forge-gui-desktop"
+PLACEBOS = ["Grizzly Bears", "Darksteel Relic"]
+GATE_DECKS = ["decks/sevinne-graveyard.target.txt", "decks/ugluk.txt", "decks/rem-reflect.txt",
+              "decks/anje-ping-to-death.txt", "decks/elrond-heal.txt", "decks/arwen.txt", "decks/bifur.txt"]
+
+
+def jar() -> Path:
+    sys.path.insert(0, str(ROOT / "src"))
+    from deckdoctor.forge_batch import resolve_default_jar
+    j = resolve_default_jar()
+    if j is None:
+        sys.exit("Forge jar not built")
+    return j
+
+
+def cell_key(seed, a, b, zone, ability):
+    return f"{seed}|{a}|{b}|{zone}|{ability}"
+
+
+def run_cells(cells: list[tuple], workers: int) -> dict[str, dict]:
+    """cells: (seed, a, b, zone, ability). Returns key -> result."""
+    cp = f"{BENCH / 'classes'}:{jar()}"
+    chunks = [cells[i::workers] for i in range(workers)]
+    procs = []
+    for w, chunk in enumerate(chunks):
+        if not chunk:
+            continue
+        req = BENCH / f"request-{w}.tsv"
+        req.write_text("".join(f"{cell_key(*c)}\t{c[0]}\t{c[1]}\t{c[2]}\t{c[3]}\t{c[4]}\n" for c in chunk))
+        procs.append(subprocess.Popen(["java", "-Dapple.awt.UIElement=true", "-cp", cp,
+                                       "deckdoctor.bench.ScenarioBench", str(req)],
+                                      cwd=FORGE_DIR, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL, text=True))
+    out: dict[str, dict] = {}
+    for p in procs:
+        stdout, _ = p.communicate(timeout=6 * 3600)
+        for line in stdout.splitlines():
+            if line.startswith("BENCH_RESULT "):
+                r = json.loads(line[len("BENCH_RESULT "):])
+                out[r["id"]] = r
+    return out
+
+
+def metric(r: dict | None, name: str) -> int | None:
+    if r is None or r.get("status") not in ("ok",):
+        return None
+    return r.get("metrics", {}).get(name, 0)
+
+
+def interaction(res, seed, a, b, zone, ability, name):
+    cells = {k: res.get(cell_key(seed, *v)) for k, v in {
+        "e": ("", "", "hand", ""), "a": (a, "", "hand", ""),
+        "b": ("", b, zone, ability), "ab": (a, b, zone, ability)}.items()}
+    if name == "status":
+        sb, sab = (cells["b"] or {}).get("status"), (cells["ab"] or {}).get("status")
+        return "enables" if sb == "not_playable" and sab == "ok" else f"b={sb},ab={sab}", cells
+    vals = {k: metric(c, name) for k, c in cells.items()}
+    if any(v is None for v in vals.values()):
+        return None, cells
+    return vals["ab"] - vals["a"] - vals["b"] + vals["e"], cells
+
+
+def check(op, value, got):
+    if got is None:
+        return False
+    if isinstance(value, str):
+        return got == value
+    return {"==": got == value, ">=": got >= value, "<": got < value, ">": got > value}[op]
+
+
+def deck_size_estimate() -> dict[str, tuple[int, int]]:
+    sys.path.insert(0, str(ROOT / "src"))
+    from deckdoctor.deck import load_deck
+    con = sqlite3.connect(ROOT / "data" / "deckdoctor.sqlite3")
+    out = {}
+    for d in GATE_DECKS:
+        deck = load_deck(str(ROOT / d), con)
+        nonland = {c.name for c in deck.library if "Land" not in (c.type_line or "").split(" // ")[0]}
+        out[d] = (len(nonland) + 1, len(nonland))   # contexts (incl. commander), actions (approx. 1 per card)
+    return out
+
+
+def main() -> None:
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--seeds", type=int, default=3)
+    ap.add_argument("--workers", type=int, default=3)
+    ap.add_argument("--answers", default="known_answers.yaml")
+    args = ap.parse_args()
+    sheet = yaml.safe_load((BENCH / args.answers).read_text())
+    if not sheet.get("approved_by_user"):
+        sys.exit("answer sheet not approved by the user; refusing to grade")
+    seeds = list(range(1, args.seeds + 1))
+    entries = [("pos", e) for e in sheet["positives"]] + [("neg", e) for e in sheet["negatives"]]
+
+    cells: set[tuple] = set()
+    for _, e in entries:
+        b = e["b"]
+        for s in seeds:
+            cells |= {(s, "", "", "hand", ""), (s, e["a"], "", "hand", ""),
+                      (s, "", b["card"], b["from"], b.get("ability", "")),
+                      (s, e["a"], b["card"], b["from"], b.get("ability", ""))}
+            for p in PLACEBOS:
+                cells |= {(s, p, "", "hand", ""), (s, p, b["card"], b["from"], b.get("ability", ""))}
+    for s in range(1, 21):                       # quiet empty board on 20 seeds
+        cells.add((s, "", "", "hand", ""))
+    unsupported = sheet.get("unsupported") or [{"card": "Mystic Remora", "trigger_mode": "SpellCast", "id": "miss-mystic-remora"}]
+    for s in seeds:                              # these triggers need opponents to act: must never fire
+        for u in unsupported:
+            cells |= {(s, u["card"], "", "hand", ""), (s, u["card"], "Faithless Looting", "hand", "")}
+    cells = sorted(cells)
+
+    t0 = time.time()
+    res = run_cells(cells, args.workers)
+    wall = time.time() - t0
+    # determinism: rerun 30 random cells with the same seed
+    rng = random.Random(7)
+    sample = rng.sample(cells, min(30, len(cells)))
+    rerun = run_cells(sample, args.workers)
+    same = sum(1 for c in sample if json.dumps((res.get(cell_key(*c)) or {}).get("metrics"), sort_keys=True)
+               == json.dumps((rerun.get(cell_key(*c)) or {}).get("metrics"), sort_keys=True))
+
+    statuses: dict[str, int] = {}
+    for r in res.values():
+        statuses[r["status"]] = statuses.get(r["status"], 0) + 1
+    bad = statuses.get("error", 0) + statuses.get("timeout", 0) + statuses.get("looped", 0)
+    ms = [r["ms"] for r in res.values() if r["status"] == "ok"]
+
+    # noise band from placebo contexts, per metric
+    metric_names = sorted({e["metric"] for _, e in entries if e["metric"] != "status"})
+    band = {}
+    for name in metric_names:
+        vals = []
+        for _, e in entries:
+            b = e["b"]
+            for s in seeds:
+                for p in PLACEBOS:
+                    v, _ = interaction(res, s, p, b["card"], b["from"], b.get("ability", ""), name)
+                    if v is not None:
+                        vals.append(abs(v))
+        band[name] = max(vals) if vals else None
+
+    print(f"cells: {len(res)}/{len(cells)} returned, wall {wall:.0f}s, statuses {statuses}")
+    print(f"mean cell time {statistics.mean(ms):.0f} ms (ok cells), error+timeout+looped {bad / max(1, len(res)):.1%}")
+    print(f"determinism: {same}/{len(sample)} reruns identical")
+    empties = [res.get(cell_key(s, "", "", "hand", "")) for s in range(1, 21)]
+    quiet_same = len({json.dumps(r.get("metrics"), sort_keys=True) for r in empties if r}) == 1
+    opp_noise = sum((r or {}).get("opp_spells", 0) + (r or {}).get("opp_attacks", 0) for r in empties)
+    print(f"empty board: identical across 20 seeds = {quiet_same}; opponent spells+attacks = {opp_noise}")
+    print(f"noise band (max |I| with placebo contexts): {band}")
+    print()
+
+    found = total = det_exact = det_total = neg_ok = 0
+    for kind, e in entries:
+        b = e["b"]
+        got = [interaction(res, s, e["a"], b["card"], b["from"], b.get("ability", ""), e["metric"])[0] for s in seeds]
+        if kind == "pos":
+            ex = e["expect"]
+            hits = [check(ex["op"], ex["value"], g) for g in got]
+            ok = all(hits) if e["deterministic"] else sum(hits) >= (len(seeds) + 1) // 2
+            total += 1
+            found += ok
+            if e["deterministic"]:
+                det_total += 1
+                det_exact += all(hits)
+            print(f"{'PASS' if ok else 'MISS'} {e['id']:28} {e['metric']:24} expect {ex['op']}{ex['value']}  got {got}")
+        else:
+            lim = band.get(e["metric"]) or 0
+            ok = all(g is not None and abs(g) <= lim for g in got)
+            neg_ok += ok
+            print(f"{'PASS' if ok else 'VIOL'} {e['id']:28} {e['metric']:24} expect |I|<={lim}  got {got}")
+
+    # e.g. Remora's cumulative-upkeep (Phase) trigger legitimately fires; its opponent-cast trigger must not
+    print()
+    for u in unsupported:
+        fired = any(t.startswith(f"us:{u['card']}:{u['trigger_mode']}") for c in cells if c[1] == u["card"]
+                    for t in (res.get(cell_key(*c)) or {}).get("triggers", []))
+        print(f"{'PASS' if not fired else 'FAIL'} {u['id']:28} {u['card']} {u['trigger_mode']} trigger fired = {fired} (must stay untested)")
+
+    sizes = deck_size_estimate()
+    largest = max(ctx * act for ctx, act in sizes.values())
+    per_cell = statistics.mean(ms) / 1000
+    cores = os.cpu_count() or 1
+    print(f"\npositives found {found}/{total} ({found / total:.0%}); deterministic exact {det_exact}/{det_total}; "
+          f"negatives clean {neg_ok}/{sum(1 for k, _ in entries if k == 'neg')}")
+    print(f"projection: largest list ~{largest:,} pair cells (+ contexts/actions alone) x {per_cell:.2f}s "
+          f"= {largest * per_cell / 3600:.1f} h on 1 JVM, {largest * per_cell / 3600 / max(1, cores // 2):.1f} h on {max(1, cores // 2)} JVMs")
+    out = "gate_results.json" if args.answers == "known_answers.yaml" else f"results_{Path(args.answers).stem}.json"
+    (BENCH / out).write_text(json.dumps({"results": res, "rerun": rerun}, indent=1))
+
+
+if __name__ == "__main__":
+    main()
