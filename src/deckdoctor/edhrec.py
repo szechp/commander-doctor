@@ -376,7 +376,7 @@ class MissingCard:
     stat: CardStat
     line: str  # compact line (real oracle text) from the local mirror
     spare_quantity: int = 0
-    global_rank: int | None = None  # Scryfall edhrec_rank; filled for sort="staples"
+    global_rank: int | None = None  # Scryfall edhrec_rank (format-wide), when the mirror has it
 
 
 def find_missing_cards(
@@ -426,6 +426,10 @@ def find_missing_cards(
         if spare_quantity:
             line += f" | spare=x{spare_quantity}"
         result.append(MissingCard(stat=stats[name], line=line, spare_quantity=spare_quantity))
+    # Global rank is evidence on every line, whatever the sort.
+    from deckdoctor.candidates import global_ranks
+    ranks = global_ranks(con, [m.stat.name for m in result])
+    result = [replace(m, global_rank=ranks.get(m.stat.name)) for m in result]
     if sort == "staples":
         # Global Commander popularity (Scryfall's edhrec_rank, lower = played in
         # more decks format-wide), a DIFFERENT signal from either commander-page
@@ -434,9 +438,6 @@ def find_missing_cards(
         # format staple can be absent from a niche commander's top-N cutoffs.
         # `card_popularity` is written by `sync`; a mirror predating it leaves
         # ranks unknown, which must NOT sort as if popular -- unknown drops last.
-        from deckdoctor.candidates import global_ranks
-        ranks = global_ranks(con, [m.stat.name for m in result])
-        result = [replace(m, global_rank=ranks.get(m.stat.name)) for m in result]
         result.sort(key=lambda m: (ranks.get(m.stat.name, 10**9), -m.stat.inclusion, m.stat.name))
     elif sort == "synergy":
         result.sort(key=lambda m: (-(m.stat.synergy or 0.0), -m.stat.inclusion, m.stat.name))
