@@ -1,12 +1,8 @@
-# Handover — 2026-10-18
+# Handover — 2026-10-19
 
-Branch `forge-bench-negative-result`. **Nothing from this session is committed.** Commit or push only when the user asks, and branch first if on `main`. The repo is public, so keep local paths and personal data out of commits.
+Branch `forge-bench-negative-result`, **committed and pushed** (75382ee, 2026-10-19). That commit includes everything that was in the working tree: this session's work, the user's own pending edits (`deck.py`, `KNOWN_ISSUES.md`, `tests/test_validation.py`), the deleted decks and caches, and the untracked files. Opening a PR is up to the user. Commit or push only when the user asks, and branch first if on `main`. The repo is public: keep local paths and personal data out (a local path in `decks/elrond-scry.target.yaml` was stripped before the commit).
 
-Leave these alone; they aren't from this session:
-- The uncommitted edits in `src/deckdoctor/deck.py`, `KNOWN_ISSUES.md` and `tests/test_validation.py`.
-- The deleted `data/edhrec_cache/*` and `decks/*` files. Never restore deleted decks.
-
-Run the doctor as `.venv/bin/deckdoctor ...` (or `uv run deckdoctor ...`).
+Run the doctor as `.venv/bin/deckdoctor ...` (or `uv run deckdoctor ...`). **Run `deckdoctor sync` once:** it fills the new `card_reprint` table, so the recently-printed section skips reprints.
 
 ## Tool changes this session (uncommitted)
 
