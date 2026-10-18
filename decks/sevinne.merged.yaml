@@ -1,0 +1,37 @@
+commander: Sevinne, the Chronoclasm
+bracket: 3
+threshold: 5
+edhrec_theme: graveyard
+gameplan: >
+  Jeskai control that protects Sevinne's spell doublers (user, 2026-10-17:
+  "Control to save our spell doublers. Try to finish the game with cheap
+  multiplied spells while trying to keep the others with interaction alive.
+  Crackle with power as a late game finisher"). Sevinne copies the first
+  instant or sorcery cast from a graveyard each turn, on every player's turn;
+  Harmonic Prodigy and Veyran each add one more copy (copies add: 2/3/4
+  instances, not multiplied). Hold up counters and instant removal to keep
+  Sevinne, Prodigy and Veyran alive; Flawless Maneuver and Boros Charm make
+  them indestructible, which also turns our own Blasphemous Act one-sided.
+  Recast from the graveyard with Snapcaster, Mission Briefing, Quistis, Gale,
+  Torrential Gearhulk and Backdraft Hellkite. Close with cheap each-opponent
+  burn that multiplies (Boltwave, Fiery Confluence, Delayed Blast Fireball,
+  Boros Charm) plus Vivi per-cast pings; Crackle with Power,
+  Banefire, Comet Storm and Devil's Play are the late-game X finishers. Bonus
+  combo (user-approved 2026-10-17, no tutors, a lucky-draw win): cast any
+  instant or sorcery, then Cooperate from the graveyard targeting it; Sevinne
+  copies Cooperate, each copy re-copies the original, so the loop is
+  unbounded; Storm-Kiln Artist makes a Treasure per copy, then Crackle with
+  Power or Banefire for a huge X (Archmage Emeritus turns the same loop into
+  draw-any-number). Pay X
+  through flashback or cast permissions, never through free-cast effects
+  (Torrential Gearhulk makes X 0). No Lier: "Spells can't be countered" turns
+  the counters off. Premium cards never compete: an added card displaces the
+  weakest card in its role.
+feedback:
+  - date: '2026-10-17'
+    kind: note
+    text: 'Played games (2026-10-17): flooded with interaction but can''t pay for it
+      all because the creatures are expensive (Archmages etc.); no damage until late
+      game, then the X finishers can''t be cast reliably. User wants constant pingers
+      instead of the mages.'
+

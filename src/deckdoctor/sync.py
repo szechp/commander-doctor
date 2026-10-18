@@ -154,6 +154,7 @@ def sync(db_path: str | None = None) -> None:
     popularity_rows: list[tuple] = []
     price_rows: list[tuple] = []
     release_rows: list[tuple] = []
+    reprint_rows: list[tuple] = []
     face_rows: list[tuple] = []
     card_objects: list[dict] = []
     oracle_id_to_name: dict[str, str] = {}
@@ -172,6 +173,7 @@ def sync(db_path: str | None = None) -> None:
         card_rows.append(row)
         if card.get("released_at"):
             release_rows.append((card["name"], card["released_at"]))
+            reprint_rows.append((card["name"], int(bool(card.get("reprint")))))
         if card.get("edhrec_rank") is not None:
             popularity_rows.append((card["name"], int(card["edhrec_rank"])))
         # Scryfall prices nonfoil EUR as a plain float ("0.10") or None.
@@ -272,6 +274,7 @@ def sync(db_path: str | None = None) -> None:
         con.execute("DELETE FROM card_tags")
         con.execute("DELETE FROM card_popularity")
         con.execute("DELETE FROM card_release")
+        con.execute("DELETE FROM card_reprint")
         con.execute("DELETE FROM card_prices")
         con.executemany(
             "INSERT INTO cards (name,mana_cost,cmc,type_line,oracle_text,color_identity,colors,produced_mana,keywords,commander_legal,is_game_changer,layout,set_type,power,toughness) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
@@ -279,6 +282,7 @@ def sync(db_path: str | None = None) -> None:
         )
         if release_rows:
             con.executemany("INSERT OR REPLACE INTO card_release VALUES (?,?)", release_rows)
+            con.executemany("INSERT OR REPLACE INTO card_reprint VALUES (?,?)", reprint_rows)
         if popularity_rows:
             con.executemany("INSERT OR REPLACE INTO card_popularity VALUES (?,?)", popularity_rows)
         if price_rows:

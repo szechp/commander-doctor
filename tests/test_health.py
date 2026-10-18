@@ -190,3 +190,21 @@ def test_restricted_lands_row_ok_when_none(con):
     summary = compute_health_summary(deck, con)
     row = next(r for r in summary.rows if r.check == "Restricted lands")
     assert row.status == "OK"
+
+
+def test_type_dependent_lands_row_flags_check_lands_without_typed_support(con):
+    from deckdoctor.deck import Card, Deck
+    from deckdoctor.health import _type_dependent_lands_row
+    con.execute("INSERT INTO cards (name, mana_cost, cmc, type_line, oracle_text, color_identity, commander_legal, "
+                "is_game_changer) VALUES ('Fixture Check', '', 0, 'Land', 'This land enters tapped unless you "
+                "control a Plains or an Island.\n{T}: Add {W} or {U}.', '[\"U\", \"W\"]', 1, 0)")
+
+    def land(name, type_line):
+        return Card(name=name, cmc=0.0, type_line=type_line, ramp_kind=None, draw_kind=None, prereq=None,
+                    is_game_changer=False, power=None, toughness=None)
+    commander = Card(name="Fixture Commander", cmc=4.0, type_line="Legendary Creature", ramp_kind=None,
+                     draw_kind=None, prereq=None, is_game_changer=False, power=None, toughness=None)
+    few = Deck("t", commander, [land("Fixture Check", "Land")] + [land("Fixture Plains 0", "Basic Land — Plains")] * 3)
+    many = Deck("t", commander, [land("Fixture Check", "Land")] + [land("Fixture Plains 0", "Basic Land — Plains")] * 20)
+    assert _type_dependent_lands_row(few, con).status == "GAP"
+    assert _type_dependent_lands_row(many, con).status == "OK"

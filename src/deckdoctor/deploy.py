@@ -11,12 +11,22 @@ interaction.
 
 Pilot (fixed, plan-agnostic): each turn draw, play the land that enters
 untapped and adds the most missing colours, cast mana rocks, then the
-commander, then spend leftover mana on the most expensive castable spells.
+commander, then card draw (engines first, then the cheapest draw spells),
+then spend leftover mana on the most expensive castable spells.
+
+Card draw is read from Forge's card scripts (`cards.parsed`): a spell's
+Draw / Dig / two-pile effects (cards put into hand), a permanent's
+enters-the-battlefield draw, and repeatable triggers -- "whenever you cast a
+noncreature / instant or sorcery spell" and "at the beginning of your
+upkeep". Looting counts as the cards drawn: what matters here is how many
+cards the deck sees. `cards_seen_t*` reports it, and `balance` uses it for
+its odds of holding an answer.
 
 Not modelled (each one biases both lists, not always equally -- they are
 listed in every report): rituals, Treasures, cost reducers, mana creatures
-with variable output, card draw/looting beyond the natural draw, X spells
-(cast at X=0), alternative/free costs, opponents. Exotic Orchard and Fellwar
+with variable output, activated or conditional draw, casting from the
+graveyard (flashback, Sevinne's copies), X spells (cast at X=0),
+alternative/free costs, opponents. Exotic Orchard and Fellwar
 Stone are assumed to make any colour of the commander's identity.
 
 A/B runs are PAIRED (SPEC.md §7.3.06): both lists play the same shuffles,
@@ -43,9 +53,12 @@ _SYMBOL_RE = re.compile(r"\{([^}]+)\}")
 LIMITATIONS = (
     "solitaire: no opponents, no removal, no interaction",
     "fixed pilot: land, mana rocks, commander, then the most expensive castable spells",
-    "not modelled: rituals, Treasures, cost reducers, mana creatures with variable output, card draw/looting beyond "
-    "the natural draw, casting from the graveyard, X spells (cast at X=0), free/alternative costs",
-    "Exotic Orchard / Fellwar Stone-style 'could produce' sources are assumed to make any identity colour",
+    "card draw: draw spells, enters-the-battlefield draw and cast/upkeep draw triggers from Forge's card scripts, "
+    "cast after rocks and the commander, cheapest first",
+    "not modelled: rituals, Treasures, cost reducers, mana creatures with variable output, activated or conditional "
+    "draw, casting from the graveyard (flashback, Sevinne's copies), X spells (cast at X=0), free/alternative costs",
+    "Exotic Orchard / Fellwar Stone-style 'could produce' sources are assumed to make any identity colour; "
+    "a 'choose a basic land type' land (Multiversal Passage) is assumed to pick the type needed",
 )
 
 
@@ -118,6 +131,13 @@ class SimCard:
     land: LandModel | None = None
     rock: RockModel | None = None
     searcher: SearcherModel | None = None
+    draws: int = 0                     # cards a cast puts into hand from the library
+    draw_trigger: str | None = None    # repeatable: "noncreature" | "instant_sorcery" | "upkeep"
+    kind: str = "other"                # "creature" | "instant_sorcery" | "other", for trigger matching
+
+    @property
+    def draws_cards(self) -> bool:
+        return self.draws > 0 or self.draw_trigger is not None
 
 
 # ---------------------------------------------------------------------------
@@ -176,6 +196,12 @@ def build_land(type_line: str, oracle: str, identity: frozenset[str]) -> LandMod
         check_types = frozenset(t for t in m.groups() if t)
     elif "enters tapped" in low:
         etb = "tapped"
+    if "choose a basic land type" in low and "is the chosen type" in low:
+        # Multiversal Passage: becomes the type you need -- assumed to pick it
+        # (the same optimism as Exotic Orchard-style "could produce" lands)
+        types = frozenset(t for t, c in _BASIC_TYPE_COLOUR.items() if c in identity)
+        subtypes = subtypes | types
+        colours |= {_BASIC_TYPE_COLOUR[t] for t in types}
     fetch = None
     fm = re.search(r"Sacrifice this land: Search your library for an? (.+?) card", text)
     if fm and "onto the battlefield tapped" not in low:
@@ -217,22 +243,110 @@ def build_searcher(oracle: str) -> SearcherModel | None:
     return SearcherModel(activation=int(m.group(1)), count=2 if m.group(2) == "up to two" else 1)
 
 
+def _fields(raw: str) -> dict[str, str]:
+    """Forge's 'K$ V | K$ V' script line as a dict."""
+    out = {}
+    for part in raw.split("|"):
+        if "$" in part:
+            key, value = part.split("$", 1)
+            out[key.strip()] = value.strip()
+    return out
+
+
+def _amount(value: str | None, svars: dict[str, str]) -> int:
+    """A count field: a number, or an svar whose last number is the plain
+    case (Plunder the Trollshaws: 'Count$wasCastFromGraveyard.2.1' -> 1)."""
+    if value is None:
+        return 1
+    if value.isdigit():
+        return int(value)
+    numbers = re.findall(r"\d+", svars.get(value, ""))
+    return int(numbers[-1]) if numbers else 1
+
+
+def _effect_draws(node: dict[str, str], svars: dict[str, str], depth: int = 0) -> int:
+    """Cards put into your hand from the library by one effect and its SubAbility chain."""
+    if depth > 8:
+        return 0
+    api = node.get("SP") or node.get("DB") or node.get("AB")
+    # a draw paid as a cost: Jeskai Ascendancy's loot is 'Discard | Cost$ Draw<1/You>'
+    total = sum(int(n) for n in re.findall(r"Draw<(\d+)/You>", node.get("Cost", "")))
+    if api == "Draw" and node.get("Defined", "You") == "You":
+        total += _amount(node.get("NumCards"), svars)
+    elif api == "Dig" and node.get("DestinationZone", "Hand") == "Hand":
+        total += _amount(node.get("ChangeNum"), svars)
+    elif api == "TwoPiles":
+        total += 2  # Fact or Fiction-style: one of two piles of a five-card reveal
+    elif api == "Charm":
+        choices = [_effect_draws(_fields(svars.get(c, "")), svars, depth + 1)
+                   for c in node.get("Choices", "").split(",")]
+        best = max(choices, default=0)
+        total += best * (_amount(node.get("CharmNum"), svars) if node.get("CanRepeatModes") == "True" else 1)
+    sub = node.get("SubAbility")
+    if sub and sub in svars:
+        total += _effect_draws(_fields(svars[sub]), svars, depth + 1)
+    return total
+
+
+def build_draw(parsed: str | None, front_type: str) -> tuple[int, str | None]:
+    """(cards one cast puts into hand, repeatable draw trigger) from Forge's
+    parsed card script. Activated and conditional draw are left out."""
+    try:
+        data = json.loads(parsed) if parsed else None
+    except json.JSONDecodeError:
+        return 0, None
+    if not isinstance(data, dict):
+        return 0, None
+    svars = data.get("svars") or {}
+    draws = 0
+    if any(t in front_type for t in ("Instant", "Sorcery")):
+        for ability in data.get("abilities") or []:
+            if "SP" in ability:
+                draws += _effect_draws(ability, svars)
+                break
+    trigger = None
+    for trig in data.get("triggers") or []:
+        execute = _fields(svars.get(trig.get("Execute", ""), ""))
+        amount = _effect_draws(execute, svars)
+        if not amount:
+            continue
+        mode, valid = trig.get("Mode"), trig.get("ValidCard", "")
+        if mode == "ChangesZone" and trig.get("Destination") == "Battlefield" and valid == "Card.Self":
+            draws += amount
+        elif mode in ("SpellCast", "SpellCastOrCopy") and trig.get("ValidActivatingPlayer") == "You":
+            if valid in ("Card.nonCreature", "Card.nonCreature+YouCtrl"):
+                trigger = "noncreature"
+            elif valid in ("Instant,Sorcery", "Card.Instant,Card.Sorcery"):
+                trigger = "instant_sorcery"
+        elif mode == "Phase" and trig.get("Phase") == "Upkeep" and trig.get("ValidPlayer") == "You":
+            trigger = "upkeep"
+    return draws, trigger
+
+
+def _kind(front_type: str) -> str:
+    if "Creature" in front_type:
+        return "creature"
+    return "instant_sorcery" if any(t in front_type for t in ("Instant", "Sorcery")) else "other"
+
+
 def load_sim_cards(con: sqlite3.Connection, names: Iterable[str], identity: Iterable[str]) -> dict[str, SimCard]:
     ident = frozenset(identity)
     out: dict[str, SimCard] = {}
     for name in set(names):
-        row = con.execute("select name, mana_cost, type_line, oracle_text from cards where name = ?",
+        row = con.execute("select name, mana_cost, type_line, oracle_text, parsed from cards where name = ?",
                           (name,)).fetchone()
         if row is None:
             raise ValueError(f"card not in the local mirror: {name}")
-        _, mana_cost, type_line, oracle = row
+        _, mana_cost, type_line, oracle, parsed = row
         front_type = (type_line or "").split(" // ")[0]
         if "Land" in front_type:
             out[name] = SimCard(name, True, Cost(0, ()), land=build_land(type_line, oracle, ident))
         else:
+            draws, trigger = build_draw(parsed, front_type)
             out[name] = SimCard(name, False, parse_cost(mana_cost),
                                 rock=build_rock(front_type, oracle, ident),
-                                searcher=build_searcher(oracle))
+                                searcher=build_searcher(oracle),
+                                draws=draws, draw_trigger=trigger, kind=_kind(front_type))
     return out
 
 
@@ -292,6 +406,7 @@ class GameRecord:
     commander_turn: int | None
     turns: list[TurnRecord] = field(default_factory=list)
     spells_cast: int = 0
+    seen: list[int] = field(default_factory=list)   # cards seen by the end of each turn: kept hand + every draw
 
 
 class _Game:
@@ -306,6 +421,8 @@ class _Game:
         self.searchers: list[SearcherModel] = []
         self.commander_cast: int | None = None
         self.spells_cast = 0
+        self.seen = len(hand)
+        self.engines: list[str] = []   # draw triggers on the battlefield
 
     # -- lands ---------------------------------------------------------
     def _land_colours(self, land: LandModel) -> frozenset[str]:
@@ -439,6 +556,23 @@ class _Game:
                 return rest
         return None
 
+    def draw(self, count: int) -> None:
+        for _ in range(count):
+            if not self.library:
+                return
+            self.hand.append(self.library.pop(0))
+            self.seen += 1
+
+    def on_cast(self, card: SimCard) -> None:
+        """Triggers of draw engines already in play, then the card's own draw."""
+        for trigger in self.engines:
+            if (trigger == "noncreature" and card.kind != "creature") or \
+                    (trigger == "instant_sorcery" and card.kind == "instant_sorcery"):
+                self.draw(1)
+        self.draw(card.draws)
+        if card.draw_trigger and card.kind != "instant_sorcery":
+            self.engines.append(card.draw_trigger)
+
     def cast(self, card: SimCard, turn: int, units: list[frozenset[str]], one_shots: list[int]) -> list[frozenset[str]] | None:
         """Pay for `card`; returns the remaining pool or None if unaffordable."""
         rest = self.try_cast(card.cost, units, one_shots)
@@ -446,6 +580,7 @@ class _Game:
             return None
         self.hand.remove(card)
         self.spells_cast += 1
+        self.on_cast(card)
         units = rest
         if card.rock is not None:
             self.rocks.append((card.rock, turn))
@@ -459,8 +594,9 @@ class _Game:
         return units
 
     def take_turn(self, turn: int, draw: bool) -> TurnRecord:
-        if draw and self.library:
-            self.hand.append(self.library.pop(0))
+        self.draw(sum(1 for trigger in self.engines if trigger == "upkeep"))
+        if draw:
+            self.draw(1)
         tapped = self.play_land()
         units, one_shots = self.pool(turn, bool(tapped))
         mana = len(units)
@@ -472,8 +608,10 @@ class _Game:
         def by_priority() -> list:
             nonland = [c for c in self.hand if not c.is_land]
             rocks = sorted([c for c in nonland if c.rock is not None], key=lambda c: c.cost.total)
-            rest = sorted([c for c in nonland if c.rock is None], key=lambda c: -c.cost.total)
-            return rocks + ["COMMANDER"] + rest
+            draw = sorted([c for c in nonland if c.rock is None and c.draws_cards],
+                          key=lambda c: (c.draw_trigger is None, c.cost.total))
+            rest = sorted([c for c in nonland if c.rock is None and not c.draws_cards], key=lambda c: -c.cost.total)
+            return rocks + ["COMMANDER"] + draw + rest
 
         progress = True
         while progress:
@@ -485,6 +623,7 @@ class _Game:
                         if rest is not None:
                             self.commander_cast = turn
                             self.spells_cast += 1
+                            self.on_cast(self.commander)
                             units = rest
                             progress = True
                             break
@@ -535,9 +674,22 @@ def play_game(slots: Sequence[SimCard], perms: Sequence[Sequence[int]], commande
     record = GameRecord(mulligans=mulligans, commander_turn=None)
     for t in range(1, turns + 1):
         record.turns.append(game.take_turn(t, draw=not (on_the_play and t == 1)))
+        record.seen.append(game.seen)
     record.commander_turn = game.commander_cast
     record.spells_cast = game.spells_cast
     return record
+
+
+def cards_seen_distribution(slots: Sequence[SimCard], commander: SimCard, identity: frozenset[str], turn: int,
+                            *, trials: int, seed: int, on_the_play: bool = False) -> dict[int, float]:
+    """How many cards the deck has seen by the end of `turn` (kept opening
+    hand plus every draw, card draw included), as {count: share of games}."""
+    counts: dict[int, int] = {}
+    for i in range(trials):
+        perms = _trial_perms(seed, i, len(slots), 3)
+        seen = play_game(slots, perms, commander, identity, turn, on_the_play).seen[turn - 1]
+        counts[seen] = counts.get(seen, 0) + 1
+    return {n: c / trials for n, c in sorted(counts.items())}
 
 
 # ---------------------------------------------------------------------------
@@ -568,6 +720,9 @@ def metric_values(g: GameRecord, turns: int) -> dict[str, float]:
     v[f"commander_colour_blocked_by_t{turns}"] = float(any(r.commander_colour_blocked for r in g.turns))
     v["tapped_land_turns_t1_4"] = float(sum(r.tapped_land for r in g.turns[:4]))
     v[f"spells_cast_by_t{turns}"] = float(g.spells_cast)
+    for t in sorted({4, turns}):
+        if t <= turns:
+            v[f"cards_seen_t{t}"] = float(g.seen[t - 1])
     v["mulligan"] = float(g.mulligans > 0)
     return v
 
@@ -581,6 +736,7 @@ METRIC_HELP = {
     "tapped_land_turns_t1_4": "lands that entered tapped on turns 1-4 (lower is better)",
     "mulligan": "mulliganed (lower is better)",
     "spells_cast_by_t": "spells cast by turn N, commander included (higher is better)",
+    "cards_seen_t": "cards seen by turn N: kept opening hand plus every draw (higher is better)",
 }
 _LOWER_IS_BETTER = ("missed_land_drop", "colour_blocked", "commander_colour_blocked", "tapped_land", "mulligan")
 
@@ -667,7 +823,7 @@ def run(slots_a: Sequence[SimCard], commander: SimCard, identity: frozenset[str]
     return result
 
 
-_COUNT_METRICS = ("mana_on", "tapped_land", "colour_blocked_spells", "spells_cast")
+_COUNT_METRICS = ("mana_on", "tapped_land", "colour_blocked_spells", "spells_cast", "cards_seen")
 
 
 def _fmt(name: str, x: float) -> str:

@@ -18,6 +18,7 @@ import sqlite3
 from dataclasses import dataclass
 
 from deckdoctor.audit import audit_deck, compute_threshold, role_source_note
+from deckdoctor.balance import CLOG_ANSWERS, answers_in, compute_sweet_spot, simulated_seen
 from deckdoctor.colour import compute_colour_report, restricted_mana_lands
 from deckdoctor.combos import BRACKET_TAG_NAME, cached_bracket_report
 from deckdoctor.coverage import compute_coverage
@@ -78,12 +79,46 @@ def _combo_health_row(deck: Deck) -> HealthRow:
     return HealthRow("Combo/bracket", status, detail)
 
 
+def _type_dependent_lands_row(deck: Deck, con: sqlite3.Connection) -> HealthRow:
+    """Check lands, reveal lands and type-gated colours against the deck's
+    supply of the type (upgrades.type_dependency). Sevinne's rebuild cut its
+    basics from 16 to 2 but kept nine such lands, and nothing flagged it:
+    the check lived only in `upgrades`."""
+    from deckdoctor.upgrades import (
+        TYPE_SUPPORT_RELIABLE, TYPE_SUPPORT_USELESS, deck_type_support, support_needed, type_dependency,
+    )
+
+    names = sorted({c.name for c in deck.library})
+    marks = ",".join("?" for _ in names)
+    texts = dict(con.execute(f"SELECT name, oracle_text FROM cards WHERE name IN ({marks})", names)) if names else {}
+    support = deck_type_support(deck, con)
+    deps = []
+    for name in names:
+        if "Land" not in (next(c for c in deck.library if c.name == name).type_line or "").split(" // ")[0]:
+            continue
+        dep = type_dependency(texts.get(name), support, exclude=name)
+        if dep:
+            deps.append((dep.odds, name, dep))
+    if not deps:
+        return HealthRow("Type-dependent lands", "OK", "none")
+    weak = sorted(d for d in deps if d[0] < TYPE_SUPPORT_RELIABLE)
+    if not weak:
+        return HealthRow("Type-dependent lands", "OK", f"{len(deps)} land(s), all at 80%+ by turn 3")
+    status = "GAP" if weak[0][0] < TYPE_SUPPORT_USELESS else "NOTE"
+    listed = ", ".join(f"{name} {odds:.0%}" + (" (gated colour)" if dep.kind == "colour" else "")
+                       for odds, name, dep in weak[:4]) + (" ..." if len(weak) > 4 else "")
+    return HealthRow("Type-dependent lands", status,
+                     f"{len(weak)} of {len(deps)} work by turn 3 in under 80% of games ({listed}); "
+                     f"80% needs about {support_needed()} lands with the type -- see `upgrades`")
+
+
 def compute_health_summary(
     deck: Deck,
     con: sqlite3.Connection,
     threshold_override: float | None = None,
     board_presence: str = "normal",
     edhrec_data: dict | None = None,
+    archetype: str | None = None,
 ) -> HealthSummary:
     rows: list[HealthRow] = []
 
@@ -172,12 +207,28 @@ def compute_health_summary(
     else:
         rows.append(HealthRow("Restricted lands", "OK", "no lands whose every mana ability is gated"))
 
+    rows.append(_type_dependent_lands_row(deck, con))
+
     defence = compute_defence(deck, con, threshold_turn=t.threshold, board_presence=board_presence)
     def_status = "SHORT" if defence.interaction_short > 0 else "OK"
     rows.append(HealthRow(
         "Survival window", def_status,
         f"{defence.interaction_actual} / {defence.interaction_target} interaction by turn {t.threshold:g} ({board_presence} board)",
     ))
+    # The survival window is a floor only; the sweet spot adds the ceiling,
+    # from the user-confirmed deck type (balance.py's docstring).
+    answers, free_answers = answers_in(deck, con)
+    sweet = compute_sweet_spot(len(answers), sorted(set(answers)), len(deck.library), archetype,
+                               survival_floor=defence.interaction_target, free_cards=free_answers,
+                               seen=simulated_seen(deck, con) if archetype else None)
+    if sweet.archetype is None:
+        balance_detail = "deck type not set (`archetype:` in the deck YAML); `deckdoctor balance` shows what each asks for"
+    else:
+        balance_detail = (f"{sweet.answers} answers ({sweet.free_answers} free to cast) vs sweet spot "
+                          f"{sweet.low}-{sweet.high} ({sweet.archetype}: "
+                          f"{sweet.target:.0%} to hold one by turn {sweet.turn}); {sweet.p_clog:.0%} of games hold "
+                          f"{CLOG_ANSWERS}+ by turn {sweet.turn}")
+    rows.append(HealthRow("Interaction balance", sweet.status, balance_detail))
 
     rows.append(_combo_health_row(deck))
 
@@ -211,7 +262,7 @@ def render_table(summary: HealthSummary) -> str:
     ]
     for r in summary.rows:
         lines.append(_row(r.check, r.status, r.detail))
-    gaps = sum(1 for r in summary.rows if r.status in ("GAP", "SHORT"))
+    gaps = sum(1 for r in summary.rows if r.status in ("GAP", "SHORT", "OVER"))
     lines.append("")
     lines.append(f"{gaps} row(s) flagged" if gaps else "No gaps flagged.")
     return "\n".join(lines)

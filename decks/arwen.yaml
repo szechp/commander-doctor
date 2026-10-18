@@ -1,0 +1,34 @@
+commander: Arwen Undómiel
+bracket: 3
+threshold: 3
+edhrec_theme: topdeck
+gameplan: >
+  (Draft reading 2026-10-08, built from the spare bulk only -- awaiting user
+  confirmation.) GU Elves / Scry counters. Arwen on turn 2; every scry
+  puts a +1/+1 counter on target creature. Repeatable and cheap scry
+  (Elrond, Season of Growth, Lothlorien Lookout, Opt-style cantrips,
+  scry ETB creatures) grows a board of Elves and evasive creatures,
+  Legolas/Celeborn/Glorfindel cash in scry triggers, and late game Arwen's
+  {4}{G}{U} ability is a mana sink. Win by combat with counter-grown
+  creatures; blue tempo/bounce protects the board.
+feedback:
+  - date: '2026-10-08'
+    kind: pin
+    card: Elrond, Lord of Rivendell
+    reason: 'User-confirmed engine pin 2026-10-08: Arwen scry-counter core'
+  - date: '2026-10-08'
+    kind: pin
+    card: Season of Growth
+    reason: 'User-confirmed engine pin 2026-10-08: Arwen scry-counter core'
+  - date: '2026-10-08'
+    kind: pin
+    card: Terrasymbiosis
+    reason: 'User-confirmed engine pin 2026-10-08: Arwen scry-counter core'
+  - date: '2026-10-08'
+    kind: pin
+    card: Legolas, Counter of Kills
+    reason: 'User-confirmed engine pin 2026-10-08: Arwen scry-counter core'
+  - date: '2026-10-08'
+    kind: pin
+    card: Council's Deliberation
+    reason: 'User-confirmed engine pin 2026-10-08: Arwen scry-counter core'

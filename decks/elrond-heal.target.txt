@@ -1,20 +1,31 @@
 1 Elrond, Master of Healing
-1 Gyre Sage
+1 Wose Pathfinder
 1 Omenspeaker
-1 Galadhrim Guide
+1 Pongify
 1 Bilbo Baggins, Burglar
 1 Lothlórien Lookout
-1 Bred for the Hunt
-1 Fierce Guardianship
-1 Master Biomancer
-1 Fathom Mage
+1 Rabid Bite
+1 Applied Biomancy
+1 Arwen's Gift
+1 Horses of the Bruinen
+1 Negate
+1 Track Down
+1 Archive Dragon
+1 Beast Within
+1 Glorfindel, Dauntless Rescuer
+1 Disallow
+1 Council's Deliberation
+1 Legolas, Counter of Kills
 1 Shower of Arrows
+1 Bombadil's Song
 1 Hithlain Knots
+1 Mystic Redaction
 1 Cavern Stomper
 1 Snakeskin Veil
 1 Elrond, Lord of Rivendell
-1 Rashmi, Eternities Crafter
+1 Gandalf, Friend of the Shire
 1 Elven Farsight
+1 Freeze in Place
 1 Return to Nature
 1 Didn't Say Please
 1 The Grey Havens
@@ -23,18 +34,25 @@
 1 Growth Spiral
 1 Leafkin Druid
 1 Pridemalkin
+1 Nissa, Steward of Elements
+1 Boomerang
 1 Deepglow Skate
-1 Proft, Consulting Detective
-1 Llanowar Elves
-1 Wave Goodbye
+1 Giant's Boulder
+1 Aggressive Mammoth
+1 Woodland Mystic
+1 Candy Trail
 1 Overwhelming Stampede
-1 Kenessos, Priest of Thassa
+1 Celeborn the Wise
 1 Opt
+1 Path of Ancestry
 1 Arwen Undómiel
+1 Temple of Mystery
 1 Command Tower
+1 Vineglimmer Snarl
 1 Cryptic Annelid
 1 Arcane Signet
 1 Season of Growth
+1 Castle Vantress
 1 Herd Baloth
 1 Galadriel of Lothlórien
 1 Hinterland Harbor
@@ -54,26 +72,9 @@
 1 Breeding Pool
 1 Pathbreaker Ibex
 1 Heroic Intervention
-1 Willowrush Verge
+1 Polluted Delta
 1 Thrasios, Triton Hero
 1 Misty Rainforest
 1 Cyclonic Rift
-1 Rejuvenating Springs
-1 Temple of Mystery
-1 Castle Vantress
-1 Herald of Secret Streams
-1 Deliberate
-1 Sigiled Starfish
-1 Lost Isle Calling
-1 Mystic Speculation
-1 Serum Visions
-1 Dissolve
-1 Swan Song
-1 Inspiring Call
-1 Beast Within
-1 Fall of Gil-galad
-1 Ram Through
-1 Windswift Slice
-1 Reclamation Sage
 12 Forest
-11 Island
+10 Island

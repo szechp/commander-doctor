@@ -3,10 +3,22 @@ bracket: 3
 threshold: 5
 edhrec_theme: graveyard
 gameplan: >
-  Graveyard-matters spellslinger: loot and surveil to fill the graveyard,
-  then re-cast spells via flashback, Past in Flames and Sevinne's Reclamation
-  while Sevinne copies the first graveyard cast each turn. Payoffs that
-  trigger on casting from the graveyard: Secrets of the Dead, Burning
-  Vengeance-style triggers via Vega and Young Pyromancer value, snap-cast
-  recursion. Wins through incremental spell damage and overwhelm.
+  Jeskai control that protects Sevinne's spell doublers (user, 2026-10-17:
+  "Control to save our spell doublers. Try to finish the game with cheap
+  multiplied spells while trying to keep the others with interaction alive.
+  Crackle with power as a late game finisher"). Sevinne copies the first
+  instant or sorcery cast from a graveyard each turn, on every player's turn;
+  Harmonic Prodigy and Veyran each add one more copy (copies add: 2/3/4
+  instances, not multiplied). Hold up counters and instant removal to keep
+  Sevinne, Prodigy and Veyran alive; Flawless Maneuver and Boros Charm make
+  them indestructible, which also turns our own Blasphemous Act one-sided.
+  Recast from the graveyard with Snapcaster, Mission Briefing, Quistis, Gale,
+  Torrential Gearhulk and Backdraft Hellkite. Close with cheap each-opponent
+  burn that multiplies (Boltwave, Fiery Confluence, Delayed Blast Fireball,
+  Boros Charm) plus Guttersnipe/Vivi per-cast pings; Crackle with Power,
+  Banefire, Comet Storm and Devil's Play are the late-game X finishers. Pay X
+  through flashback or cast permissions, never through free-cast effects
+  (Torrential Gearhulk makes X 0). No Lier: "Spells can't be countered" turns
+  the counters off. Premium cards never compete: an added card displaces the
+  weakest card in its role.
 feedback: []

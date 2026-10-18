@@ -133,3 +133,17 @@ def test_sync_stores_global_edhrec_rank(tmp_path, monkeypatch):
     rows = con.execute("SELECT card_name, edhrec_rank FROM card_popularity").fetchall()
     con.close()
     assert rows == [("Lightning Bolt", 42)]  # unranked cards get no row
+
+
+def test_sync_stores_whether_the_dated_printing_is_a_reprint(tmp_path, monkeypatch):
+    path = str(tmp_path / "mirror.sqlite3")
+    new_card = dict(BOLT, released_at="2026-09-01", reprint=False)
+    reprinted = dict(SIGNET, released_at="2026-09-01", reprint=True)
+    monkeypatch.setattr(sync_mod, "_get_bulk_uri", lambda bulk_type: f"fake://{bulk_type}")
+    monkeypatch.setattr(sync_mod, "_stream_jsonl",
+                        lambda uri: iter([new_card, reprinted]) if "oracle_cards" in uri else iter([]))
+    sync_mod.sync(path)
+    con = connect(path)
+    rows = sorted(con.execute("SELECT card_name, reprint FROM card_reprint").fetchall())
+    con.close()
+    assert rows == [("Lightning Bolt", 0), ("Rakdos Signet", 1)]

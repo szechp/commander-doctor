@@ -25,6 +25,22 @@ _FREE_COLOURED_TAP = re.compile(r"^\(?\{T\}(?:, [^:]*)?: Add [^.\n]*(?:\{[WUBRG]
 # an extra cost. Shocks/triomes print it as reminder text in parentheses.
 _PLAIN_TAP_LINE = re.compile(r"^\(?\{T\}(?:, Pay \d+ life)?: Add ([^\n]*)", re.MULTILINE)
 _COSTED_COLOURED_TAP = re.compile(r"^(?:\{[^}]*\})+, \{T\}: Add [^.\n]*\{[WUBRG]\}", re.MULTILINE)
+_TYPE_PAIR = rf"an? ({_BASIC_TYPES})(?: or (?:an? )?({_BASIC_TYPES}))?"
+# Lands that only work when the deck supplies a basic land type: check lands
+# ("enters tapped unless you control an Island"), reveal lands -- snarls,
+# Port Town ("you may reveal a Plains or Island card from your hand. If you
+# don't, this land enters tapped") -- and colours gated on a type (Verges,
+# Nimbus Maze: "Activate only if you control an Island").
+_CHECK_REQ = re.compile(rf"enters tapped unless you control {_TYPE_PAIR}", re.IGNORECASE)
+_REVEAL_REQ = re.compile(rf"you may reveal {_TYPE_PAIR} card from your hand\. if you don't, "
+                         rf"(?:this land|it|~) enters tapped", re.IGNORECASE)
+_COLOUR_REQ = re.compile(rf"activate only if you control {_TYPE_PAIR}", re.IGNORECASE)
+# Count conditions: battle lands ("two or more basic lands"), the Eldraine
+# five ("three or more other Islands"). Slowlands ("two or more other
+# lands") count any land, so they behave the same in every deck.
+_NUMBERS = {"two": 2, "three": 3, "four": 4, "five": 5}
+_COUNT_REQ = re.compile(rf"enters tapped unless you control (two|three|four|five) or more (?:other )?"
+                        rf"(basic lands|{_BASIC_TYPES})s?\b", re.IGNORECASE)
 
 
 @dataclass(frozen=True)
@@ -58,6 +74,8 @@ def classify_land_speed(oracle_text: str | None, never_untaps: bool = False) -> 
         return LandSpeed(SLOW, "slowland (tapped turns 1-2)")
     if re.search(rf"enters tapped unless you control an? {_BASIC_TYPES}", low):
         return LandSpeed(CONDITIONAL, "check land (tapped turn 1)")
+    if _REVEAL_REQ.search(text):
+        return LandSpeed(CONDITIONAL, "reveal land (tapped without a matching card in hand)")
     if "enters tapped unless" in low:
         return LandSpeed(CONDITIONAL, "conditionally tapped")
     if "enters tapped" in low:
@@ -96,3 +114,33 @@ def plain_tap_colours(oracle_text: str | None, identity: set[str]) -> set[str]:
             colours |= identity
         colours |= set(re.findall(r"\{([WUBRG])\}", produced)) & identity
     return colours
+
+
+@dataclass(frozen=True)
+class TypeRequirement:
+    kind: str                  # "enters" (untapped) or "colour" (a gated colour)
+    types: frozenset[str]      # basic land types that satisfy it (Island, Mountain, ...)
+    count: int = 1             # how many such lands
+    basic_only: bool = False   # battle lands: only basic lands count
+
+
+ALL_BASIC_TYPES = frozenset({"Plains", "Island", "Swamp", "Mountain", "Forest"})
+
+
+def type_requirements(oracle_text: str | None) -> list[TypeRequirement]:
+    """What a land needs from the deck's lands: check and reveal lands need
+    one land of a type, battle lands two basic lands, the Eldraine five
+    three other lands of a type ("enters"); Verge-style colours need one
+    land of a type ("colour")."""
+    text = oracle_text or ""
+    found = []
+    for kind, pattern in (("enters", _CHECK_REQ), ("enters", _REVEAL_REQ), ("colour", _COLOUR_REQ)):
+        for match in pattern.finditer(text):
+            found.append(TypeRequirement(kind, frozenset(t.capitalize() for t in match.groups() if t)))
+    for match in _COUNT_REQ.finditer(text):
+        count, what = _NUMBERS[match.group(1).lower()], match.group(2).lower()
+        if what == "basic lands":
+            found.append(TypeRequirement("enters", ALL_BASIC_TYPES, count, basic_only=True))
+        else:
+            found.append(TypeRequirement("enters", frozenset({what.capitalize()}), count))
+    return found

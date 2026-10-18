@@ -1,6 +1,8 @@
 commander: Elrond, Master of Healing
 bracket: 3
 threshold: 4
+# Deck type from the user's own gameplan wording ("Scry-counters midrange").
+archetype: midrange
 edhrec_theme: scry
 gameplan: >
   Scry-counters midrange. Scry every turn (cantrips, repeatable scry permanents)

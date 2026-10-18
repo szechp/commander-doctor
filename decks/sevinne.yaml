@@ -48,3 +48,97 @@ feedback:
     kind: pin
     card: Star of Extinction
     reason: 'closer: big damage reflected by the engine for lethal (user-confirmed)'
+  - date: '2026-10-17'
+    kind: note
+    text: 'Played games with the rebuilt control list (decks/sevinne.merged.txt, 2026-10-17):
+      flooded with interaction but can''t pay for it all because the creatures are expensive
+      (Archmages etc.); no damage until late game, then the X finishers can''t be cast
+      reliably. User wants constant pingers instead of the mages -> decks/sevinne.pingers.txt.'
+  - date: '2026-10-18'
+    kind: note
+    text: '2026-10-18: deck type confirmed midrange (archetype, deckdoctor balance).
+      Pinger list trimmed from 21 to 15 answers (cut An Offer You Can''t Refuse, Force
+      of Negation, Swan Song, Vandalblast, Mystic Confluence, Generous Gift) for draw
+      (Whirlwind of Thought, Thrill of Possibility, Gitaxian Probe, Opt) and cost reducers
+      (Goblin Electromancer, Stormcatch Mentor). decks/sevinne-swaps.txt regenerated.'
+  - date: '2026-10-18'
+    kind: note
+    text: '2026-10-18: Force of Negation restored (user: free-to-cast answers like Force
+      of Negation / Deadly Rollick are never cut for mana value; the doctor now treats
+      their cost as 0). Opt dropped from the adds for the slot. decks/sevinne-swaps.txt
+      regenerated.'
+  - date: '2026-10-18'
+    kind: note
+    text: '2026-10-18: Blasphemous Act out for Generous Gift (13 damage to each creature
+      kills our own pingers; Delayed Blast Fireball and Cyclonic Rift stay as one-sided
+      wipes; removal 7, wipes 3 now inside the Jeskai bands). Whirlwind of Thought kept
+      over Think Twice (owned; deploy: +0.7 cards seen by turn 8, even through turn
+      6). Goblin Electromancer and Stormcatch Mentor stay: the only 2-mana cost reducers,
+      no owned card does that early.'
+  - date: '2026-10-18'
+    kind: note
+    text: '2026-10-18: user-suggested cards screened. In: Vivi''s Persistence (for Erebor
+      Flamesmith: 2-mana instant Wizard-token pinger on every noncreature spell, Prodigy/Veyran
+      double it, returns to hand), Lindblum, Industrial Regency // Mage Siege (for the
+      basic Mountain: pinger adventure on a land; deploy: under 1 point slower), Grab
+      the Prize (for Thrill of Possibility: same loot plus 2 damage to each opponent).
+      Benched: Traumatic Critique (good, no slot over the X finishers). Passed: Mishra''s
+      Command (sorcery, no player damage), Tweeze (3 damage to one target for 3; Boltwave
+      does 3 to each opponent for 1), Volcanic Spray (hits us and kills our own X/1
+      pingers and 0/1 Wizard tokens).'
+  - date: '2026-10-18'
+    kind: note
+    text: '2026-10-18: dual-use pass (user: every card should do two jobs; suggestions
+      optional). In: Electrostatic Field for Ghostly Prison (defense plus a ping per
+      instant/sorcery), Jeskai Ascendancy for Fact or Fiction (loot on every noncreature
+      spell fills the graveyard; untaps Thermo-Alchemist), Thermo-Alchemist for Unruly
+      Catapult (same text, 1 mana cheaper). Kept out: The Emperor of Palamecia and Dragon''s
+      Rage Channeler -- deploy: replacing a rock cost about 4 points of Sevinne on turn
+      4; Ascendancy already puts a card in the graveyard on every spell. Other 25 suggestions
+      passed (expensive, conditional, or no single-job slot left).'
+  - date: '2026-10-18'
+    kind: note
+    text: '2026-10-18: user: dual use is not a hard constraint. Ghostly Prison restored
+      over Electrostatic Field (Prison taxes every attacker; the Field blocks one and
+      would be the 8th pinger). Jeskai Ascendancy and Thermo-Alchemist stay on their
+      own merits. Dual use breaks ties between cards about equally good at a slot''s
+      job.'
+  - date: '2026-10-18'
+    kind: note
+    text: '2026-10-18 games (pinger list): much more consistent; Vivi and Harmonic Prodigy
+      excellent; removal great; interaction slightly low; sometimes no way to cast from
+      the graveyard (Backdraft removed, Past in Flames used); type-dependent lands (checklands,
+      snarls, Port Town, Verges) often arrive tapped or one-coloured with only 2 basics.
+      Changes: Raugrin Triome, Mountain, Hengegate Pathway for Frostboil Snarl, Furycalm
+      Snarl, Port Town (deploy: Sevinne by turn 4 +1.7 pts, fewer colour-blocked spells,
+      fewer tapped lands); Stingcaster Mage (owned; Wizard, Prodigy doubles its flashback
+      trigger) for Comet Storm; Swan Song (owned) for Gitaxian Probe (answers 17, 14
+      cost mana, inside 12-15). Delayed Blast Fireball kept: from the graveyard it still
+      deals 2 to each opponent and their creatures, copied by Sevinne; foretell it for
+      5.'
+  - date: '2026-10-18'
+    kind: note
+    text: '2026-10-18: land review of user suggestions (surveil lands, Karakas, channel
+      lands, Gemstone Caverns, Arena of Glory, Boseiju Who Shelters All; draftsim best-lands
+      list). In: Eiganjo, Seat of the Empire for Sunbillow Verge (untapped W, channel
+      removal on attackers/blockers, 1 cheaper per legendary creature; deploy: no speed
+      change). Not taken: surveil lands (always tapped: -1.7 pts Sevinne by turn 4 for
+      the check lands, -2.8 for the Verges; the standing rule is fastest lands on turns
+      1-4), Karakas (not Commander-legal per Scryfall), Arena of Glory and Mystic Sanctuary
+      (type-dependent), Gemstone Caverns (opening hand on the draw only, costs a card),
+      Boseiju Who Shelters All (tapped, colourless), Multiversal Passage (one colour;
+      its chosen type isn''t modelled yet).'
+  - date: '2026-10-18'
+    kind: note
+    text: '2026-10-18: Multiversal Passage for Clifftop Retreat (an untapped shock land
+      that becomes the basic type you need; deploy, now modelling choose-a-type lands:
+      Sevinne by turn 4 +0.9 pts, tapped lands on turns 1-4 0.45 -> 0.30, fewer colour-blocked
+      spells; the 4 remaining type-dependent lands go from 67% to 71% by turn 3).'
+  - date: '2026-10-18'
+    kind: note
+    text: '2026-10-18: both check lands out for basics (Glacial Fortress -> Plains,
+      Sulfur Falls -> Mountain). Each check land had about 11 supporting typed lands
+      (71% untapped by turn 3); 80% needs about 15. deploy: tapped lands on turns 1-4
+      0.32 -> 0.19, Sevinne by turn 4 +0.4 pts, spells stuck on colour +0.02 (negligible);
+      colour floor unchanged at 13 short. Remaining type-dependent lands: Floodfarm
+      and Riverpyre Verge (first colour always works, gated colour 74%).'

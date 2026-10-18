@@ -1,23 +1,151 @@
+// COMMANDER
+1 Sevinne, the Chronoclasm
+
+// MAINBOARD
+1 Arcane Signet
+1 Arid Mesa
+1 Backdraft Hellkite
+1 Boros Charm
+1 Chaos Warp
+1 Command Tower
+1 Counterspell
+1 Deep Analysis
+1 Devil's Play
+1 Faithful Mending
+1 Faithless Looting
+1 Fellwar Stone
+1 Flawless Maneuver
+1 Flooded Strand
+1 Floodfarm Verge
+1 Force of Negation
+1 Force of Will
+1 Frantic Search
+1 Generous Gift
+1 Ghostly Prison
+1 Hallowed Fountain
+1 Inspiring Vantage
+1 Island
+1 Mana Drain
+2 Mountain
+1 Past in Flames
+1 Path to Exile
+2 Plains
+1 Riverpyre Verge
+1 Sacred Foundry
+1 Scalding Tarn
+1 Sea of Clouds
+1 Seachrome Coast
+1 Snapcaster Mage
+1 Sol Ring
+1 Soul-Guide Lantern
+1 Spirebluff Canal
+1 Steam Vents
+1 Stingcaster Mage
+1 Storm-Kiln Artist
+1 Swan Song
+1 Swords to Plowshares
+1 Whirlwind of Thought
+
 // SIDEBOARD
+1 Adarkar Wastes
+1 Azorius Signet
+1 Banefire
 1 Battlefield Forge
+1 Big Score
+1 Boltwave
+1 Boros Signet
 1 City of Brass
-1 Fabricate
-1 Gratuitous Violence
-1 Long-Term Plans
+1 Crackle with Power
+1 Cyclonic Rift
+1 Deflecting Swat
+1 Delayed Blast Fireball
+1 Dualcaster Mage
+1 Eiganjo, Seat of the Empire
+1 Fierce Guardianship
+1 Fiery Confluence
+1 Fiery Inscription
+1 Fiery Islet
+1 Gale, Waterdeep Prodigy
+1 Get Lost
+1 Goblin Electromancer
+1 Grab the Prize
+1 Guttersnipe
+1 Harmonic Prodigy
+1 Hengegate Pathway // Mistgate Pathway
+1 Izzet Signet
+1 Jeskai Ascendancy
+1 Lindblum, Industrial Regency // Mage Siege
+1 Longshot, Rebel Bowman
 1 Mana Confluence
-1 Open the Armory
+1 Memory Deluge
+1 Mission Briefing
+1 Multiversal Passage
+1 Otawara, Soaring City
+1 Plunder the Trollshaws
+1 Prismatic Vista
+1 Quistis Trepe
+1 Raugrin Triome
+1 Refuse // Cooperate
+1 Riverglide Pathway // Lavaglide Pathway
+1 Shatterskull Smashing // Shatterskull, the Hammer Pass
 1 Shivan Reef
+1 Sink into Stupor // Soporific Springs
+1 Spectator Seating
+1 Stormcatch Mentor
+1 Sunbaked Canyon
 1 Talisman of Conviction
 1 Talisman of Creativity
+1 Talisman of Progress
+1 Thermo-Alchemist
+1 Training Center
+1 Veyran, Voice of Duality
+1 Vivi Ornitier
+1 Vivi's Persistence
 
 // MAYBEBOARD
+1 Archmage Emeritus
 1 Archmage of Runes
+1 Blasphemous Act
+1 Blazing Sunsteel
+1 Brash Taunter
+1 Chain Reaction
+1 Chromatic Lantern
 1 City on Fire
+1 Clifftop Retreat
+1 Coalition Relic
 1 Commander's Sphere
+1 Darksteel Plate
+1 Disallow
+1 Dovin's Veto
+1 Exotic Orchard
+1 Gitaxian Probe
+1 Glacial Fortress
+1 Idyllic Tutor
+1 Imperial Recruiter
+5 Island
 1 Jace's Sanctum
+1 Jeska's Will
+1 Lotus Petal
+1 Mind Stone
+4 Mountain
 1 Myriad Landscape
+1 Mystic Remora
+1 Mystical Tutor
+1 Pain for All
+1 Pariah
+1 Phyrexian Vindicator
+2 Plains
+1 Pongify
 1 Prairie Stream
 1 Radiant Summit
 1 Scorched Geyser
+1 Sevinne's Reclamation
+1 Shivan Meteor
+1 Solphim, Mayhem Dominus
+1 Star of Extinction
+1 Stuffy Doll
+1 Sulfur Falls
+1 Sunbillow Verge
+1 Twinned Vision
 1 Wayfarer's Bauble
-1 Whirlwind of Thought
+1 With Great Power . . .

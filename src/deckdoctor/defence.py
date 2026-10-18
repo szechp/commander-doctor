@@ -45,6 +45,16 @@ from deckdoctor.deck import Deck
 COUNTERSPELL_PREFIX = "counterspell"
 
 
+def is_counterspell(tags: set[str]) -> bool:
+    return any(t == COUNTERSPELL_PREFIX or t.startswith(COUNTERSPELL_PREFIX) for t in tags)
+
+
+def is_interaction(tags: set[str]) -> bool:
+    """Removal, a board wipe or a counterspell -- what this check and
+    `balance`'s sweet spot both count as an answer."""
+    return bool(tags & REMOVAL_TAGS) or bool(tags & WIPE_TAGS) or is_counterspell(tags)
+
+
 BOARD_PRESENCE_ADJUSTMENT = {
     "high": (-2, -1),
     "none": (1, 1),
@@ -128,16 +138,14 @@ def compute_defence(deck: Deck, con: sqlite3.Connection, threshold_turn: float, 
         if row is None:
             continue
         tags = tags_by_name.get(card.name, set())
-        is_interaction = bool(tags & REMOVAL_TAGS) or bool(tags & WIPE_TAGS) or \
-            any(t == COUNTERSPELL_PREFIX or t.startswith(COUNTERSPELL_PREFIX) for t in tags)
-        if is_interaction:
+        interacts = is_interaction(tags)
+        if interacts:
             interaction_names.add(card.name)
 
         is_instant_type = row["type_line"].startswith("Instant")
-        is_counterspell = any(t == COUNTERSPELL_PREFIX or t.startswith(COUNTERSPELL_PREFIX) for t in tags)
         has_flash = "Flash" in (row["keywords"] or "")
 
-        if is_counterspell or (is_interaction and is_instant_type) or (is_interaction and has_flash):
+        if is_counterspell(tags) or (interacts and is_instant_type) or (interacts and has_flash):
             instant_speed_names.add(card.name)
 
     return DefenceReport(

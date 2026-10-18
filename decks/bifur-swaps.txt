@@ -1,0 +1,40 @@
+// SIDEBOARD
+1 Akroma's Will
+1 Arcane Signet
+1 Arid Mesa
+1 Balin, Loremaster
+1 Chronicle of Victory
+1 Command Tower
+1 Dwalin, Weaponmaster
+1 Dáin of the Ancient Halls
+1 Kíli the Resourceful
+1 Magda, Brazen Outlaw
+1 Mana Vault
+1 Path to Exile
+1 Sacred Foundry
+1 Smothering Tithe
+1 Sol Ring
+1 Swords to Plowshares
+1 The Lonely Mountain
+1 The One Ring
+1 Thorin, King of Durin's Folk
+1 Windswept Heath
+
+// MAYBEBOARD
+1 Bombard
+1 Bombur, Gentle Dreamer
+1 Consul's Shieldguard
+1 Family Reunion
+1 Flick a Coin
+1 Giant's Boulder
+1 Glass Casket
+1 Malamet War Scribe
+1 Minecart Daredevil // Ride the Rails
+2 Mountain
+1 Nori, Teller of Tales
+1 Ori, Keeper of Songs
+3 Plains
+1 Prying Blade
+1 Ragged Short Spear
+1 Spinning Wheel
+1 Survive the Night

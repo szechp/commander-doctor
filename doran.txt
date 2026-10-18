@@ -1,0 +1,84 @@
+1 Doran, Besieged by Time
+1 Delighted Halfling
+1 Nyxbloom Ancient
+1 Birds of Paradise
+1 Badgermole Cub
+1 Exploration
+1 Icetill Explorer
+1 Faeburrow Elder
+1 Bloom Tender
+1 Three Visits
+1 Nature's Lore
+1 Llanowar Elves
+1 Basalt Monolith
+1 Wall of Omens
+1 Wall of Blossoms
+1 Axebane Guardian
+1 Overgrown Battlement
+1 Sylvan Caryatid
+1 Wall of Corpses
+1 The Walls of Ba Sing Se
+1 Tree of Perdition
+1 Tree of Redemption
+1 Unhallowed Phalanx
+1 Flatman
+1 Doom Weaver
+1 Baldin, Century Herdmaster
+1 Jumbo Cactuar
+1 Bedrock Tortoise
+1 Shield Sphere
+1 Animate Wall
+1 Assault Formation
+1 Felothar the Steadfast
+1 Ghalta the Immovable
+1 Rolling Stones
+1 Doran, the Siege Tower
+1 Ancient Lumberknot
+1 Jaws of Defeat
+1 Seedborn Muse
+1 Up the Beanstalk
+1 Greater Good
+1 Phyrexian Arena
+1 Black Market Connections
+1 The Great Henge
+1 Selvala, Heart of the Wilds
+1 Sign in Blood
+1 Swords to Plowshares
+1 Deadly Rollick
+1 Path to Exile
+1 Assassin's Trophy
+1 Boseiju, Who Endures
+1 Feed the Swarm
+1 Galadriel's Dismissal
+1 Heroic Intervention
+1 Akroma's Will
+1 Giver of Runes
+1 Toxic Deluge
+1 The Meathook Massacre
+1 Enlightened Tutor
+1 Sol Ring
+1 Sterling Grove
+1 Sovereign Okinec Ahau
+1 Slaughter the Strong
+1 Marsh Flats
+1 Verdant Catacombs
+1 Windswept Heath
+1 Godless Shrine
+1 Overgrown Tomb
+1 Temple Garden
+1 Isolated Chapel
+1 Sunpetal Grove
+1 Woodland Cemetery
+1 Bleachbone Verge
+1 Hushwood Verge
+1 Wastewood Verge
+1 Brushland
+1 Caves of Koilos
+1 Llanowar Wastes
+1 Blooming Marsh
+1 Concealed Courtyard
+1 Razorverge Thicket
+1 Swiftfoot Boots
+4 Plains
+5 Swamp
+10 Forest

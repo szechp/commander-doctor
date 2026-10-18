@@ -28,6 +28,7 @@ class TargetDiff:
     cuts: list[str]
     adds: list[str]
     unchanged: int
+    kept: list[str] = field(default_factory=list)
     pinned_cuts: dict[str, str | None] = field(default_factory=dict)
     rejected_adds: dict[str, list[tuple[str, str | None]]] = field(default_factory=dict)
     proposal: dict | None = None
@@ -40,6 +41,7 @@ class TargetDiff:
             "cuts": self.cuts,
             "adds": self.adds,
             "unchanged": self.unchanged,
+            "kept": self.kept,
             "pinned_cuts": self.pinned_cuts,
             "rejected_adds": {k: [{"previously_replacing": cur, "reason": why} for cur, why in v]
                               for k, v in self.rejected_adds.items()},
@@ -88,6 +90,7 @@ def diff_decks(current: Deck, target: Deck, config: DeckConfig | None = None) ->
         cuts=cuts,
         adds=adds,
         unchanged=unchanged,
+        kept=_expand(before & after),
         pinned_cuts={name: pins[name] for name in cuts if name in pins},
         rejected_adds=rejected_adds,
     )
@@ -127,9 +130,16 @@ def render(diff: TargetDiff) -> str:
 
 
 def manabox_swaps(diff: TargetDiff) -> str:
-    """The swaps list in ManaBox text format: ins as sideboard, outs as
-    maybeboard, same `// SECTION` headers the deck files use."""
+    """The swaps list in ManaBox text format, as one importable deck: the
+    target commander, the kept cards as mainboard, ins as sideboard and outs
+    as maybeboard. ManaBox only picks up the commander and the cards that
+    stay with explicit `// COMMANDER` and `// MAINBOARD` headers. A replaced
+    commander goes to the maybeboard with the other outs."""
     def section(header: str, names: list[str]) -> list[str]:
         counts = Counter(names)
         return [header, *(f"{n} {name}" for name, n in sorted(counts.items(), key=lambda kv: kv[0].casefold()))]
-    return "\n".join(section("// SIDEBOARD", diff.adds) + [""] + section("// MAYBEBOARD", diff.cuts)) + "\n"
+    outs = diff.cuts + ([diff.commander_before] if diff.commander_before != diff.commander_after else [])
+    return "\n".join(section("// COMMANDER", [diff.commander_after]) + [""]
+                     + section("// MAINBOARD", diff.kept) + [""]
+                     + section("// SIDEBOARD", diff.adds) + [""]
+                     + section("// MAYBEBOARD", outs)) + "\n"

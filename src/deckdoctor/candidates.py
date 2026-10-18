@@ -43,12 +43,27 @@ def normalize_role(role: str) -> str:
     return ROLE_ALIASES.get(role, role)
 
 
+def role_parts(role: str) -> list[str]:
+    """`pinger+cast-trigger-you` -> both parts: a combined role asks for cards
+    carrying every part (a payoff that is also a cast trigger)."""
+    return [normalize_role(part.strip()) for part in role.split("+") if part.strip()] or [role]
+
+
 def role_suggestions(con: sqlite3.Connection, role: str) -> list[str] | None:
     """None if `role` is queryable; otherwise up to 15 close tag names (maybe
     empty). Lets the CLI tell "no such role" apart from "every card in the
-    role was filtered out" -- the first used to print as an empty pool."""
+    role was filtered out" -- the first used to print as an empty pool.
+    For a combined role, the first unknown part is reported."""
+    for part in role_parts(role):
+        found = _single_role_suggestions(con, part)
+        if found is not None:
+            return found
+    return None
+
+
+def _single_role_suggestions(con: sqlite3.Connection, role: str) -> list[str] | None:
     role = normalize_role(role)
-    if role in _COLUMN_ROLES:
+    if role in _COLUMN_ROLES or role == "any":
         return None
     if con.execute("SELECT 1 FROM card_tags WHERE tag = ? OR tag LIKE ? LIMIT 1", [role, role + "%"]).fetchone():
         return None
@@ -62,12 +77,29 @@ def role_suggestions(con: sqlite3.Connection, role: str) -> list[str] | None:
 
 
 def _candidate_names_for_role(con: sqlite3.Connection, role: str) -> list[str] | None:
+    """Card names carrying every part of a (possibly combined) role, or None
+    for a plain `game_changer` search (a whole-table column scan)."""
+    parts = role_parts(role)
+    if len(parts) == 1:
+        return _names_for_one_role(con, parts[0])
+    names: set[str] | None = None
+    for part in parts:
+        found = _names_for_one_role(con, part)
+        if found is None:
+            found = [r[0] for r in con.execute("SELECT name FROM cards WHERE is_game_changer = 1")]
+        names = set(found) if names is None else names & set(found)
+    return sorted(names or ())
+
+
+def _names_for_one_role(con: sqlite3.Connection, role: str) -> list[str] | None:
     """Returns the (usually small) set of candidate card names for a role,
     filtered in SQL, or None for `game_changer` (a whole-table column scan).
     Ramp/draw roles resolve through `card_roles.names_with_role`: Forge kind
     first, Scryfall tag as fallback -- the same precedence `audit` uses."""
     if role == "game_changer":
         return None
+    if role == "any":  # every card -- for an `--oracle` text search
+        return [r[0] for r in con.execute("SELECT name FROM cards WHERE commander_legal = 1")]
     if role in RAMP_KINDS or role in DRAW_KINDS or role in {"ramp", "draw"}:
         return names_with_role(con, role)
     rows = con.execute(
@@ -106,6 +138,10 @@ def find_candidates(
     spare_quantities: dict[str, int] | None = None,
     max_price: float | None = None,
     owned_quantities: dict[str, int] | None = None,
+    sort: str = "evidence",
+    fit_tags: list[str] | None = None,
+    only_names: set[str] | None = None,
+    oracle: str | None = None,
 ) -> list[str]:
     """Returns compact lines (SPEC.md §10) for up to `limit` commander-legal
     cards in `role`, colour-identity-legal for the commander, not already
@@ -129,10 +165,21 @@ def find_candidates(
     in the user's collection file -- the genuine cards they own. Decklists
     never count: many deck cards are proxies. Every pool card is then
     already owned, so `max_price` filters nothing there (it still labels).
+
+    `fit_tags` (`signature_tags`: what this deck's engine runs on) labels
+    each line with the ones the card carries; `sort="fit"` ranks by how
+    many it carries first -- a card doing two of the deck's jobs over one
+    doing a single job -- then by the evidence order below. `only_names`
+    restricts the pool (the recently printed section). `oracle` keeps only
+    cards whose oracle text matches the regular expression (case-
+    insensitive), like a Scryfall `o:/.../` search: tags lag behind new sets
+    and only describe roles someone tagged, text doesn't.
     """
     commander_ci = set(commander_color_identity)
     cols_sql = ", ".join(_CARDS_COLS)
     role = normalize_role(role)
+    import re
+    oracle_re = re.compile(oracle, re.IGNORECASE) if oracle else None
 
     tag_filtered_names = _candidate_names_for_role(con, role)
     if tag_filtered_names is not None:
@@ -146,7 +193,7 @@ def find_candidates(
                 f"SELECT {cols_sql} FROM cards WHERE commander_legal = 1 AND name IN ({placeholders})",
                 chunk,
             ).fetchall())
-        tags_by_name = {n: {role} for n in tag_filtered_names}  # good enough: role membership already established
+        tags_by_name = {n: set(role_parts(role)) for n in tag_filtered_names}  # role membership already established
     else:
         rows = con.execute(
             f"SELECT {cols_sql} FROM cards WHERE commander_legal = 1 AND is_game_changer = 1"
@@ -161,6 +208,10 @@ def find_candidates(
         if not _color_identity_subset(json.loads(row["color_identity"] or "[]"), commander_ci):
             continue
         if owned_quantities is not None and owned_quantities.get(row["name"], 0) < 1:
+            continue
+        if only_names is not None and row["name"] not in only_names:
+            continue
+        if oracle_re is not None and not oracle_re.search(row["oracle_text"] or ""):
             continue
         matches.append((row, tags_by_name.get(row["name"], set())))
 
@@ -198,6 +249,10 @@ def find_candidates(
         item[0]["cmc"] if item[0]["cmc"] is not None else float("inf"),
         item[0]["name"].casefold(), item[0]["name"],
     ))
+    fit = _fit_by_name(con, [row["name"] for row, _ in matches], fit_tags) if fit_tags else {}
+    if sort == "fit":
+        # stable: equal fit keeps the evidence order above
+        matches.sort(key=lambda item: ("Land" in (item[0]["type_line"] or ""), -len(fit.get(item[0]["name"], ()))))
     from deckdoctor.edhrec import stat_suffix
     from deckdoctor.collection import availability_suffix
 
@@ -214,8 +269,109 @@ def find_candidates(
             line += f" | {stat_suffix(stats[name])}"
         elif name in ranks:
             line += f" | rank=#{ranks[name]}"
+        if fit_tags:
+            hits = fit.get(name, [])
+            line += f" | fit={len(hits)}" + (f" ({','.join(hits)})" if hits else "")
         lines.append(line)
     return lines
+
+
+# Tags that describe support or bookkeeping rather than what a deck's engine
+# does: ramp shapes, cost oddities, set cycles and trivia. Without these,
+# Sevinne's mana rocks and free counters outranked its burn-on-cast engine.
+_SIGNATURE_STOP_PREFIXES = (
+    "mana-rock", "mana-dork", "land-ramp", "alternative-cost", "manaless-value", "more-expensive-than-mv",
+    "exile-self", "refund", "full-refund", "noncreature-typal", "cycle-", "namesake", "alliteration",
+    "single-english", "out-of-color", "virtual-", "meme", "art-", "flavor", "typal-", "deprecated",
+    "reprint", "triggered-ability", "activated-ability", "vanilla", "french-vanilla", "synergy-commander",
+    "keyword-errata", "game_changer",
+)
+SIGNATURE_MIN_CARDS = 3
+SIGNATURE_MIN_LIFT = 3.0
+SIGNATURE_TOP = 10
+
+
+def _tags_for(con: sqlite3.Connection, names: list[str]) -> dict[str, set[str]]:
+    tags: dict[str, set[str]] = {}
+    for i in range(0, len(names), 500):
+        chunk = names[i:i + 500]
+        marks = ",".join("?" for _ in chunk)
+        for name, tag in con.execute(f"SELECT card_name, tag FROM card_tags WHERE card_name IN ({marks})", chunk):
+            tags.setdefault(name, set()).add(tag)
+    return tags
+
+
+def _fit_by_name(con: sqlite3.Connection, names: list[str], fit_tags: list[str]) -> dict[str, list[str]]:
+    wanted = set(fit_tags)
+    return {name: [t for t in fit_tags if t in tags] for name, tags in _tags_for(con, names).items()
+            if tags & wanted}
+
+
+def signature_tags(con: sqlite3.Connection, deck_names: list[str],
+                   commander_color_identity: list[str]) -> list[tuple[str, int, float]]:
+    """What this deck's engine runs on, from its own list: Scryfall oracle
+    tags on at least SIGNATURE_MIN_CARDS of its nonland cards and at least
+    SIGNATURE_MIN_LIFT times as common there as among every commander-legal
+    nonland card in its colours. Returns (tag, deck cards, lift), strongest
+    first (cards x log lift), SIGNATURE_TOP at most. Works for any deck:
+    Sevinne's pinger list gets group-slug / burn-player / cast-trigger-you /
+    castable-from-graveyard, a sacrifice deck gets its outlets and Blood
+    Artists, a scry deck its scry payoffs."""
+    import math
+
+    ci = set(commander_color_identity)
+    pool = [name for name, ci_json, type_line in con.execute(
+        "SELECT name, color_identity, type_line FROM cards WHERE commander_legal = 1")
+        if set(json.loads(ci_json or "[]")) <= ci and "Land" not in (type_line or "").split(" // ")[0]]
+    pool_set = set(pool)
+    baseline: dict[str, int] = {}
+    for name, tag in con.execute("SELECT card_name, tag FROM card_tags"):
+        if name in pool_set:
+            baseline[tag] = baseline.get(tag, 0) + 1
+    nonland = [n for n in deck_names if n in pool_set]
+    if not nonland or not pool:
+        return []
+    counts: dict[str, int] = {}
+    for tags in _tags_for(con, sorted(set(nonland))).values():
+        for tag in tags:
+            counts[tag] = counts.get(tag, 0) + 1
+    ranked = []
+    for tag, n in counts.items():
+        if n < SIGNATURE_MIN_CARDS or tag.startswith(_SIGNATURE_STOP_PREFIXES) or not baseline.get(tag):
+            continue
+        lift = (n / len(set(nonland))) / (baseline[tag] / len(pool))
+        if lift >= SIGNATURE_MIN_LIFT:
+            ranked.append((n * math.log(lift), tag, n, lift))
+    ranked.sort(key=lambda r: (-r[0], r[1]))
+    return [(tag, n, round(lift, 1)) for _, tag, n, lift in ranked[:SIGNATURE_TOP]]
+
+
+RECENT_MONTHS = 12
+RECENT_SHOWN = 10
+
+
+def recent_names(con: sqlite3.Connection, months: int = RECENT_MONTHS) -> tuple[set[str], bool]:
+    """Cards printed in the `months` before the last sync -- the ones
+    popularity ranking hasn't caught up with yet. The second value says
+    whether reprints are excluded (`card_reprint`, written since the
+    2026-10-18 sync change); with an older mirror a recent reprint counts too."""
+    from datetime import date, timedelta
+
+    try:
+        synced = con.execute("SELECT value FROM sync_meta WHERE key = 'last_sync'").fetchone()
+        end = date.fromisoformat(synced[0][:10]) if synced else date.today()
+        start = (end - timedelta(days=round(months * 30.44))).isoformat()
+        names = {r[0] for r in con.execute(
+            "SELECT card_name FROM card_release WHERE released_at >= ? AND released_at <= ?", [start, end.isoformat()])}
+    except (sqlite3.OperationalError, ValueError):
+        return set(), False
+    try:
+        flags = dict(con.execute("SELECT card_name, reprint FROM card_reprint"))
+    except sqlite3.OperationalError:
+        flags = {}
+    if not flags:
+        return names, False
+    return {n for n in names if flags.get(n) == 0}, True
 
 
 @dataclass(frozen=True)

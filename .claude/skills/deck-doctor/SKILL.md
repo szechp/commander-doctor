@@ -11,9 +11,13 @@ Follow [the shared workflow](../../../docs/workflow.md) from the repository root
 - **Power build** ("best version of X", "don't anchor to my list"): target list from a blank slate.
 - **Maintain** (one card, one slot, a small tweak): a few prioritized changes.
 
-Every mode starts with the same setup: validate, confirm bracket/threshold/gameplan, and pin the EDHREC theme with `deckdoctor themes`. Save them to the deck's YAML. Search with the ranked sources (`edhrec --missing`, `candidates <role>`) and read real card text for every card you keep, add or cut. Popularity says what to read, not what to pick. Treat gameplan interpretation as authored judgment, and preserve the user's stated intent and feedback history.
+Every mode starts with the same setup: validate, confirm bracket/threshold/gameplan and the deck type (`archetype:`, never derived from colours), and pin the EDHREC theme with `deckdoctor themes`. Save them to the deck's YAML. Search with the ranked sources (`edhrec --missing`, `candidates <role>`; combine tags with `+`; `--sort fit` finds cards that also feed the deck's engine, a tie-breaker, never a requirement; always read the recently-printed section) and read real card text for every card you keep, add or cut. Popularity says what to read, not what to pick. Treat gameplan interpretation as authored judgment, and preserve the user's stated intent and feedback history.
 
-Keep `decks/<name>-swaps.txt` in sync with the latest proposed changes: ins as `// SIDEBOARD`, outs as `// MAYBEBOARD` (ManaBox format), always generated with `deckdoctor diff ... --swaps-file`, never hand-written.
+Size interaction with `deckdoctor balance <deck>` (the sweet spot for the deck type, plus community bands for its colours), never "as many as fit". Free-to-cast cards (pitch spells like Force of Negation, commander-free spells like Deadly Rollick, evoke) cost no mana: never cut them for mana value.
+
+Before calling an engine unfinished or rebuilding a deck, run `deckdoctor combos <deck> --refresh` and read its one-card-away list (workflow §3): one card can finish the engine.
+
+Keep `decks/<name>-swaps.txt` in sync with the latest proposed changes: the commander as `// COMMANDER`, kept cards as `// MAINBOARD`, ins as `// SIDEBOARD`, outs as `// MAYBEBOARD` (ManaBox format; ManaBox needs the `// COMMANDER` and `// MAINBOARD` headers to pick those up), diffed against the deck the user physically owns, always generated with `deckdoctor diff ... --swaps-file`, never hand-written.
 
 Run commands as `uv run deckdoctor ...` (bare `deckdoctor` is not on the PATH).
 

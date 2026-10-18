@@ -339,7 +339,7 @@ def main(argv: list[str] | None = None) -> int:
                             help="creatures deployed by turn 4 -- a judgment call, not computed (ref §4.1)")
     p_defence.add_argument("--format", choices=["text", "json"], default="text")
 
-    p_combos = sub.add_parser("combos", help="Commander Spellbook: combos found, bracket estimate, game changers/banned/MLD/extra-turn (§8)")
+    p_combos = sub.add_parser("combos", help="Commander Spellbook: combos found, bracket estimate, game changers/banned/MLD/extra-turn (§8), plus the cards one away from completing a combo")
     p_combos.add_argument("deck", help="path to a decklist, e.g. decks/gishath.txt")
     p_combos.add_argument("--refresh", action="store_true", help="bypass the weekly cache")
     p_combos.add_argument("--db", default=None)
@@ -379,7 +379,8 @@ def main(argv: list[str] | None = None) -> int:
     p_diff.add_argument("target", help="target decklist, same COUNT NAME format")
     p_diff.add_argument("--proposal", default=None, help="write the swap proposal JSON here, for `validate <deck> --swaps`")
     p_diff.add_argument("--swaps-file", default=None,
-                        help="write the ins/outs in ManaBox format (ins = // SIDEBOARD, outs = // MAYBEBOARD), e.g. decks/<name>-swaps.txt")
+                        help="write the swaps in ManaBox format (// COMMANDER, kept cards = // MAINBOARD, ins = // SIDEBOARD, "
+                             "outs = // MAYBEBOARD), e.g. decks/<name>-swaps.txt")
     p_diff.add_argument("--db", default=None)
     p_diff.add_argument("--format", choices=["text", "json"], default="text")
 
@@ -392,9 +393,27 @@ def main(argv: list[str] | None = None) -> int:
     p_health.add_argument("--db", default=None)
     p_health.add_argument("--format", choices=["text", "json"], default="text")
 
+    from deckdoctor.deck_config import ARCHETYPES
+
+    p_balance = sub.add_parser("balance", help="interaction sweet spot for the deck type, plus the community bands "
+                                               "for its colours and EDHREC's card types for its commander/theme")
+    p_balance.add_argument("deck", help="path to a decklist, e.g. decks/sevinne.txt")
+    p_balance.add_argument("--archetype", choices=list(ARCHETYPES), default=None,
+                           help="preview another deck type (default: the deck YAML's archetype)")
+    p_balance.add_argument("--db", default=None)
+    p_balance.add_argument("--format", choices=["text", "json"], default="text")
+
     p_cand = sub.add_parser("candidates", help="compact-line candidate pool for a role, colour-identity + commander-legal filtered (§10/§11)")
     p_cand.add_argument("deck", help="path to a decklist, e.g. decks/gishath.txt")
-    p_cand.add_argument("role", help="rock|dork|land_search|extra_land_drop|repeatable|oneshot|game_changer|<oracle tag or family, e.g. removal-enchantment>")
+    p_cand.add_argument("role", help="any|rock|dork|land_search|extra_land_drop|repeatable|oneshot|game_changer|<oracle tag or family, "
+                                        "e.g. removal-enchantment>; join with + for cards carrying every part, "
+                                        "e.g. pinger+cast-trigger-you")
+    p_cand.add_argument("--oracle", default=None, metavar="REGEX",
+                        help="keep only cards whose oracle text matches this regular expression (case-insensitive), "
+                             "like Scryfall o:/.../; role 'any' searches every card")
+    p_cand.add_argument("--sort", choices=["evidence", "fit"], default="evidence",
+                        help="evidence (default): EDHREC, then popularity; fit: most of the deck's signature tags "
+                             "first (cards doing two of its jobs over one), then evidence")
     p_cand.add_argument("--db", default=None)
     p_cand.add_argument("--limit", type=int, default=20)
     p_cand.add_argument("--theme", default=None, help="EDHREC theme slug to rank by (default: the deck YAML's edhrec_theme)")
@@ -652,7 +671,7 @@ def main(argv: list[str] | None = None) -> int:
         con.close()
         return 0 if valid else 2
 
-    gated_commands = {"hand", "audit", "coverage", "colours", "defence", "combos", "bracket", "edhrec", "themes", "diff", "health", "upgrades", "candidates", "screen-candidates", "goldfish", "consistency", "deploy"}
+    gated_commands = {"hand", "audit", "coverage", "colours", "defence", "combos", "bracket", "edhrec", "themes", "diff", "health", "upgrades", "candidates", "screen-candidates", "goldfish", "consistency", "deploy", "balance"}
     if args.command in gated_commands:
         gate_code = _validation_gate(args.deck, getattr(args, "db", None), getattr(args, "format", "text"))
         if gate_code:
@@ -847,6 +866,32 @@ def main(argv: list[str] | None = None) -> int:
         print(structured.to_json() if args.format == "json" else report.render())
         return 0
 
+    if args.command == "balance":
+        from deckdoctor.assessment_reports import assessment_report
+        from deckdoctor.audit import compute_threshold
+        from deckdoctor.balance import compute_balance
+        from deckdoctor.db import connect_readonly
+        from deckdoctor.deck import load_deck
+        from deckdoctor.deck_config import config_path_for, load_deck_config
+        from deckdoctor.defence import compute_defence
+
+        con = connect_readonly(args.db)
+        deck = load_deck(args.deck, con)
+        config = load_deck_config(args.deck)
+        t = compute_threshold(deck, config.threshold if config else None)
+        report = compute_balance(
+            deck, con, archetype=args.archetype or (config.archetype if config else None),
+            edhrec_theme=config.edhrec_theme if config else None,
+            survival_floor=compute_defence(deck, con, t.threshold).interaction_target,
+        )
+        structured = assessment_report("balance", report, deck, con, status="approximate",
+                                       limitation="Natural draws only; community bands describe what people "
+                                                  "build, not what wins.",
+                                       config_path=config_path_for(args.deck))
+        con.close()
+        print(structured.to_json() if args.format == "json" else report.render())
+        return 0
+
     if args.command == "colours":
         from deckdoctor.assessment_reports import colours_report
         from deckdoctor.colour import compute_colour_report
@@ -895,6 +940,17 @@ def main(argv: list[str] | None = None) -> int:
             else:
                 print(f"Commander Spellbook data unavailable: {unavailable_reason}", file=sys.stderr)
             return 0
+        near_note = None
+        if args.command == "combos":
+            from deckdoctor.combos import analyse_near_misses, cached_near_misses, fetch_near_misses
+            try:
+                variants = fetch_near_misses(deck, force=True) if args.refresh else cached_near_misses(deck)
+            except (requests.RequestException, ValueError, KeyError, TypeError) as exc:
+                variants, near_note = None, f"One-card-away check unavailable: {exc}"
+            if variants is not None:
+                report.near = analyse_near_misses(deck, variants, con)
+            elif near_note is None:
+                near_note = "One-card-away check: no local cache for this list; run with --refresh"
         structured = optional_provider_report(
             args.command, deck, con, report, provider="commander_spellbook",
             cache_timestamp=str(cache_metadata["cached_at"]) if cache_metadata else None,
@@ -940,6 +996,9 @@ def main(argv: list[str] | None = None) -> int:
                 print(mismatch)
                 print()
             print(report.render())
+            if near_note:
+                print()
+                print(near_note)
         return 0
 
     if args.command == "edhrec":
@@ -1113,6 +1172,7 @@ def main(argv: list[str] | None = None) -> int:
 
         summary = compute_health_summary(
             deck, con, threshold_override=threshold, board_presence=args.board_presence, edhrec_data=edhrec_data,
+            archetype=config.archetype if config else None,
         )
         if args.edhrec and edhrec_data is None:
             summary.rows.append(HealthRow("EDHREC guardrail", "unavailable", "cached/provider data unavailable"))
@@ -1219,6 +1279,16 @@ def main(argv: list[str] | None = None) -> int:
                 print("  (none -- every nonbasic land is untapped on turns 1-4)")
             for sl in slow_lands:
                 print(f"  {sl.name} [{sl.tier}: {sl.speed}]")
+            from deckdoctor.upgrades import TYPE_SUPPORT_RELIABLE
+            short = [sl.name for sl in slow_lands
+                     if sl.support_odds is not None and sl.support_odds < TYPE_SUPPORT_RELIABLE]
+            if short:
+                from deckdoctor.upgrades import support_needed
+                print(f"  -> {len(short)} land(s) depend on basic land types the deck rarely has by turn 3. A "
+                      f"type-dependent land needs about {support_needed()} supporting lands to work by turn 3 in 80% "
+                      f"of games ({support_needed(0.7)} for 70%, {support_needed(0.9)} for 90%). Either replace them, "
+                      f"or add lands that carry those types (basics, shock lands, Triomes; fetches that find them "
+                      f"count too) -- each typed land raises the odds for all of them.")
             print("=== lands: fastest multicolour lands not in the deck ===")
             if not land_upgrades:
                 print("  (none found)")
@@ -1434,7 +1504,10 @@ def main(argv: list[str] | None = None) -> int:
     if args.command == "candidates":
         import json
 
-        from deckdoctor.candidates import DRAW_KINDS, RAMP_KINDS, find_candidates, normalize_role, role_suggestions
+        from deckdoctor.candidates import (
+            DRAW_KINDS, RAMP_KINDS, RECENT_MONTHS, RECENT_SHOWN, find_candidates, recent_names, role_parts,
+            role_suggestions, signature_tags,
+        )
         from deckdoctor.db import connect_readonly
         from deckdoctor.deck import load_deck
         from deckdoctor.assessment_reports import assessment_report
@@ -1451,8 +1524,7 @@ def main(argv: list[str] | None = None) -> int:
             return 2
         # Only the ramp/draw role queries read Layer 2 columns; tag-based
         # roles and game_changer work from Layer 1 and must NOT be gated.
-        role = normalize_role(args.role)
-        if role in RAMP_KINDS or role in DRAW_KINDS or role in ("ramp", "draw"):
+        if any(part in RAMP_KINDS or part in DRAW_KINDS or part in ("ramp", "draw") for part in role_parts(args.role)):
             _require_layer2(con, args)
         deck = load_deck(args.deck, con)
         commander_row = con.execute("SELECT color_identity FROM cards WHERE name = ?", [deck.commander.name]).fetchone()
@@ -1474,11 +1546,21 @@ def main(argv: list[str] | None = None) -> int:
             con.close()
             print(constraint_error, file=sys.stderr)
             return 2
-        lines = find_candidates(
-            con, commander_ci, args.role, exclude, limit=args.limit, edhrec_stats=stats,
-            spare_quantities=spares, max_price=args.max_price, owned_quantities=owned,
-        )
+        signature = signature_tags(con, [c.name for c in deck.library], commander_ci)
+        fit_tags = [tag for tag, _, _ in signature]
+        pool_args = dict(edhrec_stats=stats, spare_quantities=spares, max_price=args.max_price,
+                         owned_quantities=owned, sort=args.sort, fit_tags=fit_tags, oracle=args.oracle)
+        lines = find_candidates(con, commander_ci, args.role, exclude, limit=args.limit, **pool_args)
+        # Recently printed cards the main list cut: popularity ranking lags for them.
+        recent, recent_exact = recent_names(con)
+        shown = {line.split(" | ", 1)[0] for line in lines}
+        recent_lines = find_candidates(con, commander_ci, args.role, exclude | shown, limit=RECENT_SHOWN,
+                                       only_names=recent, **pool_args) if recent else []
         structured = assessment_report("candidates", {"role": args.role, "limit": args.limit, "cards": lines,
+                                                      "signature_tags": [{"tag": t, "deck_cards": n, "lift": l}
+                                                                         for t, n, l in signature],
+                                                      "recent_cards": recent_lines,
+                                                      "recent_excludes_reprints": recent_exact,
                                                       "spare_inventory": collection.path if collection else None,
                                                       "ranking": ranking_source,
                                                       **_pool_constraint_fields(args)},
@@ -1498,9 +1580,19 @@ def main(argv: list[str] | None = None) -> int:
         if args.format == "json":
             print(structured.to_json())
         else:
-            print(f"(ranked by: {ranking_source}; then global Commander popularity; then mana value)", file=sys.stderr)
+            print(f"(ranked by: {'signature-tag fit, then ' if args.sort == 'fit' else ''}{ranking_source}; "
+                  f"then global Commander popularity; then mana value)", file=sys.stderr)
+            if signature:
+                print("(deck signature tags -- fit=N counts these: "
+                      + ", ".join(f"{t} {n}" for t, n, _ in signature) + ")", file=sys.stderr)
             for line in lines:
                 print(line)
+            if recent_lines:
+                print()
+                print(f"Recently printed (last {RECENT_MONTHS} months{'' if recent_exact else ', reprints included until the next sync'}), "
+                      f"below the cut above -- popularity ranking lags for new cards:")
+                for line in recent_lines:
+                    print(line)
         return 0
 
     if args.command == "goldfish":

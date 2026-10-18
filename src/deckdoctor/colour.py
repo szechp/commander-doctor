@@ -408,7 +408,13 @@ def _source_condition(card: Card, row: dict) -> str | None:
     fast and tapped dual from the floor comparison, so a normal 3-colour
     manabase failed ~100% of cards and the check had no signal."""
     text = MULTIPLAYER_UNTAPPED_RE.sub("", row.get("oracle_text") or "")
-    if re.search(r"opponent|among|could produce", text, re.IGNORECASE):
+    # Only the mana ability says whose colours a source depends on (Exotic
+    # Orchard, Fellwar Stone, Mox Amber). Reading the whole text made a
+    # two-faced land conditional because of its spell face: "each opponent"
+    # on Lindblum's Mage Siege, "among" on Shatterskull Smashing, "an
+    # opponent controls" on Sink into Stupor.
+    mana_text = "\n".join(line for line in text.splitlines() if re.search(r"\bAdd\b", line))
+    if re.search(r"opponent|among|could produce", mana_text, re.IGNORECASE):
         return "depends on an opponent's or another permanent's colours"
     parsed = {}
     try:
@@ -484,7 +490,13 @@ def compute_colour_report(deck: Deck, con: sqlite3.Connection) -> ColourReport:
         # tap for mana, they fetch -- a full source of each colour the deck
         # holds a fetchable land for (see _fetchland_colours).
         fetched = None
-        if row["produced_mana"] is None and is_land:
+        text_low = (row["oracle_text"] or "").lower()
+        if row["produced_mana"] is None and is_land and "choose a basic land type" in text_low \
+                and "is the chosen type" in text_low:
+            # Multiversal Passage: Scryfall lists no produced mana; it makes the
+            # colour of the type chosen -- whichever the deck needs (as in deploy)
+            fetched = sorted(commander_ci, key="WUBRG".index)
+        elif row["produced_mana"] is None and is_land:
             fetched = _fetchland_colours(row, fetch_targets)
             if fetched is None:
                 unknowns.append(f"{card.name}: missing produced-mana metadata")

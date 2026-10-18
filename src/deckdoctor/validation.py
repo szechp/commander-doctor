@@ -15,6 +15,7 @@ import yaml
 
 from deckdoctor.deck import Card, Deck, _parse_decklist_detailed, _resolve
 from deckdoctor.deck_config import (
+    ARCHETYPES,
     DeckConfig,
     DeckConfigError,
     _parse_document,
@@ -333,6 +334,8 @@ def validate_config(path: str) -> ValidationReport:
     if "edhrec_theme" in doc and doc["edhrec_theme"] is not None and (
             not isinstance(doc["edhrec_theme"], str) or not doc["edhrec_theme"].strip()):
         diagnostics.append(_diag("config_type", "edhrec_theme must be a non-empty string or null"))
+    if doc.get("archetype") is not None and doc["archetype"] not in ARCHETYPES:
+        diagnostics.append(_diag("config_type", f"archetype must be one of {', '.join(ARCHETYPES)} or null"))
     try:
         _validate_feedback_field(doc.get("feedback"))
     except DeckConfigError as exc:

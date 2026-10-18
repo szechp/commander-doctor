@@ -1,0 +1,18 @@
+commander: Sevinne, the Chronoclasm
+bracket: 3
+threshold: 5
+edhrec_theme: graveyard
+gameplan: >
+  Fastest possible spellslinger built on Sevinne's copy (user, 2026-10-16:
+  "fastest spell slinger possible with focus on recast from sevinne to
+  double the damages"). Cheap rocks, rituals and loot/surveil fill the
+  graveyard while Sevinne comes down on turn 3-4. From then on, cast the
+  first instant or sorcery from the graveyard every turn, including
+  opponents' turns (natural flashback/jump-start, Snapcaster/Stingcaster,
+  Lier, Past in Flames, Will of the Jeskai), so Sevinne copies it. Harmonic
+  Prodigy and Veyran each add one more copy. Damage comes from burn that
+  scales when copied (Fiery Confluence, Comet Storm, Devil's Play, Ruinous
+  Rampage) plus per-cast pingers (Guttersnipe, Vivi, Burning Vengeance).
+  Counters protect the engine. Wins with a recast turn that doubles or
+  triples an each-opponent burn spell.
+feedback: []

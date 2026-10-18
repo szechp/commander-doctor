@@ -1293,3 +1293,87 @@ synthesized check -- each tapped land is named individually in the
 colours report, but nothing weighs the total. Would need a stated
 judgment call (how much tapped-land density is too much), which is a
 different, less mechanical feature than this one.
+
+### ManaBox foil marker `*F*` broke card-name parsing -- 2026-10-07
+Command: `deckdoctor validate decks/anje-ping-to-death.txt`
+What happened: `commander 'Anje Falkenrath (C19) 37 *F*' is not resolved`.
+Why it's wrong: ManaBox exports append `*F*` (foil) / `*E*` (etched) after
+the collector number; `deck.py`'s `_LINE_RE` only stripped `(SET) NUM`, so
+the whole tail became part of the card name.
+Likely cause: `deck.py` `_LINE_RE`.
+Status: fixed (2026-10-07) -- optional `\s+\*[A-Z]+\*` suffix; regression
+test `test_line_re_strips_manabox_foil_marker`.
+
+### Liliana of the Veil flagged as mass land denial -- 2026-10-07
+Command: `deckdoctor combos decks/anje-ping-to-death.target.txt --refresh`
+What happened: `** Mass land denial: Liliana of the Veil`, bumping the
+Commander Spellbook bracket estimate from 3 to 4.
+Why it's wrong: the only land-relevant text is the -6 ultimate ("separate
+all permanents target player controls into two piles. That player sacrifices
+all permanents in the pile of their choice") -- single target, the opponent
+picks the pile and can keep their lands, and it needs 6 loyalty first. Not
+"regularly" destroying lands. User: "liliana is not a mass land denial. the
+user does not have to remove his lands..."
+Likely cause: provider data -- Commander Spellbook's per-card
+`massLandDenial` flag, relayed verbatim by `combos.py` (~line 319) with no
+local override.
+Status: open (provider-side; a local override list would be the fix)
+
+### coverage ranks Wild Magic Surge as the best flexible answer -- 2026-10-07
+Command: `deckdoctor coverage decks/anje-ping-to-death.txt`
+What happened: "Flexible answers" listed Wild Magic Surge first ("hits 4
+types, cost 2") and as the cheapest catch-all, with no caveat; it was added
+to a target list on that basis.
+Why it's wrong: full text -- "Its controller reveals cards ... until they
+reveal a permanent card that shares a card type with that permanent. They
+put that card onto the battlefield". The opponent always gets a replacement
+permanent; it's a conditional answer, not clean removal. The list already
+flags EDICT downsides but has no flag for "gives the opponent a replacement"
+(same class: Chaos Warp's reveal, Beast Within's token).
+Likely cause: `coverage.py` flexible-answer ranking / `reliability.py` has no
+replacement-permanent check.
+Status: open
+User: "why is wild magic surge such a prio? it doesnt seem to be a good card at all..."
+
+### upgrades calls reveal lands (Foreboding Ruins) "always tapped" -- 2026-10-07
+Command: `deckdoctor upgrades decks/anje-ping-to-death.target.txt`
+What happened: `Foreboding Ruins [tier 3: always tapped]`, listed first under
+"slow on turns 1-4 (replace first)".
+Why it's wrong: full text -- "As this land enters, you may reveal a Swamp or
+Mountain card from your hand. If you don't, this land enters tapped." It is
+untapped whenever you hold a basic type (12 basics + Blood Crypt in that
+list); it's a conditional land, the same class as a check land, not tier 3.
+Likely cause: `land_speed.py` `classify_land_speed` -- no branch for the
+"you may reveal a <type> card from your hand" templating, so it falls
+through to the bare `"enters tapped" in low` -> SLOW rule.
+Status: open
+User: "logg it please"
+
+### colours treats Mount Doom as an opponent-dependent source -- 2026-10-07
+Command: `deckdoctor colours decks/anje-ping-to-death.target.txt`
+What happened: Mount Doom listed under conditional sources for B and R as
+"depends on an opponent's or another permanent's colours".
+Why it's wrong: its mana ability is "{T}, Pay 1 life: Add {B} or {R}." -- an
+unconditional source of both colours. The word "opponent" only appears in
+its unrelated ping ability ("deals 1 damage to each opponent").
+Likely cause: `colour.py` `_source_condition` regex-searches the whole oracle
+text for `opponent|among|could produce` instead of only the mana ability
+line, so any land with a non-mana ability mentioning opponents is excluded
+from the source count.
+Status: open
+User: "logg it please"
+
+### Sideboard legality check ignores the unreleased-at-sync exemption -- 2026-10-07
+Command: `deckdoctor validate decks/anje-ping-to-death.txt`
+What happened: `sideboard card Tinybones, Pocket Nuisance is not marked
+Commander legal` (warning), while the same card in the main deck of the
+target list validates clean.
+Why it's wrong: inconsistent -- the main-deck check skips cards in
+`unreleased_at_sync(...)` (released after the mirror's last sync, legality
+not yet set), but the sideboard check doesn't, so a new card is flagged in
+one zone and accepted in the other.
+Likely cause: `validation.py` -- the sideboard loop (~line 242) checks
+`commander_legal is False` without consulting `unreleased_at_sync`
+(used at ~line 190 for the main deck).
+Status: open
+User: "logg it please"

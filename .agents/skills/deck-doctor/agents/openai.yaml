@@ -1,0 +1,4 @@
+interface:
+  display_name: "Deck Doctor"
+  short_description: "Review and improve Commander decks with card evidence"
+  default_prompt: "Use $deck-doctor to review my Commander deck and propose improvements backed by card evidence."

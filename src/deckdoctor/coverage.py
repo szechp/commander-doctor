@@ -296,11 +296,54 @@ def _mana_value_of_cost_tokens(cost_str: str) -> float | None:
     return _activation_mana_value(cost_str)
 
 
+# A Forge cost token that costs mana: generic, coloured, hybrid, colourless, snow, X.
+_MANA_TOKEN_RE = re.compile(r"^(?:[1-9]\d*|[WUBRGCSX]|[WUBRG]{2}|[WUBRG2]/[WUBRG])$")
+_PHYREXIAN_TOKEN_RE = re.compile(r"^[WUBRG]/?P$")
+
+
+def _costs_mana(cost: str) -> bool:
+    return any(_MANA_TOKEN_RE.match(token) for token in cost.split())
+
+
+def free_cast(parsed: dict) -> str | None:
+    """How a card can be cast without spending mana, or None. A higher mana
+    value says nothing about these: Force of Will / Force of Negation (exile
+    a blue card), Fierce Guardianship / Deadly Rollick / Deflecting Swat
+    (free while you control a commander), Snuff Out (life), Solitude (evoke
+    by exiling a card), Pact of Negation / Mental Misstep ({0} or Phyrexian
+    symbols only). They still cost a card or a condition, never mana."""
+    for static in parsed.get("statics") or []:
+        raw = static.get("raw", "") if isinstance(static, dict) else ""
+        if "Mode$ AlternativeCost" not in raw:
+            continue
+        cost = next((part.split("$", 1)[1].strip() for part in raw.split("|")
+                     if part.strip().startswith("Cost$")), None)
+        if cost is not None and not _costs_mana(cost):
+            return "alternative cost"
+    for keyword in parsed.get("keywords") or []:
+        if isinstance(keyword, str) and keyword.startswith("Evoke:") and not _costs_mana(keyword.split(":", 1)[1]):
+            return "evoke"
+    tokens = str(parsed.get("mana_cost") or "").split()
+    if tokens and all(t == "0" or _PHYREXIAN_TOKEN_RE.match(t) for t in tokens):
+        return "no mana"
+    return None
+
+
+def free_to_cast(parsed_json: str | None) -> bool:
+    try:
+        parsed = json.loads(parsed_json) if parsed_json else None
+    except (json.JSONDecodeError, TypeError):
+        return False
+    return isinstance(parsed, dict) and free_cast(parsed) is not None
+
+
 def effective_cost(cmc: float, parsed_json: str | None) -> float | None:
     """cmc, or cmc + the cheapest activation cost if the card's only way
     to do its thing is a costed `AB$` ability (see module docstring for
-    the Urn of Godfire case this fixes). Falls back to cmc alone if
-    `parsed_json` is missing or has no abilities at all."""
+    the Urn of Godfire case this fixes), or 0 when it can be cast without
+    mana (`free_cast`: Force of Negation is not a 3-mana answer). Falls
+    back to cmc alone if `parsed_json` is missing or has no abilities at
+    all."""
     if not parsed_json:
         return cmc
     try:
@@ -315,6 +358,8 @@ def effective_cost(cmc: float, parsed_json: str | None) -> float | None:
     svars = parsed.get("svars") or {}
     if not isinstance(svars, dict):
         return None
+    if free_cast(parsed) is not None:
+        return 0.0
 
     if any(k == "Spree" or k.startswith("Spree:") for k in keywords):
         # Spree: printed mana_cost/cmc is the BASE cost only -- you must

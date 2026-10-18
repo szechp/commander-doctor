@@ -12,7 +12,7 @@ import sqlite3
 import json
 from dataclasses import dataclass, field
 
-_LINE_RE = re.compile(r"^\s*(-?\d+)\s+(.+?)(?:\s+\([A-Za-z0-9]+\)\s+\S+)?\s*$")
+_LINE_RE = re.compile(r"^\s*(-?\d+)\s+(.+?)(?:\s+\([A-Za-z0-9]+\)\s+\S+)?(?:\s+\*[A-Z]+\*)?\s*$")
 
 
 @dataclass

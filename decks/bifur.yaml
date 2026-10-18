@@ -1,0 +1,33 @@
+commander: Bifur, Melodic Rider
+bracket: 3
+threshold: 5
+edhrec_theme: dwarves
+gameplan: >
+  (Draft reading 2026-10-08, built from the spare bulk only -- awaiting user
+  confirmation.) RW Dwarves & Equipment. Curve out with cheap Dwarves and
+  Equipment, turning on storied (three artifacts/legendaries/Sagas) early
+  -- the Dwarf legends, Equipment and treasure all count. Bifur (6 mana,
+  cast around turn 5) makes every Dwarf triggered ability trigger twice
+  once storied is on, and puts a +1/+1 counter on a creature whenever he
+  enters or attacks. Win by attacking with suited-up Dwarves.
+feedback:
+  - date: '2026-10-08'
+    kind: pin
+    card: Fíli the Pathfinder
+    reason: 'User-confirmed engine pin 2026-10-08: Bifur Dwarf/Equipment core'
+  - date: '2026-10-08'
+    kind: pin
+    card: Glóin the Mighty // Easy Pickings
+    reason: 'User-confirmed engine pin 2026-10-08: Bifur Dwarf/Equipment core'
+  - date: '2026-10-08'
+    kind: pin
+    card: Thorin, Mountain-king
+    reason: 'User-confirmed engine pin 2026-10-08: Bifur Dwarf/Equipment core'
+  - date: '2026-10-08'
+    kind: pin
+    card: An Unexpected Party // At the Door
+    reason: 'User-confirmed engine pin 2026-10-08: Bifur Dwarf/Equipment core'
+  - date: '2026-10-08'
+    kind: pin
+    card: Colossus Hammer
+    reason: 'User-confirmed engine pin 2026-10-08: Bifur Dwarf/Equipment core'

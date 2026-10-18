@@ -142,7 +142,7 @@ def health_report(result, deck: Deck, con, *, config_path: str | os.PathLike[str
     findings = []
     for row in result.rows:
         unknown = row.status.lower() in {"unknown", "n/a", "unavailable"}
-        failed = row.status in {"GAP", "SHORT"}
+        failed = row.status in {"GAP", "SHORT", "OVER"}
         findings.append(Finding(
             f"health.{row.check.lower().replace(' ', '_')}", "warning" if failed or unknown else "info",
             "unavailable" if unknown else ("approximate" if row.status == "APPROX" else "checked"),

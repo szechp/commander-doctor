@@ -1,0 +1,42 @@
+// SIDEBOARD
+1 Beast Within
+1 Botanical Sanctum
+1 Command Tower
+1 Counterspell
+1 Cyclonic Rift
+1 Dreamroot Cascade
+1 Elrond, Master of Healing
+1 Elvish Mariner
+1 Hardened Scales
+1 Heroic Intervention
+1 Hinterland Harbor
+1 Inspiring Call
+1 Kami of Whispered Hopes
+1 Lifecrafter's Bestiary
+1 Matoya, Archon Elder
+1 Rejuvenating Springs
+1 Sigiled Starfish
+1 Sol Ring
+1 Sphinx of Foresight
+1 Vineglimmer Snarl
+1 Waterlogged Grove
+1 Willowrush Verge
+1 Yavimaya Coast
+
+// MAYBEBOARD
+1 Archive Dragon
+1 Beneath the Sands
+1 Biosynthic Burst
+5 Forest
+1 Guardian of the Halls
+1 Icefeather Aven
+4 Island
+1 Lothlórien Lookout
+1 Mirkwood Nurturer
+1 Mystic Redaction
+1 Riddlemaster Sphinx
+1 Shapers of Nature
+1 Slice in Twain
+1 Unravel
+1 Warg Tactics
+1 Watchful Automaton

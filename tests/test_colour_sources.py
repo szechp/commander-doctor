@@ -37,3 +37,35 @@ def test_tapped_duals_are_sources_and_bond_lands_are_not_opponent_dependent():
     orchard = _land("Exotic Orchard", "Land")
     orchard_text = "{T}: Add one mana of any color that a land an opponent controls could produce."
     assert _source_condition(orchard, {"oracle_text": orchard_text, "parsed": None}) is not None
+
+
+def test_a_two_faced_lands_spell_face_is_not_a_mana_condition():
+    # Lindblum's Mage Siege, Sink into Stupor and Shatterskull Smashing mention
+    # "opponent"/"among" on their spell face; their land face makes one colour
+    # with no condition (it may enter tapped, which is tempo, not a condition)
+    lindblum = _land("Lindblum, Industrial Regency // Mage Siege", "Land — Town // Instant — Adventure")
+    lindblum_text = ("This land enters tapped.\n{T}: Add {R}.\n//\nCreate a 0/1 black Wizard creature token with "
+                     "\"Whenever you cast a noncreature spell, this token deals 1 damage to each opponent.\"")
+    assert _source_condition(lindblum, {"oracle_text": lindblum_text, "parsed": None}) is None
+    stupor = _land("Sink into Stupor // Soporific Springs", "Instant // Land")
+    stupor_text = ("Return target spell or nonland permanent an opponent controls to its owner's hand.\n//\n"
+                   "As this land enters, you may pay 3 life. If you don't, it enters tapped.\n{T}: Add {U}.")
+    assert _source_condition(stupor, {"oracle_text": stupor_text, "parsed": None}) is None
+    mox = _land("Mox Amber", "Legendary Artifact")
+    mox_text = "{T}: Add one mana of any color among legendary creatures and planeswalkers you control."
+    assert _source_condition(mox, {"oracle_text": mox_text, "parsed": None}) is not None
+
+
+def test_a_choose_a_type_land_is_a_source_of_every_identity_colour(fixture_db):
+    from deckdoctor.colour import compute_colour_report
+    from deckdoctor.deck import Card, Deck
+    fixture_db.execute("INSERT INTO cards (name, mana_cost, cmc, type_line, oracle_text, color_identity, colors, "
+                       "produced_mana, commander_legal, is_game_changer) VALUES ('Multiversal Passage', '', 0, 'Land', "
+                       "'As this land enters, choose a basic land type. Then you may pay 2 life. If you don''t, it "
+                       "enters tapped.\nThis land is the chosen type.', '[]', '[]', NULL, 1, 0)")
+    commander = Card(name="Fixture Commander", cmc=4.0, type_line="Legendary Creature — Human", ramp_kind=None,
+                     draw_kind=None, prereq=None, is_game_changer=False, power=None, toughness=None)
+    passage = _land("Multiversal Passage", "Land")
+    report = compute_colour_report(Deck("t", commander, [passage]), fixture_db)
+    assert not any("Multiversal Passage" in u for u in report.unknowns)
+    assert report.total_sources.get("W") == 1

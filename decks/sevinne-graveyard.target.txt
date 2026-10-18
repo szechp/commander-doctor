@@ -1,0 +1,88 @@
+1 Sevinne, the Chronoclasm
+1 Sol Ring
+1 Lotus Petal
+1 Arcane Signet
+1 Azorius Signet
+1 Boros Signet
+1 Izzet Signet
+1 Talisman of Creativity
+1 Talisman of Progress
+1 Cyclonic Rift
+1 Tablet of Discovery
+1 Twinning Staff
+1 Underworld Breach
+1 Storm-Kiln Artist
+1 Vivi Ornitier
+1 Harmonic Prodigy
+1 Veyran, Voice of Duality
+1 Galvanic Iteration
+1 Increasing Vengeance
+1 Goblin Electromancer
+1 Past in Flames
+1 Will of the Jeskai
+1 Lier, Disciple of the Drowned
+1 Snapcaster Mage
+1 Stingcaster Mage
+1 Teferi's Protection
+1 Fiery Confluence
+1 Comet Storm
+1 Devil's Play
+1 Boros Charm
+1 Guttersnipe
+1 Soul-Guide Lantern
+1 Burning Vengeance
+1 Prismari Command
+1 Faithless Looting
+1 Faithful Mending
+1 Frantic Search
+1 Refuse // Cooperate
+1 Desperate Ravings
+1 Electric Revelation
+1 Big Score
+1 Quiet Speculation
+1 Otherworldly Gaze
+1 Deep Analysis
+1 Mystic Remora
+1 Secrets of the Dead
+1 Backdraft Hellkite
+1 Flawless Maneuver
+1 Izzet Charm
+1 Counterspell
+1 Mana Drain
+1 Swan Song
+1 Dovin's Veto
+1 Disallow
+1 Force of Negation
+1 Mission Briefing
+1 Swords to Plowshares
+1 Path to Exile
+1 Deflecting Swat
+1 Generous Gift
+1 Chaos Warp
+1 Blasphemous Act
+1 Delayed Blast Fireball
+1 Command Tower
+1 Flooded Strand
+1 Scalding Tarn
+1 Arid Mesa
+1 Hallowed Fountain
+1 Sacred Foundry
+1 Steam Vents
+1 Seachrome Coast
+1 Spirebluff Canal
+1 Inspiring Vantage
+1 Battlefield Forge
+1 Shivan Reef
+1 Adarkar Wastes
+1 Mana Confluence
+1 Sea of Clouds
+1 Training Center
+1 Spectator Seating
+1 Floodfarm Verge
+1 Sunbillow Verge
+1 Riverpyre Verge
+1 City of Brass
+1 Prismatic Vista
+6 Island
+5 Mountain
+4 Plains

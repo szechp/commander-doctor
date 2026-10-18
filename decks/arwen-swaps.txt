@@ -1,0 +1,32 @@
+// SIDEBOARD
+1 Arwen Undómiel
+1 Boomerang
+1 Breeding Pool
+1 Castle Vantress
+1 Command Tower
+1 Cyclonic Rift
+1 Elvish Mariner
+1 Hardened Scales
+1 Heritage Reclamation
+1 Kami of Whispered Hopes
+1 Misty Rainforest
+1 Overcome
+1 Pathbreaker Ibex
+1 Polluted Delta
+1 Simic Ascendancy
+1 Sol Ring
+
+// MAYBEBOARD
+1 Beneath the Sands
+2 Forest
+1 Guardian of the Halls
+1 Icefeather Aven
+3 Island
+1 Leafkin Druid
+1 Mirkwood Nurturer
+1 Muse Drake
+1 Riddlemaster Sphinx
+1 Shapers of Nature
+1 Slice in Twain
+1 Tome Raider
+1 Watchful Automaton

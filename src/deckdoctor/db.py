@@ -81,6 +81,15 @@ CREATE TABLE IF NOT EXISTS card_release (
     released_at TEXT
 );
 
+-- Scryfall's `reprint` flag for the printing `card_release` dates. 0 means
+-- that date is the card's first printing, so `candidates` can tell a new
+-- card from a recent reprint. Separate table: older mirrors keep working and
+-- treat a missing table as "unknown".
+CREATE TABLE IF NOT EXISTS card_reprint (
+    card_name TEXT PRIMARY KEY,
+    reprint   INTEGER NOT NULL
+);
+
 -- Scryfall's prices.eur (nonfoil) per card, as a REAL euro amount.
 -- A separate table (not a `cards` column) so existing mirrors keep working
 -- until their next sync, and readers treat a missing table as "no data"

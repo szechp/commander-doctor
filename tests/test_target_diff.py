@@ -58,8 +58,33 @@ def test_identical_pairs_merge_into_quantity():
 
 def test_manabox_swaps_list_puts_ins_in_sideboard_and_outs_in_maybeboard():
     from deckdoctor.target_diff import manabox_swaps
-    result = diff_decks(_deck(["Forest", "Forest", "Old Card", "Kept"]), _deck(["Plains", "Plains", "New Card", "Kept"]))
+    result = diff_decks(_deck(["Forest", "Forest", "Old Card", "Kept", "Island", "Island"]),
+                        _deck(["Plains", "Plains", "New Card", "Kept", "Island", "Island"]))
     assert manabox_swaps(result) == (
+        "// COMMANDER\n1 Cmdr\n\n"
+        "// MAINBOARD\n2 Island\n1 Kept\n\n"
         "// SIDEBOARD\n1 New Card\n2 Plains\n\n"
         "// MAYBEBOARD\n2 Forest\n1 Old Card\n"
     )
+
+
+def test_manabox_swaps_list_moves_a_replaced_commander_to_maybeboard():
+    from deckdoctor.target_diff import manabox_swaps
+    result = diff_decks(_deck(["Kept", "Old Card"]), _deck(["Kept", "New Card"], commander="Other"))
+    assert manabox_swaps(result) == (
+        "// COMMANDER\n1 Other\n\n"
+        "// MAINBOARD\n1 Kept\n\n"
+        "// SIDEBOARD\n1 New Card\n\n"
+        "// MAYBEBOARD\n1 Cmdr\n1 Old Card\n"
+    )
+
+
+def test_manabox_swaps_list_parses_back_as_the_kept_deck(tmp_path):
+    from deckdoctor.deck import parse_decklist
+    from deckdoctor.target_diff import manabox_swaps
+    result = diff_decks(_deck(["Old Card", "Kept"]), _deck(["New Card", "Kept"]))
+    path = tmp_path / "swaps.txt"
+    path.write_text(manabox_swaps(result), encoding="utf-8")
+    commander, entries = parse_decklist(str(path))
+    assert commander == "Cmdr"
+    assert [name for _, name in entries] == ["Kept"]

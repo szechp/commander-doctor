@@ -161,3 +161,73 @@ def test_mulligan_bottoming_keeps_duplicate_basics():
 def test_pair_slots_rejects_different_sizes():
     with pytest.raises(ValueError):
         pair_slots([ISLAND] * 99, [ISLAND] * 98)
+
+
+# ---------------------------------------------------------------- card draw
+
+def _script(abilities=(), triggers=(), svars=None):
+    import json
+    return json.dumps({"abilities": list(abilities), "triggers": list(triggers), "svars": svars or {}})
+
+
+def test_build_draw_reads_spells_engines_and_loot_costs():
+    from deckdoctor.deploy import build_draw
+    # Faithful Mending: the draw sits in the SubAbility chain
+    mending = _script([{"SP": "GainLife", "SubAbility": "DBDraw"}],
+                      svars={"DBDraw": "DB$ Draw | NumCards$ 2 | SubAbility$ DBDiscard",
+                             "DBDiscard": "DB$ Discard | NumCards$ 2"})
+    assert build_draw(mending, "Instant") == (2, None)
+    # Memory Deluge: Dig puts ChangeNum cards into hand
+    assert build_draw(_script([{"SP": "Dig", "DigNum": "X", "ChangeNum": "2"}]), "Instant") == (2, None)
+    # Plunder the Trollshaws: an svar count takes its plain (from-hand) case
+    plunder = _script([{"SP": "Draw", "NumCards": "X"}], svars={"X": "Count$wasCastFromGraveyard.2.1"})
+    assert build_draw(plunder, "Instant") == (1, None)
+    # Mystic Confluence: a repeatable charm can draw three times
+    confluence = _script([{"SP": "Charm", "Choices": "DBCounter,DBDraw", "CharmNum": "3", "CanRepeatModes": "True"}],
+                         svars={"DBCounter": "DB$ Counter", "DBDraw": "DB$ Draw | NumCards$ 1"})
+    assert build_draw(confluence, "Instant") == (3, None)
+    # Whirlwind of Thought / Archmage Emeritus / Phyrexian Arena / Jeskai Ascendancy's loot cost
+    whirlwind = _script(triggers=[{"Mode": "SpellCast", "ValidCard": "Card.nonCreature",
+                                   "ValidActivatingPlayer": "You", "Execute": "TrigDraw"}],
+                        svars={"TrigDraw": "DB$ Draw | Defined$ You | NumCards$ 1"})
+    assert build_draw(whirlwind, "Enchantment") == (0, "noncreature")
+    emeritus = _script(triggers=[{"Mode": "SpellCastOrCopy", "ValidCard": "Instant,Sorcery",
+                                  "ValidActivatingPlayer": "You", "Execute": "TrigDraw"}],
+                       svars={"TrigDraw": "DB$ Draw"})
+    assert build_draw(emeritus, "Creature") == (0, "instant_sorcery")
+    arena = _script(triggers=[{"Mode": "Phase", "Phase": "Upkeep", "ValidPlayer": "You", "Execute": "TrigDraw"}],
+                    svars={"TrigDraw": "DB$ Draw | NumCards$ 1"})
+    assert build_draw(arena, "Enchantment") == (0, "upkeep")
+    loot = _script(triggers=[{"Mode": "SpellCast", "ValidCard": "Card.nonCreature", "ValidActivatingPlayer": "You",
+                              "Execute": "TrigLoot"}],
+                   svars={"TrigLoot": "AB$ Discard | NumCards$ 1 | Cost$ Draw<1/You>"})
+    assert build_draw(loot, "Enchantment") == (0, "noncreature")
+    # an opponent drawing, or a broken script, is not our card draw
+    assert build_draw(_script([{"SP": "Draw", "Defined": "Player.Opponent"}]), "Sorcery") == (0, None)
+    assert build_draw("not json", "Sorcery") == (0, None)
+
+
+def test_draw_spells_and_engines_raise_cards_seen():
+    from deckdoctor.deploy import cards_seen_distribution
+    divination = SimCard("Divination", False, parse_cost("{1}{U}"), draws=2, kind="instant_sorcery")
+    engine = SimCard("Engine", False, parse_cost("{1}{U}"), draw_trigger="noncreature", kind="other")
+    base = [ISLAND] * 40 + [FILLER] * 59
+    drawn = [ISLAND] * 40 + [divination] * 20 + [FILLER] * 39
+    with_engine = [ISLAND] * 40 + [divination] * 20 + [engine] * 10 + [FILLER] * 29
+
+    def mean(slots):
+        dist = cards_seen_distribution(slots, COMMANDER, WUR, 4, trials=300, seed=1)
+        return sum(n * share for n, share in dist.items())
+
+    plain, spells, engines = mean(base), mean(drawn), mean(with_engine)
+    assert 10 <= plain <= 11  # 7 + 4 draws, minus mulligan bottoming
+    assert spells > plain + 1
+    assert engines > spells
+
+
+def test_a_choose_a_type_land_is_a_typed_any_colour_shock():
+    passage = build_land("Land", "As this land enters, choose a basic land type. Then you may pay 2 life. "
+                                 "If you don't, it enters tapped.\nThis land is the chosen type.", WUR)
+    assert passage.etb == "shock"
+    assert passage.colours == frozenset("WUR")
+    assert passage.subtypes == frozenset({"Plains", "Island", "Mountain"})

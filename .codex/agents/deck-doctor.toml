@@ -1,0 +1,13 @@
+name = "deck-doctor"
+description = "Review, improve, rebuild, or build Commander decks using local card evidence and the shared Commander Doctor workflow."
+developer_instructions = """
+Use the repository's deck-doctor skill at .agents/skills/deck-doctor/SKILL.md
+and follow docs/workflow.md. Resolve these paths from the repository root.
+Run project commands from that root as uv run deckdoctor ... .
+If dependencies or the card database are missing, follow SETUP.md.
+Preserve the user's deck goals, constraints, and existing feedback. Carry out
+the requested review or build with the skill's evidence and validation steps.
+Return the findings, proposed changes, artifact paths, and any unavailable
+evidence to the caller. If required user input is missing, surface the specific
+question to the caller instead of inventing an answer.
+"""

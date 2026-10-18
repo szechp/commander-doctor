@@ -1,0 +1,33 @@
+commander: Elrond, Master of Healing
+bracket: 3
+threshold: 4
+# Deck type from the user's own gameplan wording ("Scry-counters midrange").
+archetype: midrange
+# 2026-10-19: counters-first plan; rank the top-of-library package with --theme topdeck.
+edhrec_theme: plus-1-plus-1-counters
+gameplan: >
+  Scry-fueled +1/+1 counters midrange (user 2026-10-19: "lean into those
+  mechanics", replacing the scry-only plan). Scry is the trigger: cheap
+  repeatable scry every turn (creatures entering, upkeep, attacks, scry
+  lands). Each scry makes Elrond put a counter on up to X creatures, X =
+  cards looked at, so the deck runs many cheap creatures. Counter doublers
+  (Hardened Scales, Branching Evolution, Ozolith) multiply it; payoffs turn
+  countered creatures into cards, protection and tokens (Inspiring Call,
+  Armorcraft Judge, Bred for the Hunt, Herd Baloth / Scurry Oak); top-of-
+  library engines turn every scry into card advantage (Vizier of the
+  Menagerie, Elven Chorus, Courser of Kruphix, Oracle of Mul Daya). Win with
+  a wide board of oversized tramplers (Overwhelming Stampede, Pathbreaker
+  Ibex, trample granters) or Simic Ascendancy. Elrond draws when an
+  opponent targets a countered creature, which taxes their removal.
+feedback:
+  - date: '2026-10-19'
+    kind: note
+    text: '2026-10-19 revisit with the new doctor checks: deck type midrange (the user''s
+      own gameplan wording). Interaction was 9 vs the midrange sweet spot 12-15. Target
+      decks/elrond-heal.target.txt: Disallow and Pongify (owned, freed by the Sevinne
+      swap) and Beast Within in for Tidepool Turtle, Galadhrim Guide, Gift of Strands.
+      Answers 12, removal 9, counters 3; deploy unchanged. Scry lands (Temple of Mystery,
+      Path of Ancestry, Castle Vantress) kept as engine cards. Existing combo found:
+      Elrond + Season of Growth + Herd Baloth (Arwen / Elrond, Lord of Rivendell variants);
+      Scurry Oak would complete three more lines -- not added (user treats combos as
+      optional).'

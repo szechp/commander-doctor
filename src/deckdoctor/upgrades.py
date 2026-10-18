@@ -878,6 +878,7 @@ class SlowLand:
     name: str
     tier: str
     speed: str
+    support_odds: float | None = None  # type-dependent lands: chance their type is there by turn 3
 
 
 # The 10 ABUR dual lands -- verified against the mirror (each has oracle
@@ -942,23 +943,138 @@ def _is_off_colour_fetch(oracle_text: str, commander_ci: set[str]) -> bool:
     return not {BASIC_TYPE_COLOUR[t] for t in named} <= commander_ci
 
 
+# A land that needs a basic land type -- check lands, reveal lands (snarls,
+# Port Town), type-gated colours (Verges, Nimbus Maze) -- is only as good as
+# the deck's supply of that type. Sevinne ran nine of them on five typed
+# lands and they arrived tapped or one-coloured (user, 2026-10-18), while the
+# check called them "tier 1"/"tapped turn 1" in every deck alike. Support is
+# every other land carrying one of the types, plus fetches that can find such
+# a land; its odds are the chance of holding one by turn 3 on the draw.
+TYPE_SUPPORT_SEEN = 10        # 7 + 3 draws
+TYPE_SUPPORT_LIBRARY = 99
+TYPE_SUPPORT_RELIABLE = 0.8   # below: a gated colour doesn't count, a candidate isn't suggested
+TYPE_SUPPORT_USELESS = 0.5    # below: a check/reveal land counts as a tapped land
+
+
+@dataclass(frozen=True)
+class TypeDependency:
+    kind: str                 # "enters" (check/reveal/battle land) or "colour" (gated colour)
+    types: frozenset[str]
+    support: int              # deck lands supplying one of the types
+    odds: float               # chance of holding `count` of them by turn 3
+    count: int = 1
+    basic_only: bool = False
+
+    def describe(self) -> str:
+        what = "untapped" if self.kind == "enters" else "its gated colour works"
+        if self.basic_only:
+            need = f"{self.count}+ basic lands"
+        else:
+            need = (f"{self.count}+ " if self.count > 1 else "") + " or ".join(sorted(self.types))
+        return (f"needs {need}: {self.support} land(s) supply it, "
+                f"{what} by turn 3 in {self.odds:.0%} of games")
+
+
+def support_needed(target: float = TYPE_SUPPORT_RELIABLE) -> int:
+    """Supporting lands a type-dependent land needs to work by turn 3 with
+    chance >= `target`: 11 for 70%, 15 for 80%, 20 for 90% in 99 cards."""
+    from math import comb
+
+    return next(k for k in range(TYPE_SUPPORT_LIBRARY + 1)
+                if 1 - comb(TYPE_SUPPORT_LIBRARY - k, TYPE_SUPPORT_SEEN) / comb(TYPE_SUPPORT_LIBRARY, TYPE_SUPPORT_SEEN)
+                >= target)
+
+
+def deck_type_support(deck: Deck, con: sqlite3.Connection) -> list[tuple[str, frozenset[str], bool]]:
+    """(land name, basic land types it supplies, whether that is a basic
+    land) per land copy in the deck: its own types, or for a fetch the types
+    of the deck lands it can find."""
+    from deckdoctor.colour import BASIC_TYPE_COLOUR, FETCH_RE, _land_subtypes
+
+    lands = [c for c in deck.library if _is_land(c)]
+    names = sorted({c.name for c in lands})
+    marks = ",".join("?" for _ in names)
+    texts = dict(con.execute(f"SELECT name, oracle_text FROM cards WHERE name IN ({marks})", names)) if names else {}
+    own = {c.name: frozenset(_land_subtypes(c.type_line) & BASIC_TYPE_COLOUR.keys()) for c in lands}
+    basic_names = {c.name for c in lands if (c.type_line or "").startswith("Basic")}
+    support = []
+    for card in lands:
+        types = own[card.name]
+        is_basic = card.name in basic_names
+        text = (texts.get(card.name) or "").lower()
+        if "choose a basic land type" in text and "is the chosen type" in text:
+            types = frozenset(BASIC_TYPE_COLOUR)  # Multiversal Passage: whichever type is needed
+        match = FETCH_RE.search(texts.get(card.name) or "")
+        if not types and match and "sacrifice" in (texts.get(card.name) or "").lower():
+            wanted = match.group(1)
+            named = {t for t in BASIC_TYPE_COLOUR if t in wanted}
+            basic_only = "basic" in wanted.lower()
+            found: set[str] = set()
+            for name, land_types in own.items():
+                if basic_only and name not in basic_names:
+                    continue
+                if land_types and (not named or land_types & named):
+                    found |= land_types
+                    is_basic = is_basic or name in basic_names
+            types = frozenset(found)
+        support.append((card.name, types, is_basic))
+    return support
+
+
+def type_dependency(oracle_text: str | None, support: list[tuple[str, frozenset[str], bool]],
+                    exclude: str | None = None) -> TypeDependency | None:
+    """The land's weakest land-type requirement against the deck's supply,
+    or None: the chance of having `count` supporting lands among the cards
+    seen by turn 3 (hypergeometric, 99 cards, on the draw)."""
+    from math import comb
+
+    from deckdoctor.land_speed import type_requirements
+
+    worst = None
+    for req in type_requirements(oracle_text):
+        n = sum(1 for name, supplied, basic in support
+                if name != exclude and supplied & req.types and (basic or not req.basic_only))
+        n = min(n, TYPE_SUPPORT_LIBRARY)
+        miss = sum(comb(n, i) * comb(TYPE_SUPPORT_LIBRARY - n, TYPE_SUPPORT_SEEN - i) for i in range(req.count))
+        odds = 1 - miss / comb(TYPE_SUPPORT_LIBRARY, TYPE_SUPPORT_SEEN)
+        dep = TypeDependency(req.kind, req.types, n, odds, req.count, req.basic_only)
+        if worst is None or dep.odds < worst.odds:
+            worst = dep
+    return worst
+
+
 def find_slow_lands(deck: Deck, con: sqlite3.Connection) -> list[SlowLand]:
     """The deck's own nonbasic lands that aren't untapped on turns 1-4
     (tier 2/3: check/filter lands, triomes, battle lands, slowlands, tapped
-    fetches ...), slowest first -- the upgrade targets for fast lands."""
-    from deckdoctor.land_speed import FAST, FASTLAND, classify_land_speed
+    fetches ...), slowest first -- the upgrade targets for fast lands.
+    Type-dependent lands are judged against this deck's supply of the type
+    (`type_dependency`): a check or reveal land that is untapped by turn 3
+    in under half the games counts as a tapped land, and a Verge whose gated
+    colour is unreliable is listed too."""
+    from deckdoctor.land_speed import CONDITIONAL, FAST, FASTLAND, SLOW, LandSpeed, classify_land_speed
 
     names = sorted({c.name for c in deck.library if _is_land(c) and not c.type_line.startswith("Basic")})
     if not names:
         return []
+    support = deck_type_support(deck, con)
     marks = ",".join("?" for _ in names)
     slow = []
     for name, text, parsed_json in con.execute(
             f"SELECT name, oracle_text, parsed FROM cards WHERE name IN ({marks})", names):
         speed = classify_land_speed(text, never_untaps=_never_untaps(_parsed(parsed_json)))
+        dep = type_dependency(text, support, exclude=name)
+        odds = dep.odds if dep else 1.0
+        if dep and dep.kind == "enters":
+            # a supported battle land is as good as a check land; an
+            # unsupported check land is as bad as a tapped land
+            rank = SLOW if dep.odds < TYPE_SUPPORT_USELESS else min(speed.rank, CONDITIONAL)
+            speed = LandSpeed(rank, f"{speed.label}; {dep.describe()}")
+        elif dep and dep.odds < TYPE_SUPPORT_RELIABLE and speed.rank in (FAST, FASTLAND):
+            speed = LandSpeed(CONDITIONAL, f"{speed.label}, but {dep.describe()}")
         if speed.rank not in (FAST, FASTLAND):
-            slow.append((speed.rank, name, speed))
-    return [SlowLand(name, speed.tier, speed.label) for _, name, speed in sorted(slow, key=lambda t: (-t[0], t[1]))]
+            slow.append((speed.rank, odds, name, speed))
+    slow.sort(key=lambda t: (-t[0], t[1], t[2]))
+    return [SlowLand(name, speed.tier, speed.label, odds if odds < 1.0 else None) for _, odds, name, speed in slow]
 
 
 def find_land_upgrades(
@@ -994,6 +1110,7 @@ def find_land_upgrades(
     playgroup = load_playgroup_config()
     deck_lands = [c for c in deck.library if _is_land(c)]
     deck_land_names = {c.name for c in deck_lands}
+    support = deck_type_support(deck, con)
 
     found = []
     for name, pm_json, text, ci_json, parsed_json, type_line in con.execute(
@@ -1013,6 +1130,12 @@ def find_land_upgrades(
         if len(colours) < 2:
             continue
         speed = classify_land_speed(text, never_untaps=_never_untaps(_parsed(parsed_json)))
+        dep = type_dependency(text, support)
+        if dep and dep.odds < TYPE_SUPPORT_RELIABLE:
+            continue  # Nimbus Maze / a Verge in a deck short on the type: not a real dual here
+        if dep:
+            from deckdoctor.land_speed import LandSpeed
+            speed = LandSpeed(speed.rank, f"{speed.label}; {dep.describe()}")
         if speed.rank in (FAST, FASTLAND):
             found.append((name, text or "", speed))
 

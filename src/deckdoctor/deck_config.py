@@ -140,6 +140,12 @@ class DeckConfig:
     # Selects which EDHREC page ranks candidates -- the commander's base page
     # mixes every way it gets built.
     edhrec_theme: str | None = None
+    # Deck type, confirmed by the user (never derived from colours): sets how
+    # sure the deck wants to be of holding an answer (`deckdoctor balance`).
+    archetype: str | None = None
+
+
+ARCHETYPES = ("control", "midrange", "aggro", "ramp", "combo")
 
 
 _FEEDBACK_FIELDS = {f.name for f in fields(FeedbackEntry)}
@@ -201,6 +207,7 @@ def load_deck_config(deck_path: str) -> DeckConfig | None:
         gameplan=doc.get("gameplan"),
         feedback=feedback,
         edhrec_theme=doc.get("edhrec_theme"),
+        archetype=doc.get("archetype"),
     )
 
 

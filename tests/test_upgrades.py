@@ -407,3 +407,46 @@ def test_land_upgrades_only_suggest_fast_lands_and_name_slow_ones_first(con, ugl
     assert all(u.tier in ("tier 1", "tier 1b") for u in upgrades)
     slow = [s.name for s in find_slow_lands(ugluk, con)]
     assert [u.replaces for u in upgrades[:len(slow)]] == slow[:len(upgrades)]
+
+
+def test_type_dependent_lands_are_judged_against_the_decks_typed_lands():
+    from deckdoctor.upgrades import type_dependency
+    check = "This land enters tapped unless you control an Island or a Mountain.\n{T}: Add {U} or {R}."
+    few = [("Island", frozenset({"Island"}), True)] * 2 + [("Steam Vents", frozenset({"Island", "Mountain"}), False)]
+    many = few + [("Mountain", frozenset({"Mountain"}), True)] * 15
+    weak, strong = type_dependency(check, few), type_dependency(check, many)
+    assert weak.support == 3 and weak.odds < 0.5      # a check land on three typed lands: mostly tapped
+    assert strong.support == 18 and strong.odds > 0.8
+    assert type_dependency(check, few, exclude="Steam Vents").support == 2
+    assert type_dependency("{T}: Add {C}.", few) is None
+
+
+def test_a_choose_a_type_land_supports_every_type_requirement(con):
+    from deckdoctor.deck import Card, Deck
+    from deckdoctor.upgrades import deck_type_support
+    con.execute("INSERT INTO cards (name, mana_cost, cmc, type_line, oracle_text, color_identity, commander_legal, "
+                "is_game_changer) VALUES ('Multiversal Passage', '', 0, 'Land', 'As this land enters, choose a basic "
+                "land type. Then you may pay 2 life. If you don''t, it enters tapped.\nThis land is the chosen type.', "
+                "'[]', 1, 0)")
+    land = Card(name="Multiversal Passage", cmc=0.0, type_line="Land", ramp_kind=None, draw_kind=None, prereq=None,
+                is_game_changer=False, power=None, toughness=None)
+    commander = Card(name="C", cmc=3.0, type_line="Legendary Creature", ramp_kind=None, draw_kind=None, prereq=None,
+                     is_game_changer=False, power=None, toughness=None)
+    support = deck_type_support(Deck("t", commander, [land]), con)
+    assert support == [("Multiversal Passage", frozenset({"Plains", "Island", "Swamp", "Mountain", "Forest"}), False)]
+
+
+def test_support_needed_matches_the_hypergeometric_thresholds():
+    from deckdoctor.upgrades import support_needed
+    assert (support_needed(0.7), support_needed(0.8), support_needed(0.9)) == (11, 15, 20)
+
+
+def test_battle_lands_need_two_basics_and_shocks_do_not_count():
+    from deckdoctor.upgrades import type_dependency
+    battle = "({T}: Add {W} or {U}.)\nThis land enters tapped unless you control two or more basic lands."
+    shocks = [("Hallowed Fountain", frozenset({"Plains", "Island"}), False)] * 20
+    basics = [("Plains", frozenset({"Plains"}), True)] * 20
+    assert type_dependency(battle, shocks).support == 0
+    with_basics = type_dependency(battle, basics)
+    assert with_basics.support == 20 and with_basics.count == 2 and 0.5 < with_basics.odds < 0.9
+    assert "2+ basic lands" in with_basics.describe()

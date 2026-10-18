@@ -401,3 +401,15 @@ def test_unresolved_sideboard_card_is_a_warning_not_a_blocker(tmp_path):
     assert codes["unresolved_sideboard_card"] == "warning"
     assert codes["sideboard_nonpositive_quantity"] == "warning"
     con.close()
+
+
+def test_line_re_strips_manabox_foil_marker():
+    from deckdoctor.deck import _LINE_RE
+
+    for line, name in [
+        ("1 Anje Falkenrath (C19) 37 *F*", "Anje Falkenrath"),
+        ("1 Cabal Ritual (V16) 2 *E*", "Cabal Ritual"),
+        ("1 Sol Ring (M3C) 305", "Sol Ring"),
+        ("1 Sol Ring", "Sol Ring"),
+    ]:
+        assert _LINE_RE.match(line).group(2) == name

@@ -1,11 +1,48 @@
 commander: Elrond, Master of Healing
 bracket: 3
 threshold: 4
-edhrec_theme: scry
+# Deck type from the user's own gameplan wording ("Scry-counters midrange").
+archetype: midrange
+# 2026-10-19: counters-first plan; rank the top-of-library package with --theme topdeck.
+edhrec_theme: plus-1-plus-1-counters
 gameplan: >
-  Scry-counters midrange. Scry every turn (cantrips, repeatable scry permanents)
-  to grow the board with +1/+1 counters via Elrond; draw cards when opponents
-  target countered-up creatures. Win turns 6-8 with oversized trample creatures
-  via Overwhelming Stampede / Pathbreaker Ibex, or Simic Ascendancy alt-win.
-  Speed priority: cheaper interaction, faster lands, early dorks to get Elrond
-  down on turn 3 and online turn 4.
+  Scry-fueled +1/+1 counters midrange (user 2026-10-19: "lean into those
+  mechanics", replacing the scry-only plan). Scry is the trigger: cheap
+  repeatable scry every turn (creatures entering, upkeep, attacks, scry
+  lands). Each scry makes Elrond put a counter on up to X creatures, X =
+  cards looked at, so the deck runs many cheap creatures. Counter doublers
+  (Hardened Scales, Branching Evolution, Ozolith) multiply it; payoffs turn
+  countered creatures into cards, protection and tokens (Inspiring Call,
+  Armorcraft Judge, Bred for the Hunt, Herd Baloth / Scurry Oak); top-of-
+  library engines turn every scry into card advantage (Vizier of the
+  Menagerie, Elven Chorus, Courser of Kruphix, Oracle of Mul Daya). Win with
+  a wide board of oversized tramplers (Overwhelming Stampede, Pathbreaker
+  Ibex, trample granters) or Simic Ascendancy. Elrond draws when an
+  opponent targets a countered creature, which taxes their removal.
+feedback:
+  - date: '2026-10-19'
+    kind: note
+    text: '2026-10-19 revisit with the new doctor checks: deck type midrange (the user''s
+      own gameplan wording). Interaction was 9 vs the midrange sweet spot 12-15. Target
+      decks/elrond-heal.target.txt: Disallow and Pongify (owned, freed by the Sevinne
+      swap) and Beast Within in for Tidepool Turtle, Galadhrim Guide, Gift of Strands.
+      Answers 12, removal 9, counters 3; deploy unchanged. Scry lands (Temple of Mystery,
+      Path of Ancestry, Castle Vantress) kept as engine cards. Existing combo found:
+      Elrond + Season of Growth + Herd Baloth (Arwen / Elrond, Lord of Rivendell variants);
+      Scurry Oak would complete three more lines -- not added (user treats combos as
+      optional).'
+  - date: '2026-10-19'
+    kind: note
+    text: '2026-10-19 from-scratch build on the new plan (scry-fueled +1/+1 counters,
+      user: lean into counters, doublers, top-of-library). decks/elrond-heal.power.txt,
+      26 swaps vs the physical deck; theme plus-1-plus-1-counters. Counter doublers
+      5 -> 8, counter payoffs 4 -> 10, top-of-library engines 0 -> 3, scry sources 36
+      -> 24 (one-shot scry bodies cut). deploy: Elrond by turn 3 +4.7 pts, spells cast
+      +0.44, but spells stuck on colour 0.20 -> 0.28 on turn 3. Spellbook now lists
+      10 infinite counter/token loops built from on-plan cards (commander + 2 cards,
+      bracket 3). The earlier 3-swap version stays as decks/elrond-heal.target.txt.'
+  - date: '2026-10-19'
+    kind: note
+    text: '2026-10-19: user chose the from-scratch counters build (''the good fast one''):
+      decks/elrond-heal.power.txt; decks/elrond-heal-swaps.txt holds its 26 swaps against
+      the physical deck.'

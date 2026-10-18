@@ -1,0 +1,176 @@
+commander: Anje Falkenrath
+bracket: 3
+threshold: 3
+archetype: aggro
+# User 2026-10-07: "madness and discard are intertwined, we cannot pull this
+# apart" -- no single slug; rank candidates against BOTH `--theme madness`
+# and `--theme discard` explicitly.
+# User 2026-10-18: "Madness first, focus on pingers and discard synergies next" -- madness pinned.
+edhrec_theme: madness
+gameplan: >
+  Discard-ping. Anje Falkenrath on turn 2-3 (haste, loots immediately).
+  Discard outlets (Anje, Misty Knight, Cool but Rude, loot spells, cycling
+  lands) turn every card into a trigger. Payoffs ping or drain EACH opponent
+  per discard (Glint-Horn Buccaneer, Magmakin Artillerist, Brallin,
+  Tinybones, Cool but Rude level 2, Faith of the Devoted, Monument to
+  Endurance), with Archfiend of Ifnir as one-sided board control. Damage
+  multipliers cheaper than City on Fire turn the 1-damage pings into real
+  clocks. Madness cards are the engine: Anje untaps on ANY madness discard,
+  cast or not (her text only checks "if it has madness"), so each madness
+  card in hand is another loot and another round of payoff triggers. Judge
+  madness cards as Anje fuel, not by their bodies or madness cost; the
+  madness count is the key number (user 2026-10-07). Graveyard recursion over
+  Bag-of-Holding-style exile: Shadow of the Grave returns every uncast
+  madness card discarded this turn (official ruling) for a second loop, and
+  Squee, Chainer, Ignite the Future flashback etc. need the graveyard. Win =
+  death by a hundred pings plus madness bodies.
+  X spells (Banefire, Crackle with Power, Exsanguinate) are no longer a
+  priority. Confirmed by the user 2026-10-07 ("i would like multipliers
+  also in there. like city on fire but cheaper").
+  2026-10-18 rebuild (user: "Madness first, focus on pingers and discard
+  synergies next. Protecting Anje should be a prio"; deck type aggro):
+  Anje protection (Swiftfoot Boots, Mithril Coat, Kaya's Ghostform, Muck
+  Drubb, Deflecting Swat); interaction sized to the aggro sweet spot;
+  Torbran as the cheap multiplier for red pings. No combo focus (user
+  2026-10-18: the 3-card lines are lucky finds -- both Tortured Existence
+  and Paradise Mantle by turn 6 in about 3% of games -- and Worldgorger +
+  Animate Dead is bracket 4). Tortured Existence stays as a repeatable
+  discard-and-recursion engine. Swiftfoot Boots over Lightning Greaves:
+  shroud would stop Mithril Coat and Kaya's Ghostform from attaching.
+feedback:
+  - date: '2026-10-07'
+    kind: pin
+    card: Glint-Horn Buccaneer
+    reason: 'User-confirmed engine pin 2026-10-07: discard-ping core'
+  - date: '2026-10-07'
+    kind: pin
+    card: Archfiend of Ifnir
+    reason: 'User-confirmed engine pin 2026-10-07: discard-ping core'
+  - date: '2026-10-07'
+    kind: pin
+    card: Monument to Endurance
+    reason: 'User-confirmed engine pin 2026-10-07: discard-ping core'
+  - date: '2026-10-07'
+    kind: pin
+    card: Misty Knight, Hero for Hire
+    reason: 'User-confirmed engine pin 2026-10-07: discard-ping core'
+  - date: '2026-10-07'
+    kind: note
+    text: 'Liliana of the Veil''s Commander Spellbook ''mass land denial'' flag is a
+      false positive (user 2026-10-07: -6 is single-target and the opponent picks the
+      pile). Ignore the resulting bracket-4 estimate; the deck is bracket 3.'
+  - date: '2026-10-07'
+    kind: swap
+    status: rejected
+    current: Psychotic Haze
+    suggested: Fulminous Forte
+    reason: 'User''s own list (''anje new.txt'', 2026-10-07): ''i was not daccord with
+      all what you did'' -- kept Psychotic Haze'
+  - date: '2026-10-07'
+    kind: swap
+    status: rejected
+    current: Stromkirk Occultist
+    suggested: Hell Mongrel
+    reason: 'User''s own list (''anje new.txt'', 2026-10-07): ''i was not daccord with
+      all what you did'' -- kept Stromkirk Occultist'
+  - date: '2026-10-07'
+    kind: swap
+    status: rejected
+    current: Bedevil
+    suggested: Feast of Sanity
+    reason: 'User''s own list (''anje new.txt'', 2026-10-07): ''i was not daccord with
+      all what you did'' -- kept Bedevil'
+  - date: '2026-10-07'
+    kind: swap
+    status: rejected
+    current: Archfiend of Spite
+    suggested: Revolutionist
+    reason: 'User''s own list (''anje new.txt'', 2026-10-07): ''i was not daccord with
+      all what you did'' -- kept Archfiend of Spite'
+  - date: '2026-10-07'
+    kind: swap
+    status: rejected
+    current: Kitchen Imp
+    suggested: Anje's Ravager
+    reason: 'User''s own list (''anje new.txt'', 2026-10-07): ''i was not daccord with
+      all what you did'' -- kept Kitchen Imp; Ravager was added via other cuts'
+  - date: '2026-10-07'
+    kind: swap
+    status: rejected
+    current: Gorgon Recluse
+    suggested: Asylum Visitor
+    reason: 'User''s own list (''anje new.txt'', 2026-10-07): ''i was not daccord with
+      all what you did'' -- kept Gorgon Recluse; Visitor was added via other cuts'
+  - date: '2026-10-07'
+    kind: swap
+    status: rejected
+    current: Sudden Spoiling
+    suggested: Lich's Relic
+    reason: 'User''s own list (''anje new.txt'', 2026-10-07): ''i was not daccord with
+      all what you did'' -- Lich''s Relic not added; Sudden Spoiling kept'
+  - date: '2026-10-07'
+    kind: swap
+    status: rejected
+    current: Myriad Landscape
+    suggested: Luxury Suite
+    reason: 'User''s own list (''anje new.txt'', 2026-10-07): ''i was not daccord with
+      all what you did'' -- kept Myriad Landscape; Luxury Suite not added'
+  - date: '2026-10-07'
+    kind: swap
+    status: rejected
+    current: Swamp
+    suggested: Mount Doom
+    reason: 'User''s own list (''anje new.txt'', 2026-10-07): ''i was not daccord with
+      all what you did'' -- Mount Doom not added'
+  - date: '2026-10-07'
+    kind: swap
+    status: accepted
+    current: Nightshade Assassin
+    suggested: Spider-Man, New Champion
+    reason: 'User''s own list (''anje new.txt'', 2026-10-07): ''i was not daccord with
+      all what you did'' -- cut Nightshade Assassin, added Spider-Man'
+  - date: '2026-10-07'
+    kind: note
+    text: '2026-10-07 user''s own list (''anje new.txt''): kept the madness bodies (Kitchen
+      Imp, Stromkirk Occultist, Gorgon Recluse, Archfiend of Spite), Psychotic Haze,
+      Bedevil, Sudden Spoiling, and precon lands Exotic Orchard, Mortuary Mire, Myriad
+      Landscape. Did not add Feast of Sanity, Fulminous Forte, Hell Mongrel, Revolutionist,
+      Lich''s Relic, Luxury Suite, Mount Doom. Cut on their own: Jeska''s Will, Crypt
+      Ghast, Dark Ritual, Steal the Show. Added on their own: Deadly Rollick, Deflecting
+      Swat. Do not re-propose these without a new reason.'
+  - date: '2026-10-07'
+    kind: swap
+    status: accepted
+    current: Terminate
+    suggested: Bone Shards
+    reason: User approved 2026-10-07 ('write the swaps'), surgical round after the madness-fuel/Emrakul
+      discussion
+  - date: '2026-10-07'
+    kind: swap
+    status: accepted
+    current: Currency Converter
+    suggested: Containment Construct
+    reason: User approved 2026-10-07 ('write the swaps'), surgical round after the madness-fuel/Emrakul
+      discussion
+  - date: '2026-10-07'
+    kind: swap
+    status: accepted
+    current: Big Score
+    suggested: Thran Dynamo
+    reason: User approved 2026-10-07 ('write the swaps'), surgical round after the madness-fuel/Emrakul
+      discussion -- colourless for Emrakul + ramp
+  - date: '2026-10-07'
+    kind: swap
+    status: accepted
+    current: Psychotic Haze
+    suggested: Emrakul, the World Anew
+    reason: 'User approved 2026-10-07 (''write the swaps''), surgical round after the
+      madness-fuel/Emrakul discussion -- supersedes the earlier keep: Haze would kill
+      Containment Construct, Misty Knight, Tinybones, Squee'
+  - date: '2026-10-07'
+    kind: swap
+    status: accepted
+    current: Sudden Spoiling
+    suggested: Mana Vault
+    reason: User approved 2026-10-07 ('write the swaps'), surgical round after the madness-fuel/Emrakul
+      discussion -- supersedes the earlier keep; user OK'd Mana Vault ('its only 50euros')

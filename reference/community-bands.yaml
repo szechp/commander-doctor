@@ -1,0 +1,1299 @@
+# Built by scripts/build_community_bands.py from https://playgroup.gg/commander/deck-template
+# Per colour identity (key: colours in WUBRG order, C = colourless), the 25th-75th
+# percentile ('low'/'high') and median ('typical') of full Commander decks with
+# recorded games on playgroup.gg. Lands count copies, every other category distinct
+# cards; categories come from Scryfall oracle tags (their exact tag sets aren't
+# published). What people build, not what wins: outside the band is a question.
+source: https://playgroup.gg/commander/deck-template
+retrieved: '2026-10-18'
+identities:
+  C:
+    name: Colorless
+    decks: 1965
+    lands:
+      low: 34
+      typical: 36
+      high: 38
+    ramp:
+      low: 21
+      typical: 24
+      high: 28
+    draw:
+      low: 10
+      typical: 14
+      high: 16
+    removal:
+      low: 9
+      typical: 14
+      high: 17
+    wipes:
+      low: 2
+      typical: 3
+      high: 4
+    counters:
+      low: 1
+      typical: 2
+      high: 3
+    protection:
+      low: 3
+      typical: 4
+      high: 6
+    tutors:
+      low: 1
+      typical: 3
+      high: 5
+    recursion:
+      low: 3
+      typical: 4
+      high: 5
+    graveyard_hate:
+      low: 1
+      typical: 1
+      high: 2
+  W:
+    name: White
+    decks: 5185
+    lands:
+      low: 35
+      typical: 36
+      high: 38
+    ramp:
+      low: 7
+      typical: 8
+      high: 11
+    draw:
+      low: 7
+      typical: 10
+      high: 14
+    removal:
+      low: 6
+      typical: 8
+      high: 10
+    wipes:
+      low: 2
+      typical: 3
+      high: 4
+    counters:
+      low: 0
+      typical: 0
+      high: 1
+    protection:
+      low: 5
+      typical: 9
+      high: 13
+    tutors:
+      low: 0
+      typical: 1
+      high: 2
+    recursion:
+      low: 2
+      typical: 3
+      high: 4
+    graveyard_hate:
+      low: 0
+      typical: 1
+      high: 1
+  U:
+    name: Blue
+    decks: 4067
+    lands:
+      low: 34
+      typical: 36
+      high: 38
+    ramp:
+      low: 7
+      typical: 10
+      high: 13
+    draw:
+      low: 13
+      typical: 17
+      high: 22
+    removal:
+      low: 4
+      typical: 6
+      high: 8
+    wipes:
+      low: 1
+      typical: 2
+      high: 3
+    counters:
+      low: 4
+      typical: 6
+      high: 9
+    protection:
+      low: 1
+      typical: 3
+      high: 4
+    tutors:
+      low: 0
+      typical: 1
+      high: 3
+    recursion:
+      low: 1
+      typical: 2
+      high: 3
+    graveyard_hate:
+      low: 0
+      typical: 0
+      high: 1
+  B:
+    name: Black
+    decks: 6917
+    lands:
+      low: 34
+      typical: 36
+      high: 38
+    ramp:
+      low: 8
+      typical: 12
+      high: 15
+    draw:
+      low: 7
+      typical: 10
+      high: 12
+    removal:
+      low: 8
+      typical: 11
+      high: 14
+    wipes:
+      low: 2
+      typical: 3
+      high: 4
+    counters:
+      low: 0
+      typical: 0
+      high: 0
+    protection:
+      low: 1
+      typical: 3
+      high: 4
+    tutors:
+      low: 0
+      typical: 2
+      high: 4
+    recursion:
+      low: 4
+      typical: 7
+      high: 10
+    graveyard_hate:
+      low: 1
+      typical: 2
+      high: 3
+  R:
+    name: Red
+    decks: 6182
+    lands:
+      low: 34
+      typical: 36
+      high: 37
+    ramp:
+      low: 11
+      typical: 16
+      high: 20
+    draw:
+      low: 3
+      typical: 5
+      high: 8
+    removal:
+      low: 8
+      typical: 12
+      high: 14
+    wipes:
+      low: 2
+      typical: 3
+      high: 5
+    counters:
+      low: 0
+      typical: 0
+      high: 1
+    protection:
+      low: 1
+      typical: 2
+      high: 3
+    tutors:
+      low: 0
+      typical: 1
+      high: 2
+    recursion:
+      low: 1
+      typical: 1
+      high: 3
+    graveyard_hate:
+      low: 0
+      typical: 0
+      high: 0
+  G:
+    name: Green
+    decks: 5798
+    lands:
+      low: 35
+      typical: 37
+      high: 39
+    ramp:
+      low: 14
+      typical: 19
+      high: 24
+    draw:
+      low: 7
+      typical: 10
+      high: 14
+    removal:
+      low: 5
+      typical: 7
+      high: 9
+    wipes:
+      low: 0
+      typical: 0
+      high: 1
+    counters:
+      low: 0
+      typical: 0
+      high: 0
+    protection:
+      low: 3
+      typical: 5
+      high: 7
+    tutors:
+      low: 0
+      typical: 1
+      high: 3
+    recursion:
+      low: 1
+      typical: 3
+      high: 5
+    graveyard_hate:
+      low: 0
+      typical: 1
+      high: 1
+  WU:
+    name: Azorius
+    decks: 4281
+    lands:
+      low: 35
+      typical: 36
+      high: 37
+    ramp:
+      low: 7
+      typical: 9
+      high: 12
+    draw:
+      low: 10
+      typical: 13
+      high: 16
+    removal:
+      low: 5
+      typical: 7
+      high: 9
+    wipes:
+      low: 1
+      typical: 2
+      high: 4
+    counters:
+      low: 2
+      typical: 4
+      high: 6
+    protection:
+      low: 3
+      typical: 5
+      high: 8
+    tutors:
+      low: 0
+      typical: 1
+      high: 2
+    recursion:
+      low: 1
+      typical: 2
+      high: 4
+    graveyard_hate:
+      low: 0
+      typical: 1
+      high: 1
+  WB:
+    name: Orzhov
+    decks: 5662
+    lands:
+      low: 35
+      typical: 37
+      high: 37
+    ramp:
+      low: 5
+      typical: 9
+      high: 12
+    draw:
+      low: 7
+      typical: 10
+      high: 13
+    removal:
+      low: 8
+      typical: 10
+      high: 12
+    wipes:
+      low: 2
+      typical: 3
+      high: 4
+    counters:
+      low: 0
+      typical: 0
+      high: 0
+    protection:
+      low: 3
+      typical: 5
+      high: 10
+    tutors:
+      low: 0
+      typical: 1
+      high: 2
+    recursion:
+      low: 3
+      typical: 5
+      high: 7
+    graveyard_hate:
+      low: 1
+      typical: 1
+      high: 2
+  WR:
+    name: Boros
+    decks: 6054
+    lands:
+      low: 35
+      typical: 36
+      high: 37
+    ramp:
+      low: 8
+      typical: 12
+      high: 16
+    draw:
+      low: 5
+      typical: 7
+      high: 10
+    removal:
+      low: 7
+      typical: 8
+      high: 11
+    wipes:
+      low: 1
+      typical: 3
+      high: 4
+    counters:
+      low: 0
+      typical: 0
+      high: 0
+    protection:
+      low: 4
+      typical: 6
+      high: 10
+    tutors:
+      low: 0
+      typical: 1
+      high: 3
+    recursion:
+      low: 1
+      typical: 3
+      high: 6
+    graveyard_hate:
+      low: 0
+      typical: 0
+      high: 1
+  WG:
+    name: Selesnya
+    decks: 5278
+    lands:
+      low: 34
+      typical: 36
+      high: 38
+    ramp:
+      low: 11
+      typical: 14
+      high: 16
+    draw:
+      low: 6
+      typical: 10
+      high: 13
+    removal:
+      low: 6
+      typical: 7
+      high: 10
+    wipes:
+      low: 1
+      typical: 2
+      high: 3
+    counters:
+      low: 0
+      typical: 0
+      high: 0
+    protection:
+      low: 5
+      typical: 6
+      high: 9
+    tutors:
+      low: 0
+      typical: 1
+      high: 2
+    recursion:
+      low: 1
+      typical: 3
+      high: 4
+    graveyard_hate:
+      low: 0
+      typical: 0
+      high: 1
+  UB:
+    name: Dimir
+    decks: 6090
+    lands:
+      low: 35
+      typical: 36
+      high: 38
+    ramp:
+      low: 7
+      typical: 9
+      high: 12
+    draw:
+      low: 8
+      typical: 11
+      high: 14
+    removal:
+      low: 6
+      typical: 8
+      high: 10
+    wipes:
+      low: 1
+      typical: 3
+      high: 4
+    counters:
+      low: 2
+      typical: 4
+      high: 6
+    protection:
+      low: 1
+      typical: 2
+      high: 3
+    tutors:
+      low: 0
+      typical: 1
+      high: 3
+    recursion:
+      low: 3
+      typical: 5
+      high: 8
+    graveyard_hate:
+      low: 1
+      typical: 2
+      high: 2
+  UR:
+    name: Izzet
+    decks: 6247
+    lands:
+      low: 34
+      typical: 36
+      high: 38
+    ramp:
+      low: 9
+      typical: 13
+      high: 16
+    draw:
+      low: 11
+      typical: 13
+      high: 17
+    removal:
+      low: 7
+      typical: 9
+      high: 12
+    wipes:
+      low: 1
+      typical: 3
+      high: 4
+    counters:
+      low: 2
+      typical: 4
+      high: 6
+    protection:
+      low: 1
+      typical: 2
+      high: 3
+    tutors:
+      low: 0
+      typical: 1
+      high: 3
+    recursion:
+      low: 1
+      typical: 2
+      high: 4
+    graveyard_hate:
+      low: 0
+      typical: 0
+      high: 0
+  UG:
+    name: Simic
+    decks: 6298
+    lands:
+      low: 35
+      typical: 37
+      high: 38
+    ramp:
+      low: 13
+      typical: 17
+      high: 22
+    draw:
+      low: 10
+      typical: 13
+      high: 16
+    removal:
+      low: 5
+      typical: 7
+      high: 9
+    wipes:
+      low: 1
+      typical: 2
+      high: 3
+    counters:
+      low: 2
+      typical: 3
+      high: 5
+    protection:
+      low: 2
+      typical: 3
+      high: 6
+    tutors:
+      low: 0
+      typical: 0
+      high: 2
+    recursion:
+      low: 1
+      typical: 2
+      high: 4
+    graveyard_hate:
+      low: 0
+      typical: 0
+      high: 1
+  BR:
+    name: Rakdos
+    decks: 6828
+    lands:
+      low: 35
+      typical: 36
+      high: 38
+    ramp:
+      low: 9
+      typical: 12
+      high: 18
+    draw:
+      low: 5
+      typical: 7
+      high: 10
+    removal:
+      low: 10
+      typical: 13
+      high: 16
+    wipes:
+      low: 2
+      typical: 3
+      high: 5
+    counters:
+      low: 0
+      typical: 0
+      high: 0
+    protection:
+      low: 1
+      typical: 2
+      high: 3
+    tutors:
+      low: 0
+      typical: 1
+      high: 2
+    recursion:
+      low: 1
+      typical: 3
+      high: 6
+    graveyard_hate:
+      low: 1
+      typical: 1
+      high: 2
+  BG:
+    name: Golgari
+    decks: 7831
+    lands:
+      low: 35
+      typical: 36
+      high: 38
+    ramp:
+      low: 11
+      typical: 14
+      high: 18
+    draw:
+      low: 7
+      typical: 9
+      high: 11
+    removal:
+      low: 7
+      typical: 10
+      high: 13
+    wipes:
+      low: 1
+      typical: 2
+      high: 3
+    counters:
+      low: 0
+      typical: 0
+      high: 0
+    protection:
+      low: 1
+      typical: 3
+      high: 5
+    tutors:
+      low: 0
+      typical: 1
+      high: 3
+    recursion:
+      low: 3
+      typical: 5
+      high: 8
+    graveyard_hate:
+      low: 1
+      typical: 2
+      high: 2
+  RG:
+    name: Gruul
+    decks: 5723
+    lands:
+      low: 35
+      typical: 37
+      high: 38
+    ramp:
+      low: 14
+      typical: 19
+      high: 24
+    draw:
+      low: 6
+      typical: 9
+      high: 12
+    removal:
+      low: 7
+      typical: 9
+      high: 12
+    wipes:
+      low: 1
+      typical: 2
+      high: 3
+    counters:
+      low: 0
+      typical: 0
+      high: 0
+    protection:
+      low: 2
+      typical: 3
+      high: 6
+    tutors:
+      low: 0
+      typical: 0
+      high: 1
+    recursion:
+      low: 1
+      typical: 2
+      high: 3
+    graveyard_hate:
+      low: 0
+      typical: 0
+      high: 1
+  WUB:
+    name: Esper
+    decks: 7520
+    lands:
+      low: 35
+      typical: 37
+      high: 37
+    ramp:
+      low: 8
+      typical: 11
+      high: 13
+    draw:
+      low: 10
+      typical: 12
+      high: 15
+    removal:
+      low: 7
+      typical: 9
+      high: 12
+    wipes:
+      low: 2
+      typical: 3
+      high: 4
+    counters:
+      low: 2
+      typical: 3
+      high: 5
+    protection:
+      low: 2
+      typical: 3
+      high: 6
+    tutors:
+      low: 1
+      typical: 2
+      high: 3
+    recursion:
+      low: 2
+      typical: 4
+      high: 6
+    graveyard_hate:
+      low: 0
+      typical: 1
+      high: 2
+  WUG:
+    name: Bant
+    decks: 5680
+    lands:
+      low: 35
+      typical: 37
+      high: 38
+    ramp:
+      low: 11
+      typical: 13
+      high: 16
+    draw:
+      low: 9
+      typical: 12
+      high: 16
+    removal:
+      low: 5
+      typical: 7
+      high: 10
+    wipes:
+      low: 1
+      typical: 2
+      high: 3
+    counters:
+      low: 1
+      typical: 2
+      high: 4
+    protection:
+      low: 4
+      typical: 6
+      high: 8
+    tutors:
+      low: 0
+      typical: 0
+      high: 2
+    recursion:
+      low: 1
+      typical: 2
+      high: 3
+    graveyard_hate:
+      low: 0
+      typical: 0
+      high: 1
+  WUR:
+    name: Jeskai
+    decks: 8365
+    lands:
+      low: 36
+      typical: 38
+      high: 38
+    ramp:
+      low: 9
+      typical: 10
+      high: 12
+    draw:
+      low: 11
+      typical: 14
+      high: 17
+    removal:
+      low: 7
+      typical: 8
+      high: 10
+    wipes:
+      low: 2
+      typical: 3
+      high: 4
+    counters:
+      low: 1
+      typical: 1
+      high: 3
+    protection:
+      low: 3
+      typical: 5
+      high: 7
+    tutors:
+      low: 0
+      typical: 0
+      high: 2
+    recursion:
+      low: 1
+      typical: 3
+      high: 4
+    graveyard_hate:
+      low: 0
+      typical: 1
+      high: 1
+  WBR:
+    name: Mardu
+    decks: 6807
+    lands:
+      low: 35
+      typical: 36
+      high: 37
+    ramp:
+      low: 8
+      typical: 11
+      high: 16
+    draw:
+      low: 6
+      typical: 9
+      high: 11
+    removal:
+      low: 8
+      typical: 10
+      high: 12
+    wipes:
+      low: 2
+      typical: 3
+      high: 4
+    counters:
+      low: 0
+      typical: 0
+      high: 0
+    protection:
+      low: 2
+      typical: 4
+      high: 7
+    tutors:
+      low: 0
+      typical: 1
+      high: 3
+    recursion:
+      low: 1
+      typical: 3
+      high: 6
+    graveyard_hate:
+      low: 1
+      typical: 1
+      high: 2
+  UBR:
+    name: Grixis
+    decks: 8605
+    lands:
+      low: 35
+      typical: 37
+      high: 38
+    ramp:
+      low: 10
+      typical: 12
+      high: 16
+    draw:
+      low: 9
+      typical: 12
+      high: 14
+    removal:
+      low: 7
+      typical: 9
+      high: 11
+    wipes:
+      low: 2
+      typical: 3
+      high: 4
+    counters:
+      low: 1
+      typical: 2
+      high: 4
+    protection:
+      low: 1
+      typical: 2
+      high: 3
+    tutors:
+      low: 0
+      typical: 1
+      high: 3
+    recursion:
+      low: 3
+      typical: 5
+      high: 7
+    graveyard_hate:
+      low: 0
+      typical: 1
+      high: 2
+  UBG:
+    name: Sultai
+    decks: 5744
+    lands:
+      low: 35
+      typical: 37
+      high: 38
+    ramp:
+      low: 12
+      typical: 15
+      high: 19
+    draw:
+      low: 8
+      typical: 10
+      high: 12
+    removal:
+      low: 5
+      typical: 7
+      high: 9
+    wipes:
+      low: 1
+      typical: 2
+      high: 3
+    counters:
+      low: 1
+      typical: 2
+      high: 4
+    protection:
+      low: 1
+      typical: 3
+      high: 4
+    tutors:
+      low: 0
+      typical: 1
+      high: 3
+    recursion:
+      low: 4
+      typical: 6
+      high: 12
+    graveyard_hate:
+      low: 0
+      typical: 1
+      high: 2
+  WBG:
+    name: Abzan
+    decks: 3985
+    lands:
+      low: 35
+      typical: 37
+      high: 38
+    ramp:
+      low: 12
+      typical: 14
+      high: 16
+    draw:
+      low: 7
+      typical: 9
+      high: 12
+    removal:
+      low: 6
+      typical: 8
+      high: 9
+    wipes:
+      low: 2
+      typical: 3
+      high: 4
+    counters:
+      low: 0
+      typical: 0
+      high: 0
+    protection:
+      low: 2
+      typical: 3
+      high: 5
+    tutors:
+      low: 0
+      typical: 1
+      high: 3
+    recursion:
+      low: 3
+      typical: 4
+      high: 8
+    graveyard_hate:
+      low: 1
+      typical: 1
+      high: 2
+  BRG:
+    name: Jund
+    decks: 4836
+    lands:
+      low: 36
+      typical: 38
+      high: 40
+    ramp:
+      low: 12
+      typical: 18
+      high: 22
+    draw:
+      low: 7
+      typical: 10
+      high: 12
+    removal:
+      low: 9
+      typical: 13
+      high: 16
+    wipes:
+      low: 2
+      typical: 3
+      high: 5
+    counters:
+      low: 0
+      typical: 0
+      high: 0
+    protection:
+      low: 0
+      typical: 1
+      high: 3
+    tutors:
+      low: 0
+      typical: 0
+      high: 2
+    recursion:
+      low: 5
+      typical: 10
+      high: 12
+    graveyard_hate:
+      low: 0
+      typical: 1
+      high: 2
+  WRG:
+    name: Naya
+    decks: 7692
+    lands:
+      low: 35
+      typical: 37
+      high: 38
+    ramp:
+      low: 11
+      typical: 14
+      high: 18
+    draw:
+      low: 7
+      typical: 9
+      high: 11
+    removal:
+      low: 6
+      typical: 8
+      high: 11
+    wipes:
+      low: 1
+      typical: 2
+      high: 4
+    counters:
+      low: 0
+      typical: 0
+      high: 0
+    protection:
+      low: 3
+      typical: 6
+      high: 8
+    tutors:
+      low: 0
+      typical: 1
+      high: 2
+    recursion:
+      low: 1
+      typical: 2
+      high: 5
+    graveyard_hate:
+      low: 0
+      typical: 1
+      high: 1
+  URG:
+    name: Temur
+    decks: 5110
+    lands:
+      low: 35
+      typical: 37
+      high: 38
+    ramp:
+      low: 15
+      typical: 17
+      high: 21
+    draw:
+      low: 9
+      typical: 11
+      high: 16
+    removal:
+      low: 7
+      typical: 9
+      high: 12
+    wipes:
+      low: 1
+      typical: 2
+      high: 3
+    counters:
+      low: 0
+      typical: 2
+      high: 4
+    protection:
+      low: 1
+      typical: 3
+      high: 5
+    tutors:
+      low: 0
+      typical: 1
+      high: 2
+    recursion:
+      low: 1
+      typical: 2
+      high: 4
+    graveyard_hate:
+      low: 0
+      typical: 0
+      high: 1
+  WURG:
+    name: Sans Black
+    decks: 1723
+    lands:
+      low: 36
+      typical: 37
+      high: 38
+    ramp:
+      low: 13
+      typical: 15
+      high: 20
+    draw:
+      low: 11
+      typical: 12
+      high: 16
+    removal:
+      low: 6
+      typical: 9
+      high: 9
+    wipes:
+      low: 1
+      typical: 2
+      high: 5
+    counters:
+      low: 0
+      typical: 1
+      high: 3
+    protection:
+      low: 3
+      typical: 4
+      high: 6
+    tutors:
+      low: 0
+      typical: 1
+      high: 1
+    recursion:
+      low: 2
+      typical: 2
+      high: 4
+    graveyard_hate:
+      low: 0
+      typical: 0
+      high: 2
+  WUBG:
+    name: Sans Red
+    decks: 1147
+    lands:
+      low: 34
+      typical: 36
+      high: 38
+    ramp:
+      low: 11
+      typical: 13
+      high: 17
+    draw:
+      low: 8
+      typical: 11
+      high: 14
+    removal:
+      low: 6
+      typical: 9
+      high: 11
+    wipes:
+      low: 2
+      typical: 3
+      high: 5
+    counters:
+      low: 1
+      typical: 2
+      high: 4
+    protection:
+      low: 2
+      typical: 4
+      high: 6
+    tutors:
+      low: 0
+      typical: 1
+      high: 3
+    recursion:
+      low: 2
+      typical: 2
+      high: 4
+    graveyard_hate:
+      low: 0
+      typical: 1
+      high: 1
+  WUBR:
+    name: Sans Green
+    decks: 1462
+    lands:
+      low: 35
+      typical: 38
+      high: 39
+    ramp:
+      low: 14
+      typical: 15
+      high: 16
+    draw:
+      low: 11
+      typical: 15
+      high: 15
+    removal:
+      low: 7
+      typical: 8
+      high: 9
+    wipes:
+      low: 2
+      typical: 6
+      high: 6
+    counters:
+      low: 0
+      typical: 1
+      high: 3
+    protection:
+      low: 3
+      typical: 5
+      high: 5
+    tutors:
+      low: 0
+      typical: 0
+      high: 4
+    recursion:
+      low: 1
+      typical: 1
+      high: 3
+    graveyard_hate:
+      low: 0
+      typical: 0
+      high: 1
+  WUBRG:
+    name: Five Color
+    decks: 12520
+    lands:
+      low: 35
+      typical: 37
+      high: 38
+    ramp:
+      low: 12
+      typical: 16
+      high: 20
+    draw:
+      low: 8
+      typical: 11
+      high: 14
+    removal:
+      low: 6
+      typical: 9
+      high: 12
+    wipes:
+      low: 1
+      typical: 3
+      high: 4
+    counters:
+      low: 0
+      typical: 1
+      high: 2
+    protection:
+      low: 2
+      typical: 4
+      high: 6
+    tutors:
+      low: 1
+      typical: 2
+      high: 4
+    recursion:
+      low: 2
+      typical: 3
+      high: 6
+    graveyard_hate:
+      low: 0
+      typical: 0
+      high: 1

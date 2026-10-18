@@ -673,3 +673,27 @@ def test_targeted_graveyard_hate_credited_for_graveyard_coverage(con, tmp_path):
     for answer_type in ("creature", "artifact", "enchantment", "planeswalker"):
         entry = next(e for e in report.entries if e.answer_type == answer_type)
         assert entry.deck_cheapest_name != "Scavenging Ooze"
+
+
+def test_free_to_cast_answers_cost_no_mana():
+    import json
+    from deckdoctor.coverage import effective_cost, free_cast
+
+    def script(statics=(), keywords=(), mana_cost="3 U"):
+        return {"mana_cost": mana_cost, "statics": [{"raw": s} for s in statics], "keywords": list(keywords),
+                "abilities": [{"SP": "Counter"}], "svars": {}}
+
+    pitch = script(["Mode$ AlternativeCost | ValidSA$ Spell.Self | Cost$ ExileFromHand<1/Card.Blue+Other/blue card>"])
+    commander = script(["Mode$ AlternativeCost | ValidSA$ Spell | Cost$ 0 | IsPresent$ Card.IsCommander+YouCtrl"])
+    life = script(["Mode$ AlternativeCost | ValidSA$ Spell.Self | Cost$ PayLife<4>"])
+    evoke = script(keywords=["Evoke:ExileFromHand<1/Card.White+Other/white card>"])
+    phyrexian = script(mana_cost="UP")
+    assert [free_cast(s) for s in (pitch, commander, life, evoke, phyrexian)] == [
+        "alternative cost", "alternative cost", "alternative cost", "evoke", "no mana"]
+    # an alternative cost that still costs mana, a mana-costed evoke, a normal spell: not free
+    costed = script(["Mode$ AlternativeCost | ValidSA$ Spell.Self | Cost$ 2 U"])
+    assert free_cast(costed) is None
+    assert free_cast(script(keywords=["Evoke:1 U"])) is None
+    assert free_cast(script(mana_cost="U U")) is None
+    assert effective_cost(3.0, json.dumps(pitch)) == 0.0
+    assert effective_cost(2.0, json.dumps(script(mana_cost="U U"))) == 2.0

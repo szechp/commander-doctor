@@ -34,3 +34,29 @@ def test_plain_tap_colours_ignore_costly_and_conditional_any_colour():
     assert plain_tap_colours("{T}: Add {C}.\n{2}, {T}: Choose a color. Add an amount of mana of that color equal to your devotion to that color.", wubrg) == set()
     assert plain_tap_colours("{T}: Add {C}. If this land has a luck counter on it, instead add one mana of any color.", wubrg) == set()
     assert plain_tap_colours("{T}: Add {C}.\n{T}, Pay 1 life: Add one mana of any color. Activate only if you control an artifact.", wubrg) == set()
+
+
+def test_type_requirements_cover_check_reveal_and_gated_colour_lands():
+    from deckdoctor.land_speed import classify_land_speed, type_requirements
+    snarl = ("As this land enters, you may reveal an Island or Mountain card from your hand. If you don't, "
+             "this land enters tapped.\n{T}: Add {U} or {R}.")
+    assert [(r.kind, r.types) for r in type_requirements(snarl)] == [("enters", frozenset({"Island", "Mountain"}))]
+    assert classify_land_speed(snarl).label.startswith("reveal land")
+    check = "This land enters tapped unless you control an Island or a Mountain.\n{T}: Add {U} or {R}."
+    assert [(r.kind, r.types) for r in type_requirements(check)] == [("enters", frozenset({"Island", "Mountain"}))]
+    maze = ("{T}: Add {C}.\n{T}: Add {W}. Activate only if you control an Island.\n"
+            "{T}: Add {U}. Activate only if you control a Plains.")
+    assert [(r.kind, r.types) for r in type_requirements(maze)] == [("colour", frozenset({"Island"})),
+                                                                     ("colour", frozenset({"Plains"}))]
+    assert type_requirements("({T}: Add {U} or {R}.)\nAs this land enters, you may pay 2 life.") == []
+
+
+def test_count_requirements_cover_battle_lands_and_the_eldraine_five():
+    from deckdoctor.land_speed import ALL_BASIC_TYPES, type_requirements
+    battle = "({T}: Add {W} or {U}.)\nThis land enters tapped unless you control two or more basic lands."
+    (req,) = type_requirements(battle)
+    assert (req.kind, req.types, req.count, req.basic_only) == ("enters", ALL_BASIC_TYPES, 2, True)
+    sanctuary = "({T}: Add {U}.)\nThis land enters tapped unless you control three or more other Islands."
+    (req,) = type_requirements(sanctuary)
+    assert (req.types, req.count, req.basic_only) == (frozenset({"Island"}), 3, False)
+    assert type_requirements("This land enters tapped unless you control two or more other lands.") == []

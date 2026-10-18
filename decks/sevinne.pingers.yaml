@@ -1,0 +1,62 @@
+commander: Sevinne, the Chronoclasm
+bracket: 3
+threshold: 5
+archetype: midrange
+edhrec_theme: spellslinger
+gameplan: >
+  Jeskai control that protects Sevinne's spell doublers (user, 2026-10-17:
+  "Control to save our spell doublers. Try to finish the game with cheap
+  multiplied spells while trying to keep the others with interaction alive.
+  Crackle with power as a late game finisher"). Sevinne copies the first
+  instant or sorcery cast from a graveyard each turn, on every player's turn;
+  Harmonic Prodigy and Veyran each add one more copy (copies add: 2/3/4
+  instances, not multiplied). Hold up counters and instant removal to keep
+  Sevinne, Prodigy, Veyran and the pingers alive; Flawless Maneuver and Boros Charm make
+  them indestructible. Wipes are one-sided (Delayed Blast Fireball, overloaded
+  Cyclonic Rift); Blasphemous Act left on 2026-10-18 because it kills our own
+  pingers.
+  Recast from the graveyard with Snapcaster, Stingcaster Mage, Mission
+  Briefing, Quistis, Gale and Backdraft Hellkite; Prodigy doubles the Wizards'
+  enter triggers (Snapcaster, Stingcaster, Dualcaster). Delayed Blast Fireball
+  is a hand card: foretell it for the 5-damage mode. Constant pingers turn every spell, including
+  interaction on opponents' turns, into damage from the early game on
+  (user, 2026-10-17, after games: no damage until late, finishers
+  unreliable): Longshot (2 per noncreature spell, and it makes them 1
+  cheaper), Guttersnipe and Fiery Inscription (2 per instant/sorcery),
+  Thermo-Alchemist, Vivi, and the 0/1 Wizard tokens from Vivi's Persistence and
+  Lindblum's Mage Siege (1 per noncreature spell; the land side is a red source);
+  Prodigy doubles Guttersnipe, the Wizard tokens and Vivi, Veyran doubles every instant/sorcery cast trigger. Cheap
+  creatures only: the 4-6 mana Archmages and Gearhulk left so the mana goes
+  to interaction. Deck type midrange (user, 2026-10-18): interaction sized
+  to `deckdoctor balance`'s sweet spot, about 15 answers, counters kept for
+  protecting the doublers; the freed slots went to card draw (Whirlwind of
+  Thought, Grab the Prize, Gitaxian Probe) and 2-mana cost
+  reducers (Goblin Electromancer, Stormcatch Mentor) for speed. Jeskai Ascendancy loots on every noncreature
+  spell, filling the graveyard for flashback and Sevinne's copies, and untaps
+  Thermo-Alchemist for another ping. Dual use is a tie-breaker, not a
+  rule (user, 2026-10-18): between cards about equally good at a slot's
+  main job, take the one that also feeds the engine; a card that is the
+  best at one job (Swords, Counterspell, Sol Ring, Ghostly Prison) stays. Free-to-cast
+  answers (Force of Will, Force of Negation, Fierce Guardianship) are never
+  cut for mana value: they cost a card, not mana (user, 2026-10-18). The pingers lower life totals so
+  the X finishers need a smaller X. Close with cheap each-opponent burn
+  that multiplies (Boltwave, Fiery Confluence, Delayed Blast Fireball,
+  Boros Charm) plus Vivi per-cast pings; Crackle with Power,
+  Banefire, Comet Storm and Devil's Play are the late-game X finishers. Bonus
+  combo (user-approved 2026-10-17, no tutors, a lucky-draw win): cast any
+  instant or sorcery, then Cooperate from the graveyard targeting it; Sevinne
+  copies Cooperate, each copy re-copies the original, so the loop is
+  unbounded; Storm-Kiln Artist makes a Treasure per copy, then Crackle with
+  Power or Banefire for a huge X. Pay X
+  through flashback or cast permissions, never through free-cast effects
+  (they make X 0). No Lier: "Spells can't be countered" turns
+  the counters off. Premium cards never compete: an added card displaces the
+  weakest card in its role.
+feedback:
+  - date: '2026-10-17'
+    kind: note
+    text: 'Played games (2026-10-17): flooded with interaction but can''t pay for it
+      all because the creatures are expensive (Archmages etc.); no damage until late
+      game, then the X finishers can''t be cast reliably. User wants constant pingers
+      instead of the mages.'
+
