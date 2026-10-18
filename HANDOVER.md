@@ -4,7 +4,7 @@ Branch `forge-bench-negative-result`, **committed and pushed** (75382ee, 2026-10
 
 Run the doctor as `.venv/bin/deckdoctor ...` (or `uv run deckdoctor ...`). **Run `deckdoctor sync` once:** it fills the new `card_reprint` table, so the recently-printed section skips reprints.
 
-## Tool changes this session (uncommitted)
+## Tool changes this session (committed in 75382ee)
 
 1. **ManaBox swaps format** (`target_diff.manabox_swaps`). `diff --swaps-file` writes four sections:
    - `// COMMANDER`
@@ -79,7 +79,7 @@ Run the doctor as `.venv/bin/deckdoctor ...` (or `uv run deckdoctor ...`). **Run
   - Popularity-first ranking buries new cards: Vivi's Persistence ranked #90; Lindblum #531, also because it counts as a land.
   - `candidates` takes one tag at a time, so there's no `pinger`+`cast-trigger-you` intersection and no dual-use scoring. Grab the Prize (each-opponent burn + draw) isn't reachable from any single tag.
   - Fixed by tool change 7. The pinger list's `edhrec_theme` is now `spellslinger`; it was `graveyard`.
-- None of this is logged in `KNOWN_ISSUES.md`, because that file holds the user's uncommitted edits.
+- None of this is logged in `KNOWN_ISSUES.md` yet. The user's own edits to that file are now committed (75382ee); add these entries there next session.
 
 ## Sevinne
 
