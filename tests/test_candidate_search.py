@@ -75,3 +75,18 @@ def test_an_oracle_regex_searches_card_text_like_scryfall():
     lines = find_candidates(con, ["R"], "any", set(), oracle=regex)
     assert sorted(line.split(" | ")[0] for line in lines) == ["Copier", "Payoff"]
     assert role_suggestions(con, "any") is None
+
+
+def test_mark_names_labels_the_decks_own_cards_in_the_pool():
+    con = _db([("Mine", "Creature"), ("New", "Creature")], [("Mine", "pinger"), ("New", "pinger")])
+    lines = find_candidates(con, ["R"], "pinger", set(), mark_names={"Mine"})
+    marked = {line.split(" | ")[0]: "| in deck" in line for line in lines}
+    assert marked == {"Mine": True, "New": False}
+
+
+def test_type_filter_is_scryfalls_type_search():
+    con = _db([("Token Land", "Land"), ("Token Spell", "Sorcery"), ("Spell // Land", "Sorcery // Land")], [])
+    con.execute("UPDATE cards SET oracle_text = 'Create a 1/1 token.'")
+    names = {line.split(" | ")[0] for line in find_candidates(con, ["R"], "any", set(), oracle="token",
+                                                             type_filter="land")}
+    assert names == {"Token Land", "Spell // Land"}

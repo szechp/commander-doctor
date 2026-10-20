@@ -81,6 +81,77 @@ Run the doctor as `.venv/bin/deckdoctor ...` (or `uv run deckdoctor ...`). **Run
   - Fixed by tool change 7. The pinger list's `edhrec_theme` is now `spellslinger`; it was `graveyard`.
 - None of this is logged in `KNOWN_ISSUES.md` yet. The user's own edits to that file are now committed (75382ee); add these entries there next session.
 
+## Blank-slate Improve (2026-10-19, uncommitted)
+
+The user had been working around the skill: for real changes they asked for a from-scratch build and a comparison, because editing the list only gave small swaps. That flow is now Improve itself (workflow §1 and §5, all three SKILL.md copies):
+
+- **`deckdoctor rebuild <deck>`** (`src/deckdoctor/rebuild.py`):
+  - Writes `<name>.target.txt` with the commander only (no pins: the user's call) and copies the YAML. Refuses to overwrite without `--force`.
+  - Prints the build sheet: the plan, the interaction sweet spot on natural draws, the community bands, EDHREC's card-type average, and the searches to run.
+- **`--include-deck`** on `candidates` and `edhrec --missing`: the deck's own cards stay in the ranked pool, marked `in deck` (a tie-breaker only).
+- **`diff` now compares the two lists as whole decks** (`src/deckdoctor/deck_compare.py`; `--no-compare` skips it):
+  - every health check before → after, packages against the community bands, and the plan (signature) tags before → after;
+  - **cuts to double-check:** format staples (top 100), free-to-cast cards with mana value above 0, and cuts played at least 10 points more on the commander's EDHREC page than a *listed* add in the same role. Lands and basics are skipped.
+- `balance.py` gained `band_actuals()` and `card_categories()`.
+- **Tests:** `tests/test_rebuild.py`, plus additions to `test_candidate_search.py` and `test_edhrec_themes.py`. Result: 681 pass, with the same pre-existing failure.
+- **Known noise:** a precon commander's page rates its precon's cards high, so they show up in the double-check list (6 of Elrond's 7 flags).
+  - The render says so.
+  - Telling precon cards apart needs first-printing dates, which `card_release` doesn't store (it holds the latest printing).
+
+### Less EDHREC, precon bias (2026-10-19, uncommitted)
+
+The user asked whether we rely on EDHREC much more now. Partly yes: both ranking keys are EDHREC data (Scryfall's `edhrec_rank` is EDHREC's number), and the blank-slate build removed their own list as a counterweight. Changes:
+
+- **Plan first.** The `rebuild` sheet now lists the searches in this order: engine searches from the gameplan (`any --oracle`, tags, `--sort fit`), support packages, then EDHREC, staples and lands.
+- **Double-check cuts.** The play-rate trigger now covers support roles only, not engine cards.
+- **`diff` shows the EDHREC share:** nonland cards on the page, and precon cards, before → after.
+- **Precon bias** (`src/deckdoctor/precon.py`):
+  - **Lookup:** the commander's printings in Commander sets (Scryfall), then MTGJSON's deck list. Cached for good in `data/precon_cache/`.
+  - **Labels:** precon cards are marked `precon` in `edhrec --missing`, `candidates` and `upgrades`.
+  - **Ranking:** each precon card ranks by `CardStat.evidence`, the lower of its page rate and its rate on EDHREC's bracket page. The pages are `/commanders/<slug>/core|upgraded|optimized|exhibition|cedh`; theme + bracket pages don't exist.
+  - **Fetching:** `edhrec` and `rebuild` fetch the lookup and the bracket page; `candidates` and `diff` read the cache only.
+  - **`cached_ranking_stats()`** moved from cli.py to precon.py.
+- **What the lookup finds:**
+  - Sevinne: Mystic Intellect (C19).
+  - Anje: Merciless Rage (C19). Anje's target still has 22 of 64 nonland cards from it.
+  - Elrond has no precon (main-set LTR). I had wrongly told the user that Celeborn and the others were Elrond precon cards.
+- **Tests:** `tests/test_precon.py`. Result: 686 pass, with the same pre-existing failure.
+
+## Ghired (2026-10-19, first blank-slate run)
+
+- **Deck files:** the user uploaded their list, now `decks/ghired.txt` (set codes stripped). This is not a restored deleted file. The new `decks/ghired.yaml` holds bracket 3 (assumed, like the other decks), threshold 5, archetype aggro, theme populate and a populate-beatdown gameplan. The user confirmed plan, deck type and top end.
+- **Target:** `decks/ghired.target.txt`. The swaps file `decks/ghired-swaps.txt` holds 47 swaps and passes `validate --swaps`.
+- **Speed (deploy):** Ghired by turn 4 goes from 18% to 38%, and by turn 5 from 50% to 71%. Colour-stuck spells and tapped land turns are both halved.
+- **Packages:** ramp 11 → 17 by the doctor's count, protection 4 → 7, answers 10 → 11, wipes 0 on purpose. Precon cards drop from 37 to 20.
+- **Tool fix in this run:** `audit.is_removal()` now counts `burn-creature` (damage to a target creature) as removal unless the card is a sweeper. This covers Annie Joins Up, Ghired's Belligerence, Alchemist's Greeting and Eiganjo's channel.
+  - Still open: `burn-any` (Lightning Bolt) isn't counted, because it's shared with 1-damage pingers.
+- **Later the same day:**
+  - Seedborn Muse is in for Determined Iteration, as the user's Game Changer pick (2 of 3).
+  - Both check lands became pathways.
+  - Boseiju, Eiganjo, Witch Enchanter and City of Brass replaced four basics.
+  - Now 51 swaps. Ghired by turn 4 37%, tapped land turns 0.23.
+- **Tool fixes from this run, for every deck:**
+  - `upgrades` has a new section, "replace a basic (almost no downside)" (`find_basic_upgrades`, `type_support_lines`). It covers channel lands, spell // land cards, pathways, choose-a-type lands and coloured utility lands, and shows each check land's type support so you can see how many basics can go.
+  - `land_speed` judges two-faced cards by their land face. "Pay 3 life" lands count as untapped, and Starting Town counts as a fastland.
+  - `balance` and `health` count answers in land slots toward holding an answer, but not toward the ceiling.
+  - The workflow and all three SKILL.md copies now spell out the mana-base rules.
+- **Token lands as a populate backup** (the user's idea: populate needs a token when Ghired's Rhino is gone):
+  - Emeria's Call replaced Witch Enchanter, and Sokenzan replaced a Mountain. Colour gap 24 → 25.
+  - Grove of the Guardian stayed out: colourless, colour gap 25 → 32.
+  - Dark Depths was declined: Marit Lage is legendary, so populate and the doublers can't copy it. It costs 30 mana without its combo partners and makes no mana.
+  - Now 52 swaps, accepted. Basics: 3 Forest, 1 Plains, 1 Mountain.
+- **2026-10-20: the user tests the target online. The printed deck is unchanged.** Rewrite `decks/ghired.txt` only when the user says the swaps are in print. Then delete `ghired.target.*`, `ghired-swaps.txt` and `ghired-manabox.txt` after asking.
+- **Files:** `decks/ghired.txt` is the printed deck (mainboard + maybeboard of the user's swaps upload).
+  - The user's tested version differs from my target by 3 cards: +Fresh Meat, +Hour of Reckoning (kept), +Mithril Coat, for Advent of the Wurm, Court of Grace and Ghired's Belligerence.
+  - Feedback: Earth King + Baloths is great but short of basics; doublers are great; Hour of Reckoning won a game; the engine dies with Ghired.
+- **Protection pass:** Bastion Protector replaced Boros Charm, and Sokenzan/Eiganjo became a Mountain and a Plains (7 basics, no colour cost).
+  - Lightning Greaves stays: it gives a recast Ghired haste for an equip cost of 0. Guardian Augmenter was dropped because its hexproof overlaps Boots and Greaves.
+  - Stoneforge Mystic (equipment tutor) replaced Windcrag Siege. Rootborn Defenses stays at the user's request: it populates at instant speed.
+  - Deflecting Swat stays: free-to-cast cards are never the cut.
+  - Divine Visitation replaced Armada Wurm (flying tokens; the user's idea).
+  - `decks/ghired-swaps.txt` holds 50 swaps against the printed deck, accepted.
+  - `decks/ghired-manabox.txt` is the plain 100-card target.
+
 ## Sevinne
 
 **Physical deck:** `decks/sevinne.txt`, the old damage-redirect build. Its config, `decks/sevinne.yaml`, still carries the 9 redirect pins:

@@ -450,3 +450,19 @@ def test_battle_lands_need_two_basics_and_shocks_do_not_count():
     with_basics = type_dependency(battle, basics)
     assert with_basics.support == 20 and with_basics.count == 2 and 0.5 < with_basics.odds < 0.9
     assert "2+ basic lands" in with_basics.describe()
+
+
+def test_basic_upgrade_kinds():
+    from deckdoctor.upgrades import basic_upgrade_kind
+    assert basic_upgrade_kind("modal_dfc", "Land // Land", "{T}: Add {R}.\n//\n{T}: Add {W}.").startswith("pathway")
+    assert basic_upgrade_kind("modal_dfc", "Sorcery // Land", "Deal X.\n//\n{T}: Add {R}.") == "sorcery on the other face"
+    assert basic_upgrade_kind("normal", "Legendary Land",
+                              "{T}: Add {G}.\nChannel — {1}{G}, Discard this card: Destroy ...").startswith("channel")
+    assert basic_upgrade_kind("normal", "Land", "As this land enters, choose a basic land type. Then you may pay 2 "
+                              "life. If you don't, it enters tapped.\nThis land is the chosen type.").startswith("any basic")
+    assert basic_upgrade_kind("normal", "Land", "{T}: Add {R}.\n{R}, {T}: Target legendary creature gains first "
+                              "strike until end of turn.") == "utility ability"
+    # a land creature's reminder text is not an ability; a plain land gives nothing a basic doesn't
+    assert basic_upgrade_kind("normal", "Land Creature — Forest Dryad",
+                              "(Dryad Arbor isn't a spell, it's affected by summoning sickness, and it has \"{T}: Add {G}.\")") is None
+    assert basic_upgrade_kind("normal", "Land", "{T}: Add {G}.") is None

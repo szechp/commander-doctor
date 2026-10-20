@@ -18,7 +18,7 @@ import sqlite3
 from dataclasses import dataclass
 
 from deckdoctor.audit import audit_deck, compute_threshold, role_source_note
-from deckdoctor.balance import CLOG_ANSWERS, answers_in, compute_sweet_spot, simulated_seen
+from deckdoctor.balance import CLOG_ANSWERS, answers_in, compute_sweet_spot, land_answers, simulated_seen
 from deckdoctor.colour import compute_colour_report, restricted_mana_lands
 from deckdoctor.combos import BRACKET_TAG_NAME, cached_bracket_report
 from deckdoctor.coverage import compute_coverage
@@ -220,11 +220,14 @@ def compute_health_summary(
     answers, free_answers = answers_in(deck, con)
     sweet = compute_sweet_spot(len(answers), sorted(set(answers)), len(deck.library), archetype,
                                survival_floor=defence.interaction_target, free_cards=free_answers,
+                               land_cards=land_answers(deck, answers),
                                seen=simulated_seen(deck, con) if archetype else None)
     if sweet.archetype is None:
         balance_detail = "deck type not set (`archetype:` in the deck YAML); `deckdoctor balance` shows what each asks for"
     else:
-        balance_detail = (f"{sweet.answers} answers ({sweet.free_answers} free to cast) vs sweet spot "
+        balance_detail = (f"{sweet.answers} answers ({sweet.free_answers} free to cast"
+                          + (f", {sweet.land_answers} in land slots" if sweet.land_answers else "")
+                          + ") vs sweet spot "
                           f"{sweet.low}-{sweet.high} ({sweet.archetype}: "
                           f"{sweet.target:.0%} to hold one by turn {sweet.turn}); {sweet.p_clog:.0%} of games hold "
                           f"{CLOG_ANSWERS}+ by turn {sweet.turn}")

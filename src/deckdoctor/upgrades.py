@@ -1164,6 +1164,131 @@ def find_land_upgrades(
                                        oracle_text=text, tier=speed.tier, speed=speed.label))
     return suggestions[:limit]
 
+BASIC_FOR_COLOUR = {"W": "Plains", "U": "Island", "B": "Swamp", "R": "Mountain", "G": "Forest"}
+# an activated ability that isn't a mana ability or reminder text (Dryad Arbor)
+_ACTIVATED_LINE = re.compile(r"^(?!\(|\{T\}(?:, [^:\n]*)?: Add)[^\n]*\{[^}]*\}[^\n:]*: ", re.MULTILINE)
+
+
+@dataclass
+class BasicUpgrade:
+    replaces: str | None   # a basic of the colour it makes, else the deck's most common basic
+    land: str
+    colours: str
+    kind: str
+    speed: str
+    oracle_text: str
+
+
+def basic_upgrade_kind(layout: str | None, type_line: str, oracle_text: str | None) -> str | None:
+    """What a land gives on top of a basic's mana, or None for nothing.
+    Pathways pick either colour; a spell // land card is a spell when you
+    need one; channel lands are a spell from hand; a choose-a-type land
+    counts as every basic type for check lands; other lands with an
+    activated ability are utility lands."""
+    text = oracle_text or ""
+    faces = [f.strip() for f in type_line.split("//")]
+    if layout == "modal_dfc" and len(faces) == 2 and all("Land" in f for f in faces):
+        return "pathway: choose either colour as you play it"
+    if layout == "modal_dfc" and len(faces) == 2 and "Land" in faces[1] and "Land" not in faces[0]:
+        return f"{faces[0].lower()} on the other face"
+    low = text.lower()
+    if "channel \u2014" in low:
+        return "channel: also a spell from your hand"
+    if "choose a basic land type" in low and "is the chosen type" in low:
+        return "any basic land type: counts for check lands and land searches"
+    if _ACTIVATED_LINE.search(text.split("\n//\n")[0]):
+        return "utility ability"
+    return None
+
+
+def find_basic_upgrades(deck: Deck, con: sqlite3.Connection, limit: int = 15,
+                        config: DeckConfig | None = None) -> list[BasicUpgrade]:
+    """Lands that can take a basic's slot at almost no cost: untapped on
+    turns 1-4 (at worst for a life payment), making one of the deck's colours
+    with no condition the deck can't meet, plus something a basic doesn't do
+    (`basic_upgrade_kind`). Channel lands, spell // land cards, pathways,
+    choose-a-type lands and coloured utility lands. Any deck, any colours.
+
+    Every basic swapped out lowers the support for the deck's type-dependent
+    lands and land searches; `type_support_lines` says how much room there
+    is. Colourless utility lands (Gavony Township) are cards, not basic
+    replacements: they cost a coloured source."""
+    from deckdoctor.candidates import global_ranks
+    from deckdoctor.land_speed import FAST, FASTLAND, classify_land_speed
+
+    commander_row = con.execute("SELECT color_identity FROM cards WHERE name = ?",
+                                [deck.commander.name]).fetchone()
+    identity = set(json.loads(commander_row[0])) if commander_row and commander_row[0] else set()
+    if not identity:
+        return []
+    playgroup = load_playgroup_config()
+    in_deck = {c.name for c in deck.library}
+    support = deck_type_support(deck, con)
+    rejected = {suggested for (_, suggested) in rejected_swaps(config)}
+    found = []
+    for name, layout, type_line, text, ci_json, pm_json, parsed_json in con.execute(
+            "SELECT name, layout, type_line, oracle_text, color_identity, produced_mana, parsed FROM cards "
+            "WHERE type_line LIKE '%Land%' AND commander_legal = 1"):
+        type_line = type_line or ""
+        if name in in_deck or name in rejected or type_line.startswith("Basic"):
+            continue
+        if "Land" not in type_line.split("//")[-1] and "Land" not in type_line.split("//")[0]:
+            continue
+        if playgroup.exclude_original_dual_lands and name in ORIGINAL_DUAL_LANDS:
+            continue
+        if not set(json.loads(ci_json or "[]")) <= identity or "spend this mana only" in (text or "").lower():
+            continue
+        kind = basic_upgrade_kind(layout, type_line, text)
+        if kind is None:
+            continue
+        if kind.startswith("any basic"):
+            colours = set(identity)
+        else:
+            colours = set(json.loads(pm_json or "[]")) & identity
+        if not colours or (len(colours) > 1 and not kind.startswith(("pathway", "any basic"))):
+            continue  # colourless, or a real dual: `find_land_upgrades` covers duals
+        speed = classify_land_speed(text, never_untaps=_never_untaps(_parsed(parsed_json)))
+        dep = type_dependency(text, support)
+        if dep and dep.odds >= TYPE_SUPPORT_RELIABLE and speed.rank not in (FAST, FASTLAND):
+            speed = type(speed)(FAST, f"{speed.label}; {dep.describe()}")
+        elif dep and dep.odds < TYPE_SUPPORT_RELIABLE:
+            continue
+        if speed.rank not in (FAST, FASTLAND):
+            continue
+        found.append((name, text or "", "".join(c for c in "WUBRG" if c in colours), kind, speed.label))
+
+    ranks = global_ranks(con, [f[0] for f in found])
+    found.sort(key=lambda f: (ranks.get(f[0], float("inf")), f[0]))
+    basics = Counter(c.name for c in deck.library if c.type_line.startswith("Basic Land"))
+    fallback = basics.most_common(1)[0][0] if basics else None
+    result = []
+    for name, text, colours, kind, speed in found[:limit]:
+        own = [BASIC_FOR_COLOUR[c] for c in colours if basics.get(BASIC_FOR_COLOUR[c])]
+        replaces = max(own, key=lambda b: basics[b]) if own and len(colours) == 1 else fallback
+        result.append(BasicUpgrade(replaces=replaces, land=name, colours=colours, kind=kind, speed=speed,
+                                   oracle_text=text))
+    return result
+
+
+def type_support_lines(deck: Deck, con: sqlite3.Connection) -> list[str]:
+    """For each of the deck's type-dependent lands: the lands supplying its
+    types now and how many 80% needs -- the room for swapping basics."""
+    from deckdoctor.land_speed import type_requirements
+
+    support = deck_type_support(deck, con)
+    needed = support_needed()
+    lines = []
+    for card in sorted({c.name: c for c in deck.library if _is_land(c)}.values(), key=lambda c: c.name):
+        text = con.execute("SELECT oracle_text FROM cards WHERE name = ?", [card.name]).fetchone()
+        if not text or not type_requirements(text[0]):
+            continue
+        dep = type_dependency(text[0], support, exclude=card.name)
+        if dep:
+            lines.append(f"{card.name} needs {' or '.join(sorted(dep.types))}: {dep.support} lands supply it "
+                         f"({dep.odds:.0%} by turn 3; 80% needs about {needed})")
+    return lines
+
+
 def _render_suggestion_lines(suggestions: list[UpgradeSuggestion]) -> list[str]:
     lines: list[str] = []
     for s in suggestions:

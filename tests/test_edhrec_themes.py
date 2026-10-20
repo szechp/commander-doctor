@@ -169,3 +169,16 @@ def test_fetch_uses_theme_url(tmp_path, monkeypatch):
     assert edhrec.fetch_commander_data("Ghired, Conclave Exile", theme="populate") == {"ok": True}
     assert seen == ["https://json.edhrec.com/pages/commanders/ghired-conclave-exile/populate.json"]
     assert (tmp_path / "ghired-conclave-exile--populate.json").exists()
+
+
+def test_find_missing_cards_can_keep_the_decks_own_cards_marked():
+    # a rebuild ranks the deck's own cards with everything else
+    con = connect(":memory:")
+    _insert(con, "Cmdr", ["G"], "Legendary Creature")
+    _insert(con, "In Deck", ["G"])
+    _insert(con, "Popular", ["G"])
+    data = _page({"Cards": [("Cmdr", 1000, 1000, 0.0), ("In Deck", 900, 1000, 0.1), ("Popular", 800, 1000, 0.05)]})
+    found = find_missing_cards(_deck("In Deck"), con, data, include_deck=True)
+    assert [m.stat.name for m in found] == ["In Deck", "Popular"]
+    assert found[0].in_deck and "| in deck" in found[0].line
+    assert not found[1].in_deck and "in deck" not in found[1].line

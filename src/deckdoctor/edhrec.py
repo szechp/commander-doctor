@@ -268,10 +268,49 @@ class CardStat:
     potential_decks: int
     synergy: float | None
     lists: tuple[str, ...]  # EDHREC cardlist headers this card appears under
+    precon: str | None = None          # the commander's precon this card came in (`annotate_precon`)
+    bracket_rate: float | None = None  # its rate on the deck's bracket page, for precon cards
+    bracket: int | None = None
 
     @property
     def inclusion(self) -> float:
         return self.num_decks / self.potential_decks if self.potential_decks else 0.0
+
+    @property
+    def evidence(self) -> float:
+        """The rate to rank by: a precon card's lower rate at the deck's
+        bracket, where far fewer near-stock precons are counted."""
+        if self.precon and self.bracket_rate is not None:
+            return min(self.inclusion, self.bracket_rate)
+        return self.inclusion
+
+
+# EDHREC's bracket pages (`/commanders/<slug>/<page>`), one per Commander
+# bracket. They exist for the commander alone, not combined with a theme.
+BRACKET_PAGES = {1: "exhibition", 2: "core", 3: "upgraded", 4: "optimized", 5: "cedh"}
+
+
+def bracket_page(bracket: int | None) -> str | None:
+    return BRACKET_PAGES.get(bracket) if bracket else None
+
+
+def annotate_precon(stats: dict[str, CardStat], precon: dict[str, str] | None,
+                    bracket_stats: dict[str, CardStat] | None = None,
+                    bracket: int | None = None) -> dict[str, CardStat]:
+    """Mark the commander's precon cards and give each its rate on the
+    deck's bracket page, so `CardStat.evidence` ranks it by the lower one.
+    A precon card the bracket page doesn't list is rarer there than the
+    page's least-played listed card, so that rate stands in for it."""
+    if not precon:
+        return stats
+    floor = min((s.inclusion for s in bracket_stats.values()), default=None) if bracket_stats else None
+    result = {}
+    for name, stat in stats.items():
+        if name in precon:
+            rate = bracket_stats[name].inclusion if bracket_stats and name in bracket_stats else floor
+            stat = replace(stat, precon=precon[name], bracket_rate=rate, bracket=bracket if rate is not None else None)
+        result[name] = stat
+    return result
 
 
 def themes(commander_data: dict) -> list[Theme]:
@@ -377,23 +416,30 @@ class MissingCard:
     line: str  # compact line (real oracle text) from the local mirror
     spare_quantity: int = 0
     global_rank: int | None = None  # Scryfall edhrec_rank (format-wide), when the mirror has it
+    in_deck: bool = False  # the deck already runs it (`include_deck`)
 
 
 def find_missing_cards(
     deck: Deck, con, commander_data: dict, *, exclude: set[str] = frozenset(),
     include_lands: bool = False, sort: str = "inclusion",
-    spare_quantities: dict[str, int] | None = None,
+    spare_quantities: dict[str, int] | None = None, include_deck: bool = False,
+    precon: dict[str, str] | None = None, bracket_data: dict | None = None, bracket: int | None = None,
 ) -> list[MissingCard]:
     """EDHREC-listed cards the deck doesn't run, legal and inside the
     commander's colour identity per the LOCAL mirror (EDHREC's own lists
     are not trusted for legality), each with its real oracle text.
     `sort` is "inclusion" (how many of these decks play it) or "synergy"
-    (how much more than in other decks of these colours)."""
+    (how much more than in other decks of these colours). `include_deck`
+    keeps the deck's own cards, marked `in deck`, so a rebuild ranks them
+    with everything else. `precon` (card -> precon name) and `bracket_data`
+    (the deck's bracket page) rank precon cards by `CardStat.evidence`."""
     from deckdoctor.compact_line import format_line
 
-    stats = card_stats(commander_data)
-    in_deck = {c.name for c in deck.library} | {deck.commander.name} | set(exclude)
-    names = [n for n in stats if n not in in_deck]
+    stats = annotate_precon(card_stats(commander_data), precon,
+                            card_stats(bracket_data) if bracket_data else None, bracket)
+    deck_names = {c.name for c in deck.library}
+    skip = {deck.commander.name} | set(exclude) | (set() if include_deck else deck_names)
+    names = [n for n in stats if n not in skip]
     if not names:
         return []
     ci_row = con.execute("SELECT color_identity FROM cards WHERE name = ?", [deck.commander.name]).fetchone()
@@ -423,9 +469,12 @@ def find_missing_cards(
             continue
         spare_quantity = 0 if is_land else (spare_quantities or {}).get(name, 0)
         line = format_line(row, tags.get(name, set()))
+        if name in deck_names:
+            line += " | in deck"
         if spare_quantity:
             line += f" | spare=x{spare_quantity}"
-        result.append(MissingCard(stat=stats[name], line=line, spare_quantity=spare_quantity))
+        result.append(MissingCard(stat=stats[name], line=line, spare_quantity=spare_quantity,
+                                  in_deck=name in deck_names))
     # Global rank is evidence on every line, whatever the sort.
     from deckdoctor.candidates import global_ranks
     ranks = global_ranks(con, [m.stat.name for m in result])
@@ -438,15 +487,20 @@ def find_missing_cards(
         # format staple can be absent from a niche commander's top-N cutoffs.
         # `card_popularity` is written by `sync`; a mirror predating it leaves
         # ranks unknown, which must NOT sort as if popular -- unknown drops last.
-        result.sort(key=lambda m: (ranks.get(m.stat.name, 10**9), -m.stat.inclusion, m.stat.name))
+        result.sort(key=lambda m: (ranks.get(m.stat.name, 10**9), -m.stat.evidence, m.stat.name))
     elif sort == "synergy":
-        result.sort(key=lambda m: (-(m.stat.synergy or 0.0), -m.stat.inclusion, m.stat.name))
+        result.sort(key=lambda m: (-(m.stat.synergy or 0.0), -m.stat.evidence, m.stat.name))
     else:
-        result.sort(key=lambda m: (-m.stat.inclusion, -(m.stat.synergy or 0.0), m.stat.name))
+        result.sort(key=lambda m: (-m.stat.evidence, -(m.stat.synergy or 0.0), m.stat.name))
     return result
 
 
 def stat_suffix(stat: CardStat, global_rank: int | None = None) -> str:
     syn = f" syn={stat.synergy:+.0%}" if stat.synergy is not None else ""
     rank = f" global_rank={global_rank}" if global_rank is not None else ""
-    return f"edhrec={stat.inclusion:.0%} ({stat.num_decks}/{stat.potential_decks}){syn}{rank}"
+    precon = ""
+    if stat.precon:
+        precon = f" precon ({stat.precon})"
+        if stat.bracket_rate is not None:
+            precon += f": {stat.bracket_rate:.0%} at bracket {stat.bracket}, ranked by {stat.evidence:.0%}"
+    return f"edhrec={stat.inclusion:.0%} ({stat.num_decks}/{stat.potential_decks}){syn}{rank}{precon}"

@@ -53,8 +53,19 @@ class LandSpeed:
         return RANK_NAMES[self.rank]
 
 
+_MANA_ABILITY_LINE = re.compile(r"^\(?\{T\}(?:, [^:\n]*)?: Add", re.MULTILINE)
+
+
 def classify_land_speed(oracle_text: str | None, never_untaps: bool = False) -> LandSpeed:
     text = oracle_text or ""
+    # A two-faced card is judged by its land face: Shatterskull Smashing's
+    # sorcery text says nothing about how Shatterskull, the Hammer Pass
+    # enters. Pathways have two land faces, both untapped.
+    faces = text.split("\n//\n")
+    if len(faces) > 1:
+        land_faces = [f for f in faces if _MANA_ABILITY_LINE.search(f)]
+        if land_faces:
+            return min((classify_land_speed(f, never_untaps) for f in land_faces), key=lambda ls: ls.rank)
     low = text.lower()
     if never_untaps:
         return LandSpeed(CONDITIONAL, "doesn't always untap (depletion-style)")
@@ -66,6 +77,10 @@ def classify_land_speed(oracle_text: str | None, never_untaps: bool = False) -> 
         return LandSpeed(FAST, "battlebond land (untapped in multiplayer)")
     if "pay 2 life" in low and "enters tapped" in low:
         return LandSpeed(FAST, "shock land")
+    if "pay 3 life" in low and "enters tapped" in low:
+        return LandSpeed(FAST, "untapped for 3 life")  # the mythic spell // land cards
+    if "unless it's your first, second, or third turn" in low:
+        return LandSpeed(FASTLAND, "untapped turns 1-3")  # Starting Town
     if "unless you control two or fewer other lands" in low:
         return LandSpeed(FASTLAND, "fastland (untapped turns 1-3)")
     if "unless you control two or more basic lands" in low:

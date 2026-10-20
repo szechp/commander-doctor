@@ -1,0 +1,73 @@
+commander: Ghired, Conclave Exile
+bracket: 3
+# Ghired is the plan on curve (5 mana); ramp aims to land him on turn 4.
+threshold: 5
+# User 2026-10-19: aggro -- wins by attacking; answers clear the way.
+archetype: aggro
+# Populate leans furthest of Ghired's themes (+2.0, 250 decks) and is the plan.
+edhrec_theme: populate
+gameplan: >
+  Populate beatdown (user 2026-10-19). Ghired is the engine: he arrives with
+  a 4/4 trampling Rhino and every attack populates, the copy entering tapped
+  and attacking. Harmonic Prodigy (Ghired is a Shaman), Annie Joins Up (he is
+  legendary) and Windcrag Siege make his triggers fire twice. Make a few big
+  tokens worth copying (Rhinos, Beasts, Dragons, Wurms, Angels, an embalmed
+  Angel whose copies re-trigger its exile), copy them with populate
+  (Trostani, Growing Ranks, Nesting Dovehawk, Determined Iteration, Rootborn
+  Defenses, Sundering Growth, Second Harvest) and multiply every copy with
+  token doublers (Doubling Season, Parallel Lives, Anointed Procession,
+  Mondrak; Ojer Taq triples). Draw off big creatures and tokens entering
+  (Elemental Bond, Caretaker's Talent, Garruk, Curse Breaker, Garruk's
+  Uprising) and win in combat with trample, Jetmir and Neyali. Protect the
+  board from wipes (Heroic Intervention, Rootborn Defenses, Flawless
+  Maneuver, Boros Charm) instead of running wipes, which would kill the
+  deck's own engine. Cheap ramp (14, mostly mana value 1-2) lands Ghired on
+  turn 4; no 7-10 mana spells -- the top end is the doublers, Ojer Taq and
+  token makers that are the plan.
+feedback:
+  - date: '2026-10-19'
+    kind: note
+    text: '2026-10-19 first run of the blank-slate flow. Plan confirmed: populate beatdown,
+      aggro (10-13 answers), cut 7-10 drops, 13-14 cheap ramp. Target decks/ghired.target.txt,
+      47 swaps (decks/ghired-swaps.txt). deploy: Ghired by turn 4 18% -> 38%, by turn
+      5 50% -> 71%; colour-stuck spells by turn 4 0.69 -> 0.29; tapped land turns 0.70
+      -> 0.33. Answers 10 -> 11 (now counting damage removal), coverage gap closed,
+      protection 4 -> 7, wipes 2 -> 0 (on purpose: wipes kill the deck''s own engine).
+      Precon cards 37 -> 20. Double-checked cuts: Garruk Primal Hunter (GGG), Packleader
+      (Elemental Bond does it for 3), Shamanic Revelation, Hour of Reckoning, Phyrexian
+      Rebirth, Naya Charm.'
+  - date: '2026-10-19'
+    kind: note
+    text: '2026-10-19: Seedborn Muse (user''s Game Changer pick; untaps Trostani, Gavony
+      Township, Selesnya Eulogist, Idol and Ghired, Mirror of the Wilds on every opponent''s
+      turn) replaced Determined Iteration (its populate copy is sacrificed at end of
+      turn). Lands: both check lands became pathways (Cragcrown, Branchloft); four basics
+      became Boseiju, Eiganjo, Witch Enchanter and City of Brass. 51 swaps; Ghired by
+      turn 4 37%, tapped land turns 0.70 -> 0.23, colour-stuck spells 0.65 -> 0.24.
+      Generous Gift stays over the spare Emergency Eject: it also hits lands, and ownership
+      is never a restriction.'
+  - date: '2026-10-19'
+    kind: note
+    text: '2026-10-19: token lands as a populate backup (user: populate needs a token
+      when Ghired''s Rhino is gone). Emeria''s Call replaced Witch Enchanter (redundant
+      artifact/enchantment removal) and Sokenzan replaced a Mountain: colour gap 24
+      -> 25, speed unchanged. Grove of the Guardian (8/8 on demand) stayed out: colourless,
+      colour gap 25 -> 32. Backups now: Emeria''s Call, Sokenzan, Court of Grace''s
+      upkeep Spirit.'
+  - date: '2026-10-19'
+    kind: note
+    text: '2026-10-19: Gargoyle Castle (was in the user''s list) checked on its own
+      after the rebuild cut it with the colourless lands: for a Forest it costs the
+      same as Grove of the Guardian (colour gap 25 -> 32, +0.02 colour-stuck spells)
+      for a smaller payoff (a 3/4 flier for 5 plus the land; below Garruk, Curse Breaker''s
+      power-4 draw). Stays out; Emeria''s Call, Sokenzan and Court of Grace cover the
+      backup-token role.'
+  - date: '2026-10-20'
+    kind: note
+    text: '2026-10-20 games after the swaps (user): Rampaging Baloths + The Earth King
+      great, but works only sometimes with few basics; tokens + doublers ''fuckin awesome'';
+      Hour of Reckoning (user kept it) won a game. Problem: if Ghired dies the engine
+      is dead -- protect him consistently (Swiftfoot Boots and Mithril Coat great).
+      User''s own changes vs target: +Fresh Meat, +Hour of Reckoning, +Mithril Coat
+      for Advent of the Wurm, Court of Grace, Ghired''s Belligerence. decks/ghired.txt
+      is now the played list.'

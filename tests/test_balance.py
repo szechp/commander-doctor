@@ -109,3 +109,21 @@ def test_free_answers_count_for_holding_but_not_toward_the_ceiling():
     assert sweet.p_clog < compute_sweet_spot(17, [], 99, "midrange").p_clog
     assert "3 free to cast (Fierce Guardianship, Force of Negation, Force of Will)" in compute_balance_render(sweet)
     assert compute_sweet_spot(17, [], 99, "midrange").status == "OVER"
+
+
+def test_answers_in_land_slots_count_toward_holding_one_but_not_the_ceiling():
+    from deckdoctor.balance import compute_sweet_spot, land_slot
+    from deckdoctor.deck import Card
+
+    def card(name, type_line):
+        return Card(name=name, cmc=0.0, type_line=type_line, ramp_kind=None, draw_kind=None, prereq=None,
+                    is_game_changer=False, power=None, toughness=None)
+    assert land_slot(card("Boseiju, Who Endures", "Legendary Land"))
+    assert land_slot(card("Witch Enchanter // Witch-Blessed Meadow", "Creature — Human Warlock // Land"))
+    assert not land_slot(card("Swords to Plowshares", "Instant"))
+    names = [f"Spell {i}" for i in range(13)] + ["Boseiju", "Eiganjo"]
+    with_lands = compute_sweet_spot(15, names, 99, "aggro", land_cards=["Boseiju", "Eiganjo"])
+    without = compute_sweet_spot(15, names, 99, "aggro")
+    assert with_lands.paid_answers == 13 and with_lands.status == "OK"
+    assert without.status == "OVER"
+    assert with_lands.p_answer == without.p_answer and with_lands.p_clog < without.p_clog

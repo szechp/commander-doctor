@@ -39,3 +39,12 @@ def test_invalid_board_presence_rejected(con):
     deck = load_deck("decks/anje.txt", con)
     with pytest.raises(ValueError):
         compute_defence(deck, con, threshold_turn=4, board_presence="medium")
+
+
+def test_damage_to_a_target_creature_is_an_answer_but_a_damage_sweeper_stays_a_wipe():
+    from deckdoctor.audit import is_removal
+    from deckdoctor.defence import is_interaction
+    assert is_removal({"burn-creature", "spot-removal"})            # Annie Joins Up
+    assert not is_removal({"burn-creature", "sweeper"})             # Blasphemous Act: a wipe, not spot removal
+    assert is_interaction({"burn-creature", "sweeper"})
+    assert not is_interaction({"burn-any", "pinger"})               # 1-damage pingers aren't answers

@@ -1,0 +1,132 @@
+commander: Ghired, Conclave Exile
+bracket: 3
+# Ghired is the plan on curve (5 mana); ramp aims to land him on turn 4.
+threshold: 5
+# User 2026-10-19: aggro -- wins by attacking; answers clear the way.
+archetype: aggro
+# Populate leans furthest of Ghired's themes (+2.0, 250 decks) and is the plan.
+edhrec_theme: populate
+gameplan: >
+  Populate beatdown (user 2026-10-19). Ghired is the engine: he arrives with
+  a 4/4 trampling Rhino and every attack populates, the copy entering tapped
+  and attacking. Harmonic Prodigy (Ghired is a Shaman), Annie Joins Up (he is
+  legendary) and Windcrag Siege make his triggers fire twice. Make a few big
+  tokens worth copying (Rhinos, Beasts, Dragons, Wurms, Angels, an embalmed
+  Angel whose copies re-trigger its exile), copy them with populate
+  (Trostani, Growing Ranks, Nesting Dovehawk, Determined Iteration, Rootborn
+  Defenses, Sundering Growth, Second Harvest) and multiply every copy with
+  token doublers (Doubling Season, Parallel Lives, Anointed Procession,
+  Mondrak; Ojer Taq triples). Draw off big creatures and tokens entering
+  (Elemental Bond, Caretaker's Talent, Garruk, Curse Breaker, Garruk's
+  Uprising) and win in combat with trample, Jetmir and Neyali. Protect the
+  board from wipes (Heroic Intervention, Rootborn Defenses, Flawless
+  Maneuver, Boros Charm) instead of running wipes, which would kill the
+  deck's own engine. Cheap ramp (14, mostly mana value 1-2) lands Ghired on
+  turn 4; no 7-10 mana spells -- the top end is the doublers, Ojer Taq and
+  token makers that are the plan.
+feedback:
+  - date: '2026-10-19'
+    kind: note
+    text: '2026-10-19 first run of the blank-slate flow. Plan confirmed: populate beatdown,
+      aggro (10-13 answers), cut 7-10 drops, 13-14 cheap ramp. Target decks/ghired.target.txt,
+      47 swaps (decks/ghired-swaps.txt). deploy: Ghired by turn 4 18% -> 38%, by turn
+      5 50% -> 71%; colour-stuck spells by turn 4 0.69 -> 0.29; tapped land turns 0.70
+      -> 0.33. Answers 10 -> 11 (now counting damage removal), coverage gap closed,
+      protection 4 -> 7, wipes 2 -> 0 (on purpose: wipes kill the deck''s own engine).
+      Precon cards 37 -> 20. Double-checked cuts: Garruk Primal Hunter (GGG), Packleader
+      (Elemental Bond does it for 3), Shamanic Revelation, Hour of Reckoning, Phyrexian
+      Rebirth, Naya Charm.'
+  - date: '2026-10-19'
+    kind: note
+    text: '2026-10-19: Seedborn Muse (user''s Game Changer pick; untaps Trostani, Gavony
+      Township, Selesnya Eulogist, Idol and Ghired, Mirror of the Wilds on every opponent''s
+      turn) replaced Determined Iteration (its populate copy is sacrificed at end of
+      turn). Lands: both check lands became pathways (Cragcrown, Branchloft); four basics
+      became Boseiju, Eiganjo, Witch Enchanter and City of Brass. 51 swaps; Ghired by
+      turn 4 37%, tapped land turns 0.70 -> 0.23, colour-stuck spells 0.65 -> 0.24.
+      Generous Gift stays over the spare Emergency Eject: it also hits lands, and ownership
+      is never a restriction.'
+  - date: '2026-10-19'
+    kind: note
+    text: '2026-10-19: token lands as a populate backup (user: populate needs a token
+      when Ghired''s Rhino is gone). Emeria''s Call replaced Witch Enchanter (redundant
+      artifact/enchantment removal) and Sokenzan replaced a Mountain: colour gap 24
+      -> 25, speed unchanged. Grove of the Guardian (8/8 on demand) stayed out: colourless,
+      colour gap 25 -> 32. Backups now: Emeria''s Call, Sokenzan, Court of Grace''s
+      upkeep Spirit.'
+  - date: '2026-10-19'
+    kind: note
+    text: '2026-10-19: Gargoyle Castle (was in the user''s list) checked on its own
+      after the rebuild cut it with the colourless lands: for a Forest it costs the
+      same as Grove of the Guardian (colour gap 25 -> 32, +0.02 colour-stuck spells)
+      for a smaller payoff (a 3/4 flier for 5 plus the land; below Garruk, Curse Breaker''s
+      power-4 draw). Stays out; Emeria''s Call, Sokenzan and Court of Grace cover the
+      backup-token role.'
+  - date: '2026-10-20'
+    kind: note
+    text: '2026-10-20 games after the swaps (user): Rampaging Baloths + The Earth King
+      great, but works only sometimes with few basics; tokens + doublers ''fuckin awesome'';
+      Hour of Reckoning (user kept it) won a game. Problem: if Ghired dies the engine
+      is dead -- protect him consistently (Swiftfoot Boots and Mithril Coat great).
+      User''s own changes vs target: +Fresh Meat, +Hour of Reckoning, +Mithril Coat
+      for Advent of the Wurm, Court of Grace, Ghired''s Belligerence. decks/ghired.txt
+      is now the played list.'
+  - date: '2026-10-20'
+    kind: note
+    text: '2026-10-20 Ghired protection pass (user options screened: Champion''s Helm,
+      Darksteel Plate, Commander''s Plate, Whispersilk Cloak, Loran''s Escape, Blacksmith''s
+      Skill, Tamiyo''s Safekeeping, Snakeskin Veil, Blossoming Defense, Tyvar''s Stand,
+      Shield of the Oversoul). Chosen: Bastion Protector (static indestructible +2/+2
+      for the commander) for Lightning Greaves (its shroud blocks Mithril Coat''s own
+      attach; Boots keeps haste) and Guardian Augmenter (flash, static hexproof +2/+2)
+      for Boros Charm (mass indestructible already in Flawless Maneuver, Heroic Intervention,
+      Rootborn Defenses). Basics for Earth King/Baloths: Sokenzan -> Mountain, Eiganjo
+      -> Plains (same colours, no colour cost; 7 basics). Fastlands -> basics rejected:
+      colour gap 23 -> 34.'
+  - date: '2026-10-20'
+    kind: note
+    text: '2026-10-20 correction: the user has NOT changed the printed deck; they test
+      the target online. Their upload was a swaps list (mainboard = stays, sideboard
+      = adds, maybeboard = removes against the printed deck). decks/ghired.txt is the
+      printed deck again (mainboard + maybeboard = the original list). The earlier note
+      calling decks/ghired.txt the played list was wrong.'
+  - date: '2026-10-20'
+    kind: note
+    text: '2026-10-20: Lightning Greaves restored (user asked why it was cut). Its shroud
+      blocks Mithril Coat''s targeted attach, but Bastion Protector gives indestructible
+      without targeting, and Greaves'' equip {0} haste lets a recast Ghired attack (populate)
+      the turn he lands. Guardian Augmenter dropped instead: its hexproof overlaps Boots
+      and Greaves. Protection: Boots + Greaves (hexproof/shroud, haste), Mithril Coat
+      + Bastion Protector (indestructible), plus the instants. Bastion Protector replaces
+      Boros Charm.'
+  - date: '2026-10-20'
+    kind: note
+    text: '2026-10-20: user loves it (''evil deck'', Aura Shards with Ghired''s populate).
+      Equipment tutors screened (o:/search your library for .*(equipment|artifact)/
+      id<=rgw, 37 hits): Stoneforge Mystic chosen (2-mana body, finds Mithril Coat,
+      Greaves or Boots, instant-speed put-in); Kellan // Birthright Boon second choice;
+      Enlightened Tutor is a Game Changer and premium-tutor class. Stoneforge replaced
+      Rootborn Defenses: protection was 9 against Naya''s 3-8, and Flawless Maneuver
+      and Heroic Intervention do Rootborn''s job cheaper.'
+  - date: '2026-10-20'
+    kind: note
+    text: '2026-10-20: Rootborn Defenses kept (user: it populates at instant speed --
+      protection and a token in one card, e.g. in response to a wipe). Stoneforge Mystic
+      replaces Deflecting Swat instead: Swat''s job (stop targeted removal on Ghired)
+      is covered by Boots, Greaves and Stoneforge to find them, and Bastion Protector
+      covers destroy effects. Cut for redundancy, not for mana value.'
+  - date: '2026-10-20'
+    kind: note
+    text: '2026-10-20: Deflecting Swat restored (user: ''free when I have a commander
+      -- why remove that card, of all cards?''). Free-to-cast cards are never the cut,
+      not for mana value and not for redundancy. Stoneforge Mystic replaces Windcrag
+      Siege instead: the third copier of Ghired''s attack trigger after Harmonic Prodigy
+      and Annie Joins Up; does nothing alone.'
+  - date: '2026-10-20'
+    kind: note
+    text: '2026-10-20: flying spitball. Divine Visitation (every creature token becomes
+      a 4/4 flying vigilance Angel) replaced Armada Wurm (user''s idea; colour gap 23
+      -> 22, speed unchanged). Known trade-offs: Angel of Sanctions'' embalm and its
+      populate copies become vanilla Angels (no exile); Dragonmaster''s 5/5 Dragons
+      become 4/4 Angels. Goro-Goro was the second flying idea (5/5 Dragons while an
+      equipped Ghired attacks) and was not added.'

@@ -143,10 +143,15 @@ class SweetSpot:
     curve: list[tuple[int, float]]
     by_archetype: dict[str, int]
     survival_floor: int | None = None
+    # answers in land slots (channel lands, spell // land cards): played as a
+    # land when not needed, so like free answers they count toward holding an
+    # answer but not toward the ceiling or the clog
+    land_answers: int = 0
+    land_cards: list[str] = field(default_factory=list)
 
     @property
     def paid_answers(self) -> int:
-        return self.answers - self.free_answers
+        return self.answers - self.free_answers - self.land_answers
 
     @property
     def seen_mean(self) -> float:
@@ -205,6 +210,9 @@ class BalanceReport:
             lines.append(f"Interaction sweet spot -- deck type: {s.archetype} "
                          f"(target: {s.target:.0%} to hold an answer by turn {s.turn})")
             lines.append(f"  answers in the deck  {s.answers:>3}  -> {s.p_answer:.0%} by turn {s.turn}{verdict}")
+            if s.land_answers:
+                lines.append(f"    {s.land_answers} in land slots ({', '.join(s.land_cards)}): played as lands when not "
+                             f"needed, so they count toward holding an answer, not toward the ceiling")
             if s.free_answers:
                 lines.append(f"    {s.free_answers} free to cast ({', '.join(s.free_cards)}): they count toward holding "
                              f"an answer, not toward the ceiling -- {s.paid_answers} cost mana")
@@ -263,8 +271,10 @@ def _tags_by_name(deck: Deck, con: sqlite3.Connection) -> dict[str, set[str]]:
 
 def compute_sweet_spot(answers: int, answer_cards: list[str], library: int, archetype: str | None,
                        turn: int = CHECK_TURN, survival_floor: int | None = None,
-                       seen: dict[int, float] | None = None, free_cards: list[str] | None = None) -> SweetSpot:
+                       seen: dict[int, float] | None = None, free_cards: list[str] | None = None,
+                       land_cards: list[str] | None = None) -> SweetSpot:
     free_cards = free_cards or []
+    land_cards = [c for c in (land_cards or []) if c not in set(free_cards)]
     draw_modelled = seen is not None
     seen = seen if seen is not None else natural_draws(turn)
     by_archetype = {name: sweet_spot(target, seen, library) for name, target in ARCHETYPE_TARGETS.items()}
@@ -274,8 +284,9 @@ def compute_sweet_spot(answers: int, answer_cards: list[str], library: int, arch
         archetype=archetype if target is not None else None, target=target, turn=turn, seen=seen,
         draw_modelled=draw_modelled, library=library, answers=answers, answer_cards=answer_cards,
         free_answers=len(free_cards), free_cards=sorted(set(free_cards)),
+        land_answers=len(land_cards), land_cards=sorted(set(land_cards)),
         p_answer=p_holding(answers, seen, library),
-        p_clog=p_holding(answers - len(free_cards), seen, library, CLOG_ANSWERS),
+        p_clog=p_holding(answers - len(free_cards) - len(land_cards), seen, library, CLOG_ANSWERS),
         low=low, high=None if low is None else low + SPARE_SLOTS,
         p_clog_at_low=None if low is None else p_holding(low, seen, library, CLOG_ANSWERS),
         curve=[(count, p_holding(count, seen, library)) for count in sorted({*CURVE_COUNTS, answers})],
@@ -325,18 +336,93 @@ def answers_in(deck: Deck, con: sqlite3.Connection,
     return answers, [name for name in answers if name in free]
 
 
+def land_slot(card) -> bool:
+    """A card that can be played as a land: a land, or a two-faced card with
+    a land face (Shatterskull Smashing, Witch Enchanter)."""
+    return any("Land" in face.split() for face in (card.type_line or "").split("//"))
+
+
+def land_answers(deck: Deck, answers: list[str]) -> list[str]:
+    """The answers that sit in land slots (one entry per copy)."""
+    lands = {c.name for c in deck.library if land_slot(c)}
+    return [name for name in answers if name in lands]
+
+
+def _protection_cards(deck: Deck, tags: dict[str, set[str]]) -> list[str]:
+    return sorted({c.name for c in deck.library
+                   if tags.get(c.name, set()) & PROTECTION_TAGS or is_counterspell(tags.get(c.name, set()))})
+
+
+def _draw_cards(deck: Deck, census, cards: dict[str, deploy.SimCard] | None) -> set[str]:
+    # the audit's role count plus what the simulator's script parser finds,
+    # which catches Dig and two-pile cards (Memory Deluge, Fact or Fiction)
+    # the role count misses
+    draw = set(census.tagged_cards.get("draw", []))
+    if cards is not None:
+        draw |= {c.name for c in deck.library if cards[c.name].draws_cards}
+    return draw
+
+
+def band_actuals(deck: Deck, con: sqlite3.Connection, tags: dict[str, set[str]] | None = None,
+                 cards: dict[str, deploy.SimCard] | None = None) -> dict[str, int]:
+    """The deck's count in each community-band category, counted the way the
+    bands are (see the module docstring)."""
+    tags = tags if tags is not None else _tags_by_name(deck, con)
+    census = audit_deck(deck, con).census
+    # the source counts graveyard hate on its own: a card whose only wipe tag
+    # is `sweeper-graveyard` (Soul-Guide Lantern) is graveyard hate, not a wipe
+    graveyard_only = sum(1 for c in deck.library
+                         if tags.get(c.name, set()) & WIPE_TAGS == {"sweeper-graveyard"})
+    return {
+        "lands": census.lands, "ramp": census.ramp_total, "draw": len(_draw_cards(deck, census, cards)),
+        "removal": census.removal, "wipes": census.wipes - graveyard_only,
+        "protection": len(_protection_cards(deck, tags)),
+        "graveyard_hate": sum(1 for c in deck.library if "sweeper-graveyard" in tags.get(c.name, set())),
+        "counters": sum(1 for c in deck.library if is_counterspell(tags.get(c.name, set()))),
+    }
+
+
+def card_categories(deck: Deck, con: sqlite3.Connection, tags: dict[str, set[str]] | None = None,
+                    cards: dict[str, deploy.SimCard] | None = None) -> dict[str, set[str]]:
+    """Each card's community-band categories (a card can sit in several:
+    Beast Within is removal, Cyclonic Rift removal and a wipe). A card in
+    none of them is the deck's plan: engine, payoffs, threats."""
+    tags = tags if tags is not None else _tags_by_name(deck, con)
+    census = audit_deck(deck, con).census
+    members = {
+        "ramp": {n for key, names in census.tagged_cards.items() if key.startswith("ramp") for n in names},
+        "draw": _draw_cards(deck, census, cards) | set(census.tagged_cards.get("draw_from_oracle_tag", [])),
+        "removal": set(census.tagged_cards.get("removal", [])),
+        "wipes": set(census.tagged_cards.get("wipes", [])),
+    }
+    result: dict[str, set[str]] = {}
+    for card in deck.library:
+        card_tags = tags.get(card.name, set())
+        cats = {cat for cat, names in members.items() if card.name in names}
+        if "Land" in card.type_line.split("//")[0]:
+            cats.add("lands")
+        if is_counterspell(card_tags):
+            cats.add("counters")
+        if card_tags & PROTECTION_TAGS:
+            cats.add("protection")
+        if "sweeper-graveyard" in card_tags:
+            cats.add("graveyard_hate")
+        result[card.name] = cats
+    return result
+
+
 def compute_balance(deck: Deck, con: sqlite3.Connection, archetype: str | None = None,
                     edhrec_theme: str | None = None, survival_floor: int | None = None,
                     bands_doc: dict | None = None, simulate_draw: bool = True) -> BalanceReport:
     tags = _tags_by_name(deck, con)
     answer_cards, free_cards = answers_in(deck, con, tags)
-    protection_cards = sorted({c.name for c in deck.library
-                               if tags.get(c.name, set()) & PROTECTION_TAGS or is_counterspell(tags.get(c.name, set()))})
+    protection_cards = _protection_cards(deck, tags)
     cards = _sim_cards(deck, con) if simulate_draw else None
     report = BalanceReport(
         deck_name=deck.name,
         sweet=compute_sweet_spot(len(answer_cards), sorted(set(answer_cards)), len(deck.library), archetype,
                                  survival_floor=survival_floor, free_cards=free_cards,
+                                 land_cards=land_answers(deck, answer_cards),
                                  seen=simulated_seen(deck, con, cards=cards) if cards is not None else None),
         protection=len(protection_cards), protection_cards=protection_cards,
     )
@@ -347,23 +433,7 @@ def compute_balance(deck: Deck, con: sqlite3.Connection, archetype: str | None =
     if bands_doc is not None:
         report.identity = entry["name"] if entry else key
     if entry:
-        census = audit_deck(deck, con).census
-        # draw: the audit's role count plus what the simulator's script parser
-        # finds, which catches Dig and two-pile cards (Memory Deluge, Fact or
-        # Fiction) the role count misses
-        draw = set(census.tagged_cards.get("draw", []))
-        if cards is not None:
-            draw |= {c.name for c in deck.library if cards[c.name].draws_cards}
-        # the source counts graveyard hate on its own: a card whose only wipe tag
-        # is `sweeper-graveyard` (Soul-Guide Lantern) is graveyard hate, not a wipe
-        graveyard_only = sum(1 for c in deck.library
-                             if tags.get(c.name, set()) & WIPE_TAGS == {"sweeper-graveyard"})
-        actual = {
-            "lands": census.lands, "ramp": census.ramp_total, "draw": len(draw), "removal": census.removal,
-            "wipes": census.wipes - graveyard_only, "protection": len(protection_cards),
-            "graveyard_hate": sum(1 for c in deck.library if "sweeper-graveyard" in tags.get(c.name, set())),
-            "counters": sum(1 for c in deck.library if is_counterspell(tags.get(c.name, set()))),
-        }
+        actual = band_actuals(deck, con, tags, cards)
         report.identity_decks = entry.get("decks")
         report.bands_source = bands_doc.get("source")
         report.bands_retrieved = str(bands_doc.get("retrieved"))

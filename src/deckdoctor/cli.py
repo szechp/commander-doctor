@@ -108,21 +108,10 @@ def _error_document(command: str, status: str, message: str, *, valid: bool = Fa
     }
 
 
-def _cached_edhrec_stats(commander: str, theme: str | None) -> tuple[dict, str]:
-    """(card_stats, label) from the local EDHREC cache only -- never the
-    network. Falls back from the theme page to the base page; ({}, reason)
-    when neither is cached."""
-    from deckdoctor.edhrec import card_stats, load_cached_commander_data
+def _cached_edhrec_stats(commander: str, theme: str | None, bracket: int | None = None) -> tuple[dict, str]:
+    from deckdoctor.precon import cached_ranking_stats
 
-    if theme:
-        data = load_cached_commander_data(commander, theme)
-        if data is not None:
-            return card_stats(data), f"EDHREC theme page '{theme}'"
-    data = load_cached_commander_data(commander)
-    if data is not None:
-        note = f" (theme '{theme}' not cached -- run `deckdoctor themes`)" if theme else " (no edhrec_theme configured)"
-        return card_stats(data), "EDHREC base page" + note
-    return {}, "no EDHREC data cached -- run `deckdoctor themes <deck>` first"
+    return cached_ranking_stats(commander, theme, bracket)
 
 
 def _spare_inventory(con: sqlite3.Connection, override_path: str | None):
@@ -361,6 +350,9 @@ def main(argv: list[str] | None = None) -> int:
     p_edhrec.add_argument("--sort", choices=["inclusion", "synergy", "staples"], default="inclusion")
     p_edhrec.add_argument("--limit", type=int, default=60)
     p_edhrec.add_argument("--lands", action="store_true", help="include lands in --missing")
+    p_edhrec.add_argument("--include-deck", action="store_true",
+                          help="with --missing: keep the deck's own cards in the list, marked `in deck`, so they "
+                               "compete on rank (a rebuild from a blank slate)")
     p_edhrec.add_argument("--db", default=None, help="card database path (default: DECKDOCTOR_DB, then data/deckdoctor.sqlite3)")
     p_edhrec.add_argument("--collection", default=None,
                           help="available spare-card inventory, excluding cards in decks "
@@ -381,8 +373,19 @@ def main(argv: list[str] | None = None) -> int:
     p_diff.add_argument("--swaps-file", default=None,
                         help="write the swaps in ManaBox format (// COMMANDER, kept cards = // MAINBOARD, ins = // SIDEBOARD, "
                              "outs = // MAYBEBOARD), e.g. decks/<name>-swaps.txt")
+    p_diff.add_argument("--no-compare", action="store_true",
+                        help="skip the before/after comparison (health, packages, plan tags, cuts to double-check)")
     p_diff.add_argument("--db", default=None)
     p_diff.add_argument("--format", choices=["text", "json"], default="text")
+
+    p_rebuild = sub.add_parser("rebuild", help="start an Improve target from a blank slate: the commander only, plus "
+                                               "package targets from the plan and colours (never the current list) "
+                                               "and the searches that rank the current cards with everything else")
+    p_rebuild.add_argument("deck", help="current decklist, e.g. decks/elrond-heal.txt")
+    p_rebuild.add_argument("--out", default=None, help="target path (default: decks/<name>.target.txt)")
+    p_rebuild.add_argument("--force", action="store_true", help="overwrite an existing target")
+    p_rebuild.add_argument("--db", default=None)
+    p_rebuild.add_argument("--format", choices=["text", "json"], default="text")
 
     p_health = sub.add_parser("health", help="one-page health check: audit/coverage/defence/colours (+ EDHREC if cached) as a single table")
     p_health.add_argument("deck", help="path to a decklist, e.g. decks/ugluk.txt")
@@ -411,9 +414,15 @@ def main(argv: list[str] | None = None) -> int:
     p_cand.add_argument("--oracle", default=None, metavar="REGEX",
                         help="keep only cards whose oracle text matches this regular expression (case-insensitive), "
                              "like Scryfall o:/.../; role 'any' searches every card")
+    p_cand.add_argument("--type", default=None, metavar="REGEX", dest="type_filter",
+                        help="keep only cards whose type line matches this regular expression (case-insensitive), "
+                             "like Scryfall t:/is:land -- e.g. `any --type land --oracle token` is is:land o:token")
     p_cand.add_argument("--sort", choices=["evidence", "fit"], default="evidence",
                         help="evidence (default): EDHREC, then popularity; fit: most of the deck's signature tags "
                              "first (cards doing two of its jobs over one), then evidence")
+    p_cand.add_argument("--include-deck", action="store_true",
+                        help="keep the deck's own cards in the pool, marked `in deck`, so they compete on rank "
+                             "(a rebuild from a blank slate)")
     p_cand.add_argument("--db", default=None)
     p_cand.add_argument("--limit", type=int, default=20)
     p_cand.add_argument("--theme", default=None, help="EDHREC theme slug to rank by (default: the deck YAML's edhrec_theme)")
@@ -671,7 +680,7 @@ def main(argv: list[str] | None = None) -> int:
         con.close()
         return 0 if valid else 2
 
-    gated_commands = {"hand", "audit", "coverage", "colours", "defence", "combos", "bracket", "edhrec", "themes", "diff", "health", "upgrades", "candidates", "screen-candidates", "goldfish", "consistency", "deploy", "balance"}
+    gated_commands = {"hand", "audit", "coverage", "colours", "defence", "combos", "bracket", "edhrec", "themes", "diff", "rebuild", "health", "upgrades", "candidates", "screen-candidates", "goldfish", "consistency", "deploy", "balance"}
     if args.command in gated_commands:
         gate_code = _validation_gate(args.deck, getattr(args, "db", None), getattr(args, "format", "text"))
         if gate_code:
@@ -1032,8 +1041,17 @@ def main(argv: list[str] | None = None) -> int:
                 print(str(exc), file=sys.stderr)
                 return 2
             spares = collection.quantities if collection else {}
+            from deckdoctor.edhrec import bracket_page
+            from deckdoctor.precon import fetch_precons, precon_cards
+            precons = fetch_precons(deck.commander.name)
+            bracket = config.bracket if config else None
+            page_b = bracket_page(bracket)
+            bracket_data = (fetch_commander_data(deck.commander.name, force=args.refresh, theme=page_b)
+                            if precons and page_b else None)
             missing = find_missing_cards(
                 deck, con, data, include_lands=args.lands, sort=args.sort, spare_quantities=spares,
+                include_deck=args.include_deck, precon=precon_cards(precons), bracket_data=bracket_data,
+                bracket=bracket,
             )[:args.limit]
             con.close()
             if args.format == "json":
@@ -1042,10 +1060,20 @@ def main(argv: list[str] | None = None) -> int:
                      "potential_decks": m.stat.potential_decks, "synergy": m.stat.synergy,
                      "global_rank": m.global_rank,
                      "edhrec_lists": list(m.stat.lists), "spare_quantity": m.spare_quantity,
+                     "in_deck": m.in_deck, "precon": m.stat.precon, "bracket_rate": m.stat.bracket_rate,
+                     "evidence": round(m.stat.evidence, 4),
                      "line": m.line} for m in missing],
                     "spare_inventory": collection.path if collection else None}, ensure_ascii=False))
             else:
-                print(f"EDHREC cards NOT in this deck -- {deck.commander.name}, {page}, by {args.sort}.")
+                scope = "for this commander, the deck's own marked `in deck`" if args.include_deck else "NOT in this deck"
+                print(f"EDHREC cards {scope} -- {deck.commander.name}, {page}, by {args.sort}.")
+                if precons:
+                    print(f"Precon: {', '.join(f'{p.name} ({p.code}, {p.released[:4]})' for p in precons)}. Its cards are "
+                          "marked `precon`" + (f" and ranked by their rate at bracket {bracket} (EDHREC's "
+                          f"'{page_b}' page), which counts far fewer near-stock precons" if bracket_data else
+                          " -- set `bracket:` in the deck YAML to rank them by their rate at that bracket") + ".")
+                elif precons is None:
+                    print("(precon lookup failed -- Scryfall or MTGJSON unreachable; precon cards aren't marked this run)")
                 print("Legality/colour identity checked against the local mirror. Popularity is evidence, "
                       "not a verdict: read the text against the confirmed gameplan.\n")
                 for m in missing:
@@ -1133,21 +1161,52 @@ def main(argv: list[str] | None = None) -> int:
         if gate:
             return gate
         con = connect_readonly(args.db)
-        result = diff_decks(load_deck(args.deck, con), load_deck(args.target, con), load_deck_config(args.deck))
+        current, target = load_deck(args.deck, con), load_deck(args.target, con)
+        result = diff_decks(current, target, load_deck_config(args.deck))
+        comparison = None
+        if not args.no_compare:
+            from deckdoctor.deck_compare import compare_decks
+            comparison = compare_decks(current, target, con, result.cuts, result.adds,
+                                       load_deck_config(args.deck), load_deck_config(args.target))
         con.close()
         if args.proposal and result.proposal is not None:
             Path(args.proposal).write_text(json.dumps(result.proposal, indent=2, ensure_ascii=False) + "\n")
         if args.swaps_file:
             Path(args.swaps_file).write_text(manabox_swaps(result), encoding="utf-8")
         if args.format == "json":
-            print(json.dumps(result.to_dict(), ensure_ascii=False, sort_keys=True))
+            doc = result.to_dict()
+            if comparison is not None:
+                doc["comparison"] = comparison.to_dict()
+            print(json.dumps(doc, ensure_ascii=False, sort_keys=True))
         else:
             print(render_diff(result))
+            if comparison is not None:
+                print()
+                print(comparison.render())
             if args.swaps_file:
                 print(f"\nManaBox swaps list written to {args.swaps_file}")
             if args.proposal and result.proposal is not None:
                 print(f"\nProposal written to {args.proposal} -- next: deckdoctor validate {args.deck} "
                       f"--swaps {args.proposal} --format json")
+        return 0
+
+    if args.command == "rebuild":
+        import json
+        from deckdoctor.db import connect_readonly
+        from deckdoctor.rebuild import start_rebuild
+
+        gate = _validation_gate(args.deck, args.db, args.format)
+        if gate:
+            return gate
+        con = connect_readonly(args.db)
+        try:
+            sheet = start_rebuild(args.deck, con, out=args.out, force=args.force)
+        except FileExistsError as exc:
+            print(str(exc), file=sys.stderr)
+            return 2
+        finally:
+            con.close()
+        print(json.dumps(sheet.to_dict(), ensure_ascii=False) if args.format == "json" else sheet.render())
         return 0
 
     if args.command == "health":
@@ -1203,7 +1262,8 @@ def main(argv: list[str] | None = None) -> int:
         from deckdoctor.db import connect_readonly
         from deckdoctor.deck import load_deck
         from deckdoctor.deck_config import accepted_swaps, config_path_for, load_deck_config, pinned_cards, rejected_swaps
-        from deckdoctor.upgrades import find_land_upgrades, find_role_family_pools, find_slow_lands
+        from deckdoctor.upgrades import (find_basic_upgrades, find_land_upgrades, find_role_family_pools,
+                                         find_slow_lands, type_support_lines)
         from deckdoctor.assessment_reports import assessment_report
 
         con = connect_readonly(args.db)
@@ -1231,14 +1291,18 @@ def main(argv: list[str] | None = None) -> int:
         # this only narrows what to read, it does not decide for you.
         # Lands: the deck's own slow lands plus the fastest multicolour lands it
         # doesn't run (land_speed.py tiers, turns 1-4), originals excluded per playgroup.
-        stats, _ = _cached_edhrec_stats(deck.commander.name, config.edhrec_theme if config else None)
+        stats, _ = _cached_edhrec_stats(deck.commander.name, config.edhrec_theme if config else None,
+                                        config.bracket if config else None)
         families = find_role_family_pools(deck, con, edhrec_stats=stats, spare_quantities=spares,
                                           max_price=args.max_price, owned_quantities=owned)
         land_upgrades = find_land_upgrades(deck, con, config=config, max_price=args.max_price,
                                            owned_quantities=owned)
         slow_lands = find_slow_lands(deck, con)
+        basic_upgrades = find_basic_upgrades(deck, con, config=config)
+        support_lines = type_support_lines(deck, con)
 
         combined = {"families": families, "land_upgrades": [asdict(s) for s in land_upgrades],
+                    "basic_upgrades": [asdict(s) for s in basic_upgrades], "type_support": support_lines,
                     "spare_inventory": collection.path if collection else None,
                     "slow_lands": [asdict(s) for s in slow_lands], **_pool_constraint_fields(args)}
         structured = assessment_report(
@@ -1294,6 +1358,16 @@ def main(argv: list[str] | None = None) -> int:
                 print("  (none found)")
             for lu in land_upgrades:
                 print(f"  {lu.replaces} -> {lu.suggested_land} [{lu.tier}: {lu.speed}]")
+            print("=== lands: replace a basic (almost no downside) ===")
+            basics = sum(1 for c in deck.library if c.type_line.startswith("Basic Land"))
+            print(f"  {basics} basic(s) in the deck. Each swap keeps the colour; it costs one land for basic land "
+                  f"searches and, for a basic type, one supporter of the deck's type-dependent lands:")
+            for line in support_lines or ["(no type-dependent lands: only basic land searches need basics)"]:
+                print(f"    {line}")
+            if not basic_upgrades:
+                print("  (none found)")
+            for bu in basic_upgrades:
+                print(f"  {bu.replaces or '(no basic)'} -> {bu.land} [{bu.colours}; {bu.speed}] {bu.kind}")
         return 0
 
     if args.command == "brew":
@@ -1529,11 +1603,12 @@ def main(argv: list[str] | None = None) -> int:
         deck = load_deck(args.deck, con)
         commander_row = con.execute("SELECT color_identity FROM cards WHERE name = ?", [deck.commander.name]).fetchone()
         commander_ci = json.loads(commander_row[0]) if commander_row and commander_row[0] else []
-        exclude = {c.name for c in deck.library} | {deck.commander.name}
+        in_deck = {c.name for c in deck.library}
+        exclude = {deck.commander.name} | (set() if args.include_deck else in_deck)
         from deckdoctor.deck_config import load_deck_config
         config = load_deck_config(args.deck)
         theme = args.theme or (config.edhrec_theme if config else None)
-        stats, ranking_source = _cached_edhrec_stats(deck.commander.name, theme)
+        stats, ranking_source = _cached_edhrec_stats(deck.commander.name, theme, config.bracket if config else None)
         try:
             collection = _spare_inventory(con, args.collection)
         except ValueError as exc:
@@ -1549,7 +1624,9 @@ def main(argv: list[str] | None = None) -> int:
         signature = signature_tags(con, [c.name for c in deck.library], commander_ci)
         fit_tags = [tag for tag, _, _ in signature]
         pool_args = dict(edhrec_stats=stats, spare_quantities=spares, max_price=args.max_price,
-                         owned_quantities=owned, sort=args.sort, fit_tags=fit_tags, oracle=args.oracle)
+                         owned_quantities=owned, sort=args.sort, fit_tags=fit_tags, oracle=args.oracle,
+                         type_filter=args.type_filter,
+                         mark_names=in_deck if args.include_deck else None)
         lines = find_candidates(con, commander_ci, args.role, exclude, limit=args.limit, **pool_args)
         # Recently printed cards the main list cut: popularity ranking lags for them.
         recent, recent_exact = recent_names(con)

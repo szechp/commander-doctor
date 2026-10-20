@@ -44,6 +44,16 @@ REMOVAL_TAGS = {
     "removal-exile", "removal-fight", "removal-tuck", "removal-sacrifice",
 }
 WIPE_TAGS = {"sweeper", "sweeper-one-sided", "sweeper-graveyard"}
+# Damage to a target creature is removal too (Annie Joins Up, Ghired's
+# Belligerence, Alchemist's Greeting, Eiganjo's channel), but Scryfall files it
+# under `burn-creature`, not `removal-*`. A damage sweeper (Blasphemous Act)
+# carries the same tag and stays a wipe only. `burn-any` is left out: it is
+# shared by Lightning Bolt and every 1-damage pinger.
+DAMAGE_REMOVAL_TAG = "burn-creature"
+
+
+def is_removal(tags: set[str]) -> bool:
+    return bool(tags & REMOVAL_TAGS) or (DAMAGE_REMOVAL_TAG in tags and not tags & WIPE_TAGS)
 # ref deckbuilding.md §4.4: "Low curve / go-wide... Prefer cheap instant-speed
 # answers that do not disrupt your own development." A `sweeper` also tagged
 # `symmetrical` hits your own board too -- checked directly against the
@@ -326,7 +336,7 @@ def compute_census(deck: Deck, con: sqlite3.Connection) -> Census:
             c.draw += 1
             c.tagged_cards.setdefault("draw", []).append(card.name)
 
-        if card_tags & REMOVAL_TAGS:
+        if is_removal(card_tags):
             c.removal += 1
             c.tagged_cards.setdefault("removal", []).append(card.name)
 

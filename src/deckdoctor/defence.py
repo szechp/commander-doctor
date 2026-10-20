@@ -39,7 +39,7 @@ from __future__ import annotations
 import sqlite3
 from dataclasses import dataclass
 
-from deckdoctor.audit import REMOVAL_TAGS, WIPE_TAGS
+from deckdoctor.audit import WIPE_TAGS, is_removal
 from deckdoctor.deck import Deck
 
 COUNTERSPELL_PREFIX = "counterspell"
@@ -52,7 +52,7 @@ def is_counterspell(tags: set[str]) -> bool:
 def is_interaction(tags: set[str]) -> bool:
     """Removal, a board wipe or a counterspell -- what this check and
     `balance`'s sweet spot both count as an answer."""
-    return bool(tags & REMOVAL_TAGS) or bool(tags & WIPE_TAGS) or is_counterspell(tags)
+    return is_removal(tags) or bool(tags & WIPE_TAGS) or is_counterspell(tags)
 
 
 BOARD_PRESENCE_ADJUSTMENT = {

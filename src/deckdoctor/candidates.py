@@ -142,6 +142,8 @@ def find_candidates(
     fit_tags: list[str] | None = None,
     only_names: set[str] | None = None,
     oracle: str | None = None,
+    mark_names: set[str] | None = None,
+    type_filter: str | None = None,
 ) -> list[str]:
     """Returns compact lines (SPEC.md §10) for up to `limit` commander-legal
     cards in `role`, colour-identity-legal for the commander, not already
@@ -173,13 +175,19 @@ def find_candidates(
     restricts the pool (the recently printed section). `oracle` keeps only
     cards whose oracle text matches the regular expression (case-
     insensitive), like a Scryfall `o:/.../` search: tags lag behind new sets
-    and only describe roles someone tagged, text doesn't.
+    and only describe roles someone tagged, text doesn't. `mark_names`
+    labels those cards `in deck` (a rebuild keeps the deck's own cards in
+    the pool so they compete on rank; the label only breaks ties).
+    `type_filter` keeps cards whose type line (either face) matches the
+    regular expression, like Scryfall `t:` / `is:land`: role `any` with
+    `type_filter="land"` and `oracle="token"` is `is:land o:token`.
     """
     commander_ci = set(commander_color_identity)
     cols_sql = ", ".join(_CARDS_COLS)
     role = normalize_role(role)
     import re
     oracle_re = re.compile(oracle, re.IGNORECASE) if oracle else None
+    type_re = re.compile(type_filter, re.IGNORECASE) if type_filter else None
 
     tag_filtered_names = _candidate_names_for_role(con, role)
     if tag_filtered_names is not None:
@@ -213,6 +221,8 @@ def find_candidates(
             continue
         if oracle_re is not None and not oracle_re.search(row["oracle_text"] or ""):
             continue
+        if type_re is not None and not type_re.search(row["type_line"] or ""):
+            continue
         matches.append((row, tags_by_name.get(row["name"], set())))
 
     # The price filter runs after pool assembly but before the limit, so the
@@ -237,14 +247,15 @@ def find_candidates(
     #      card slot -- a "repeatable draw" search once returned 39/40
     #      cmc-0 utility lands, crowding out Mystic Remora);
     #   2. cards EDHREC lists for this commander (theme page if configured),
-    #      by inclusion rate -- real decks built the same way;
+    #      by inclusion rate -- real decks built the same way; a precon
+    #      card by its lower rate at the deck's bracket (`CardStat.evidence`);
     #   3. global Commander popularity (Scryfall edhrec_rank);
     #   4. mana value, then name for determinism.
     stats = edhrec_stats or {}
     ranks = global_ranks(con, [row["name"] for row, _ in matches])
     matches.sort(key=lambda item: (
         "Land" in (item[0]["type_line"] or ""),
-        -(stats[item[0]["name"]].inclusion) if item[0]["name"] in stats else 1.0,
+        -(stats[item[0]["name"]].evidence) if item[0]["name"] in stats else 1.0,
         ranks.get(item[0]["name"], float("inf")),
         item[0]["cmc"] if item[0]["cmc"] is not None else float("inf"),
         item[0]["name"].casefold(), item[0]["name"],
@@ -260,6 +271,8 @@ def find_candidates(
     for row, tags in matches[:limit]:
         line = format_line(row, tags)
         name = row["name"]
+        if mark_names and name in mark_names:
+            line += " | in deck"
         if "Land" not in (row["type_line"] or "").split(" // ")[0].split():
             line += availability_suffix(name, spare_quantities)
         if max_price is not None:

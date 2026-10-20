@@ -60,3 +60,14 @@ def test_count_requirements_cover_battle_lands_and_the_eldraine_five():
     (req,) = type_requirements(sanctuary)
     assert (req.types, req.count, req.basic_only) == (frozenset({"Island"}), 3, False)
     assert type_requirements("This land enters tapped unless you control two or more other lands.") == []
+
+
+def test_a_two_faced_card_is_judged_by_its_land_face():
+    from deckdoctor.land_speed import FAST, FASTLAND, classify_land_speed
+    shatterskull = ("Shatterskull Smashing deals X damage divided as you choose.\n//\n"
+                    "As this land enters, you may pay 3 life. If you don't, it enters tapped.\n{T}: Add {R}.")
+    assert classify_land_speed(shatterskull).rank == FAST
+    assert classify_land_speed("{T}: Add {R}.\n//\n{T}: Add {W}.").rank == FAST  # a pathway
+    starting_town = ("This land enters tapped unless it's your first, second, or third turn of the game.\n"
+                     "{T}: Add {C}.\n{T}, Pay 1 life: Add one mana of any color.")
+    assert classify_land_speed(starting_town).rank == FASTLAND
