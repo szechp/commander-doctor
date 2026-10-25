@@ -1,0 +1,66 @@
+diff --git a/forge-gui-desktop/src/main/java/forge/view/SimulateMatch.java b/forge-gui-desktop/src/main/java/forge/view/SimulateMatch.java
+index 66fde34d..7111c45a 100644
+--- a/forge-gui-desktop/src/main/java/forge/view/SimulateMatch.java
++++ b/forge-gui-desktop/src/main/java/forge/view/SimulateMatch.java
+@@ -19,6 +19,12 @@ import forge.game.GameLogEntry;
+ import forge.game.GameLogEntryType;
+ import forge.game.GameRules;
+ import forge.game.GameType;
++import forge.game.card.Card;
++import forge.game.event.GameEventTurnPhase;
++import forge.game.phase.PhaseType;
++import forge.game.player.Player;
++import forge.game.zone.ZoneType;
++import com.google.common.eventbus.Subscribe;
+ import forge.game.Match;
+ import forge.game.player.RegisteredPlayer;
+ import forge.gamemodes.tournament.system.AbstractTournament;
+@@ -243,6 +249,7 @@ public class SimulateMatch {
+ 
+         final Game g1 = mc.createGame();
+         g1.setNoGUIUser();
++        g1.subscribeToEvents(new SnapshotLogger(g1)); // battlebox: per-turn hand/board snapshots for misplay analysis
+         if (flatMonteCarlo != null) {
+             g1.AI_FLAT_MONTE_CARLO = flatMonteCarlo;
+             g1.AI_FLAT_MONTE_CARLO_MAX = Boolean.TRUE.equals(flatMonteCarloMax);
+@@ -414,6 +421,40 @@ public class SimulateMatch {
+         return null;
+     }
+ 
++    /** Battlebox analysis hook: at the active player's end step, log their hand, untapped lands and board. */
++    public static class SnapshotLogger {
++        private final Game game;
++        SnapshotLogger(Game game) { this.game = game; }
++
++        private static String tag(Card c) {
++            String t = c.isLand() ? "L" : c.isCreature() ? "C" : c.isInstant() ? "I" : c.isSorcery() ? "S"
++                    : c.isPlaneswalker() ? "P" : c.isEnchantment() ? "E" : c.isArtifact() ? "A" : "?";
++            return c.getName() + "|" + c.getCMC() + "|" + t;
++        }
++
++        @Subscribe
++        public void onPhase(GameEventTurnPhase ev) {
++            if (ev.phase() != PhaseType.END_OF_TURN) return;
++            int turn = game.getPhaseHandler().getTurn();
++            for (Player p : game.getPlayers()) {
++                int lands = 0, untapped = 0;
++                List<String> board = new ArrayList<>();
++                for (Card c : p.getCardsIn(ZoneType.Battlefield)) {
++                    if (c.isLand()) { lands++; if (!c.isTapped()) untapped++; }
++                    else board.add(tag(c));
++                }
++                List<String> hand = new ArrayList<>();
++                for (Card c : p.getCardsIn(ZoneType.Hand)) hand.add(tag(c));
++                boolean active = p.getName().equals(ev.playerTurn().getName());
++                game.getGameLog().add(GameLogEntryType.INFORMATION, "SNAP T" + turn + (active ? " ACTIVE " : " OTHER ")
++                        + p.getName() + " :: life=" + p.getLife() + " lands=" + lands + " untapped=" + untapped
++                        + " landdrops=" + p.getLandsPlayedThisTurn() + " lib=" + p.getCardsIn(ZoneType.Library).size()
++                        + " gy=" + p.getCardsIn(ZoneType.Graveyard).size()
++                        + " hand=" + String.join(";", hand) + " board=" + String.join(";", board));
++            }
++        }
++    }
++
+     private static Deck deckFromCommandLineParameter(String deckname, GameType type, String deckDir) {
+         int dotpos = deckname.lastIndexOf('.');
+         if (dotpos > 0 && dotpos == deckname.length() - 4) {
