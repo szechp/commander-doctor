@@ -82,6 +82,12 @@ are in `sim/rounds/` and `sim/specs/`.
    `nix shell nixpkgs#jdk17 nixpkgs#maven -c mvn -q -pl forge-gui-desktop -am package -DskipTests -Dcheckstyle.skip`
 2. `python3 -I sim/gen.py <round>` builds decks from `sim/specs/<round>.json`.
 3. `python3 -I sim/sim.py <round> 100 sim/rounds/<round>` runs about 23 min on 16 cores.
-4. `python3 -I sim/analyze.py <round>` gives the matrix plus AI misplay flags.
+4. `python3 -I sim/analyze.py <round>` gives the matrix plus AI misplay flags:
+   cards held while castable, cards never or rarely cast, activated abilities
+   left idle on the board, flashback/persist use, and Forge exceptions.
+   While a sim runs, `python3 -I sim/monitor.py <round> <chunks>` prints the
+   running win rates and each new flag as soon as it shows up. Leave a core
+   free (`--jobs` = cores - 1): with every core busy the Forge AI sometimes
+   hits its decision timeout (`TimeoutException` in the logs) and skips a play.
 5. `sim/find.py <color> --tag ... --type ...` searches for candidates and drops
    cards the Forge AI can't play.

@@ -10,6 +10,12 @@ each end step (active player's state after their own turn):
           reported per card: a card the AI holds most of the time it could
           cast it is either AI-unfriendly or dead in the matchup.
   missed land drop = no land played this turn while holding a land.
+  idle ability = a permanent with a non-mana activated ability (per its Forge
+          script) sat on the board for many end steps and was rarely activated.
+  Ooze on noncreatures = Scavenging Ooze exiling a noncreature card. Reported,
+          not flagged: vs Blue it is real graveyard hate (Djinn, flashback).
+Only finished chunk files (with the STDERR marker) are read, so this is safe
+to run while a sim is still going (see monitor.py).
 """
 import json, math, re, sys
 from collections import defaultdict
@@ -20,6 +26,30 @@ NAME = re.compile(r"Ai\(\d\)-Mono-(\w+) Beginner")
 RES = re.compile(r"Game Result: Game (\d+) ended in (?:a (Draw)!|\d+ ms\. (.+) has won!)")
 SNAP = re.compile(r"SNAP T(\d+) (ACTIVE|OTHER) (.+?) :: life=(-?\d+) lands=(\d+) untapped=(\d+) landdrops=(\d+) lib=(\d+) gy=(\d+) hand=(.*?) board=(.*)$")
 SORC = set("CSEAP")
+BASICS = ("Swamp", "Island", "Forest", "Mountain", "Plains")
+CF = SCRATCH.parents[1] / "forge-spike/forge/forge-gui/res/cardsfolder"
+ACT = re.compile(r"Add To Stack: (Ai\(\d\)-Mono-\w+ Beginner) activated (.+?)(?: targeting \[(.+?) \(\d+\)\])?$")
+_script_cache = {}
+
+
+def forge_script(name):
+    if name not in _script_cache:
+        fn = re.sub(r"[^a-z0-9 ]", "", name.lower()).replace(" ", "_") + ".txt"
+        p = CF / fn[:1] / fn
+        _script_cache[name] = p.read_text(errors="replace") if p.exists() else ""
+    return _script_cache[name]
+
+
+def has_board_ability(name):
+    """Non-mana activated ability usable from the battlefield (equip counts)."""
+    s = forge_script(name)
+    acts = [l for l in s.splitlines() if l.startswith("A:AB$") and not l.startswith("A:AB$ Mana")]
+    return bool(acts) or "K:Equip" in s
+
+
+def is_creature(name):
+    m = re.search(r"^Types:(.*)$", forge_script(name), re.M)
+    return bool(m and "Creature" in m.group(1))
 
 
 def deck_of(s):
@@ -69,10 +99,19 @@ def main():
     in_hand_turns = defaultdict(lambda: defaultdict(int))
     cast = defaultdict(lambda: defaultdict(int))
     missed_drops = defaultdict(lambda: [0, 0])
+    activated = defaultdict(lambda: defaultdict(int))
+    on_board = defaultdict(lambda: defaultdict(int))
+    wasted = defaultdict(lambda: defaultdict(int))
+    alt = defaultdict(int)
+    stderr_exc = defaultdict(int)
     mull = defaultdict(lambda: [0, 0])
     errors = []
     for f in files:
         text = f.read_text(errors="replace")
+        if "=====STDERR=====" not in text:
+            continue  # chunk still running
+        for ex in re.findall(r"^\S*(?:Exception|Error)\b[^\n]*", text.split("=====STDERR=====")[1], re.M):
+            stderr_exc[ex[:120]] += 1
         if "Exception" in text.split("=====STDERR=====")[0] and "Game Result" not in text:
             errors.append(f.name)
         for lines, res in split_games(text):
@@ -96,6 +135,15 @@ def main():
                     who = deck_of(ln)
                     card = ln.split(" cast ", 1)[1].split(" targeting ")[0].strip()
                     cast[who][card] += 1
+                ma = ACT.match(ln)
+                if ma:
+                    who, src, tgt = deck_of(ma.group(1)), ma.group(2).strip(), ma.group(3)
+                    activated[who][src] += 1
+                    if src == "Scavenging Ooze" and tgt and not is_creature(tgt):
+                        wasted[who][tgt] += 1
+                if ln.startswith("Replacement Effect: "):
+                    kw = ln.split(": ", 1)[1].split(" ", 1)[0]
+                    alt[kw] += 1
                 ms = SNAP.search(ln)
                 if ms and ms.group(2) == "ACTIVE":
                     d = deck_of(ms.group(3))
@@ -104,6 +152,8 @@ def main():
                     missed_drops[d][1] += 1
                     if int(ms.group(7)) == 0 and any(t == "L" for _, _, t in hand):
                         missed_drops[d][0] += 1
+                    for name, _, _ in parse_cards(ms.group(11)):
+                        on_board[d][name] += 1
                     for name, cmc, t in hand:
                         if t == "L":
                             continue
@@ -134,6 +184,8 @@ def main():
                     first_wins[first][0] += 1
 
     decks = sorted({d for k in games for d in k})
+    spec = SCRATCH / "specs" / f"{run}.json"
+    own = {c: set(v["cards"]) for c, v in json.loads(spec.read_text()).items()} if spec.exists() else {}
     print(f"== {run}: {sum(games.values())} games, {sum(draws.values())} draws/timeouts ==\n")
     print("row deck win% vs column deck")
     print("        " + "".join(f"{d:>9}" for d in decks) + "   overall")
@@ -197,6 +249,36 @@ def main():
         if never:
             print(f"    NEVER CAST despite sitting in hand: {', '.join(never)}")
             flags += [(d, n, in_hand_turns[d][n], 0) for n in never]
+    print("\n== ABILITY USE: board permanents with activated abilities (activations per 100 end steps on board) ==")
+    for d in decks:
+        rows = []
+        for name, t in on_board[d].items():
+            if t < 30 or name in BASICS or "Token" in name or not has_board_ability(name):
+                continue
+            if own and name not in own.get(d, ()):  # stolen with Control Magic etc.
+                continue
+            a = activated[d].get(name, 0)
+            rows.append((100 * a / t, name, t, a))
+        rows.sort()
+        if rows:
+            print(f"  [{d}] " + ", ".join(f"{n} {r:.0f} ({a} in {t})" for r, n, t, a in rows))
+        for r, n, t, a in rows:
+            if r < 5 and t >= 50:
+                flags.append((d, n + " (ability idle on board)", t, a))
+        cyc = {n: c for n, c in activated[d].items() if "Cycling" in forge_script(n) and not on_board[d].get(n)}
+        if cyc:
+            print(f"      cycled/hand-activated: " + ", ".join(f"{n} {c}" for n, c in cyc.items()))
+        if wasted[d] and (not own or "Scavenging Ooze" in own.get(d, ())):
+            print(f"      Scavenging Ooze on noncreature cards: {sum(wasted[d].values())} of "
+                  f"{activated[d].get('Scavenging Ooze', 0)} activations")
+    if alt:
+        print("  replacement effects seen (flashback, persist, ...): " +
+              ", ".join(f"{k} {v}" for k, v in sorted(alt.items(), key=lambda x: -x[1])[:12]))
+    if stderr_exc:
+        print("\n== FORGE EXCEPTIONS in stderr ==")
+        for ex, c in sorted(stderr_exc.items(), key=lambda x: -x[1])[:10]:
+            print(f"  {c:>4}x {ex}")
+
     print("\n== FLAGS ==")
     for d, name, h, c in flags:
         print(f"  {d}: {name} (held castable {h}x, cast {c}x)")
