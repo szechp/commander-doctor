@@ -39,7 +39,9 @@ def main():
             for l in lines:
                 # a pair whose 95% interval is entirely outside 45-55%: no need to wait
                 m = re.match(r"\s*(\w+ vs \w+)\s+([\d.]+)% \[\s*(\d+)-\s*(\d+)\]\s+n=(\d+)", l)
-                if m and (int(m.group(4)) < 45 or int(m.group(3)) > 55) and m.group(1) not in decisive:
+                # (n >= 30: with fewer games, repeated looks call too many false outliers)
+                if (m and int(m.group(5)) >= 30 and (int(m.group(4)) < 45 or int(m.group(3)) > 55)
+                        and m.group(1) not in decisive):
                     decisive.add(m.group(1))
                     print(f"DECISIVE {m.group(1)} {m.group(2)}% [{m.group(3)}-{m.group(4)}] n={m.group(5)}", flush=True)
                 if l.startswith("ERRORED CHUNKS") or "Exception" in l:
