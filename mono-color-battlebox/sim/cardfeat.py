@@ -61,7 +61,7 @@ F = {
     "Liquify": dict(counter="soft"),
     "Mana Leak": dict(counter="soft"),
     "Murmuring Mystic": dict(bodies=3, cast_trigger=True),
-    "Negate": dict(counter="soft"),
+    "Negate": dict(counter="soft", ai_weak=True),  # r22: cast 34x in 695 castable end steps
     "Remote Isle": dict(cards=0.3),
     "Sleep": dict(kill="tapall"),
     "Think Twice": dict(cards=1),
