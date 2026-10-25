@@ -77,9 +77,12 @@ are in `sim/rounds/` and `sim/specs/`.
 
 ## Re-running
 
-1. Forge: `forge-spike/forge` (gitignored). Apply `sim/forge-snapshot-hook.patch`
-   (logs hand/board at each end step), then build:
-   `nix shell nixpkgs#jdk17 nixpkgs#maven -c mvn -q -pl forge-gui-desktop -am package -DskipTests -Dcheckstyle.skip`
+1. `mono-color-battlebox/sim/setup-forge.sh` clones Forge at the pinned commit
+   into `forge-spike/forge` (gitignored), applies `sim/forge-snapshot-hook.patch`
+   (logs hand/board at each end step, which `analyze.py` reads) and builds the
+   jar. It skips whatever is already done, so put it in the cloud environment's
+   setup script. Rounds r1-r7b ran on an older, unrecorded Forge commit;
+   r7a and later use the pinned one.
 2. `python3 -I sim/gen.py <round>` builds decks from `sim/specs/<round>.json`.
 3. `python3 -I sim/sim.py <round> 100 sim/rounds/<round>` runs about 23 min on 16 cores.
 4. `python3 -I sim/analyze.py <round>` gives the matrix plus AI misplay flags:
