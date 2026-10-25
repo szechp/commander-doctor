@@ -3,6 +3,15 @@
 Goal: 5 mono-color 60-card decks, all nonbasic cards as 4-ofs, no duals,
 every pairing 45-55% in 1v1.
 
+These are learning decks: each one teaches its color's plan, so balance swaps
+must stay on theme (swap like for like, never toward generic good stuff):
+
+- Black: graveyard recursion / value from creatures dying
+- Blue: classic control, counters and card draw, with cast-trigger payoffs
+- Green: ramp into big creatures
+- Red: spellslinger with prowess
+- White: go-wide weenies with anthems
+
 The `.dck` files in this folder are **round 3** (`sim/specs/r3.json`) plus the
 **round 6 Black list** (`sim/specs/r6.json`): Bone Shards -> Murder (AI misplay),
 Vampire Nighthawk -> Midnight Reaper, Knight of Malice -> Putrid Goblin (Knight
@@ -25,24 +34,6 @@ Next step: Blue is the outlier (58%). Tried so far:
 - r7a: Counterspell -> Mana Leak: Blue 56.8% (58% vs Black, 66% vs Green, 51%
   vs Red, 52% vs White). Within noise of r6; not enough on its own. Note: run
   on a fresh Forge head (2.0.16-SNAPSHOT), not the build used for r1-r7b.
-
-## r8: simple mechanics (`sim/specs/r8.json`, based on r6)
-
-The box is for learning, so r8 removes mechanics that are hard for beginners
-(and that the Forge AI tends to misplay): flashback, persist, devotion,
-self-mill, casting from the graveyard, cost reduction, tribal payoffs.
-
-- Black: Stitcher's Supplier -> Typhoid Rats, Putrid Goblin -> Dusk Legion
-  Zealot, Headless Rider -> Skymarch Bloodletter, Gray Merchant -> Vampire
-  Sovereign
-- Blue: Think Twice -> Divination, Haughty Djinn -> Wind Drake
-- Green: Scavenging Ooze -> Garruk's Companion, Arbor Elf -> Elvish Mystic
-- Red: Dreadhorde Arcanist -> Viashino Pyromancer, Bedlam Reveler -> Keldon
-  Raider, Fists of Flame -> Shock
-- White: Thalia's Lieutenant -> Precinct Captain
-
-Kept as simple enough: cycling lands, prowess, kicker, surveil, investigate,
-equip, Eternal Witness's one-shot return.
 
 ## Round 3 results (superseded for Black) (Forge AI vs AI, 100 games per pairing, ±~10% CI)
 
