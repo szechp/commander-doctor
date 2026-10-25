@@ -1,7 +1,12 @@
 # Mono-Color Battlebox: balance notes (2026-10-25)
 
-Goal: 5 mono-color 60-card decks, all nonbasic cards as 4-ofs, no duals,
-every pairing 45-55% in 1v1.
+Goal: 5 mono-color 60-card decks, no duals, every pairing 45-55% in 1v1.
+
+Copy counts: 4-ofs by default. Up to two cards per deck may be 3-ofs or 2-ofs
+as tuning knobs (removal, bombs, situational cards), never the engine pieces
+that make the deck play its plan every game. Some variance is welcome in a
+learning box: at 55/45 a repeated pairing still trades wins, and replays play
+out differently.
 
 These are learning decks: each one teaches its color's plan, so balance swaps
 must stay on theme (swap like for like, never toward generic good stuff):
