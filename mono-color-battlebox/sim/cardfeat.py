@@ -82,7 +82,7 @@ F = {
     "Rabid Bite": dict(kill=("fight", 3)),
     "Scavenging Ooze": dict(life=2, grows=True),
     "Shifting Ceratops": dict(uncounterable=True),
-    "Thrashing Brontodon": dict(kill_ench=True),
+    "Thrashing Brontodon": dict(kill_ench=True, ai_weak=True),  # AI never sacrifices it (r16)
     "Tranquil Thicket": dict(cards=0.3),
     "Thragtusk": dict(life=5, bodies=1),
     "Gnarlid Colony": dict(),
