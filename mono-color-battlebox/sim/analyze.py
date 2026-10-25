@@ -10,6 +10,10 @@ each end step (active player's state after their own turn):
           reported per card: a card the AI holds most of the time it could
           cast it is either AI-unfriendly or dead in the matchup.
   missed land drop = no land played this turn while holding a land.
+  card impact = per matchup, the owner's win rate in games where it cast the
+          card vs games where it didn't. Correlation, not cause (a card cast
+          only in long games looks worse), but it shows which cards decide a
+          matchup and is the place to aim a balance swap.
   idle ability = a permanent with a non-mana activated ability (per its Forge
           script) sat on the board for many end steps and was rarely activated.
   Ooze on noncreatures = Scavenging Ooze exiling a noncreature card. Reported,
@@ -105,6 +109,8 @@ def main():
     alt = defaultdict(int)
     stderr_exc = defaultdict(int)
     mull = defaultdict(lambda: [0, 0])
+    impact = defaultdict(lambda: defaultdict(lambda: [0, 0]))  # (deck, opp) -> card -> [wins when cast, games cast]
+    mres = defaultdict(lambda: [0, 0])                          # (deck, opp) -> [wins, games]
     errors = []
     for f in files:
         text = f.read_text(errors="replace")
@@ -121,6 +127,7 @@ def main():
             players = []
             first = None
             last_turn = 0
+            game_cast = defaultdict(set)
             for ln in lines:
                 if ln.startswith("Ai(") and " vs " in ln and "game" in ln:
                     players = [deck_of(x) for x in ln.split(" vs ")]
@@ -135,6 +142,7 @@ def main():
                     who = deck_of(ln)
                     card = ln.split(" cast ", 1)[1].split(" targeting ")[0].strip()
                     cast[who][card] += 1
+                    game_cast[who].add(card)
                 ma = ACT.match(ln)
                 if ma:
                     who, src, tgt = deck_of(ma.group(1)), ma.group(2).strip(), ma.group(3)
@@ -176,6 +184,13 @@ def main():
                 wins[(a, b)] += 0.5
                 continue
             w = deck_of(m.group(3))
+            for p_, o_ in ((a, b), (b, a)):
+                won = int(w == p_)
+                mres[(p_, o_)][0] += won
+                mres[(p_, o_)][1] += 1
+                for c in game_cast[p_]:
+                    impact[(p_, o_)][c][0] += won
+                    impact[(p_, o_)][c][1] += 1
             if w == a:
                 wins[(a, b)] += 1
             if first:
@@ -249,6 +264,23 @@ def main():
         if never:
             print(f"    NEVER CAST despite sitting in hand: {', '.join(never)}")
             flags += [(d, n, in_hand_turns[d][n], 0) for n in never]
+    print("\n== CARD IMPACT: win% when the card was cast vs not cast (n>=15 each side, |diff|>=15 pts) ==")
+    for (d, o), cards in sorted(impact.items()):
+        W, N = mres[(d, o)]
+        rows = []
+        for c, (wc, nc) in cards.items():
+            if c in BASICS or "Token" in c or (own and c not in own.get(d, ())):
+                continue
+            nn = N - nc
+            if nc >= 15 and nn >= 15:
+                diff = 100 * wc / nc - 100 * (W - wc) / nn
+                if abs(diff) >= 15:
+                    rows.append((diff, c, wc, nc, nn))
+        rows.sort(reverse=True)
+        if rows:
+            print(f"  {d} vs {o} ({100*W/N:.0f}%): " + ", ".join(
+                f"{c} {diff:+.0f} (cast in {nc})" for diff, c, wc, nc, nn in rows[:6]))
+
     print("\n== ABILITY USE: board permanents with activated abilities (activations per 100 end steps on board) ==")
     for d in decks:
         rows = []
