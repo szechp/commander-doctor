@@ -52,6 +52,18 @@ control instead of nerfing Blue further. A Blue-only nerf can't fix Red's
 matchup. Flame Slash's held-in-hand flag vs Blue is not a misplay: its
 targets are Mystic, Djinn and Seer, and it is held when none is out.
 
+## r10-r16 (2026-10-25, current Forge build, interleaved runs)
+
+- r10 Red: Flame Slash -> Burst Lightning, Goblin Wizardry -> Young Pyromancer: Red 44.8 -> 47.5%.
+- r11-r16: tandem rounds. r14 (r13 + Knight of Grace in White, Leatherback Baloth
+  in Green) was the closest. After it, rounds r15/r16 reacted to 30-40-game
+  samples (+-15 pts) and drifted; they are in `sim/results/` but superseded.
+- Rule learned: act before 100 games per pairing only on a monitor DECISIVE
+  call (95% interval clear of 45-55% with n >= 30); one targeted change per round.
+- AI blind spots found: Thrashing Brontodon (never sacrifices it, 0 in 291
+  end steps with targets), Flame Slash held when no creature is worth 4 damage
+  (legit). Forge AI decision timeouts cluster in crowded Green-White boards.
+
 ## Round 3 results (superseded for Black) (Forge AI vs AI, 100 games per pairing, ±~10% CI)
 
 | row vs col | black | blue | green | red | white | overall |
