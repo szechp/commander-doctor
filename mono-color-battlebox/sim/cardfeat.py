@@ -66,6 +66,7 @@ F = {
     "Sleep": dict(kill="tapall"),
     "Think Twice": dict(cards=1),
     "Divination": dict(cards=1),
+    "Wind Drake": dict(evasive=True),
     "Unsummon": dict(kill="bounce"),
     # --- green
     "Abundant Harvest": dict(cards=0, ai_weak=True),
