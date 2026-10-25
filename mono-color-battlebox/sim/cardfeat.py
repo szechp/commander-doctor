@@ -61,6 +61,7 @@ F = {
     "Liquify": dict(counter="soft"),
     "Mana Leak": dict(counter="soft"),
     "Murmuring Mystic": dict(bodies=3, cast_trigger=True),
+    "Negate": dict(counter="soft"),
     "Remote Isle": dict(cards=0.3),
     "Sleep": dict(kill="tapall"),
     "Think Twice": dict(cards=1),
