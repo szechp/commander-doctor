@@ -103,6 +103,7 @@ F = {
     "Giant Cindermaw": dict(no_lifegain=True),
     "Goblin Wizardry": dict(bodies=2, cast_trigger=True),
     "Keldon Raider": dict(cards=0),
+    "Hordeling Outburst": dict(bodies=3),
     "Lightning Bolt": dict(kill=("dmg", 3, "any")),
     "Lightning Strike": dict(kill=("dmg", 3, "any")),
     "Monastery Swiftspear": dict(cast_trigger=True, haste=True),
