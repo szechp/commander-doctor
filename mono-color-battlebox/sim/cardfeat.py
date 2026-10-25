@@ -101,6 +101,7 @@ F = {
     "Flame Slash": dict(kill=("dmg", 4, "creature")),
     "Forgotten Cave": dict(cards=0.3),
     "Goblin Wizardry": dict(bodies=2, cast_trigger=True),
+    "Keldon Raider": dict(cards=0),
     "Lightning Bolt": dict(kill=("dmg", 3, "any")),
     "Lightning Strike": dict(kill=("dmg", 3, "any")),
     "Monastery Swiftspear": dict(cast_trigger=True, haste=True),
