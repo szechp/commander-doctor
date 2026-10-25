@@ -1,0 +1,47 @@
+== r7a: 400 games, 0 draws/timeouts ==
+
+row deck win% vs column deck
+            black     blue    green      red    white   overall
+   black      -        42%      ?        ?        ?      42.0%
+    blue      58%      -        66%      51%      52%    56.8%
+   green      ?        34%      -        ?        ?      34.0%
+     red      ?        49%      ?        -        ?      49.0%
+   white      ?        48%      ?        ?        -      48.0%
+
+pair details (95% Wilson CI for first-named deck):
+   black vs blue    42.0% [  33- 52]  n=100 draws=0 avg_turns=21.1  <-- OUT OF 45-55
+    blue vs green   66.0% [  56- 75]  n=100 draws=0 avg_turns=23.5  <-- OUT OF 45-55
+    blue vs red     51.0% [  41- 61]  n=100 draws=0 avg_turns=19.3
+    blue vs white   52.0% [  42- 62]  n=100 draws=0 avg_turns=18.0
+
+on-the-play win rate per deck: {'blue': '61% of 178', 'black': '43% of 56', 'green': '45% of 65', 'red': '44% of 55', 'white': '59% of 46'}
+mulligans per game: {'blue': '0.19', 'black': '0.14', 'green': '0.17', 'red': '0.29', 'white': '0.19'}
+missed land drops (turns with land in hand, none played): {'blue': '7.3%', 'black': '10.8%', 'green': '12.0%', 'red': '6.2%', 'white': '8.0%'}
+
+== AI MISPLAY SCAN: cards held at end of own turn while castable (sorcery-speed) ==
+   held = end-steps it sat castable in hand; cast = times actually cast; ratio > ~1.0 means the AI mostly sits on it
+
+  [black]
+    Fleshbag Marauder                held=41    cast=85    ratio=  0.5
+    Ravenous Chupacabra              held=18    cast=111   ratio=  0.2
+    lowest cast-per-100-endsteps-in-hand (any speed): Fleshbag Marauder 16.5, Gray Merchant of Asphodel 26.1, Headless Rider 26.7, Midnight Reaper 29.4, Ravenous Chupacabra 29.7
+
+  [blue]
+    Control Magic                    held=52    cast=524   ratio=  0.1
+    Cloudkin Seer                    held=2     cast=549   ratio=  0.0
+    lowest cast-per-100-endsteps-in-hand (any speed): Convolute 8.7, Mana Leak 16.3, Consider 19.4, Murmuring Mystic 37.1, Cloudkin Seer 41.7
+
+  [green]
+    Rabid Bite                       held=83    cast=159   ratio=  0.5
+    lowest cast-per-100-endsteps-in-hand (any speed): Pelakka Wurm 21.7, Eternal Witness 29.6, Rabid Bite 40.4, Netcaster Spider 47.4, Llanowar Visionary 61.3
+
+  [red]
+    Flame Slash                      held=150   cast=124   ratio=  1.2
+    lowest cast-per-100-endsteps-in-hand (any speed): Goblin Wizardry 14.4, Bedlam Reveler 21.2, Shivan Fire 46.0, Flame Slash 49.8, Lightning Strike 51.4
+
+  [white]
+    Pacifism                         held=52    cast=90    ratio=  0.6
+    Thalia's Lieutenant              held=27    cast=90    ratio=  0.3
+    lowest cast-per-100-endsteps-in-hand (any speed): Pacifism 26.2, Thalia's Lieutenant 29.8, Greatsword 31.6, Militia Bugler 44.9, Ampryn Tactician 46.0
+
+== FLAGS ==

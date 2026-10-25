@@ -22,11 +22,27 @@ Next step: Blue is the outlier (58%). Tried so far:
 - r4: Control Magic -> Claustrophobia: Blue 41.5% (too far)
 - r7b: Control Magic -> Sleep: Blue 41.5% (27% vs Black, 35% vs White, 52% vs
   Green and Red). Too far. Control Magic is what keeps Blue alive vs Black/White.
-- Untested: r7a (`sim/specs/r7a.json`): Counterspell -> Mana Leak, a milder nerf
-  that keeps Control Magic. Run it next:
-  `python3 -I sim/sim.py r7a 100 sim/rounds/r7a --pairs blue:black,blue:green,blue:red,blue:white`
-  (after `python3 -I sim/gen.py r7a`), then do a full 400-games-per-pairing
-  confirmation.
+- r7a: Counterspell -> Mana Leak: Blue 56.8% (58% vs Black, 66% vs Green, 51%
+  vs Red, 52% vs White). Within noise of r6; not enough on its own. Note: run
+  on a fresh Forge head (2.0.16-SNAPSHOT), not the build used for r1-r7b.
+
+## r8: simple mechanics (`sim/specs/r8.json`, based on r6)
+
+The box is for learning, so r8 removes mechanics that are hard for beginners
+(and that the Forge AI tends to misplay): flashback, persist, devotion,
+self-mill, casting from the graveyard, cost reduction, tribal payoffs.
+
+- Black: Stitcher's Supplier -> Typhoid Rats, Putrid Goblin -> Dusk Legion
+  Zealot, Headless Rider -> Skymarch Bloodletter, Gray Merchant -> Vampire
+  Sovereign
+- Blue: Think Twice -> Divination, Haughty Djinn -> Wind Drake
+- Green: Scavenging Ooze -> Garruk's Companion, Arbor Elf -> Elvish Mystic
+- Red: Dreadhorde Arcanist -> Viashino Pyromancer, Bedlam Reveler -> Keldon
+  Raider, Fists of Flame -> Shock
+- White: Thalia's Lieutenant -> Precinct Captain
+
+Kept as simple enough: cycling lands, prowess, kicker, surveil, investigate,
+equip, Eternal Witness's one-shot return.
 
 ## Round 3 results (superseded for Black) (Forge AI vs AI, 100 games per pairing, ±~10% CI)
 
