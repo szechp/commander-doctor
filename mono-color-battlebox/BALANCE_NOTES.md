@@ -45,7 +45,10 @@ Changes from the r6 box, by deck (theme kept):
   2 Pearled Unicorn (out: Icatian Priest, Swords to Plowshares, Greatsword).
 
 Tried after r33 and rejected: Red 2 Flame Slash for Act of Treason (r34:
-Black-Red 72%, Red-White 70% at 60 games).
+Black-Red 72%, Red-White 70% at 60 games), and Black 3 Gray Merchant + 3
+Infernal Grasp (r35: Black-Blue 64%, Black-Green 33%, Black-Red still 62%).
+Red has sat at 42-47% overall across ~15 Red variants; its Black matchup is
+37-46% in all of them (see the AI skew note below).
 
 ## r10-r16 (2026-10-25, current Forge build, interleaved runs)
 
