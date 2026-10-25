@@ -9,8 +9,10 @@ usage:
 Deck metrics count copies (a 4-of counts 4). Matchup metrics say how one deck's
 tools line up against the other deck's cards, e.g. how many of my removal
 spells can kill the creatures you actually play. The model predicts
-logit(win%) from the differences of those matchup metrics (A's minus B's),
-fitted on every simulated pairing in sim/results/. It is a screen, not a
+logit(win%) as a per-matchup baseline (what black-vs-blue usually is) plus a
+weighted sum of the differences of those matchup metrics (A's minus B's), so
+the metrics only have to explain how a swap moves a matchup. It is fitted on
+every simulated pairing in sim/results/. It is a screen, not a
 replacement for sims: use it to rank candidate swaps, then simulate the best.
 """
 import json, math, re, sqlite3, sys
@@ -182,43 +184,60 @@ def dataset():
     return np.array(X), np.array(y), np.array(w, float), groups, keys
 
 
-def fit(X, y, w, lam=None):
-    mu, sd = np.zeros(X.shape[1]), X.std(0) + 1e-9   # no centering: diff of a deck with itself is 0
-    Z = X / sd
-    lam = 5.0 if lam is None else lam
+PAIRS = [(a, b) for i, a in enumerate(COLORS) for b in COLORS[i + 1:]]
+
+
+def design(X, ab):
+    """Prepend signed per-matchup indicator columns to the metric diffs."""
+    P = np.zeros((len(ab), len(PAIRS)))
+    for i, (a, b) in enumerate(ab):
+        P[i, PAIRS.index(tuple(sorted((a, b))))] = 1 if a < b else -1
+    return np.hstack([P, X])
+
+
+def fit(X, y, w, ab, lam=3.0):
+    D = design(X, ab)
+    sd = np.r_[np.ones(len(PAIRS)), X.std(0) + 1e-9]
+    Z = D / sd
     W = np.diag(w / w.mean())
-    beta = np.linalg.solve(Z.T @ W @ Z + lam * np.eye(Z.shape[1]), Z.T @ W @ y)
+    reg = np.diag(np.r_[np.full(len(PAIRS), 0.01), np.full(X.shape[1], lam)])
+    beta = np.linalg.solve(Z.T @ W @ Z + reg, Z.T @ W @ y)
     return beta, sd
 
 
-def predict(model, a, b):
-    beta, sd = model
-    z = diff(a, b) / sd
+def predict_x(mdl, x, a, b):
+    beta, sd = mdl
+    z = design(x[None, :], [(a, b)])[0] / sd
     return 1 / (1 + math.exp(-float(z @ beta)))
 
 
+def predict(mdl, da, db_, a, b):
+    return predict_x(mdl, diff(da, db_), a, b)
+
+
 def model():
-    X, y, w, _, _ = dataset()
-    return fit(X, y, w)
+    X, y, w, _, keys = dataset()
+    return fit(X, y, w, [(k[1], k[2]) for k in keys])
 
 
 def cmd_fit():
     X, y, w, groups, keys = dataset()
+    ab = [(k[1], k[2]) for k in keys]
     print(f"{len(y)} simulated pairings from {len(set(groups))} rounds, {len(FEATS)} features\n")
-    for lam in (1, 5, 20):
+    for lam, label in ((1e6, "per-matchup baseline only"), (3.0, "baseline + metrics")):
         errs, base = [], []
         for g in sorted(set(groups)):
             tr = [i for i, gg in enumerate(groups) if gg != g]
-            te = [i for i, gg in enumerate(groups) if gg == g]
-            mdl = fit(X[tr], y[tr], w[tr], lam)
-            for i in te:
-                pred = 1 / (1 + math.exp(-float((X[i] / mdl[1]) @ mdl[0])))
-                errs.append(abs(pred - keys[i][3])); base.append(abs(0.5 - keys[i][3]))
-        print(f"leave-one-round-out, ridge {lam:>2}: mean abs error {100*np.mean(errs):.1f} pts "
-              f"(always-50% guess: {100*np.mean(base):.1f}; sim noise at n=100 is ~4 pts)")
-    beta, sd = fit(X, y, w)
-    print("\nweights (per 1 sd of the feature difference; + favors the deck that has more):")
-    for k, b in sorted(zip(FEATS, beta), key=lambda t: -abs(t[1])):
+            mdl = fit(X[tr], y[tr], w[tr], [ab[i] for i in tr], lam)
+            for i, gg in enumerate(groups):
+                if gg == g:
+                    errs.append(abs(predict_x(mdl, X[i], *ab[i]) - keys[i][3]))
+                    base.append(abs(0.5 - keys[i][3]))
+        print(f"leave-one-round-out, {label:<26}: mean abs error {100*np.mean(errs):.1f} pts")
+    print(f"(always-50% guess: {100*np.mean(base):.1f}; sim noise alone at n=100 is ~4 pts)")
+    beta, sd = fit(X, y, w, ab)
+    print("\nmetric weights (per 1 sd of the difference; + favors the deck that has more):")
+    for k, b in sorted(zip(FEATS, beta[len(PAIRS):]), key=lambda t: -abs(t[1])):
         print(f"  {k:<20} {b:+.2f}")
 
 
@@ -230,7 +249,7 @@ def matrix(rnd, mdl, override=None):
     for a in COLORS:
         for b in COLORS:
             if a != b:
-                out[(a, b)] = predict(mdl, decks[a], decks[b])
+                out[(a, b)] = predict(mdl, decks[a], decks[b], a, b)
     return out
 
 
