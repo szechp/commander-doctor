@@ -100,6 +100,8 @@ F = {
     "Lightning Strike": dict(kill=("dmg", 3, "any")),
     "Monastery Swiftspear": dict(cast_trigger=True, haste=True),
     "Queen Brahne": dict(cast_trigger=True, bodies=1),
+    "Searing Spear": dict(kill=("dmg", 3, "any")),
+    "Firebrand Archer": dict(cast_trigger=True, reach_dmg=True),
     "Shivan Fire": dict(kill=("dmg", 2, "creature")),
     "Thrill of Possibility": dict(cards=1),
     "Young Pyromancer": dict(bodies=2, cast_trigger=True),
