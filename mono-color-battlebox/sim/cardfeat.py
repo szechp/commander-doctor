@@ -112,6 +112,7 @@ F = {
     "Banishment": dict(kill="exile", ai_weak=True),
     "Benalish Marshal": dict(anthem=1),
     "Elspeth's Smite": dict(kill=("dmg", 3, "creature")),
+    "Elite Vanguard": dict(),
     "Greatsword": dict(equip=3, ai_weak=True),  # card impact -25..-40 every round; AI spends 6 mana on it
     "Icatian Priest": dict(),
     "Knight of Grace": dict(first_strike=True, hexproof_from="black"),
