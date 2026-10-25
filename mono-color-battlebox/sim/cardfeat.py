@@ -109,7 +109,8 @@ F = {
     "Queen Brahne": dict(cast_trigger=True, bodies=1),
     "Searing Spear": dict(kill=("dmg", 3, "any")),
     "Firebrand Archer": dict(cast_trigger=True, reach_dmg=True),
-    "Skullcrack": dict(face=3, no_lifegain=True),
+    "Skullcrack": dict(face=3, no_lifegain=True, ai_weak=True),  # r29: cast 7x in 551 castable end steps
+    "Ash Zealot": dict(first_strike=True, haste=True),
     "Shivan Fire": dict(kill=("dmg", 2, "creature")),
     "Thrill of Possibility": dict(cards=1),
     "Young Pyromancer": dict(bodies=2, cast_trigger=True),
