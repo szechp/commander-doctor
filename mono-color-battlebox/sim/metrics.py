@@ -80,7 +80,7 @@ def kills(f, target):
         if k[0] == "fight":
             return 1.0 if target["tough"] <= k[1] else 0.2
     return {"destroy": 1, "exile": 1, "steal": 1, "lock": 0.9, "edict": 0.6,
-            "bounce": 0.3, "tapall": 0.4}[k]
+            "bounce": 0.3, "tapall": 0.4, "steal_eot": 0.3}[k]
 
 
 def deck_metrics(deck):

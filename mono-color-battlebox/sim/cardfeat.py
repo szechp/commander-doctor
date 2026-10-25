@@ -91,6 +91,7 @@ F = {
     "Gnarlid Colony": dict(),
     "Wild Growth": dict(ramp=1, ai_weak=True),
     # --- red
+    "Act of Treason": dict(kill="steal_eot"),
     "Bedlam Reveler": dict(cards=1, cast_trigger=True),
     "Burst Lightning": dict(kill=("dmg", 2, "any")),
     "Dreadhorde Arcanist": dict(cards=1, cast_trigger=True),
