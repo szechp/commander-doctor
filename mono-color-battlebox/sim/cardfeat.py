@@ -42,6 +42,8 @@ F = {
     "Reassembling Skeleton": dict(bodies=1, recursion=True),
     "Scourge of Nel Toth": dict(evasive=True, recursion=True),
     "Stitcher's Supplier": dict(),
+    "Dread Wanderer": dict(bodies=1, recursion=True),
+    "Gifted Aetherborn": dict(deathtouch=True, life=3),
     "Vampire Nighthawk": dict(evasive=True, deathtouch=True, life=4),
     # --- blue
     "Augur of Bolas": dict(cards=0.7),
@@ -62,6 +64,7 @@ F = {
     "Remote Isle": dict(cards=0.3),
     "Sleep": dict(kill="tapall"),
     "Think Twice": dict(cards=1),
+    "Divination": dict(cards=1),
     "Unsummon": dict(kill="bounce"),
     # --- green
     "Abundant Harvest": dict(cards=0, ai_weak=True),
@@ -80,6 +83,8 @@ F = {
     "Scavenging Ooze": dict(life=2, grows=True),
     "Shifting Ceratops": dict(uncounterable=True),
     "Tranquil Thicket": dict(cards=0.3),
+    "Thragtusk": dict(life=5, bodies=1),
+    "Gnarlid Colony": dict(),
     "Wild Growth": dict(ramp=1, ai_weak=True),
     # --- red
     "Bedlam Reveler": dict(cards=1, cast_trigger=True),
@@ -114,5 +119,7 @@ F = {
     "Swords to Plowshares": dict(kill="exile"),
     "Thalia's Lieutenant": dict(grows=True),
     "Thalia, Guardian of Thraben": dict(first_strike=True),
+    "Raise the Alarm": dict(bodies=2),
+    "Healer's Hawk": dict(life=2),
     "Thraben Inspector": dict(cards=1),
 }

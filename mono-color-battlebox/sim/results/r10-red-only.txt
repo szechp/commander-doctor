@@ -1,0 +1,67 @@
+== r10: 400 games, 0 draws/timeouts ==
+
+row deck win% vs column deck
+            black     blue    green      red    white   overall
+   black      -        ?        ?        59%      ?      59.0%
+    blue      ?        -        ?        58%      ?      58.0%
+   green      ?        ?        -        45%      ?      45.0%
+     red      41%      42%      55%      -        52%    47.5%
+   white      ?        ?        ?        48%      -      48.0%
+
+pair details (95% Wilson CI for first-named deck):
+   black vs red     59.0% [  49- 68]  n=100 draws=0 avg_turns=20.6  <-- OUT OF 45-55
+    blue vs red     58.0% [  48- 67]  n=100 draws=0 avg_turns=18.1  <-- OUT OF 45-55
+   green vs red     45.0% [  36- 55]  n=100 draws=0 avg_turns=19.6
+     red vs white   52.0% [  42- 62]  n=100 draws=0 avg_turns=19.5
+
+on-the-play win rate per deck: {'red': '46% of 211', 'black': '61% of 41', 'blue': '68% of 41', 'green': '42% of 55', 'white': '40% of 52'}
+mulligans per game: {'red': '0.28', 'black': '0.17', 'blue': '0.20', 'green': '0.17', 'white': '0.16'}
+missed land drops (turns with land in hand, none played): {'red': '5.5%', 'black': '13.2%', 'blue': '6.0%', 'green': '8.3%', 'white': '11.9%'}
+
+== AI MISPLAY SCAN: cards held at end of own turn while castable (sorcery-speed) ==
+   held = end-steps it sat castable in hand; cast = times actually cast; ratio > ~1.0 means the AI mostly sits on it
+
+  [black]
+    Fleshbag Marauder                held=77    cast=69    ratio=  1.1
+    Ravenous Chupacabra              held=22    cast=111   ratio=  0.2
+    lowest cast-per-100-endsteps-in-hand (any speed): Fleshbag Marauder 16.7, Gray Merchant of Asphodel 21.3, Headless Rider 31.3, Ravenous Chupacabra 32.6, Midnight Reaper 36.8
+
+  [blue]
+    Control Magic                    held=5     cast=112   ratio=  0.0
+    Cloudkin Seer                    held=4     cast=117   ratio=  0.0
+    lowest cast-per-100-endsteps-in-hand (any speed): Convolute 11.1, Counterspell 13.5, Consider 15.2, Murmuring Mystic 30.7, Cloudkin Seer 32.2
+
+  [green]
+    Rabid Bite                       held=66    cast=101   ratio=  0.7
+    lowest cast-per-100-endsteps-in-hand (any speed): Pelakka Wurm 12.8, Eternal Witness 31.0, Rabid Bite 31.9, Netcaster Spider 40.2, Centaur Courser 67.0
+
+  [red]
+    lowest cast-per-100-endsteps-in-hand (any speed): Bedlam Reveler 17.4, Young Pyromancer 47.3, Lightning Strike 51.9, Fists of Flame 52.5, Shivan Fire 57.6
+
+  [white]
+    Thalia's Lieutenant              held=49    cast=96    ratio=  0.5
+    Pacifism                         held=47    cast=103   ratio=  0.5
+    lowest cast-per-100-endsteps-in-hand (any speed): Greatsword 27.8, Thalia's Lieutenant 28.6, Swords to Plowshares 49.2, Militia Bugler 54.5, Benalish Marshal 55.3
+
+== CARD IMPACT: win% when the card was cast vs not cast (n>=15 each side, |diff|>=15 pts) ==
+  black vs red (59%): Gray Merchant of Asphodel +29 (cast in 61), Ravenous Chupacabra +22 (cast in 70), Infernal Grasp +20 (cast in 71), Headless Rider +17 (cast in 72)
+  blue vs red (58%): Murmuring Mystic +53 (cast in 71), Cloudkin Seer +47 (cast in 69), Control Magic +45 (cast in 75), Convolute +42 (cast in 51), Counterspell +34 (cast in 60), Consider +31 (cast in 54)
+  green vs red (45%): Pelakka Wurm +74 (cast in 44), Scavenging Ooze +32 (cast in 76), Eternal Witness +30 (cast in 65), Llanowar Visionary +25 (cast in 77), Netcaster Spider +15 (cast in 76)
+  red vs black (41%): Fists of Flame +40 (cast in 74), Bedlam Reveler +27 (cast in 60), Burst Lightning +25 (cast in 81), Monastery Swiftspear +21 (cast in 76), Lightning Strike +19 (cast in 74)
+  red vs blue (42%): Lightning Strike +24 (cast in 82), Festival Crasher -19 (cast in 73), Young Pyromancer -23 (cast in 67), Burst Lightning -24 (cast in 73), Bedlam Reveler -33 (cast in 48)
+  red vs green (55%): Young Pyromancer -23 (cast in 72)
+  red vs white (52%): Young Pyromancer +20 (cast in 73)
+  white vs red (48%): Thalia's Lieutenant +35 (cast in 62), Benalish Marshal +22 (cast in 72), Swords to Plowshares +18 (cast in 74)
+
+== ABILITY USE: board permanents with activated abilities (activations per 100 end steps on board) ==
+      cycled/hand-activated: Barren Moor 52
+      cycled/hand-activated: Remote Isle 63
+  [green] Arbor Elf 45 (158 in 352), Scavenging Ooze 95 (236 in 248)
+      cycled/hand-activated: Tranquil Thicket 25
+      Scavenging Ooze on noncreature cards: 126 of 236 activations
+      cycled/hand-activated: Forgotten Cave 118
+  [white] Icatian Priest 20 (40 in 198), Greatsword 31 (127 in 415)
+      cycled/hand-activated: Secluded Steppe 59
+  replacement effects seen (flashback, persist, ...): Forgotten 378, If 292, Flashback 140, Tranquil 78, Barren 75, Secluded 75, Remote 56
+
+== FLAGS ==

@@ -3,7 +3,7 @@
 usage:
   uv run python sim/metrics.py show <round>          deck metrics + predicted matrix
   uv run python sim/metrics.py fit                   fit + leave-one-round-out check
-  uv run python sim/metrics.py try <round> <color> "Old=New" ["Old=New" ...]
+  uv run python sim/metrics.py try <round> "color:Old=New" ["color:Old=New" ...]
                                                      predicted effect of swaps
 
 Deck metrics count copies (a 4-of counts 4). Matchup metrics say how one deck's
@@ -276,16 +276,19 @@ def cmd_show(rnd):
     print_matrix(matrix(rnd, model()), f"== predicted win% (row vs col), {rnd} ==")
 
 
-def cmd_try(rnd, color, swaps):
+def cmd_try(rnd, swaps):
+    """swaps: "color:Old=New" strings; several colors can change at once."""
     mdl = model()
     base = matrix(rnd, mdl)
-    deck = load_deck(rnd, color)
+    decks = {}
     for s in swaps:
-        old, new = s.split("=")
+        color, sw = s.split(":", 1)
+        old, new = sw.split("=")
+        deck = decks.get(color) or load_deck(rnd, color)
         assert old in deck, f"{old} not in {color}"
-        deck = {new if k == old else k: v for k, v in deck.items()}
+        decks[color] = {new if k == old else k: v for k, v in deck.items()}
     print_matrix(base, f"== predicted, {rnd} as is ==")
-    print_matrix(matrix(rnd, mdl, {color: deck}), f"== predicted, {color}: {', '.join(swaps)} ==")
+    print_matrix(matrix(rnd, mdl, decks), f"== predicted with {', '.join(swaps)} ==")
 
 
 if __name__ == "__main__":
@@ -295,4 +298,4 @@ if __name__ == "__main__":
     elif cmd == "show":
         cmd_show(sys.argv[2])
     elif cmd == "try":
-        cmd_try(sys.argv[2], sys.argv[3], sys.argv[4:])
+        cmd_try(sys.argv[2], sys.argv[3:])
