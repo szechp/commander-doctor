@@ -20,8 +20,12 @@ CHUNK = 10
 def java_bin():
     if os.environ.get("FORGE_JAVA"):
         return os.environ["FORGE_JAVA"]
-    if not shutil.which("nix"):
-        return shutil.which("java")
+    java = shutil.which("java")
+    if java:
+        v = subprocess.run([java, "-version"], capture_output=True, text=True).stderr
+        m = re.search(r'version "(\d+)', v)
+        if m and int(m.group(1)) >= 17 or not shutil.which("nix"):
+            return java
     out = subprocess.run(["nix", "shell", "nixpkgs#jdk17", "-c", "sh", "-c", "command -v java"],
                          capture_output=True, text=True, check=True).stdout.strip()
     return out
