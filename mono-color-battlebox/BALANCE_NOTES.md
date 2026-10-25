@@ -2,8 +2,8 @@
 
 Goal: 5 mono-color 60-card decks, no duals, every pairing 45-55% in 1v1.
 
-Copy counts: 4-ofs by default. Up to two cards per deck may be 3-ofs or 2-ofs
-as tuning knobs (removal, bombs, situational cards), never the engine pieces
+Copy counts: 4-ofs by default. Up to two (Black: three) cards per deck may be
+3-ofs or 2-ofs as tuning knobs (removal, bombs, situational cards), never the engine pieces
 that make the deck play its plan every game. Some variance is welcome in a
 learning box: at 55/45 a repeated pairing still trades wins, and replays play
 out differently.
