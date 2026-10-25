@@ -113,6 +113,7 @@ F = {
     "Elspeth's Smite": dict(kill=("dmg", 3, "creature")),
     "Greatsword": dict(equip=3),
     "Icatian Priest": dict(),
+    "Knight of Grace": dict(first_strike=True, hexproof_from="black"),
     "Lightwalker": dict(),
     "Mikaeus, the Lunarch": dict(anthem=1),
     "Militia Bugler": dict(cards=1),
