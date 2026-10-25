@@ -75,7 +75,6 @@ F = {
     "Centaur Courser": dict(),
     "Eternal Witness": dict(cards=1, recursion=True),
     "Gaea's Herald": dict(),
-    "Shifting Ceratops": dict(uncounterable=True),
     "Kraul Harpooner": dict(reach=True, kill=("fight", 3), ai_weak=True),
     "Leatherback Baloth": dict(),
     "Llanowar Elves": dict(ramp=1),
