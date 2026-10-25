@@ -108,6 +108,7 @@ F = {
     "Lightning Strike": dict(kill=("dmg", 3, "any")),
     "Monastery Swiftspear": dict(cast_trigger=True, haste=True),
     "Queen Brahne": dict(cast_trigger=True, bodies=1),
+    "Roc of Kher Ridges": dict(evasive=True),
     "Searing Spear": dict(kill=("dmg", 3, "any")),
     "Firebrand Archer": dict(cast_trigger=True, reach_dmg=True),
     "Skullcrack": dict(face=3, no_lifegain=True, ai_weak=True),  # r29: cast 7x in 551 castable end steps
