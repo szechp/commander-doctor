@@ -3,10 +3,26 @@
 Goal: 5 mono-color 60-card decks, all nonbasic cards as 4-ofs, no duals,
 every pairing 45-55% in 1v1.
 
-The `.dck` files in this folder are **round 3** (`sim/specs/r3.json`), the most
-even round tested. Original hand-built lists are in `original/`.
+The `.dck` files in this folder are **round 3** (`sim/specs/r3.json`) plus the
+**round 6 Black list** (`sim/specs/r6.json`): Bone Shards -> Murder (AI misplay),
+Vampire Nighthawk -> Midnight Reaper, Knight of Malice -> Putrid Goblin (Knight
+hoses white). Original hand-built lists are in `original/`.
 
-## Round 3 results (Forge AI vs AI, 100 games per pairing, ±~10% CI)
+## Current box (r3 matrix with r6 Black row; r6 = Black's 4 pairings only)
+
+| row vs col | black | blue | green | red | white | overall |
+|---|---|---|---|---|---|---|
+| black | - | 38% | 40% | 64% | 64% | 51.5% |
+| blue  | 62% | - | 56% | 61% | 54% | 58.3% |
+| green | 60% | 44% | - | 49% | 37% | 47.5% |
+| red   | 36% | 39% | 51% | - | 53% | 44.8% |
+| white | 36% | 46% | 63% | 47% | - | 48.0% |
+
+Next step: Blue is the outlier (58%). Try a small Blue nerf (e.g. Control Magic
+-> Claustrophobia gave Blue 41.5% in r4, too far; something between), then run
+a full 400-games-per-pairing confirmation.
+
+## Round 3 results (superseded for Black) (Forge AI vs AI, 100 games per pairing, ±~10% CI)
 
 | row vs col | black | blue | green | red | white | overall |
 |---|---|---|---|---|---|---|
