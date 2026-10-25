@@ -2,7 +2,8 @@
 
 usage: python sim.py <run_name> <games_per_pair> [deck_dir] [--pairs A:B,...] [--jobs N]
 Each pair is split into chunks; chunks alternate seat order so both decks
-sit in seat 1 equally. Full game logs (no -q) are kept for misplay analysis.
+sit in seat 1 equally. Chunks run interleaved across pairs, and finished chunk
+files are skipped, so re-running the same command resumes a stopped run. Full game logs (no -q) are kept for misplay analysis.
 """
 import argparse, itertools, json, os, re, shutil, subprocess, sys, time
 from concurrent.futures import ThreadPoolExecutor, as_completed
@@ -68,8 +69,15 @@ def main():
         for c in range(nchunks):
             x, y = (a, b) if c % 2 == 0 else (b, a)
             seed += 1
-            jobs.append((by[x], by[y], CHUNK, seed, outdir / f"{a}-{b}_{c:03d}_{x}first.log"))
-    print(f"{len(jobs)} chunks x {CHUNK} games, {args.jobs} parallel", flush=True)
+            jobs.append((c, (by[x], by[y], CHUNK, seed, outdir / f"{a}-{b}_{c:03d}_{x}first.log")))
+    # Interleave matchups (chunk 0 of every pair, then chunk 1, ...) so a rough
+    # full matrix exists early, and skip chunks a stopped run already finished.
+    jobs.sort(key=lambda j: j[0])
+    total = len(jobs)
+    jobs = [j for _, j in jobs
+            if not (j[4].exists() and "=====STDERR=====" in j[4].read_text(errors="replace"))]
+    print(f"{len(jobs)} chunks x {CHUNK} games, {args.jobs} parallel"
+          + (f" ({total - len(jobs)} already done)" if total > len(jobs) else ""), flush=True)
     t0 = time.time()
     done = 0
     with ThreadPoolExecutor(args.jobs) as ex:
