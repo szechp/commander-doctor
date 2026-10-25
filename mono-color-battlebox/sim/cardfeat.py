@@ -119,6 +119,7 @@ F = {
     "Lightwalker": dict(),
     "Mikaeus, the Lunarch": dict(anthem=1),
     "Militia Bugler": dict(cards=1),
+    "Pearled Unicorn": dict(),
     "Pacifism": dict(kill="lock"),
     "Secluded Steppe": dict(cards=0.3),
     "Silver Knight": dict(first_strike=True, protection_from="red"),
