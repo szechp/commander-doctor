@@ -18,9 +18,15 @@ hoses white). Original hand-built lists are in `original/`.
 | red   | 36% | 39% | 51% | - | 53% | 44.8% |
 | white | 36% | 46% | 63% | 47% | - | 48.0% |
 
-Next step: Blue is the outlier (58%). Try a small Blue nerf (e.g. Control Magic
--> Claustrophobia gave Blue 41.5% in r4, too far; something between), then run
-a full 400-games-per-pairing confirmation.
+Next step: Blue is the outlier (58%). Tried so far:
+- r4: Control Magic -> Claustrophobia: Blue 41.5% (too far)
+- r7b: Control Magic -> Sleep: Blue 41.5% (27% vs Black, 35% vs White, 52% vs
+  Green and Red). Too far. Control Magic is what keeps Blue alive vs Black/White.
+- Untested: r7a (`sim/specs/r7a.json`): Counterspell -> Mana Leak, a milder nerf
+  that keeps Control Magic. Run it next:
+  `python3 -I sim/sim.py r7a 100 sim/rounds/r7a --pairs blue:black,blue:green,blue:red,blue:white`
+  (after `python3 -I sim/gen.py r7a`), then do a full 400-games-per-pairing
+  confirmation.
 
 ## Round 3 results (superseded for Black) (Forge AI vs AI, 100 games per pairing, ±~10% CI)
 
