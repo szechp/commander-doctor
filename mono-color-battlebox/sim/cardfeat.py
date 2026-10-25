@@ -120,6 +120,7 @@ F = {
     "Militia Bugler": dict(cards=1),
     "Pacifism": dict(kill="lock"),
     "Secluded Steppe": dict(cards=0.3),
+    "Silver Knight": dict(first_strike=True, protection_from="red"),
     "Swords to Plowshares": dict(kill="exile"),
     "Thalia's Lieutenant": dict(grows=True),
     "Thalia, Guardian of Thraben": dict(first_strike=True),
