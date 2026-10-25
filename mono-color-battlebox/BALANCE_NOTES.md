@@ -34,6 +34,18 @@ Next step: Blue is the outlier (58%). Tried so far:
 - r7a: Counterspell -> Mana Leak: Blue 56.8% (58% vs Black, 66% vs Green, 51%
   vs Red, 52% vs White). Within noise of r6; not enough on its own. Note: run
   on a fresh Forge head (2.0.16-SNAPSHOT), not the build used for r1-r7b.
+- r9a: Control Magic -> Claustrophobia (Counterspell kept): Blue 44.2%, but
+  lopsided: 31% vs Black, 51% vs Green, 62% vs Red, 33% vs White.
+- r9b: Cloudkin Seer -> Augur of Bolas: Blue 56.8% (58/62/65/42). No change.
+
+Reading: Control Magic decides Blue vs Black and White (swap it and those
+drop to ~30%), while Blue beats Red in every variant (51-65%). Card-draw and
+counter tweaks don't move the overall number. Next ideas, all keeping Blue a
+control deck: a costlier or clunkier steal (e.g. Switcheroo) between Control
+Magic and Claustrophobia; or keep Control Magic and give Red a tool vs
+control instead of nerfing Blue further. A Blue-only nerf can't fix Red's
+matchup. Flame Slash's held-in-hand flag vs Blue is not a misplay: its
+targets are Mystic, Djinn and Seer, and it is held when none is out.
 
 ## Round 3 results (superseded for Black) (Forge AI vs AI, 100 games per pairing, ±~10% CI)
 
