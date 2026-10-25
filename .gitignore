@@ -12,3 +12,5 @@ decks/*.derived.yaml
 decks/*.yaml.lock
 data/bracket_cache/
 .DS_Store
+mono-color-battlebox/sim/runs/
+mono-color-battlebox/sim/*.log

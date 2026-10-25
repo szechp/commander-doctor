@@ -4,11 +4,11 @@ usage: python sim.py <run_name> <games_per_pair> [deck_dir] [--pairs A:B,...] [-
 Each pair is split into chunks; chunks alternate seat order so both decks
 sit in seat 1 equally. Full game logs (no -q) are kept for misplay analysis.
 """
-import argparse, itertools, json, re, subprocess, sys, time
+import argparse, itertools, json, os, re, shutil, subprocess, sys, time
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 
-REPO = Path("/home/philipp/Projects/commander-doctor")
+REPO = Path(__file__).resolve().parents[2]
 FORGE = REPO / "forge-spike/forge/forge-gui-desktop"
 CWD = REPO / "forge-spike/forge/forge-gui"  # Forge reads res/ from cwd
 SCRATCH = Path(__file__).resolve().parent
@@ -18,6 +18,10 @@ CHUNK = 10
 
 
 def java_bin():
+    if os.environ.get("FORGE_JAVA"):
+        return os.environ["FORGE_JAVA"]
+    if not shutil.which("nix"):
+        return shutil.which("java")
     out = subprocess.run(["nix", "shell", "nixpkgs#jdk17", "-c", "sh", "-c", "command -v java"],
                          capture_output=True, text=True, check=True).stdout.strip()
     return out
@@ -45,7 +49,7 @@ def main():
 
     jar = next((FORGE / "target").glob("forge-gui-desktop-*-jar-with-dependencies.jar"))
     JAVA = java_bin()
-    decks = sorted(Path(args.deck_dir).glob("*.dck"))
+    decks = sorted(Path(args.deck_dir).resolve().glob("*.dck"))  # Forge runs from CWD
     key = lambda p: p.stem.split("-")[-1]
     by = {key(d): d for d in decks}
     pairs = ([tuple(x.split(":")) for x in args.pairs.split(",")] if args.pairs

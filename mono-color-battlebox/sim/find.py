@@ -7,7 +7,7 @@ and cards Forge doesn't implement at all.
 import argparse, glob, json, re, sqlite3
 from pathlib import Path
 
-REPO = Path("/home/philipp/Projects/commander-doctor")
+REPO = Path(__file__).resolve().parents[2]
 CF = REPO / "forge-spike/forge/forge-gui/res/cardsfolder"
 
 
