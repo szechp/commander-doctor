@@ -17,40 +17,35 @@ must stay on theme (swap like for like, never toward generic good stuff):
 - Red: spellslinger with prowess
 - White: go-wide weenies with anthems
 
-The `.dck` files in this folder are **round 3** (`sim/specs/r3.json`) plus the
-**round 6 Black list** (`sim/specs/r6.json`): Bone Shards -> Murder (AI misplay),
-Vampire Nighthawk -> Midnight Reaper, Knight of Malice -> Putrid Goblin (Knight
-hoses white). Original hand-built lists are in `original/`.
+The `.dck`/`.txt` files in this folder are **round 33** (`sim/specs/r33.json`),
+confirmed at 300 games per pairing (3000 games, current Forge build).
+Original hand-built lists are in `original/`; every round is in `sim/specs/`.
 
-## Current box (r3 matrix with r6 Black row; r6 = Black's 4 pairings only)
+## Current box: r33 (300 games per pairing, 95% CI about +-5.5 pts)
 
 | row vs col | black | blue | green | red | white | overall |
 |---|---|---|---|---|---|---|
-| black | - | 38% | 40% | 64% | 64% | 51.5% |
-| blue  | 62% | - | 56% | 61% | 54% | 58.3% |
-| green | 60% | 44% | - | 49% | 37% | 47.5% |
-| red   | 36% | 39% | 51% | - | 53% | 44.8% |
-| white | 36% | 46% | 63% | 47% | - | 48.0% |
+| black | - | 53% | 45% | 60% | 48% | 51.7% |
+| blue  | 47% | - | 53% | 52% | 47% | 49.7% |
+| green | 55% | 47% | - | 56% | 51% | 52.1% |
+| red   | 40% | 48% | 44% | - | 55% | 46.7% |
+| white | 52% | 53% | 49% | 45% | - | 49.8% |
 
-Next step: Blue is the outlier (58%). Tried so far:
-- r4: Control Magic -> Claustrophobia: Blue 41.5% (too far)
-- r7b: Control Magic -> Sleep: Blue 41.5% (27% vs Black, 35% vs White, 52% vs
-  Green and Red). Too far. Control Magic is what keeps Blue alive vs Black/White.
-- r7a: Counterspell -> Mana Leak: Blue 56.8% (58% vs Black, 66% vs Green, 51%
-  vs Red, 52% vs White). Within noise of r6; not enough on its own. Note: run
-  on a fresh Forge head (2.0.16-SNAPSHOT), not the build used for r1-r7b.
-- r9a: Control Magic -> Claustrophobia (Counterspell kept): Blue 44.2%, but
-  lopsided: 31% vs Black, 51% vs Green, 62% vs Red, 33% vs White.
-- r9b: Cloudkin Seer -> Augur of Bolas: Blue 56.8% (58/62/65/42). No change.
+8 of 10 pairings are in 45-55%. Off: Black-Red 60% (partly an AI skew, see
+below) and Green-Red 55.7% (CI 50-61). Red is the weakest deck (46.7%).
 
-Reading: Control Magic decides Blue vs Black and White (swap it and those
-drop to ~30%), while Blue beats Red in every variant (51-65%). Card-draw and
-counter tweaks don't move the overall number. Next ideas, all keeping Blue a
-control deck: a costlier or clunkier steal (e.g. Switcheroo) between Control
-Magic and Claustrophobia; or keep Control Magic and give Red a tool vs
-control instead of nerfing Blue further. A Blue-only nerf can't fix Red's
-matchup. Flame Slash's held-in-hand flag vs Blue is not a misplay: its
-targets are Mystic, Djinn and Seer, and it is held when none is out.
+Changes from the r6 box, by deck (theme kept):
+- Black: 2 Dread Wanderer + 2 Infernal Grasp (was 4 Grasp).
+- Blue: 2 Haughty Djinn + 2 Dismiss.
+- Green: 4 Leatherback Baloth (for Centaur Courser), 2 Netcaster Spider + 2 Gaea's Herald.
+- Red: Searing Spear, Burst Lightning, Giant Cindermaw, Chain Lightning, Young
+  Pyromancer, 2 Festival Crasher + 2 Act of Treason (out: Shivan Fire, Flame
+  Slash, Dreadhorde Arcanist, Lightning Strike, Goblin Wizardry).
+- White: Elite Vanguard, Elspeth's Smite, Healer's Hawk, 2 Benalish Marshal +
+  2 Pearled Unicorn (out: Icatian Priest, Swords to Plowshares, Greatsword).
+
+Tried after r33 and rejected: Red 2 Flame Slash for Act of Treason (r34:
+Black-Red 72%, Red-White 70% at 60 games).
 
 ## r10-r16 (2026-10-25, current Forge build, interleaved runs)
 

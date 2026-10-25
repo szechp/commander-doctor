@@ -4,7 +4,8 @@
 4 Ravenous Chupacabra
 4 Murder
 4 Putrid Goblin
-4 Infernal Grasp
+2 Dread Wanderer
+2 Infernal Grasp
 4 Fleshbag Marauder
 4 Headless Rider
 4 Midnight Reaper
