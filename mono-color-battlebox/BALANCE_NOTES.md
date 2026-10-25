@@ -64,6 +64,15 @@ targets are Mystic, Djinn and Seer, and it is held when none is out.
   end steps with targets), Flame Slash held when no creature is worth 4 damage
   (legit). Forge AI decision timeouts cluster in crowded Green-White boards.
 
+## AI skew: Red's burn vs Black (r32 logs)
+
+Against Black, the Forge AI aims ~70% of Red's burn at creatures, mostly the
+ones whose death helps Black: Headless Rider (leaves a 2/2), Stitcher's
+Supplier (mills on death), Dread Wanderer (recurs). A human who knows Black's
+plan burns face or saves burn for Chupacabra, so the sims likely overstate
+Black's edge over Red. Read Black-Red at 55-60% in sims as close to even for
+human play. (It is also exactly the lesson Black's deck teaches.)
+
 ## Round 3 results (superseded for Black) (Forge AI vs AI, 100 games per pairing, ±~10% CI)
 
 | row vs col | black | blue | green | red | white | overall |
