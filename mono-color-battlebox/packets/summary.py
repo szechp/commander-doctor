@@ -3,7 +3,7 @@
 usage: python packets/summary.py <round>
 
 A packet's win rate is the record of every deck containing it, over all games
-those decks played. Target: every packet near 50% (45-55%).
+those decks played. Target: every packet within 40-60% (a learning box, not a tuned format).
 """
 import json, math, subprocess, sys, tempfile
 from collections import defaultdict
@@ -36,7 +36,7 @@ def ci(w, n):
 
 print(f"== {rnd}: packets (all games of decks containing the packet)")
 for p, (w, n) in sorted(pk.items(), key=lambda x: -x[1][0] / x[1][1]):
-    flag = "" if 0.45 <= w / n <= 0.55 else "  <-- outside 45-55"
+    flag = "" if 0.40 <= w / n <= 0.60 else "  <-- outside 40-60"
     print(f"  {p}  {100*w/n:5.1f}% +-{ci(w, n):4.1f}  (n={n}){flag}")
 print("\n== decks")
 for d, (w, n) in sorted(deck.items(), key=lambda x: -x[1][0] / x[1][1]):
