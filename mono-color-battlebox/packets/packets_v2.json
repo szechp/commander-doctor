@@ -1,0 +1,85 @@
+{
+ "W": {
+  "name": "Humans Go Wide",
+  "basic": "Plains",
+  "cards": {
+   "Doomed Traveler": 1,
+   "Hunted Witness": 1,
+   "Raise the Alarm": 2,
+   "Fresh-Faced Recruit": 1,
+   "Steadfast Cathar": 1,
+   "Haazda Officer": 2,
+   "Protector of Gondor": 1,
+   "Inspiring Captain": 1,
+   "Impeccable Timing": 1,
+   "Divine Arrow": 1
+  }
+ },
+ "U": {
+  "name": "Flyers and Draw",
+  "basic": "Island",
+  "cards": {
+   "Cloudkin Seer": 2,
+   "Tome Raider": 1,
+   "Warden of Evos Isle": 1,
+   "Snapping Drake": 1,
+   "Aven Fisher": 1,
+   "Muse Drake": 1,
+   "Air Elemental": 1,
+   "Riddlemaster Sphinx": 1,
+   "Unsummon": 1,
+   "Didn't Say Please": 1,
+   "Hithlain Knots": 1
+  }
+ },
+ "B": {
+  "name": "Death and Recursion",
+  "basic": "Swamp",
+  "cards": {
+   "Lightless Evangel": 1,
+   "Synapse Necromage": 1,
+   "Acolyte of Aclazotz": 1,
+   "Gravedigger": 1,
+   "Gorging Vulture": 1,
+   "Venomous Hierophant": 1,
+   "Soul Salvage": 1,
+   "Murder": 1,
+   "Reave Soul": 1,
+   "Deathcap Marionette": 1,
+   "Blistergrub": 1,
+   "Retrofitted Transmogrant": 1
+  }
+ },
+ "R": {
+  "name": "Goblins and Burn",
+  "basic": "Mountain",
+  "cards": {
+   "Fanatical Firebrand": 2,
+   "Goblin Instigator": 3,
+   "Ember Hauler": 1,
+   "Battle-Scarred Goblin": 1,
+   "Goblin Warchief": 1,
+   "Siege-Gang Commander": 1,
+   "Shock": 2,
+   "Lightning Strike": 1
+  },
+  "allow_long": [
+   "Siege-Gang Commander"
+  ]
+ },
+ "G": {
+  "name": "Elves Ramp",
+  "basic": "Forest",
+  "cards": {
+   "Woodland Mystic": 2,
+   "Leafkin Druid": 2,
+   "Galadhrim Guide": 1,
+   "Bristling Boar": 1,
+   "Silverback Shaman": 2,
+   "Charging Rhino": 1,
+   "Colossal Dreadmaw": 1,
+   "Shower of Arrows": 1,
+   "High-Rise Sawjack": 1
+  }
+ }
+}

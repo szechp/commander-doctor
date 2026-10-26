@@ -33,7 +33,16 @@ for col, p in spec.items():
             problems.append(f"{col}: {name} not found in Forge")
         if own and own.get(name, 0) < k:
             problems.append(f"{col}: {name} x{k}, you own {own.get(name, 0)} (proxy)")
-print("\n".join(problems) or "all cards found" + (", all owned" if own else ""))
+# learning-cube rule: short rules text (reminder text doesn't count)
+import sqlite3
+db = sqlite3.connect(BOX.parent / "data/deckdoctor.sqlite3")
+for col, p in spec.items():
+    for name in p["cards"]:
+        r = db.execute("select oracle_text from cards where name=?", (name,)).fetchone()
+        text = re.sub(r"\([^)]*\)", "", (r[0] if r else "") or "").strip()
+        if len(text) > 110 and name not in p.get("allow_long", []):
+            problems.append(f"{col}: {name} has {len(text)} chars of rules text (> 110)")
+print("\n".join(problems) or "all cards found" + (", all owned" if own else "") + ", all short")
 
 out = BOX / "sim/rounds" / rnd
 out.mkdir(parents=True, exist_ok=True)
