@@ -78,6 +78,26 @@ def add_parsers(sub) -> None:
     p_pf_check.add_argument("--db", default=None, help=DB_HELP)
     p_pf_check.add_argument("--cardsfolder", default=DEFAULT_CARDSFOLDER)
 
+    p_sim = sub.add_parser("sim", help="Forge AI-vs-AI sims of two-packet decks: run, analyze, monitor")
+    p_sm = p_sim.add_subparsers(dest="sim_action", required=True)
+    p_run = p_sm.add_parser("run", help="Forge headless 1v1 sims across deck pairs; re-running resumes")
+    p_run.add_argument("run", help="run name (logs go to <box>/sim/runs/<run>)")
+    p_run.add_argument("games", type=int, help="games per pair (chunks of 10, seats alternate)")
+    p_run.add_argument("deck_dir", nargs="?", default=None, help="deck folder (default <box>/sim/rounds/<run>)")
+    p_run.add_argument("--pairs", default="", help="only these pairs, e.g. WD:SF,UA:BP")
+    p_run.add_argument("--jobs", type=int, default=8, help="parallel Forge processes (default 8)")
+    p_run.add_argument("--seed", type=int, default=1000)
+    p_run.add_argument("--box", default=DEFAULT_BOX)
+    p_an = p_sm.add_parser("analyze", help="win-rate matrix plus AI misplay flags for a run")
+    p_an.add_argument("run")
+    p_an.add_argument("--json", default=None, metavar="FILE", help="also write pairs/overall/flags as JSON")
+    p_an.add_argument("--box", default=DEFAULT_BOX)
+    p_mon = p_sm.add_parser("monitor", help="watch a running sim: progress, new flags, decisive pairs")
+    p_mon.add_argument("run")
+    p_mon.add_argument("total", type=int, help="total chunks the run will have")
+    p_mon.add_argument("--every", type=int, default=4, help="re-analyze every N new chunks (default 4)")
+    p_mon.add_argument("--box", default=DEFAULT_BOX)
+
     p_inv = sub.add_parser("inventory", help="ledger: the scanned bulk minus every packet, cube and deck allocation")
     p_inv.add_argument("--inventory", default=DEFAULT_INVENTORY, help=f"ledger file (default {DEFAULT_INVENTORY})")
     ledger_file = argparse.ArgumentParser(add_help=False)
@@ -101,6 +121,8 @@ def run(args: argparse.Namespace) -> int:
             return _run_packets(args)
         if args.command == "profile":
             return _run_profile(args)
+        if args.command == "sim":
+            return _run_sim(args)
         return _run_inventory(args)
     except ValueError as exc:
         print(str(exc), file=sys.stderr)
@@ -298,3 +320,35 @@ def _run_profile(args) -> int:
     finally:
         con.close()
     return 2 if unknown else 1 if failed else 0
+
+
+def _run_sim(args) -> int:
+    from deckdoctor import forge_sim
+
+    box = _project_path(args.box)
+    if args.sim_action == "analyze":
+        if not (box / "sim" / "runs" / args.run).is_dir():
+            print(f"no sim run {args.run!r} under {box / 'sim' / 'runs'}", file=sys.stderr)
+            return 2
+        text, summary = forge_sim.analyze(args.run, box)
+        sys.stdout.write(text)
+        if args.json:
+            Path(args.json).write_text(json.dumps(summary, indent=1))
+        return 0
+    if args.sim_action == "monitor":
+        return forge_sim.monitor(args.run, args.total, box, every=args.every,
+                                 log=lambda line: print(line, flush=True))
+    pairs = [tuple(x.split(":")) for x in args.pairs.split(",")] if args.pairs else None
+    if pairs and any(len(p) != 2 for p in pairs):
+        print("--pairs takes A:B,C:D", file=sys.stderr)
+        return 2
+    deck_dir = Path(args.deck_dir) if args.deck_dir else box / "sim" / "rounds" / args.run
+    if not deck_dir.is_dir():
+        print(f"deck folder not found: {deck_dir}", file=sys.stderr)
+        return 2
+    try:
+        return forge_sim.run(args.run, args.games, deck_dir, box, pairs=pairs, jobs=args.jobs, seed=args.seed,
+                             log=lambda line: print(line, flush=True))
+    except FileNotFoundError as exc:
+        print(str(exc), file=sys.stderr)
+        return 3

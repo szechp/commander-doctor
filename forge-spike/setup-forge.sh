@@ -1,23 +1,23 @@
 #!/usr/bin/env bash
 # Set up the Forge build the battlebox sims run on: clone Forge at a pinned
 # commit into forge-spike/forge, apply our end-step snapshot logging hook
-# (forge-snapshot-hook.patch, read by analyze.py), and build the desktop jar.
+# (forge-snapshot-hook.patch, read by `deckdoctor sim analyze`), and build the
+# desktop jar.
 #
 # Safe to re-run: every step is skipped when it is already done, so it can sit
 # in a cloud environment's setup script or a fresh checkout's first run.
 #
-#   mono-color-battlebox/sim/setup-forge.sh            # pinned commit
-#   FORGE_REF=master mono-color-battlebox/sim/setup-forge.sh   # try a newer Forge
+#   forge-spike/setup-forge.sh                     # pinned commit
+#   FORGE_REF=master forge-spike/setup-forge.sh    # try a newer Forge
 #
 # Results from different Forge commits are not directly comparable (the AI
 # changes), so record the commit with any new round.
 set -euo pipefail
 
 FORGE_REF="${FORGE_REF:-aa77ec917b035a4fadf7d92bfe6e72dfad53f65e}"  # 2026-10-25, used from r7a on
-SIM="$(cd "$(dirname "$0")" && pwd)"
-REPO="$(cd "$SIM/../.." && pwd)"
-FORGE="${FORGE_DIR:-$REPO/forge-spike/forge}"
-PATCH="$SIM/forge-snapshot-hook.patch"
+HERE="$(cd "$(dirname "$0")" && pwd)"
+FORGE="${FORGE_DIR:-$HERE/forge}"
+PATCH="$HERE/forge-snapshot-hook.patch"
 
 if [ ! -d "$FORGE/.git" ]; then
   git clone -q --filter=blob:none https://github.com/Card-Forge/forge.git "$FORGE"

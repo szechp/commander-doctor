@@ -14,9 +14,6 @@ import json
 import math
 import random
 import re
-import subprocess
-import sys
-import tempfile
 from collections import Counter, defaultdict
 from dataclasses import dataclass
 from pathlib import Path
@@ -260,17 +257,11 @@ def render_summary(round_name: str, pairs: dict[str, dict]) -> str:
 
 
 def analyze_pairs(box: Path, round_name: str) -> dict[str, dict]:
-    """Run the box's sim/analyze.py on a round and return its ``pairs``."""
-    analyze = box / "sim" / "analyze.py"
-    if not analyze.is_file():
-        raise ValueError(f"sim analyzer not found: {analyze}")
-    with tempfile.TemporaryDirectory() as tmp:
-        out = Path(tmp) / "analyze.json"
-        proc = subprocess.run([sys.executable, "-I", str(analyze), round_name, "--json", str(out)],
-                              capture_output=True, text=True)
-        if proc.returncode != 0 or not out.is_file():
-            raise ValueError(f"analyze.py failed for round {round_name}: {proc.stderr.strip()[-500:]}")
-        return json.loads(out.read_text())["pairs"]
+    """The pair records of a sim round (``deckdoctor sim analyze``)."""
+    from deckdoctor.forge_sim import analyze
+    if not (box / "sim" / "runs" / round_name).is_dir():
+        raise ValueError(f"no sim run {round_name!r} under {box / 'sim' / 'runs'}")
+    return analyze(round_name, box)[1]["pairs"]
 
 
 def owned_from(entries: list[ListEntry] | None) -> dict[str, int] | None:

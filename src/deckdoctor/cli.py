@@ -528,7 +528,7 @@ def main(argv: list[str] | None = None) -> int:
 
     args = parser.parse_args(argv)
 
-    if args.command in {"packets", "inventory", "profile"}:
+    if args.command in {"packets", "inventory", "profile", "sim"}:
         from deckdoctor.packets_cli import run as run_packets
         return run_packets(args)
     if args.command == "cube":

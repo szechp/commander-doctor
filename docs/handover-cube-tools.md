@@ -32,6 +32,15 @@ applies `--limit`; plain `brew` is byte-identical (text and JSON, three
 option sets). `deckdoctor value <list>` (`value.py`) is deck_value as a table
 over the mirror's EUR prices. commander_finder's `--all-commanders` (legends you
 don't own) is not ported: brew only reports commanders you own.
+Step 6 done: `forge_sim.py` (`deckdoctor sim run|analyze|monitor`, `--box`
+default `mono-color-battlebox`) holds sim.py, analyze.py and monitor.py;
+`packets summary` calls it in-process. `setup-forge.sh` and the snapshot patch
+live in `forge-spike/`; `mono-color-battlebox/sim/setup-forge.sh` forwards there
+for environment setup scripts that call the old path. A 2-pair, 40-game run
+through the new runner analyzes identically to the old runner's (same seeds),
+and the analyzer gives the old report and JSON byte for byte. `sim run`
+defaults its deck folder to `<box>/sim/rounds/<run>`; the monitor's progress
+line now lists packet decks (the old one only knew color names).
 
 ## Repositories and refs
 
