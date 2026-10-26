@@ -1,6 +1,53 @@
 # Handover: consolidate cube, packet and Commander building into one tool
 
-Status: plan only, nothing moved yet. Written 2026-10-26 for the next agent.
+Status: all seven steps done on branch `cube-tools-handover` (summary per step
+below; every step had an adversarial review whose findings were fixed). The old
+packet and sim scripts are removed; `sim/gen.py`, `find.py`, `metrics.py` and
+`cardfeat.py` (60-card battlebox tooling outside this plan) stay. Open: the
+mtg-proxies side of the cut (needs push access there), and the poolside cube
+(postponed until scanned).
+
+Written 2026-10-26 for the next agent. Step 1 done (branch
+`cube-tools-handover`): `src/deckdoctor/core/` (cards, lists, ledger),
+`deckdoctor packets build|pull|summary` and `deckdoctor inventory
+status|allocate|release|remaining`, byte-identical to `build.py`,
+`remaining.py` and `summary.py` on v7 and v8. Step 2 done: `data/card_profiles.yaml`
+(`beginner`, `poolside`, `cube-default`), `core/profiles.py`, `core/lanes.py`
+(`data/lanes/packets.yaml`), `deckdoctor packets lanes` (identical to `lanes.py` on
+`N Name (SET) N` scans; see the differences below)
+and `deckdoctor profile list|check`.
+Step 3 done: `core/themes.py` (tags expanded through Scryfall's tag hierarchy,
+IDF, families, derived and forced lanes; one copy for swapfinder and
+cube_builder), `core/similarity.py` (swapfinder's matcher; TF-IDF in numpy,
+equal to scikit-learn's to 1e-16), `cube.py`, `deckdoctor cube swaps|extend`.
+`sync` now also stores `tag_parents`. On a 120-card test cube against the
+scan, `cube swaps` gives swapfinder's print list and candidates (1.8 s vs
+3 m 49 s); `cube extend --profile poolside` writes the same finished cube and
+proxy list as `swapfinder.py --extend --restrict`.
+Step 4 done: `cube_build.py`, `deckdoctor cube build` (`--archetypes eoe` or a
+path; skeletons in `data/cube_archetypes/`), set lists cached in
+`data/set_cache/` (Scryfall search, fetched once; `--refresh`), 17lands in
+`data/17lands_cache/`. With `--no-17lands`, EOE 180 with and without the
+skeleton and ECL 120 `--keep-lands` give byte-identical CSV and txt to
+`mtg-proxies cube`. 17lands is unreachable from the build container (network
+policy), so the ratings path is tested with a stub only. New: `--owned` /
+`--free` (ledger) and `--profile` filters.
+Step 5 done: `brew --rank-edhrec [owned|high-synergy]` (`edhrec_rank.py`, pages
+through `edhrec.fetch_commander_data`'s weekly cache) ranks every feasible
+commander by owned EDHREC recommendations and owned High Synergy cards, then
+applies `--limit`; plain `brew` is byte-identical (text and JSON, three
+option sets). `deckdoctor value <list>` (`value.py`) is deck_value as a table
+over the mirror's EUR prices. commander_finder's `--all-commanders` (legends you
+don't own) is not ported: brew only reports commanders you own.
+Step 6 done: `forge_sim.py` (`deckdoctor sim run|analyze|monitor`, `--box`
+default `mono-color-battlebox`) holds sim.py, analyze.py and monitor.py;
+`packets summary` calls it in-process. `setup-forge.sh` and the snapshot patch
+live in `forge-spike/`; `mono-color-battlebox/sim/setup-forge.sh` forwards there
+for environment setup scripts that call the old path. A 2-pair, 40-game run
+through the new runner analyzes identically to the old runner's (same seeds),
+and the analyzer gives the old report and JSON byte for byte. `sim run`
+defaults its deck folder to `<box>/sim/rounds/<run>`; the monitor's progress
+line now lists packet decks (the old one only knew color names).
 
 ## Repositories and refs
 
@@ -106,8 +153,8 @@ as plain tables like `health`.
 
 Decklist import from archidekt/manastack, CardConjurer, MPCFill, rendering,
 `print`, `convert`, `tokens`, AI upscaling. Afterwards (separate PR there,
-needs push access): remove the moved scripts and the `cube`/`deck-value` verbs,
-and point the README at commander-doctor. Until then nothing there breaks.
+needs push access): remove the moved scripts and the `cube`/`deck-value` verbs
+outright (no wrapper, decision 2), and point the README at commander-doctor. Until then nothing there breaks.
 
 ## Order of work
 
@@ -120,6 +167,8 @@ and point the README at commander-doctor. Until then nothing there breaks.
 4. Port cube_builder: `cube build`, archetype JSONs to `data/cube_archetypes/`,
    17lands client with cache.
 5. `brew --rank-edhrec` via `edhrec.py` (cached; no direct `json.edhrec.com`).
+   Port `deck_value.py` as a `deckdoctor value <deck>` report on `prices.py`
+   (decision 1); a new command, so no existing Commander output changes.
 6. Forge sim module move.
 7. Docs and skill (below), then delete the old scripts in
    `mono-color-battlebox/packets/` once the CLI covers them.
@@ -168,24 +217,88 @@ agents won't find or use the new commands:
 - `deckdoctor cube build --sets eoe --archetypes data/cube_archetypes/eoe.json --target 180`
   matches mtg-proxies' output for the same inputs (same cards; order may differ).
 - `deckdoctor cube extend <cube.txt> --profile poolside` runs offline and only
-  takes cards the ledger shows as free.
+  takes cards the ledger shows as free (tested on a fixture cube; the real
+  poolside cube is postponed).
 - The updated skill routes an "extend my cube" request and a "review my
   Commander deck" request to the right workflow.
 - No print-side dependencies added; full suite green.
 
 ## First real use: the "poolside" cube
 
-Rules: no counters, no tokens (the `poolside` profile). Extend it from the
-ledger so it doesn't take cards the learning packets use. **Its decklist is not
-in either repo yet**; ask the user for it (CubeCobra/Archidekt export or a scan
-file).
+**Postponed** until the user has scanned it. Rules when it comes: no counters,
+no tokens (the `poolside` profile); extend it from the ledger so it doesn't take
+cards the learning packets use.
 
-## Open questions for the user
+## Deliberate differences from the old scripts
 
-1. Keep `deck-value` in mtg-proxies (a print-adjacent summary) or fold it into a
-   deckdoctor report?
-2. Should mtg-proxies keep a thin `cube` command that calls commander-doctor, or
-   drop it entirely?
-3. Poolside cube size: 360 cards (8 players) or 180 (4 players)?
-4. One skill with routing (planned above) or a separate cube/packets skill next
-   to `deck-doctor`?
+Same output on every committed spec and scan; these differ only on input the
+old scripts got wrong:
+
+- The same printing scanned on two lines is one lot. `remaining.py` dropped
+  the second line's copies from `remaining.txt`.
+- `1x Name (SET) N`, bare `Name` and `(SET)`-without-number lines count as
+  owned (`build.py` and `remaining.py` only read `N Name (SET) N`), and an
+  owned card without a printing is pulled as `1 Name`, not as `PROXY`.
+- A list line the parser doesn't understand is an error naming the line, not a
+  card called "Sol Ring (CMM) 400 *E*". Etched (`*E*`), Archidekt categories
+  (`[Burn]`), section headers and a byte-order mark are understood.
+- `packets build` warns when it finds no `collection.txt` next to the spec and
+  skips the ownership check (the script always read `packets/collection.txt`);
+  `--collection` to a missing file is an error. It refuses a `--box` without
+  `sim/` instead of creating one.
+- `--sample N` larger than the playable pairings prints them all (the script
+  crashed).
+- `packets lanes` reads every list format above (`lanes.py` ignored lines
+  without a printing). A gold card counts only for the colors that can pay for
+  every pip: `{W/U}{U}` is blue only and `{1}{B}{B/G}{G}` is dropped
+  (`lanes.py` let any card with one hybrid pip into all its colors; 28 cards in
+  the mirror, none in the scan).
+- `cube swaps` / `cube extend` (vs swapfinder): the pool is the ledger's free
+  cards unless `--owned FILE` or `--all` is given; a cube that is itself a
+  ledger allocation keeps its own cards. Pool duplicates (two printings of a
+  card) are one candidate, not two rows. Tag similarity differs from
+  swapfinder's in the third decimal: the meta-tag list is cube_builder's
+  longer one (it also drops `namesake-spell` and four other flavor tags), and
+  IDF counts card names (35.8k) where swapfinder counted oracle ids (36.2k,
+  tokens included); a match right at the `--min-tag` 0.12 floor can flip.
+  Funny (Un-set) cards are not in the mirror, so they are reported as unknown.
+  Equal-weight lanes in the "Derived lanes" printout are sorted by name.
+  Because the deduplicated pool changes the TF-IDF fit, text similarity drifts
+  slightly too (Lightning Bolt -> Chandra's Pyrohelix 0.132 vs 0.126).
+- Token tags: `card_tags` keys tags by name, so a token's tags land on the real
+  card of the same name (Llanowar Elves gets `named-token`; 86 cards).
+  Commander keeps reading `card_tags` unchanged; `sync` now also writes
+  `token_only_tags` and cube similarity subtracts them, which swapfinder (keyed
+  by oracle id) never had to. Scores on those cards differ from swapfinder's
+  accordingly.
+- Card names in cube lists resolve ignoring case and accents and by either
+  face (swapfinder resolved those too; deck loading still needs the exact or
+  front-face name).
+- `cube extend` prints the blueprint's size next to the result and says when
+  slots stay empty (gold took more of a color than the blueprint's gold did);
+  swapfinder claimed the color distribution always matched.
+- `brew --rank-edhrec` (vs commander_finder): pages come from the project's
+  `data/edhrec_cache` at any age, fetched only when missing (`--refresh-edhrec`
+  refetches); "no EDHREC page" (403/404) and "fetch failed" are listed apart,
+  as commander_finder did. The Commander commands keep edhrec.py's weekly cache.
+- `value` (vs deck_value): the mirror stores one nonfoil EUR price per card,
+  where deck_value took the cheapest printing and fell back to foil and USD, so
+  some cards are unpriced; the total line says PARTIAL when that happens.
+- `sim run` (vs sim.py): a chunk Forge exits non-zero on is written without the
+  done marker, so analyze skips it and a re-run retries it; the run exits 1.
+  `sim monitor` survives an analyze error, and analyze reports a log with no
+  match header as an errored chunk instead of crashing (sim.py/analyze.py
+  did not).
+- `poolside` and `cube-default` drop digital-only Alchemy cards
+  (`banned_set_types`), as swapfinder's `--restrict` dropped `digital` cards.
+  The mirror has no rarity, so swapfinder's `--max-rarity` has no equivalent
+  yet.
+
+## Decisions (user, 2026-10-26)
+
+1. `deck-value` moves into deckdoctor as a deck report; it leaves mtg-proxies.
+2. mtg-proxies keeps no `cube` command, not even a thin wrapper: a hard cut
+   between the proxy pipeline and the deck tools.
+3. The poolside cube is postponed until it has been scanned; nothing in this
+   work depends on it.
+4. One skill (`deck-doctor`) with routing, as planned above.

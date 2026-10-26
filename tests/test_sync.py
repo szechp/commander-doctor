@@ -133,3 +133,29 @@ def test_sync_stores_global_edhrec_rank(tmp_path, monkeypatch):
     rows = con.execute("SELECT card_name, edhrec_rank FROM card_popularity").fetchall()
     con.close()
     assert rows == [("Lightning Bolt", 42)]  # unranked cards get no row
+
+
+def test_sync_stores_tag_parents_and_token_only_tags(tmp_path, monkeypatch):
+    path = str(tmp_path / "mirror.sqlite3")
+    token = {"name": "Lightning Bolt", "oracle_id": "bolt-token-id", "layout": "token", "type_line": "Token Creature",
+             "set_type": "token"}
+    tags = [
+        {"id": "t-burn", "slug": "burn-any", "type": "oracle", "parent_ids": ["t-damage", "t-unknown"],
+         "taggings": [{"oracle_id": "bolt-id"}, {"oracle_id": "bolt-token-id"}]},
+        {"id": "t-damage", "slug": "damage", "type": "oracle", "parent_ids": [], "taggings": []},
+        {"id": "t-named", "slug": "named-token", "type": "oracle", "parent_ids": [],
+         "taggings": [{"oracle_id": "bolt-token-id"}]},
+    ]
+    monkeypatch.setattr(sync_mod, "_get_bulk_uri", lambda bulk_type: f"fake://{bulk_type}")
+    monkeypatch.setattr(sync_mod, "_stream_jsonl",
+                        lambda uri: iter([BOLT, SIGNET, token]) if "oracle_cards" in uri else iter(tags))
+    sync_mod.sync(path)
+    con = connect(path)
+    assert con.execute("SELECT tag, parent FROM tag_parents").fetchall() == [("burn-any", "damage")]
+    assert con.execute("SELECT card_name, tag FROM token_only_tags").fetchall() == [("Lightning Bolt", "named-token")]
+    # card_tags itself is unchanged: Commander reads it as before
+    assert sorted(con.execute("SELECT tag FROM card_tags WHERE card_name='Lightning Bolt'")) == [
+        ("burn-any",), ("named-token",)]
+    from deckdoctor.core.themes import TagIndex
+    assert TagIndex(con).tags("Lightning Bolt") == {"burn-any", "damage"}
+    con.close()

@@ -25,7 +25,7 @@ scanned bulk in `collection.txt`; 2 proxies.
 
 Rules for every card: one ability plus plain keywords, at most ~110 characters of
 rules text (reminder text doesn't count), no conditions on card types or
-legendaries, and nothing the Forge AI can't play. `build.py` checks the text
+legendaries, and nothing the Forge AI can't play. `packets build` checks the text
 limit and ownership across all packets.
 
 ## Files
@@ -59,7 +59,19 @@ never cast), Cruel Truths (instant-speed draw, held instead of cast).
 
 ## Tools
 
-    uv run python packets/lanes.py packets/remaining.txt --color R --show Goblin
-    uv run python packets/build.py packets/packets_v10.json p10 --sample 80
-    python3 packets/remaining.py packets/packets_v10.json
-    python3 packets/summary.py p10
+See [docs/packets-workflow.md](../../docs/packets-workflow.md). From the
+repository root (the old `build.py`, `remaining.py`, `summary.py` and
+`lanes.py` scripts are now these commands):
+
+    uv run deckdoctor packets lanes --free --color R --show Goblin
+    uv run deckdoctor packets build mono-color-battlebox/packets/packets_v10.json p10 --sample 120
+    uv run deckdoctor sim run p10 20 --pairs <the printed pairings> --jobs 15
+    uv run deckdoctor packets summary p10
+    uv run deckdoctor packets pull mono-color-battlebox/packets/packets_v10.json
+
+`packets pull` writes `pull/`, `manabox/` and `remaining.txt`. The project-wide
+ledger (`inventory.yaml` at the repository root) lists every allocation of the
+scanned bulk in order, packets first, so a cube can't take a card a packet
+already uses: `uv run deckdoctor inventory status`, `inventory remaining`.
+`packets lanes --free` reads that ledger instead of `remaining.txt`; the card
+rules are the `beginner` profile (`deckdoctor profile check beginner <card>`).

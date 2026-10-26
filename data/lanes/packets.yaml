@@ -1,0 +1,48 @@
+# Archetype lanes for learning packets (from packets/lanes.py). A card fits a
+# lane when it has one of the Scryfall oracle `tags`, one of the `keywords`,
+# rules text (reminder text stripped) matching `oracle` (case-insensitive), or
+# is a creature with at least `min_power` power. Tribes are creature types,
+# matched as whole words in the type line.
+lanes:
+  go-wide tokens:
+    tags: [repeatable-creature-tokens, multiple-bodies, typal-army, synergy-token]
+    oracle: 'create (two|three|a|an) .*creature token'
+  anthems / team pump:
+    tags: [anthem, power-boost-to-all, keyword-anthem]
+    oracle: 'creatures you control get \+'
+  flyers:
+    keywords: [Flying]
+  big creatures (power 4+):
+    min_power: 4
+  ramp:
+    tags: [mana-dork, land-ramp, ramp, tutor-land-basic, adds-multiple-mana]
+  graveyard recursion:
+    tags: [reanimate-creature, regrowth-creature, castable-from-graveyard, cards-in-graveyard-matter, mill-self]
+    oracle: 'from your graveyard'
+  sacrifice / death value:
+    tags: [sacrifice-outlet-creature, death-trigger, martyr, repeatable-sacrifice-outlet, death-trigger-self]
+    oracle: '(dies|sacrifice a creature)'
+  spells matter (prowess):
+    tags: [cast-trigger-you, synergy-instant, synergy-sorcery]
+    oracle: 'whenever you cast an? (instant|sorcery|noncreature)'
+    keywords: [Prowess]
+  +1/+1 counters:
+    tags: [gives-pp-counters, pp-counters-matter, repeatable-pp-counters]
+  lifegain:
+    tags: [lifegain, repeatable-lifegain, drain-life]
+    keywords: [Lifelink]
+  burn:
+    tags: [burn-any, burn-player, burn-creature]
+  counterspells:
+    oracle: 'counter target'
+  card draw:
+    tags: [pure-draw, draw-engine, burst-draw, cantrip]
+  removal:
+    tags: [spot-removal, removal-creature, removal-destroy, removal-exile, doom-blade]
+  deathtouch:
+    keywords: [Deathtouch]
+  haste / aggro:
+    keywords: [Haste]
+tribes: [Goblin, Elf, Zombie, Soldier, Human, Knight, Spirit, Bird, Wizard, Vampire, Merfolk,
+         Dinosaur, Beast, Angel, Dragon, Cat, Warrior, Skeleton, Rogue, Cleric, Elemental, Faerie,
+         Wolf, Insect, Hobbit, Rat, Dwarf, Giant, Horror, Spider]
