@@ -1,0 +1,270 @@
+{
+ "wu": {
+  "basics": [
+   "Plains",
+   16
+  ],
+  "cards": {
+   "Doomed Traveler": 1,
+   "Hunted Witness": 1,
+   "Raise the Alarm": 2,
+   "Fresh-Faced Recruit": 1,
+   "Haazda Officer": 2,
+   "Protector of Gondor": 1,
+   "Inspiring Captain": 2,
+   "Impeccable Timing": 1,
+   "Divine Arrow": 1,
+   "Cloudkin Seer": 2,
+   "Tome Raider": 1,
+   "Warden of Evos Isle": 1,
+   "Snapping Drake": 2,
+   "Aven Fisher": 1,
+   "Muse Drake": 1,
+   "Unsummon": 1,
+   "Didn't Say Please": 1,
+   "Hithlain Knots": 1,
+   "Frost Lynx": 1
+  }
+ },
+ "wb": {
+  "basics": [
+   "Plains",
+   16
+  ],
+  "cards": {
+   "Doomed Traveler": 1,
+   "Hunted Witness": 1,
+   "Raise the Alarm": 2,
+   "Fresh-Faced Recruit": 1,
+   "Haazda Officer": 2,
+   "Protector of Gondor": 1,
+   "Inspiring Captain": 2,
+   "Impeccable Timing": 1,
+   "Divine Arrow": 1,
+   "Lightless Evangel": 1,
+   "Synapse Necromage": 1,
+   "Gravedigger": 1,
+   "Gorging Vulture": 1,
+   "Venomous Hierophant": 2,
+   "Soul Salvage": 1,
+   "Murder": 1,
+   "Reave Soul": 1,
+   "Deathcap Marionette": 1,
+   "Blistergrub": 1,
+   "Retrofitted Transmogrant": 1
+  }
+ },
+ "wr": {
+  "basics": [
+   "Plains",
+   16
+  ],
+  "cards": {
+   "Doomed Traveler": 1,
+   "Hunted Witness": 1,
+   "Raise the Alarm": 2,
+   "Fresh-Faced Recruit": 1,
+   "Haazda Officer": 2,
+   "Protector of Gondor": 1,
+   "Inspiring Captain": 2,
+   "Impeccable Timing": 1,
+   "Divine Arrow": 1,
+   "Fanatical Firebrand": 2,
+   "Goblin Instigator": 3,
+   "Battle-Scarred Goblin": 1,
+   "Goblin Warchief": 1,
+   "Siege-Gang Commander": 1,
+   "Shock": 2,
+   "Lightning Strike": 1,
+   "Goblin Arsonist": 1
+  }
+ },
+ "wg": {
+  "basics": [
+   "Plains",
+   16
+  ],
+  "cards": {
+   "Doomed Traveler": 1,
+   "Hunted Witness": 1,
+   "Raise the Alarm": 2,
+   "Fresh-Faced Recruit": 1,
+   "Haazda Officer": 2,
+   "Protector of Gondor": 1,
+   "Inspiring Captain": 2,
+   "Impeccable Timing": 1,
+   "Divine Arrow": 1,
+   "Woodland Mystic": 2,
+   "Leafkin Druid": 2,
+   "Galadhrim Guide": 1,
+   "Bristling Boar": 1,
+   "Silverback Shaman": 2,
+   "Charging Rhino": 1,
+   "Colossal Dreadmaw": 1,
+   "Shower of Arrows": 1,
+   "High-Rise Sawjack": 1
+  }
+ },
+ "ub": {
+  "basics": [
+   "Island",
+   16
+  ],
+  "cards": {
+   "Cloudkin Seer": 2,
+   "Tome Raider": 1,
+   "Warden of Evos Isle": 1,
+   "Snapping Drake": 2,
+   "Aven Fisher": 1,
+   "Muse Drake": 1,
+   "Unsummon": 1,
+   "Didn't Say Please": 1,
+   "Hithlain Knots": 1,
+   "Frost Lynx": 1,
+   "Lightless Evangel": 1,
+   "Synapse Necromage": 1,
+   "Gravedigger": 1,
+   "Gorging Vulture": 1,
+   "Venomous Hierophant": 2,
+   "Soul Salvage": 1,
+   "Murder": 1,
+   "Reave Soul": 1,
+   "Deathcap Marionette": 1,
+   "Blistergrub": 1,
+   "Retrofitted Transmogrant": 1
+  }
+ },
+ "ur": {
+  "basics": [
+   "Island",
+   16
+  ],
+  "cards": {
+   "Cloudkin Seer": 2,
+   "Tome Raider": 1,
+   "Warden of Evos Isle": 1,
+   "Snapping Drake": 2,
+   "Aven Fisher": 1,
+   "Muse Drake": 1,
+   "Unsummon": 1,
+   "Didn't Say Please": 1,
+   "Hithlain Knots": 1,
+   "Frost Lynx": 1,
+   "Fanatical Firebrand": 2,
+   "Goblin Instigator": 3,
+   "Battle-Scarred Goblin": 1,
+   "Goblin Warchief": 1,
+   "Siege-Gang Commander": 1,
+   "Shock": 2,
+   "Lightning Strike": 1,
+   "Goblin Arsonist": 1
+  }
+ },
+ "ug": {
+  "basics": [
+   "Island",
+   16
+  ],
+  "cards": {
+   "Cloudkin Seer": 2,
+   "Tome Raider": 1,
+   "Warden of Evos Isle": 1,
+   "Snapping Drake": 2,
+   "Aven Fisher": 1,
+   "Muse Drake": 1,
+   "Unsummon": 1,
+   "Didn't Say Please": 1,
+   "Hithlain Knots": 1,
+   "Frost Lynx": 1,
+   "Woodland Mystic": 2,
+   "Leafkin Druid": 2,
+   "Galadhrim Guide": 1,
+   "Bristling Boar": 1,
+   "Silverback Shaman": 2,
+   "Charging Rhino": 1,
+   "Colossal Dreadmaw": 1,
+   "Shower of Arrows": 1,
+   "High-Rise Sawjack": 1
+  }
+ },
+ "br": {
+  "basics": [
+   "Swamp",
+   16
+  ],
+  "cards": {
+   "Lightless Evangel": 1,
+   "Synapse Necromage": 1,
+   "Gravedigger": 1,
+   "Gorging Vulture": 1,
+   "Venomous Hierophant": 2,
+   "Soul Salvage": 1,
+   "Murder": 1,
+   "Reave Soul": 1,
+   "Deathcap Marionette": 1,
+   "Blistergrub": 1,
+   "Retrofitted Transmogrant": 1,
+   "Fanatical Firebrand": 2,
+   "Goblin Instigator": 3,
+   "Battle-Scarred Goblin": 1,
+   "Goblin Warchief": 1,
+   "Siege-Gang Commander": 1,
+   "Shock": 2,
+   "Lightning Strike": 1,
+   "Goblin Arsonist": 1
+  }
+ },
+ "bg": {
+  "basics": [
+   "Swamp",
+   16
+  ],
+  "cards": {
+   "Lightless Evangel": 1,
+   "Synapse Necromage": 1,
+   "Gravedigger": 1,
+   "Gorging Vulture": 1,
+   "Venomous Hierophant": 2,
+   "Soul Salvage": 1,
+   "Murder": 1,
+   "Reave Soul": 1,
+   "Deathcap Marionette": 1,
+   "Blistergrub": 1,
+   "Retrofitted Transmogrant": 1,
+   "Woodland Mystic": 2,
+   "Leafkin Druid": 2,
+   "Galadhrim Guide": 1,
+   "Bristling Boar": 1,
+   "Silverback Shaman": 2,
+   "Charging Rhino": 1,
+   "Colossal Dreadmaw": 1,
+   "Shower of Arrows": 1,
+   "High-Rise Sawjack": 1
+  }
+ },
+ "rg": {
+  "basics": [
+   "Mountain",
+   16
+  ],
+  "cards": {
+   "Fanatical Firebrand": 2,
+   "Goblin Instigator": 3,
+   "Battle-Scarred Goblin": 1,
+   "Goblin Warchief": 1,
+   "Siege-Gang Commander": 1,
+   "Shock": 2,
+   "Lightning Strike": 1,
+   "Goblin Arsonist": 1,
+   "Woodland Mystic": 2,
+   "Leafkin Druid": 2,
+   "Galadhrim Guide": 1,
+   "Bristling Boar": 1,
+   "Silverback Shaman": 2,
+   "Charging Rhino": 1,
+   "Colossal Dreadmaw": 1,
+   "Shower of Arrows": 1,
+   "High-Rise Sawjack": 1
+  }
+ }
+}

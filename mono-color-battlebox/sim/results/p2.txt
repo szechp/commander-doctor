@@ -1,0 +1,167 @@
+== p2: 450 games, 0 draws/timeouts ==
+
+row deck win% vs column deck
+               bg       br       rg       ub       ug       ur       wb       wg       wr       wu   overall
+      bg      -        ?        ?        ?        ?        33%      ?        ?        70%      37%    46.7%
+      br      ?        -        ?        ?        30%      ?        ?        40%      ?        47%    38.9%
+      rg      ?        ?        -        33%      ?        ?        50%      ?        ?        50%    44.4%
+      ub      ?        ?        67%      -        ?        ?        ?        77%      47%      ?      63.3%
+      ug      ?        70%      ?        ?        -        ?        80%      ?        70%      ?      73.3%
+      ur      67%      ?        ?        ?        ?        -        70%      63%      ?        ?      66.7%
+      wb      ?        ?        50%      ?        20%      30%      -        ?        ?        ?      33.3%
+      wg      ?        60%      ?        23%      ?        37%      ?        -        ?        ?      40.0%
+      wr      30%      ?        ?        53%      30%      ?        ?        ?        -        ?      37.8%
+      wu      63%      53%      50%      ?        ?        ?        ?        ?        ?        -      55.6%
+
+pair details (95% Wilson CI for first-named deck):
+      bg vs ur      33.3% [  19- 51]  n=30 draws=0 avg_turns=16.9  <-- OUT OF 45-55
+      bg vs wr      70.0% [  52- 83]  n=30 draws=0 avg_turns=20.6  <-- OUT OF 45-55
+      bg vs wu      36.7% [  22- 54]  n=30 draws=0 avg_turns=21.1  <-- OUT OF 45-55
+      br vs ug      30.0% [  17- 48]  n=30 draws=0 avg_turns=16.8  <-- OUT OF 45-55
+      br vs wg      40.0% [  25- 58]  n=30 draws=0 avg_turns=19.0  <-- OUT OF 45-55
+      br vs wu      46.7% [  30- 64]  n=30 draws=0 avg_turns=20.3
+      rg vs ub      33.3% [  19- 51]  n=30 draws=0 avg_turns=18.6  <-- OUT OF 45-55
+      rg vs wb      50.0% [  33- 67]  n=30 draws=0 avg_turns=24.5
+      rg vs wu      50.0% [  33- 67]  n=30 draws=0 avg_turns=19.2
+      ub vs wg      76.7% [  59- 88]  n=30 draws=0 avg_turns=19.7  <-- OUT OF 45-55
+      ub vs wr      46.7% [  30- 64]  n=30 draws=0 avg_turns=17.3
+      ug vs wb      80.0% [  63- 90]  n=30 draws=0 avg_turns=17.8  <-- OUT OF 45-55
+      ug vs wr      70.0% [  52- 83]  n=30 draws=0 avg_turns=17.6  <-- OUT OF 45-55
+      ur vs wb      70.0% [  52- 83]  n=30 draws=0 avg_turns=18.9  <-- OUT OF 45-55
+      ur vs wg      63.3% [  46- 78]  n=30 draws=0 avg_turns=18.6  <-- OUT OF 45-55
+
+on-the-play win rate per deck: {'ub': '63% of 30', 'rg': '55% of 51', 'br': '39% of 54', 'ug': '84% of 25', 'bg': '44% of 45', 'ur': '59% of 34', 'wb': '33% of 60', 'wg': '31% of 54', 'wr': '37% of 57', 'wu': '68% of 40'}
+mulligans per game: {'ub': '0.28', 'rg': '0.13', 'ug': '0.19', 'br': '0.13', 'ur': '0.10', 'bg': '0.14', 'wb': '0.19', 'wg': '0.17', 'wr': '0.17', 'wu': '0.20'}
+missed land drops (turns with land in hand, none played): {'ub': '0.0%', 'rg': '0.0%', 'br': '0.0%', 'ug': '0.0%', 'bg': '0.0%', 'ur': '0.0%', 'wb': '0.0%', 'wg': '0.0%', 'wr': '0.0%', 'wu': '0.0%'}
+
+== AI MISPLAY SCAN: cards held at end of own turn while castable (sorcery-speed) ==
+   held = end-steps it sat castable in hand; cast = times actually cast; ratio > ~1.0 means the AI mostly sits on it
+
+  [bg]
+    Soul Salvage                     held=17    cast=23    ratio=  0.7
+    Reave Soul                       held=19    cast=34    ratio=  0.6
+    Retrofitted Transmogrant         held=16    cast=42    ratio=  0.4
+    Deathcap Marionette              held=9     cast=33    ratio=  0.3
+    Blistergrub                      held=4     cast=33    ratio=  0.1
+    Lightless Evangel                held=4     cast=37    ratio=  0.1
+    Woodland Mystic                  held=6     cast=59    ratio=  0.1
+    Gravedigger                      held=2     cast=34    ratio=  0.1
+    lowest cast-per-100-endsteps-in-hand (any speed): Soul Salvage 11.4, Shower of Arrows 14.6, Gravedigger 26.4, Colossal Dreadmaw 30.5, Synapse Necromage 30.6
+
+  [br]
+    Reave Soul                       held=28    cast=35    ratio=  0.8
+    Ember Hauler                     held=19    cast=30    ratio=  0.6
+    Soul Salvage                     held=16    cast=27    ratio=  0.6
+    Retrofitted Transmogrant         held=6     cast=27    ratio=  0.2
+    Goblin Instigator                held=19    cast=102   ratio=  0.2
+    Acolyte of Aclazotz              held=5     cast=31    ratio=  0.2
+    Goblin Warchief                  held=6     cast=44    ratio=  0.1
+    Fanatical Firebrand              held=9     cast=80    ratio=  0.1
+    lowest cast-per-100-endsteps-in-hand (any speed): Soul Salvage 18.9, Gravedigger 24.6, Ember Hauler 26.5, Siege-Gang Commander 31.0, Goblin Instigator 41.1
+
+  [rg]
+    Ember Hauler                     held=18    cast=24    ratio=  0.8
+    Goblin Warchief                  held=10    cast=45    ratio=  0.2
+    Goblin Instigator                held=17    cast=100   ratio=  0.2
+    Fanatical Firebrand              held=10    cast=72    ratio=  0.1
+    Leafkin Druid                    held=10    cast=84    ratio=  0.1
+    Woodland Mystic                  held=10    cast=89    ratio=  0.1
+    Battle-Scarred Goblin            held=1     cast=40    ratio=  0.0
+    Bristling Boar                   held=1     cast=42    ratio=  0.0
+    lowest cast-per-100-endsteps-in-hand (any speed): Shower of Arrows 20.3, Ember Hauler 22.6, Colossal Dreadmaw 25.9, Siege-Gang Commander 26.5, Charging Rhino 31.9
+
+  [ub]
+    Retrofitted Transmogrant         held=24    cast=36    ratio=  0.7
+    Reave Soul                       held=20    cast=38    ratio=  0.5
+    Deathcap Marionette              held=11    cast=32    ratio=  0.3
+    Soul Salvage                     held=6     cast=22    ratio=  0.3
+    Lightless Evangel                held=4     cast=32    ratio=  0.1
+    Cloudkin Seer                    held=6     cast=62    ratio=  0.1
+    Snapping Drake                   held=3     cast=38    ratio=  0.1
+    Warden of Evos Isle              held=3     cast=39    ratio=  0.1
+    lowest cast-per-100-endsteps-in-hand (any speed): Didn't Say Please 6.5, Soul Salvage 14.2, Tome Raider 16.6, Muse Drake 19.2, Blistergrub 19.9
+
+  [ug]
+    Leafkin Druid                    held=20    cast=65    ratio=  0.3
+    Tome Raider                      held=6     cast=22    ratio=  0.3
+    Woodland Mystic                  held=14    cast=62    ratio=  0.2
+    High-Rise Sawjack                held=4     cast=24    ratio=  0.2
+    Bristling Boar                   held=3     cast=30    ratio=  0.1
+    Charging Rhino                   held=2     cast=27    ratio=  0.1
+    Cloudkin Seer                    held=3     cast=67    ratio=  0.0
+    Riddlemaster Sphinx              held=1     cast=24    ratio=  0.0
+    lowest cast-per-100-endsteps-in-hand (any speed): Shower of Arrows 8.4, Didn't Say Please 11.7, Tome Raider 20.0, Charging Rhino 20.5, Colossal Dreadmaw 22.5
+
+  [ur]
+    Ember Hauler                     held=30    cast=32    ratio=  0.9
+    Cloudkin Seer                    held=17    cast=61    ratio=  0.3
+    Fanatical Firebrand              held=20    cast=74    ratio=  0.3
+    Goblin Instigator                held=27    cast=110   ratio=  0.2
+    Goblin Warchief                  held=6     cast=35    ratio=  0.2
+    Battle-Scarred Goblin            held=6     cast=37    ratio=  0.2
+    Snapping Drake                   held=5     cast=33    ratio=  0.2
+    Warden of Evos Isle              held=5     cast=40    ratio=  0.1
+    lowest cast-per-100-endsteps-in-hand (any speed): Didn't Say Please 10.3, Riddlemaster Sphinx 18.5, Air Elemental 22.1, Hithlain Knots 22.5, Siege-Gang Commander 25.2
+
+  [wb]
+    Soul Salvage                     held=16    cast=23    ratio=  0.7
+    Reave Soul                       held=11    cast=30    ratio=  0.4
+    Doomed Traveler                  held=12    cast=35    ratio=  0.3
+    Hunted Witness                   held=12    cast=42    ratio=  0.3
+    Retrofitted Transmogrant         held=10    cast=41    ratio=  0.2
+    Fresh-Faced Recruit              held=6     cast=28    ratio=  0.2
+    Steadfast Cathar                 held=4     cast=39    ratio=  0.1
+    Deathcap Marionette              held=4     cast=44    ratio=  0.1
+    lowest cast-per-100-endsteps-in-hand (any speed): Impeccable Timing 13.1, Soul Salvage 15.2, Divine Arrow 16.1, Raise the Alarm 22.8, Protector of Gondor 33.0
+
+  [wg]
+    Hunted Witness                   held=16    cast=36    ratio=  0.4
+    Fresh-Faced Recruit              held=11    cast=37    ratio=  0.3
+    Woodland Mystic                  held=15    cast=68    ratio=  0.2
+    Steadfast Cathar                 held=6     cast=35    ratio=  0.2
+    Haazda Officer                   held=11    cast=65    ratio=  0.2
+    Doomed Traveler                  held=6     cast=40    ratio=  0.1
+    High-Rise Sawjack                held=4     cast=36    ratio=  0.1
+    Leafkin Druid                    held=6     cast=60    ratio=  0.1
+    lowest cast-per-100-endsteps-in-hand (any speed): Impeccable Timing 13.5, Divine Arrow 17.6, Shower of Arrows 21.3, Colossal Dreadmaw 23.3, Silverback Shaman 24.5
+
+  [wr]
+    Ember Hauler                     held=36    cast=27    ratio=  1.3
+    Goblin Warchief                  held=26    cast=35    ratio=  0.7
+    Siege-Gang Commander             held=5     cast=27    ratio=  0.2
+    Goblin Instigator                held=13    cast=83    ratio=  0.2
+    Doomed Traveler                  held=4     cast=30    ratio=  0.1
+    Haazda Officer                   held=8     cast=69    ratio=  0.1
+    Hunted Witness                   held=4     cast=35    ratio=  0.1
+    Fanatical Firebrand              held=6     cast=81    ratio=  0.1
+    lowest cast-per-100-endsteps-in-hand (any speed): Impeccable Timing 19.7, Divine Arrow 23.1, Raise the Alarm 29.4, Goblin Warchief 34.3, Shock 56.8
+
+  [wu]
+    Hunted Witness                   held=17    cast=36    ratio=  0.5
+    Doomed Traveler                  held=17    cast=41    ratio=  0.4
+    Fresh-Faced Recruit              held=10    cast=35    ratio=  0.3
+    Steadfast Cathar                 held=11    cast=44    ratio=  0.2
+    Haazda Officer                   held=17    cast=82    ratio=  0.2
+    Tome Raider                      held=3     cast=43    ratio=  0.1
+    Air Elemental                    held=2     cast=29    ratio=  0.1
+    Riddlemaster Sphinx              held=2     cast=31    ratio=  0.1
+    lowest cast-per-100-endsteps-in-hand (any speed): Impeccable Timing 14.0, Didn't Say Please 15.0, Divine Arrow 20.4, Riddlemaster Sphinx 26.3, Raise the Alarm 28.0
+
+== CARD IMPACT: win% when the card was cast vs not cast (n>=15 each side, |diff|>=15 pts) ==
+  ub vs wg (77%): Riddlemaster Sphinx +47 (cast in 15), Reave Soul -20 (cast in 15)
+  wb vs rg (50%): Inspiring Captain +33 (cast in 15)
+  wu vs bg (63%): Doomed Traveler -20 (cast in 15)
+  wu vs rg (50%): Cloudkin Seer -20 (cast in 15)
+
+== ABILITY USE: board permanents with activated abilities (activations per 100 end steps on board) ==
+  [bg] Acolyte of Aclazotz 4 (6 in 148), Retrofitted Transmogrant 19 (51 in 275)
+  [br] Acolyte of Aclazotz 11 (12 in 114), Ember Hauler 14 (10 in 73), Fanatical Firebrand 18 (39 in 216), Retrofitted Transmogrant 23 (39 in 171)
+  [rg] Ember Hauler 3 (3 in 89), Fanatical Firebrand 21 (36 in 169)
+  [ub] Acolyte of Aclazotz 9 (11 in 129), Retrofitted Transmogrant 19 (48 in 249)
+  [ur] Ember Hauler 9 (7 in 77), Fanatical Firebrand 18 (39 in 212)
+  [wb] Acolyte of Aclazotz 10 (14 in 141), Retrofitted Transmogrant 15 (44 in 303)
+  [wr] Ember Hauler 7 (5 in 73), Fanatical Firebrand 20 (46 in 233)
+
+== FLAGS ==
+  bg: Acolyte of Aclazotz (ability idle on board) (held castable 148x, cast 6x)
+  rg: Ember Hauler (ability idle on board) (held castable 89x, cast 3x)
