@@ -106,8 +106,8 @@ as plain tables like `health`.
 
 Decklist import from archidekt/manastack, CardConjurer, MPCFill, rendering,
 `print`, `convert`, `tokens`, AI upscaling. Afterwards (separate PR there,
-needs push access): remove the moved scripts and the `cube`/`deck-value` verbs,
-and point the README at commander-doctor. Until then nothing there breaks.
+needs push access): remove the moved scripts and the `cube`/`deck-value` verbs
+outright (no wrapper, decision 2), and point the README at commander-doctor. Until then nothing there breaks.
 
 ## Order of work
 
@@ -120,6 +120,8 @@ and point the README at commander-doctor. Until then nothing there breaks.
 4. Port cube_builder: `cube build`, archetype JSONs to `data/cube_archetypes/`,
    17lands client with cache.
 5. `brew --rank-edhrec` via `edhrec.py` (cached; no direct `json.edhrec.com`).
+   Port `deck_value.py` as a `deckdoctor value <deck>` report on `prices.py`
+   (decision 1); a new command, so no existing Commander output changes.
 6. Forge sim module move.
 7. Docs and skill (below), then delete the old scripts in
    `mono-color-battlebox/packets/` once the CLI covers them.
@@ -168,24 +170,23 @@ agents won't find or use the new commands:
 - `deckdoctor cube build --sets eoe --archetypes data/cube_archetypes/eoe.json --target 180`
   matches mtg-proxies' output for the same inputs (same cards; order may differ).
 - `deckdoctor cube extend <cube.txt> --profile poolside` runs offline and only
-  takes cards the ledger shows as free.
+  takes cards the ledger shows as free (tested on a fixture cube; the real
+  poolside cube is postponed).
 - The updated skill routes an "extend my cube" request and a "review my
   Commander deck" request to the right workflow.
 - No print-side dependencies added; full suite green.
 
 ## First real use: the "poolside" cube
 
-Rules: no counters, no tokens (the `poolside` profile). Extend it from the
-ledger so it doesn't take cards the learning packets use. **Its decklist is not
-in either repo yet**; ask the user for it (CubeCobra/Archidekt export or a scan
-file).
+**Postponed** until the user has scanned it. Rules when it comes: no counters,
+no tokens (the `poolside` profile); extend it from the ledger so it doesn't take
+cards the learning packets use.
 
-## Open questions for the user
+## Decisions (user, 2026-10-26)
 
-1. Keep `deck-value` in mtg-proxies (a print-adjacent summary) or fold it into a
-   deckdoctor report?
-2. Should mtg-proxies keep a thin `cube` command that calls commander-doctor, or
-   drop it entirely?
-3. Poolside cube size: 360 cards (8 players) or 180 (4 players)?
-4. One skill with routing (planned above) or a separate cube/packets skill next
-   to `deck-doctor`?
+1. `deck-value` moves into deckdoctor as a deck report; it leaves mtg-proxies.
+2. mtg-proxies keeps no `cube` command, not even a thin wrapper: a hard cut
+   between the proxy pipeline and the deck tools.
+3. The poolside cube is postponed until it has been scanned; nothing in this
+   work depends on it.
+4. One skill (`deck-doctor`) with routing, as planned above.
