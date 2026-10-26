@@ -8,9 +8,14 @@ dependencies = [
     "requests>=2.31",
     "mtg-parser>=0.0.1a57",
     "pyyaml>=6.0",
+    "numpy>=1.26",
 ]
 
 [project.optional-dependencies]
+# `cube swaps --semantic`: sentence-embedding text similarity (pulls in torch).
+semantic = [
+    "sentence-transformers>=3.0",
+]
 dev = [
     "hypothesis>=6.100",
     "pytest>=8.0",

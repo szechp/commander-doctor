@@ -193,6 +193,8 @@ def sync(db_path: str | None = None) -> None:
 
     tag_rows: list[tuple] = []
     tag_objects: list[dict] = []
+    tag_slugs: dict[str, str] = {}
+    parent_ids: list[tuple[str, str]] = []
     n_tags = 0
     print("Downloading + parsing oracle_tags...", file=sys.stderr)
     for tag in _stream_jsonl(tags_uri):
@@ -200,6 +202,8 @@ def sync(db_path: str | None = None) -> None:
         if tag.get("type") != "oracle":
             continue
         slug = tag.get("slug", "")
+        tag_slugs[tag.get("id", "")] = slug
+        parent_ids.extend((slug, parent) for parent in tag.get("parent_ids") or ())
         for tagging in tag.get("taggings", []):
             name = oracle_id_to_name.get(tagging.get("oracle_id", ""))
             if name:
@@ -211,6 +215,7 @@ def sync(db_path: str | None = None) -> None:
     # plain insert into an empty table with an explicit transaction is a
     # different order of magnitude.
     tag_rows = list({(name, slug) for name, slug in tag_rows})
+    tag_parent_rows = list({(slug, tag_slugs[parent]) for slug, parent in parent_ids if parent in tag_slugs})
     print(f"  {n_tags} distinct oracle tags, {len(tag_rows)} card-tag pairs "
           f"({len(set(t[1] for t in tag_rows))} distinct tags actually attached to a "
           f"card in the mirror)", file=sys.stderr)
@@ -273,6 +278,7 @@ def sync(db_path: str | None = None) -> None:
         con.execute("DELETE FROM card_popularity")
         con.execute("DELETE FROM card_release")
         con.execute("DELETE FROM card_prices")
+        con.execute("DELETE FROM tag_parents")
         con.executemany(
             "INSERT INTO cards (name,mana_cost,cmc,type_line,oracle_text,color_identity,colors,produced_mana,keywords,commander_legal,is_game_changer,layout,set_type,power,toughness) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
             card_rows,
@@ -287,6 +293,8 @@ def sync(db_path: str | None = None) -> None:
             con.executemany("INSERT INTO card_faces VALUES (?,?,?,?,?,?,?)", face_rows)
         if tag_rows:
             con.executemany("INSERT INTO card_tags VALUES (?,?)", tag_rows)
+        if tag_parent_rows:
+            con.executemany("INSERT INTO tag_parents VALUES (?,?)", tag_parent_rows)
         override_result = apply_overrides(con, overrides)
         if restored:
             con.executemany("UPDATE cards SET ramp_kind=?,draw_kind=?,prereq=?,parsed=? WHERE name=?", restored)

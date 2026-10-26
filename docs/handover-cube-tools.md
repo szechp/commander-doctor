@@ -9,6 +9,14 @@ status|allocate|release|remaining`, byte-identical to `build.py`,
 (`data/lanes/packets.yaml`), `deckdoctor packets lanes` (identical to `lanes.py` on
 `N Name (SET) N` scans; see the differences below)
 and `deckdoctor profile list|check`.
+Step 3 done: `core/themes.py` (tags expanded through Scryfall's tag hierarchy,
+IDF, families, derived and forced lanes; one copy for swapfinder and
+cube_builder), `core/similarity.py` (swapfinder's matcher; TF-IDF in numpy,
+equal to scikit-learn's to 1e-16), `cube.py`, `deckdoctor cube swaps|extend`.
+`sync` now also stores `tag_parents`. On a 120-card test cube against the
+scan, `cube swaps` gives swapfinder's print list and candidates (1.8 s vs
+3 m 49 s); `cube extend --profile poolside` writes the same finished cube and
+proxy list as `swapfinder.py --extend --restrict`.
 
 ## Repositories and refs
 
@@ -214,6 +222,16 @@ old scripts got wrong:
   every pip: `{W/U}{U}` is blue only and `{1}{B}{B/G}{G}` is dropped
   (`lanes.py` let any card with one hybrid pip into all its colors; 28 cards in
   the mirror, none in the scan).
+- `cube swaps` / `cube extend` (vs swapfinder): the pool is the ledger's free
+  cards unless `--owned FILE` or `--all` is given; a cube that is itself a
+  ledger allocation keeps its own cards. Pool duplicates (two printings of a
+  card) are one candidate, not two rows. Tag similarity differs from
+  swapfinder's in the third decimal: the meta-tag list is cube_builder's
+  longer one (it also drops `namesake-spell` and four other flavor tags), and
+  IDF counts card names (35.8k) where swapfinder counted oracle ids (36.2k,
+  tokens included); a match right at the `--min-tag` 0.12 floor can flip.
+  Funny (Un-set) cards are not in the mirror, so they are reported as unknown.
+  Equal-weight lanes in the "Derived lanes" printout are sorted by name.
 - `poolside` and `cube-default` drop digital-only Alchemy cards
   (`banned_set_types`), as swapfinder's `--restrict` dropped `digital` cards.
   The mirror has no rarity, so swapfinder's `--max-rarity` has no equivalent

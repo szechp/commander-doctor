@@ -54,6 +54,17 @@ CREATE TABLE IF NOT EXISTS card_tags (
 );
 CREATE INDEX IF NOT EXISTS idx_card_tags_tag ON card_tags(tag);
 
+-- Scryfall Tagger hierarchy: each oracle tag's direct parent tags. Cube
+-- and swap similarity expand a card's tags to their ancestors and group
+-- related tags into families (core/themes.py); Commander commands don't
+-- read it. A mirror synced before this table existed reads as "no
+-- hierarchy" until its next sync.
+CREATE TABLE IF NOT EXISTS tag_parents (
+    tag    TEXT,
+    parent TEXT,
+    PRIMARY KEY (tag, parent)
+);
+
 CREATE TABLE IF NOT EXISTS card_faces (
     card_name   TEXT,
     face_index  INTEGER,

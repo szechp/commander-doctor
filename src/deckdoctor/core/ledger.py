@@ -276,11 +276,13 @@ def relative_path(path: Path, base: Path) -> str:
         return str(path)
 
 
-def build_ledger(config: InventoryConfig) -> Ledger:
-    """The ledger after every allocation in order. A packet spec allocates
-    one ``name/CODE`` per packet."""
+def build_ledger(config: InventoryConfig, *, skip: frozenset[str] = frozenset()) -> Ledger:
+    """The ledger after every allocation in order, except those named in
+    ``skip``. A packet spec allocates one ``name/CODE`` per packet."""
     ledger = Ledger(read_list(config.collection))
     for item in config.allocations:
+        if item["name"] in skip:
+            continue
         try:
             if "packets" in item:
                 spec = read_packet_spec(config.resolve(item["packets"]))
@@ -291,3 +293,10 @@ def build_ledger(config: InventoryConfig) -> Ledger:
         except ValueError as exc:
             raise ValueError(f"allocation {item['name']!r}: {exc}") from exc
     return ledger
+
+
+def allocations_of_list(config: InventoryConfig, path: str | Path) -> frozenset[str]:
+    """Names of the ``list:`` allocations that are this file."""
+    target = Path(path).resolve()
+    return frozenset(item["name"] for item in config.allocations
+                     if "list" in item and config.resolve(item["list"]).resolve() == target)

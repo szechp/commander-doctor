@@ -15,6 +15,8 @@ from pathlib import Path
 
 _REMINDER_RE = re.compile(r"\([^)]*\)")
 _SYMBOL_RE = re.compile(r"\{([^}]+)\}")
+# Layouts that aren't deck cards (tokens and emblems never reach the mirror).
+NON_DECK_LAYOUTS = frozenset({"token", "double_faced_token", "emblem", "art_series", "vanguard", "scheme", "planar"})
 
 
 def strip_reminder(text: str | None) -> str:
@@ -95,6 +97,24 @@ class CardStore:
             keywords=frozenset(json.loads(row[6] or "[]")), layout=row[7] or "",
             power=row[8], toughness=row[9], tags=tags, set_type=row[10] or "",
         )
+
+    def resolve(self, name: str) -> Card | None:
+        """By exact name, else by front face ("Bala Ged Recovery" for
+        "Bala Ged Recovery // Bala Ged Sanctuary"), as deck loading does."""
+        card = self.card(name)
+        if card is None:
+            pattern = name.replace("\\", "\\\\").replace("%", "\\%").replace("_", "\\_") + " // %"
+            row = self.con.execute("SELECT name FROM cards WHERE name LIKE ? ESCAPE '\\' ORDER BY name LIMIT 1",
+                                   (pattern,)).fetchone()
+            card = self.card(row[0]) if row else None
+        return card
+
+    def all_cards(self, exclude_layouts: frozenset[str] = NON_DECK_LAYOUTS) -> list[Card]:
+        """Every card in the mirror except non-deck layouts (planes, schemes,
+        vanguards), in name order."""
+        names = [name for (name, layout) in self.con.execute("SELECT name, layout FROM cards ORDER BY name")
+                 if layout not in exclude_layouts]
+        return [card for card in (self.card(name) for name in names) if card is not None]
 
     def forge_script(self, name: str) -> Path | None:
         if self.cardsfolder is None:

@@ -1,0 +1,192 @@
+"""`deckdoctor cube ...`: cube swaps, cube extend (and cube build).
+
+Registered from cli.py next to packets_cli.
+"""
+
+from __future__ import annotations
+
+import argparse
+import sys
+from collections import Counter
+from pathlib import Path
+
+from deckdoctor.packets_cli import DB_HELP, DEFAULT_INVENTORY, _open_store, _project_path
+
+
+def add_parsers(sub) -> None:
+    from deckdoctor.cli import DEFAULT_CARDSFOLDER
+
+    p_cube = sub.add_parser("cube", help="cubes: substitutes for unowned cards, completing a cube from your bulk")
+    p_cb = p_cube.add_subparsers(dest="cube_action", required=True)
+
+    pool = argparse.ArgumentParser(add_help=False)
+    source = pool.add_mutually_exclusive_group()
+    source.add_argument("--owned", default=None, metavar="FILE",
+                        help="draw from this card list instead of the ledger's free cards")
+    source.add_argument("--all", action="store_true", help="draw from every card in the mirror (eyeball first)")
+    pool.add_argument("--inventory", default=DEFAULT_INVENTORY,
+                      help=f"ledger whose free cards are the pool (default {DEFAULT_INVENTORY})")
+    pool.add_argument("--profile", default=None, help="card rules for the pool, e.g. poolside (`deckdoctor profile list`)")
+    pool.add_argument("--exclude-text", default="", help='extra banned oracle substrings, e.g. "dice,stun counter"')
+    pool.add_argument("--db", default=None, help=DB_HELP)
+    pool.add_argument("--cardsfolder", default=DEFAULT_CARDSFOLDER)
+
+    p_swaps = p_cb.add_parser("swaps", parents=[pool],
+                              help="for every cube card you don't own, the owned cards that do the same job")
+    p_swaps.add_argument("cube", help="the cube list")
+    p_swaps.add_argument("--out", required=True, help="output: .csv = scored report, .txt = Archidekt import")
+    p_swaps.add_argument("--top", type=int, default=3, help="max candidates per target (default 3)")
+    p_swaps.add_argument("--min-score", type=float, default=0.0, help="drop matches below this score (e.g. 0.15)")
+    p_swaps.add_argument("--min-tag", type=float, default=0.12,
+                         help="keep a match only if it shares a function tag this strongly OR its text is "
+                              "near-identical; 0 disables (default 0.12)")
+    p_swaps.add_argument("--print-list", default=None, metavar="FILE",
+                         help="write the cube cards with no acceptable match as a list to proxy")
+    p_swaps.add_argument("--no-loose", action="store_true", help="skip the loose tier (same color + shared tag)")
+    p_swaps.add_argument("--pt-delta", type=int, default=1, help="allowed P/T difference for creatures (default 1)")
+    p_swaps.add_argument("--cmc-delta", type=int, default=0, help="allowed mana-value difference (default 0)")
+    p_swaps.add_argument("--semantic", action="store_true",
+                         help="sentence-embedding text similarity (needs `uv sync --extra semantic`)")
+    for flag, default, what in (("--w-text", 0.4, "text"), ("--w-kw", 0.1, "keyword"), ("--w-type", 0.1, "card-type"),
+                                ("--w-tag", 0.4, "function-tag")):
+        p_swaps.add_argument(flag, type=float, default=default, help=f"weight on {what} similarity (default {default})")
+
+    p_ext = p_cb.add_parser("extend", parents=[pool],
+                            help="finish a half-built cube to a blueprint's per-color counts by its own lanes")
+    p_ext.add_argument("cube", help="the half-built cube list")
+    p_ext.add_argument("--blueprint", required=True, help="a finished cube whose color/curve/type slots to match")
+    p_ext.add_argument("--out", required=True, help="the finished cube, as an Archidekt import (.txt)")
+    p_ext.add_argument("--print-list", default=None, metavar="FILE", help="blueprint cards to proxy for unfillable slots")
+    p_ext.add_argument("--theme", default="", help="force tribe lanes the cube can't derive yet, e.g. 'elves,goblins'")
+    p_ext.add_argument("--gold-share", type=float, default=None,
+                       help="fraction of the cube allowed to be multicolor signposts (default 0.12)")
+
+
+def run(args: argparse.Namespace) -> int:
+    try:
+        return _run(args)
+    except ValueError as exc:
+        print(str(exc), file=sys.stderr)
+        return 2
+
+
+def _pool(args, store):
+    """(pool cards, owned names, label) from --owned, --all or the ledger."""
+    from deckdoctor import cube
+    from deckdoctor.core.lists import read_list
+    if args.all:
+        cards = store.all_cards()
+        return cards, set(), "every card in the mirror"
+    if args.owned:
+        resolved = cube.resolve_entries(store, read_list(args.owned), unique=True)
+        _warn_unresolved(args.owned, resolved.unresolved)
+        return resolved.cards, {c.name for c in resolved.cards}, args.owned
+    from deckdoctor.core.ledger import allocations_of_list, build_ledger, load_inventory_config
+    config = load_inventory_config(_project_path(args.inventory))
+    own = allocations_of_list(config, args.cube)  # the cube's own allocation, if any, stays in the pool
+    ledger = build_ledger(config, skip=own)
+    resolved = cube.resolve_entries(store, ledger.remaining(), unique=True)
+    _warn_unresolved(str(config.collection), resolved.unresolved)
+    label = f"free cards in {config.path}" + (f" (plus allocation {', '.join(sorted(own))})" if own else "")
+    return resolved.cards, {c.name for c in resolved.cards}, label
+
+
+def _warn_unresolved(source: str, names: list[str]) -> None:
+    if names:
+        shown = ", ".join(names[:8]) + (" ..." if len(names) > 8 else "")
+        print(f"{source}: {len(names)} line(s) not in the card database, skipped: {shown}", file=sys.stderr)
+
+
+def _run(args) -> int:
+    from deckdoctor import cube
+    from deckdoctor.core.lists import read_list
+    from deckdoctor.core.profiles import load_profile
+    from deckdoctor.core.similarity import Matcher, semantic_available, warn_semantic_missing
+    from deckdoctor.core.themes import TagIndex, Themes, theme_lanes
+
+    profile = load_profile(args.profile) if args.profile else None
+    if getattr(args, "semantic", False) and not semantic_available():
+        warn_semantic_missing()
+        return 2
+    opened = _open_store(args, needs_forge=bool(profile and profile.forge_playable))
+    if opened is None:
+        return 3
+    con, store = opened
+    try:
+        themes = Themes(TagIndex(con))
+        if not themes.index.has_hierarchy:
+            print("card database has no tag hierarchy (tag_parents): run `deckdoctor sync` for tag families "
+                  "and ancestors; continuing with plain tags", file=sys.stderr)
+        target = cube.resolve_entries(store, read_list(args.cube))
+        _warn_unresolved(args.cube, target.unresolved)
+        pool, owned_names, label = _pool(args, store)
+        exclude_text = tuple(t.strip() for t in args.exclude_text.split(",") if t.strip())
+        if profile is not None or exclude_text:
+            pool = cube.filter_pool(pool, profile, store, exclude_text)
+        print(f"pool: {len(pool)} card(s) from {label}" + (f", {profile.name} rules" if profile else ""),
+              file=sys.stderr)
+
+        if args.cube_action == "swaps":
+            matcher = Matcher(themes, w_text=args.w_text, w_kw=args.w_kw, w_type=args.w_type, w_tag=args.w_tag,
+                              pt_delta=args.pt_delta, cmc_delta=args.cmc_delta, semantic=args.semantic,
+                              tag_floor=args.min_tag)
+            if args.semantic:
+                from deckdoctor.core.similarity import embed, preprocess_oracle
+                print(f"Embedding {len(pool)} candidate cards (one-time)...")
+                embed([preprocess_oracle(c) for c in pool], progress=True)
+            results = cube.find_swaps(target.cards, pool, owned_names, matcher, top=args.top,
+                                      min_score=args.min_score, loose=not args.no_loose, one_copy_each=not args.all)
+            out = Path(args.out)
+            if out.suffix.lower() == ".txt":
+                lines = cube.archidekt_lines(results)
+                out.write_text("\n".join(lines) + ("\n" if lines else ""), encoding="utf-8")
+            else:
+                note = "(no functional match found)" if args.all else "(no functional match in collection)"
+                cube.write_swaps_csv(out, results, note)
+            counts = Counter(r.status for r in results)
+            print(f"Wrote {args.out}: {counts.get('owned', 0)} owned, {counts.get('swap', 0)} with a swap, "
+                  f"{counts.get('print', 0)} to print")
+            if args.print_list:
+                to_print = cube.print_list(results)
+                Path(args.print_list).write_text("\n".join(to_print) + ("\n" if to_print else ""), encoding="utf-8")
+                print(f"Wrote {len(to_print)} cards with no acceptable owned match to {args.print_list} (proxy these)")
+            return 0
+
+        blueprint = cube.resolve_entries(store, read_list(args.blueprint))
+        _warn_unresolved(args.blueprint, blueprint.unresolved)
+        extend = target.cards
+        lanes = themes.derive_lanes(extend)
+        tokens = [t for t in args.theme.split(",") if t.strip()]
+        if tokens:
+            # a forced theme comes in at the weakest existing tribe (or lane):
+            # secondary, never above the cube's established themes
+            tribes = [w for k, w in lanes.items() if k.startswith("subtype:")]
+            ref = min(tribes or list(lanes.values())) if lanes else 20.0
+            forced = theme_lanes(tokens, weight=ref)
+            lanes.update({sig: max(w, lanes.get(sig, 0.0)) for sig, w in forced.items()})
+            print(f"Forced themes at weight {ref:.0f} (secondary to existing tribes): "
+                  f"{sorted({s.split(':', 1)[-1] for s in forced})}")
+        print("Derived lanes (sanity-check):")
+        for sig, w in sorted(lanes.items(), key=lambda kv: (-kv[1], kv[0]))[:15]:  # ties by name: stable
+            print(f"  {sig:28} weight {w:.0f}")
+        gold_share = cube.GOLD_SHARE if args.gold_share is None else args.gold_share
+        entries, print_names = cube.reconcile(themes, extend, pool, blueprint.cards, lanes, gold_share=gold_share)
+    finally:
+        con.close()
+
+    counts = Counter(e.status for e in entries)
+    lines = cube.completion_lines(entries)
+    removed = [e.name for e in entries if e.status == "trim"]
+    print(f"\nFinal cube: {len(lines)} cards  ({counts.get('owned', 0)} kept · {counts.get('fill', 0)} added · "
+          f"{counts.get('signpost', 0)} signposts) — matches the blueprint's color distribution")
+    print(f"Removed {len(removed)} from your cube · {len(print_names)} slots to proxy")
+    Path(args.out).write_text("\n".join(lines) + "\n", encoding="utf-8")
+    print(f"Wrote the {len(lines)}-card cube to {args.out}")
+    if removed:
+        print(f"Pull these {len(removed)} from your current cube: {', '.join(removed[:12])}"
+              + (" …" if len(removed) > 12 else ""))
+    if args.print_list:
+        Path(args.print_list).write_text("\n".join(f"1 {n}" for n in print_names) + ("\n" if print_names else ""),
+                                         encoding="utf-8")
+        print(f"Wrote {len(print_names)} unfillable slots (proxy the blueprint card) to {args.print_list}")
+    return 0
