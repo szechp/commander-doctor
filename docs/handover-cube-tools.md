@@ -25,6 +25,13 @@ skeleton and ECL 120 `--keep-lands` give byte-identical CSV and txt to
 `mtg-proxies cube`. 17lands is unreachable from the build container (network
 policy), so the ratings path is tested with a stub only. New: `--owned` /
 `--free` (ledger) and `--profile` filters.
+Step 5 done: `brew --rank-edhrec [owned|high-synergy]` (`edhrec_rank.py`, pages
+through `edhrec.fetch_commander_data`'s weekly cache) ranks every feasible
+commander by owned EDHREC recommendations and owned High Synergy cards, then
+applies `--limit`; plain `brew` is byte-identical (text and JSON, three
+option sets). `deckdoctor value <list>` (`value.py`) is deck_value as a table
+over the mirror's EUR prices. commander_finder's `--all-commanders` (legends you
+don't own) is not ported: brew only reports commanders you own.
 
 ## Repositories and refs
 

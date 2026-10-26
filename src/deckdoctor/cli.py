@@ -437,6 +437,9 @@ def main(argv: list[str] | None = None) -> int:
     p_brew.add_argument("--max-identity-width", type=int, default=None, metavar="N",
                         help="only report commanders with at most N colours in their identity (e.g. 3 for two/three-colour options)")
     p_brew.add_argument("--format", choices=["text", "json"], default="text")
+    p_brew.add_argument("--rank-edhrec", nargs="?", const="owned", choices=["owned", "high-synergy"], default=None,
+                        help="rank the buildable commanders by how many cards on their EDHREC page you own "
+                             "(or owned High Synergy cards); pages come from the EDHREC cache, fetched once if missing")
     p_card = sub.add_parser("card", help="real oracle text + ramp/draw/prereq/tag roles for one or more cards by name -- look it up, don't recall it from memory")
     p_card.add_argument("name", nargs="+", help='e.g. deckdoctor card "Ranging Raptors"')
     p_card.add_argument("--db", default=None)
@@ -517,6 +520,8 @@ def main(argv: list[str] | None = None) -> int:
     from deckdoctor.cube_cli import add_parsers as add_cube_parsers
     add_packets_parsers(sub)
     add_cube_parsers(sub)
+    from deckdoctor.value import add_parser as add_value_parser
+    add_value_parser(sub)
 
     for name in NOT_YET_IMPLEMENTED:
         sub.add_parser(name)
@@ -529,6 +534,9 @@ def main(argv: list[str] | None = None) -> int:
     if args.command == "cube":
         from deckdoctor.cube_cli import run as run_cube
         return run_cube(args)
+    if args.command == "value":
+        from deckdoctor.value import run as run_value
+        return run_value(args)
 
     if args.command == "derive":
         import json
@@ -1203,10 +1211,21 @@ def main(argv: list[str] | None = None) -> int:
                   "or --collection)", file=sys.stderr)
             return 2
         print(f"(owned pool: {len(owned)} distinct card name(s))", file=sys.stderr)
-        options = owned_commander_options(con, owned,
-                                          min_legal_nonlands=args.min_nonlands,
-                                          limit=args.limit,
-                                          max_identity_width=args.max_identity_width)
+        edhrec_scores, edhrec_no_page = {}, []
+        if args.rank_edhrec:
+            from deckdoctor.edhrec_rank import rank
+            feasible = owned_commander_options(con, owned, min_legal_nonlands=args.min_nonlands,
+                                               limit=len(owned) + 1, max_identity_width=args.max_identity_width)
+            ranked, edhrec_no_page = rank([o.commander for o in feasible], owned, by=args.rank_edhrec)
+            edhrec_scores = {s.commander: s for s in ranked}
+            by_name = {o.commander: o for o in feasible}
+            options = ([by_name[s.commander] for s in ranked]
+                       + [o for o in feasible if o.commander not in edhrec_scores])[:args.limit]
+        else:
+            options = owned_commander_options(con, owned,
+                                              min_legal_nonlands=args.min_nonlands,
+                                              limit=args.limit,
+                                              max_identity_width=args.max_identity_width)
         from deckdoctor.deck import Card as DeckCard, Deck
         placeholder = DeckCard(name="owned pool", cmc=0.0, type_line="", ramp_kind=None,
                                draw_kind=None, prereq=None, is_game_changer=False)
@@ -1217,6 +1236,13 @@ def main(argv: list[str] | None = None) -> int:
                 "min_legal_nonlands": args.min_nonlands,
                 "commanders": [asdict(o) for o in options],
                 "spare_inventory": collection.path if collection else None,
+                **({"edhrec_ranking": {
+                    "by": args.rank_edhrec,
+                    "commanders": [{"commander": s.commander, "owned": s.owned_count,
+                                    "high_synergy_owned": s.high_synergy_owned, "recommended": s.total_recs}
+                                   for s in edhrec_scores.values()],
+                    "no_page": edhrec_no_page,
+                }} if args.rank_edhrec else {}),
             }, owned_deck, con, status="approximate",
             limitation="Feasibility only: a commander is reported when it is owned and the "
                       "owned pool has enough unique identity-legal NONLANDS to fill the "
@@ -1231,8 +1257,22 @@ def main(argv: list[str] | None = None) -> int:
         else:
             if not options:
                 print(f"(no commander reaches {args.min_nonlands} unique identity-legal owned nonlands)")
-            for line in render_options(options):
-                print(line)
+            if not args.rank_edhrec:
+                for line in render_options(options):
+                    print(line)
+            else:
+                from deckdoctor.edhrec_rank import detail_lines, suffix
+                print("(EDHREC overlap is a buildability proxy, not deck quality: generic staples inflate "
+                      "it; compare the high-synergy count)")
+                for option in options:
+                    lines = render_options([option])
+                    edhrec_score = edhrec_scores.get(option.commander)
+                    lines[0] += suffix(edhrec_score) if edhrec_score else " | EDHREC: no page"
+                    lines += detail_lines(edhrec_score) if edhrec_score else []
+                    for line in lines:
+                        print(line)
+                if edhrec_no_page:
+                    print(f"(no EDHREC page for {len(edhrec_no_page)}: {', '.join(edhrec_no_page)})")
         return 0
 
     if args.command == "card":
