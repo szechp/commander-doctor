@@ -71,7 +71,8 @@ def add_parsers(sub) -> None:
     p_profile = sub.add_parser("profile", help="card rules profiles (data/card_profiles.yaml): list them, or explain a card")
     p_pf = p_profile.add_subparsers(dest="profile_action", required=True)
     p_pf.add_parser("list", help="every profile and what it is for")
-    p_pf_check = p_pf.add_parser("check", help="does a card pass a profile, and if not, why")
+    p_pf_check = p_pf.add_parser("check", help="does a card pass a profile, and if not, why "
+                                 "(exit 1: a card fails, 2: a card is unknown)")
     p_pf_check.add_argument("profile")
     p_pf_check.add_argument("name", nargs="+")
     p_pf_check.add_argument("--db", default=None, help=DB_HELP)
@@ -215,7 +216,7 @@ def _run_inventory(args) -> int:
     return 0
 
 
-def _open_store(args):
+def _open_store(args, *, needs_forge: bool = True):
     """(connection, CardStore), or None after printing the exit-3 message."""
     from deckdoctor.cli import _resolve_cardsfolder
     from deckdoctor.core.cards import CardStore
@@ -226,7 +227,7 @@ def _open_store(args):
         print(f"{exc} -- run `deckdoctor sync` first", file=sys.stderr)
         return None
     cardsfolder = _resolve_cardsfolder(args.cardsfolder)
-    if not cardsfolder.is_dir():
+    if needs_forge and not cardsfolder.is_dir():
         print(f"Forge cardsfolder not found: {cardsfolder} -- Forge checks will fail; see SETUP.md step 3",
               file=sys.stderr)
     return con, CardStore(con, cardsfolder)
@@ -240,6 +241,13 @@ def _run_lanes(args) -> int:
 
     profile = load_profile(args.profile)
     lane_set = load_lane_set(args.lanes)
+    colors = args.color.upper()
+    if set(colors) - set(packets.COLORS):
+        print(f"--color takes letters from {packets.COLORS}, not {args.color!r}", file=sys.stderr)
+        return 2
+    if args.free and args.collection:
+        print("give a card list or --free, not both", file=sys.stderr)
+        return 2
     if args.free:
         from deckdoctor.core.ledger import build_ledger, load_inventory_config
         entries = build_ledger(load_inventory_config(_project_path(args.inventory))).remaining()
@@ -253,9 +261,13 @@ def _run_lanes(args) -> int:
         pool = packets.lane_pool(totals(entries), store, profile)
     finally:
         con.close()
-    print(packets.render_lanes(pool, lane_set, colors=args.color or packets.COLORS, show=args.show))
+    print(packets.render_lanes(pool, lane_set, colors=colors or packets.COLORS, show=args.show))
     if args.dump:
-        Path(args.dump).write_text(packets.lane_pool_json(pool))
+        try:
+            Path(args.dump).write_text(packets.lane_pool_json(pool))
+        except OSError as exc:
+            print(f"could not write --dump {args.dump}: {exc}", file=sys.stderr)
+            return 2
     return 0
 
 
@@ -267,17 +279,17 @@ def _run_profile(args) -> int:
             print(f"{name}: {profile.description}")
         return 0
     profile = load_profile(args.profile)
-    opened = _open_store(args)
+    opened = _open_store(args, needs_forge=profile.forge_playable)
     if opened is None:
         return 3
     con, store = opened
-    failed = False
+    failed = unknown = False
     try:
         for name in args.name:
             card = store.card(name)
             if card is None:
                 print(f"{name}: not in the card database (exact name needed)")
-                failed = True
+                unknown = True
                 continue
             failures = profile.check(card, store)
             failed |= bool(failures)
@@ -285,4 +297,4 @@ def _run_profile(args) -> int:
                                  else "fails " + profile.name + ": " + "; ".join(f.reason for f in failures)))
     finally:
         con.close()
-    return 1 if failed else 0
+    return 2 if unknown else 1 if failed else 0

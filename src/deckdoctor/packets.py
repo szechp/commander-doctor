@@ -290,8 +290,9 @@ class LanePool:
 
 
 def lane_pool(owned: dict[str, int], store: CardStore, profile) -> LanePool:
-    """Owned cards the profile allows, per color. Hybrid cards count for each
-    of their colors; colorless cards go to a shared "C" pool."""
+    """Owned cards the profile allows, per color. A gold card counts for each
+    color that pays for every pip ({W/U}{W/U}: W and U; {W/U}{U}: U only),
+    else for all its colors; colorless cards go to a shared "C" pool."""
     by_color: dict[str, list] = defaultdict(list)
     dropped: Counter = Counter()
     for name, n in owned.items():
@@ -303,7 +304,9 @@ def lane_pool(owned: dict[str, int], store: CardStore, profile) -> LanePool:
         if failures:
             dropped[failures[0].category] += 1
             continue
-        for color in (card.colors or ("C",)):
+        # a gold card counts for the colors that can pay for it alone ({W/U} for W and U)
+        colors = (card.castable_colors if len(card.colors) > 1 else ()) or card.colors or ("C",)
+        for color in colors:
             by_color[color].append((card, n))
     return LanePool(dict(by_color), dropped)
 

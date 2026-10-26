@@ -14,6 +14,7 @@ from dataclasses import dataclass, field
 from pathlib import Path
 
 _REMINDER_RE = re.compile(r"\([^)]*\)")
+_SYMBOL_RE = re.compile(r"\{([^}]+)\}")
 
 
 def strip_reminder(text: str | None) -> str:
@@ -34,6 +35,19 @@ class Card:
     power: str | None
     toughness: str | None
     tags: frozenset[str] = field(default=frozenset())
+    set_type: str = ""
+
+    @property
+    def castable_colors(self) -> tuple[str, ...]:
+        """The card's colors a mono-color deck of that color can pay for:
+        every colored pip is that color or a hybrid including it. A mono card
+        gives its color, ``{W/U}{W/U}`` gives W and U, ``{1}{B}{B/G}{G}``
+        gives none, and so does a gold card with no colored pips (Sphinx of
+        the Guildpact, {7}, is all colors by its text)."""
+        pips = [s for s in _SYMBOL_RE.findall(self.mana_cost) if any(c in s for c in "WUBRG")]
+        if len(self.colors) > 1 and not pips:
+            return ()
+        return tuple(c for c in self.colors if all(c in pip for pip in pips))
 
     @property
     def rules_text(self) -> str:
@@ -68,7 +82,7 @@ class CardStore:
 
     def _load(self, name: str) -> Card | None:
         row = self.con.execute(
-            "SELECT name, mana_cost, cmc, type_line, oracle_text, colors, keywords, layout, power, toughness "
+            "SELECT name, mana_cost, cmc, type_line, oracle_text, colors, keywords, layout, power, toughness, set_type "
             "FROM cards WHERE name = ?", (name,),
         ).fetchone()
         if row is None:
@@ -79,7 +93,7 @@ class CardStore:
             name=row[0], mana_cost=row[1] or "", cmc=row[2] or 0.0, type_line=row[3] or "",
             oracle_text=row[4] or "", colors=tuple(json.loads(row[5] or "[]")),
             keywords=frozenset(json.loads(row[6] or "[]")), layout=row[7] or "",
-            power=row[8], toughness=row[9], tags=tags,
+            power=row[8], toughness=row[9], tags=tags, set_type=row[10] or "",
         )
 
     def forge_script(self, name: str) -> Path | None:

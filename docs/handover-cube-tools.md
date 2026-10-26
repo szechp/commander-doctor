@@ -6,7 +6,8 @@ Status: written 2026-10-26 for the next agent. Step 1 done (branch
 status|allocate|release|remaining`, byte-identical to `build.py`,
 `remaining.py` and `summary.py` on v7 and v8. Step 2 done: `data/card_profiles.yaml`
 (`beginner`, `poolside`, `cube-default`), `core/profiles.py`, `core/lanes.py`
-(`data/lanes/packets.yaml`), `deckdoctor packets lanes` (identical to `lanes.py`)
+(`data/lanes/packets.yaml`), `deckdoctor packets lanes` (identical to `lanes.py` on
+`N Name (SET) N` scans; see the differences below)
 and `deckdoctor profile list|check`.
 
 ## Repositories and refs
@@ -208,6 +209,15 @@ old scripts got wrong:
   `sim/` instead of creating one.
 - `--sample N` larger than the playable pairings prints them all (the script
   crashed).
+- `packets lanes` reads every list format above (`lanes.py` ignored lines
+  without a printing). A gold card counts only for the colors that can pay for
+  every pip: `{W/U}{U}` is blue only and `{1}{B}{B/G}{G}` is dropped
+  (`lanes.py` let any card with one hybrid pip into all its colors; 28 cards in
+  the mirror, none in the scan).
+- `poolside` and `cube-default` drop digital-only Alchemy cards
+  (`banned_set_types`), as swapfinder's `--restrict` dropped `digital` cards.
+  The mirror has no rarity, so swapfinder's `--max-rarity` has no equivalent
+  yet.
 
 ## Decisions (user, 2026-10-26)
 

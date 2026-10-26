@@ -7,6 +7,7 @@
 # fails (packets lanes counts drops that way):
 #   layouts            allowed Scryfall layouts (omit: any)
 #   banned_layouts     layouts never allowed
+#   banned_set_types   Scryfall set types (alchemy: digital-only cards)
 #   banned_types       substrings of the type line (e.g. Planeswalker, Basic)
 #   banned_keywords    Scryfall keywords
 #   banned_text        case-insensitive substrings of the full oracle text,
@@ -16,7 +17,8 @@
 #   no_sac_fodder      "sacrifice a creature ...: add" mana engines
 #   max_rules_text     characters of oracle text without reminder text
 #   forge_playable     has a Forge script without RemoveDeck:All
-#   multicolor         any | hybrid-only (gold cards only with hybrid pips) | mono
+#   multicolor         any | hybrid-only (a gold card only when one color pays for
+#                      every pip, e.g. {W/U}; it then counts for those colors) | mono
 
 beginner:
   description: >-
@@ -45,6 +47,7 @@ poolside:
     tokens, shuffle, search, transform, counters; counterspells only with
     ward; no double-faced, basic, Background or Commander-only cards).
   banned_layouts: [transform, modal_dfc, double_faced_token, meld, reversible_card]
+  banned_set_types: [alchemy]
   banned_types: [Basic, Background]
   banned_text: [
     token, shuffle, search, transform,
@@ -57,6 +60,7 @@ poolside:
 
 cube-default:
   description: >-
-    Any cube: no basics and no Commander-only cards, everything else allowed.
+    Any cube: no basics, digital-only or Commander-only cards, everything else allowed.
+  banned_set_types: [alchemy]
   banned_types: [Basic, Background]
   banned_text: [commander creatures, your commander, choose a background]

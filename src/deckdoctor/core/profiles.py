@@ -23,15 +23,14 @@ LAYOUT_TYPE = "layout/type"
 COMPLEX = "complex mechanic"
 LONG_TEXT = "long rules text"
 FORGE = "Forge AI can't play / missing"
-MULTICOLOR = "multicolor (not hybrid)"
+MULTICOLOR = "multicolor (not hybrid)"  # lanes.py's label
 
-_HYBRID_RE = re.compile(r"\{[WUBRG]/[WUBRG]\}")
 # "Sacrifice a/another/two ... : Add {mana}": a sac-for-mana engine that needs
 # creature fodder, dead without tokens. "Sacrifice this" (Lotus Petal) is fine.
 _SAC_FODDER_RE = re.compile(r"sacrifice (?:a|an|another|two|three|x|\d+)\b[^.:]*:\s*add\b")
-_KNOWN_KEYS = {"description", "layouts", "banned_layouts", "banned_types", "banned_keywords", "banned_text",
-               "counterspell_needs_ward", "no_named_self", "no_sac_fodder", "max_rules_text",
-               "forge_playable", "multicolor"}
+_LIST_KEYS = ("layouts", "banned_layouts", "banned_types", "banned_keywords", "banned_text", "banned_set_types")
+_BOOL_KEYS = ("counterspell_needs_ward", "no_named_self", "no_sac_fodder", "forge_playable")
+_KNOWN_KEYS = {"description", "max_rules_text", "multicolor", *_LIST_KEYS, *_BOOL_KEYS}
 
 
 @dataclass(frozen=True)
@@ -49,6 +48,7 @@ class Profile:
     banned_types: tuple[str, ...] = ()
     banned_keywords: frozenset[str] = frozenset()
     banned_text: tuple[str, ...] = ()
+    banned_set_types: frozenset[str] = frozenset()
     counterspell_needs_ward: bool = False
     no_named_self: bool = False
     no_sac_fodder: bool = False
@@ -62,6 +62,8 @@ class Profile:
             out.append(Failure(LAYOUT_TYPE, f"layout {card.layout} (allowed: {', '.join(sorted(self.layouts))})"))
         if card.layout in self.banned_layouts:
             out.append(Failure(LAYOUT_TYPE, f"layout {card.layout} is banned"))
+        if card.set_type in self.banned_set_types:
+            out.append(Failure(LAYOUT_TYPE, f"set type {card.set_type} (e.g. digital-only)"))
         for banned in self.banned_types:
             if banned in card.type_line:
                 out.append(Failure(LAYOUT_TYPE, f"type {banned}"))
@@ -85,42 +87,67 @@ class Profile:
         if len(card.colors) > 1:
             if self.multicolor == "mono":
                 out.append(Failure(MULTICOLOR, "multicolor"))
-            elif self.multicolor == "hybrid-only" and not _HYBRID_RE.search(card.mana_cost):
-                out.append(Failure(MULTICOLOR, "multicolor without hybrid pips"))
+            elif self.multicolor == "hybrid-only" and not card.castable_colors:
+                out.append(Failure(MULTICOLOR, "multicolor: no single color can pay for every pip"))
         return out
 
     def allows(self, card: Card, store: CardStore | None = None) -> bool:
         return not self.check(card, store)
 
 
+def _typed(where: str, key: str, value, kind):
+    """``value`` checked as ``kind`` (list of strings, bool, int), or a
+    ValueError naming the key: a bare word where a list belongs would
+    otherwise be read letter by letter."""
+    if kind is list:
+        if not isinstance(value, list) or not all(isinstance(v, str) for v in value):
+            raise ValueError(f"{where}: {key} must be a list of strings, e.g. [{value}]")
+        return value
+    if kind is bool:
+        if not isinstance(value, bool):
+            raise ValueError(f"{where}: {key} must be true or false, not {value!r}")
+        return value
+    if not isinstance(value, int) or isinstance(value, bool) or value < 0:
+        raise ValueError(f"{where}: {key} must be a whole number, not {value!r}")
+    return value
+
+
 def load_profiles(path: str | Path = PROFILES_PATH) -> dict[str, Profile]:
     profiles_path = Path(path)
     try:
         data = yaml.safe_load(profiles_path.read_text(encoding="utf-8")) or {}
-    except (OSError, yaml.YAMLError) as exc:
+    except (OSError, UnicodeError, yaml.YAMLError) as exc:
         raise ValueError(f"could not read card profiles {profiles_path}: {exc}") from exc
+    if not isinstance(data, dict):
+        raise ValueError(f"{profiles_path}: must map profile names to their checks")
     out = {}
     for name, body in data.items():
-        unknown = set(body or {}) - _KNOWN_KEYS
-        if unknown:
-            raise ValueError(f"{profiles_path}: profile {name!r} has unknown key(s) {', '.join(sorted(unknown))}")
+        where = f"{profiles_path}: profile {name!r}"
+        if not isinstance(name, str):
+            raise ValueError(f"{where}: profile names must be strings (quote it)")
         body = body or {}
+        if not isinstance(body, dict):
+            raise ValueError(f"{where}: must map check names to values")
+        unknown = set(body) - _KNOWN_KEYS
+        if unknown:
+            raise ValueError(f"{where} has unknown key(s) {', '.join(sorted(map(str, unknown)))}")
+        lists = {key: _typed(where, key, body[key], list) for key in _LIST_KEYS if key in body}
+        flags = {key: _typed(where, key, body[key], bool) for key in _BOOL_KEYS if key in body}
         if body.get("multicolor", "any") not in {"any", "hybrid-only", "mono"}:
-            raise ValueError(f"{profiles_path}: profile {name!r}: multicolor must be any, hybrid-only or mono")
+            raise ValueError(f"{where}: multicolor must be any, hybrid-only or mono")
         out[name] = Profile(
             name=name,
             description=" ".join(str(body.get("description", "")).split()),
-            layouts=frozenset(body["layouts"]) if "layouts" in body else None,
-            banned_layouts=frozenset(body.get("banned_layouts", ())),
-            banned_types=tuple(body.get("banned_types", ())),
-            banned_keywords=frozenset(body.get("banned_keywords", ())),
-            banned_text=tuple(str(term) for term in body.get("banned_text", ())),
-            counterspell_needs_ward=bool(body.get("counterspell_needs_ward", False)),
-            no_named_self=bool(body.get("no_named_self", False)),
-            no_sac_fodder=bool(body.get("no_sac_fodder", False)),
-            max_rules_text=body.get("max_rules_text"),
-            forge_playable=bool(body.get("forge_playable", False)),
+            layouts=frozenset(lists["layouts"]) if "layouts" in lists else None,
+            banned_layouts=frozenset(lists.get("banned_layouts", ())),
+            banned_types=tuple(lists.get("banned_types", ())),
+            banned_keywords=frozenset(lists.get("banned_keywords", ())),
+            banned_text=tuple(lists.get("banned_text", ())),
+            banned_set_types=frozenset(lists.get("banned_set_types", ())),
+            max_rules_text=_typed(where, "max_rules_text", body["max_rules_text"], int)
+            if body.get("max_rules_text") is not None else None,
             multicolor=body.get("multicolor", "any"),
+            **flags,
         )
     return out
 

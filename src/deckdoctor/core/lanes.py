@@ -2,9 +2,9 @@
 
 A lane is a set of Scryfall oracle tags, keywords, an oracle-text regex and
 an optional minimum creature power; a card fits when any of them matches.
-Lane sets come from ``data/lanes/*.yaml`` (packet lanes), from WotC set
-skeletons (``data/cube_archetypes/*.json``, a color pair per lane) or are
-derived from a pool.
+Lane sets come from ``data/lanes/*.yaml`` (packet lanes); cube archetypes
+(WotC set skeletons and lanes derived from a pool) are weighted signals in
+``core/themes.py``.
 """
 
 from __future__ import annotations
@@ -28,7 +28,6 @@ class Lane:
     keywords: frozenset[str] = frozenset()
     oracle: str | None = None
     min_power: int | None = None
-    colors: str = ""  # a WotC skeleton's color pair, e.g. "WU"; "" for any
 
     def fits(self, card: Card) -> bool:
         if self.min_power is not None:
@@ -59,6 +58,12 @@ class LaneSet:
         return self._tribe_res[tribe]
 
 
+def _strings(where: str, key: str, value) -> list[str]:
+    if not isinstance(value, list) or not all(isinstance(v, str) for v in value):
+        raise ValueError(f"{where}: {key} must be a list of strings, e.g. [{value}]")
+    return value
+
+
 def load_lane_set(name_or_path: str | Path) -> LaneSet:
     """A lane file by name (``packets`` -> data/lanes/packets.yaml) or path."""
     path = Path(name_or_path)
@@ -66,21 +71,37 @@ def load_lane_set(name_or_path: str | Path) -> LaneSet:
         path = LANES_DIR / f"{name_or_path}.yaml"
     try:
         data = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
-    except (OSError, yaml.YAMLError) as exc:
+    except (OSError, UnicodeError, yaml.YAMLError) as exc:
         raise ValueError(f"could not read lanes {path}: {exc}") from exc
+    lanes_data = data.get("lanes") if isinstance(data, dict) else None
+    if not isinstance(lanes_data, dict):
+        raise ValueError(f"{path}: needs a `lanes:` mapping of lane name to its signals")
     lanes = []
-    for lane_name, body in (data.get("lanes") or {}).items():
+    for lane_name, body in lanes_data.items():
+        where = f"{path}: lane {lane_name!r}"
+        if not isinstance(lane_name, str):
+            raise ValueError(f"{where}: lane names must be strings (quote it)")
         body = body or {}
-        unknown = set(body) - {"tags", "keywords", "oracle", "min_power", "colors"}
+        if not isinstance(body, dict):
+            raise ValueError(f"{where}: must map tags/keywords/oracle/min_power to values")
+        unknown = set(body) - {"tags", "keywords", "oracle", "min_power"}
         if unknown:
-            raise ValueError(f"{path}: lane {lane_name!r} has unknown key(s) {', '.join(sorted(unknown))}")
-        if body.get("oracle"):
+            raise ValueError(f"{where} has unknown key(s) {', '.join(sorted(map(str, unknown)))}")
+        oracle = body.get("oracle")
+        if oracle is not None:
+            if not isinstance(oracle, str):
+                raise ValueError(f"{where}: oracle must be a regex string")
             try:
-                re.compile(body["oracle"])
+                re.compile(oracle)
             except re.error as exc:
-                raise ValueError(f"{path}: lane {lane_name!r}: bad oracle regex: {exc}") from exc
+                raise ValueError(f"{where}: bad oracle regex: {exc}") from exc
+        min_power = body.get("min_power")
+        if min_power is not None and (not isinstance(min_power, int) or isinstance(min_power, bool)):
+            raise ValueError(f"{where}: min_power must be a whole number")
         lanes.append(Lane(
-            name=str(lane_name), tags=frozenset(body.get("tags", ())), keywords=frozenset(body.get("keywords", ())),
-            oracle=body.get("oracle"), min_power=body.get("min_power"), colors=body.get("colors", ""),
+            name=lane_name, tags=frozenset(_strings(where, "tags", body.get("tags", []))),
+            keywords=frozenset(_strings(where, "keywords", body.get("keywords", []))),
+            oracle=oracle, min_power=min_power,
         ))
-    return LaneSet(tuple(lanes), tuple(data.get("tribes") or ()), str(path))
+    tribes = _strings(f"{path}", "tribes", data.get("tribes") or [])
+    return LaneSet(tuple(lanes), tuple(tribes), str(path))

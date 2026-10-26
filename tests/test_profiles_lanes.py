@@ -104,3 +104,70 @@ def test_lane_pool_and_report():
 
 def test_forge_script_name_matches_cardsfolder_layout(tmp_path):
     assert forge_script_name("Air Elemental") == "a/air_elemental.txt"
+
+
+@pytest.mark.parametrize("body, message", [
+    ("x:\n  banned_types: Basic\n", "banned_types must be a list"),
+    ("x:\n  layouts: normal\n", "layouts must be a list"),
+    ("x:\n  counterspell_needs_ward: 'false'\n", "must be true or false"),
+    ("x:\n  max_rules_text: '210'\n", "whole number"),
+    ("- a\n", "must map profile names"),
+    ("x: [a]\n", "must map check names"),
+])
+def test_profile_file_type_errors(tmp_path, body, message):
+    path = tmp_path / "profiles.yaml"
+    path.write_text(body)
+    with pytest.raises(ValueError, match=message):
+        load_profiles(path)
+
+
+@pytest.mark.parametrize("body, message", [
+    ("lanes:\n  x: {tags: anthem}\n", "tags must be a list"),
+    ("lanes:\n  x: {min_power: '4'}\n", "min_power"),
+    ("lanes:\n  yes: {tags: [a]}\n", "must be strings"),
+    ("lanes: [a]\n", "needs a `lanes:` mapping"),
+    ("lanes:\n  x: {tags: [a]}\ntribes: Goblin\n", "tribes must be a list"),
+])
+def test_lane_file_type_errors(tmp_path, body, message):
+    path = tmp_path / "l.yaml"
+    path.write_text(body)
+    with pytest.raises(ValueError, match=message):
+        load_lane_set(path)
+
+
+@pytest.mark.parametrize("mana, colors, castable", [
+    ("{W}", ("W",), ("W",)),
+    ("{W/U}{W/U}", ("W", "U"), ("W", "U")),
+    ("{W/U}{U}{U/B}", ("W", "U", "B"), ("U",)),
+    ("{1}{B}{B/G}{G}", ("B", "G"), ()),
+    ("{2/W}{B/P}", ("W", "B"), ()),
+    ("", ("U",), ("U",)),
+    ("{7}", ("W", "U", "B", "R", "G"), ()),
+])
+def test_castable_colors(mana, colors, castable):
+    assert card(mana=mana, colors=colors).castable_colors == castable
+
+
+def test_hybrid_only_needs_one_color_to_pay_and_pools_by_those_colors():
+    beginner = load_profile("beginner")
+    toluz = card("Toluz", mana="{W/U}{U}{U/B}", colors=("W", "U", "B"))
+    woe = card("Woe-Eater", mana="{1}{B}{B/G}{G}", colors=("B", "G"))
+    store = FakeStore([toluz, woe], playable={"Toluz", "Woe-Eater"})
+    assert beginner.allows(toluz, store)
+    assert [f.category for f in beginner.check(woe, store)] == [MULTICOLOR]
+    pool = packets.lane_pool({"Toluz": 1, "Woe-Eater": 1}, store, beginner)
+    assert set(pool.by_color) == {"U"} and pool.dropped == {MULTICOLOR: 1}
+
+
+def test_poolside_and_cube_default_drop_alchemy():
+    alchemy = Card(**{**card().__dict__, "set_type": "alchemy"})
+    for name in ("poolside", "cube-default"):
+        assert any("set type alchemy" in f.reason for f in load_profile(name).check(alchemy))
+
+
+def test_cli_lanes_and_profile_errors(tmp_path, capsys):
+    from deckdoctor.cli import main
+    assert main(["packets", "lanes", "--color", "X", "--db", str(tmp_path / "none")]) == 2
+    assert main(["packets", "lanes", "list.txt", "--free"]) == 2
+    assert main(["profile", "list"]) == 0
+    assert "poolside:" in capsys.readouterr().out
