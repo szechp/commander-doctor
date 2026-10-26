@@ -1,6 +1,7 @@
 """Build two-packet decks from a packet spec and check them against the collection.
 
-usage: uv run python packets/build.py packets/packets_v1.json <round> [--collection FILE]
+usage: uv run python packets/build.py packets/packets_v3.json <round> [--collection FILE]
+(default collection: packets/collection.txt)
 
 Each packet is 12 spells + 8 basics (20 cards); a deck is two packets (40 cards).
 Writes sim/rounds/<round>/Packet-<XY>.dck and sim/specs/<round>.json (one entry per
@@ -16,8 +17,10 @@ rnd = sys.argv[2]
 CF = BOX.parent / "forge-spike/forge/forge-gui/res/cardsfolder"
 
 own = {}
-if "--collection" in sys.argv:
-    for ln in Path(sys.argv[sys.argv.index("--collection") + 1]).read_text().splitlines():
+coll = (Path(sys.argv[sys.argv.index("--collection") + 1]) if "--collection" in sys.argv
+        else Path(__file__).resolve().parent / "collection.txt")
+if coll.exists():
+    for ln in coll.read_text().splitlines():
         m = re.match(r"(\d+) (.+?) \(([A-Za-z0-9]+)\) (\S+)", ln.strip())
         if m:
             own[m.group(2)] = own.get(m.group(2), 0) + int(m.group(1))

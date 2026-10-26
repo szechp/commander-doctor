@@ -1,0 +1,16 @@
+// B packet: Death and Recursion
+// 12 spells + 8 Swamp
+
+1 Lightless Evangel (EOE) 109
+1 Synapse Necromage (LCI) 125
+1 Gravedigger (M20) 103
+1 Gorging Vulture (CLU) 112
+1 Venomous Hierophant (CLU) 125
+1 Venomous Hierophant (CLU) 125
+1 Soul Salvage (M20) 116
+1 Murder (SNC) 88
+1 Reave Soul (IMA) 104
+1 Deathcap Marionette (LCI) 100
+1 Blistergrub (DDR) 40
+1 Retrofitted Transmogrant (MH3) 106
+8 Swamp

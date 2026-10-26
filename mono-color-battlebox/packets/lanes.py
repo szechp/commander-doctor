@@ -1,6 +1,6 @@
 """Find the archetype lanes a card collection supports, per color.
 
-usage: uv run python packets/lanes.py <collection.txt> [--show LANE] [--color W]
+usage: uv run python packets/lanes.py [collection.txt] [--show LANE] [--color W]
 
 Reads a "1 Card Name (SET) 123" list, keeps cards that are simple enough for
 beginners and playable by the Forge AI, and counts per color how many cards
@@ -78,7 +78,8 @@ def load(path):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("collection")
+    ap.add_argument("collection", nargs="?", default=str(Path(__file__).resolve().parent / "collection.txt"),
+                    help="default: packets/collection.txt; use packets/remaining.txt for cards not yet in packets")
     ap.add_argument("--show", default="")
     ap.add_argument("--color", default="")
     ap.add_argument("--dump", default="", help="write the filtered pool as JSON")

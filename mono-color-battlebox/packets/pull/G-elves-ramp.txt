@@ -1,0 +1,16 @@
+// G packet: Elves Ramp
+// 12 spells + 8 Forest
+
+1 Woodland Mystic (M20) 344
+1 Woodland Mystic (M20) 344
+1 Leafkin Druid (NCC) 299
+1 Leafkin Druid (NCC) 299
+1 Galadhrim Guide (LTR) 168
+1 Bristling Boar (M20) 338
+1 Silverback Shaman (CMR) 255
+1 Silverback Shaman (CMR) 255
+1 Charging Rhino (BBD) 192
+1 Colossal Dreadmaw (M21) 176
+1 Shower of Arrows (LTR) 188
+1 High-Rise Sawjack (SNC) 150
+8 Forest
