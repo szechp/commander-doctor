@@ -1,0 +1,16 @@
+// F packet: Fire and Tricks
+// 12 spells + 8 Mountain
+
+1 Fire Urchin (CLU) 133
+1 Erebor Flamesmith (LTR) 122
+1 Erebor Flamesmith (LTR) 122
+1 Erebor Flamesmith (LTR) 122
+1 Nimble Birdsticker (M20) 333
+1 Daggersail Aeronaut (M20) 133
+1 Shock (M20) 160
+1 Lightning Strike (M19) 152
+1 Magma Spray (AKH) 141
+1 Sure Strike (GRN) 118
+1 Infuriate (M20) 145
+1 Unfriendly Fire (XLN) 172
+8 Mountain

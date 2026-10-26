@@ -1,0 +1,16 @@
+// N packet: Beasts and Growth
+// 12 spells + 8 Forest
+
+1 Frilled Sandwalla (M20) 340
+1 Civic Gardener (SNC) 140
+1 Transdimensional Bovine (TMT) 134
+1 Ghirapur Guide (M19) 182
+1 Thicket Crasher (M20) 196
+1 Thicket Crasher (M20) 196
+1 Icecave Crasher (EOE) 191
+1 Plated Crusher (BBD) 207
+1 Giant Growth (8ED) 254
+1 Titanic Growth (WOE) 191
+1 Rabid Bite (M20) 190
+1 Overcome (CLU) 171
+8 Forest

@@ -6,6 +6,9 @@ Writes, next to the spec:
   pull/<COLOR>-<packet-name>.txt   one pull list per packet: theme, then each card
                                    with the set code and collector number to pull
                                    ("PROXY" when the collection runs out)
+  manabox/<first|second|third>-5-packets.txt
+                                   ManaBox imports, five packets each in spec order
+                                   (proxies listed without a set code)
   remaining.txt                    the collection minus every pulled card, in the
                                    same "N Name (SET) number" format as the scan,
                                    so it can be fed to lanes.py / build.py again
@@ -36,6 +39,7 @@ for v in stock.values():
 out = HERE / "pull"
 out.mkdir(exist_ok=True)
 proxies = []
+pulled = {}                      # packet code -> pulled lines (without basics)
 for col, p in spec.items():
     slug = re.sub(r"[^a-z0-9]+", "-", p["name"].lower()).strip("-")
     lines = [f"// {col} packet: {p['name']}", f"// 12 spells + 8 {p['basic']}", ""]
@@ -48,8 +52,25 @@ for col, p in spec.items():
             else:
                 lines.append(f"1 {name} PROXY")
                 proxies.append(f"{col}: {name}")
+    pulled[col] = lines[3:]
     lines.append(f"8 {p['basic']}")
     (out / f"{col}-{slug}.txt").write_text("\n".join(lines) + "\n")
+
+mb = HERE / "manabox"
+mb.mkdir(exist_ok=True)
+codes = list(spec)
+for i, label in enumerate(("first", "second", "third", "fourth")):
+    group = codes[5 * i:5 * i + 5]
+    if not group:
+        break
+    merged = {}
+    for col in group:
+        for ln in pulled[col]:
+            key = ln[2:].replace(" PROXY", "")
+            merged[key] = merged.get(key, 0) + 1
+    body = [f"{k} {line}" for line, k in merged.items()]
+    body += [f"8 {spec[col]['basic']}" for col in group]
+    (mb / f"{label}-5-packets.txt").write_text("\n".join(body) + "\n")
 
 seen, rest = set(), []
 for name, st, num, foil in order:

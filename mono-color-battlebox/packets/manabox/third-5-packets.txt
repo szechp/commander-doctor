@@ -1,0 +1,56 @@
+1 Vernadi Shieldmate (CLU) 216
+1 Steadfast Cathar (EMN) 44
+1 Westfold Rider (LTR) 37
+2 Steadfast Sentry (M20) 40
+2 Malamet War Scribe (LCI) 21
+1 Pacifism (M20) 32
+1 Mighty Leap (CLU) 66
+1 Moment of Triumph (FDN) 500
+1 Inspiring Unicorn (GRN) 16
+1 Eagle of the Great Shelf (HOB) 11
+1 Opt (FDN) 512
+1 Tidepool Turtle (DMU) 69
+1 Octoprophet (M20) 70
+1 Naga Oracle (AKH) 62
+2 Bone to Ash (M20) 48
+1 Failed Inspection (KLD) 47
+1 Disdainful Stroke (WOE) 47
+1 Frost Breath (M21) 51
+1 Ancestral Reminiscence (LCI) 45
+1 Air Elemental (8ED) 59
+1 Riddlemaster Sphinx (M20) 317
+1 Hand of Silumgar (BBD) 146
+3 Audacious Thief (M20) 84
+2 Lost Legion (ELD) 94
+1 Abyssal Gorestalker (LCI) 87
+1 Murder (CMR) 134
+1 Bilbo's Deadly Slice (HOB) 62
+1 Grasp of Darkness (M21) 102
+1 Eliminate (M21) 97
+1 Epic Downfall (ELD) 85
+1 Fire Urchin (CLU) 133
+3 Erebor Flamesmith (LTR) 122
+1 Nimble Birdsticker (M20) 333
+1 Daggersail Aeronaut (M20) 133
+1 Shock (M20) 160
+1 Lightning Strike (M19) 152
+1 Magma Spray (AKH) 141
+1 Sure Strike (GRN) 118
+1 Infuriate (M20) 145
+1 Unfriendly Fire (XLN) 172
+1 Frilled Sandwalla (M20) 340
+1 Civic Gardener (SNC) 140
+1 Transdimensional Bovine (TMT) 134
+1 Ghirapur Guide (M19) 182
+2 Thicket Crasher (M20) 196
+1 Icecave Crasher (EOE) 191
+1 Plated Crusher (BBD) 207
+1 Giant Growth (8ED) 254
+1 Titanic Growth (WOE) 191
+1 Rabid Bite (M20) 190
+1 Overcome (CLU) 171
+8 Plains
+8 Island
+8 Swamp
+8 Mountain
+8 Forest

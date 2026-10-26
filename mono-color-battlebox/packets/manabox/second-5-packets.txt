@@ -6,7 +6,7 @@
 1 Herald of Faith (FDN) 494
 1 Cosmium Blast (LCI) 7
 1 Take Vengeance (M20) 313
-1 Fog on the Barrow-Downs (LTR) 16
+1 Mighty Leap (CLU) 66
 1 Slither Blade (OTC) 114
 1 Triton Shorestalker (OTC) 121
 2 Phantom Warrior (M20) 316
@@ -36,8 +36,8 @@
 2 Lightning Strike (M19) 152
 1 Lava Coil (2X2) 116
 1 Bombard (EOE) 129
-1 Chandra's Outrage (M20) 130
 1 Trained Orgg (S00) 37
+1 Infuriate (M20) 145
 3 Sedge Scorpion (M20) 192
 1 Pitiless Gorgon (CLU) 203
 1 Sultai Devotee (TDM) 160
