@@ -79,16 +79,18 @@ def add_parsers(sub) -> None:
 
     p_inv = sub.add_parser("inventory", help="ledger: the scanned bulk minus every packet, cube and deck allocation")
     p_inv.add_argument("--inventory", default=DEFAULT_INVENTORY, help=f"ledger file (default {DEFAULT_INVENTORY})")
+    ledger_file = argparse.ArgumentParser(add_help=False)
+    ledger_file.add_argument("--inventory", default=argparse.SUPPRESS, help=f"ledger file (default {DEFAULT_INVENTORY})")
     p_iv = p_inv.add_subparsers(dest="inventory_action", required=True)
-    p_iv.add_parser("status", help="copies scanned, allocated and free; proxies per allocation")
-    p_alloc = p_iv.add_parser("allocate", help="add an allocation at the end of the ledger")
+    p_iv.add_parser("status", parents=[ledger_file], help="copies scanned, allocated and free; proxies per allocation")
+    p_alloc = p_iv.add_parser("allocate", parents=[ledger_file], help="add an allocation at the end of the ledger")
     p_alloc.add_argument("name")
     source = p_alloc.add_mutually_exclusive_group(required=True)
     source.add_argument("--packets", help="a packets_vN.json spec")
     source.add_argument("--list", help="a card list (cube, deck): `N Name (SET) Number` lines")
-    p_release = p_iv.add_parser("release", help="remove an allocation; its cards are free again")
+    p_release = p_iv.add_parser("release", parents=[ledger_file], help="remove an allocation; its cards are free again")
     p_release.add_argument("name")
-    p_rem = p_iv.add_parser("remaining", help="the free cards, in the scan's format")
+    p_rem = p_iv.add_parser("remaining", parents=[ledger_file], help="the free cards, in the scan's format")
     p_rem.add_argument("--out", default=None, help="write to this file instead of stdout")
 
 
@@ -138,12 +140,19 @@ def _run_packets(args) -> int:
         print(f"remaining.txt: {sum(e.count for e in result.remaining)} cards left")
         return 0
 
+    owned_entries = _collection_entries(collection)
+    if owned_entries is None:
+        if args.collection:
+            print(f"collection not found: {collection}", file=sys.stderr)
+            return 2
+        print(f"no collection.txt next to the spec ({collection}): ownership not checked "
+              "(pass --collection)", file=sys.stderr)
     opened = _open_store(args)
     if opened is None:
         return 3
     con, store = opened
     try:
-        result = packets.build(spec, store, packets.owned_from(_collection_entries(collection)), sample=args.sample)
+        result = packets.build(spec, store, packets.owned_from(owned_entries), sample=args.sample)
     finally:
         con.close()
     packets.write_round(result, _project_path(args.box), args.round)
@@ -153,7 +162,9 @@ def _run_packets(args) -> int:
 
 def _run_inventory(args) -> int:
     from dataclasses import replace
-    from deckdoctor.core.ledger import build_ledger, load_inventory_config, relative_path, save_inventory_config
+    from deckdoctor.core.ledger import (
+        append_allocation, build_ledger, load_inventory_config, relative_path, remove_allocation,
+    )
 
     path = _project_path(args.inventory)
     config = load_inventory_config(path)
@@ -162,16 +173,14 @@ def _run_inventory(args) -> int:
         if any(item["name"] == args.name for item in config.allocations):
             print(f"allocation {args.name!r} already exists; release it first", file=sys.stderr)
             return 2
-        source = {"packets": args.packets} if args.packets else {"list": args.list}
-        key, value = next(iter(source.items()))
+        key, value = ("packets", args.packets) if args.packets else ("list", args.list)
         source_path = Path(value).resolve()
         if not source_path.is_file():
             print(f"{key} file not found: {value}", file=sys.stderr)
             return 2
         item = {"name": args.name, key: relative_path(source_path, path.parent.resolve())}
-        config = replace(config, allocations=config.allocations + (item,))
-        ledger = build_ledger(config)  # validates the new source before saving
-        save_inventory_config(config)
+        ledger = build_ledger(replace(config, allocations=config.allocations + (item,)))  # validates first
+        append_allocation(config, item)
         new = ledger.allocations_for(args.name)
         proxies = [name for a in new for name in a.proxies]
         print(f"allocated {args.name}: {sum(len(a.pulls) for a in new)} cards, {len(proxies)} proxies"
@@ -179,11 +188,7 @@ def _run_inventory(args) -> int:
         return 0
 
     if args.inventory_action == "release":
-        kept = tuple(item for item in config.allocations if item["name"] != args.name)
-        if len(kept) == len(config.allocations):
-            print(f"no allocation named {args.name!r}", file=sys.stderr)
-            return 2
-        save_inventory_config(replace(config, allocations=kept))
+        remove_allocation(config, args.name)
         print(f"released {args.name}")
         return 0
 

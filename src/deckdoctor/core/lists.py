@@ -2,11 +2,15 @@
 
 Accepted lines:
   1 Card Name (SET) 123          ManaBox scan, one printing
-  2 Card Name (SET) 123 *F*      foil printing
+  2 Card Name (SET) 123 *F*      foil (or *E* etched) printing
+  1 Card Name (SET)              set without collector number: name only
+  1x Card Name [Burn,Payoff]     Archidekt export; categories dropped
   2x Card Name                   count with an ``x``
   Card Name                      bare name, count 1
-Blank lines and ``//`` or ``#`` comments are skipped. Set and collector
-number are kept, so pull lists can name the exact printing to pull.
+Blank lines, ``//`` or ``#`` comments, a byte-order mark and section headers
+(``Deck``, ``Sideboard:`` ...) are skipped. Set and collector number are kept,
+so pull lists can name the exact printing to pull. A line that still looks
+like it carries printing data after parsing is an error, never a card name.
 
 This is the plain decklist line (``1 Name (SET) Number``) that mtg-proxies
 reads for printing; it is the whole interface between the two tools.
@@ -20,19 +24,27 @@ from pathlib import Path
 
 _LINE_RE = re.compile(
     r"^(?:(?P<count>\d+)x?\s+)?(?P<name>.+?)"
-    r"(?:\s+\((?P<set>[A-Za-z0-9]+)\)\s+(?P<number>\S+))?"
-    r"(?P<foil>\s+\*F\*)?$"
+    r"(?:\s+\((?P<set>[A-Za-z0-9]{2,6})\)(?:\s+(?P<number>[^\s*\[]+))?)?"
+    r"(?:\s+\*(?P<finish>[A-Za-z]+)\*)?"
+    r"(?:\s+\[[^\]]*\])?$"
 )
+# Left in a parsed name, these mean the line wasn't understood.
+_LEFTOVER_RE = re.compile(r"\s\([A-Za-z0-9]{2,6}\)(?:\s|$)|\*[A-Za-z]+\*|\[[^\]]*\]$")
+_HEADERS = {"deck", "main", "mainboard", "sideboard", "commander", "companion", "maybeboard", "about"}
 
 
 @dataclass(frozen=True)
 class Printing:
     set_code: str
     number: str
-    foil: bool = False
+    finish: str = ""  # "F" foil, "E" etched, "" non-foil
+
+    @property
+    def foil(self) -> bool:
+        return bool(self.finish)
 
     def suffix(self) -> str:
-        return f" ({self.set_code}) {self.number}{' *F*' if self.foil else ''}"
+        return f" ({self.set_code}) {self.number}{f' *{self.finish}*' if self.finish else ''}"
 
 
 @dataclass(frozen=True)
@@ -47,20 +59,23 @@ class ListEntry:
 
 def parse_list_text(text: str) -> list[ListEntry]:
     entries: list[ListEntry] = []
-    for line_number, raw_line in enumerate(text.splitlines(), 1):
+    for line_number, raw_line in enumerate(text.removeprefix("\ufeff").splitlines(), 1):
         line = raw_line.strip()
         if not line or line.startswith(("//", "#")):
             continue
+        if line.endswith(":") or line.lower() in _HEADERS:
+            continue
         match = _LINE_RE.match(line)
-        if not match:  # only reachable for a line the name group can't take
+        name = match.group("name").strip() if match else ""
+        if not match or not name or _LEFTOVER_RE.search(name):
             raise ValueError(f"line {line_number}: unparsed list line: {line!r}")
         count = int(match.group("count") or 1)
         if count <= 0:
             raise ValueError(f"line {line_number}: card count must be positive")
         printing = None
-        if match.group("set"):
-            printing = Printing(match.group("set"), match.group("number"), bool(match.group("foil")))
-        entries.append(ListEntry(count, match.group("name"), printing))
+        if match.group("set") and match.group("number"):
+            printing = Printing(match.group("set"), match.group("number"), (match.group("finish") or "").upper())
+        entries.append(ListEntry(count, name, printing))
     return entries
 
 

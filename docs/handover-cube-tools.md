@@ -189,6 +189,26 @@ agents won't find or use the new commands:
 no tokens (the `poolside` profile); extend it from the ledger so it doesn't take
 cards the learning packets use.
 
+## Deliberate differences from the old scripts
+
+Same output on every committed spec and scan; these differ only on input the
+old scripts got wrong:
+
+- The same printing scanned on two lines is one lot. `remaining.py` dropped
+  the second line's copies from `remaining.txt`.
+- `1x Name (SET) N`, bare `Name` and `(SET)`-without-number lines count as
+  owned (`build.py` and `remaining.py` only read `N Name (SET) N`), and an
+  owned card without a printing is pulled as `1 Name`, not as `PROXY`.
+- A list line the parser doesn't understand is an error naming the line, not a
+  card called "Sol Ring (CMM) 400 *E*". Etched (`*E*`), Archidekt categories
+  (`[Burn]`), section headers and a byte-order mark are understood.
+- `packets build` warns when it finds no `collection.txt` next to the spec and
+  skips the ownership check (the script always read `packets/collection.txt`);
+  `--collection` to a missing file is an error. It refuses a `--box` without
+  `sim/` instead of creating one.
+- `--sample N` larger than the playable pairings prints them all (the script
+  crashed).
+
 ## Decisions (user, 2026-10-26)
 
 1. `deck-value` moves into deckdoctor as a deck report; it leaves mtg-proxies.

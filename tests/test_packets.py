@@ -138,6 +138,26 @@ def test_cli_pull_and_inventory(tmp_path, capsys):
     assert main(base + ["remaining"]) == 0
     assert capsys.readouterr().out.endswith("1 Shock (M21) 159\n")
     assert main(base + ["release", "cube"]) == 2
+    assert main(["inventory", "status", "--inventory", str(inventory)]) == 0  # also after the subcommand
+    (tmp_path / "bad.json").write_text("[]")
+    assert main(base + ["allocate", "bad", "--packets", str(tmp_path / "bad.json")]) == 2
+    assert main(["packets", "pull", str(tmp_path / "packets_v1.json"), "--manabox-group", "0"]) == 2
+
+
+def test_cli_build_warns_without_collection_and_needs_a_sim_dir(tmp_path, capsys, monkeypatch):
+    spec = _spec()
+    store = _store(tmp_path, spec)
+    monkeypatch.setattr("deckdoctor.packets_cli._open_store", lambda args: (store.con, store))
+    (tmp_path / "spec.json").write_text(json.dumps(spec))
+    args = ["packets", "build", str(tmp_path / "spec.json"), "p1", "--box", str(tmp_path / "box")]
+    assert main(args) == 2
+    assert "no sim/ directory" in capsys.readouterr().err
+    (tmp_path / "box" / "sim").mkdir(parents=True)
+    store = _store(tmp_path, spec)
+    monkeypatch.setattr("deckdoctor.packets_cli._open_store", lambda args: (store.con, store))
+    assert main(args) == 0
+    assert "ownership not checked" in capsys.readouterr().err
+    assert main(args + ["--collection", str(tmp_path / "missing.txt")]) == 2
 
 
 def test_cli_build_without_db_exits_3(tmp_path):

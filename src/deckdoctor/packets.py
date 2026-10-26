@@ -22,7 +22,7 @@ from dataclasses import dataclass
 from pathlib import Path
 
 from deckdoctor.core.cards import CardStore
-from deckdoctor.core.ledger import Ledger, packet_wants
+from deckdoctor.core.ledger import Ledger, packet_wants, read_packet_spec
 from deckdoctor.core.lists import ListEntry, totals
 
 SPELLS_PER_PACKET = 12
@@ -32,18 +32,7 @@ ORDINALS = ("first", "second", "third", "fourth", "fifth", "sixth", "seventh", "
 
 
 def load_spec(path: str | Path) -> dict:
-    spec_path = Path(path)
-    try:
-        spec = json.loads(spec_path.read_text(encoding="utf-8"))
-    except (OSError, json.JSONDecodeError) as exc:
-        raise ValueError(f"could not read packet spec {spec_path}: {exc}") from exc
-    if not isinstance(spec, dict) or not spec:
-        raise ValueError(f"{spec_path}: a packet spec maps codes to packets")
-    for code, packet in spec.items():
-        missing = [key for key in ("name", "basic", "cards") if key not in packet]
-        if missing:
-            raise ValueError(f"{spec_path}: packet {code} has no {', '.join(missing)}")
-    return spec
+    return read_packet_spec(path)
 
 
 def check_spec(spec: dict, store: CardStore, owned: dict[str, int] | None) -> list[str]:
@@ -150,6 +139,8 @@ def build(spec: dict, store: CardStore, owned: dict[str, int] | None, *, sample:
 def write_round(result: BuildResult, box: Path, round_name: str) -> None:
     """sim/rounds/<round>/Packet-<XY>.dck (old decks removed) and
     sim/specs/<round>.json, so the sim scripts work unchanged."""
+    if not (box / "sim").is_dir():
+        raise ValueError(f"no sim/ directory in battlebox {box} -- wrong --box?")
     out = box / "sim" / "rounds" / round_name
     out.mkdir(parents=True, exist_ok=True)
     for old in out.glob("*.dck"):
@@ -184,6 +175,8 @@ def pull(spec: dict, ledger: Ledger, *, manabox_group: int = 5) -> PullResult:
     """Allocate every packet from the ledger in spec order and render one
     pull list per packet, ManaBox imports per ``manabox_group`` packets, and
     what's left."""
+    if manabox_group < 1:
+        raise ValueError("--manabox-group must be at least 1")
     pull_lists, proxies, allocations = {}, [], []
     for code, wants in packet_wants(spec):
         packet = spec[code]
@@ -214,7 +207,7 @@ def _manabox_text(spec: dict, group) -> str:
                 merged[-1][0] += 1
             else:
                 merged.append([1, p])
-    lines = [f"{k} {p.name}{p.printing.suffix() if p.printing else ''}" for k, p in merged]
+    lines = [f"{k} {p.name}{p.printing.suffix() if p.printing and not p.proxy else ''}" for k, p in merged]
     lines += [f"{BASICS_PER_PACKET} {spec[code]['basic']}" for code, _ in group]
     return "\n".join(lines) + "\n"
 
