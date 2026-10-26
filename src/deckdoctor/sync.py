@@ -157,6 +157,7 @@ def sync(db_path: str | None = None) -> None:
     face_rows: list[tuple] = []
     card_objects: list[dict] = []
     oracle_id_to_name: dict[str, str] = {}
+    excluded_ids: set[str] = set()  # tokens, emblems, ...: not loaded, but their tags are
     seen = 0
     excluded = 0
 
@@ -168,6 +169,7 @@ def sync(db_path: str | None = None) -> None:
         row = _card_row(card)
         if row is None:
             excluded += 1
+            excluded_ids.add(card.get("oracle_id", ""))
             continue
         card_rows.append(row)
         if card.get("released_at"):
@@ -195,6 +197,8 @@ def sync(db_path: str | None = None) -> None:
     tag_objects: list[dict] = []
     tag_slugs: dict[str, str] = {}
     parent_ids: list[tuple[str, str]] = []
+    loaded_tag_rows: set[tuple[str, str]] = set()
+    excluded_tag_rows: set[tuple[str, str]] = set()
     n_tags = 0
     print("Downloading + parsing oracle_tags...", file=sys.stderr)
     for tag in _stream_jsonl(tags_uri):
@@ -205,9 +209,11 @@ def sync(db_path: str | None = None) -> None:
         tag_slugs[tag.get("id", "")] = slug
         parent_ids.extend((slug, parent) for parent in tag.get("parent_ids") or ())
         for tagging in tag.get("taggings", []):
-            name = oracle_id_to_name.get(tagging.get("oracle_id", ""))
+            oracle_id = tagging.get("oracle_id", "")
+            name = oracle_id_to_name.get(oracle_id)
             if name:
                 tag_rows.append((name, slug))
+                (excluded_tag_rows if oracle_id in excluded_ids else loaded_tag_rows).add((name, slug))
         n_tags += 1
 
     # Dedupe client-side and skip ON CONFLICT: a unique-index check per row is
@@ -216,6 +222,8 @@ def sync(db_path: str | None = None) -> None:
     # different order of magnitude.
     tag_rows = list({(name, slug) for name, slug in tag_rows})
     tag_parent_rows = list({(slug, tag_slugs[parent]) for slug, parent in parent_ids if parent in tag_slugs})
+    loaded_names = {row[0] for row in card_rows}
+    token_only_rows = sorted(r for r in excluded_tag_rows - loaded_tag_rows if r[0] in loaded_names)
     print(f"  {n_tags} distinct oracle tags, {len(tag_rows)} card-tag pairs "
           f"({len(set(t[1] for t in tag_rows))} distinct tags actually attached to a "
           f"card in the mirror)", file=sys.stderr)
@@ -279,6 +287,7 @@ def sync(db_path: str | None = None) -> None:
         con.execute("DELETE FROM card_release")
         con.execute("DELETE FROM card_prices")
         con.execute("DELETE FROM tag_parents")
+        con.execute("DELETE FROM token_only_tags")
         con.executemany(
             "INSERT INTO cards (name,mana_cost,cmc,type_line,oracle_text,color_identity,colors,produced_mana,keywords,commander_legal,is_game_changer,layout,set_type,power,toughness) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
             card_rows,
@@ -295,6 +304,8 @@ def sync(db_path: str | None = None) -> None:
             con.executemany("INSERT INTO card_tags VALUES (?,?)", tag_rows)
         if tag_parent_rows:
             con.executemany("INSERT INTO tag_parents VALUES (?,?)", tag_parent_rows)
+        if token_only_rows:
+            con.executemany("INSERT INTO token_only_tags VALUES (?,?)", token_only_rows)
         override_result = apply_overrides(con, overrides)
         if restored:
             con.executemany("UPDATE cards SET ramp_kind=?,draw_kind=?,prereq=?,parsed=? WHERE name=?", restored)

@@ -24,8 +24,8 @@ def add_parsers(sub) -> None:
     source.add_argument("--owned", default=None, metavar="FILE",
                         help="draw from this card list instead of the ledger's free cards")
     source.add_argument("--all", action="store_true", help="draw from every card in the mirror (eyeball first)")
-    pool.add_argument("--inventory", default=DEFAULT_INVENTORY,
-                      help=f"ledger whose free cards are the pool (default {DEFAULT_INVENTORY})")
+    pool.add_argument("--inventory", default=None,
+                      help=f"ledger whose free cards are the pool (default {DEFAULT_INVENTORY}; not with --owned/--all)")
     pool.add_argument("--profile", default=None, help="card rules for the pool, e.g. poolside (`deckdoctor profile list`)")
     pool.add_argument("--exclude-text", default="", help='extra banned oracle substrings, e.g. "dice,stun counter"')
     pool.add_argument("--db", default=None, help=DB_HELP)
@@ -78,17 +78,41 @@ def add_parsers(sub) -> None:
     build_source = p_build.add_mutually_exclusive_group()
     build_source.add_argument("--owned", default=None, metavar="FILE", help="only cards in this list")
     build_source.add_argument("--free", action="store_true", help="only cards the ledger shows as free")
-    p_build.add_argument("--inventory", default=DEFAULT_INVENTORY, help="ledger for --free")
+    p_build.add_argument("--inventory", default=None, help=f"ledger for --free (default {DEFAULT_INVENTORY})")
     p_build.add_argument("--profile", default=None, help="card rules for candidates, e.g. poolside")
     p_build.add_argument("--db", default=None, help=DB_HELP)
     p_build.add_argument("--cardsfolder", default=DEFAULT_CARDSFOLDER)
 
 
+def _check_args(args) -> str | None:
+    """The first invalid argument combination, as a message."""
+    uses_ledger = getattr(args, "free", False) or not (getattr(args, "owned", None) or getattr(args, "all", False))
+    if args.inventory and not uses_ledger:
+        return "--inventory is the ledger pool; it can't be combined with --owned or --all"
+    if args.cube_action == "build" and args.inventory and not args.free:
+        return "--inventory only applies with --free"
+    if args.cube_action == "swaps":
+        if args.top < 1:
+            return "--top must be at least 1"
+        if args.pt_delta < 0 or args.cmc_delta < 0:
+            return "--pt-delta and --cmc-delta can't be negative"
+    if args.cube_action == "extend" and args.gold_share is not None and not 0 <= args.gold_share <= 1:
+        return "--gold-share is a fraction between 0 and 1"
+    return None
+
+
 def run(args: argparse.Namespace) -> int:
+    problem = _check_args(args)
+    if problem:
+        print(problem, file=sys.stderr)
+        return 2
     try:
         return _run(args)
     except ValueError as exc:
         print(str(exc), file=sys.stderr)
+        return 2
+    except OSError as exc:  # an output path in a missing folder, say
+        print(f"could not write output: {exc}", file=sys.stderr)
         return 2
 
 
@@ -104,9 +128,11 @@ def _pool(args, store):
         _warn_unresolved(args.owned, resolved.unresolved)
         return resolved.cards, {c.name for c in resolved.cards}, args.owned
     from deckdoctor.core.ledger import allocations_of_list, build_ledger, load_inventory_config
-    config = load_inventory_config(_project_path(args.inventory))
-    own = allocations_of_list(config, args.cube)  # the cube's own allocation, if any, stays in the pool
-    ledger = build_ledger(config, skip=own)
+    config = load_inventory_config(_project_path(args.inventory or DEFAULT_INVENTORY))
+    own = allocations_of_list(config, args.cube)
+    ledger = build_ledger(config)
+    for name in own:  # the cube's own copies count as owned for it
+        ledger.give_back(ledger.allocations_for(name))
     resolved = cube.resolve_entries(store, ledger.remaining(), unique=True)
     _warn_unresolved(str(config.collection), resolved.unresolved)
     label = f"free cards in {config.path}" + (f" (plus allocation {', '.join(sorted(own))})" if own else "")
@@ -134,6 +160,10 @@ def _run(args) -> int:
     if opened is None:
         return 3
     con, store = opened
+    if profile is not None and profile.forge_playable and not (store.cardsfolder and store.cardsfolder.is_dir()):
+        con.close()
+        print(f"the {profile.name} profile checks Forge playability: a Forge cardsfolder is needed", file=sys.stderr)
+        return 3
     try:
         themes = Themes(TagIndex(con))
         if not themes.index.has_hierarchy:
@@ -143,6 +173,9 @@ def _run(args) -> int:
             return _run_build(args, store, themes, profile)
         target = cube.resolve_entries(store, read_list(args.cube))
         _warn_unresolved(args.cube, target.unresolved)
+        if not target.cards:
+            print(f"{args.cube}: no card in it is in the card database", file=sys.stderr)
+            return 2
         pool, owned_names, label = _pool(args, store)
         exclude_text = tuple(t.strip() for t in args.exclude_text.split(",") if t.strip())
         if profile is not None or exclude_text:
@@ -178,6 +211,9 @@ def _run(args) -> int:
 
         blueprint = cube.resolve_entries(store, read_list(args.blueprint))
         _warn_unresolved(args.blueprint, blueprint.unresolved)
+        if not blueprint.cards:
+            print(f"{args.blueprint}: no card in it is in the card database", file=sys.stderr)
+            return 2
         extend = target.cards
         lanes = themes.derive_lanes(extend)
         tokens = [t for t in args.theme.split(",") if t.strip()]
@@ -202,7 +238,11 @@ def _run(args) -> int:
     lines = cube.completion_lines(entries)
     removed = [e.name for e in entries if e.status == "trim"]
     print(f"\nFinal cube: {len(lines)} cards  ({counts.get('owned', 0)} kept · {counts.get('fill', 0)} added · "
-          f"{counts.get('signpost', 0)} signposts) — matches the blueprint's color distribution")
+          f"{counts.get('signpost', 0)} signposts) — blueprint: {len(blueprint.cards)} cards")
+    short = len(blueprint.cards) - len(lines) - len(print_names)
+    if short > 0:
+        print(f"{short} slot(s) left empty: gold signposts used more of some colors than the blueprint's gold did, "
+              "and the other colors stay at their blueprint counts (lower --gold-share to fill them with mono cards)")
     print(f"Removed {len(removed)} from your cube · {len(print_names)} slots to proxy")
     Path(args.out).write_text("\n".join(lines) + "\n", encoding="utf-8")
     print(f"Wrote the {len(lines)}-card cube to {args.out}")
@@ -239,7 +279,7 @@ def _run_build(args, store, themes, profile) -> int:
             entries, label = read_list(args.owned), args.owned
         else:
             from deckdoctor.core.ledger import build_ledger, load_inventory_config
-            config = load_inventory_config(_project_path(args.inventory))
+            config = load_inventory_config(_project_path(args.inventory or DEFAULT_INVENTORY))
             entries, label = build_ledger(config).remaining(), f"free cards in {config.path}"
         owned = {c.name for c in cube.resolve_entries(store, entries, unique=True).cards}
         cards = [c for c in cards if c.name in owned]

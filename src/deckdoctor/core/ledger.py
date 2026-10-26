@@ -65,6 +65,7 @@ class Ledger:
         self._scan_order: list[_Lot] = []
         self._lots: dict[str, list[_Lot]] = {}
         merged: dict[tuple[str, Printing | None], _Lot] = {}
+        self._by_key = merged
         for entry in inventory:
             key = (entry.name, entry.printing)
             if key in merged:  # the same printing scanned twice: one lot
@@ -97,6 +98,14 @@ class Ledger:
                 allocation.pulls.append(Pull(name, lot.printing))
         self.allocations.append(allocation)
         return allocation
+
+    def give_back(self, allocations: list[Allocation]) -> None:
+        """Return the copies these allocations pulled to the free pool (their
+        proxies were never copies). Later allocations keep what they took."""
+        for allocation in allocations:
+            for pull in allocation.pulls:
+                if not pull.proxy:
+                    self._by_key[(pull.name, pull.printing)].free += 1
 
     def allocations_for(self, name: str) -> list[Allocation]:
         """The allocations one ledger entry made: itself, or ``name/CODE``
@@ -276,13 +285,11 @@ def relative_path(path: Path, base: Path) -> str:
         return str(path)
 
 
-def build_ledger(config: InventoryConfig, *, skip: frozenset[str] = frozenset()) -> Ledger:
-    """The ledger after every allocation in order, except those named in
-    ``skip``. A packet spec allocates one ``name/CODE`` per packet."""
+def build_ledger(config: InventoryConfig) -> Ledger:
+    """The ledger after every allocation in order. A packet spec allocates
+    one ``name/CODE`` per packet."""
     ledger = Ledger(read_list(config.collection))
     for item in config.allocations:
-        if item["name"] in skip:
-            continue
         try:
             if "packets" in item:
                 spec = read_packet_spec(config.resolve(item["packets"]))

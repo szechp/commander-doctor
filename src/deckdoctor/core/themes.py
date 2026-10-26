@@ -81,6 +81,11 @@ class TagIndex:
         raw: dict[str, set[str]] = defaultdict(set)
         for name, tag in con.execute("SELECT card_name, tag FROM card_tags"):
             raw[name].add(tag)
+        try:  # a token's tags on the real card of the same name (sync records them)
+            for name, tag in con.execute("SELECT card_name, tag FROM token_only_tags"):
+                raw[name].discard(tag)
+        except sqlite3.OperationalError:
+            pass
         self._tags: dict[str, frozenset[str]] = {}
         for name, tags in raw.items():
             expanded = set(tags)

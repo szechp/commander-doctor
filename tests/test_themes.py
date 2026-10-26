@@ -87,3 +87,16 @@ def test_cube_cli_errors(tmp_path):
     db = _cube_db(tmp_path)
     assert main(["cube", "swaps", str(tmp_path / "missing.txt"), "--db", str(db), "--out", "o.csv",
                  "--owned", str(tmp_path / "missing.txt")]) == 2
+
+
+def test_cube_swaps_own_allocation_keeps_its_copies_against_later_allocations(tmp_path):
+    db = _cube_db(tmp_path)
+    (tmp_path / "collection.txt").write_text("1 Go for the Throat (MBS) 1\n1 Cast Down (DOM) 1\n")
+    (tmp_path / "cube.txt").write_text("1 Go for the Throat\n1 Doom Blade\n")
+    (tmp_path / "deck.txt").write_text("1 Go for the Throat\n")
+    (tmp_path / "inventory.yaml").write_text("collection: collection.txt\nallocations:\n"
+                                             "  - {name: cube, list: cube.txt}\n  - {name: deck, list: deck.txt}\n")
+    out = tmp_path / "swaps.csv"
+    assert main(["cube", "swaps", str(tmp_path / "cube.txt"), "--inventory", str(tmp_path / "inventory.yaml"),
+                 "--db", str(db), "--out", str(out), "--min-tag", "0"]) == 0
+    assert "Go for the Throat,,owned" in out.read_text()  # the cube holds it; the later deck got the proxy

@@ -10,6 +10,7 @@ from __future__ import annotations
 import json
 import re
 import sqlite3
+import unicodedata
 from dataclasses import dataclass, field
 from pathlib import Path
 
@@ -65,6 +66,12 @@ class Card:
         return int(self.power) if self.power and self.power.isdigit() else 0
 
 
+def fold_name(name: str) -> str:
+    """Case- and accent-free form of a card name for matching."""
+    decomposed = unicodedata.normalize("NFKD", name.replace("Æ", "Ae").replace("æ", "ae"))
+    return "".join(ch for ch in decomposed if not unicodedata.combining(ch)).casefold().strip()
+
+
 def forge_script_name(name: str) -> str:
     """Forge's cardsfolder file name for a card, e.g. ``a/air_elemental.txt``."""
     stem = re.sub(r"[^a-z0-9 _-]", "", name.lower()).replace(" ", "_").replace("-", "_")
@@ -76,6 +83,7 @@ class CardStore:
         self.con = con
         self.cardsfolder = cardsfolder
         self._cards: dict[str, Card | None] = {}
+        self._names: dict[str, str | None] | None = None
 
     def card(self, name: str) -> Card | None:
         if name not in self._cards:
@@ -99,15 +107,31 @@ class CardStore:
         )
 
     def resolve(self, name: str) -> Card | None:
-        """By exact name, else by front face ("Bala Ged Recovery" for
-        "Bala Ged Recovery // Bala Ged Sanctuary"), as deck loading does."""
+        """By exact name; else ignoring case and accents ("lightning bolt",
+        "Vedalken Aethermage"), by the full name or any face ("Bala Ged
+        Recovery" or "Bala Ged Sanctuary" for the MDFC), as decklists and
+        scans name cards. A face shared by two cards resolves to neither."""
         card = self.card(name)
         if card is None:
-            pattern = name.replace("\\", "\\\\").replace("%", "\\%").replace("_", "\\_") + " // %"
-            row = self.con.execute("SELECT name FROM cards WHERE name LIKE ? ESCAPE '\\' ORDER BY name LIMIT 1",
-                                   (pattern,)).fetchone()
-            card = self.card(row[0]) if row else None
+            full = self._name_index().get(fold_name(name))
+            card = self.card(full) if full else None
         return card
+
+    def _name_index(self) -> dict[str, str | None]:
+        if self._names is None:
+            index: dict[str, str | None] = {}
+            faces: dict[str, set[str]] = {}
+            for (full,) in self.con.execute("SELECT name FROM cards"):
+                index[fold_name(full)] = full
+                for face in full.split(" // ")[1:] if " // " in full else ():
+                    faces.setdefault(fold_name(face), set()).add(full)
+                if " // " in full:
+                    faces.setdefault(fold_name(full.split(" // ")[0]), set()).add(full)
+            for key, fulls in faces.items():
+                if key not in index:
+                    index[key] = next(iter(fulls)) if len(fulls) == 1 else None
+            self._names = index
+        return self._names
 
     def all_cards(self, exclude_layouts: frozenset[str] = NON_DECK_LAYOUTS) -> list[Card]:
         """Every card in the mirror except non-deck layouts (planes, schemes,

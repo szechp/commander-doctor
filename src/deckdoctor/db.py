@@ -59,6 +59,16 @@ CREATE INDEX IF NOT EXISTS idx_card_tags_tag ON card_tags(tag);
 -- related tags into families (core/themes.py); Commander commands don't
 -- read it. A mirror synced before this table existed reads as "no
 -- hierarchy" until its next sync.
+-- Tags a card carries in card_tags only because a token (or other object
+-- the mirror excludes) shares its name: Llanowar Elves gets its token's
+-- `named-token`. card_tags keeps them as before; core/themes.py subtracts
+-- them for cube similarity.
+CREATE TABLE IF NOT EXISTS token_only_tags (
+    card_name TEXT,
+    tag       TEXT,
+    PRIMARY KEY (card_name, tag)
+);
+
 CREATE TABLE IF NOT EXISTS tag_parents (
     tag    TEXT,
     parent TEXT,

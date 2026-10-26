@@ -247,6 +247,20 @@ old scripts got wrong:
   tokens included); a match right at the `--min-tag` 0.12 floor can flip.
   Funny (Un-set) cards are not in the mirror, so they are reported as unknown.
   Equal-weight lanes in the "Derived lanes" printout are sorted by name.
+  Because the deduplicated pool changes the TF-IDF fit, text similarity drifts
+  slightly too (Lightning Bolt -> Chandra's Pyrohelix 0.132 vs 0.126).
+- Token tags: `card_tags` keys tags by name, so a token's tags land on the real
+  card of the same name (Llanowar Elves gets `named-token`; 86 cards).
+  Commander keeps reading `card_tags` unchanged; `sync` now also writes
+  `token_only_tags` and cube similarity subtracts them, which swapfinder (keyed
+  by oracle id) never had to. Scores on those cards differ from swapfinder's
+  accordingly.
+- Card names in cube lists resolve ignoring case and accents and by either
+  face (swapfinder resolved those too; deck loading still needs the exact or
+  front-face name).
+- `cube extend` prints the blueprint's size next to the result and says when
+  slots stay empty (gold took more of a color than the blueprint's gold did);
+  swapfinder claimed the color distribution always matched.
 - `poolside` and `cube-default` drop digital-only Alchemy cards
   (`banned_set_types`), as swapfinder's `--restrict` dropped `digital` cards.
   The mirror has no rarity, so swapfinder's `--max-rarity` has no equivalent
