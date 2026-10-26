@@ -11,6 +11,6 @@
 1 Silverback Shaman (CMR) 255
 1 Charging Rhino (BBD) 192
 1 Colossal Dreadmaw (M21) 176
-1 Shower of Arrows (LTR) 188
 1 High-Rise Sawjack (SNC) 150
+1 Penumbra Wurm (UMA) 177
 8 Forest

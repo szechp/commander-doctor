@@ -1,13 +1,12 @@
 2 Healer's Hawk (FDN) 142
-1 Concordia Pegasus (M21) 12
+2 Concordia Pegasus (M21) 12
 1 Griffin Sentinel (M20) 21
 1 Daybreak Chaplain (M20) 12
 2 Dawning Angel (M20) 11
 1 Herald of Faith (FDN) 494
-1 Serra's Guardian (M20) 310
 1 Cosmium Blast (LCI) 7
 1 Take Vengeance (M20) 313
-1 Bring to Trial (RNA) 5
+1 Fog on the Barrow-Downs (LTR) 16
 1 Slither Blade (OTC) 114
 1 Triton Shorestalker (OTC) 121
 2 Phantom Warrior (M20) 316
@@ -15,10 +14,10 @@
 1 Omenspeaker (CMR) 83
 1 Cloudkin Seer (CLU) 82
 1 Quick Study (FDN) 513
-1 Befuddle (M20) 47
 1 Unsummon (M20) 78
 1 Take into Custody (AER) 47
 1 Hithlain Knots (LTR) 54
+1 Unexplained Disappearance (GRN) 56
 1 Vampire of the Dire Moon (M20) 120
 2 Blood Burglar (M20) 88
 1 Midnight Assassin (SNC) 87
@@ -32,13 +31,13 @@
 1 Redcap Thief (WOE) 147
 1 Rampaging Ceratops (LCI) 162
 2 Rapacious Dragon (TDC) 229
-1 Shivan Dragon (FDN) 206
 1 Nebula Dragon (EOE) 147
 1 Shock (M20) 160
 2 Lightning Strike (M19) 152
 1 Lava Coil (2X2) 116
 1 Bombard (EOE) 129
 1 Chandra's Outrage (M20) 130
+1 Trained Orgg (S00) 37
 3 Sedge Scorpion (M20) 192
 1 Pitiless Gorgon (CLU) 203
 1 Sultai Devotee (TDM) 160

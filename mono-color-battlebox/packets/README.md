@@ -1,0 +1,50 @@
+# Learning-cube packets
+
+Ten 20-card mono-color packets (12 spells + 8 basics), Jumpstart style: shuffle
+two packets of **different colors** together and play. A packet never meets
+itself, so two decks that share a packet don't play each other. Built from the
+scanned bulk in `collection.txt`; 2 proxies.
+
+| code | color | packet | idea it teaches |
+|---|---|---|---|
+| W | White | Humans Go Wide | many small creatures, team pumps, an anthem |
+| A | White | Angels and Skies | flying, lifegain |
+| U | Blue | Flyers and Draw | flying, card advantage, a counterspell |
+| S | Blue | Sneaky Rogues | "can't be blocked", tempo (bounce, tap) |
+| B | Black | Death and Recursion | value when creatures die, returning them |
+| V | Black | Vampires Drain | lifelink, "whenever you gain life" |
+| R | Red | Goblins and Burn | go-wide goblins, burn as removal |
+| D | Red | Dragons and Big Red | big flyers, burn-heavy control |
+| G | Green | Elves Ramp | mana creatures into big tramplers |
+| P | Green | Spiders and Scorpions | deathtouch, reach |
+
+Rules for every card: one ability plus plain keywords, at most ~110 characters of
+rules text (reminder text doesn't count), no conditions on card types or
+legendaries, and nothing the Forge AI can't play. `build.py` checks the text
+limit and ownership across all packets.
+
+## Files
+
+- `packets_v7.json`: the current packets (v1-v6 kept for history).
+- `pull/<code>-<name>.txt`: pull list per packet, with set code and collector
+  number from the scan; `PROXY` marks cards to print.
+- `manabox/first-5-packets.txt`, `manabox/second-5-packets.txt`: ManaBox imports.
+- `collection.txt`: the scanned bulk; `remaining.txt`: what's left after the packets.
+
+## Balance (Forge AI vs AI)
+
+v6, 80 sampled matchups x 20 games, ~640 games per packet (+-3.9 pts): every
+packet within 40-60% (44.2-59.5%). For reference, Game Night 2018 spans
+41-58% in the same sim. v7 only swaps Prey Upon (the AI never casts fight
+spells) for Penumbra Wurm. Results: `../sim/results/p2..p6*`.
+
+AI blind spots found and removed: Acolyte of Aclazotz, Ember Hauler (abilities
+never used), Bring to Trial, Befuddle, Shower of Arrows, Prey Upon (almost
+never cast).
+
+## Tools
+
+    uv run python packets/lanes.py packets/remaining.txt --color R --show Goblin
+    uv run python packets/build.py packets/packets_v7.json p7 --sample 80
+    python3 packets/remaining.py packets/packets_v7.json
+    python3 packets/summary.py p7

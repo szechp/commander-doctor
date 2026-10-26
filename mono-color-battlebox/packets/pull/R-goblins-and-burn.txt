@@ -11,6 +11,6 @@
 1 Siege-Gang Commander (TDC) 232
 1 Shock (M20) 160
 1 Shock (M20) 160
-1 Lightning Strike (M19) 152
 1 Goblin Arsonist (M21) 147
+1 Lightning Bolt PROXY
 8 Mountain

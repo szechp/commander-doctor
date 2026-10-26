@@ -5,7 +5,6 @@
 1 Rampaging Ceratops (LCI) 162
 1 Rapacious Dragon (TDC) 229
 1 Rapacious Dragon (TDC) 229
-1 Shivan Dragon (FDN) 206
 1 Nebula Dragon (EOE) 147
 1 Shock (M20) 160
 1 Lightning Strike (M19) 152
@@ -13,4 +12,5 @@
 1 Lava Coil (2X2) 116
 1 Bombard (EOE) 129
 1 Chandra's Outrage (M20) 130
+1 Trained Orgg (S00) 37
 8 Mountain

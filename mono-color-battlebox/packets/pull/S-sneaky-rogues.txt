@@ -9,8 +9,8 @@
 1 Omenspeaker (CMR) 83
 1 Cloudkin Seer (CLU) 82
 1 Quick Study (FDN) 513
-1 Befuddle (M20) 47
 1 Unsummon (M20) 78
 1 Take into Custody (AER) 47
 1 Hithlain Knots (LTR) 54
+1 Unexplained Disappearance (GRN) 56
 8 Island

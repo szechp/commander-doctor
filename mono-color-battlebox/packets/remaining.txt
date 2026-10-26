@@ -305,7 +305,6 @@
 2 Johann's Stopgap (WOE) 58
 2 Treason of Isengard (LTR) 74
 1 Ice Out (WOE) 54
-1 Unexplained Disappearance (GRN) 56
 1 Make Disappear (SNC) 49
 1 Rowdy Research (BLC) 173
 1 Dream's Grip (MRD) 34
@@ -338,7 +337,7 @@
 1 Opt (FDN) 512
 2 Leadership Vacuum (C19) 9
 3 Bone to Ash (M20) 48
-1 Befuddle (M20) 47
+2 Befuddle (M20) 47
 2 Frost Breath (M21) 51
 2 Negate (M20) 69
 2 Aether Gust (M20) 42
@@ -626,14 +625,13 @@
 2 Eagles of the North (LTR) 7
 1 Dawning Angel (M20) 11
 2 Daybreak Chaplain (M20) 12
-1 Serra's Guardian (M20) 310
+2 Serra's Guardian (M20) 310
 2 Soltari Foot Soldier (BRB) 74
 2 Inspiring Unicorn (GRN) 16
 1 Haazda Officer (M20) 305
 2 Impassioned Orator (M20) 306
 2 Sentinel of the Eternal Watch (ORI) 30
 2 Soldier of the Grey Host (LTR) 32
-1 Concordia Pegasus (M21) 12
 2 Steadfast Sentry (M20) 40
 2 Beloved Princess (ELD) 7
 3 Trusted Pegasus (CLU) 77
@@ -689,7 +687,7 @@
 1 Petrify (LCI) 30
 1 Felidar Umbra (PCA) 6
 2 Grasp of the Hieromancer (E01) 13
-4 Fog on the Barrow-Downs (LTR) 16
+3 Fog on the Barrow-Downs (LTR) 16
 5 Glaring Aegis (M20) 18
 2 Ancestral Blade (CMM) 12
 2 Dúnedain Blade (LTR) 6
@@ -707,6 +705,7 @@
 1 Gideon's Reproach (DOM) 19
 1 Borrowed Grace (EMN) 14
 1 Take Heart (GRN) 28
+1 Divine Arrow (WAR) 10
 1 Rally for the Throne (ELD) 25
 1 Lost to Legend (LTR) 22
 1 Arrester's Zeal (RVR) 4
@@ -765,7 +764,7 @@
 2 Bond of Discipline (WAR) 6
 2 Eternal Isolation (M20) 15
 2 Aerial Assault (M20) 1
-1 Bring to Trial (RNA) 5
+2 Bring to Trial (RNA) 5
 2 Sworn Companions (GRN) 27
 3 Now for Wrath, Now for Ruin! (LTR) 24
 1 Sagu Wildling // Roost Seek (TDM) 157
@@ -791,7 +790,6 @@
 1 Ghirapur Guide (M19) 182
 1 Valeron Wardens (ORI) 203
 1 Prized Unicorn (ORI) 287
-1 Penumbra Wurm (UMA) 177
 1 Voice of Many (KHC) 77
 1 Disruptive Stormbrood // Petty Revenge (TDM) 178
 1 Tanglespan Lookout (WOE) 188
@@ -840,6 +838,7 @@
 2 Thicket Crasher (M20) 196
 2 Mushroom Watchdogs (LTR) 180
 2 Pridemalkin (MOC) 308
+1 Shower of Arrows (LTR) 188
 1 In the Presence of Ages (LCI) 192
 1 Sarkhan's Resolve (TDM) 158
 1 Snakeskin Veil (TDM) 159
@@ -926,7 +925,6 @@
 4 Galadhrim Bow (LTR) 167
 1 Chainwhip Cyclops (CLU) 127
 1 Savage Firecat (ODY) 218
-1 Trained Orgg (S00) 37
 1 Curator of Sun's Creation (LCI) 141
 1 Riveteers Requisitioner (SNC) 121
 1 Dragon Mage (FDN) 621
@@ -964,7 +962,7 @@
 2 Burning Sun Cavalry (LCI) 138
 1 Battlefield Scavenger (AKH) 118 *F*
 2 Imodane's Recruiter // Train Troops (WOE) 229
-1 Shivan Dragon (FDN) 206
+2 Shivan Dragon (FDN) 206
 1 Skewer Slinger (WOE) 149 *F*
 1 Relentless Rohirrim (LTR) 144 *F*
 2 Oliphaunt (LTR) 139
@@ -1180,6 +1178,7 @@
 3 Goblin Warchief (EVG) 42
 4 Legion Warboss (TDC) 220
 2 Fanatical Firebrand (FDN) 195
+1 Lightning Strike (M19) 152
 2 Banefire (M19) 130
 2 Dark-Dweller Oracle (2X2) 106
 1 Reckless One (EVG) 48

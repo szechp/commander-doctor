@@ -6,7 +6,7 @@
 1 Protector of Gondor (LTR) 25
 2 Inspiring Captain (INR) 28
 1 Impeccable Timing (AKH) 18
-1 Divine Arrow (WAR) 10
+1 Glorious Anthem
 2 Cloudkin Seer (CLU) 82
 1 Tome Raider (ELD) 68
 1 Warden of Evos Isle (CMR) 106
@@ -34,8 +34,8 @@
 1 Goblin Warchief (DOM) 130
 1 Siege-Gang Commander (TDC) 232
 2 Shock (M20) 160
-1 Lightning Strike (M19) 152
 1 Goblin Arsonist (M21) 147
+1 Lightning Bolt
 2 Woodland Mystic (M20) 344
 2 Leafkin Druid (NCC) 299
 1 Galadhrim Guide (LTR) 168
@@ -43,8 +43,8 @@
 2 Silverback Shaman (CMR) 255
 1 Charging Rhino (BBD) 192
 1 Colossal Dreadmaw (M21) 176
-1 Shower of Arrows (LTR) 188
 1 High-Rise Sawjack (SNC) 150
+1 Penumbra Wurm (UMA) 177
 8 Plains
 8 Island
 8 Swamp
