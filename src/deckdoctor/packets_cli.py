@@ -12,6 +12,7 @@ from pathlib import Path
 
 DEFAULT_BOX = "mono-color-battlebox"
 DEFAULT_INVENTORY = "inventory.yaml"
+DEFAULT_COLLECTION = "mono-color-battlebox/packets/collection.txt"
 DB_HELP = "card database path (default: DECKDOCTOR_DB, then data/deckdoctor.sqlite3)"
 
 
@@ -53,6 +54,29 @@ def add_parsers(sub) -> None:
     p_summary.add_argument("round")
     p_summary.add_argument("--box", default=DEFAULT_BOX)
 
+    p_lanes = p_pk.add_parser("lanes", help="which archetype lanes a collection supports, per color")
+    p_lanes.add_argument("collection", nargs="?", default=None,
+                         help=f"card list (default: {DEFAULT_COLLECTION}; see --free)")
+    p_lanes.add_argument("--free", action="store_true",
+                         help="use the ledger's free cards (inventory.yaml) instead of a list")
+    p_lanes.add_argument("--inventory", default=DEFAULT_INVENTORY, help="ledger file for --free")
+    p_lanes.add_argument("--profile", default="beginner", help="card rules profile (default beginner; see `deckdoctor profile list`)")
+    p_lanes.add_argument("--lanes", default="packets", help="lane set: a data/lanes/ name or a YAML path (default packets)")
+    p_lanes.add_argument("--color", default="", help="only these colors, e.g. R or WU")
+    p_lanes.add_argument("--show", default="", help="list the cards of a lane or creature type, e.g. Goblin or flyers")
+    p_lanes.add_argument("--dump", default="", metavar="FILE", help="write the filtered pool as JSON")
+    p_lanes.add_argument("--db", default=None, help=DB_HELP)
+    p_lanes.add_argument("--cardsfolder", default=DEFAULT_CARDSFOLDER)
+
+    p_profile = sub.add_parser("profile", help="card rules profiles (data/card_profiles.yaml): list them, or explain a card")
+    p_pf = p_profile.add_subparsers(dest="profile_action", required=True)
+    p_pf.add_parser("list", help="every profile and what it is for")
+    p_pf_check = p_pf.add_parser("check", help="does a card pass a profile, and if not, why")
+    p_pf_check.add_argument("profile")
+    p_pf_check.add_argument("name", nargs="+")
+    p_pf_check.add_argument("--db", default=None, help=DB_HELP)
+    p_pf_check.add_argument("--cardsfolder", default=DEFAULT_CARDSFOLDER)
+
     p_inv = sub.add_parser("inventory", help="ledger: the scanned bulk minus every packet, cube and deck allocation")
     p_inv.add_argument("--inventory", default=DEFAULT_INVENTORY, help=f"ledger file (default {DEFAULT_INVENTORY})")
     p_iv = p_inv.add_subparsers(dest="inventory_action", required=True)
@@ -72,6 +96,8 @@ def run(args: argparse.Namespace) -> int:
     try:
         if args.command == "packets":
             return _run_packets(args)
+        if args.command == "profile":
+            return _run_profile(args)
         return _run_inventory(args)
     except ValueError as exc:
         print(str(exc), file=sys.stderr)
@@ -85,6 +111,9 @@ def _collection_entries(path: Path):
 
 def _run_packets(args) -> int:
     from deckdoctor import packets
+
+    if args.packets_action == "lanes":
+        return _run_lanes(args)
 
     if args.packets_action == "summary":
         print(packets.render_summary(args.round, packets.analyze_pairs(_project_path(args.box), args.round)))
@@ -109,20 +138,11 @@ def _run_packets(args) -> int:
         print(f"remaining.txt: {sum(e.count for e in result.remaining)} cards left")
         return 0
 
-    from deckdoctor.cli import _resolve_cardsfolder
-    from deckdoctor.core.cards import CardStore
-    from deckdoctor.db import connect_readonly
-    try:
-        con = connect_readonly(args.db)
-    except FileNotFoundError as exc:
-        print(f"{exc} -- run `deckdoctor sync` first", file=sys.stderr)
+    opened = _open_store(args)
+    if opened is None:
         return 3
+    con, store = opened
     try:
-        cardsfolder = _resolve_cardsfolder(args.cardsfolder)
-        if not cardsfolder.is_dir():
-            print(f"Forge cardsfolder not found: {cardsfolder} -- every card will be reported missing; "
-                  "see SETUP.md step 3", file=sys.stderr)
-        store = CardStore(con, cardsfolder)
         result = packets.build(spec, store, packets.owned_from(_collection_entries(collection)), sample=args.sample)
     finally:
         con.close()
@@ -188,3 +208,76 @@ def _run_inventory(args) -> int:
         print(f"  {item['name']:<20} {pulls:>4} cards  {len(proxies):>3} proxies  ({source})"
               + (f"  proxy: {', '.join(proxies)}" if proxies else ""))
     return 0
+
+
+def _open_store(args):
+    """(connection, CardStore), or None after printing the exit-3 message."""
+    from deckdoctor.cli import _resolve_cardsfolder
+    from deckdoctor.core.cards import CardStore
+    from deckdoctor.db import connect_readonly
+    try:
+        con = connect_readonly(args.db)
+    except FileNotFoundError as exc:
+        print(f"{exc} -- run `deckdoctor sync` first", file=sys.stderr)
+        return None
+    cardsfolder = _resolve_cardsfolder(args.cardsfolder)
+    if not cardsfolder.is_dir():
+        print(f"Forge cardsfolder not found: {cardsfolder} -- Forge checks will fail; see SETUP.md step 3",
+              file=sys.stderr)
+    return con, CardStore(con, cardsfolder)
+
+
+def _run_lanes(args) -> int:
+    from deckdoctor import packets
+    from deckdoctor.core.lanes import load_lane_set
+    from deckdoctor.core.lists import read_list, totals
+    from deckdoctor.core.profiles import load_profile
+
+    profile = load_profile(args.profile)
+    lane_set = load_lane_set(args.lanes)
+    if args.free:
+        from deckdoctor.core.ledger import build_ledger, load_inventory_config
+        entries = build_ledger(load_inventory_config(_project_path(args.inventory))).remaining()
+    else:
+        entries = read_list(_project_path(args.collection or DEFAULT_COLLECTION))
+    opened = _open_store(args)
+    if opened is None:
+        return 3
+    con, store = opened
+    try:
+        pool = packets.lane_pool(totals(entries), store, profile)
+    finally:
+        con.close()
+    print(packets.render_lanes(pool, lane_set, colors=args.color or packets.COLORS, show=args.show))
+    if args.dump:
+        Path(args.dump).write_text(packets.lane_pool_json(pool))
+    return 0
+
+
+def _run_profile(args) -> int:
+    from deckdoctor.core.profiles import load_profile, load_profiles
+
+    if args.profile_action == "list":
+        for name, profile in load_profiles().items():
+            print(f"{name}: {profile.description}")
+        return 0
+    profile = load_profile(args.profile)
+    opened = _open_store(args)
+    if opened is None:
+        return 3
+    con, store = opened
+    failed = False
+    try:
+        for name in args.name:
+            card = store.card(name)
+            if card is None:
+                print(f"{name}: not in the card database (exact name needed)")
+                failed = True
+                continue
+            failures = profile.check(card, store)
+            failed |= bool(failures)
+            print(f"{name}: " + ("passes " + profile.name if not failures
+                                 else "fails " + profile.name + ": " + "; ".join(f.reason for f in failures)))
+    finally:
+        con.close()
+    return 1 if failed else 0

@@ -282,3 +282,64 @@ def analyze_pairs(box: Path, round_name: str) -> dict[str, dict]:
 
 def owned_from(entries: list[ListEntry] | None) -> dict[str, int] | None:
     return totals(entries) if entries else None
+
+
+# --- lanes: which archetypes a collection supports, per color
+
+COLORS = "WUBRG"
+NOT_IN_DB = "not in card db"
+
+
+@dataclass
+class LanePool:
+    by_color: dict[str, list]           # color ("C" for colorless) -> [(Card, copies)]
+    dropped: Counter                    # first failed check -> unique cards
+
+
+def lane_pool(owned: dict[str, int], store: CardStore, profile) -> LanePool:
+    """Owned cards the profile allows, per color. Hybrid cards count for each
+    of their colors; colorless cards go to a shared "C" pool."""
+    by_color: dict[str, list] = defaultdict(list)
+    dropped: Counter = Counter()
+    for name, n in owned.items():
+        card = store.card(name)
+        if card is None:
+            dropped[NOT_IN_DB] += 1
+            continue
+        failures = profile.check(card, store)
+        if failures:
+            dropped[failures[0].category] += 1
+            continue
+        for color in (card.colors or ("C",)):
+            by_color[color].append((card, n))
+    return LanePool(dict(by_color), dropped)
+
+
+def render_lanes(pool: LanePool, lane_set, *, colors: str = COLORS, show: str = "") -> str:
+    lines = [f"dropped: {dict(pool.dropped)}",
+             f"pool per color (unique cards): {({k: len(v) for k, v in sorted(pool.by_color.items())})} ", ""]
+    for color in colors:
+        cards = [card for card, _ in pool.by_color.get(color, [])]
+        creatures = sum(1 for c in cards if c.is_creature)
+        lines.append(f"== {color}: {len(cards)} simple cards ({creatures} creatures)")
+        counts = sorted(((sum(1 for c in cards if lane.fits(c)), lane.name) for lane in lane_set.lanes), reverse=True)
+        lines.append("   lanes: " + ", ".join(f"{name} {k}" for k, name in counts if k >= 4))
+        tribes = Counter(t for c in cards for t in lane_set.tribes_of(c))
+        lines.append("   tribes: " + ", ".join(f"{t} {k}" for t, k in tribes.most_common(8) if k >= 3))
+        if show:
+            lane = lane_set.lane(show)
+            word = re.compile(rf"\b{re.escape(show)}\b")
+            hits = [c for c in cards if (lane is not None and lane.fits(c)) or word.search(c.type_line)]
+            for c in sorted(hits, key=lambda c: c.cmc):
+                lines.append(f"     {int(c.cmc)} {c.name} — {c.type_line}: {c.rules_text[:90]}")
+    lines += ["", f"== colorless: {len(pool.by_color.get('C', []))} simple artifacts/cards"]
+    return "\n".join(lines)
+
+
+def lane_pool_json(pool: LanePool) -> str:
+    """The filtered pool as JSON, in lanes.py's --dump shape."""
+    def row(card, n):
+        return dict(name=card.name, n=n, cmc=card.cmc, type=card.type_line, text=card.rules_text,
+                    kws=sorted(card.keywords), tags=sorted(card.tags), power=card.power_value,
+                    creature=card.is_creature)
+    return json.dumps({k: [row(card, n) for card, n in v] for k, v in pool.by_color.items()}, indent=1)

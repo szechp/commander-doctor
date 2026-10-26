@@ -1,0 +1,62 @@
+# Card rules profiles: which cards a product may contain. One filter for
+# learning packets, cubes and anything else built from the bulk; Commander
+# decks don't use these. `deckdoctor profile check <profile> <card>` explains
+# every failure.
+#
+# Checks run in this order and a card is reported under the first one it
+# fails (packets lanes counts drops that way):
+#   layouts            allowed Scryfall layouts (omit: any)
+#   banned_layouts     layouts never allowed
+#   banned_types       substrings of the type line (e.g. Planeswalker, Basic)
+#   banned_keywords    Scryfall keywords
+#   banned_text        case-insensitive substrings of the full oracle text,
+#                      reminder text and every face included
+#   counterspell_needs_ward  "counter target" only on a card with ward
+#   no_named_self      "named <its own name>": needs multiples of itself
+#   no_sac_fodder      "sacrifice a creature ...: add" mana engines
+#   max_rules_text     characters of oracle text without reminder text
+#   forge_playable     has a Forge script without RemoveDeck:All
+#   multicolor         any | hybrid-only (gold cards only with hybrid pips) | mono
+
+beginner:
+  description: >-
+    Learning packets: one ability plus plain keywords, short text, nothing the
+    Forge AI can't play, mono-color or hybrid. From packets/lanes.py.
+  layouts: [normal]
+  banned_types: [Planeswalker, Saga, Battle, Land]
+  banned_keywords: [
+    Devotion, Persist, Undying, Energy, Adventure, Mutate, Daybound, Nightbound,
+    Venture into the dungeon, Amass, Incubate, Foretell, Boast, Suspend, Morph,
+    Megamorph, Disguise, Cloak, Ninjutsu, Splice, Emerge, Escape, Delve, Convoke,
+    Improvise, Affinity, Craft, Discover, Plot, Bargain, Celebration, Offspring,
+    Gift, Exhaust, Max speed, "Start your engines!", Station, Harmonize, Ring,
+    The Ring Tempts You, Monstrosity, Adapt, Proliferate, Exploit, Riot,
+    Spectacle, Afterlife, Mentor, Training, Backup, Bloodrush, Fuse, Overload,
+    Entwine, Kicker, Multikicker, Replicate, Buyback, Echo, Cumulative upkeep,
+    Phasing, Banding]
+  banned_text: [Ring tempts]
+  max_rules_text: 210
+  forge_playable: true
+  multicolor: hybrid-only
+
+poolside:
+  description: >-
+    Cube with no counters and no tokens: swapfinder's --restrict bans (no
+    tokens, shuffle, search, transform, counters; counterspells only with
+    ward; no double-faced, basic, Background or Commander-only cards).
+  banned_layouts: [transform, modal_dfc, double_faced_token, meld, reversible_card]
+  banned_types: [Basic, Background]
+  banned_text: [
+    token, shuffle, search, transform,
+    +1/+1 counter, -1/-1 counter, counter on, counters on, energy counter,
+    lore counter, the ring tempts you, your ring-bearer, lander token,
+    commander creatures, your commander, choose a background]
+  counterspell_needs_ward: true
+  no_named_self: true
+  no_sac_fodder: true
+
+cube-default:
+  description: >-
+    Any cube: no basics and no Commander-only cards, everything else allowed.
+  banned_types: [Basic, Background]
+  banned_text: [commander creatures, your commander, choose a background]

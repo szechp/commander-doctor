@@ -44,10 +44,10 @@ never cast).
 
 ## Tools
 
-From the repository root (the deckdoctor CLI; the scripts in this directory
-do the same and stay until the CLI also covers `lanes.py`):
+From the repository root (the scripts in this directory do the same and are
+kept until the docs move to the CLI):
 
-    uv run python mono-color-battlebox/packets/lanes.py mono-color-battlebox/packets/remaining.txt --color R --show Goblin
+    uv run deckdoctor packets lanes --free --color R --show Goblin
     uv run deckdoctor packets build mono-color-battlebox/packets/packets_v7.json p7 --sample 80
     uv run deckdoctor packets pull mono-color-battlebox/packets/packets_v7.json
     uv run deckdoctor packets summary p7
@@ -56,3 +56,5 @@ do the same and stay until the CLI also covers `lanes.py`):
 ledger (`inventory.yaml` at the repository root) lists every allocation of the
 scanned bulk in order, packets first, so a cube can't take a card a packet
 already uses: `uv run deckdoctor inventory status`, `inventory remaining`.
+`packets lanes --free` reads that ledger instead of `remaining.txt`; the card
+rules are the `beginner` profile (`deckdoctor profile check beginner <card>`).
