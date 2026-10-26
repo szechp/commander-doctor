@@ -7,13 +7,18 @@ description: Review, improve, rebuild or build a Commander deck using this proje
 
 ## First: what are we building?
 
-Say which one before anything else:
+Pick one, say which, and go on; ask only when the request fits two equally well.
 
-- **A Commander deck** (review, improve, build, a commander from your cards with `deckdoctor brew`): everything below.
-- **A cube** (from a set, finishing or extending a cube from the bulk, substitutes for unowned cube cards, cube rules like "no counters, no tokens"): follow [the cube workflow](../../../cube-workflow.md) instead.
-- **Learning packets or a battlebox** (Jumpstart-style packets, lanes the bulk supports, Forge balance sims, pull lists): follow [the packets workflow](../../../packets-workflow.md) instead.
+- **A Commander deck** (review, improve, build, which commander your cards support): the Commander section below and [the shared workflow](../../../workflow.md). It starts with `uv run deckdoctor validate <deck> --format json`; `uv run deckdoctor brew` finds commanders your bulk supports.
+- **A cube** (a draft cube; not a "learning cube", which is packets): [the cube workflow](../../../cube-workflow.md).
+  - finish or extend a cube from the bulk: `uv run deckdoctor cube extend <cube> --blueprint <finished cube>` (add `--profile poolside` for no counters/no tokens; `uv run deckdoctor profile list` shows every rule set)
+  - owned substitutes for cube cards you don't have: `uv run deckdoctor cube swaps <cube> --out swaps.csv`
+  - a cube from a set: `uv run deckdoctor cube build --sets <set> --archetypes <set>`
+- **Learning packets, a learning cube or a battlebox** (Jumpstart-style teaching packets, Forge balance sims, pull lists): [the packets workflow](../../../packets-workflow.md), starting with `uv run deckdoctor packets lanes --free`.
 
-"What can I build from my bulk" is `deckdoctor brew` for Commander decks and `deckdoctor packets lanes --free` / `cube extend` for packets and cubes; ask which if it's unclear. All three share the card mirror and the ledger of what the bulk has left (`deckdoctor inventory status`).
+"What can I build from my bulk" with no product named: ask whether they mean a Commander deck, a cube or packets. `--free` means the cards the ledger (`inventory.yaml`) shows as not yet used by packets, cubes or decks; `uv run deckdoctor inventory status` shows it. A pasted list goes into a file first (the commands read files).
+
+For all three: run commands as `uv run deckdoctor ...` (bare `deckdoctor` is not on the PATH), and exit 3 / "card database unavailable" means follow [SETUP.md](../../../../SETUP.md) first.
 
 ## Commander decks
 
