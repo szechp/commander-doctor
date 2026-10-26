@@ -1,110 +1,191 @@
-# Handover: move the deck/cube design tools from mtg-proxies into commander-doctor
+# Handover: consolidate cube, packet and Commander building into one tool
 
 Status: plan only, nothing moved yet. Written 2026-10-26 for the next agent.
 
-## Why
+## Repositories and refs
 
-`szechp/mtg-proxies` is a print pipeline (decklist in, printable proxies out). Over
-time it grew tools that decide *what goes into* a deck or cube. Those belong here,
-next to the card mirror, the Forge sims and the collection tooling:
+| repo | branch / ref | what's there |
+|---|---|---|
+| [szechp/commander-doctor](https://github.com/szechp/commander-doctor) | `main` @ `3b96285` | the Commander tool (`src/deckdoctor/`), card mirror, skills |
+| same | `battlebox-balance` @ `01b82a3` (packets v8; this plan is the commit after) | learning-cube packets (`mono-color-battlebox/packets/`), Forge sims (`mono-color-battlebox/sim/`) |
+| [szechp/mtg-proxies](https://github.com/szechp/mtg-proxies) | `main-personal` @ `54f912a` (2026-10-10) | `cube_builder.py`, `swapfinder.py`, `commander_finder.py`, `deck_value.py`, archetype JSONs |
 
-- commander-doctor already has a local Scryfall + Forge card mirror with oracle
-  tags (`deckdoctor sync`, `parse-forge`); the mtg-proxies tools call the Scryfall
-  API per card and keep their own cache.
-- It already has a collection workflow (`collection.py`, `mono-color-battlebox/packets/`
-  with `collection.txt` / `remaining.txt`), EDHREC access (`edhrec.py`), Forge
-  AI-vs-AI sims with misplay checks (`mono-color-battlebox/sim/`), and a lane finder
-  (`packets/lanes.py`) that does a lighter version of cube_builder's lane derivation.
+Start the work from `main` after `battlebox-balance` is merged (or branch off
+`battlebox-balance` if it isn't yet; the packet scripts live there).
 
-Goal: one tool (`deckdoctor`) for building **cubes, decks (packets, battleboxes)
-and Commander decks**, sharing one card mirror, one collection format and one
-"what's left in my bulk" view.
+## Goal
+
+One tool, `deckdoctor`, that builds **Commander decks, cubes and learning-cube
+packets** from the same card data, the same bulk inventory and the same ideas
+(lanes, simple-card rules, substitutes). This is a consolidation, not a copy:
+the three mtg-proxies scripts and the packet scripts each re-implement card
+lookup, decklist parsing, "what do I own" and some notion of archetype lanes.
+After this work each of those exists once, and cube and packet commands feel
+like they were always part of deckdoctor: same CLI conventions, same output
+style, same tests, same docs, same skill.
 
 **Commander stays exactly as it is.** Every existing command (`audit`, `health`,
-`brew`, `edhrec`, `themes`, `validate`, `review`, ...) keeps its arguments,
-defaults and output. New things come in as new commands or opt-in flags only;
-the existing test suite is the guard.
+`brew`, `edhrec`, `themes`, `validate`, `review`, `diff`, `candidates`, ...)
+keeps its arguments, defaults and output. Shared code may be refactored under
+it only where the existing tests and a before/after output comparison prove
+nothing changed. New behaviour for Commander comes only as opt-in flags.
 
-Boundary after the move: commander-doctor decides cards; mtg-proxies prints them.
-The interface between them stays the plain decklist line `1 Name (SET) Number`,
-which both repos already read and write.
+Boundary afterwards: commander-doctor decides cards; mtg-proxies prints them.
+The interface between them is the plain decklist line `1 Name (SET) Number`.
 
-## What to move (from `origin/main-personal` of szechp/mtg-proxies)
+## What exists today (the duplication to remove)
 
-| file | size | tests | what it does | target |
-|---|---|---|---|---|
-| `mtg_proxies/cube_builder.py` (+ `cube` verb in `cli.py`, lines ~2445-2490) | 769 lines | 42 (`tests/cube_builder_test.py`) | draft cube from a Scryfall set, scored by archetype lanes + 17lands win rates | `src/deckdoctor/cube/builder.py`, CLI `deckdoctor cube` |
-| `ecl_archetypes.json`, `eoe_archetypes.json` | small | - | WotC limited archetype skeletons per set | `data/cube_archetypes/` |
-| `docs/cube-builder-guide.md` | - | - | usage guide | `docs/cube-builder.md` (update commands) |
-| `swapfinder.py` | 1334 lines | 57 (`tests/swapfinder_test.py`) | functional substitutes for unowned cube/deck cards; `--extend` completes a cube from bulk by its emergent lanes; `--restrict` cube bans (no tokens/shuffle/search/transform/counters) | `src/deckdoctor/cube/swapfinder.py`, CLI `deckdoctor cube-swaps` / `deckdoctor cube-extend` |
-| `commander_finder.py` | 435 lines | 29 | rank buildable commanders from bulk via EDHREC inclusion overlap | opt-in `deckdoctor brew --rank-edhrec` (default `brew` output unchanged), or a separate `deckdoctor commander-finder` if a flag gets awkward |
-| `mtg_proxies/deck_value.py` (+ `deck-value` verb) | 37 lines | - | price chart of a decklist | optional; commander-doctor has `prices.py` / `card_prices`. Probably fold into an existing report |
+| concern | mtg-proxies | commander-doctor today |
+|---|---|---|
+| card data | Scryfall API per card + own JSON cache (`mtg_proxies.scryfall`) | local mirror `data/deckdoctor.sqlite3` (`cards`, `card_tags`, `card_prices`, `card_popularity`), Forge parse (`forge_parse.py`) |
+| decklist / bulk parsing | `parse_decklist` (archidekt, manastack, URLs, `x` counts) | `collection.py` `parse_collection_text`; the packet scripts each have their own regex |
+| "what do I own / what's left" | swapfinder `--owned`, commander_finder `--owned` | `collection.py` `SpareInventory`; `packets/remaining.py` (owned minus packets) |
+| archetype lanes | cube_builder (set archetype JSONs + 17lands), swapfinder `--extend` (emergent lanes) | `packets/lanes.py` (oracle tags + regex + tribes) |
+| simple / beginner card filter | swapfinder `--restrict` bans (tokens, shuffle, search, transform, counters) | `packets/lanes.py` `BANNED_KW`, 110/210 char text limit, Forge-playable check |
+| substitutes | swapfinder TF-IDF + optional sentence embeddings | `swaps.py`, `candidates.py`, `upgrades.py` (Commander roles) |
+| commander discovery | commander_finder (EDHREC inclusion overlap) | `brew.py` + `edhrec.py` |
+| prices | `deck_value.py` | `prices.py`, `card_prices` |
+| AI playtest | none | `forge_batch.py` (Commander goldfish), `mono-color-battlebox/sim/` (AI vs AI, two-packet decks) |
 
-Leave in mtg-proxies: `decklists/` parsing (archidekt, manastack), CardConjurer,
-MPCFill, rendering, `print`, `convert`, `tokens`, AI upscaling.
+## Target design
 
-## How
+### Shared core (new `src/deckdoctor/core/` or existing modules, extended)
 
-1. **Card data:** replace `mtg_proxies.scryfall` calls and `parse_decklist` card
-   dicts with lookups against `data/deckdoctor.sqlite3` (`cards`, `card_tags`,
-   `card_prices`). The tools use oracle text, keywords, type line, colors, cmc,
-   P/T and Tagger tags, all of which the mirror has. Keep a thin adapter
-   (`card_dict(name) -> dict`) so the ported code changes little.
-2. **Decklist parsing:** the inputs are `N Name (SET) Number` lines (plus `x` after
-   the count and Scryfall URLs in mtg-proxies). Reuse commander-doctor's collection
-   parser or port only the line regex. Don't port archidekt/manastack.
-3. **EDHREC:** commander_finder hits `json.edhrec.com` directly. Route it through
-   `deckdoctor/edhrec.py` (cached, already used by `brew`, `themes`).
-4. **17lands:** cube_builder fetches 17lands card ratings. Keep that client as is,
-   with its cache; it has no counterpart here.
-5. **Dependencies:** numpy (swapfinder TF-IDF) is new here. The optional
-   sentence-transformer path (`--semantic`, `swaps` extra) should stay an optional
-   extra. torch/spandrel/fpdf2 are print-side and must NOT come over.
-6. **Tests:** port all 128 tests (42 + 57 + 29), swapping network fixtures for the
-   local mirror where the test only needs card data. `uv run pytest -q` must stay
-   green (619 tests pass today).
-7. **CLI:** add `cube`, `cube-extend` (swapfinder completion mode) and `cube-swaps`
-   to `src/deckdoctor/cli.py`; commander_finder's ranking (EDHREC
-   popular-inclusion overlap and the high-synergy count) only behind an opt-in
-   flag, so plain `brew` behaves as today.
-7b. **Decks/packets:** fold `mono-color-battlebox/packets/{lanes,build,remaining}.py`
-   into the same package as `deckdoctor packets lanes|build|pull` (thin wrappers
-   first; the scripts keep working). Shared pieces to factor out once, used by
-   cube, packets and swapfinder: the `N Name (SET) Number` parser, the
-   "simple card" filter (`lanes.py` BANNED_KW / text length / Forge-playable),
-   and the owned-minus-used `remaining` computation.
-8. **mtg-proxies side (separate PR, needs push access there):** remove the moved
-   files and the `cube` / `deck-value` verbs, and point their README at
-   commander-doctor. Until then, nothing there breaks: the move is a copy first.
+1. **Card access.** One `CardStore` over the sqlite mirror: oracle text with and
+   without reminder text, keywords, types, colors, P/T, tags, prices, Forge
+   playability (`RemoveDeck:All`). Replaces `mtg_proxies.scryfall` and the
+   per-script sqlite queries in `packets/*.py`. No network calls at build time.
+2. **Lists and inventory.** One parser for `N Name (SET) Number [*F*]` (plus `Nx`
+   and bare names), extending `collection.py`. On top of it, an **inventory
+   ledger**: the scanned bulk (`collection.txt`) minus every *allocation*
+   (packets, cubes, decks), tracked per printing so pull lists name set and
+   collector number. `remaining.txt` becomes a generated view of the ledger
+   instead of a hand-maintained file. This is the real improvement: today
+   nothing stops a cube extension from taking a card a packet already uses.
+3. **Card rules profiles.** One configurable filter replacing `BANNED_KW`, the
+   text limits and swapfinder's `--restrict`: named profiles such as
+   `beginner` (packets: short text, no complex keywords, Forge-playable),
+   `poolside` (no counters, no tokens) and `cube-default`. Profiles live in a
+   data file (`data/card_profiles.yaml`), and every check explains why a card
+   fails.
+4. **Lanes / archetypes.** One lane engine, with lanes defined as data (tags,
+   oracle regex, keywords, tribes) from three sources: WotC set skeletons
+   (`data/cube_archetypes/*.json`), emergent lanes from a pool (swapfinder
+   `--extend`), and the packet lanes (`lanes.py` `LANES`/`TRIBES`). 17lands
+   ratings are an optional score input with their own cache.
+5. **Similarity.** One "cards like this" service: the TF-IDF model from
+   swapfinder (numpy, a new dependency), with the sentence-embedding path as an
+   optional extra. Commander's `swaps`/`candidates` keep their current ranking
+   by default; using similarity there is a later opt-in, not part of this work.
+6. **Forge sims.** Move the AI-vs-AI runner (`mono-color-battlebox/sim/sim.py`,
+   `analyze.py`, `monitor.py`, the snapshot hook patch, `setup-forge.sh`) next to
+   `forge_batch.py` as one Forge module. Commander `goldfish` stays experimental
+   and unchanged.
 
-Bring git history if wanted: `git log --follow` on each file in mtg-proxies, or a
-`git filter-repo --path ...` subtree import. A plain copy with a commit that cites
-the source commit (`origin/main-personal` @ `54f912a`, 2026-10-10) is fine too.
+### Product layers (CLI)
+
+- **Commander:** unchanged. Optional: `brew --rank-edhrec` adds
+  commander_finder's ranking (EDHREC popular-inclusion overlap, high-synergy
+  count); plain `brew` output stays byte-identical.
+- **Cube:** `deckdoctor cube build` (cube_builder: set + archetypes + target
+  size), `deckdoctor cube extend <cube.txt> --profile poolside` (complete a cube
+  from the ledger by its lanes), `deckdoctor cube swaps <cube.txt>`
+  (substitutes for unowned cards).
+- **Packets (learning cube):** `deckdoctor packets lanes|build|pull|summary`,
+  replacing `packets/lanes.py`, `build.py`, `remaining.py` and `summary.py`. The
+  spec format (`packets_vN.json`) stays; `build` writes the same `.dck` files and
+  specs. `pull` writes the pull lists and ManaBox files from the ledger.
+- **Inventory:** `deckdoctor inventory status|allocate|release|remaining` for
+  the ledger.
+
+Conventions to match: `uv run deckdoctor ...`, the existing `cli.py` subparser
+style and help-text tone, exit code 3 when the card db is missing, and reports
+as plain tables like `health`.
+
+### Leave in mtg-proxies
+
+Decklist import from archidekt/manastack, CardConjurer, MPCFill, rendering,
+`print`, `convert`, `tokens`, AI upscaling. Afterwards (separate PR there,
+needs push access): remove the moved scripts and the `cube`/`deck-value` verbs,
+and point the README at commander-doctor. Until then nothing there breaks.
+
+## Order of work
+
+1. Card store + list parser + ledger, with tests. Port `packets/*.py` onto them
+   first (smallest, already in this repo): proves the core on real data
+   (`collection.txt` 1,915 cards, `packets_v8.json` 15 packets).
+2. Rules profiles (`beginner`, `poolside`) and the lane engine; `packets lanes`
+   on top.
+3. Port swapfinder onto the core: `cube extend`, `cube swaps`.
+4. Port cube_builder: `cube build`, archetype JSONs to `data/cube_archetypes/`,
+   17lands client with cache.
+5. `brew --rank-edhrec` via `edhrec.py` (cached; no direct `json.edhrec.com`).
+6. Forge sim module move.
+7. Docs and skill (below), then delete the old scripts in
+   `mono-color-battlebox/packets/` once the CLI covers them.
+
+Tests: port all 128 tests from mtg-proxies (cube_builder 42, swapfinder 57,
+commander_finder 29), rewritten against the core with a small fixture db
+instead of network fixtures. Add tests for the ledger and profiles. The
+existing suite (619 tests at time of writing) must pass **unmodified**.
+Git history: a plain copy commit citing `szechp/mtg-proxies@54f912a` is fine;
+use `git filter-repo --path ...` if history is wanted.
+
+Dependencies: numpy is new. Sentence transformers stay an optional extra.
+torch, spandrel, fpdf2 and other print-side packages must not come over.
+
+## Skill and docs update (required, not optional)
+
+The agent-facing skill only knows Commander today. It must be updated, or
+agents won't find or use the new commands:
+
+- `.claude/skills/deck-doctor/SKILL.md`, `.agents/skills/deck-doctor/SKILL.md`
+  and `docs/adapters/codex/deck-doctor/SKILL.md` (three copies with slightly
+  different wording and relative paths; keep them in sync):
+  - widen the `description` so it triggers on cubes, cube extension, learning
+    packets/battleboxes and "what can I build from my bulk", not only Commander;
+  - add a first step, "what are we building: a Commander deck, a cube, or
+    packets", that routes to the right workflow doc;
+  - keep the Commander part word for word, so Commander behaviour doesn't drift.
+- `docs/workflow.md` stays the Commander workflow. Add `docs/cube-workflow.md`
+  (cube build/extend/swaps, rules profiles, ledger) and
+  `docs/packets-workflow.md` (lanes, packet rules, build, the sim loop, and the
+  balance rules learned in `mono-color-battlebox/packets/README.md` and
+  `BALANCE_NOTES.md`: act only on decisive results, one change per round, watch
+  for cards the Forge AI can't play).
+- Fold mtg-proxies' `docs/cube-builder-guide.md` into `docs/cube-workflow.md`
+  with the new commands.
+- README: one tool, three things it builds, Commander first.
 
 ## Acceptance
 
-- `deckdoctor cube --sets eoe --archetypes data/cube_archetypes/eoe.json --target 180`
-  reproduces mtg-proxies' output for the same inputs (same cards, order may differ).
-- `deckdoctor cube-extend <cube.txt> --owned mono-color-battlebox/packets/remaining.txt --restrict`
-  runs offline against the mirror (no Scryfall API calls).
-- `deckdoctor brew --owned <bulk.txt>` shows commander_finder's ranking.
-- `deckdoctor packets build mono-color-battlebox/packets/packets_v7.json p7` writes
-  the same decks/spec as `packets/build.py`.
-- Commander commands unchanged: existing tests pass untouched, and `brew`, `audit`,
-  `health` give byte-identical output on a sample deck before and after.
-- Full test suite green; no print-side dependencies added.
+- Commander unchanged: existing tests pass unmodified; `brew`, `audit`,
+  `health` and `review` give byte-identical output on `decks/` samples before
+  and after.
+- `deckdoctor packets build mono-color-battlebox/packets/packets_v8.json p8`
+  writes the same decks and spec as `packets/build.py`; `packets pull`
+  reproduces the current pull lists and `remaining.txt`.
+- `deckdoctor cube build --sets eoe --archetypes data/cube_archetypes/eoe.json --target 180`
+  matches mtg-proxies' output for the same inputs (same cards; order may differ).
+- `deckdoctor cube extend <cube.txt> --profile poolside` runs offline and only
+  takes cards the ledger shows as free.
+- The updated skill routes an "extend my cube" request and a "review my
+  Commander deck" request to the right workflow.
+- No print-side dependencies added; full suite green.
 
 ## First real use: the "poolside" cube
 
-The user has a "poolside" cube (rules: no counters, no tokens; matches
-swapfinder's `--restrict` bans) that should be extended from their bulk, using
-`mono-color-battlebox/packets/remaining.txt` so it doesn't take cards the
-learning packets use. **Its decklist is not in either repo yet**; ask the user for
-the list (CubeCobra/Archidekt export or a scan file).
+Rules: no counters, no tokens (the `poolside` profile). Extend it from the
+ledger so it doesn't take cards the learning packets use. **Its decklist is not
+in either repo yet**; ask the user for it (CubeCobra/Archidekt export or a scan
+file).
 
 ## Open questions for the user
 
-1. Keep `deck-value` in mtg-proxies (it's a print-adjacent summary) or move it?
-2. Should mtg-proxies keep a thin `cube` command that shells out to
-   commander-doctor, or drop it entirely?
-3. Is the poolside cube a 360-card (8 players) or 180-card (4 players) target?
+1. Keep `deck-value` in mtg-proxies (a print-adjacent summary) or fold it into a
+   deckdoctor report?
+2. Should mtg-proxies keep a thin `cube` command that calls commander-doctor, or
+   drop it entirely?
+3. Poolside cube size: 360 cards (8 players) or 180 (4 players)?
+4. One skill with routing (planned above) or a separate cube/packets skill next
+   to `deck-doctor`?
