@@ -44,7 +44,15 @@ never cast).
 
 ## Tools
 
-    uv run python packets/lanes.py packets/remaining.txt --color R --show Goblin
-    uv run python packets/build.py packets/packets_v7.json p7 --sample 80
-    python3 packets/remaining.py packets/packets_v7.json
-    python3 packets/summary.py p7
+From the repository root (the deckdoctor CLI; the scripts in this directory
+do the same and stay until the CLI also covers `lanes.py`):
+
+    uv run python mono-color-battlebox/packets/lanes.py mono-color-battlebox/packets/remaining.txt --color R --show Goblin
+    uv run deckdoctor packets build mono-color-battlebox/packets/packets_v7.json p7 --sample 80
+    uv run deckdoctor packets pull mono-color-battlebox/packets/packets_v7.json
+    uv run deckdoctor packets summary p7
+
+`packets pull` writes `pull/`, `manabox/` and `remaining.txt`. The project-wide
+ledger (`inventory.yaml` at the repository root) lists every allocation of the
+scanned bulk in order, packets first, so a cube can't take a card a packet
+already uses: `uv run deckdoctor inventory status`, `inventory remaining`.

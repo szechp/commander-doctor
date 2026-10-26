@@ -513,10 +513,17 @@ def main(argv: list[str] | None = None) -> int:
     sub.add_parser("review", help="gameplan evidence and bounded upgrade suggestions")
     sub.add_parser("compare", help="compare two cards in this deck, with trade-offs and swap checks")
 
+    from deckdoctor.packets_cli import add_parsers as add_packets_parsers
+    add_packets_parsers(sub)
+
     for name in NOT_YET_IMPLEMENTED:
         sub.add_parser(name)
 
     args = parser.parse_args(argv)
+
+    if args.command in {"packets", "inventory"}:
+        from deckdoctor.packets_cli import run as run_packets
+        return run_packets(args)
 
     if args.command == "derive":
         import json

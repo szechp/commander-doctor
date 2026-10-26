@@ -1,6 +1,10 @@
 # Handover: consolidate cube, packet and Commander building into one tool
 
-Status: plan only, nothing moved yet. Written 2026-10-26 for the next agent.
+Status: written 2026-10-26 for the next agent. Step 1 done (branch
+`cube-tools-handover`): `src/deckdoctor/core/` (cards, lists, ledger),
+`deckdoctor packets build|pull|summary` and `deckdoctor inventory
+status|allocate|release|remaining`, byte-identical to `build.py`,
+`remaining.py` and `summary.py` on v7 and v8. Next: step 2 (profiles, lanes).
 
 ## Repositories and refs
 
