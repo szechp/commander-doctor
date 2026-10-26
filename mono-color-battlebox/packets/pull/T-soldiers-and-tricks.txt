@@ -1,0 +1,16 @@
+// T packet: Soldiers and Tricks
+// 12 spells + 8 Plains
+
+1 Vernadi Shieldmate (CLU) 216
+1 Steadfast Cathar (EMN) 44
+1 Westfold Rider (LTR) 37
+1 Steadfast Sentry (M20) 40
+1 Steadfast Sentry (M20) 40
+1 Malamet War Scribe (LCI) 21
+1 Malamet War Scribe (LCI) 21
+1 Pacifism (M20) 32
+1 Mighty Leap (CLU) 66
+1 Moment of Triumph (FDN) 500
+1 Inspiring Unicorn (GRN) 16
+1 Eagle of the Great Shelf (HOB) 11
+8 Plains

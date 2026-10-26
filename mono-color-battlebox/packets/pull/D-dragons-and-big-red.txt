@@ -11,6 +11,6 @@
 1 Lightning Strike (M19) 152
 1 Lava Coil (2X2) 116
 1 Bombard (EOE) 129
-1 Chandra's Outrage (M20) 130
 1 Trained Orgg (S00) 37
+1 Infuriate (M20) 145
 8 Mountain
