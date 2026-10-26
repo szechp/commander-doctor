@@ -1,6 +1,13 @@
 # Handover: consolidate cube, packet and Commander building into one tool
 
-Status: written 2026-10-26 for the next agent. Step 1 done (branch
+Status: all seven steps done on branch `cube-tools-handover` (summary per step
+below; every step had an adversarial review whose findings were fixed). The old
+packet and sim scripts are removed; `sim/gen.py`, `find.py`, `metrics.py` and
+`cardfeat.py` (60-card battlebox tooling outside this plan) stay. Open: the
+mtg-proxies side of the cut (needs push access there), and the poolside cube
+(postponed until scanned).
+
+Written 2026-10-26 for the next agent. Step 1 done (branch
 `cube-tools-handover`): `src/deckdoctor/core/` (cards, lists, ledger),
 `deckdoctor packets build|pull|summary` and `deckdoctor inventory
 status|allocate|release|remaining`, byte-identical to `build.py`,

@@ -45,7 +45,8 @@ never cast).
 ## Tools
 
 See [docs/packets-workflow.md](../../docs/packets-workflow.md). From the
-repository root:
+repository root (the old `build.py`, `remaining.py`, `summary.py` and
+`lanes.py` scripts are now these commands):
 
     uv run deckdoctor packets lanes --free --color R --show Goblin
     uv run deckdoctor packets build mono-color-battlebox/packets/packets_v7.json p7 --sample 80

@@ -1,6 +1,6 @@
 """Learning-cube packets: build two-packet decks, pull lists and sim summaries.
 
-Replaces ``mono-color-battlebox/packets/build.py``, ``remaining.py`` and
+Replaced the former ``mono-color-battlebox/packets/build.py``, ``remaining.py`` and
 ``summary.py`` with the same inputs, files and messages. A spec
 (``packets_vN.json``) maps a one-letter code to a packet: a name, a basic
 land, a color (defaults to the code) and 12 spells. A deck is two packets of
@@ -223,7 +223,7 @@ def write_pull(result: PullResult, out_dir: Path) -> None:
 
 
 def summarize(pairs: dict[str, dict]) -> tuple[dict[str, list[float]], dict[str, list[float]]]:
-    """Per-packet and per-deck [wins, games] from analyze.py's ``pairs``. A
+    """Per-packet and per-deck [wins, games] from ``sim analyze``'s ``pairs``. A
     packet's record is every game of every deck containing it."""
     pk = defaultdict(lambda: [0.0, 0])
     deck = defaultdict(lambda: [0.0, 0])
