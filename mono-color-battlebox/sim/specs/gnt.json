@@ -1,0 +1,155 @@
+{
+ "white": {
+  "basics": [
+   "Plains",
+   25
+  ],
+  "cards": {
+   "Benalish Marshal": 1,
+   "Mentor of the Meek": 1,
+   "Valiant Knight": 1,
+   "Dwarven Priest": 2,
+   "Gallant Cavalry": 2,
+   "Militia Bugler": 3,
+   "Pegasus Courser": 2,
+   "Aerial Responder": 1,
+   "Everdawn Champion": 1,
+   "Fan Bearer": 2,
+   "Inspiring Captain": 1,
+   "Mesa Unicorn": 2,
+   "Serra Angel": 2,
+   "Subjugator Angel": 1,
+   "Cleansing Nova": 1,
+   "Call the Cavalry": 2,
+   "Bright Reprisal": 2,
+   "Inspired Charge": 1,
+   "Always Watching": 1,
+   "Hieromancer's Cage": 1,
+   "Knightly Valor": 2,
+   "Luminous Bonds": 2,
+   "Militant Angel": 1
+  }
+ },
+ "blue": {
+  "basics": [
+   "Island",
+   25
+  ],
+  "cards": {
+   "Soulblade Djinn": 1,
+   "Zahid, Djinn of the Lamp": 1,
+   "Sai, Master Thopterist": 1,
+   "Aviation Pioneer": 2,
+   "Gearsmith Prodigy": 1,
+   "Scholar of Stars": 2,
+   "Skilled Animator": 2,
+   "Wall of Mist": 2,
+   "Gearsmith Guardian": 2,
+   "Skyscanner": 2,
+   "Advanced Stitchwing": 1,
+   "Air Elemental": 2,
+   "Reckless Scholar": 1,
+   "Whirler Rogue": 2,
+   "Pilgrim's Eye": 2,
+   "Snare Thopter": 2,
+   "One with the Machine": 1,
+   "Switcheroo": 1,
+   "Hydrolash": 1,
+   "Metamorphic Alteration": 1,
+   "Claustrophobia": 2,
+   "Favorable Winds": 2,
+   "Inspired Sphinx": 1
+  }
+ },
+ "black": {
+  "basics": [
+   "Swamp",
+   25
+  ],
+  "cards": {
+   "Death Baron": 1,
+   "Graveyard Marshal": 1,
+   "Doomed Dissenter": 2,
+   "Gravedigger": 1,
+   "Infectious Horror": 2,
+   "Reassembling Skeleton": 2,
+   "Stitcher's Supplier": 2,
+   "Fleshbag Marauder": 1,
+   "Lord of the Accursed": 2,
+   "Tattered Mummy": 2,
+   "Thallid Soothsayer": 2,
+   "Zulaport Cutthroat": 2,
+   "Filigree Familiar": 2,
+   "Languish": 1,
+   "Blood Divination": 2,
+   "Bone Splinters": 1,
+   "Gruesome Fate": 1,
+   "Murder": 3,
+   "Cruel Revival": 2,
+   "Liliana's Mastery": 1,
+   "Open the Graves": 1,
+   "Rot Hulk": 1
+  }
+ },
+ "red": {
+  "basics": [
+   "Mountain",
+   25
+  ],
+  "cards": {
+   "Captivating Crew": 1,
+   "Siege-Gang Commander": 1,
+   "Demanding Dragon": 1,
+   "Goblin Trashmaster": 2,
+   "Shivan Dragon": 1,
+   "Goblin Instigator": 2,
+   "Goblin Motivator": 1,
+   "Guttersnipe": 2,
+   "Havoc Devils": 1,
+   "Volley Veteran": 2,
+   "Seismic Elemental": 1,
+   "Eager Construct": 2,
+   "Howling Golem": 2,
+   "Welder Automaton": 2,
+   "Act of Treason": 1,
+   "Dragon Fodder": 2,
+   "Rolling Thunder": 2,
+   "Tormenting Voice": 2,
+   "Shock": 3,
+   "Trumpet Blast": 1,
+   "Bombard": 2,
+   "Goblin Goliath": 1
+  }
+ },
+ "green": {
+  "basics": [
+   "Forest",
+   25
+  ],
+  "cards": {
+   "Ghalta, Primal Hunger": 1,
+   "Gigantosaurus": 1,
+   "Goreclaw, Terror of Qal Sisma": 1,
+   "Pelakka Wurm": 1,
+   "Colossal Dreadmaw": 2,
+   "Elvish Rejuvenator": 2,
+   "Ghastbark Twins": 2,
+   "Giant Spider": 2,
+   "Reclamation Sage": 1,
+   "Vigilant Baloth": 1,
+   "Jungle Delver": 1,
+   "Llanowar Elves": 3,
+   "Thrashing Brontodon": 2,
+   "Eager Construct": 2,
+   "Howling Golem": 2,
+   "Nissa's Revelation": 1,
+   "Rabid Bite": 3,
+   "Overcome": 1,
+   "Seek the Wilds": 2,
+   "Manalith": 1,
+   "Rhonas's Monument": 1,
+   "Talons of Wildwood": 1,
+   "Avatar of Growth": 1
+  }
+ }
+}
