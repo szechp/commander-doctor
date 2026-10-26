@@ -7,7 +7,7 @@ Status: plan only, nothing moved yet. Written 2026-10-26 for the next agent.
 | repo | branch / ref | what's there |
 |---|---|---|
 | [szechp/commander-doctor](https://github.com/szechp/commander-doctor) | `main` @ `3b96285` | the Commander tool (`src/deckdoctor/`), card mirror, skills |
-| same | `battlebox-balance` @ `01b82a3` (this plan) | learning-cube packets (`mono-color-battlebox/packets/`), Forge sims (`mono-color-battlebox/sim/`) |
+| same | `battlebox-balance` @ `01b82a3` (packets v8; this plan is the commit after) | learning-cube packets (`mono-color-battlebox/packets/`), Forge sims (`mono-color-battlebox/sim/`) |
 | [szechp/mtg-proxies](https://github.com/szechp/mtg-proxies) | `main-personal` @ `54f912a` (2026-10-10) | `cube_builder.py`, `swapfinder.py`, `commander_finder.py`, `deck_value.py`, archetype JSONs |
 
 Start the work from `main` after `battlebox-balance` is merged (or branch off
