@@ -62,6 +62,28 @@ def add_parsers(sub) -> None:
                        help="fraction of the cube allowed to be multicolor signposts (default 0.12)")
 
 
+    p_build = p_cb.add_parser("build", help="the best cube from one or more sets: archetype lanes + 17lands")
+    p_build.add_argument("--sets", nargs="+", required=True, help="Scryfall set codes, e.g. eoe ecl")
+    p_build.add_argument("--target", type=int, default=360, help="cube size ceiling (default 360)")
+    p_build.add_argument("--out", default="cube.csv", help="scored CSV (default cube.csv)")
+    p_build.add_argument("--txt-out", default=None, metavar="PATH",
+                         help="also write the cube as `1 Name (SET) NUMBER` lines, ready for `mtg-proxies print`")
+    p_build.add_argument("--archetypes", default=None, metavar="FILE|SET",
+                         help="WotC archetype skeleton: a JSON path, or a set code for data/cube_archetypes/<set>.json")
+    p_build.add_argument("--keep-lands", action="store_true",
+                         help="guarantee every good land (rare/mythic, or >=50%% GIH on 17lands) a slot")
+    p_build.add_argument("--format", default="PremierDraft", help="17lands draft format (default PremierDraft)")
+    p_build.add_argument("--no-17lands", action="store_true", help="skip 17lands; score on lane fit alone")
+    p_build.add_argument("--refresh", action="store_true", help="refetch the set lists and 17lands ratings")
+    build_source = p_build.add_mutually_exclusive_group()
+    build_source.add_argument("--owned", default=None, metavar="FILE", help="only cards in this list")
+    build_source.add_argument("--free", action="store_true", help="only cards the ledger shows as free")
+    p_build.add_argument("--inventory", default=DEFAULT_INVENTORY, help="ledger for --free")
+    p_build.add_argument("--profile", default=None, help="card rules for candidates, e.g. poolside")
+    p_build.add_argument("--db", default=None, help=DB_HELP)
+    p_build.add_argument("--cardsfolder", default=DEFAULT_CARDSFOLDER)
+
+
 def run(args: argparse.Namespace) -> int:
     try:
         return _run(args)
@@ -117,6 +139,8 @@ def _run(args) -> int:
         if not themes.index.has_hierarchy:
             print("card database has no tag hierarchy (tag_parents): run `deckdoctor sync` for tag families "
                   "and ancestors; continuing with plain tags", file=sys.stderr)
+        if args.cube_action == "build":
+            return _run_build(args, store, themes, profile)
         target = cube.resolve_entries(store, read_list(args.cube))
         _warn_unresolved(args.cube, target.unresolved)
         pool, owned_names, label = _pool(args, store)
@@ -189,4 +213,75 @@ def _run(args) -> int:
         Path(args.print_list).write_text("\n".join(f"1 {n}" for n in print_names) + ("\n" if print_names else ""),
                                          encoding="utf-8")
         print(f"Wrote {len(print_names)} unfillable slots (proxy the blueprint card) to {args.print_list}")
+    return 0
+
+
+def _run_build(args, store, themes, profile) -> int:
+    from deckdoctor import cube_build
+    from deckdoctor.core.lists import read_list
+    from deckdoctor.core.themes import load_archetypes
+
+    if args.target <= 0:
+        print(f"--target must be positive (got {args.target})", file=sys.stderr)
+        return 2
+    archetypes = None
+    if args.archetypes is not None:
+        archetypes = load_archetypes(cube_build.archetypes_path(args.archetypes))
+
+    print(f"Fetching cards for sets: {args.sets}")
+    cards, missing = cube_build.set_cards(store, args.sets, refresh=args.refresh)
+    print(f"Fetched {len(cards)} non-basic-land cards")
+    _warn_unresolved("Scryfall set list", missing)
+
+    if args.owned or args.free:
+        from deckdoctor import cube
+        if args.owned:
+            entries, label = read_list(args.owned), args.owned
+        else:
+            from deckdoctor.core.ledger import build_ledger, load_inventory_config
+            config = load_inventory_config(_project_path(args.inventory))
+            entries, label = build_ledger(config).remaining(), f"free cards in {config.path}"
+        owned = {c.name for c in cube.resolve_entries(store, entries, unique=True).cards}
+        cards = [c for c in cards if c.name in owned]
+        print(f"Restricted to {len(cards)} cards owned per {label}")
+    if profile is not None:
+        cards = [c for c in cards if profile.allows(c.card, store)]
+        print(f"Restricted to {len(cards)} cards allowed by the {profile.name} profile")
+
+    ratings: dict[str, dict] = {}
+    if not args.no_17lands:
+        for code in args.sets:
+            print(f"Fetching 17lands ratings for {code.upper()}...")
+            rows = cube_build.ratings_by_card(store, cube_build.fetch_17lands(code.upper(), args.format,
+                                                                               refresh=args.refresh))
+            if not rows:
+                print(f"  Warning: no 17lands data for {code.upper()}"
+                      " (unreachable, or set not on Arena); continuing with lane-fit-only scoring.")
+            for name, row in rows.items():  # a card in two sets keeps the first set's rating
+                ratings.setdefault(name, row)
+        matched = sum(1 for c in cards if c.name in ratings)
+        print(f"Matched 17lands data for {matched} / {len(cards)} cards")
+
+    if archetypes is not None:
+        lanes = themes.archetype_lanes([c.card for c in cards], archetypes)
+        selected, lanes = cube_build.build_cube(themes, cards, ratings, target=args.target, lanes=lanes,
+                                                keep_lands=args.keep_lands)
+        print(f"\nRestricted to {len(archetypes)} official archetypes from {args.archetypes}:")
+        for pair, arche in archetypes.items():
+            print(f"  {pair}: {arche['name']}")
+    else:
+        selected, lanes = cube_build.build_cube(themes, cards, ratings, target=args.target,
+                                                keep_lands=args.keep_lands)
+        print(f"\nDerived {len(lanes)} archetype lanes (Scryfall function tags + tribes + keywords)")
+        print("Top lanes (by representation):")
+        for lane_name in sorted(lanes, key=lambda s: (lanes[s], s))[:10]:
+            print(f"  {lane_name.split(':', 1)[-1].replace('-', ' ').title()}")
+
+    print(f"\n{len(selected)} of {len(cards)} cards fit an archetype lane (capped at --target {args.target})")
+    cube_build.write_cube_csv(Path(args.out), themes, selected, lanes, ratings, archetypes=archetypes)
+    print(f"\nWrote {len(selected)} cards to {Path(args.out).resolve()}")
+    if args.txt_out is not None:
+        Path(args.txt_out).write_text("".join(f"{line}\n" for line in cube_build.cube_lines(selected)),
+                                      encoding="utf-8")
+        print(f"Wrote {len(selected)} cards to {Path(args.txt_out).resolve()}")
     return 0

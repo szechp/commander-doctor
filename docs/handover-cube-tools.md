@@ -17,6 +17,14 @@ equal to scikit-learn's to 1e-16), `cube.py`, `deckdoctor cube swaps|extend`.
 scan, `cube swaps` gives swapfinder's print list and candidates (1.8 s vs
 3 m 49 s); `cube extend --profile poolside` writes the same finished cube and
 proxy list as `swapfinder.py --extend --restrict`.
+Step 4 done: `cube_build.py`, `deckdoctor cube build` (`--archetypes eoe` or a
+path; skeletons in `data/cube_archetypes/`), set lists cached in
+`data/set_cache/` (Scryfall search, fetched once; `--refresh`), 17lands in
+`data/17lands_cache/`. With `--no-17lands`, EOE 180 with and without the
+skeleton and ECL 120 `--keep-lands` give byte-identical CSV and txt to
+`mtg-proxies cube`. 17lands is unreachable from the build container (network
+policy), so the ratings path is tested with a stub only. New: `--owned` /
+`--free` (ledger) and `--profile` filters.
 
 ## Repositories and refs
 

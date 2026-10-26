@@ -1,0 +1,1572 @@
+{
+ "set": "eoe",
+ "fetched": "2026-10-26T16:17:08.210183+00:00",
+ "cards": [
+  {
+   "name": "Adagia, Windswept Bastion",
+   "set": "eoe",
+   "collector_number": "250",
+   "rarity": "mythic"
+  },
+  {
+   "name": "All-Fates Scroll",
+   "set": "eoe",
+   "collector_number": "234",
+   "rarity": "uncommon"
+  },
+  {
+   "name": "All-Fates Stalker",
+   "set": "eoe",
+   "collector_number": "3",
+   "rarity": "uncommon"
+  },
+  {
+   "name": "Alpharael, Dreaming Acolyte",
+   "set": "eoe",
+   "collector_number": "212",
+   "rarity": "uncommon"
+  },
+  {
+   "name": "Alpharael, Stonechosen",
+   "set": "eoe",
+   "collector_number": "87",
+   "rarity": "mythic"
+  },
+  {
+   "name": "Annul",
+   "set": "eoe",
+   "collector_number": "46",
+   "rarity": "uncommon"
+  },
+  {
+   "name": "Anticausal Vestige",
+   "set": "eoe",
+   "collector_number": "1",
+   "rarity": "rare"
+  },
+  {
+   "name": "Archenemy's Charm",
+   "set": "eoe",
+   "collector_number": "88",
+   "rarity": "rare"
+  },
+  {
+   "name": "Astelli Reclaimer",
+   "set": "eoe",
+   "collector_number": "4",
+   "rarity": "rare"
+  },
+  {
+   "name": "Atmospheric Greenhouse",
+   "set": "eoe",
+   "collector_number": "171",
+   "rarity": "uncommon"
+  },
+  {
+   "name": "Atomic Microsizer",
+   "set": "eoe",
+   "collector_number": "47",
+   "rarity": "uncommon"
+  },
+  {
+   "name": "Auxiliary Boosters",
+   "set": "eoe",
+   "collector_number": "5",
+   "rarity": "common"
+  },
+  {
+   "name": "Banishing Light",
+   "set": "eoe",
+   "collector_number": "6",
+   "rarity": "common"
+  },
+  {
+   "name": "Beamsaw Prospector",
+   "set": "eoe",
+   "collector_number": "89",
+   "rarity": "common"
+  },
+  {
+   "name": "Beyond the Quiet",
+   "set": "eoe",
+   "collector_number": "7",
+   "rarity": "rare"
+  },
+  {
+   "name": "Bioengineered Future",
+   "set": "eoe",
+   "collector_number": "172",
+   "rarity": "rare"
+  },
+  {
+   "name": "Biomechan Engineer",
+   "set": "eoe",
+   "collector_number": "213",
+   "rarity": "uncommon"
+  },
+  {
+   "name": "Biosynthic Burst",
+   "set": "eoe",
+   "collector_number": "173",
+   "rarity": "common"
+  },
+  {
+   "name": "Biotech Specialist",
+   "set": "eoe",
+   "collector_number": "214",
+   "rarity": "rare"
+  },
+  {
+   "name": "Blade of the Swarm",
+   "set": "eoe",
+   "collector_number": "90",
+   "rarity": "uncommon"
+  },
+  {
+   "name": "Blooming Stinger",
+   "set": "eoe",
+   "collector_number": "174",
+   "rarity": "common"
+  },
+  {
+   "name": "Bombard",
+   "set": "eoe",
+   "collector_number": "129",
+   "rarity": "common"
+  },
+  {
+   "name": "Breeding Pool",
+   "set": "eoe",
+   "collector_number": "251",
+   "rarity": "rare"
+  },
+  {
+   "name": "Brightspear Zealot",
+   "set": "eoe",
+   "collector_number": "8",
+   "rarity": "common"
+  },
+  {
+   "name": "Broodguard Elite",
+   "set": "eoe",
+   "collector_number": "175",
+   "rarity": "uncommon"
+  },
+  {
+   "name": "Bygone Colossus",
+   "set": "eoe",
+   "collector_number": "235",
+   "rarity": "uncommon"
+  },
+  {
+   "name": "Cerebral Download",
+   "set": "eoe",
+   "collector_number": "48",
+   "rarity": "uncommon"
+  },
+  {
+   "name": "Chorale of the Void",
+   "set": "eoe",
+   "collector_number": "91",
+   "rarity": "rare"
+  },
+  {
+   "name": "Chrome Companion",
+   "set": "eoe",
+   "collector_number": "236",
+   "rarity": "common"
+  },
+  {
+   "name": "Close Encounter",
+   "set": "eoe",
+   "collector_number": "176",
+   "rarity": "uncommon"
+  },
+  {
+   "name": "Cloudsculpt Technician",
+   "set": "eoe",
+   "collector_number": "49",
+   "rarity": "common"
+  },
+  {
+   "name": "Codecracker Hound",
+   "set": "eoe",
+   "collector_number": "50",
+   "rarity": "uncommon"
+  },
+  {
+   "name": "Comet Crawler",
+   "set": "eoe",
+   "collector_number": "92",
+   "rarity": "common"
+  },
+  {
+   "name": "Command Bridge",
+   "set": "eoe",
+   "collector_number": "252",
+   "rarity": "common"
+  },
+  {
+   "name": "Consult the Star Charts",
+   "set": "eoe",
+   "collector_number": "51",
+   "rarity": "rare"
+  },
+  {
+   "name": "Cosmogoyf",
+   "set": "eoe",
+   "collector_number": "215",
+   "rarity": "rare"
+  },
+  {
+   "name": "Cosmogrand Zenith",
+   "set": "eoe",
+   "collector_number": "9",
+   "rarity": "mythic"
+  },
+  {
+   "name": "Cryogen Relic",
+   "set": "eoe",
+   "collector_number": "52",
+   "rarity": "common"
+  },
+  {
+   "name": "Cryoshatter",
+   "set": "eoe",
+   "collector_number": "53",
+   "rarity": "common"
+  },
+  {
+   "name": "Cut Propulsion",
+   "set": "eoe",
+   "collector_number": "130",
+   "rarity": "uncommon"
+  },
+  {
+   "name": "Dark Endurance",
+   "set": "eoe",
+   "collector_number": "93",
+   "rarity": "common"
+  },
+  {
+   "name": "Dauntless Scrapbot",
+   "set": "eoe",
+   "collector_number": "237",
+   "rarity": "uncommon"
+  },
+  {
+   "name": "Dawnsire, Sunstar Dreadnought",
+   "set": "eoe",
+   "collector_number": "238",
+   "rarity": "mythic"
+  },
+  {
+   "name": "Dawnstrike Vanguard",
+   "set": "eoe",
+   "collector_number": "10",
+   "rarity": "uncommon"
+  },
+  {
+   "name": "Debris Field Crusher",
+   "set": "eoe",
+   "collector_number": "131",
+   "rarity": "uncommon"
+  },
+  {
+   "name": "Decode Transmissions",
+   "set": "eoe",
+   "collector_number": "94",
+   "rarity": "common"
+  },
+  {
+   "name": "Depressurize",
+   "set": "eoe",
+   "collector_number": "95",
+   "rarity": "common"
+  },
+  {
+   "name": "Desculpting Blast",
+   "set": "eoe",
+   "collector_number": "54",
+   "rarity": "uncommon"
+  },
+  {
+   "name": "Devastating Onslaught",
+   "set": "eoe",
+   "collector_number": "132",
+   "rarity": "mythic"
+  },
+  {
+   "name": "Diplomatic Relations",
+   "set": "eoe",
+   "collector_number": "177",
+   "rarity": "common"
+  },
+  {
+   "name": "Divert Disaster",
+   "set": "eoe",
+   "collector_number": "55",
+   "rarity": "common"
+  },
+  {
+   "name": "Dockworker Drone",
+   "set": "eoe",
+   "collector_number": "11",
+   "rarity": "common"
+  },
+  {
+   "name": "Drill Too Deep",
+   "set": "eoe",
+   "collector_number": "133",
+   "rarity": "common"
+  },
+  {
+   "name": "Drix Fatemaker",
+   "set": "eoe",
+   "collector_number": "178",
+   "rarity": "common"
+  },
+  {
+   "name": "Dual-Sun Adepts",
+   "set": "eoe",
+   "collector_number": "12",
+   "rarity": "uncommon"
+  },
+  {
+   "name": "Dual-Sun Technique",
+   "set": "eoe",
+   "collector_number": "13",
+   "rarity": "uncommon"
+  },
+  {
+   "name": "Dubious Delicacy",
+   "set": "eoe",
+   "collector_number": "96",
+   "rarity": "uncommon"
+  },
+  {
+   "name": "Dyadrine, Synthesis Amalgam",
+   "set": "eoe",
+   "collector_number": "216",
+   "rarity": "rare"
+  },
+  {
+   "name": "Edge Rover",
+   "set": "eoe",
+   "collector_number": "179",
+   "rarity": "uncommon"
+  },
+  {
+   "name": "Elegy Acolyte",
+   "set": "eoe",
+   "collector_number": "97",
+   "rarity": "rare"
+  },
+  {
+   "name": "Embrace Oblivion",
+   "set": "eoe",
+   "collector_number": "98",
+   "rarity": "common"
+  },
+  {
+   "name": "Emergency Eject",
+   "set": "eoe",
+   "collector_number": "14",
+   "rarity": "uncommon"
+  },
+  {
+   "name": "Emissary Escort",
+   "set": "eoe",
+   "collector_number": "56",
+   "rarity": "rare"
+  },
+  {
+   "name": "Entropic Battlecruiser",
+   "set": "eoe",
+   "collector_number": "99",
+   "rarity": "rare"
+  },
+  {
+   "name": "Eumidian Terrabotanist",
+   "set": "eoe",
+   "collector_number": "180",
+   "rarity": "uncommon"
+  },
+  {
+   "name": "Eusocial Engineering",
+   "set": "eoe",
+   "collector_number": "181",
+   "rarity": "uncommon"
+  },
+  {
+   "name": "Evendo, Waking Haven",
+   "set": "eoe",
+   "collector_number": "253",
+   "rarity": "mythic"
+  },
+  {
+   "name": "Exalted Sunborn",
+   "set": "eoe",
+   "collector_number": "15",
+   "rarity": "mythic"
+  },
+  {
+   "name": "Exosuit Savior",
+   "set": "eoe",
+   "collector_number": "16",
+   "rarity": "common"
+  },
+  {
+   "name": "Extinguisher Battleship",
+   "set": "eoe",
+   "collector_number": "242",
+   "rarity": "rare"
+  },
+  {
+   "name": "Faller's Faithful",
+   "set": "eoe",
+   "collector_number": "100",
+   "rarity": "uncommon"
+  },
+  {
+   "name": "Famished Worldsire",
+   "set": "eoe",
+   "collector_number": "182",
+   "rarity": "mythic"
+  },
+  {
+   "name": "Fell Gravship",
+   "set": "eoe",
+   "collector_number": "101",
+   "rarity": "uncommon"
+  },
+  {
+   "name": "Flight-Deck Coordinator",
+   "set": "eoe",
+   "collector_number": "17",
+   "rarity": "common"
+  },
+  {
+   "name": "Focus Fire",
+   "set": "eoe",
+   "collector_number": "18",
+   "rarity": "common"
+  },
+  {
+   "name": "Frenzied Baloth",
+   "set": "eoe",
+   "collector_number": "183",
+   "rarity": "rare"
+  },
+  {
+   "name": "Frontline War-Rager",
+   "set": "eoe",
+   "collector_number": "134",
+   "rarity": "common"
+  },
+  {
+   "name": "Full Bore",
+   "set": "eoe",
+   "collector_number": "135",
+   "rarity": "uncommon"
+  },
+  {
+   "name": "Fungal Colossus",
+   "set": "eoe",
+   "collector_number": "184",
+   "rarity": "common"
+  },
+  {
+   "name": "Galactic Wayfarer",
+   "set": "eoe",
+   "collector_number": "185",
+   "rarity": "common"
+  },
+  {
+   "name": "Galvanizing Sawship",
+   "set": "eoe",
+   "collector_number": "136",
+   "rarity": "uncommon"
+  },
+  {
+   "name": "Genemorph Imago",
+   "set": "eoe",
+   "collector_number": "217",
+   "rarity": "rare"
+  },
+  {
+   "name": "Gene Pollinator",
+   "set": "eoe",
+   "collector_number": "186",
+   "rarity": "common"
+  },
+  {
+   "name": "Germinating Wurm",
+   "set": "eoe",
+   "collector_number": "187",
+   "rarity": "common"
+  },
+  {
+   "name": "Gigastorm Titan",
+   "set": "eoe",
+   "collector_number": "57",
+   "rarity": "uncommon"
+  },
+  {
+   "name": "Glacier Godmaw",
+   "set": "eoe",
+   "collector_number": "188",
+   "rarity": "uncommon"
+  },
+  {
+   "name": "Godless Shrine",
+   "set": "eoe",
+   "collector_number": "254",
+   "rarity": "rare"
+  },
+  {
+   "name": "Gravblade Heavy",
+   "set": "eoe",
+   "collector_number": "102",
+   "rarity": "common"
+  },
+  {
+   "name": "Gravkill",
+   "set": "eoe",
+   "collector_number": "103",
+   "rarity": "common"
+  },
+  {
+   "name": "Gravpack Monoist",
+   "set": "eoe",
+   "collector_number": "104",
+   "rarity": "common"
+  },
+  {
+   "name": "Haliya, Ascendant Cadet",
+   "set": "eoe",
+   "collector_number": "218",
+   "rarity": "uncommon"
+  },
+  {
+   "name": "Haliya, Guided by Light",
+   "set": "eoe",
+   "collector_number": "19",
+   "rarity": "rare"
+  },
+  {
+   "name": "Hardlight Containment",
+   "set": "eoe",
+   "collector_number": "20",
+   "rarity": "rare"
+  },
+  {
+   "name": "Harmonious Grovestrider",
+   "set": "eoe",
+   "collector_number": "189",
+   "rarity": "uncommon"
+  },
+  {
+   "name": "Hemosymbic Mite",
+   "set": "eoe",
+   "collector_number": "190",
+   "rarity": "uncommon"
+  },
+  {
+   "name": "Honor",
+   "set": "eoe",
+   "collector_number": "21",
+   "rarity": "uncommon"
+  },
+  {
+   "name": "Honored Knight-Captain",
+   "set": "eoe",
+   "collector_number": "22",
+   "rarity": "uncommon"
+  },
+  {
+   "name": "Hullcarver",
+   "set": "eoe",
+   "collector_number": "105",
+   "rarity": "common"
+  },
+  {
+   "name": "Hylderblade",
+   "set": "eoe",
+   "collector_number": "106",
+   "rarity": "uncommon"
+  },
+  {
+   "name": "Hymn of the Faller",
+   "set": "eoe",
+   "collector_number": "107",
+   "rarity": "uncommon"
+  },
+  {
+   "name": "Icecave Crasher",
+   "set": "eoe",
+   "collector_number": "191",
+   "rarity": "common"
+  },
+  {
+   "name": "Icetill Explorer",
+   "set": "eoe",
+   "collector_number": "192",
+   "rarity": "rare"
+  },
+  {
+   "name": "Illvoi Galeblade",
+   "set": "eoe",
+   "collector_number": "58",
+   "rarity": "common"
+  },
+  {
+   "name": "Illvoi Infiltrator",
+   "set": "eoe",
+   "collector_number": "59",
+   "rarity": "uncommon"
+  },
+  {
+   "name": "Illvoi Light Jammer",
+   "set": "eoe",
+   "collector_number": "60",
+   "rarity": "common"
+  },
+  {
+   "name": "Illvoi Operative",
+   "set": "eoe",
+   "collector_number": "61",
+   "rarity": "common"
+  },
+  {
+   "name": "Infinite Guideline Station",
+   "set": "eoe",
+   "collector_number": "219",
+   "rarity": "rare"
+  },
+  {
+   "name": "Insatiable Skittermaw",
+   "set": "eoe",
+   "collector_number": "108",
+   "rarity": "common"
+  },
+  {
+   "name": "Interceptor Mechan",
+   "set": "eoe",
+   "collector_number": "220",
+   "rarity": "uncommon"
+  },
+  {
+   "name": "Intrepid Tenderfoot",
+   "set": "eoe",
+   "collector_number": "193",
+   "rarity": "common"
+  },
+  {
+   "name": "Invasive Maneuvers",
+   "set": "eoe",
+   "collector_number": "137",
+   "rarity": "uncommon"
+  },
+  {
+   "name": "Kavaron Harrier",
+   "set": "eoe",
+   "collector_number": "139",
+   "rarity": "uncommon"
+  },
+  {
+   "name": "Kavaron, Memorial World",
+   "set": "eoe",
+   "collector_number": "255",
+   "rarity": "mythic"
+  },
+  {
+   "name": "Kavaron Skywarden",
+   "set": "eoe",
+   "collector_number": "140",
+   "rarity": "common"
+  },
+  {
+   "name": "Kavaron Turbodrone",
+   "set": "eoe",
+   "collector_number": "141",
+   "rarity": "common"
+  },
+  {
+   "name": "Kav Landseeker",
+   "set": "eoe",
+   "collector_number": "138",
+   "rarity": "common"
+  },
+  {
+   "name": "Knight Luminary",
+   "set": "eoe",
+   "collector_number": "23",
+   "rarity": "common"
+  },
+  {
+   "name": "Larval Scoutlander",
+   "set": "eoe",
+   "collector_number": "194",
+   "rarity": "uncommon"
+  },
+  {
+   "name": "Lashwhip Predator",
+   "set": "eoe",
+   "collector_number": "195",
+   "rarity": "uncommon"
+  },
+  {
+   "name": "Lightless Evangel",
+   "set": "eoe",
+   "collector_number": "109",
+   "rarity": "uncommon"
+  },
+  {
+   "name": "Lightstall Inquisitor",
+   "set": "eoe",
+   "collector_number": "24",
+   "rarity": "rare"
+  },
+  {
+   "name": "Lithobraking",
+   "set": "eoe",
+   "collector_number": "142",
+   "rarity": "uncommon"
+  },
+  {
+   "name": "Loading Zone",
+   "set": "eoe",
+   "collector_number": "196",
+   "rarity": "rare"
+  },
+  {
+   "name": "Lost in Space",
+   "set": "eoe",
+   "collector_number": "62",
+   "rarity": "common"
+  },
+  {
+   "name": "Lumen-Class Frigate",
+   "set": "eoe",
+   "collector_number": "25",
+   "rarity": "rare"
+  },
+  {
+   "name": "Luxknight Breacher",
+   "set": "eoe",
+   "collector_number": "26",
+   "rarity": "common"
+  },
+  {
+   "name": "Mechan Assembler",
+   "set": "eoe",
+   "collector_number": "63",
+   "rarity": "uncommon"
+  },
+  {
+   "name": "Mechan Navigator",
+   "set": "eoe",
+   "collector_number": "64",
+   "rarity": "uncommon"
+  },
+  {
+   "name": "Mechanozoa",
+   "set": "eoe",
+   "collector_number": "66",
+   "rarity": "common"
+  },
+  {
+   "name": "Mechan Shieldmate",
+   "set": "eoe",
+   "collector_number": "65",
+   "rarity": "common"
+  },
+  {
+   "name": "Melded Moxite",
+   "set": "eoe",
+   "collector_number": "143",
+   "rarity": "common"
+  },
+  {
+   "name": "Meltstrider Eulogist",
+   "set": "eoe",
+   "collector_number": "197",
+   "rarity": "uncommon"
+  },
+  {
+   "name": "Meltstrider's Gear",
+   "set": "eoe",
+   "collector_number": "198",
+   "rarity": "common"
+  },
+  {
+   "name": "Meltstrider's Resolve",
+   "set": "eoe",
+   "collector_number": "199",
+   "rarity": "uncommon"
+  },
+  {
+   "name": "Memorial Team Leader",
+   "set": "eoe",
+   "collector_number": "144",
+   "rarity": "uncommon"
+  },
+  {
+   "name": "Memorial Vault",
+   "set": "eoe",
+   "collector_number": "145",
+   "rarity": "rare"
+  },
+  {
+   "name": "Mental Modulation",
+   "set": "eoe",
+   "collector_number": "67",
+   "rarity": "common"
+  },
+  {
+   "name": "Mightform Harmonizer",
+   "set": "eoe",
+   "collector_number": "200",
+   "rarity": "rare"
+  },
+  {
+   "name": "Mm'menon, the Right Hand",
+   "set": "eoe",
+   "collector_number": "68",
+   "rarity": "rare"
+  },
+  {
+   "name": "Mm'menon, Uthros Exile",
+   "set": "eoe",
+   "collector_number": "221",
+   "rarity": "uncommon"
+  },
+  {
+   "name": "Molecular Modifier",
+   "set": "eoe",
+   "collector_number": "146",
+   "rarity": "uncommon"
+  },
+  {
+   "name": "Monoist Circuit-Feeder",
+   "set": "eoe",
+   "collector_number": "110",
+   "rarity": "uncommon"
+  },
+  {
+   "name": "Monoist Sentry",
+   "set": "eoe",
+   "collector_number": "111",
+   "rarity": "uncommon"
+  },
+  {
+   "name": "Moonlit Meditation",
+   "set": "eoe",
+   "collector_number": "69",
+   "rarity": "rare"
+  },
+  {
+   "name": "Mouth of the Storm",
+   "set": "eoe",
+   "collector_number": "70",
+   "rarity": "uncommon"
+  },
+  {
+   "name": "Mutinous Massacre",
+   "set": "eoe",
+   "collector_number": "222",
+   "rarity": "rare"
+  },
+  {
+   "name": "Nanoform Sentinel",
+   "set": "eoe",
+   "collector_number": "71",
+   "rarity": "common"
+  },
+  {
+   "name": "Nebula Dragon",
+   "set": "eoe",
+   "collector_number": "147",
+   "rarity": "common"
+  },
+  {
+   "name": "Nova Hellkite",
+   "set": "eoe",
+   "collector_number": "148",
+   "rarity": "rare"
+  },
+  {
+   "name": "Nutrient Block",
+   "set": "eoe",
+   "collector_number": "243",
+   "rarity": "common"
+  },
+  {
+   "name": "Orbital Plunge",
+   "set": "eoe",
+   "collector_number": "149",
+   "rarity": "common"
+  },
+  {
+   "name": "Oreplate Pangolin",
+   "set": "eoe",
+   "collector_number": "150",
+   "rarity": "common"
+  },
+  {
+   "name": "Ouroboroid",
+   "set": "eoe",
+   "collector_number": "201",
+   "rarity": "mythic"
+  },
+  {
+   "name": "Pain for All",
+   "set": "eoe",
+   "collector_number": "151",
+   "rarity": "rare"
+  },
+  {
+   "name": "Perigee Beckoner",
+   "set": "eoe",
+   "collector_number": "112",
+   "rarity": "common"
+  },
+  {
+   "name": "Pinnacle Emissary",
+   "set": "eoe",
+   "collector_number": "223",
+   "rarity": "rare"
+  },
+  {
+   "name": "Pinnacle Kill-Ship",
+   "set": "eoe",
+   "collector_number": "244",
+   "rarity": "common"
+  },
+  {
+   "name": "Pinnacle Starcage",
+   "set": "eoe",
+   "collector_number": "27",
+   "rarity": "rare"
+  },
+  {
+   "name": "Plasma Bolt",
+   "set": "eoe",
+   "collector_number": "152",
+   "rarity": "common"
+  },
+  {
+   "name": "Possibility Technician",
+   "set": "eoe",
+   "collector_number": "153",
+   "rarity": "rare"
+  },
+  {
+   "name": "Pull Through the Weft",
+   "set": "eoe",
+   "collector_number": "202",
+   "rarity": "uncommon"
+  },
+  {
+   "name": "Pulsar Squadron Ace",
+   "set": "eoe",
+   "collector_number": "28",
+   "rarity": "uncommon"
+  },
+  {
+   "name": "Quantum Riddler",
+   "set": "eoe",
+   "collector_number": "72",
+   "rarity": "mythic"
+  },
+  {
+   "name": "Radiant Strike",
+   "set": "eoe",
+   "collector_number": "29",
+   "rarity": "common"
+  },
+  {
+   "name": "Ragost, Deft Gastronaut",
+   "set": "eoe",
+   "collector_number": "224",
+   "rarity": "rare"
+  },
+  {
+   "name": "Rayblade Trooper",
+   "set": "eoe",
+   "collector_number": "30",
+   "rarity": "uncommon"
+  },
+  {
+   "name": "Red Tiger Mechan",
+   "set": "eoe",
+   "collector_number": "154",
+   "rarity": "common"
+  },
+  {
+   "name": "Remnant Elemental",
+   "set": "eoe",
+   "collector_number": "155",
+   "rarity": "uncommon"
+  },
+  {
+   "name": "Requiem Monolith",
+   "set": "eoe",
+   "collector_number": "113",
+   "rarity": "rare"
+  },
+  {
+   "name": "Reroute Systems",
+   "set": "eoe",
+   "collector_number": "31",
+   "rarity": "uncommon"
+  },
+  {
+   "name": "Rescue Skiff",
+   "set": "eoe",
+   "collector_number": "32",
+   "rarity": "uncommon"
+  },
+  {
+   "name": "Rig for War",
+   "set": "eoe",
+   "collector_number": "156",
+   "rarity": "common"
+  },
+  {
+   "name": "Roving Actuator",
+   "set": "eoe",
+   "collector_number": "157",
+   "rarity": "uncommon"
+  },
+  {
+   "name": "Ruinous Rampage",
+   "set": "eoe",
+   "collector_number": "158",
+   "rarity": "uncommon"
+  },
+  {
+   "name": "Rust Harvester",
+   "set": "eoe",
+   "collector_number": "159",
+   "rarity": "rare"
+  },
+  {
+   "name": "Sacred Foundry",
+   "set": "eoe",
+   "collector_number": "256",
+   "rarity": "rare"
+  },
+  {
+   "name": "Sami's Curiosity",
+   "set": "eoe",
+   "collector_number": "203",
+   "rarity": "common"
+  },
+  {
+   "name": "Sami, Ship's Engineer",
+   "set": "eoe",
+   "collector_number": "225",
+   "rarity": "uncommon"
+  },
+  {
+   "name": "Sami, Wildcat Captain",
+   "set": "eoe",
+   "collector_number": "226",
+   "rarity": "mythic"
+  },
+  {
+   "name": "Scour for Scrap",
+   "set": "eoe",
+   "collector_number": "73",
+   "rarity": "uncommon"
+  },
+  {
+   "name": "Scout for Survivors",
+   "set": "eoe",
+   "collector_number": "33",
+   "rarity": "uncommon"
+  },
+  {
+   "name": "Scrounge for Eternity",
+   "set": "eoe",
+   "collector_number": "114",
+   "rarity": "uncommon"
+  },
+  {
+   "name": "Seam Rip",
+   "set": "eoe",
+   "collector_number": "34",
+   "rarity": "uncommon"
+  },
+  {
+   "name": "Secluded Starforge",
+   "set": "eoe",
+   "collector_number": "257",
+   "rarity": "rare"
+  },
+  {
+   "name": "Seedship Agrarian",
+   "set": "eoe",
+   "collector_number": "204",
+   "rarity": "uncommon"
+  },
+  {
+   "name": "Seedship Broodtender",
+   "set": "eoe",
+   "collector_number": "227",
+   "rarity": "uncommon"
+  },
+  {
+   "name": "Seedship Impact",
+   "set": "eoe",
+   "collector_number": "205",
+   "rarity": "uncommon"
+  },
+  {
+   "name": "Selfcraft Mechan",
+   "set": "eoe",
+   "collector_number": "74",
+   "rarity": "common"
+  },
+  {
+   "name": "Shattered Wings",
+   "set": "eoe",
+   "collector_number": "206",
+   "rarity": "common"
+  },
+  {
+   "name": "Singularity Rupture",
+   "set": "eoe",
+   "collector_number": "228",
+   "rarity": "rare"
+  },
+  {
+   "name": "Sinister Cryologist",
+   "set": "eoe",
+   "collector_number": "75",
+   "rarity": "common"
+  },
+  {
+   "name": "Skystinger",
+   "set": "eoe",
+   "collector_number": "207",
+   "rarity": "common"
+  },
+  {
+   "name": "Slagdrill Scrapper",
+   "set": "eoe",
+   "collector_number": "160",
+   "rarity": "common"
+  },
+  {
+   "name": "Sledge-Class Seedship",
+   "set": "eoe",
+   "collector_number": "208",
+   "rarity": "rare"
+  },
+  {
+   "name": "Sothera, the Supervoid",
+   "set": "eoe",
+   "collector_number": "115",
+   "rarity": "mythic"
+  },
+  {
+   "name": "Space-Time Anomaly",
+   "set": "eoe",
+   "collector_number": "229",
+   "rarity": "rare"
+  },
+  {
+   "name": "Specimen Freighter",
+   "set": "eoe",
+   "collector_number": "76",
+   "rarity": "uncommon"
+  },
+  {
+   "name": "Squire's Lightblade",
+   "set": "eoe",
+   "collector_number": "36",
+   "rarity": "common"
+  },
+  {
+   "name": "Starbreach Whale",
+   "set": "eoe",
+   "collector_number": "77",
+   "rarity": "common"
+  },
+  {
+   "name": "Starfield Shepherd",
+   "set": "eoe",
+   "collector_number": "37",
+   "rarity": "uncommon"
+  },
+  {
+   "name": "Starfield Vocalist",
+   "set": "eoe",
+   "collector_number": "78",
+   "rarity": "rare"
+  },
+  {
+   "name": "Starfighter Pilot",
+   "set": "eoe",
+   "collector_number": "38",
+   "rarity": "common"
+  },
+  {
+   "name": "Starport Security",
+   "set": "eoe",
+   "collector_number": "39",
+   "rarity": "common"
+  },
+  {
+   "name": "Starwinder",
+   "set": "eoe",
+   "collector_number": "79",
+   "rarity": "rare"
+  },
+  {
+   "name": "Station Monitor",
+   "set": "eoe",
+   "collector_number": "230",
+   "rarity": "uncommon"
+  },
+  {
+   "name": "Steelswarm Operator",
+   "set": "eoe",
+   "collector_number": "80",
+   "rarity": "uncommon"
+  },
+  {
+   "name": "Stomping Ground",
+   "set": "eoe",
+   "collector_number": "258",
+   "rarity": "rare"
+  },
+  {
+   "name": "Sunset Saboteur",
+   "set": "eoe",
+   "collector_number": "116",
+   "rarity": "rare"
+  },
+  {
+   "name": "Sunstar Chaplain",
+   "set": "eoe",
+   "collector_number": "40",
+   "rarity": "rare"
+  },
+  {
+   "name": "Sunstar Expansionist",
+   "set": "eoe",
+   "collector_number": "41",
+   "rarity": "uncommon"
+  },
+  {
+   "name": "Sunstar Lightsmith",
+   "set": "eoe",
+   "collector_number": "42",
+   "rarity": "uncommon"
+  },
+  {
+   "name": "Survey Mechan",
+   "set": "eoe",
+   "collector_number": "245",
+   "rarity": "uncommon"
+  },
+  {
+   "name": "Susurian Dirgecraft",
+   "set": "eoe",
+   "collector_number": "117",
+   "rarity": "uncommon"
+  },
+  {
+   "name": "Susurian Voidborn",
+   "set": "eoe",
+   "collector_number": "118",
+   "rarity": "uncommon"
+  },
+  {
+   "name": "Susur Secundi, Void Altar",
+   "set": "eoe",
+   "collector_number": "259",
+   "rarity": "mythic"
+  },
+  {
+   "name": "Swarm Culler",
+   "set": "eoe",
+   "collector_number": "119",
+   "rarity": "common"
+  },
+  {
+   "name": "Synthesizer Labship",
+   "set": "eoe",
+   "collector_number": "81",
+   "rarity": "rare"
+  },
+  {
+   "name": "Syr Vondam, Sunstar Exemplar",
+   "set": "eoe",
+   "collector_number": "231",
+   "rarity": "rare"
+  },
+  {
+   "name": "Syr Vondam, the Lucent",
+   "set": "eoe",
+   "collector_number": "232",
+   "rarity": "uncommon"
+  },
+  {
+   "name": "Systems Override",
+   "set": "eoe",
+   "collector_number": "161",
+   "rarity": "uncommon"
+  },
+  {
+   "name": "Tannuk, Memorial Ensign",
+   "set": "eoe",
+   "collector_number": "233",
+   "rarity": "uncommon"
+  },
+  {
+   "name": "Tannuk, Steadfast Second",
+   "set": "eoe",
+   "collector_number": "162",
+   "rarity": "mythic"
+  },
+  {
+   "name": "Tapestry Warden",
+   "set": "eoe",
+   "collector_number": "209",
+   "rarity": "uncommon"
+  },
+  {
+   "name": "Temporal Intervention",
+   "set": "eoe",
+   "collector_number": "120",
+   "rarity": "common"
+  },
+  {
+   "name": "Terminal Velocity",
+   "set": "eoe",
+   "collector_number": "163",
+   "rarity": "rare"
+  },
+  {
+   "name": "Terrapact Intimidator",
+   "set": "eoe",
+   "collector_number": "164",
+   "rarity": "uncommon"
+  },
+  {
+   "name": "Terrasymbiosis",
+   "set": "eoe",
+   "collector_number": "210",
+   "rarity": "rare"
+  },
+  {
+   "name": "Territorial Bruntar",
+   "set": "eoe",
+   "collector_number": "165",
+   "rarity": "uncommon"
+  },
+  {
+   "name": "Tezzeret, Cruel Captain",
+   "set": "eoe",
+   "collector_number": "2",
+   "rarity": "mythic"
+  },
+  {
+   "name": "Thaumaton Torpedo",
+   "set": "eoe",
+   "collector_number": "246",
+   "rarity": "common"
+  },
+  {
+   "name": "Thawbringer",
+   "set": "eoe",
+   "collector_number": "211",
+   "rarity": "common"
+  },
+  {
+   "name": "The Dominion Bracelet",
+   "set": "eoe",
+   "collector_number": "239",
+   "rarity": "mythic"
+  },
+  {
+   "name": "The Endstone",
+   "set": "eoe",
+   "collector_number": "240",
+   "rarity": "mythic"
+  },
+  {
+   "name": "The Eternity Elevator",
+   "set": "eoe",
+   "collector_number": "241",
+   "rarity": "rare"
+  },
+  {
+   "name": "The Seriema",
+   "set": "eoe",
+   "collector_number": "35",
+   "rarity": "rare"
+  },
+  {
+   "name": "Thrumming Hivepool",
+   "set": "eoe",
+   "collector_number": "247",
+   "rarity": "rare"
+  },
+  {
+   "name": "Timeline Culler",
+   "set": "eoe",
+   "collector_number": "121",
+   "rarity": "uncommon"
+  },
+  {
+   "name": "Tractor Beam",
+   "set": "eoe",
+   "collector_number": "82",
+   "rarity": "uncommon"
+  },
+  {
+   "name": "Tragic Trajectory",
+   "set": "eoe",
+   "collector_number": "122",
+   "rarity": "uncommon"
+  },
+  {
+   "name": "Umbral Collar Zealot",
+   "set": "eoe",
+   "collector_number": "123",
+   "rarity": "uncommon"
+  },
+  {
+   "name": "Unravel",
+   "set": "eoe",
+   "collector_number": "83",
+   "rarity": "uncommon"
+  },
+  {
+   "name": "Uthros Psionicist",
+   "set": "eoe",
+   "collector_number": "84",
+   "rarity": "uncommon"
+  },
+  {
+   "name": "Uthros Scanship",
+   "set": "eoe",
+   "collector_number": "85",
+   "rarity": "uncommon"
+  },
+  {
+   "name": "Uthros, Titanic Godcore",
+   "set": "eoe",
+   "collector_number": "260",
+   "rarity": "mythic"
+  },
+  {
+   "name": "Vaultguard Trooper",
+   "set": "eoe",
+   "collector_number": "166",
+   "rarity": "uncommon"
+  },
+  {
+   "name": "Virulent Silencer",
+   "set": "eoe",
+   "collector_number": "248",
+   "rarity": "uncommon"
+  },
+  {
+   "name": "Virus Beetle",
+   "set": "eoe",
+   "collector_number": "124",
+   "rarity": "common"
+  },
+  {
+   "name": "Voidforged Titan",
+   "set": "eoe",
+   "collector_number": "125",
+   "rarity": "uncommon"
+  },
+  {
+   "name": "Vote Out",
+   "set": "eoe",
+   "collector_number": "126",
+   "rarity": "uncommon"
+  },
+  {
+   "name": "Warmaker Gunship",
+   "set": "eoe",
+   "collector_number": "167",
+   "rarity": "rare"
+  },
+  {
+   "name": "Watery Grave",
+   "set": "eoe",
+   "collector_number": "261",
+   "rarity": "rare"
+  },
+  {
+   "name": "Weapons Manufacturing",
+   "set": "eoe",
+   "collector_number": "168",
+   "rarity": "rare"
+  },
+  {
+   "name": "Wedgelight Rammer",
+   "set": "eoe",
+   "collector_number": "43",
+   "rarity": "uncommon"
+  },
+  {
+   "name": "Weftblade Enhancer",
+   "set": "eoe",
+   "collector_number": "44",
+   "rarity": "common"
+  },
+  {
+   "name": "Weftstalker Ardent",
+   "set": "eoe",
+   "collector_number": "169",
+   "rarity": "uncommon"
+  },
+  {
+   "name": "Weftwalking",
+   "set": "eoe",
+   "collector_number": "86",
+   "rarity": "mythic"
+  },
+  {
+   "name": "Wurmwall Sweeper",
+   "set": "eoe",
+   "collector_number": "249",
+   "rarity": "common"
+  },
+  {
+   "name": "Xu-Ifit, Osteoharmonist",
+   "set": "eoe",
+   "collector_number": "127",
+   "rarity": "rare"
+  },
+  {
+   "name": "Zealous Display",
+   "set": "eoe",
+   "collector_number": "45",
+   "rarity": "common"
+  },
+  {
+   "name": "Zero Point Ballad",
+   "set": "eoe",
+   "collector_number": "128",
+   "rarity": "rare"
+  },
+  {
+   "name": "Zookeeper Mechan",
+   "set": "eoe",
+   "collector_number": "170",
+   "rarity": "common"
+  }
+ ]
+}
