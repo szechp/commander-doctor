@@ -41,7 +41,8 @@ limit and ownership across all packets.
 
 v9, all 15 packets, 120 sampled matchups x 20 games, ~640 games per packet
 (+-3.9 pts): 14 of 15 within 40-60% (G 58.0 ... C 41.4), T at 39.1. v10 adds
-Eagle of the Great Shelf to T. Counterspells (C) are kept on purpose even though
+Eagle of the Great Shelf to T (for a Westfold Rider) and is **locked in** as the
+final list; that one swap wasn't re-simmed. Counterspells (C) are kept on purpose even though
 the AI rarely holds mana up for them, so C plays better with people than in the
 sim. Results: `../sim/results/p8*`, `p9*`.
 
