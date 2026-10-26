@@ -270,6 +270,18 @@ old scripts got wrong:
 - `cube extend` prints the blueprint's size next to the result and says when
   slots stay empty (gold took more of a color than the blueprint's gold did);
   swapfinder claimed the color distribution always matched.
+- `brew --rank-edhrec` (vs commander_finder): pages come from the project's
+  `data/edhrec_cache` at any age, fetched only when missing (`--refresh-edhrec`
+  refetches); "no EDHREC page" (403/404) and "fetch failed" are listed apart,
+  as commander_finder did. The Commander commands keep edhrec.py's weekly cache.
+- `value` (vs deck_value): the mirror stores one nonfoil EUR price per card,
+  where deck_value took the cheapest printing and fell back to foil and USD, so
+  some cards are unpriced; the total line says PARTIAL when that happens.
+- `sim run` (vs sim.py): a chunk Forge exits non-zero on is written without the
+  done marker, so analyze skips it and a re-run retries it; the run exits 1.
+  `sim monitor` survives an analyze error, and analyze reports a log with no
+  match header as an errored chunk instead of crashing (sim.py/analyze.py
+  did not).
 - `poolside` and `cube-default` drop digital-only Alchemy cards
   (`banned_set_types`), as swapfinder's `--restrict` dropped `digital` cards.
   The mirror has no rarity, so swapfinder's `--max-rarity` has no equivalent

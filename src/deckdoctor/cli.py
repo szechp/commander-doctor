@@ -440,6 +440,7 @@ def main(argv: list[str] | None = None) -> int:
     p_brew.add_argument("--rank-edhrec", nargs="?", const="owned", choices=["owned", "high-synergy"], default=None,
                         help="rank the buildable commanders by how many cards on their EDHREC page you own "
                              "(or owned High Synergy cards); pages come from the EDHREC cache, fetched once if missing")
+    p_brew.add_argument("--refresh-edhrec", action="store_true", help="with --rank-edhrec: refetch every page")
     p_card = sub.add_parser("card", help="real oracle text + ramp/draw/prereq/tag roles for one or more cards by name -- look it up, don't recall it from memory")
     p_card.add_argument("name", nargs="+", help='e.g. deckdoctor card "Ranging Raptors"')
     p_card.add_argument("--db", default=None)
@@ -1211,12 +1212,13 @@ def main(argv: list[str] | None = None) -> int:
                   "or --collection)", file=sys.stderr)
             return 2
         print(f"(owned pool: {len(owned)} distinct card name(s))", file=sys.stderr)
-        edhrec_scores, edhrec_no_page = {}, []
+        edhrec_scores, edhrec_no_page, edhrec_failed = {}, [], []
         if args.rank_edhrec:
             from deckdoctor.edhrec_rank import rank
             feasible = owned_commander_options(con, owned, min_legal_nonlands=args.min_nonlands,
                                                limit=len(owned) + 1, max_identity_width=args.max_identity_width)
-            ranked, edhrec_no_page = rank([o.commander for o in feasible], owned, by=args.rank_edhrec)
+            ranked, edhrec_no_page, edhrec_failed = rank([o.commander for o in feasible], owned,
+                                                          by=args.rank_edhrec, refresh=args.refresh_edhrec)
             edhrec_scores = {s.commander: s for s in ranked}
             by_name = {o.commander: o for o in feasible}
             options = ([by_name[s.commander] for s in ranked]
@@ -1242,6 +1244,7 @@ def main(argv: list[str] | None = None) -> int:
                                     "high_synergy_owned": s.high_synergy_owned, "recommended": s.total_recs}
                                    for s in edhrec_scores.values()],
                     "no_page": edhrec_no_page,
+                    "fetch_failed": edhrec_failed,
                 }} if args.rank_edhrec else {}),
             }, owned_deck, con, status="approximate",
             limitation="Feasibility only: a commander is reported when it is owned and the "
@@ -1267,12 +1270,16 @@ def main(argv: list[str] | None = None) -> int:
                 for option in options:
                     lines = render_options([option])
                     edhrec_score = edhrec_scores.get(option.commander)
-                    lines[0] += suffix(edhrec_score) if edhrec_score else " | EDHREC: no page"
+                    lines[0] += (suffix(edhrec_score) if edhrec_score else " | EDHREC: fetch failed"
+                                 if option.commander in edhrec_failed else " | EDHREC: no page")
                     lines += detail_lines(edhrec_score) if edhrec_score else []
                     for line in lines:
                         print(line)
                 if edhrec_no_page:
                     print(f"(no EDHREC page for {len(edhrec_no_page)}: {', '.join(edhrec_no_page)})")
+                if edhrec_failed:
+                    print(f"(EDHREC fetch failed for {len(edhrec_failed)} -- offline? rerun to retry: "
+                          f"{', '.join(edhrec_failed)})")
         return 0
 
     if args.command == "card":

@@ -73,7 +73,13 @@ def fetch_set_list(code: str, *, refresh: bool = False, cache_dir: Path | None =
     cache_dir = cache_dir or SET_CACHE_DIR
     path = cache_dir / f"{code.lower()}.json"
     if path.is_file() and not refresh:
-        return json.loads(path.read_text(encoding="utf-8"))["cards"]
+        try:
+            rows = json.loads(path.read_text(encoding="utf-8"))["cards"]
+            if not all(isinstance(r, dict) and {"name", "set", "collector_number"} <= set(r) for r in rows):
+                raise ValueError("rows lack name/set/collector_number")
+            return rows
+        except (OSError, UnicodeError, ValueError, KeyError, TypeError) as exc:
+            raise ValueError(f"set cache {path} is unreadable ({exc}); delete it or pass --refresh") from exc
     print(f"Fetching set {code.upper()} from Scryfall...", file=sys.stderr)
     rows, url, params = [], SCRYFALL_SEARCH_URL, {"q": f"set:{code} -t:basic unique:cards", "format": "json"}
     try:
@@ -120,7 +126,12 @@ def fetch_17lands(expansion: str, fmt: str = "PremierDraft", *, refresh: bool = 
     cache_dir = cache_dir or LANDS_CACHE_DIR
     path = cache_dir / f"{expansion}-{fmt}.json".replace("/", "_")
     if path.is_file() and not refresh:
-        rows = json.loads(path.read_text(encoding="utf-8"))["rows"]
+        try:
+            rows = json.loads(path.read_text(encoding="utf-8"))["rows"]
+            if not isinstance(rows, list):
+                raise ValueError("rows is not a list")
+        except (OSError, UnicodeError, ValueError, KeyError, TypeError) as exc:
+            raise ValueError(f"17lands cache {path} is unreadable ({exc}); delete it or pass --refresh") from exc
     else:
         params = {"expansion": expansion, "format": fmt, "start_date": "2020-01-01",
                   "end_date": datetime.now(timezone.utc).date().isoformat()}

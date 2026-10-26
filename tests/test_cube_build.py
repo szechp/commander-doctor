@@ -341,3 +341,24 @@ def test_cube_build_cli_with_owned_filter(tmp_path, monkeypatch, capsys):
     assert len((tmp_path / "c.txt").read_text().splitlines()) == 4
     assert "Restricted to 4 cards owned" in capsys.readouterr().out
     assert main(args + ["--target", "0"]) == 2
+
+
+@pytest.mark.parametrize("body", ['{"set": "zzz"}', "[]", '{"cards": [{"name": "A"}]}', "garbage"])
+def test_corrupt_set_cache_is_a_clear_error(tmp_path, body):
+    (tmp_path / "zzz.json").write_text(body)
+    with pytest.raises(ValueError, match="zzz.json is unreadable.*--refresh"):
+        cube_build.fetch_set_list("zzz", cache_dir=tmp_path)
+
+
+def test_corrupt_17lands_cache_is_a_clear_error(tmp_path):
+    (tmp_path / "ECL-PremierDraft.json").write_text('{"rows": 5}')
+    with pytest.raises(ValueError, match="17lands cache .* unreadable"):
+        cube_build.fetch_17lands("ECL", cache_dir=tmp_path)
+
+
+def test_cube_build_checks_owned_before_fetching(tmp_path, monkeypatch):
+    monkeypatch.setattr(cube_build, "fetch_set_list", lambda *a, **kw: pytest.fail("no fetch before arg checks"))
+    con = connect(tmp_path / "t.sqlite3")
+    con.close()
+    assert main(["cube", "build", "--sets", "zzz", "--owned", str(tmp_path / "nope.txt"),
+                 "--db", str(tmp_path / "t.sqlite3")]) == 2

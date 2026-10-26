@@ -333,9 +333,16 @@ def _run_sim(args) -> int:
         text, summary = forge_sim.analyze(args.run, box)
         sys.stdout.write(text)
         if args.json:
-            Path(args.json).write_text(json.dumps(summary, indent=1))
+            try:
+                Path(args.json).write_text(json.dumps(summary, indent=1))
+            except OSError as exc:
+                print(f"could not write --json {args.json}: {exc}", file=sys.stderr)
+                return 2
         return 0
     if args.sim_action == "monitor":
+        if not (box / "sim" / "runs" / args.run).is_dir():
+            print(f"no sim run {args.run!r} under {box / 'sim' / 'runs'} (start `sim run` first)", file=sys.stderr)
+            return 2
         return forge_sim.monitor(args.run, args.total, box, every=args.every,
                                  log=lambda line: print(line, flush=True))
     pairs = [tuple(x.split(":")) for x in args.pairs.split(",")] if args.pairs else None

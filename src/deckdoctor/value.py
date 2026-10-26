@@ -3,7 +3,9 @@
 Ported from mtg-proxies' ``deck_value.py`` (a pie chart there; a table
 here). Prices are the mirror's nonfoil EUR snapshot from the last
 ``deckdoctor sync`` (``prices.eur_prices``): one printing per card, not a
-shop quote. Cards worth less than ``lump`` of the total are summed into
+shop quote. deck_value took the cheapest printing and fell back to foil and
+USD; the mirror stores one nonfoil EUR price per card, so some cards (often
+basics, reprints with no EUR listing) have none and the total says so. Cards worth less than ``lump`` of the total are summed into
 one "other" row; a card without a known price is listed, never counted
 as free.
 """
@@ -42,7 +44,9 @@ def deck_value(quantities: dict[str, int], prices: dict[str, float], lump: float
 
 def render(report: ValueReport, title: str) -> str:
     total = report.total
-    lines = [f"{title}: {total:.2f}\N{EURO SIGN} (Scryfall nonfoil EUR at last sync)"]
+    partial = (f"; PARTIAL: {len(report.unpriced)} card(s) have no price in the mirror and are not counted"
+               if report.unpriced else "")
+    lines = [f"{title}: {total:.2f}\N{EURO SIGN} (Scryfall nonfoil EUR at last sync{partial})"]
     for name, n, value in report.named:
         share = value / total if total else 0.0
         lines.append(f"  {value:8.2f}\N{EURO SIGN} {share:5.1%}  {f'{n}x ' if n > 1 else ''}{name}")

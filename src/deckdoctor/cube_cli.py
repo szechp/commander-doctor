@@ -268,6 +268,9 @@ def _run_build(args, store, themes, profile) -> int:
     if args.archetypes is not None:
         archetypes = load_archetypes(cube_build.archetypes_path(args.archetypes))
 
+    if args.owned and not Path(args.owned).is_file():
+        print(f"owned list not found: {args.owned}", file=sys.stderr)
+        return 2
     print(f"Fetching cards for sets: {args.sets}")
     cards, missing = cube_build.set_cards(store, args.sets, refresh=args.refresh)
     print(f"Fetched {len(cards)} non-basic-land cards")

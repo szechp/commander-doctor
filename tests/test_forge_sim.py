@@ -79,3 +79,36 @@ def test_setup_script_moved_with_a_forwarder():
     assert (root / "forge-spike" / "setup-forge.sh").is_file()
     assert (root / "forge-spike" / "forge-snapshot-hook.patch").is_file()
     assert "forge-spike/setup-forge.sh" in (root / "mono-color-battlebox" / "sim" / "setup-forge.sh").read_text()
+
+
+def test_failed_chunk_gets_no_done_marker_and_fails_the_run(tmp_path, monkeypatch):
+    import subprocess
+
+    class Proc:
+        returncode, stdout, stderr = 1, "partial log", "boom"
+    monkeypatch.setattr(forge_sim, "forge_jar", lambda: tmp_path / "forge.jar")
+    monkeypatch.setattr(forge_sim, "java_bin", lambda: "java")
+    monkeypatch.setattr(subprocess, "run", lambda *a, **kw: Proc())
+    decks = tmp_path / "decks"
+    decks.mkdir()
+    for key in ("WD", "SF"):
+        (decks / f"Packet-{key}.dck").write_text("[Main]\n")
+    (tmp_path / "sim").mkdir()
+    lines = []
+    assert forge_sim.run("r", 20, decks, tmp_path, log=lines.append) == 1
+    assert "2 chunk(s) failed" in lines[-1]
+    logs = list((tmp_path / "sim" / "runs" / "r").glob("*.log"))
+    assert logs and not any(forge_sim.chunk_done(f) for f in logs)  # a re-run retries them
+    Proc.returncode = 0
+    assert forge_sim.run("r", 20, decks, tmp_path, log=lines.append) == 0
+    assert all(forge_sim.chunk_done(f) for f in logs)
+
+
+def test_analyze_skips_a_game_without_any_match_header(tmp_path):
+    box = _box(tmp_path, [[["Game Result: Game 1 ended in 10 ms. Ai(1)-Mono-WD Beginner has won!"]]])
+    text, summary = forge_sim.analyze("t1", box)
+    assert summary["pairs"] == {} and "ERRORED CHUNKS: ['WD-SF_000_WDfirst.log']" in text
+
+
+def test_monitor_needs_an_existing_run(tmp_path):
+    assert main(["sim", "monitor", "nosuch", "4", "--box", str(tmp_path)]) == 2

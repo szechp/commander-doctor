@@ -214,6 +214,9 @@ def analyze(run: str, box: Path) -> tuple[str, dict]:
                 pass
             if len(players) != 2:
                 hdr = re.search(r"(Ai\(1\)-.+?) vs (Ai\(2\)-.+?) -", text)
+                if hdr is None:  # no match header anywhere in the file: can't attribute the game
+                    errors.append(f.name)
+                    continue
                 players = [deck_of(hdr.group(1)), deck_of(hdr.group(2))]
             a, b = sorted(players)
             for p in players:
@@ -396,7 +399,10 @@ def run_chunk(java: str, jar: Path, a: Path, b: Path, n: int, seed: int, out: Pa
            "-D", str(a.parent), "-d", a.name, b.name, "-n", str(n), "-s", str(seed), "-c", "300"]
     t = time.time()
     p = subprocess.run(cmd, cwd=FORGE_DIR / "forge-gui", capture_output=True, text=True, timeout=n * 400 + 300)
-    out.write_text(p.stdout + f"\n{DONE_MARKER}\n" + p.stderr[-20000:])
+    # Only a chunk Forge finished gets the done marker: a failed one is
+    # rewritten without it, so analyze skips it and a re-run retries it.
+    marker = DONE_MARKER if p.returncode == 0 else "=====FAILED (no done marker; re-run to retry)====="
+    out.write_text(p.stdout + f"\n{marker}\n" + p.stderr[-20000:])
     return out, time.time() - t, p.returncode
 
 
@@ -438,11 +444,12 @@ def run(run_name: str, games: int, deck_dir: Path, box: Path, *, pairs=None, job
         for done, f in enumerate(as_completed(futs), 1):
             try:
                 out, dt, rc = f.result()
+                failed += rc != 0
                 log(f"[{done}/{len(todo)}] {out.name} rc={rc} {dt:.0f}s (elapsed {time.time()-t0:.0f}s)")
             except Exception as e:  # one chunk failing must not lose the others
                 failed += 1
                 log(f"[{done}/{len(todo)}] FAILED {e}")
-    log("ALL DONE")
+    log("ALL DONE" if not failed else f"DONE, {failed} chunk(s) failed (re-run the same command to retry them)")
     return 1 if failed else 0
 
 
@@ -499,7 +506,11 @@ def monitor(run_name: str, total: int, box: Path, *, every: int = 4, poll: float
         n = done_chunks(box, run_name)
         if n - last >= every or (n >= total and n != last):
             last = n
-            report, _ = analyze(run_name, box)
+            try:
+                report, _ = analyze(run_name, box)
+            except Exception as exc:  # a malformed log must not stop the watch
+                log(f"ERROR analyze failed: {exc!r}")
+                report = ""
             log(f"[{n}/{total} chunks] " + overall_line(report))
             for event in monitor_events(report, seen, decisive):
                 log(event)

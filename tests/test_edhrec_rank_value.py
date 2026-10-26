@@ -5,6 +5,8 @@ existing cache; commander eligibility is brew's existing rule."""
 
 from __future__ import annotations
 
+import pytest
+
 from deckdoctor import edhrec_rank, value
 from deckdoctor.cli import main
 from deckdoctor.db import connect
@@ -75,9 +77,11 @@ def test_rank_key_by_high_synergy_inverts_priority():
 
 
 def test_rank_lists_commanders_without_a_page():
-    pages = {"Krenko, Mob Boss": _payload(("Creatures", [("Goblin Matron", 300), ("Sol Ring", 10)]))}
-    ranked, no_page = edhrec_rank.rank(["Krenko, Mob Boss", "Nobody"], {"Goblin Matron"}, fetch=pages.get)
-    assert [s.commander for s in ranked] == ["Krenko, Mob Boss"] and no_page == ["Nobody"]
+    pages = {"Krenko, Mob Boss": (_payload(("Creatures", [("Goblin Matron", 300), ("Sol Ring", 10)])), "ok"),
+             "Offline": (None, edhrec_rank.FAILED)}
+    ranked, no_page, failed = edhrec_rank.rank(["Krenko, Mob Boss", "Nobody", "Offline"], {"Goblin Matron"},
+                                               fetch=lambda n: pages.get(n, (None, edhrec_rank.NO_PAGE)))
+    assert [s.commander for s in ranked] == ["Krenko, Mob Boss"] and no_page == ["Nobody"] and failed == ["Offline"]
     assert "1/2 recommended owned (0 high-synergy, 50%)" in edhrec_rank.suffix(ranked[0])
     assert edhrec_rank.detail_lines(ranked[0])[1] == "    top missing: Sol Ring (10)"
 
@@ -90,6 +94,7 @@ def test_deck_value_lumps_small_cards_and_lists_unpriced():
     assert abs(report.total - 9.6) < 1e-9
     text = value.render(report, "deck")
     assert text.startswith("deck: 9.60€") and "4x Bolt" in text and "no price for 1: Mystery" in text
+    assert "PARTIAL: 1 card(s) have no price" in text.splitlines()[0]
 
 
 def test_value_cli(tmp_path, capsys):
@@ -104,3 +109,42 @@ def test_value_cli(tmp_path, capsys):
     out = capsys.readouterr().out
     assert out.startswith("deck: 2.25€") and "not in the card database: Nope" in out
     assert main(["value", str(deck), "--db", str(tmp_path / "none.sqlite3")]) == 3
+
+
+class _Resp:
+    def __init__(self, status, payload=None):
+        self.status_code, self.payload = status, payload
+
+    def raise_for_status(self):
+        import requests
+        if self.status_code >= 400:
+            raise requests.HTTPError(str(self.status_code))
+
+    def json(self):
+        return self.payload
+
+
+def test_load_page_uses_any_age_cache_and_splits_no_page_from_failure(tmp_path, monkeypatch):
+    import os
+
+    import requests
+    (tmp_path / "krenko-mob-boss.json").write_text('{"container": {}}')
+    os.utime(tmp_path / "krenko-mob-boss.json", (0, 0))  # decades old: still used
+    monkeypatch.setattr(requests, "get", lambda *a, **kw: (_ for _ in ()).throw(requests.ConnectionError("x")))
+    assert edhrec_rank.load_page("Krenko, Mob Boss", cache_dir=tmp_path) == ({"container": {}}, "ok")
+    assert edhrec_rank.load_page("Nobody", cache_dir=tmp_path) == (None, edhrec_rank.FAILED)
+    monkeypatch.setattr(requests, "get", lambda *a, **kw: _Resp(403))
+    assert edhrec_rank.load_page("Nobody", cache_dir=tmp_path) == (None, edhrec_rank.NO_PAGE)
+    monkeypatch.setattr(requests, "get", lambda *a, **kw: _Resp(503))
+    assert edhrec_rank.load_page("Nobody", cache_dir=tmp_path) == (None, edhrec_rank.FAILED)
+    monkeypatch.setattr(requests, "get", lambda *a, **kw: _Resp(200, {"fresh": 1}))
+    assert edhrec_rank.load_page("Krenko, Mob Boss", cache_dir=tmp_path, refresh=True) == ({"fresh": 1}, "ok")
+    assert (tmp_path / "krenko-mob-boss.json").read_text() == '{"fresh": 1}'
+
+
+def test_default_edhrec_cache_is_the_projects_not_the_cwd(tmp_path, monkeypatch):
+    import requests
+    monkeypatch.chdir(tmp_path)
+    monkeypatch.setattr(requests, "get", lambda *a, **kw: pytest.fail("cached: no network"))
+    payload, status = edhrec_rank.load_page("Uglúk of the White Hand")  # committed in data/edhrec_cache
+    assert status == "ok" and payload
