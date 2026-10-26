@@ -129,7 +129,8 @@ def main():
         tribes = collections.Counter(t for c in cards if c["creature"] for t in TRIBES if re.search(rf"\b{t}\b", c["type"]))
         print("   tribes: " + ", ".join(f"{t} {k}" for t, k in tribes.most_common(8) if k >= 3))
         if a.show:
-            hits = [c for c in cards if fits(c, a.show) or re.search(rf"\b{a.show}\b", c["type"])]
+            hits = [c for c in cards if (a.show in LANES and fits(c, a.show))
+                    or re.search(rf"\b{re.escape(a.show)}\b", c["type"])]
             for c in sorted(hits, key=lambda c: c["cmc"]):
                 print(f"     {int(c['cmc'])} {c['name']} — {c['type']}: {c['text'][:90]}")
     print(f"\n== colorless: {len(pool['C'])} simple artifacts/cards")
