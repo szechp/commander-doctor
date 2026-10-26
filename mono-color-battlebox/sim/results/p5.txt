@@ -1,0 +1,596 @@
+== p5: 1600 games, 0 draws/timeouts ==
+
+row deck win% vs column deck
+               ad       ap       as       av       ba       bd       bg       bp       br       bs       dp       ga       gd       gs       gv       ra       rg       rp       rs       rv       sd       sp       sv       ua       ub       ud       ug       up       ur       uv       vd       vp       wb       wd       wg       wp       wr       ws       wu       wv   overall
+      ad      -        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        75%      ?        ?        ?        ?        ?        ?        60%      ?        ?        ?        ?        ?        ?        ?        50%      ?        ?        ?        ?        75%      ?        ?      65.0%
+      ap      ?        -        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        60%      ?        ?        ?        ?        ?        60%      ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?      60.0%
+      as      ?        ?        -        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        75%      ?        70%      ?        ?        ?        ?        60%      75%      ?        ?        ?        ?        ?        ?        ?      70.0%
+      av      ?        ?        ?        -        ?        ?        ?        ?        55%      ?        ?        ?        ?        90%      ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?      72.5%
+      ba      ?        ?        ?        ?        -        ?        ?        ?        ?        ?        ?        ?        30%      ?        ?        ?        70%      75%      ?        80%      ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        65%      ?        ?        ?        ?        ?        ?        ?        ?      64.0%
+      bd      ?        ?        ?        ?        ?        -        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        55%      ?        ?        ?        55%      ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        55%      ?      55.0%
+      bg      ?        ?        ?        ?        ?        ?        -        ?        ?        ?        15%      ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        35%      ?        35%      ?        ?        ?        ?        40%      ?        ?        ?        ?        ?        75%      ?        ?        50%    41.7%
+      bp      ?        ?        ?        ?        ?        ?        ?        -        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        45%      ?        ?        ?        ?        ?        50%      ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        40%    45.0%
+      br      ?        ?        ?        45%      ?        ?        ?        ?        -        ?        ?        40%      ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        30%      ?        65%      ?        ?        ?        45%      ?        ?        ?        ?        ?        ?        ?        ?      45.0%
+      bs      ?        ?        ?        ?        ?        ?        ?        ?        ?        -        ?        35%      ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        35%    35.0%
+      dp      ?        ?        ?        ?        ?        ?        85%      ?        ?        ?        -        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        90%      ?        ?        ?        ?        75%      ?        ?        60%      ?        ?        ?        ?        55%      ?        ?      73.0%
+      ga      ?        ?        ?        ?        ?        ?        ?        ?        60%      65%      ?        -        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        40%      ?        ?        40%      ?        55%      ?        ?        ?        ?        ?        65%      ?        ?        ?        ?        ?        60%    55.0%
+      gd      ?        ?        ?        ?        70%      ?        ?        ?        ?        ?        ?        ?        -        ?        ?        80%      ?        ?        ?        ?        ?        60%      ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        85%      ?      73.8%
+      gs      ?        40%      ?        10%      ?        ?        ?        ?        ?        ?        ?        ?        ?        -        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        40%      ?        ?        60%      ?        ?        ?        45%      ?        ?        ?        ?      39.0%
+      gv      ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        -        60%      ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        60%      ?        ?      60.0%
+      ra      ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        20%      ?        40%      -        ?        ?        ?        ?        25%      ?        ?        ?        ?        30%      ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        50%    33.0%
+      rg      ?        ?        ?        ?        30%      ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        -        ?        ?        ?        ?        ?        ?        ?        ?        45%      ?        ?        ?        ?        ?        ?        ?        45%      ?        ?        ?        ?        ?        ?      40.0%
+      rp      25%      ?        ?        ?        25%      ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        -        ?        ?        ?        ?        40%      ?        65%      ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?      38.8%
+      rs      ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        -        ?        ?        ?        ?        ?        ?        ?        40%      ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?      40.0%
+      rv      ?        40%      ?        ?        20%      ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        -        ?        80%      ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        50%      ?        15%      ?        ?        ?        ?        ?      41.0%
+      sd      ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        75%      ?        ?        ?        ?        -        ?        ?        60%      ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        40%    58.3%
+      sp      ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        40%      ?        ?        ?        ?        ?        ?        20%      ?        -        ?        ?        ?        20%      ?        ?        ?        ?        20%      ?        ?        ?        ?        ?        ?        ?        60%      ?      32.0%
+      sv      ?        ?        ?        ?        ?        45%      ?        55%      ?        ?        ?        60%      ?        ?        ?        ?        ?        60%      ?        ?        ?        ?        -        ?        ?        ?        ?        50%      ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?      54.0%
+      ua      ?        ?        ?        ?        ?        ?        65%      ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        40%      ?        ?        -        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        55%      ?        ?        ?        ?      53.3%
+      ub      40%      ?        25%      ?        ?        ?        ?        ?        ?        ?        10%      ?        ?        ?        ?        ?        ?        35%      ?        ?        ?        ?        ?        ?        -        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?      27.5%
+      ud      ?        ?        ?        ?        ?        ?        65%      ?        70%      ?        ?        60%      ?        ?        ?        70%      55%      ?        ?        ?        ?        80%      ?        ?        ?        -        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        40%      ?        ?        ?      62.9%
+      ug      ?        ?        30%      ?        ?        45%      ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        60%      ?        ?        ?        ?        ?        ?        ?        -        ?        ?        ?        ?        ?        ?        ?        ?        ?        55%      ?        ?        ?      47.5%
+      up      ?        ?        ?        ?        ?        ?        ?        ?        35%      ?        ?        45%      ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        50%      ?        ?        ?        ?        -        ?        ?        ?        ?        ?        ?        ?        ?        75%      45%      ?        ?      50.0%
+      ur      ?        ?        ?        ?        ?        ?        ?        50%      ?        ?        ?        ?        ?        60%      ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        -        ?        ?        ?        ?        ?        ?        ?        ?        65%      ?        ?      58.3%
+      uv      ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        25%      ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        -        ?        ?        ?        ?        ?        ?        55%      ?        ?        ?      40.0%
+      vd      ?        ?        ?        ?        ?        ?        60%      ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        80%      ?        ?        ?        ?        ?        ?        ?        ?        -        ?        ?        ?        ?        ?        55%      75%      ?        ?      67.5%
+      vp      ?        ?        40%      ?        35%      ?        ?        ?        55%      ?        ?        ?        ?        40%      ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        -        ?        ?        ?        ?        ?        65%      35%      ?      45.0%
+      wb      50%      ?        25%      ?        ?        ?        ?        ?        ?        ?        40%      ?        ?        ?        ?        ?        ?        ?        ?        50%      ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        -        ?        ?        ?        ?        ?        ?        ?      41.2%
+      wd      ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        35%      ?        ?        ?        ?        55%      ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        -        ?        ?        ?        ?        ?        ?      45.0%
+      wg      ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        85%      ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        -        ?        ?        ?        ?        ?      85.0%
+      wp      ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        55%      ?        ?        ?        ?        ?        ?        ?        ?        ?        45%      ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        -        ?        ?        ?        ?      50.0%
+      wr      ?        ?        ?        ?        ?        ?        25%      ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        60%      45%      25%      ?        45%      45%      ?        ?        ?        ?        ?        -        ?        ?        ?      40.8%
+      ws      25%      ?        ?        ?        ?        ?        ?        ?        ?        ?        45%      ?        ?        ?        40%      ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        55%      35%      ?        25%      35%      ?        ?        ?        ?        ?        -        ?        ?      37.1%
+      wu      ?        ?        ?        ?        ?        45%      ?        ?        ?        ?        ?        ?        15%      ?        ?        ?        ?        ?        ?        ?        ?        40%      ?        ?        ?        ?        ?        ?        ?        ?        ?        65%      ?        ?        ?        ?        ?        ?        -        ?      41.2%
+      wv      ?        ?        ?        ?        ?        ?        50%      60%      ?        65%      ?        40%      ?        ?        ?        50%      ?        ?        ?        ?        60%      ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        ?        -      54.2%
+
+pair details (95% Wilson CI for first-named deck):
+      ad vs rp      75.0% [  53- 89]  n=20 draws=0 avg_turns=23.4  <-- OUT OF 45-55
+      ad vs ub      60.0% [  39- 78]  n=20 draws=0 avg_turns=25.0  <-- OUT OF 45-55
+      ad vs wb      50.0% [  30- 70]  n=20 draws=0 avg_turns=18.9
+      ad vs ws      75.0% [  53- 89]  n=20 draws=0 avg_turns=18.1  <-- OUT OF 45-55
+      ap vs gs      60.0% [  39- 78]  n=20 draws=0 avg_turns=27.6  <-- OUT OF 45-55
+      ap vs rv      60.0% [  39- 78]  n=20 draws=0 avg_turns=32.6  <-- OUT OF 45-55
+      as vs ub      75.0% [  53- 89]  n=20 draws=0 avg_turns=24.6  <-- OUT OF 45-55
+      as vs ug      70.0% [  48- 85]  n=20 draws=0 avg_turns=19.4  <-- OUT OF 45-55
+      as vs vp      60.0% [  39- 78]  n=20 draws=0 avg_turns=22.8  <-- OUT OF 45-55
+      as vs wb      75.0% [  53- 89]  n=20 draws=0 avg_turns=17.2  <-- OUT OF 45-55
+      av vs br      55.0% [  34- 74]  n=20 draws=0 avg_turns=20.7
+      av vs gs      90.0% [  70- 97]  n=20 draws=0 avg_turns=19.2  <-- OUT OF 45-55
+      ba vs gd      30.0% [  15- 52]  n=20 draws=0 avg_turns=25.5  <-- OUT OF 45-55
+      ba vs rg      70.0% [  48- 85]  n=20 draws=0 avg_turns=21.4  <-- OUT OF 45-55
+      ba vs rp      75.0% [  53- 89]  n=20 draws=0 avg_turns=28.3  <-- OUT OF 45-55
+      ba vs rv      80.0% [  58- 92]  n=20 draws=0 avg_turns=24.9  <-- OUT OF 45-55
+      ba vs vp      65.0% [  43- 82]  n=20 draws=0 avg_turns=32.9  <-- OUT OF 45-55
+      bd vs sv      55.0% [  34- 74]  n=20 draws=0 avg_turns=20.2
+      bd vs ug      55.0% [  34- 74]  n=20 draws=0 avg_turns=22.5
+      bd vs wu      55.0% [  34- 74]  n=20 draws=0 avg_turns=19.0
+      bg vs dp      15.0% [   5- 36]  n=20 draws=0 avg_turns=26.1  <-- OUT OF 45-55
+      bg vs ua      35.0% [  18- 57]  n=20 draws=0 avg_turns=18.8  <-- OUT OF 45-55
+      bg vs ud      35.0% [  18- 57]  n=20 draws=0 avg_turns=18.2  <-- OUT OF 45-55
+      bg vs vd      40.0% [  22- 61]  n=20 draws=0 avg_turns=19.6  <-- OUT OF 45-55
+      bg vs wr      75.0% [  53- 89]  n=20 draws=0 avg_turns=21.0  <-- OUT OF 45-55
+      bg vs wv      50.0% [  30- 70]  n=20 draws=0 avg_turns=25.9
+      bp vs sv      45.0% [  26- 66]  n=20 draws=0 avg_turns=22.8
+      bp vs ur      50.0% [  30- 70]  n=20 draws=0 avg_turns=28.8
+      bp vs wv      40.0% [  22- 61]  n=20 draws=0 avg_turns=30.9  <-- OUT OF 45-55
+      br vs ga      40.0% [  22- 61]  n=20 draws=0 avg_turns=20.5  <-- OUT OF 45-55
+      br vs ud      30.0% [  15- 52]  n=20 draws=0 avg_turns=18.4  <-- OUT OF 45-55
+      br vs up      65.0% [  43- 82]  n=20 draws=0 avg_turns=23.4  <-- OUT OF 45-55
+      br vs vp      45.0% [  26- 66]  n=20 draws=0 avg_turns=27.4
+      bs vs ga      35.0% [  18- 57]  n=20 draws=0 avg_turns=20.1  <-- OUT OF 45-55
+      bs vs wv      35.0% [  18- 57]  n=20 draws=0 avg_turns=19.5  <-- OUT OF 45-55
+      dp vs ub      90.0% [  70- 97]  n=20 draws=0 avg_turns=23.6  <-- OUT OF 45-55
+      dp vs uv      75.0% [  53- 89]  n=20 draws=0 avg_turns=25.7  <-- OUT OF 45-55
+      dp vs wb      60.0% [  39- 78]  n=20 draws=0 avg_turns=20.8  <-- OUT OF 45-55
+      dp vs ws      55.0% [  34- 74]  n=20 draws=0 avg_turns=19.9
+      ga vs sv      40.0% [  22- 61]  n=20 draws=0 avg_turns=22.4  <-- OUT OF 45-55
+      ga vs ud      40.0% [  22- 61]  n=20 draws=0 avg_turns=20.9  <-- OUT OF 45-55
+      ga vs up      55.0% [  34- 74]  n=20 draws=0 avg_turns=43.8
+      ga vs wd      65.0% [  43- 82]  n=20 draws=0 avg_turns=23.8  <-- OUT OF 45-55
+      ga vs wv      60.0% [  39- 78]  n=20 draws=0 avg_turns=24.7  <-- OUT OF 45-55
+      gd vs ra      80.0% [  58- 92]  n=20 draws=0 avg_turns=18.6  <-- OUT OF 45-55
+      gd vs sp      60.0% [  39- 78]  n=20 draws=0 avg_turns=20.8  <-- OUT OF 45-55
+      gd vs wu      85.0% [  64- 95]  n=20 draws=0 avg_turns=22.1  <-- OUT OF 45-55
+      gs vs ur      40.0% [  22- 61]  n=20 draws=0 avg_turns=17.6  <-- OUT OF 45-55
+      gs vs vp      60.0% [  39- 78]  n=20 draws=0 avg_turns=23.0  <-- OUT OF 45-55
+      gs vs wp      45.0% [  26- 66]  n=20 draws=0 avg_turns=20.6
+      gv vs ra      60.0% [  39- 78]  n=20 draws=0 avg_turns=19.9  <-- OUT OF 45-55
+      gv vs ws      60.0% [  39- 78]  n=20 draws=0 avg_turns=21.4  <-- OUT OF 45-55
+      ra vs sd      25.0% [  11- 47]  n=20 draws=0 avg_turns=21.2  <-- OUT OF 45-55
+      ra vs ud      30.0% [  15- 52]  n=20 draws=0 avg_turns=23.6  <-- OUT OF 45-55
+      ra vs wv      50.0% [  30- 70]  n=20 draws=0 avg_turns=23.8
+      rg vs ud      45.0% [  26- 66]  n=20 draws=0 avg_turns=18.3
+      rg vs wd      45.0% [  26- 66]  n=20 draws=0 avg_turns=19.6
+      rp vs sv      40.0% [  22- 61]  n=20 draws=0 avg_turns=22.0  <-- OUT OF 45-55
+      rp vs ub      65.0% [  43- 82]  n=20 draws=0 avg_turns=22.9  <-- OUT OF 45-55
+      rs vs ug      40.0% [  22- 61]  n=20 draws=0 avg_turns=16.6  <-- OUT OF 45-55
+      rv vs sp      80.0% [  58- 92]  n=20 draws=0 avg_turns=22.6  <-- OUT OF 45-55
+      rv vs wb      50.0% [  30- 70]  n=20 draws=0 avg_turns=20.6
+      rv vs wg      15.0% [   5- 36]  n=20 draws=0 avg_turns=23.9  <-- OUT OF 45-55
+      sd vs ua      60.0% [  39- 78]  n=20 draws=0 avg_turns=23.8  <-- OUT OF 45-55
+      sd vs wv      40.0% [  22- 61]  n=20 draws=0 avg_turns=17.8  <-- OUT OF 45-55
+      sp vs ud      20.0% [   8- 42]  n=20 draws=0 avg_turns=19.9  <-- OUT OF 45-55
+      sp vs vd      20.0% [   8- 42]  n=20 draws=0 avg_turns=19.9  <-- OUT OF 45-55
+      sp vs wu      60.0% [  39- 78]  n=20 draws=0 avg_turns=30.1  <-- OUT OF 45-55
+      sv vs up      50.0% [  30- 70]  n=20 draws=0 avg_turns=22.4
+      ua vs wp      55.0% [  34- 74]  n=20 draws=0 avg_turns=29.7
+      ud vs wr      40.0% [  22- 61]  n=20 draws=0 avg_turns=16.4  <-- OUT OF 45-55
+      ug vs wr      55.0% [  34- 74]  n=20 draws=0 avg_turns=16.0
+      up vs wr      75.0% [  53- 89]  n=20 draws=0 avg_turns=26.1  <-- OUT OF 45-55
+      up vs ws      45.0% [  26- 66]  n=20 draws=0 avg_turns=18.9
+      ur vs ws      65.0% [  43- 82]  n=20 draws=0 avg_turns=18.9  <-- OUT OF 45-55
+      uv vs wr      55.0% [  34- 74]  n=20 draws=0 avg_turns=18.5
+      vd vs wr      55.0% [  34- 74]  n=20 draws=0 avg_turns=16.6
+      vd vs ws      75.0% [  53- 89]  n=20 draws=0 avg_turns=20.6  <-- OUT OF 45-55
+      vp vs ws      65.0% [  43- 82]  n=20 draws=0 avg_turns=23.1  <-- OUT OF 45-55
+      vp vs wu      35.0% [  18- 57]  n=20 draws=0 avg_turns=38.6  <-- OUT OF 45-55
+
+on-the-play win rate per deck: {'as': '62% of 24', 'vp': '44% of 62', 'ba': '68% of 40', 'gd': '82% of 22', 'rg': '49% of 35', 'rp': '38% of 47', 'rv': '31% of 59', 'bd': '64% of 28', 'sv': '54% of 46', 'dp': '71% of 28', 'bg': '39% of 64', 'vd': '63% of 30', 'bp': '53% of 34', 'br': '48% of 54', 'av': '73% of 11', 'ga': '52% of 61', 'bs': '31% of 26', 'sp': '32% of 66', 'gs': '36% of 61', 'ap': '50% of 18', 'ra': '33% of 64', 'gv': '53% of 17', 'sd': '52% of 25', 'ad': '60% of 30', 'ua': '56% of 32', 'ub': '22% of 54', 'ud': '70% of 57', 'ug': '55% of 42', 'rs': '55% of 11', 'up': '48% of 50', 'ur': '65% of 26', 'uv': '22% of 23', 'wb': '36% of 50', 'wd': '45% of 22', 'wg': '100% of 2', 'wp': '63% of 19', 'wr': '37% of 71', 'ws': '34% of 87', 'wu': '43% of 47', 'wv': '58% of 55'}
+mulligans per game: {'as': '0.12', 'vp': '0.15', 'ba': '0.19', 'gd': '0.14', 'rg': '0.15', 'rp': '0.14', 'rv': '0.19', 'bd': '0.13', 'sv': '0.25', 'bg': '0.19', 'dp': '0.17', 'vd': '0.17', 'bp': '0.13', 'av': '0.25', 'br': '0.12', 'ga': '0.13', 'bs': '0.20', 'sp': '0.14', 'gs': '0.18', 'ap': '0.12', 'ra': '0.17', 'gv': '0.12', 'sd': '0.17', 'ad': '0.09', 'ua': '0.12', 'ub': '0.14', 'ud': '0.16', 'ug': '0.15', 'rs': '0.20', 'up': '0.18', 'ur': '0.12', 'uv': '0.15', 'wb': '0.09', 'wd': '0.17', 'wg': '0.15', 'wp': '0.10', 'wr': '0.18', 'ws': '0.21', 'wu': '0.17', 'wv': '0.11'}
+missed land drops (turns with land in hand, none played): {'as': '0.0%', 'vp': '0.0%', 'ba': '0.0%', 'gd': '0.0%', 'rg': '0.0%', 'rp': '0.0%', 'rv': '0.0%', 'bd': '0.0%', 'sv': '0.0%', 'dp': '0.0%', 'bg': '0.0%', 'vd': '0.0%', 'bp': '0.0%', 'br': '0.0%', 'av': '0.0%', 'ga': '0.0%', 'bs': '0.0%', 'sp': '0.0%', 'gs': '0.0%', 'ap': '0.0%', 'ra': '0.0%', 'gv': '0.0%', 'sd': '0.0%', 'ad': '0.0%', 'ua': '0.0%', 'ub': '0.0%', 'ud': '0.0%', 'ug': '0.0%', 'rs': '0.0%', 'up': '0.0%', 'ur': '0.0%', 'uv': '0.0%', 'wb': '0.0%', 'wd': '0.0%', 'wg': '0.0%', 'wp': '0.0%', 'wr': '0.0%', 'ws': '0.0%', 'wu': '0.0%', 'wv': '0.0%'}
+
+== AI MISPLAY SCAN: cards held at end of own turn while castable (sorcery-speed) ==
+   held = end-steps it sat castable in hand; cast = times actually cast; ratio > ~1.0 means the AI mostly sits on it
+
+  [ad]
+    Take Vengeance                   held=70    cast=26    ratio=  2.7  !!
+    Lava Coil                        held=23    cast=29    ratio=  0.8
+    Redcap Thief                     held=7     cast=34    ratio=  0.2
+    Daybreak Chaplain                held=7     cast=40    ratio=  0.2
+    Concordia Pegasus                held=6     cast=61    ratio=  0.1
+    Fog on the Barrow-Downs          held=1     cast=31    ratio=  0.0
+    Healer's Hawk                    held=1     cast=72    ratio=  0.0
+    lowest cast-per-100-endsteps-in-hand (any speed): Nebula Dragon 6.6, Dawning Angel 15.7, Shivan Dragon 16.8, Rapacious Dragon 17.6, Take Vengeance 20.2
+
+  [ap]
+    Take Vengeance                   held=36    cast=16    ratio=  2.2  !!
+    Snarespinner                     held=8     cast=21    ratio=  0.4
+    Sedge Scorpion                   held=21    cast=68    ratio=  0.3
+    Healer of the Glade              held=5     cast=18    ratio=  0.3
+    Pitiless Gorgon                  held=5     cast=21    ratio=  0.2
+    Ferocious Pup                    held=8     cast=44    ratio=  0.2
+    Skystinger                       held=4     cast=24    ratio=  0.2
+    Atzocan Archer                   held=3     cast=24    ratio=  0.1
+    lowest cast-per-100-endsteps-in-hand (any speed): Cosmium Blast 18.6, Ferocious Pup 26.2, Dawning Angel 36.6
+
+  [as]
+    Take Vengeance                   held=40    cast=30    ratio=  1.3
+    Inkfathom Infiltrator            held=22    cast=32    ratio=  0.7
+    Phantom Warrior                  held=17    cast=73    ratio=  0.2
+    Triton Shorestalker              held=10    cast=46    ratio=  0.2
+    Healer's Hawk                    held=15    cast=72    ratio=  0.2
+    Slither Blade                    held=8     cast=39    ratio=  0.2
+    Herald of Faith                  held=3     cast=32    ratio=  0.1
+    Daybreak Chaplain                held=3     cast=34    ratio=  0.1
+    lowest cast-per-100-endsteps-in-hand (any speed): Cosmium Blast 20.5, Hithlain Knots 27.4, Herald of Faith 30.5, Take into Custody 31.1, Dawning Angel 34.6
+
+  [av]
+    Take Vengeance                   held=17    cast=11    ratio=  1.5
+    Vampire of the Dire Moon         held=5     cast=8     ratio=  0.6
+    Bloodthirsty Aerialist           held=6     cast=13    ratio=  0.5
+    Daybreak Chaplain                held=3     cast=11    ratio=  0.3
+    Healer's Hawk                    held=6     cast=35    ratio=  0.2
+    Midnight Assassin                held=2     cast=12    ratio=  0.2
+    Herald of Faith                  held=2     cast=12    ratio=  0.2
+    Fog on the Barrow-Downs          held=2     cast=12    ratio=  0.2
+    lowest cast-per-100-endsteps-in-hand (any speed): Epicure of Blood 21.1, Dawning Angel 24.1
+
+  [ba]
+    Take Vengeance                   held=106   cast=31    ratio=  3.4  !!
+    Reave Soul                       held=32    cast=49    ratio=  0.7
+    Retrofitted Transmogrant         held=26    cast=48    ratio=  0.5
+    Soul Salvage                     held=16    cast=43    ratio=  0.4
+    Lightless Evangel                held=10    cast=43    ratio=  0.2
+    Healer's Hawk                    held=16    cast=98    ratio=  0.2
+    Deathcap Marionette              held=6     cast=47    ratio=  0.1
+    Fog on the Barrow-Downs          held=3     cast=46    ratio=  0.1
+    lowest cast-per-100-endsteps-in-hand (any speed): Cosmium Blast 11.8, Take Vengeance 15.0, Soul Salvage 27.2, Gravedigger 28.5, Murder 34.4
+
+  [bd]
+    Soul Salvage                     held=15    cast=17    ratio=  0.9
+    Lava Coil                        held=11    cast=23    ratio=  0.5
+    Reave Soul                       held=12    cast=27    ratio=  0.4
+    Redcap Thief                     held=4     cast=20    ratio=  0.2
+    Rapacious Dragon                 held=1     cast=54    ratio=  0.0
+    lowest cast-per-100-endsteps-in-hand (any speed): Soul Salvage 11.2, Shivan Dragon 16.1, Gravedigger 17.8, Rapacious Dragon 21.7, Venomous Hierophant 35.3
+
+  [bg]
+    Reave Soul                       held=29    cast=43    ratio=  0.7
+    Retrofitted Transmogrant         held=14    cast=44    ratio=  0.3
+    Soul Salvage                     held=9     cast=35    ratio=  0.3
+    Lightless Evangel                held=10    cast=47    ratio=  0.2
+    Woodland Mystic                  held=16    cast=114   ratio=  0.1
+    Synapse Necromage                held=7     cast=50    ratio=  0.1
+    High-Rise Sawjack                held=6     cast=50    ratio=  0.1
+    Blistergrub                      held=5     cast=48    ratio=  0.1
+    lowest cast-per-100-endsteps-in-hand (any speed): Soul Salvage 17.9, Shower of Arrows 20.6, Charging Rhino 25.0, Gravedigger 27.4, Colossal Dreadmaw 27.6
+
+  [bp]
+    Sedge Scorpion                   held=40    cast=91    ratio=  0.4
+    Soul Salvage                     held=15    cast=35    ratio=  0.4
+    Reave Soul                       held=14    cast=34    ratio=  0.4
+    Healer of the Glade              held=16    cast=39    ratio=  0.4
+    Lightless Evangel                held=6     cast=28    ratio=  0.2
+    Retrofitted Transmogrant         held=5     cast=31    ratio=  0.2
+    Deathcap Marionette              held=4     cast=27    ratio=  0.1
+    Skystinger                       held=3     cast=35    ratio=  0.1
+    lowest cast-per-100-endsteps-in-hand (any speed): Ferocious Pup 32.9, Soul Salvage 33.3, Venomous Hierophant 69.1
+
+  [br]
+    Goblin Arsonist                  held=29    cast=40    ratio=  0.7
+    Soul Salvage                     held=25    cast=40    ratio=  0.6
+    Reave Soul                       held=24    cast=39    ratio=  0.6
+    Goblin Instigator                held=47    cast=130   ratio=  0.4
+    Fanatical Firebrand              held=31    cast=106   ratio=  0.3
+    Retrofitted Transmogrant         held=13    cast=46    ratio=  0.3
+    Battle-Scarred Goblin            held=7     cast=44    ratio=  0.2
+    Goblin Warchief                  held=5     cast=43    ratio=  0.1
+    lowest cast-per-100-endsteps-in-hand (any speed): Soul Salvage 22.1, Siege-Gang Commander 26.2, Gravedigger 37.2, Goblin Instigator 41.3, Goblin Warchief 41.3
+
+  [bs]
+    Soul Salvage                     held=15    cast=14    ratio=  1.1
+    Triton Shorestalker              held=11    cast=16    ratio=  0.7
+    Retrofitted Transmogrant         held=6     cast=12    ratio=  0.5
+    Reave Soul                       held=7     cast=17    ratio=  0.4
+    Phantom Warrior                  held=10    cast=28    ratio=  0.4
+    Lightless Evangel                held=5     cast=15    ratio=  0.3
+    Deathcap Marionette              held=2     cast=10    ratio=  0.2
+    Slither Blade                    held=2     cast=21    ratio=  0.1
+    lowest cast-per-100-endsteps-in-hand (any speed): Phantom Warrior 26.4
+
+  [dp]
+    Lava Coil                        held=32    cast=44    ratio=  0.7
+    Healer of the Glade              held=15    cast=39    ratio=  0.4
+    Sedge Scorpion                   held=26    cast=132   ratio=  0.2
+    Rapacious Dragon                 held=13    cast=76    ratio=  0.2
+    Pitiless Gorgon                  held=5     cast=44    ratio=  0.1
+    Ferocious Pup                    held=6     cast=65    ratio=  0.1
+    Snarespinner                     held=3     cast=41    ratio=  0.1
+    Atzocan Archer                   held=2     cast=43    ratio=  0.0
+    lowest cast-per-100-endsteps-in-hand (any speed): Nebula Dragon 11.5, Return to the Earth 18.9, Rapacious Dragon 27.5, Shivan Dragon 29.8, Ferocious Pup 32.2
+
+  [ga]
+    Take Vengeance                   held=152   cast=51    ratio=  3.0  !!
+    Woodland Mystic                  held=35    cast=118   ratio=  0.3
+    Healer's Hawk                    held=30    cast=133   ratio=  0.2
+    Galadhrim Guide                  held=11    cast=53    ratio=  0.2
+    Fog on the Barrow-Downs          held=12    cast=59    ratio=  0.2
+    High-Rise Sawjack                held=13    cast=70    ratio=  0.2
+    Leafkin Druid                    held=22    cast=121   ratio=  0.2
+    Daybreak Chaplain                held=9     cast=58    ratio=  0.2
+    lowest cast-per-100-endsteps-in-hand (any speed): Cosmium Blast 14.8, Take Vengeance 19.9, Shower of Arrows 25.9, Colossal Dreadmaw 29.9, Charging Rhino 30.0
+
+  [gd]
+    Lava Coil                        held=26    cast=33    ratio=  0.8
+    Redcap Thief                     held=10    cast=32    ratio=  0.3
+    Shivan Dragon                    held=2     cast=28    ratio=  0.1
+    Rapacious Dragon                 held=1     cast=54    ratio=  0.0
+    Silverback Shaman                held=1     cast=62    ratio=  0.0
+    Leafkin Druid                    held=1     cast=68    ratio=  0.0
+    Woodland Mystic                  held=1     cast=75    ratio=  0.0
+    lowest cast-per-100-endsteps-in-hand (any speed): Shivan Dragon 18.8, Rampaging Ceratops 20.0, Charging Rhino 20.4, Rapacious Dragon 21.3, Nebula Dragon 21.8
+
+  [gs]
+    Inkfathom Infiltrator            held=37    cast=42    ratio=  0.9
+    Triton Shorestalker              held=24    cast=40    ratio=  0.6
+    Slither Blade                    held=18    cast=56    ratio=  0.3
+    Woodland Mystic                  held=24    cast=96    ratio=  0.2
+    Phantom Warrior                  held=20    cast=85    ratio=  0.2
+    Omenspeaker                      held=7     cast=37    ratio=  0.2
+    Leafkin Druid                    held=16    cast=89    ratio=  0.2
+    Cloudkin Seer                    held=4     cast=43    ratio=  0.1
+    lowest cast-per-100-endsteps-in-hand (any speed): Shower of Arrows 20.5, Inkfathom Infiltrator 23.5, Hithlain Knots 26.1, Take into Custody 36.0, Phantom Warrior 36.8
+
+  [gv]
+    Bloodthirsty Aerialist           held=7     cast=10    ratio=  0.7
+    Vampire of the Dire Moon         held=10    cast=20    ratio=  0.5
+    Galadhrim Guide                  held=4     cast=8     ratio=  0.5
+    Leafkin Druid                    held=14    cast=30    ratio=  0.5
+    Woodland Mystic                  held=11    cast=26    ratio=  0.4
+    Blood Burglar                    held=9     cast=25    ratio=  0.4
+    Gorging Vulture                  held=6     cast=20    ratio=  0.3
+    Charging Rhino                   held=2     cast=8     ratio=  0.2
+    lowest cast-per-100-endsteps-in-hand (any speed): Silverback Shaman 20.0, Epicure of Blood 23.9
+
+  [ra]
+    Take Vengeance                   held=69    cast=37    ratio=  1.9
+    Fog on the Barrow-Downs          held=17    cast=39    ratio=  0.4
+    Goblin Warchief                  held=14    cast=35    ratio=  0.4
+    Goblin Arsonist                  held=17    cast=47    ratio=  0.4
+    Daybreak Chaplain                held=10    cast=32    ratio=  0.3
+    Fanatical Firebrand              held=18    cast=69    ratio=  0.3
+    Herald of Faith                  held=8     cast=39    ratio=  0.2
+    Concordia Pegasus                held=17    cast=84    ratio=  0.2
+    lowest cast-per-100-endsteps-in-hand (any speed): Siege-Gang Commander 19.9, Take Vengeance 22.2, Herald of Faith 22.7, Cosmium Blast 23.5, Dawning Angel 24.4
+
+  [rg]
+    Goblin Warchief                  held=6     cast=17    ratio=  0.4
+    High-Rise Sawjack                held=6     cast=19    ratio=  0.3
+    Goblin Arsonist                  held=7     cast=23    ratio=  0.3
+    Fanatical Firebrand              held=10    cast=47    ratio=  0.2
+    Charging Rhino                   held=4     cast=19    ratio=  0.2
+    Woodland Mystic                  held=11    cast=57    ratio=  0.2
+    Leafkin Druid                    held=8     cast=45    ratio=  0.2
+    Silverback Shaman                held=7     cast=42    ratio=  0.2
+    lowest cast-per-100-endsteps-in-hand (any speed): Silverback Shaman 22.6, Shock 37.4, Woodland Mystic 56.4, Goblin Instigator 57.5
+
+  [rp]
+    Goblin Warchief                  held=29    cast=39    ratio=  0.7
+    Goblin Arsonist                  held=15    cast=30    ratio=  0.5
+    Goblin Instigator                held=45    cast=99    ratio=  0.5
+    Siege-Gang Commander             held=12    cast=32    ratio=  0.4
+    Battle-Scarred Goblin            held=14    cast=39    ratio=  0.4
+    Sedge Scorpion                   held=35    cast=99    ratio=  0.4
+    Fanatical Firebrand              held=24    cast=70    ratio=  0.3
+    Healer of the Glade              held=10    cast=36    ratio=  0.3
+    lowest cast-per-100-endsteps-in-hand (any speed): Siege-Gang Commander 21.8, Goblin Warchief 38.6, Goblin Instigator 44.6, Shock 47.5, Ferocious Pup 48.7
+
+  [rs]
+    Inkfathom Infiltrator            held=5     cast=6     ratio=  0.8
+    Battle-Scarred Goblin            held=7     cast=15    ratio=  0.5
+    Siege-Gang Commander             held=3     cast=9     ratio=  0.3
+    Phantom Warrior                  held=4     cast=13    ratio=  0.3
+    Fanatical Firebrand              held=4     cast=13    ratio=  0.3
+    Goblin Warchief                  held=3     cast=10    ratio=  0.3
+    Goblin Instigator                held=2     cast=18    ratio=  0.1
+    lowest cast-per-100-endsteps-in-hand (any speed): 
+
+  [rv]
+    Goblin Warchief                  held=18    cast=40    ratio=  0.5
+    Goblin Arsonist                  held=20    cast=46    ratio=  0.4
+    Lich's Caress                    held=15    cast=35    ratio=  0.4
+    Bloodthirsty Aerialist           held=17    cast=46    ratio=  0.4
+    Vampire of the Dire Moon         held=9     cast=38    ratio=  0.2
+    Goblin Instigator                held=30    cast=135   ratio=  0.2
+    Fanatical Firebrand              held=18    cast=95    ratio=  0.2
+    Blood Burglar                    held=16    cast=86    ratio=  0.2
+    lowest cast-per-100-endsteps-in-hand (any speed): Lich's Caress 20.1, Epicure of Blood 24.3, Siege-Gang Commander 32.8, Bloodthirsty Aerialist 33.3, Grasp of Darkness 42.5
+
+  [sd]
+    Inkfathom Infiltrator            held=25    cast=33    ratio=  0.8
+    Lava Coil                        held=11    cast=29    ratio=  0.4
+    Slither Blade                    held=9     cast=24    ratio=  0.4
+    Phantom Warrior                  held=14    cast=43    ratio=  0.3
+    Triton Shorestalker              held=7     cast=25    ratio=  0.3
+    Cloudkin Seer                    held=5     cast=30    ratio=  0.2
+    Omenspeaker                      held=4     cast=34    ratio=  0.1
+    Redcap Thief                     held=1     cast=33    ratio=  0.0
+    lowest cast-per-100-endsteps-in-hand (any speed): Nebula Dragon 15.0, Hithlain Knots 21.7, Phantom Warrior 30.9, Rapacious Dragon 34.0
+
+  [sp]
+    Inkfathom Infiltrator            held=24    cast=37    ratio=  0.6
+    Healer of the Glade              held=19    cast=46    ratio=  0.4
+    Omenspeaker                      held=14    cast=43    ratio=  0.3
+    Phantom Warrior                  held=30    cast=104   ratio=  0.3
+    Sedge Scorpion                   held=36    cast=144   ratio=  0.2
+    Triton Shorestalker              held=11    cast=46    ratio=  0.2
+    Cloudkin Seer                    held=4     cast=51    ratio=  0.1
+    Snarespinner                     held=4     cast=52    ratio=  0.1
+    lowest cast-per-100-endsteps-in-hand (any speed): Hithlain Knots 27.5, Return to the Earth 31.2, Take into Custody 32.5, Quick Study 38.5, Ferocious Pup 44.2
+
+  [sv]
+    Lich's Caress                    held=22    cast=35    ratio=  0.6
+    Phantom Warrior                  held=35    cast=90    ratio=  0.4
+    Triton Shorestalker              held=15    cast=45    ratio=  0.3
+    Vampire of the Dire Moon         held=15    cast=53    ratio=  0.3
+    Slither Blade                    held=15    cast=53    ratio=  0.3
+    Omenspeaker                      held=11    cast=42    ratio=  0.3
+    Bloodthirsty Aerialist           held=12    cast=50    ratio=  0.2
+    Blood Burglar                    held=13    cast=89    ratio=  0.1
+    lowest cast-per-100-endsteps-in-hand (any speed): Lich's Caress 25.4, Take into Custody 26.5, Hithlain Knots 27.7, Quick Study 31.4, Phantom Warrior 35.3
+
+  [ua]
+    Take Vengeance                   held=50    cast=34    ratio=  1.5
+    Muse Drake                       held=11    cast=22    ratio=  0.5
+    Cloudkin Seer                    held=15    cast=52    ratio=  0.3
+    Healer's Hawk                    held=8     cast=51    ratio=  0.2
+    Tome Raider                      held=4     cast=26    ratio=  0.2
+    Scroll Thief                     held=3     cast=25    ratio=  0.1
+    Snapping Drake                   held=6     cast=66    ratio=  0.1
+    Aven Fisher                      held=2     cast=27    ratio=  0.1
+    lowest cast-per-100-endsteps-in-hand (any speed): Cosmium Blast 17.0, Didn't Say Please 17.2, Muse Drake 20.4, Take Vengeance 29.6, Hithlain Knots 31.8
+
+  [ub]
+    Reave Soul                       held=25    cast=43    ratio=  0.6
+    Retrofitted Transmogrant         held=13    cast=39    ratio=  0.3
+    Tome Raider                      held=5     cast=28    ratio=  0.2
+    Cloudkin Seer                    held=11    cast=80    ratio=  0.1
+    Muse Drake                       held=4     cast=34    ratio=  0.1
+    Scroll Thief                     held=4     cast=37    ratio=  0.1
+    Lightless Evangel                held=4     cast=41    ratio=  0.1
+    Deathcap Marionette              held=3     cast=35    ratio=  0.1
+    lowest cast-per-100-endsteps-in-hand (any speed): Didn't Say Please 8.5, Soul Salvage 20.4, Tome Raider 20.4, Gravedigger 24.4, Scroll Thief 26.8
+
+  [ud]
+    Lava Coil                        held=37    cast=64    ratio=  0.6
+    Tome Raider                      held=17    cast=41    ratio=  0.4
+    Scroll Thief                     held=6     cast=47    ratio=  0.1
+    Redcap Thief                     held=4     cast=43    ratio=  0.1
+    Warden of Evos Isle              held=5     cast=56    ratio=  0.1
+    Cloudkin Seer                    held=9     cast=103   ratio=  0.1
+    Muse Drake                       held=2     cast=47    ratio=  0.0
+    Snapping Drake                   held=5     cast=119   ratio=  0.0
+    lowest cast-per-100-endsteps-in-hand (any speed): Didn't Say Please 11.4, Nebula Dragon 15.6, Shivan Dragon 15.9, Rapacious Dragon 17.9, Tome Raider 20.2
+
+  [ug]
+    Leafkin Druid                    held=9     cast=56    ratio=  0.2
+    Tome Raider                      held=3     cast=27    ratio=  0.1
+    Cloudkin Seer                    held=5     cast=61    ratio=  0.1
+    Woodland Mystic                  held=4     cast=63    ratio=  0.1
+    Warden of Evos Isle              held=2     cast=35    ratio=  0.1
+    Charging Rhino                   held=1     cast=26    ratio=  0.0
+    Silverback Shaman                held=2     cast=60    ratio=  0.0
+    Snapping Drake                   held=2     cast=83    ratio=  0.0
+    lowest cast-per-100-endsteps-in-hand (any speed): Didn't Say Please 10.0, Shower of Arrows 16.7, Hithlain Knots 18.9, Colossal Dreadmaw 20.6, Charging Rhino 22.4
+
+  [up]
+    Sedge Scorpion                   held=68    cast=154   ratio=  0.4
+    Healer of the Glade              held=23    cast=55    ratio=  0.4
+    Snarespinner                     held=15    cast=54    ratio=  0.3
+    Cloudkin Seer                    held=18    cast=104   ratio=  0.2
+    Ferocious Pup                    held=9     cast=91    ratio=  0.1
+    Atzocan Archer                   held=4     cast=51    ratio=  0.1
+    Scroll Thief                     held=4     cast=56    ratio=  0.1
+    Tome Raider                      held=3     cast=48    ratio=  0.1
+    lowest cast-per-100-endsteps-in-hand (any speed): Return to the Earth 12.9, Didn't Say Please 20.9, Tome Raider 30.6, Hithlain Knots 32.0, Ferocious Pup 33.1
+
+  [ur]
+    Goblin Arsonist                  held=24    cast=23    ratio=  1.0
+    Battle-Scarred Goblin            held=14    cast=27    ratio=  0.5
+    Fanatical Firebrand              held=20    cast=50    ratio=  0.4
+    Goblin Instigator                held=26    cast=78    ratio=  0.3
+    Goblin Warchief                  held=5     cast=33    ratio=  0.2
+    Scroll Thief                     held=1     cast=22    ratio=  0.0
+    Muse Drake                       held=1     cast=26    ratio=  0.0
+    Siege-Gang Commander             held=1     cast=32    ratio=  0.0
+    lowest cast-per-100-endsteps-in-hand (any speed): Didn't Say Please 19.5, Muse Drake 21.0, Siege-Gang Commander 30.2, Cloudkin Seer 42.4, Snapping Drake 44.2
+
+  [uv]
+    Vampire of the Dire Moon         held=7     cast=15    ratio=  0.5
+    Tome Raider                      held=5     cast=13    ratio=  0.4
+    Agonizing Syphon                 held=3     cast=13    ratio=  0.2
+    Warden of Evos Isle              held=3     cast=15    ratio=  0.2
+    Lich's Caress                    held=4     cast=20    ratio=  0.2
+    Midnight Assassin                held=4     cast=22    ratio=  0.2
+    Gorging Vulture                  held=3     cast=22    ratio=  0.1
+    Bloodthirsty Aerialist           held=2     cast=17    ratio=  0.1
+    lowest cast-per-100-endsteps-in-hand (any speed): Snapping Drake 43.6
+
+  [vd]
+    Lava Coil                        held=24    cast=23    ratio=  1.0
+    Bloodthirsty Aerialist           held=12    cast=38    ratio=  0.3
+    Lich's Caress                    held=5     cast=19    ratio=  0.3
+    Agonizing Syphon                 held=5     cast=33    ratio=  0.2
+    Blood Burglar                    held=6     cast=58    ratio=  0.1
+    Vampire of the Dire Moon         held=3     cast=30    ratio=  0.1
+    Midnight Assassin                held=2     cast=29    ratio=  0.1
+    Shivan Dragon                    held=1     cast=23    ratio=  0.0
+    lowest cast-per-100-endsteps-in-hand (any speed): Nebula Dragon 8.8, Epicure of Blood 12.7, Shivan Dragon 13.8, Rapacious Dragon 14.2, Lich's Caress 16.8
+
+  [vp]
+    Lich's Caress                    held=39    cast=47    ratio=  0.8
+    Healer of the Glade              held=24    cast=62    ratio=  0.4
+    Bloodthirsty Aerialist           held=17    cast=62    ratio=  0.3
+    Sedge Scorpion                   held=36    cast=184   ratio=  0.2
+    Snarespinner                     held=12    cast=71    ratio=  0.2
+    Ferocious Pup                    held=13    cast=111   ratio=  0.1
+    Gorging Vulture                  held=7     cast=67    ratio=  0.1
+    Vampire of the Dire Moon         held=6     cast=60    ratio=  0.1
+    lowest cast-per-100-endsteps-in-hand (any speed): Return to the Earth 18.6, Lich's Caress 21.4, Ferocious Pup 29.0, Epicure of Blood 35.8, Agonizing Syphon 37.2
+
+  [wb]
+    Reave Soul                       held=18    cast=25    ratio=  0.7
+    Soul Salvage                     held=12    cast=27    ratio=  0.4
+    Hunted Witness                   held=12    cast=34    ratio=  0.4
+    Blistergrub                      held=8     cast=26    ratio=  0.3
+    Retrofitted Transmogrant         held=9     cast=32    ratio=  0.3
+    Fresh-Faced Recruit              held=6     cast=31    ratio=  0.2
+    Doomed Traveler                  held=4     cast=28    ratio=  0.1
+    Lightless Evangel                held=3     cast=24    ratio=  0.1
+    lowest cast-per-100-endsteps-in-hand (any speed): Impeccable Timing 12.9, Soul Salvage 22.3, Raise the Alarm 23.5, Venomous Hierophant 28.1, Protector of Gondor 32.4
+
+  [wd]
+    Lava Coil                        held=10    cast=15    ratio=  0.7
+    Hunted Witness                   held=4     cast=11    ratio=  0.4
+    Haazda Officer                   held=7     cast=31    ratio=  0.2
+    Doomed Traveler                  held=3     cast=20    ratio=  0.1
+    Rampaging Ceratops               held=2     cast=18    ratio=  0.1
+    Redcap Thief                     held=1     cast=16    ratio=  0.1
+    Protector of Gondor              held=1     cast=16    ratio=  0.1
+    lowest cast-per-100-endsteps-in-hand (any speed): Rapacious Dragon 25.2
+
+  [wg]
+    Hunted Witness                   held=10    cast=14    ratio=  0.7
+    Haazda Officer                   held=5     cast=16    ratio=  0.3
+    Doomed Traveler                  held=2     cast=7     ratio=  0.3
+    Fresh-Faced Recruit              held=1     cast=10    ratio=  0.1
+    Woodland Mystic                  held=1     cast=17    ratio=  0.1
+    Leafkin Druid                    held=1     cast=22    ratio=  0.0
+    lowest cast-per-100-endsteps-in-hand (any speed): 
+
+  [wp]
+    Healer of the Glade              held=15    cast=18    ratio=  0.8
+    Pitiless Gorgon                  held=8     cast=14    ratio=  0.6
+    Sedge Scorpion                   held=28    cast=60    ratio=  0.5
+    Ferocious Pup                    held=4     cast=36    ratio=  0.1
+    Doomed Traveler                  held=2     cast=18    ratio=  0.1
+    Fresh-Faced Recruit              held=1     cast=16    ratio=  0.1
+    Hunted Witness                   held=1     cast=19    ratio=  0.1
+    Haazda Officer                   held=2     cast=39    ratio=  0.1
+    lowest cast-per-100-endsteps-in-hand (any speed): Divine Arrow 15.5, Ferocious Pup 34.6
+
+  [wr]
+    Goblin Warchief                  held=25    cast=43    ratio=  0.6
+    Goblin Arsonist                  held=18    cast=37    ratio=  0.5
+    Fanatical Firebrand              held=38    cast=81    ratio=  0.5
+    Goblin Instigator                held=60    cast=139   ratio=  0.4
+    Doomed Traveler                  held=15    cast=58    ratio=  0.3
+    Hunted Witness                   held=13    cast=54    ratio=  0.2
+    Battle-Scarred Goblin            held=10    cast=45    ratio=  0.2
+    Haazda Officer                   held=19    cast=99    ratio=  0.2
+    lowest cast-per-100-endsteps-in-hand (any speed): Impeccable Timing 16.8, Divine Arrow 17.8, Siege-Gang Commander 20.0, Protector of Gondor 26.4, Raise the Alarm 29.2
+
+  [ws]
+    Inkfathom Infiltrator            held=62    cast=52    ratio=  1.2
+    Phantom Warrior                  held=60    cast=96    ratio=  0.6
+    Triton Shorestalker              held=26    cast=55    ratio=  0.5
+    Slither Blade                    held=29    cast=62    ratio=  0.5
+    Haazda Officer                   held=31    cast=122   ratio=  0.3
+    Doomed Traveler                  held=13    cast=54    ratio=  0.2
+    Hunted Witness                   held=13    cast=69    ratio=  0.2
+    Omenspeaker                      held=10    cast=57    ratio=  0.2
+    lowest cast-per-100-endsteps-in-hand (any speed): Impeccable Timing 18.6, Divine Arrow 21.3, Hithlain Knots 23.9, Inkfathom Infiltrator 31.3, Take into Custody 34.0
+
+  [wu]
+    Haazda Officer                   held=11    cast=90    ratio=  0.1
+    Hunted Witness                   held=4     cast=37    ratio=  0.1
+    Muse Drake                       held=4     cast=39    ratio=  0.1
+    Doomed Traveler                  held=5     cast=57    ratio=  0.1
+    Fresh-Faced Recruit              held=4     cast=51    ratio=  0.1
+    Cloudkin Seer                    held=7     cast=94    ratio=  0.1
+    Scroll Thief                     held=2     cast=37    ratio=  0.1
+    Warden of Evos Isle              held=2     cast=41    ratio=  0.0
+    lowest cast-per-100-endsteps-in-hand (any speed): Impeccable Timing 12.6, Didn't Say Please 15.1, Divine Arrow 22.1, Muse Drake 33.3, Hithlain Knots 35.8
+
+  [wv]
+    Bloodthirsty Aerialist           held=27    cast=58    ratio=  0.5
+    Vampire of the Dire Moon         held=19    cast=54    ratio=  0.4
+    Doomed Traveler                  held=17    cast=59    ratio=  0.3
+    Lich's Caress                    held=11    cast=43    ratio=  0.3
+    Blood Burglar                    held=23    cast=104   ratio=  0.2
+    Hunted Witness                   held=10    cast=51    ratio=  0.2
+    Haazda Officer                   held=22    cast=115   ratio=  0.2
+    Agonizing Syphon                 held=6     cast=50    ratio=  0.1
+    lowest cast-per-100-endsteps-in-hand (any speed): Divine Arrow 13.4, Lich's Caress 20.8, Impeccable Timing 21.1, Epicure of Blood 23.5, Bloodthirsty Aerialist 28.2
+
+== CARD IMPACT: win% when the card was cast vs not cast (n>=15 each side, |diff|>=15 pts) ==
+
+== ABILITY USE: board permanents with activated abilities (activations per 100 end steps on board) ==
+  [ad] Shivan Dragon 177 (106 in 60)
+  [ba] Retrofitted Transmogrant 15 (84 in 579)
+  [bd] Retrofitted Transmogrant 11 (22 in 203), Shivan Dragon 143 (66 in 46)
+  [bg] Retrofitted Transmogrant 10 (39 in 410)
+  [bp] Retrofitted Transmogrant 16 (51 in 325)
+  [br] Retrofitted Transmogrant 14 (49 in 358), Fanatical Firebrand 18 (51 in 291)
+  [bs] Retrofitted Transmogrant 31 (35 in 114)
+  [dp] Shivan Dragon 167 (202 in 121)
+  [gd] Shivan Dragon 90 (81 in 90)
+  [ra] Fanatical Firebrand 11 (25 in 224)
+  [rg] Fanatical Firebrand 12 (18 in 156)
+  [rp] Fanatical Firebrand 13 (33 in 257)
+  [rs] Fanatical Firebrand 10 (4 in 41)
+  [rv] Fanatical Firebrand 23 (52 in 222)
+  [sd] Shivan Dragon 119 (57 in 48)
+  [ub] Retrofitted Transmogrant 11 (38 in 349)
+  [ud] Shivan Dragon 182 (158 in 87)
+  [ur] Fanatical Firebrand 31 (32 in 102)
+  [vd] Shivan Dragon 208 (100 in 48)
+  [wb] Retrofitted Transmogrant 12 (24 in 205)
+  [wr] Fanatical Firebrand 12 (32 in 271)
+  replacement effects seen (flashback, persist, ...): If 259
+
+== FLAGS ==
+  ad: Take Vengeance (held castable 70x, cast 26x)
+  ap: Take Vengeance (held castable 36x, cast 16x)
+  ba: Take Vengeance (held castable 106x, cast 31x)
+  ga: Take Vengeance (held castable 152x, cast 51x)
