@@ -20,7 +20,7 @@ scanned bulk in `collection.txt`; 2 proxies.
 
 Rules for every card: one ability plus plain keywords, at most ~110 characters of
 rules text (reminder text doesn't count), no conditions on card types or
-legendaries, and nothing the Forge AI can't play. `build.py` checks the text
+legendaries, and nothing the Forge AI can't play. `packets build` checks the text
 limit and ownership across all packets.
 
 ## Files
@@ -44,13 +44,14 @@ never cast).
 
 ## Tools
 
-From the repository root (the scripts in this directory do the same and are
-kept until the docs move to the CLI):
+See [docs/packets-workflow.md](../../docs/packets-workflow.md). From the
+repository root:
 
     uv run deckdoctor packets lanes --free --color R --show Goblin
     uv run deckdoctor packets build mono-color-battlebox/packets/packets_v7.json p7 --sample 80
-    uv run deckdoctor packets pull mono-color-battlebox/packets/packets_v7.json
+    uv run deckdoctor sim run p7 20 --pairs <the printed pairings> --jobs 15
     uv run deckdoctor packets summary p7
+    uv run deckdoctor packets pull mono-color-battlebox/packets/packets_v7.json
 
 `packets pull` writes `pull/`, `manabox/` and `remaining.txt`. The project-wide
 ledger (`inventory.yaml` at the repository root) lists every allocation of the

@@ -14,6 +14,15 @@ When you ask your AI assistant to review a deck with Commander Doctor, it:
 
 It's a very well-informed second pair of eyes on your deck — one that never gets tired of re-reading rules text before it says something. It won't quietly rebuild your whole deck on its own; changes are things it proposes and explains, for you to say yes or no to.
 
+## It also builds cubes and learning packets
+
+The same tool, card data and collection work for two more things:
+
+- **Cubes.** Build a draft cube from a set (its official archetypes plus 17lands data), finish a half-built cube from your bulk under rules like "no counters, no tokens", or find cards you own that can stand in for the ones you don't. See [docs/cube-workflow.md](docs/cube-workflow.md).
+- **Learning packets.** Jumpstart-style 20-card packets for teaching new players, built from your bulk and balanced with simulated games. See [docs/packets-workflow.md](docs/packets-workflow.md).
+
+It keeps track of what your scanned bulk has left (`inventory.yaml`), so a cube never takes a card a packet already uses. Printing proxies stays with [mtg-proxies](https://github.com/szechp/mtg-proxies): every list here is in the format it prints from.
+
 ## Using it
 
 Open this folder in **Codex or Claude Code**, and just ask something like:

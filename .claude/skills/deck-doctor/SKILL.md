@@ -1,9 +1,21 @@
 ---
 name: deck-doctor
-description: Review, improve, rebuild or build a Commander deck using the repository's validated, evidence-backed workflow, local card data and EDHREC theme data.
+description: Review, improve, rebuild or build a Commander deck using the repository's validated, evidence-backed workflow, local card data and EDHREC theme data. Also builds and finishes draft cubes (from a set, or extending a cube from your bulk with card rules like no counters/no tokens), finds owned substitutes for cube cards, builds and balances learning-cube packets / battleboxes with Forge sims, tracks what the bulk has left, and answers "what can I build from my bulk".
 ---
 
 # Deck Doctor
+
+## First: what are we building?
+
+Say which one before anything else:
+
+- **A Commander deck** (review, improve, build, a commander from your cards with `deckdoctor brew`): everything below.
+- **A cube** (from a set, finishing or extending a cube from the bulk, substitutes for unowned cube cards, cube rules like "no counters, no tokens"): follow [the cube workflow](../../../docs/cube-workflow.md) instead.
+- **Learning packets or a battlebox** (Jumpstart-style packets, lanes the bulk supports, Forge balance sims, pull lists): follow [the packets workflow](../../../docs/packets-workflow.md) instead.
+
+"What can I build from my bulk" is `deckdoctor brew` for Commander decks and `deckdoctor packets lanes --free` / `cube extend` for packets and cubes; ask which if it's unclear. All three share the card mirror and the ledger of what the bulk has left (`deckdoctor inventory status`).
+
+## Commander decks
 
 Follow [the shared workflow](../../../docs/workflow.md) from the repository root. Before anything past validation, **pick the mode** (workflow §1) and say which one you picked:
 
