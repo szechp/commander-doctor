@@ -1,0 +1,16 @@
+// S packet: Sneaky Rogues
+// 12 spells + 8 Island
+
+1 Slither Blade (OTC) 114
+1 Triton Shorestalker (OTC) 121
+1 Phantom Warrior (M20) 316
+1 Phantom Warrior (M20) 316
+1 Inkfathom Infiltrator (SHM) 167
+1 Omenspeaker (CMR) 83
+1 Cloudkin Seer (CLU) 82
+1 Quick Study (FDN) 513
+1 Befuddle (M20) 47
+1 Unsummon (M20) 78
+1 Take into Custody (AER) 47
+1 Hithlain Knots (LTR) 54
+8 Island

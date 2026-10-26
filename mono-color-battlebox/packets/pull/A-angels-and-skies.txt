@@ -1,0 +1,16 @@
+// A packet: Angels and Skies
+// 12 spells + 8 Plains
+
+1 Healer's Hawk (FDN) 142
+1 Healer's Hawk (FDN) 142
+1 Concordia Pegasus (M21) 12
+1 Griffin Sentinel (M20) 21
+1 Daybreak Chaplain (M20) 12
+1 Dawning Angel (M20) 11
+1 Dawning Angel (M20) 11
+1 Herald of Faith (FDN) 494
+1 Serra's Guardian (M20) 310
+1 Cosmium Blast (LCI) 7
+1 Take Vengeance (M20) 313
+1 Bring to Trial (RNA) 5
+8 Plains

@@ -62,7 +62,6 @@
 1 Vampire Charmseeker (BBD) 78
 1 Shaman of the Pack (KHC) 92
 1 Obyra, Dreaming Duelist (WOE) 210
-1 Pitiless Gorgon (CLU) 203
 1 Queza, Augur of Agonies (SNC) 212
 1 Deathless Knight (ELD) 208
 1 Skull Prophet (TDC) 304
@@ -73,7 +72,6 @@
 1 Skirmish Rhino (TDM) 224
 1 Marisi, Breaker of the Coil (C19) 46 *F*
 1 Endless Detour (SNC) 183
-1 Inkfathom Infiltrator (SHM) 167
 1 Cavern Harpy (PLS) 97
 1 Gaze of the Gorgon (RAV) 246
 1 Moldervine Reclamation (BLC) 255
@@ -118,7 +116,6 @@
 1 Uglúk of the White Hand (LTR) 235
 1 Gothmog, Morgul Lieutenant (LTR) 87
 1 Goblin Ringleader (M20) 143
-1 Redcap Thief (WOE) 147
 1 Underfoot Underdogs (TDM) 129
 1 Goblin Maskmaker (MKM) 130
 1 Olog-hai Crusher (LTR) 140
@@ -198,8 +195,6 @@
 1 Humbling Elder (TDM) 48
 1 Metropolis Sprite (M20) 66
 1 Riverwheel Aerialists (IMA) 71
-1 Slither Blade (OTC) 114
-1 Triton Shorestalker (OTC) 121
 1 Boreal Elemental (M20) 49
 1 Queen of Ice // Rage of Winter (ELD) 61
 1 Stormwatch Eagle (PCY) 50
@@ -225,7 +220,6 @@
 1 River Herald Scout (LCI) 72
 1 Guardians of Oboro (NEO) 317
 1 Waterwind Scout (LCI) 84
-1 Omenspeaker (CMR) 83
 1 Kheru Spellsnatcher (DSC) 119
 1 Thousand Winds (C19) 100
 1 Thought Sponge (C19) 12
@@ -235,7 +229,6 @@
 3 Renowned Weaponsmith (CMM) 114
 2 Warden of Evos Isle (CMR) 106
 2 Riddlemaster Sphinx (M20) 317
-2 Phantom Warrior (M20) 316
 4 Pelargir Survivor (LTR) 64
 3 Captain of Umbar (LTR) 45
 2 Galvanic Giant // Storm Reading (WOE) 52
@@ -320,7 +313,6 @@
 1 Boomerang (7ED) 64
 1 Dampen Thought (MMA) 39
 1 Isolation at Orthanc (LTR) 57
-1 Quick Study (FDN) 513
 1 Water Wings (WOE) 77
 1 Draconic Lore (TDC) 151
 1 Relic's Roar (LCI) 71
@@ -343,17 +335,15 @@
 1 Disdainful Stroke (CM2) 40
 1 Out of Bounds (BBD) 38
 1 Failed Inspection (KLD) 47
-1 Take into Custody (AER) 47
 1 Opt (FDN) 512
 2 Leadership Vacuum (C19) 9
-1 Unsummon (M20) 78
 3 Bone to Ash (M20) 48
-2 Befuddle (M20) 47
+1 Befuddle (M20) 47
 2 Frost Breath (M21) 51
 2 Negate (M20) 69
 2 Aether Gust (M20) 42
 2 Council's Deliberation (LTR) 46
-2 Hithlain Knots (LTR) 54
+1 Hithlain Knots (LTR) 54
 2 Anticipate (M20) 45
 3 Soothing of Sméagol (LTR) 70
 2 Dreadful as the Storm (LTR) 48
@@ -371,7 +361,6 @@
 1 Gollum, Patient Plotter (LTR) 84
 1 Goremand (CMM) 163
 1 Swamp Mosquito (ALL) 63b
-1 Bloodthirsty Aerialist (C21) 136
 1 Yarok's Fenlurker (M20) 123
 1 Mausoleum Turnkey (CLU) 116
 1 Orzhov Racketeers (CLU) 117
@@ -391,7 +380,6 @@
 1 Ashiok's Reaper (WOE) 79
 1 Scheming Aspirant (ONE) 107
 1 Strongarm Thug (MMQ) 165
-1 Vampire of the Dire Moon (M20) 120
 1 Chupacabra Echo (LCI) 97
 1 Gargantuan Leech (LCI) 107
 1 Soulcoil Viper (LCI) 120
@@ -430,7 +418,6 @@
 1 Ravenous Rats (8ED) 158
 1 Prowling Pangolin (EMA) 104
 1 Nightblade Brigade (TDM) 85
-1 Midnight Assassin (SNC) 87
 1 Acolyte of Aclazotz (LCI) 89
 1 Urborg Syphon-Mage (DMR) 106
 1 Cabal Paladin (DOM) 79
@@ -441,13 +428,12 @@
 1 Kalastria Healer (BFZ) 114
 5 Audacious Thief (M20) 84
 2 Lost Legion (ELD) 94
-4 Blood Burglar (M20) 88
-5 Gorging Vulture (CLU) 112
+2 Blood Burglar (M20) 88
+4 Gorging Vulture (CLU) 112
 4 Mirkwood Bats (LTR) 95
 3 Fetid Imp (M21) 98
 2 Scream Puff (WOE) 105
 2 Mintstrosity (WOE) 100
-2 Epicure of Blood (C21) 143
 1 Synapse Necromage (LCI) 125
 2 Gruesome Scourger (M20) 104
 2 Lord Skitter's Butcher (WOE) 99
@@ -463,10 +449,8 @@
 1 Spark Harvest (CMR) 150
 1 Reave Soul (ELD) 103
 1 Mind Rot (M21) 115
-1 Agonizing Syphon (M20) 83
 1 Foreboding Fruit (ELD) 88
 1 Spreading Rot (XLN) 125
-1 Lich's Caress (M19) 105
 1 Memory Theft (ELD) 96
 1 The Black Breath (LTR) 78
 1 Sam's Desperate Rescue (LTR) 105
@@ -522,13 +506,13 @@
 1 Neutralize the Guards (OTJ) 95
 1 Desperate Measures (TDM) 78
 1 Rat Out (WOE) 103
-5 Murder (CMR) 134
+4 Murder (CMR) 134
 3 Alchemist's Gift (M21) 87
 2 Feed the Cauldron (WOE) 91
 2 Candy Grapple (WOE) 83
 4 Nasty End (LTR) 99
 2 Sugar Rush (WOE) 110
-2 Grasp of Darkness (M21) 102
+1 Grasp of Darkness (M21) 102
 3 Shelob's Ambush (LTR) 108
 2 Oath of the Grey Host (LTR) 101
 2 Grond, the Gatebreaker (LTR) 89
@@ -554,7 +538,6 @@
 1 Flicker of Fate (THB) 16
 1 Wizard's Rockets (LTR) 252
 1 Fireblade Artist (2X2) 214
-1 Griffin Sentinel (M20) 21
 1 Mourning Thrull (RVR) 204
 2 Make Your Move (TMT) 20
 1 Expose to Daylight (RNA) 8
@@ -611,7 +594,6 @@
 1 War Screecher (CLU) 80
 1 Poised Practitioner (TDM) 18
 1 Angel of the God-Pharaoh (HOU) 4
-1 Herald of Faith (FDN) 494
 1 Attentive Sunscribe (LCI) 4
 1 Sephara, Sky's Blade (CMM) 54
 1 Weapons Vendor (FIN) 40
@@ -642,20 +624,20 @@
 2 Nimble Hobbit (LTR) 23
 2 Blade Instructor (GRN) 1
 2 Eagles of the North (LTR) 7
-3 Dawning Angel (M20) 11
-3 Daybreak Chaplain (M20) 12
-2 Serra's Guardian (M20) 310
+1 Dawning Angel (M20) 11
+2 Daybreak Chaplain (M20) 12
+1 Serra's Guardian (M20) 310
 2 Soltari Foot Soldier (BRB) 74
 2 Inspiring Unicorn (GRN) 16
 1 Haazda Officer (M20) 305
 2 Impassioned Orator (M20) 306
 2 Sentinel of the Eternal Watch (ORI) 30
 2 Soldier of the Grey Host (LTR) 32
-2 Concordia Pegasus (M21) 12
+1 Concordia Pegasus (M21) 12
 2 Steadfast Sentry (M20) 40
 2 Beloved Princess (ELD) 7
 3 Trusted Pegasus (CLU) 77
-4 Healer's Hawk (FDN) 142
+2 Healer's Hawk (FDN) 142
 2 East-Mark Cavalier (LTR) 9
 2 Unassuming Sage (WOE) 37
 1 Protector of Gondor (LTR) 25
@@ -666,7 +648,7 @@
 2 Landroval, Horizon Witness (LTR) 21
 2 Samwise the Stouthearted (LTR) 28
 2 Bill the Pony (LTR) 3
-4 Cloudkin Seer (CLU) 82
+3 Cloudkin Seer (CLU) 82
 2 Troll of Khazad-dûm (LTR) 111
 2 Cliffside Rescuer (C19) 1
 3 Westfold Rider (LTR) 37
@@ -753,7 +735,7 @@
 4 Show of Valor (M20) 311
 3 Disenchant (CMR) 372
 2 Righteous Blow (GRN) 23
-2 Cosmium Blast (LCI) 7
+1 Cosmium Blast (LCI) 7
 4 Escape from Orthanc (LTR) 12
 2 Slip On the Ring (LTR) 31
 2 Acrobatic Leap (LCI) 2
@@ -779,12 +761,11 @@
 1 Cleansing Ray (RIX) 4
 1 Regna's Sanction (BBD) 30
 1 Storm Herd (KHC) 33
-1 Take Vengeance (M20) 313
 1 Swift Reckoning (UMA) 39
 2 Bond of Discipline (WAR) 6
 2 Eternal Isolation (M20) 15
 2 Aerial Assault (M20) 1
-2 Bring to Trial (RNA) 5
+1 Bring to Trial (RNA) 5
 2 Sworn Companions (GRN) 27
 3 Now for Wrath, Now for Ruin! (LTR) 24
 1 Sagu Wildling // Roost Seek (TDM) 157
@@ -811,7 +792,6 @@
 1 Valeron Wardens (ORI) 203
 1 Prized Unicorn (ORI) 287
 1 Penumbra Wurm (UMA) 177
-1 Atzocan Archer (XLN) 176
 1 Voice of Many (KHC) 77
 1 Disruptive Stormbrood // Petty Revenge (TDM) 178
 1 Tanglespan Lookout (WOE) 188
@@ -831,7 +811,6 @@
 1 Earthshaker Dreadmaw (LCI) 183
 1 Saruli Caretaker (RNA) 139
 1 Llanowar Scout (DOM) 170
-1 Sultai Devotee (TDM) 160
 1 Mineshaft Spider (LCI) 202
 1 District Guide (GRN) 128
 1 Flaxen Intruder // Welcome Home (ELD) 297
@@ -848,9 +827,9 @@
 1 Leafkin Druid (NCC) 299
 1 Cavern Stomper (LCI) 177 *F*
 4 Lothlórien Lookout (LTR) 175
-3 Ferocious Pup (M20) 171
+1 Ferocious Pup (M20) 171
 2 Loaming Shaman (RVR) 149
-3 Healer of the Glade (M20) 176
+2 Healer of the Glade (M20) 176
 3 Generous Ent (LTR) 169
 2 Baloth Woodcrasher (C18) 130
 2 Woodland Champion (2XM) 188
@@ -860,7 +839,6 @@
 2 Plated Crusher (BBD) 207
 2 Thicket Crasher (M20) 196
 2 Mushroom Watchdogs (LTR) 180
-3 Sedge Scorpion (M20) 192
 2 Pridemalkin (MOC) 308
 1 In the Presence of Ages (LCI) 192
 1 Sarkhan's Resolve (TDM) 158
@@ -872,7 +850,6 @@
 1 Warm Welcome (SNC) 164
 1 Huatli's Final Strike (LCI) 190
 1 Pippin's Bravery (LTR) 414
-1 Return to the Earth (BBD) 210
 1 Moonlight Hunt (INR) 209
 1 Lifecrafter's Gift (CMR) 240
 1 Once and Future (ELD) 168
@@ -984,12 +961,10 @@
 1 Pack Mastiff (M20) 152
 1 Seven Dwarves (ELD) 141
 1 Scytheclaw Raptor (LCI) 165
-1 Rampaging Ceratops (LCI) 162
 2 Burning Sun Cavalry (LCI) 138
 1 Battlefield Scavenger (AKH) 118 *F*
-2 Rapacious Dragon (TDC) 229
 2 Imodane's Recruiter // Train Troops (WOE) 229
-2 Shivan Dragon (FDN) 206
+1 Shivan Dragon (FDN) 206
 1 Skewer Slinger (WOE) 149 *F*
 1 Relentless Rohirrim (LTR) 144 *F*
 2 Oliphaunt (LTR) 139
@@ -1032,7 +1007,7 @@
 1 Seize Opportunity (TDM) 119
 9 Infuriate (M20) 145
 2 Gimli's Fury (LTR) 131
-4 Shock (M20) 160
+3 Shock (M20) 160
 3 Sure Strike (GRN) 118
 2 Flame Sweep (M20) 139
 3 Smite the Deathless (LTR) 148
@@ -1040,7 +1015,7 @@
 3 Shivan Fire (DOM) 142
 2 Barge In (ELD) 112
 3 Improvised Club (LTR) 137
-2 Chandra's Outrage (M20) 130
+1 Chandra's Outrage (M20) 130
 1 Lava Axe (M19) 150
 1 Flashfires (9ED) 183
 1 Reckless Charge (EMA) 144
@@ -1084,7 +1059,7 @@
 6 Act of Treason (M20) 124
 2 Breaking of the Fellowship (LTR) 117
 2 Ranger's Firebrand (LTR) 143
-2 Lava Coil (2X2) 116
+1 Lava Coil (2X2) 116
 2 Daring Discovery (LCI) 142
 2 Renegade Tactics (CMR) 195
 3 Fire of Orthanc (LTR) 127
@@ -1205,7 +1180,6 @@
 3 Goblin Warchief (EVG) 42
 4 Legion Warboss (TDC) 220
 2 Fanatical Firebrand (FDN) 195
-2 Lightning Strike (M19) 152
 2 Banefire (M19) 130
 2 Dark-Dweller Oracle (2X2) 106
 1 Reckless One (EVG) 48
@@ -1314,7 +1288,6 @@
 1 Decode Transmissions (EOE) 94
 1 Hullcarver (EOE) 105
 1 Ruinous Rampage (EOE) 158
-1 Bombard (EOE) 129
 1 Starbreach Whale (EOE) 77
 1 Gigastorm Titan (EOE) 57
 1 Mechan Shieldmate (EOE) 65
@@ -1343,7 +1316,6 @@
 1 Galvanizing Sawship (EOE) 136
 1 Remnant Elemental (EOE) 155
 1 Cut Propulsion (EOE) 130
-1 Nebula Dragon (EOE) 147
 1 Frontline War-Rager (EOE) 134
 1 Drill Too Deep (EOE) 133
 1 Seedship Impact (EOE) 205
@@ -1352,7 +1324,6 @@
 1 Shattered Wings (EOE) 206
 1 Close Encounter (EOE) 176
 1 Blooming Stinger (EOE) 174
-1 Skystinger (EOE) 207
 1 Icecave Crasher (EOE) 191
 2 Biosynthic Burst (EOE) 173
 1 Larval Scoutlander (EOE) 194
@@ -1387,4 +1358,3 @@
 1 Sami, Ship's Engineer (EOE) 225
 2 Chandra's Embercat (M20) 129 *F*
 1 Depressurize (EOE) 95
-1 Snarespinner (M21) 207
