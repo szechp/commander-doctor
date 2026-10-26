@@ -16,6 +16,15 @@ next to the card mirror, the Forge sims and the collection tooling:
   AI-vs-AI sims with misplay checks (`mono-color-battlebox/sim/`), and a lane finder
   (`packets/lanes.py`) that does a lighter version of cube_builder's lane derivation.
 
+Goal: one tool (`deckdoctor`) for building **cubes, decks (packets, battleboxes)
+and Commander decks**, sharing one card mirror, one collection format and one
+"what's left in my bulk" view.
+
+**Commander stays exactly as it is.** Every existing command (`audit`, `health`,
+`brew`, `edhrec`, `themes`, `validate`, `review`, ...) keeps its arguments,
+defaults and output. New things come in as new commands or opt-in flags only;
+the existing test suite is the guard.
+
 Boundary after the move: commander-doctor decides cards; mtg-proxies prints them.
 The interface between them stays the plain decklist line `1 Name (SET) Number`,
 which both repos already read and write.
@@ -28,7 +37,7 @@ which both repos already read and write.
 | `ecl_archetypes.json`, `eoe_archetypes.json` | small | - | WotC limited archetype skeletons per set | `data/cube_archetypes/` |
 | `docs/cube-builder-guide.md` | - | - | usage guide | `docs/cube-builder.md` (update commands) |
 | `swapfinder.py` | 1334 lines | 57 (`tests/swapfinder_test.py`) | functional substitutes for unowned cube/deck cards; `--extend` completes a cube from bulk by its emergent lanes; `--restrict` cube bans (no tokens/shuffle/search/transform/counters) | `src/deckdoctor/cube/swapfinder.py`, CLI `deckdoctor cube-swaps` / `deckdoctor cube-extend` |
-| `commander_finder.py` | 435 lines | 29 | rank buildable commanders from bulk via EDHREC inclusion overlap | **merge into existing `deckdoctor brew`**, don't add a second command |
+| `commander_finder.py` | 435 lines | 29 | rank buildable commanders from bulk via EDHREC inclusion overlap | opt-in `deckdoctor brew --rank-edhrec` (default `brew` output unchanged), or a separate `deckdoctor commander-finder` if a flag gets awkward |
 | `mtg_proxies/deck_value.py` (+ `deck-value` verb) | 37 lines | - | price chart of a decklist | optional; commander-doctor has `prices.py` / `card_prices`. Probably fold into an existing report |
 
 Leave in mtg-proxies: `decklists/` parsing (archidekt, manastack), CardConjurer,
@@ -55,8 +64,15 @@ MPCFill, rendering, `print`, `convert`, `tokens`, AI upscaling.
    local mirror where the test only needs card data. `uv run pytest -q` must stay
    green (619 tests pass today).
 7. **CLI:** add `cube`, `cube-extend` (swapfinder completion mode) and `cube-swaps`
-   to `src/deckdoctor/cli.py`; extend `brew` with commander_finder's ranking
-   (EDHREC popular-inclusion overlap and the high-synergy count).
+   to `src/deckdoctor/cli.py`; commander_finder's ranking (EDHREC
+   popular-inclusion overlap and the high-synergy count) only behind an opt-in
+   flag, so plain `brew` behaves as today.
+7b. **Decks/packets:** fold `mono-color-battlebox/packets/{lanes,build,remaining}.py`
+   into the same package as `deckdoctor packets lanes|build|pull` (thin wrappers
+   first; the scripts keep working). Shared pieces to factor out once, used by
+   cube, packets and swapfinder: the `N Name (SET) Number` parser, the
+   "simple card" filter (`lanes.py` BANNED_KW / text length / Forge-playable),
+   and the owned-minus-used `remaining` computation.
 8. **mtg-proxies side (separate PR, needs push access there):** remove the moved
    files and the `cube` / `deck-value` verbs, and point their README at
    commander-doctor. Until then, nothing there breaks: the move is a copy first.
@@ -72,6 +88,10 @@ the source commit (`origin/main-personal` @ `54f912a`, 2026-10-10) is fine too.
 - `deckdoctor cube-extend <cube.txt> --owned mono-color-battlebox/packets/remaining.txt --restrict`
   runs offline against the mirror (no Scryfall API calls).
 - `deckdoctor brew --owned <bulk.txt>` shows commander_finder's ranking.
+- `deckdoctor packets build mono-color-battlebox/packets/packets_v7.json p7` writes
+  the same decks/spec as `packets/build.py`.
+- Commander commands unchanged: existing tests pass untouched, and `brew`, `audit`,
+  `health` give byte-identical output on a sample deck before and after.
 - Full test suite green; no print-side dependencies added.
 
 ## First real use: the "poolside" cube
