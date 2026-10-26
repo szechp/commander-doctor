@@ -1,0 +1,112 @@
+== gnt: 300 games, 0 draws/timeouts ==
+
+row deck win% vs column deck
+            black     blue    green      red    white   overall
+   black      -        43%      43%      70%      40%    49.2%
+    blue      57%      -        63%      50%      63%    58.3%
+   green      57%      37%      -        60%      27%    45.0%
+     red      30%      50%      40%      -        43%    40.8%
+   white      60%      37%      73%      57%      -      56.7%
+
+pair details (95% Wilson CI for first-named deck):
+   black vs blue    43.3% [  27- 61]  n=30 draws=0 avg_turns=17.3  <-- OUT OF 45-55
+   black vs green   43.3% [  27- 61]  n=30 draws=0 avg_turns=20.2  <-- OUT OF 45-55
+   black vs red     70.0% [  52- 83]  n=30 draws=0 avg_turns=21.0  <-- OUT OF 45-55
+   black vs white   40.0% [  25- 58]  n=30 draws=0 avg_turns=21.7  <-- OUT OF 45-55
+    blue vs green   63.3% [  46- 78]  n=30 draws=0 avg_turns=17.5  <-- OUT OF 45-55
+    blue vs red     50.0% [  33- 67]  n=30 draws=0 avg_turns=17.7
+    blue vs white   63.3% [  46- 78]  n=30 draws=0 avg_turns=19.7  <-- OUT OF 45-55
+   green vs red     60.0% [  42- 75]  n=30 draws=0 avg_turns=16.4  <-- OUT OF 45-55
+   green vs white   26.7% [  14- 44]  n=30 draws=0 avg_turns=19.3  <-- OUT OF 45-55
+     red vs white   43.3% [  27- 61]  n=30 draws=0 avg_turns=19.9  <-- OUT OF 45-55
+
+on-the-play win rate per deck: {'black': '44% of 61', 'blue': '56% of 52', 'green': '44% of 66', 'red': '41% of 69', 'white': '54% of 52'}
+mulligans per game: {'black': '0.12', 'blue': '0.12', 'green': '0.14', 'red': '0.19', 'white': '0.16'}
+missed land drops (turns with land in hand, none played): {'black': '0.0%', 'blue': '0.7%', 'green': '0.0%', 'red': '1.6%', 'white': '0.0%'}
+
+== AI MISPLAY SCAN: cards held at end of own turn while castable (sorcery-speed) ==
+   held = end-steps it sat castable in hand; cast = times actually cast; ratio > ~1.0 means the AI mostly sits on it
+
+  [black]
+    Languish                         held=24    cast=11    ratio=  2.2  !!
+    Bone Splinters                   held=37    cast=35    ratio=  1.1
+    Rot Hulk                         held=8     cast=15    ratio=  0.5
+    Fleshbag Marauder                held=4     cast=42    ratio=  0.1
+    Gruesome Fate                    held=2     cast=27    ratio=  0.1
+    Blood Divination                 held=2     cast=56    ratio=  0.0
+    lowest cast-per-100-endsteps-in-hand (any speed): Languish 7.0, Rot Hulk 8.9, Open the Graves 15.8, Cruel Revival 18.7, Gruesome Fate 23.5
+
+  [blue]
+    Metamorphic Alteration           held=93    cast=0     ratio= 93.0  !!
+    One with the Machine             held=20    cast=10    ratio=  2.0  !!
+    Skilled Animator                 held=32    cast=57    ratio=  0.6
+    Claustrophobia                   held=7     cast=74    ratio=  0.1
+    Switcheroo                       held=2     cast=24    ratio=  0.1
+    lowest cast-per-100-endsteps-in-hand (any speed): Metamorphic Alteration 0.0, One with the Machine 4.8, Hydrolash 7.4, Inspired Sphinx 12.2, Gearsmith Guardian 13.6
+    NEVER CAST despite sitting in hand: Metamorphic Alteration
+
+  [green]
+    Overcome                         held=13    cast=26    ratio=  0.5
+    Talons of Wildwood               held=22    cast=45    ratio=  0.5
+    Rabid Bite                       held=39    cast=86    ratio=  0.5
+    Nissa's Revelation               held=2     cast=24    ratio=  0.1
+    lowest cast-per-100-endsteps-in-hand (any speed): Nissa's Revelation 14.3, Pelakka Wurm 14.5, Ghastbark Twins 16.7, Overcome 18.8, Ghalta, Primal Hunger 19.7
+
+  [red]
+    Seismic Elemental                held=38    cast=0     ratio= 38.0  !!
+    Tormenting Voice                 held=136   cast=15    ratio=  9.1  !!
+    Volley Veteran                   held=52    cast=31    ratio=  1.7
+    Rolling Thunder                  held=81    cast=63    ratio=  1.3
+    Dragon Fodder                    held=15    cast=59    ratio=  0.3
+    Act of Treason                   held=3     cast=26    ratio=  0.1
+    lowest cast-per-100-endsteps-in-hand (any speed): Seismic Elemental 0.0, Tormenting Voice 4.7, Trumpet Blast 7.2, Volley Veteran 10.6, Shivan Dragon 14.0
+    NEVER CAST despite sitting in hand: Seismic Elemental
+
+  [white]
+    Subjugator Angel                 held=25    cast=0     ratio= 25.0  !!
+    Militant Angel                   held=27    cast=23    ratio=  1.2
+    Call the Cavalry                 held=9     cast=36    ratio=  0.2
+    Luminous Bonds                   held=7     cast=69    ratio=  0.1
+    Cleansing Nova                   held=2     cast=21    ratio=  0.1
+    Knightly Valor                   held=2     cast=57    ratio=  0.0
+    lowest cast-per-100-endsteps-in-hand (any speed): Subjugator Angel 0.0, Bright Reprisal 3.6, Militant Angel 12.7, Inspired Charge 12.8, Call the Cavalry 15.1
+    NEVER CAST despite sitting in hand: Subjugator Angel
+
+== CARD IMPACT: win% when the card was cast vs not cast (n>=15 each side, |diff|>=15 pts) ==
+  black vs blue (43%): Lord of the Accursed +20 (cast in 15)
+  black vs green (43%): Stitcher's Supplier +20 (cast in 15)
+  black vs red (70%): Infectious Horror +33 (cast in 15), Lord of the Accursed +20 (cast in 15), Cruel Revival +20 (cast in 15)
+  blue vs white (63%): Skilled Animator +33 (cast in 15)
+  green vs black (57%): Ghastbark Twins +47 (cast in 15), Goreclaw, Terror of Qal Sisma +20 (cast in 15)
+  green vs white (27%): Colossal Dreadmaw -40 (cast in 15)
+  red vs green (40%): Goblin Instigator +27 (cast in 15)
+  red vs white (43%): Rolling Thunder -33 (cast in 15)
+  white vs blue (37%): Militia Bugler +20 (cast in 15)
+  white vs green (73%): Luminous Bonds -27 (cast in 15)
+
+== ABILITY USE: board permanents with activated abilities (activations per 100 end steps on board) ==
+  [black] Lord of the Accursed 4 (12 in 305), Graveyard Marshal 26 (36 in 137), Reassembling Skeleton 48 (209 in 436), Thallid Soothsayer 67 (152 in 227)
+  [blue] Reckless Scholar 0 (0 in 104), Sai, Master Thopterist 1 (1 in 117), Advanced Stitchwing 6 (3 in 54), Inspired Sphinx 19 (6 in 32), Whirler Rogue 21 (22 in 107)
+  [green] Thrashing Brontodon 2 (4 in 228), Talons of Wildwood 7 (9 in 138), Jungle Delver 36 (61 in 170)
+  [red] Goblin Goliath 0 (0 in 42), Goblin Motivator 1 (1 in 105), Goblin Trashmaster 21 (32 in 150), Welder Automaton 23 (78 in 333), Captivating Crew 62 (37 in 60), Shivan Dragon 150 (57 in 38)
+  [white] Valiant Knight 22 (19 in 87), Fan Bearer 34 (81 in 237)
+  replacement effects seen (flashback, persist, ...): Prevent 15
+
+== FLAGS ==
+  black: Languish (held castable 24x, cast 11x)
+  blue: Metamorphic Alteration (held castable 93x, cast 0x)
+  blue: One with the Machine (held castable 20x, cast 10x)
+  blue: One with the Machine (rarely cast) (held castable 207x, cast 10x)
+  blue: Metamorphic Alteration (held castable 203x, cast 0x)
+  red: Seismic Elemental (held castable 38x, cast 0x)
+  red: Tormenting Voice (held castable 136x, cast 15x)
+  red: Tormenting Voice (rarely cast) (held castable 321x, cast 15x)
+  red: Seismic Elemental (held castable 189x, cast 0x)
+  white: Subjugator Angel (held castable 25x, cast 0x)
+  white: Bright Reprisal (rarely cast) (held castable 439x, cast 16x)
+  white: Subjugator Angel (held castable 166x, cast 0x)
+  black: Lord of the Accursed (ability idle on board) (held castable 305x, cast 12x)
+  blue: Reckless Scholar (ability idle on board) (held castable 104x, cast 0x)
+  blue: Sai, Master Thopterist (ability idle on board) (held castable 117x, cast 1x)
+  green: Thrashing Brontodon (ability idle on board) (held castable 228x, cast 4x)
+  red: Goblin Motivator (ability idle on board) (held castable 105x, cast 1x)
