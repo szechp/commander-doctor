@@ -81,6 +81,7 @@ def main():
     ap.add_argument("collection")
     ap.add_argument("--show", default="")
     ap.add_argument("--color", default="")
+    ap.add_argument("--dump", default="", help="write the filtered pool as JSON")
     a = ap.parse_args()
     db = sqlite3.connect(DB)
     own = load(a.collection)
@@ -134,6 +135,10 @@ def main():
             for c in sorted(hits, key=lambda c: c["cmc"]):
                 print(f"     {int(c['cmc'])} {c['name']} — {c['type']}: {c['text'][:90]}")
     print(f"\n== colorless: {len(pool['C'])} simple artifacts/cards")
+    if "--dump" in __import__("sys").argv:
+        out = Path(__import__("sys").argv[__import__("sys").argv.index("--dump") + 1])
+        out.write_text(json.dumps({k: [dict(c, kws=sorted(c["kws"]), tags=sorted(c["tags"])) for c in v]
+                                   for k, v in pool.items()}, indent=1))
 
 
 if __name__ == "__main__":
