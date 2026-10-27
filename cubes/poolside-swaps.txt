@@ -1,0 +1,61 @@
+// SIDEBOARD
+1 Greven, Predator Captain (C19) 43 *F*
+1 The Chief Warg (HOB) 150
+1 Moldervine Reclamation (BLC) 255
+1 Tom, Bert, and William (HOB) 169
+1 Obsessive Stitcher (AFC) 189
+1 Bofur, Reliable Guardian // Concerted Care (HOB) 6
+1 Pacifism (M20) 32
+1 Dub (M21) 16
+1 Bilbo, Luckwearer // Burglar's Plot (HOB) 218
+1 Joint Exploration (DMU) 56
+1 Collateral Damage (FRF) 95
+1 Ember Hauler (M20) 137
+1 Comet Storm (CMR) 411
+1 Meltstrider's Resolve (EOE) 199
+1 Giant's Boulder (HOB) 173
+1 Long-Lost Lances (HOC) 7
+1 Marshal of the Lost (TDM) 207
+1 Engineered Might (KLD) 181
+1 Nighthowl Pursuer (HOB) 78
+1 Infernal Scarring (M21) 105
+1 Dusk Mangler (CLB) 751
+1 Bag of Holding (M20) 222
+1 Aegis Automaton (AER) 141
+1 Graven Abomination (HOU) 162
+1 Scoured Barrens
+1 Dismal Backwater
+1 Swiftwater Cliffs
+1 Bloodfell Caves
+1 Rugged Highlands
+1 Azorius Chancery
+1 Orzhov Basilica
+1 Boros Garrison
+1 Selesnya Sanctuary
+1 Izzet Boilerworks
+1 Simic Growth Chamber
+1 Thriving Heath
+1 Thriving Isle
+1 Thriving Bluff
+1 Thriving Grove
+
+// MAYBEBOARD
+1 Haunt of the Dead Marshes (LTR) 90
+1 Boggart Prankster
+1 Mirror of Galadriel (LTR) 244
+1 Puca's Eye
+1 Pendant of Prosperity (C21) 256
+1 Skybridge Towers
+1 Tranquil Cove
+1 Darkwater Catacombs
+1 Slagwoods Bridge
+1 Foot Headquarters
+1 Forsaken Sanctuary
+1 Foul Orchard
+2 Wind-Scarred Crag
+1 Breeding Pool
+1 Woodland Stream
+1 Nomad Outpost
+1 Opulent Palace
+1 Crystal Grotto
+1 Thriving Moor
