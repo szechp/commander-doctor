@@ -1,4 +1,4 @@
-// Poolside cube: 24 cards to add from the bulk
+// Poolside cube: 22 cards to add from the bulk
 1 Greven, Predator Captain (C19) 43 *F*
 1 The Chief Warg (HOB) 150
 1 Moldervine Reclamation (BLC) 255
@@ -17,8 +17,6 @@
 1 Long-Lost Lances (HOC) 7
 1 Marshal of the Lost (TDM) 207
 1 Engineered Might (KLD) 181
-1 Nighthowl Pursuer (HOB) 78
-1 Infernal Scarring (M21) 105
 1 Dusk Mangler (CLB) 751
 1 Bag of Holding (M20) 222
 1 Aegis Automaton (AER) 141

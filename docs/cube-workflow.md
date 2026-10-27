@@ -200,9 +200,11 @@ cards listed. Works for any list, decks included.
 `cubes/poolside-180.txt` the current 180, which is also its ledger allocation
 in `inventory.yaml`, ahead of the packets (the cube has priority; packets proxy
 what it takes). To get from one to the other: pull `cubes/poolside-additions.txt`
-(24, with set and number) from the bulk and take out `cubes/poolside-cuts.txt`
-(5 that don't work here: a five-color condition, legend-only payoffs, a
-multiplayer gift, a black Goblin lord in a cube whose Goblins are red).
+(22, with set and number) from the bulk and take out `cubes/poolside-cuts.txt`
+(7: Puca's Eye (five-color condition), Pendant of Prosperity (multiplayer
+gift), Mirror of Galadriel (needs legends) and four lands). Everything at once:
+`cubes/poolside-swaps.txt` (ManaBox; adds `// SIDEBOARD`, removes
+`// MAYBEBOARD`).
 
 Color balance: 25 mono cards per color give or take two, every color pair has
 at least one multicolor card (they tie the archetypes together, so none were
@@ -211,12 +213,11 @@ cut), every color is on 30-31 cards counting multicolor, plus 15 colorless and
 on a blueprint of the trimmed cube plus the missing slots, `--exclude-text
 "manifest,face down,face-down,split second,Knight card,Crew"`.
 
-Mana base, 30 lands in three full cycles so every color pair is fixed the
-same way: the 10 gain lands, the 10 Ravnica bounce lands (karoos), the 5
-Thriving lands, plus Evolving Wilds, Terramorphic Expanse, Myriad Landscape,
-Krosan Verge and Command Bridge. `cubes/poolside-lands-in.txt` lists the 15
-lands not in the bulk scan (from home, or proxy); the 15 one-off duals they
-replace are in `poolside-cuts.txt`.
+Mana base, 30 lands: the cube's own duals, plus Swiftwater Cliffs and Izzet
+Boilerworks (blue-red had none), Selesnya Sanctuary and Bloodfell Caves, for
+2-3 duals per color pair; out: one of three Wind-Scarred Crags, the second
+Tranquil Cove and Thriving Moor, Crystal Grotto. `cubes/poolside-lands-in.txt`
+lists the 4 new lands (not in the bulk scan).
 
 Search and shuffle are allowed (fetch lands, land cyclers): the owner likes
 them, so `poolside` bans only counters, tokens and the rest.

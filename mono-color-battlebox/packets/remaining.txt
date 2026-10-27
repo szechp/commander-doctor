@@ -99,7 +99,7 @@
 1 Voracious Fell Beast (LTR) 113
 1 Lash of the Balrog (LTR) 92
 1 Reliquary Tower (TDC) 386
-2 Haunt of the Dead Marshes (LTR) 90
+1 Haunt of the Dead Marshes (LTR) 90
 1 Mauhúr, Uruk-hai Captain (LTR) 214
 1 Grishnákh, Brash Instigator (LTR) 134
 1 Uglúk of the White Hand (LTR) 235
@@ -420,6 +420,7 @@
 1 Hex (OTC) 136
 1 Tithing Blade // Consuming Sepulcher (LCI) 128
 1 Zombie Infestation (DMR) 111
+1 Infernal Scarring (M21) 105
 1 Cast into Darkness (JOU) 63
 1 Deviant Glee (RTR) 65
 1 Sultai Runemark (FRF) 86
@@ -1080,6 +1081,7 @@
 1 Sound the Trumpets (HOB) 55
 1 The Master of Lake-town (HOB) 77
 1 Thorin, Mountain-king (HOB) 114
+1 Nighthowl Pursuer (HOB) 78
 1 Burn, Burn, Tree and Fern (HOB) 90
 1 Little Bear (HOB) 128
 1 Beorn, Reluctant Host // Till and Tend (HOB) 118

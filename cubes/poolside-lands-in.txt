@@ -1,16 +1,5 @@
-// Poolside cube mana base: 15 lands to add (not in the bulk scan: from home, or proxy)
-1 Scoured Barrens
-1 Dismal Backwater
+// Poolside cube: lands to add that are not in the bulk scan (from home, or proxy)
 1 Swiftwater Cliffs
-1 Bloodfell Caves
-1 Rugged Highlands
-1 Azorius Chancery
-1 Orzhov Basilica
-1 Boros Garrison
-1 Selesnya Sanctuary
 1 Izzet Boilerworks
-1 Simic Growth Chamber
-1 Thriving Heath
-1 Thriving Isle
-1 Thriving Bluff
-1 Thriving Grove
+1 Selesnya Sanctuary
+1 Bloodfell Caves
