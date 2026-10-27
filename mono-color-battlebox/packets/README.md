@@ -34,7 +34,7 @@ limit and ownership across all packets.
 - `pull/<code>-<name>.txt`: pull list per packet, with set code and collector
   number from the scan; `PROXY` marks cards to print.
 - `manabox/{first,second,third}-5-packets.txt`: ManaBox imports (W U B R G / A S V D P / T C K F N),
-  written by `remaining.py`.
+  written by `deckdoctor packets pull`.
 - `collection.txt`: the scanned bulk; `remaining.txt`: what's left after the packets.
 
 ## Balance (Forge AI vs AI)
