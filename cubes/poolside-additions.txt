@@ -1,10 +1,4 @@
-// Poolside cube: 30 cards to add from the bulk
-1 Gurmag Rakshasa (TDM) 81
-1 Anvilwrought Raptor (M20) 221
-1 Scarecrow Guide (WOE) 250
-1 Signpost Scarecrow (ELD) 231
-1 Scuttlemutt (M20) 238
-1 Prismite (M21) 235
+// Poolside cube: 24 cards to add from the bulk
 1 Greven, Predator Captain (C19) 43 *F*
 1 The Chief Warg (HOB) 150
 1 Moldervine Reclamation (BLC) 255

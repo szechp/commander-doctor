@@ -43,7 +43,7 @@ own).
 
 | profile | for |
 |---|---|
-| `poolside` | no counters, no tokens: no token/shuffle/search/transform/counter text, counterspells only with ward, no double-faced, basic, Background, Commander-only or Alchemy cards, nothing that needs copies of itself or creature fodder for mana |
+| `poolside` | no counters, no tokens: no token/transform/counter text (search and shuffle allowed), counterspells only with ward, no double-faced, basic, Background, Commander-only or Alchemy cards, nothing that needs copies of itself or creature fodder for mana |
 | `cube-default` | any cube: no basics, Alchemy or Commander-only cards |
 | `beginner` | learning packets (short text, Forge-playable, mono or hybrid) |
 
@@ -200,8 +200,8 @@ cards listed. Works for any list, decks included.
 `cubes/poolside-180.txt` the current 180, which is also its ledger allocation
 in `inventory.yaml`, ahead of the packets (the cube has priority; packets proxy
 what it takes). To get from one to the other: pull `cubes/poolside-additions.txt`
-(30, with set and number) from the bulk and take out `cubes/poolside-cuts.txt`
-(11: the six search/shuffle cards below and 5 that don't work here: a five-color condition, legend-only payoffs, a
+(24, with set and number) from the bulk and take out `cubes/poolside-cuts.txt`
+(5 that don't work here: a five-color condition, legend-only payoffs, a
 multiplayer gift, a black Goblin lord in a cube whose Goblins are red).
 
 Color balance: 25 mono cards per color give or take two, every color pair has
@@ -211,8 +211,5 @@ cut), every color is on 30-31 cards counting multicolor, plus 15 colorless and
 on a blueprint of the trimmed cube plus the missing slots, `--exclude-text
 "manifest,face down,face-down,split second,Knight card,Crew"`.
 
-Every card passes `poolside`. The six original cards that searched and
-shuffled (four fetch lands, Changeling Wayfinder, Troll of Khazad-dûm) were
-swapped for cards in the same role: four colorless mana creatures (no fixing
-lands were left in the bulk, so the cube runs 26 lands), Anvilwrought Raptor,
-Gurmag Rakshasa.
+Search and shuffle are allowed (fetch lands, land cyclers): the owner likes
+them, so `poolside` bans only counters, tokens and the rest.

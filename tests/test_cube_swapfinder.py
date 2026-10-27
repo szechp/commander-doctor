@@ -253,7 +253,7 @@ def _passes(name="Card", **kw) -> bool:
 
 def test_restrictions_ban_default_mechanics():
     assert not _passes(oracle_text="Create a 1/1 white Soldier token.")
-    assert not _passes(oracle_text="Search your library for a basic land.")
+    assert _passes(oracle_text="Search your library for a basic land, then shuffle.")  # fetch lands allowed
     assert not _passes(oracle_text="Put a +1/+1 counter on target creature.")
     assert not _passes(oracle_text="You get {E}{E} (two energy counters).")
     assert not _passes(oracle_text="Draw a card. The Ring tempts you.")

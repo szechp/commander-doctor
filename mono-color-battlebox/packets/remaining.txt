@@ -328,6 +328,7 @@
 1 Aetherborn Marauder (OTC) 125
 1 Baleful Ammit (AKH) 79
 1 Pilfering Imp (GRN) 81
+1 Gurmag Rakshasa (TDM) 81
 1 Stinging Cave Crawler (LCI) 124
 1 Dream Spoilers (WOE) 85
 1 Night Clubber (SNC) 89
@@ -572,7 +573,7 @@
 2 Samwise the Stouthearted (LTR) 28
 2 Bill the Pony (LTR) 3
 3 Cloudkin Seer (CLU) 82
-2 Troll of Khazad-dûm (LTR) 111
+1 Troll of Khazad-dûm (LTR) 111
 2 Cliffside Rescuer (C19) 1
 1 Westfold Rider (LTR) 37
 3 Soulmender (M20) 37
@@ -1013,15 +1014,18 @@
 1 Obsianus Golem (6ED) 303
 1 Sphinx of the Guildpact (2XM) 290
 1 Watchers of the Dead (AKH) 238
+1 Scarecrow Guide (WOE) 250
 1 Embermouth Sentinel (TDM) 242
 1 Drownyard Lurker (MH3) 3
 1 Myr Sire (CMM) 400
 1 Bottle Gnomes (CM2) 177
 1 Diamond Knight (M20) 224
+1 Scuttlemutt (M20) 238
 1 Scuttling Butler (SNC) 244
 1 Patchwork Gnomes (MH2) 299
 1 Prophet of the Peak (ELD) 227
 1 Locthwain Gargoyle (ELD) 225
+1 Signpost Scarecrow (ELD) 231
 1 Henge Walker (ELD) 221
 1 Stone Golem (M20) 240
 1 Watcher of the Wayside (TDM) 249
@@ -1031,10 +1035,10 @@
 1 Power Plant Worker (BRO) 241
 2 Scaretiller (OTC) 266
 2 Boulderborn Dragon (TDM) 239
-3 Anvilwrought Raptor (M20) 221
+4 Anvilwrought Raptor (M20) 221
 2 Millennial Gargoyle (BBD) 239
 3 Salvager of Ruin (M20) 237
-2 Prismite (M21) 235
+3 Prismite (M21) 235
 2 Pattern Matcher (M20) 234
 2 Meteor Golem (FDN) 256
 2 Skateboard (TMT) 178
