@@ -211,5 +211,12 @@ cut), every color is on 30-31 cards counting multicolor, plus 15 colorless and
 on a blueprint of the trimmed cube plus the missing slots, `--exclude-text
 "manifest,face down,face-down,split second,Knight card,Crew"`.
 
+Mana base, 30 lands in three full cycles so every color pair is fixed the
+same way: the 10 gain lands, the 10 Ravnica bounce lands (karoos), the 5
+Thriving lands, plus Evolving Wilds, Terramorphic Expanse, Myriad Landscape,
+Krosan Verge and Command Bridge. `cubes/poolside-lands-in.txt` lists the 15
+lands not in the bulk scan (from home, or proxy); the 15 one-off duals they
+replace are in `poolside-cuts.txt`.
+
 Search and shuffle are allowed (fetch lands, land cyclers): the owner likes
 them, so `poolside` bans only counters, tokens and the rest.

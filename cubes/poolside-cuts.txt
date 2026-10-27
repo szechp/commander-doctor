@@ -1,6 +1,21 @@
-// Poolside cube: 5 cards to take out (back to the bulk)
+// Poolside cube: 20 cards to take out (back to the bulk)
 1 Haunt of the Dead Marshes
 1 Boggart Prankster
 1 Mirror of Galadriel
 1 Puca's Eye
 1 Pendant of Prosperity
+1 Skybridge Towers
+1 Tranquil Cove
+1 Darkwater Catacombs
+1 Slagwoods Bridge
+1 Foot Headquarters
+1 Forsaken Sanctuary
+1 Foul Orchard
+1 Wind-Scarred Crag
+1 Wind-Scarred Crag
+1 Breeding Pool
+1 Woodland Stream
+1 Nomad Outpost
+1 Opulent Palace
+1 Crystal Grotto
+1 Thriving Moor
