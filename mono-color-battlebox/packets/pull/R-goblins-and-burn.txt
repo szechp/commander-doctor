@@ -6,8 +6,8 @@
 1 Goblin Instigator (MOC) 282
 1 Goblin Instigator (MOC) 282
 1 Goblin Instigator (MOC) 282
-1 Battle-Scarred Goblin (LTR) 115
-1 Goblin Warchief (DOM) 130
+1 Battle-Scarred Goblin PROXY
+1 Goblin Warchief (EVG) 42
 1 Siege-Gang Commander (TDC) 232
 1 Shock (M20) 160
 1 Shock (M20) 160

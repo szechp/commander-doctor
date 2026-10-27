@@ -72,6 +72,10 @@ trimmed. Gold signposts (on-theme multicolor permanents) come first, bounded by
 each color's presence in the blueprint and `--gold-share` (default 0.12). Slots
 nothing can fill go to `--print-list` as the blueprint's card, to proxy.
 
+- `--keep-cube`: the cube is already built. Every card in it stays and fills its
+  own slot; the pool only fills the blueprint's other slots, and nothing is
+  trimmed. Without a blueprint of the target size, scale the cube's own: the
+  cube plus extra slots spread evenly over its sorted spells.
 - `--theme elves,goblins` forces tribe lanes the cube can't derive yet, at the
   weight of its weakest existing tribe.
 - The output is an Archidekt import grouped by lane, with Payoff and Signpost
@@ -190,8 +194,22 @@ cards listed. Works for any list, decks included.
 `mtg-proxies print` takes any `1 Name (SET) Number` list from here: a
 `--print-list`, `cube build --txt-out`, or the PROXY lines of a pull list.
 
-## Postponed
+## The poolside cube
 
-The poolside cube (rules: `--profile poolside`) waits until it has been
-scanned; allocate it in the ledger before extending it, so it can't take a
-packet's cards.
+`cubes/poolside.txt` is the built cube (161 cards, CubeCobra export);
+`cubes/poolside-180.txt` the 180-card target (177: the multicolor share kept
+three slots empty) and `cubes/poolside-additions.txt` the 16 cards to pull.
+Both come first in `inventory.yaml`: the cube has priority over the packets,
+which proxy what it takes. Made with:
+
+```sh
+deckdoctor cube extend cubes/poolside.txt --blueprint <cube + 19 slots> --keep-cube \
+    --profile poolside --gold-share 0.08 --exclude-text "manifest,face down,face-down,split second" \
+    --inventory <a ledger with only the cube> --out cubes/poolside-180.txt
+deckdoctor packets pull mono-color-battlebox/packets/packets_v10.json \
+    --collection <inventory remaining of that ledger>
+```
+
+The cube itself has six cards the profile bans (Troll of Khazad-dûm,
+Changeling Wayfinder and four fetch lands: search/shuffle); they were the
+owner's picks and stay.

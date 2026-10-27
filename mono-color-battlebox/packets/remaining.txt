@@ -40,16 +40,13 @@
 1 Nicanzil, Current Conductor (LCI) 236
 1 Akawalli, the Seething Tower (LCI) 220
 1 Golgari Guildmage (CLU) 194
-1 Elite Guardmage (WAR) 195
 1 Caparocti Sunborn (LCI) 226
 1 Twinblade Assassins (KHC) 95
 1 Marshal of the Lost (TDM) 207
 1 Johann, Apprentice Sorcerer (WOE) 207
-1 Hackrobat (RNA) 181
 1 Kheru Goldkeeper (TDM) 199
 1 Jeskai Brushmaster (TDM) 195
 1 Karakyk Guardian (TDM) 198
-1 Obsessive Stitcher (AFC) 189
 1 Syr Armont, the Redeemer (WOE) 214
 1 Engineered Might (KLD) 181
 1 Call to the Feast (2X2) 190
@@ -60,8 +57,6 @@
 1 Combine Guildmage (RNA) 163
 1 Growth Spiral (M3C) 265
 1 Vampire Charmseeker (BBD) 78
-1 Shaman of the Pack (KHC) 92
-1 Obyra, Dreaming Duelist (WOE) 210
 1 Queza, Augur of Agonies (SNC) 212
 1 Deathless Knight (ELD) 208
 1 Skull Prophet (TDC) 304
@@ -74,7 +69,6 @@
 1 Endless Detour (SNC) 183
 1 Cavern Harpy (PLS) 97
 1 Gaze of the Gorgon (RAV) 246
-1 Moldervine Reclamation (BLC) 255
 1 Rosemane Centaur (GRN) 197
 1 Lawmage's Binding (RNA) 190
 1 Undercity Uprising (GRN) 210
@@ -89,14 +83,12 @@
 1 Urban Evolution (M3C) 276
 1 Bloodhall Priest (INR) 232
 1 Tahngarth, First Mate (C19) 50
-1 Gerrard, Weatherlight Hero (C19) 41
 1 Tajic, Legion's Edge (RVR) 231
-1 Greven, Predator Captain (C19) 43 *F*
 1 Farm // Market (C19) 192
 1 Sultai Charm (DMC) 168
 1 Icefeather Aven (C19) 194
 1 Bounty of the Luxa (2X2) 187
-3 Rush the Room (LTR) 147
+2 Rush the Room (LTR) 147
 1 Gorbag of Minas Morgul (LTR) 86
 2 Cirith Ungol Patrol (LTR) 80
 1 Book of Mazarbul (LTR) 116
@@ -109,7 +101,7 @@
 1 Voracious Fell Beast (LTR) 113
 1 Lash of the Balrog (LTR) 92
 1 Reliquary Tower (TDC) 386
-2 Haunt of the Dead Marshes (LTR) 90
+1 Haunt of the Dead Marshes (LTR) 90
 1 Mauhúr, Uruk-hai Captain (LTR) 214
 1 Grishnákh, Brash Instigator (LTR) 134
 1 Uglúk of the White Hand (LTR) 235
@@ -121,7 +113,6 @@
 1 Gempalm Incinerator (DMR) 122
 1 Empty the Warrens (DMR) 118
 1 Mogg War Marshal (DMR) 131
-1 Ember Hauler (M20) 137
 1 Goblin Tomb Raider (LCI) 151
 2 Snarling Warg (LTR) 109
 2 The Mouth of Sauron (LTR) 216
@@ -164,7 +155,6 @@
 1 Neurok Spy (MRD) 44
 1 Seeker of Insight (AKH) 69
 1 Student of Elements // Tobita, Master of Winds (CHK) 93
-1 Nightveil Sprite (MKC) 113
 1 Angler Drake (AKH) 41
 1 Wind-Kin Raiders (AER) 50
 1 Meneldor, Swift Savior (LTR) 62
@@ -238,16 +228,11 @@
 1 Arwen's Gift (LTR) 39
 1 Freeze in Place (WOE) 50
 1 Jailbreak Scheme (OTJ) 53
-1 Borrowing 100,000 Arrows (A25) 45
 1 Wingspan Stride (TDM) 66
-1 Unexplained Vision (ELD) 70
 1 Time Ebb (M14) 74
 1 Eye of Nowhere (CHK) 59
-1 Floodwaters (AKH) 53
-1 Winged Words (M20) 80
 1 Birthday Escape (LTR) 43
 1 Surrounded by Orcs (LTR) 73
-1 Chart a Course (LCI) 48
 1 Ureni's Rebuff (TDM) 63
 1 Horses of the Bruinen (LTR) 55
 1 Portent (DSC) 74
@@ -257,7 +242,6 @@
 1 Tezzeret's Gambit (M3C) 194
 1 Diplomatic Immunity (MMQ) 75
 1 Charmed Sleep (BLB) 388
-1 Bitter Chill (WOE) 44
 1 The Bath Song (LTR) 40
 1 Sanctum of Calm Waters (M21) 68
 1 Aether Tunnel (M19) 43
@@ -272,9 +256,8 @@
 1 Smoke Shroud (MH1) 69
 1 Flight of Fancy (UMA) 54
 1 Arcane Flight (DOM) 43
-2 Sisay's Ingenuity (PLS) 33
+1 Sisay's Ingenuity (PLS) 33
 1 Cartouche of Knowledge (AKH) 45
-1 Eel Umbra (2X2) 48
 1 Flight (6ED) 68
 1 Confiscate (CMR) 62
 1 Invisibility (M15) 61
@@ -289,7 +272,6 @@
 1 Pirate Hat (LCI) 70
 1 Zoetic Glyph (LCI) 86
 1 Gadwick's First Duel (WOE) 51
-1 Aqueous Form (CMR) 56
 1 Patient Rebuilding (M19) 67
 1 Navigator's Ruin (XLN) 63
 1 Malfunction (KLD) 55
@@ -304,18 +286,13 @@
 1 Twiddle (8ED) 111
 1 Boomerang (7ED) 64
 1 Dampen Thought (MMA) 39
-1 Isolation at Orthanc (LTR) 57
-1 Water Wings (WOE) 77
 1 Draconic Lore (TDC) 151
-1 Relic's Roar (LCI) 71
 1 Confounding Riddle (LCI) 50
 1 Hurl into History (LCI) 59
 1 Revolutionary Rebuff (KLD) 61
 1 Dispelling Exhale (TDM) 41
 1 Saruman's Trickery (LTR) 68
 1 Succumb to the Cold (WOE) 72
-1 Joint Exploration (DMU) 56
-1 Code of Constraint (CLU) 83
 1 Run Away Together (FDN) 162
 1 Spell Stutter (WOE) 69
 1 Frantic Search (TDC) 153
@@ -380,7 +357,6 @@
 1 Leering Onlooker (MKM) 91
 1 Vampire Neonate (FDN) 531
 1 Plaguecrafter (BLC) 187
-1 Faerie Dreamthief (WOE) 89
 1 Tempting Witch (ELD) 108
 1 Greedy Freebooter (LCI) 109
 1 Dimir House Guard (RVR) 73
@@ -398,7 +374,6 @@
 1 Uruk-hai Berserker (LTR) 112
 1 Glint-Sleeve Siphoner (AER) 62
 1 Soul of Innistrad (C20) 137
-1 Champion of Stray Souls (C19) 109
 1 Graveyard Marshal (M19) 99
 1 Geth, Lord of the Vault (2XM) 94
 1 Overseer of the Damned (MKC) 132
@@ -429,7 +404,6 @@
 2 Lotleth Giant (CMM) 171
 1 Lash of the Balrog (LTR) 408
 1 Ego Drain (WOE) 86
-1 Worthy Cost (TDM) 99
 1 Strategic Betrayal (TDM) 94
 1 Claim the Precious (LTR) 81
 1 Spark Harvest (CMR) 150
@@ -445,19 +419,14 @@
 1 Whack (SNC) 99
 1 Infest (CLU) 114
 1 Defossilize (LCI) 103
-1 Blood for Bones (M20) 89
 1 Boneyard Parley (C19) 107
 1 In Garruk's Wake (CLB) 759
 1 Beacon of Unrest (2XM) 77
-1 Mire in Misery (C19) 19
 1 Dispossess (AKH) 86
 1 Diabolic Intent (PLS) 42
 1 Hex (OTC) 136
-1 Fungal Fortitude (LCI) 106
 1 Tithing Blade // Consuming Sepulcher (LCI) 128
 1 Zombie Infestation (DMR) 111
-1 Hopeless Nightmare (WOE) 95
-1 Mephitic Draught (LCI) 112
 1 Infernal Scarring (M21) 105
 1 Cast into Darkness (JOU) 63
 1 Deviant Glee (RTR) 65
@@ -466,7 +435,6 @@
 1 Fallen Ideal (C15) 125
 1 Bloodsoaked Altar (M20) 90
 1 Rakish Crew (OTJ) 99
-1 Bloodthorn Flail (LCI) 93
 1 Hedonist's Trove (C19) 119
 1 The Eldest Reborn (DSC) 139
 1 Canonized in Blood (LCI) 96
@@ -490,7 +458,7 @@
 1 Neutralize the Guards (OTJ) 95
 1 Desperate Measures (TDM) 78
 1 Rat Out (WOE) 103
-3 Murder (CMR) 134
+2 Murder (CMR) 134
 3 Alchemist's Gift (M21) 87
 2 Feed the Cauldron (WOE) 91
 2 Candy Grapple (WOE) 83
@@ -503,42 +471,35 @@
 2 Unholy Indenture (M20) 119
 2 Dead Weight (LCI) 99
 2 Shatter the Oath (WOE) 106
-5 Duress (DMR) 81
+4 Duress (DMR) 81
 2 Thought Distortion (M20) 117
-2 Bone Splinters (M20) 92
-1 Soul Salvage (M20) 116
+1 Bone Splinters (M20) 92
 1 Angel of Renewal (BFZ) 18
-2 Deconstruction Hammer (LCI) 9
+1 Deconstruction Hammer (LCI) 9
 2 Hearth Elemental // Stoke Genius (WOE) 136
-1 Doomed Necromancer (AFC) 98
 1 Rise from the Grave (CM2) 73
 1 Witty Roastmaster (SNC) 131
 1 Reckless Reveler (BBD) 183
 1 Gimli, Counter of Kills (LTR) 129
 1 Frilled Deathspitter (RIX) 104
 1 Flicker of Fate (THB) 16
-1 Wizard's Rockets (LTR) 252
 1 Fireblade Artist (2X2) 214
 1 Mourning Thrull (RVR) 204
 2 Make Your Move (TMT) 20
 1 Expose to Daylight (RNA) 8
 2 Thrashing Brontodon (FDN) 560
 2 Mirkwood Spider (LTR) 178
-2 Caustic Caterpillar (ORI) 170
+1 Caustic Caterpillar (ORI) 170
 1 Haze of Pollen (AKH) 171
-3 Pacifism (M20) 32
+2 Pacifism (M20) 32
 1 Dromoka Dunecaster (DTK) 13
-1 Thrill of Possibility (FDN) 210
 1 Gingerbrute (ELD) 219
 1 Ethereal Armor (WOC) 67
-1 Shardmage's Rescue (DSK) 29
 1 Aven Heartstabber (SNC) 166
 2 Two-Headed Hunter // Twice the Rage (WOE) 155
 1 Belligerent Yearling (LCI) 133
-1 Anointer of Champions (E01) 3
 1 Cursed Courtier (WOE) 9
 1 Illuminator Virtuoso (SNC) 17
-1 Dutiful Griffin (WOE) 11
 1 Knight of Doves (WOE) 19
 1 Woodland Acolyte // Mend the Wilds (WOE) 241
 1 Triceraton Commander (TMT) 25
@@ -568,14 +529,12 @@
 1 Bereaved Survivor // Dauntless Avenger (MID) 4
 1 Myrsmith (CMM) 44
 1 Flutterfox (ELD) 12
-1 Silverchase Fox (BBD) 106
 1 Thousand Moons Infantry (LCI) 38
 1 Stockpiling Celebrant (WOE) 32
 1 War Screecher (CLU) 80
 1 Poised Practitioner (TDM) 18
 1 Angel of the God-Pharaoh (HOU) 4
 1 Attentive Sunscribe (LCI) 4
-1 Sephara, Sky's Blade (CMM) 54
 1 Weapons Vendor (FIN) 40
 1 Sunspear Shikari (CMM) 62
 1 Mischievous Pup (FDN) 144
@@ -590,10 +549,8 @@
 1 Loxodon Lifechanter (M20) 27
 1 Weathered Bodyguards (TSP) 46
 1 Ainok Bond-Kin (CMM) 7
-1 Martyr of Sands (UMA) 25
 1 Angel of the Dawn (CMR) 6
 1 Angel of Vitality (CLU) 53
-1 Angelic Guardian (M20) 302
 1 Herald of the Sun (M20) 23
 1 Ajani's Pridemate (M19) 5
 1 Dauntless Dismantler (LCI) 8
@@ -612,10 +569,10 @@
 1 Haazda Officer (M20) 305
 2 Impassioned Orator (M20) 306
 2 Sentinel of the Eternal Watch (ORI) 30
-2 Soldier of the Grey Host (LTR) 32
+1 Soldier of the Grey Host (LTR) 32
 2 Beloved Princess (ELD) 7
 3 Trusted Pegasus (CLU) 77
-2 Healer's Hawk (FDN) 142
+1 Healer's Hawk (FDN) 142
 2 East-Mark Cavalier (LTR) 9
 2 Unassuming Sage (WOE) 37
 1 Protector of Gondor (LTR) 25
@@ -626,9 +583,9 @@
 2 Samwise the Stouthearted (LTR) 28
 2 Bill the Pony (LTR) 3
 3 Cloudkin Seer (CLU) 82
-2 Troll of Khazad-dûm (LTR) 111
+1 Troll of Khazad-dûm (LTR) 111
 2 Cliffside Rescuer (C19) 1
-2 Westfold Rider (LTR) 37
+1 Westfold Rider (LTR) 37
 3 Soulmender (M20) 37
 2 Aviary Mechanic (KLD) 6
 1 Flaming Fist (CLB) 18
@@ -637,8 +594,6 @@
 1 Sentinel's Eyes (THB) 36
 1 Hopeful Vigil (WOE) 17
 1 Tinker's Tote (LCI) 40
-1 Chains of Custody (J25) 180
-1 Mortal Obstinacy (JOU) 17
 1 Trapped in the Tower (ELD) 33
 1 Bound by Moonsilver (INR) 13
 1 The Princess Takes Flight (WOE) 23
@@ -646,13 +601,10 @@
 1 Knightly Valor (WOT) 8
 1 Teeming Dragonstorm (TDM) 30
 1 Sage's Reverie (WOC) 73
-1 Stormplain Detainment (TDM) 28
-1 Dub (M21) 16
 1 Stormbeacon Blade (TDM) 27
 1 Reprobation (MH1) 23
 1 Hyena Umbra (2X2) 13
 1 Shining Armor (ELD) 29
-1 Ajani's Welcome (M19) 6
 1 Griffin Aerie (M21) 22
 1 Conclave's Blessing (RAV) 11
 1 Solitary Sanctuary (WOE) 30
@@ -664,14 +616,13 @@
 1 Fortifying Provisions (ELD) 13
 1 Cooped Up (WOE) 8
 1 Petrify (LCI) 30
-1 Felidar Umbra (PCA) 6
-2 Grasp of the Hieromancer (E01) 13
+1 Grasp of the Hieromancer (E01) 13
 4 Fog on the Barrow-Downs (LTR) 16
 5 Glaring Aegis (M20) 18
 2 Ancestral Blade (CMM) 12
 2 Dúnedain Blade (LTR) 6
 2 Might of the Ancestors (LCI) 23
-3 Angelic Gift (AFC) 64
+2 Angelic Gift (AFC) 64
 3 Gauntlets of Light (M20) 17
 2 Tale of Tinúviel (LTR) 34
 1 Give No Ground (EMN) 29
@@ -679,11 +630,9 @@
 1 Coordinated Maneuver (TDM) 6
 1 Survive the Night (SOI) 41
 1 Plunge into Winter (WOE) 22
-1 Shelter (MH1) 28
 1 Disenchant (CST) 20
 1 Gideon's Reproach (DOM) 19
 1 Borrowed Grace (EMN) 14
-1 Take Heart (GRN) 28
 1 Divine Arrow (WAR) 10
 1 Rally for the Throne (ELD) 25
 1 Lost to Legend (LTR) 22
@@ -759,7 +708,6 @@
 1 Aerie Bowmasters (DTK) 170
 1 Giant Caterpillar (VIS) 108
 1 River Herald Guide (LCI) 209
-1 Celeborn the Wise (LTR) 156
 1 Glorfindel, Dauntless Rescuer (LTR) 171
 1 Scaled Behemoth (CMR) 251
 1 Conclave Naturalists (2XM) 160
@@ -799,7 +747,7 @@
 2 Cenote Scout (LCI) 178
 1 Leafkin Druid (NCC) 299
 1 Cavern Stomper (LCI) 177 *F*
-4 Lothlórien Lookout (LTR) 175
+3 Lothlórien Lookout (LTR) 175
 1 Ferocious Pup (M20) 171
 2 Loaming Shaman (RVR) 149
 2 Healer of the Glade (M20) 176
@@ -816,20 +764,17 @@
 1 In the Presence of Ages (LCI) 192
 1 Sarkhan's Resolve (TDM) 158
 1 Snakeskin Veil (TDM) 159
-1 Heritage Reclamation (TDM) 145
 1 Return to Nature (AFC) 169
 1 Wildsize (CLU) 179
 1 Fell the Pheasant (ELD) 153
 1 Warm Welcome (SNC) 164
 1 Huatli's Final Strike (LCI) 190
-1 Pippin's Bravery (LTR) 414
 1 Moonlight Hunt (INR) 209
 1 Lifecrafter's Gift (CMR) 240
 1 Once and Future (ELD) 168
 1 Stew the Coneys (LTR) 189
 1 Plummet (M19) 193
 1 Life Goes On (M21) 192
-1 Ranger's Guile (M21) 199
 1 Giant Growth (BBD) 200
 1 Growth Cycle (M20) 175
 1 Lull (DMR) 169
@@ -881,15 +826,12 @@
 1 Malamet Scythe (LCI) 200
 1 Dragonbroods' Relic (TDM) 140
 1 Ground Seal (WOT) 54
-1 Season of Growth (M20) 191
 1 Night of the Sweets' Revenge (WOE) 178
 1 Welcome to Sweettooth (WOE) 198
-1 Abundant Growth (ECC) 97
-1 Unbridled Growth (AER) 126
 1 Wolfrider's Saddle (M20) 204
 1 Rosethorn Halberd (ELD) 175
 3 Gift of Paradise (C21) 191
-2 Gift of Strands (LTR) 170
+1 Gift of Strands (LTR) 170
 2 Shortcut to Mushrooms (LTR) 187
 2 Explorer's Cache (LCI) 184
 2 Long List of the Ents (LTR) 174
@@ -911,7 +853,6 @@
 1 Pyre-Sledge Arsonist (SNC) 118
 1 Immortal Phoenix (M20) 332
 1 Syr Carah, the Bold (ELD) 145
-1 Goblin Wardriver (DDT) 50
 1 Glorybringer (TDC) 215
 1 Immolation Shaman (RNA) 106
 1 Skyfire Phoenix (C19) 28
@@ -923,7 +864,6 @@
 1 Heart-Piercer Manticore (C19) 146
 1 Valduk, Keeper of the Flame (DMR) 333
 1 Chandra, Novice Pyromancer (M20) 128
-1 Gravel-Hide Goblin (CLU) 137
 1 Flamewave Invoker (BBD) 178
 1 Unruly Catapult (WOE) 156
 1 Speedway Fanatic (KLD) 132
@@ -945,7 +885,6 @@
 1 Shatter (9ED) 218
 1 Blazing Salvo (ODY) 178
 1 Stonesplitter Bolt (WOE) 151
-1 Kindled Heroism (WOE) 138
 1 Call In a Professional (SNC) 103
 1 Torch Breath (SNC) 127
 1 Witchstalker Frenzy (WOE) 159
@@ -953,15 +892,12 @@
 1 Torch the Tower (WOE) 153
 1 Fry (M20) 140
 1 Dragonrage (FRF) 97
-1 Collateral Damage (FRF) 95
 1 Cast into the Fire (LTR) 118
 1 Searing Barrage (ELD) 140
 1 Dual Shot (XLN) 141
 1 Trigger Happy (UNF) 125
 1 Smash to Smithereens (ORI) 163
-1 Comet Storm (CMR) 411
 1 Monstrous Rage (WOE) 142
-1 Dreadmaw's Ire (LCI) 147
 1 Fervent Strike (DOM) 117
 1 Inescapable Blaze (GRN) 107
 1 Precise Strike (AER) 92
@@ -973,15 +909,15 @@
 1 Zoyowa's Justice (LCI) 173
 1 Seize Opportunity (TDM) 119
 7 Infuriate (M20) 145
-2 Gimli's Fury (LTR) 131
+1 Gimli's Fury (LTR) 131
 2 Shock (M20) 160
-2 Sure Strike (GRN) 118
+1 Sure Strike (GRN) 118
 2 Flame Sweep (M20) 139
 3 Smite the Deathless (LTR) 148
 2 Sure Strike (FDN) 209
 3 Shivan Fire (DOM) 142
-2 Barge In (ELD) 112
-3 Improvised Club (LTR) 137
+1 Barge In (ELD) 112
+2 Improvised Club (LTR) 137
 2 Chandra's Outrage (M20) 130
 1 Lava Axe (M19) 150
 1 Flashfires (9ED) 183
@@ -1019,10 +955,9 @@
 1 Korvold and the Noble Thief (WOE) 139
 1 Etali's Favor (LCI) 149
 1 Alpine Moon (M19) 128
-1 Fire-Rim Form (TDM) 107
 1 The Flame of Keld (DOM) 123
 3 Gimli's Axe (LTR) 130
-2 Sunfire Torch (LCI) 167
+1 Sunfire Torch (LCI) 167
 6 Act of Treason (M20) 124
 2 Breaking of the Fellowship (LTR) 117
 2 Ranger's Firebrand (LTR) 143
@@ -1041,8 +976,6 @@
 1 Soul Foundry (C19) 223
 1 Aeon Engine (C19) 52
 1 Hunter's Blowgun (LCI) 255
-1 Elaborate Firecannon (XLN) 237
-1 Guild Globe (WAR) 239
 1 Retributive Wand (M20) 236
 1 Brainstone (DSC) 242
 1 Candy Trail (WOE) 243
@@ -1054,7 +987,6 @@
 1 Geth's Grimoire (DST) 123
 1 Abzan Monument (TDM) 238
 1 Witch's Oven (ELD) 237
-1 Mirror of Galadriel (LTR) 244
 1 Spinning Wheel (ELD) 234
 1 Diviner's Lockbox (M20) 225
 1 Brass Knuckles (CMM) 372
@@ -1063,7 +995,6 @@
 1 Consulate Dreadnought (AER) 146
 1 Dagger of the Worthy (HOU) 160
 1 Rod of Ruin (6ED) 309
-1 Soul Net (6ED) 313
 1 Orazca Relic (AFC) 213
 1 Powerstone Shard (DOM) 227
 1 Millstone (M19) 242
@@ -1071,7 +1002,6 @@
 1 Renegade Map (AER) 173
 1 True-Faith Censer (SOI) 267
 1 Bag of Holding (M20) 222
-1 Colossus Hammer (AFC) 202
 1 Haunted Cloak (CMM) 389
 1 Golgari Locket (GRN) 237
 1 Izzet Locket (C19) 215
@@ -1081,7 +1011,6 @@
 1 Bargaining Table (MMQ) 288
 1 Vessel of Endless Rest (UMA) 235
 1 Thran Dynamo (BLC) 290
-1 Pendant of Prosperity (C21) 256
 1 Empowered Autogenerator (EOC) 135
 2 Armillary Sphere (CMR) 298
 3 Prophetic Prism (KLD) 229
@@ -1137,18 +1066,17 @@
 1 Mountain (EVG) 62
 1 Forest (5ED) 449
 1 Blindblast (WAR) 114
-1 Faithless Looting (OTC) 165
 1 The First Eruption (DOM) 122
 1 Krenko, Mob Boss (RVR) 114
 1 Goblin Chainwhirler (DOM) 129
-3 Goblin War Strike (SCG) 96
+2 Goblin War Strike (SCG) 96
 1 Siege-Gang Commander (TDC) 232
 3 Skirk Prospector (DMR) 137
-3 Goblin Warchief (EVG) 42
+2 Goblin Warchief (EVG) 42
 4 Legion Warboss (TDC) 220
-2 Fanatical Firebrand (FDN) 195
+1 Fanatical Firebrand (FDN) 195
 2 Banefire (M19) 130
-2 Dark-Dweller Oracle (2X2) 106
+1 Dark-Dweller Oracle (2X2) 106
 1 Reckless One (EVG) 48
 1 Turf Wound (INV) 177
 1 Prismatic Wardrobe (UGL) 12
@@ -1157,7 +1085,6 @@
 1 The Great Goblin (HOB) 158
 2 Goblin-town Flunkies (HOB) 100
 1 Rage into the Valley (HOB) 79
-1 Tom, Bert, and William (HOB) 169
 1 Stir Up Trouble (HOB) 84
 3 Smaug, the Great Calamity // Spew Flame (HOB) 109
 1 Gollum, Silent Slinker // Meager Meal (HOB) 71
@@ -1175,30 +1102,29 @@
 2 Velvetwing Butterflies // Gaze in Wonder (HOB) 30
 1 Bolg of the North (HOB) 148
 1 Ravening Warg (HOB) 80
-3 Giant's Boulder (HOB) 173
+2 Giant's Boulder (HOB) 173
 2 Gundabad Opportunist (HOB) 101
 1 Supper for Spiders (HOB) 86
 2 Smaug, Wicked Worm (HOB) 245
 1 The Notary Hobbits (HOB) 131
-1 Bilbo, Luckwearer // Burglar's Plot (HOB) 218
 2 Stony-Voiced Goblins (HOB) 85
 2 Great Gilded Boat (HOB) 42
 6 Nori, Teller of Tales (HOB) 161
 3 Goblin Plate Mail (HOB) 157
 3 Bombur, Gentle Dreamer (HOB) 88
 2 Lakeshore Apothecary (HOB) 43
-4 Long-Lost Lances (HOC) 7
+3 Long-Lost Lances (HOC) 7
 2 Well-Worn Spatula (HOB) 180
 1 Duskwatch Hunter (HOB) 153
 2 Wargling (HOB) 140
 3 Esgaroth Garrison (HOB) 13
 1 Wilderland Scrounger (HOB) 141
 3 Bifur, Melodic Rider (HOB) 147
-2 Bofur, Reliable Guardian // Concerted Care (HOB) 6
+1 Bofur, Reliable Guardian // Concerted Care (HOB) 6
 4 Vow to Erebor (HOB) 31
 1 Boughside Wanderers (HOB) 121
 1 Guardian of the Halls (HOB) 127
-2 The Chief Warg (HOB) 150
+1 The Chief Warg (HOB) 150
 1 Old Fat Spider Can't See Me (HOB) 50
 1 Elvenking's Halls (HOB) 182
 1 Elvenking's Harper (HOB) 38
@@ -1277,7 +1203,6 @@
 1 Kavaron Harrier (EOE) 139
 1 Slagdrill Scrapper (EOE) 160
 1 Plasma Bolt (EOE) 152
-1 Rig for War (EOE) 156
 1 Galvanizing Sawship (EOE) 136
 1 Remnant Elemental (EOE) 155
 1 Cut Propulsion (EOE) 130
@@ -1294,7 +1219,6 @@
 1 Harmonious Grovestrider (EOE) 189
 1 Terrasymbiosis (EOE) 312
 1 Terrasymbiosis (EOE) 210
-1 Meltstrider's Resolve (EOE) 199
 1 Frenzied Baloth (EOE) 183
 1 Lumen-Class Frigate (EOE) 25
 1 Starport Security (EOE) 39
@@ -1315,7 +1239,6 @@
 1 The Seriema (EOE) 35
 1 Bygone Colossus (EOE) 235
 1 Pinnacle Kill-Ship (EOE) 244
-1 Nutrient Block (EOE) 243
 1 Wurmwall Sweeper (EOE) 249
 1 Biomechan Engineer (EOE) 213
 1 Ragost, Deft Gastronaut (EOE) 224

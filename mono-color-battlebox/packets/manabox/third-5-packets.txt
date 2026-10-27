@@ -8,7 +8,7 @@
 1 Moment of Triumph (FDN) 500
 1 Inspiring Unicorn (GRN) 16
 1 Eagle of the Great Shelf (HOB) 11
-1 Opt (FDN) 512
+1 Opt
 1 Tidepool Turtle (DMU) 69
 1 Octoprophet (M20) 70
 1 Naga Oracle (AKH) 62

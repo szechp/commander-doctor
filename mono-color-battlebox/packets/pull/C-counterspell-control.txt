@@ -1,7 +1,7 @@
 // C packet: Counterspell Control
 // 12 spells + 8 Island
 
-1 Opt (FDN) 512
+1 Opt PROXY
 1 Tidepool Turtle (DMU) 69
 1 Octoprophet (M20) 70
 1 Naga Oracle (AKH) 62

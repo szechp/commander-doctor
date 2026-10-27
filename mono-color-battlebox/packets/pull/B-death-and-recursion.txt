@@ -8,7 +8,7 @@
 1 Venomous Hierophant (CLU) 125
 1 Venomous Hierophant (CLU) 125
 1 Soul Salvage (M20) 116
-1 Murder (SNC) 88
+1 Murder (CMR) 134
 1 Reave Soul (IMA) 104
 1 Deathcap Marionette (LCI) 100
 1 Blistergrub (DDR) 40

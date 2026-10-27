@@ -8,7 +8,7 @@
 1 Impeccable Timing (AKH) 18
 1 Glorious Anthem
 2 Cloudkin Seer (CLU) 82
-1 Tome Raider (ELD) 68
+1 Tome Raider
 1 Warden of Evos Isle (CMR) 106
 2 Snapping Drake (M20) 318
 1 Aven Fisher (DMR) 41
@@ -23,15 +23,15 @@
 1 Gorging Vulture (CLU) 112
 2 Venomous Hierophant (CLU) 125
 1 Soul Salvage (M20) 116
-1 Murder (SNC) 88
+1 Murder (CMR) 134
 1 Reave Soul (IMA) 104
 1 Deathcap Marionette (LCI) 100
 1 Blistergrub (DDR) 40
 1 Retrofitted Transmogrant (MH3) 106
 2 Fanatical Firebrand (FDN) 195
 3 Goblin Instigator (MOC) 282
-1 Battle-Scarred Goblin (LTR) 115
-1 Goblin Warchief (DOM) 130
+1 Battle-Scarred Goblin
+1 Goblin Warchief (EVG) 42
 1 Siege-Gang Commander (TDC) 232
 2 Shock (M20) 160
 1 Goblin Arsonist (M21) 147
