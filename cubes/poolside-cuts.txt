@@ -1,6 +1,12 @@
-// Poolside cube: 5 cards to take out (back to the bulk)
+// Poolside cube: 11 cards to take out (back to the bulk)
 1 Haunt of the Dead Marshes
 1 Boggart Prankster
+1 Troll of Khazad-dûm
+1 Changeling Wayfinder
 1 Mirror of Galadriel
 1 Puca's Eye
 1 Pendant of Prosperity
+1 Evolving Wilds
+1 Krosan Verge
+1 Myriad Landscape
+1 Terramorphic Expanse

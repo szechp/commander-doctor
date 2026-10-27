@@ -200,8 +200,8 @@ cards listed. Works for any list, decks included.
 `cubes/poolside-180.txt` the current 180, which is also its ledger allocation
 in `inventory.yaml`, ahead of the packets (the cube has priority; packets proxy
 what it takes). To get from one to the other: pull `cubes/poolside-additions.txt`
-(24, with set and number) from the bulk and take out `cubes/poolside-cuts.txt`
-(5 that don't work here: a five-color condition, legend-only payoffs, a
+(30, with set and number) from the bulk and take out `cubes/poolside-cuts.txt`
+(11: the six search/shuffle cards below and 5 that don't work here: a five-color condition, legend-only payoffs, a
 multiplayer gift, a black Goblin lord in a cube whose Goblins are red).
 
 Color balance: 25 mono cards per color give or take two, every color pair has
@@ -211,6 +211,8 @@ cut), every color is on 30-31 cards counting multicolor, plus 15 colorless and
 on a blueprint of the trimmed cube plus the missing slots, `--exclude-text
 "manifest,face down,face-down,split second,Knight card,Crew"`.
 
-The cube itself keeps six cards the profile bans (Troll of Khazad-dûm,
-Changeling Wayfinder and four fetch lands: search/shuffle); they were the
-owner's picks.
+Every card passes `poolside`. The six original cards that searched and
+shuffled (four fetch lands, Changeling Wayfinder, Troll of Khazad-dûm) were
+swapped for cards in the same role: four colorless mana creatures (no fixing
+lands were left in the bulk, so the cube runs 26 lands), Anvilwrought Raptor,
+Gurmag Rakshasa.
