@@ -1,0 +1,1098 @@
+{
+ "wu": {
+  "basics": [
+   "Plains",
+   16
+  ],
+  "cards": {
+   "Doomed Traveler": 1,
+   "Hunted Witness": 1,
+   "Raise the Alarm": 2,
+   "Fresh-Faced Recruit": 1,
+   "Haazda Officer": 2,
+   "Protector of Gondor": 1,
+   "Inspiring Captain": 2,
+   "Impeccable Timing": 1,
+   "Divine Arrow": 1,
+   "Cloudkin Seer": 2,
+   "Tome Raider": 1,
+   "Warden of Evos Isle": 1,
+   "Snapping Drake": 2,
+   "Aven Fisher": 1,
+   "Muse Drake": 1,
+   "Unsummon": 1,
+   "Didn't Say Please": 1,
+   "Hithlain Knots": 1,
+   "Scroll Thief": 1
+  }
+ },
+ "wb": {
+  "basics": [
+   "Plains",
+   16
+  ],
+  "cards": {
+   "Doomed Traveler": 1,
+   "Hunted Witness": 1,
+   "Raise the Alarm": 2,
+   "Fresh-Faced Recruit": 1,
+   "Haazda Officer": 2,
+   "Protector of Gondor": 1,
+   "Inspiring Captain": 2,
+   "Impeccable Timing": 1,
+   "Divine Arrow": 1,
+   "Lightless Evangel": 1,
+   "Synapse Necromage": 1,
+   "Gravedigger": 1,
+   "Gorging Vulture": 1,
+   "Venomous Hierophant": 2,
+   "Soul Salvage": 1,
+   "Murder": 1,
+   "Reave Soul": 1,
+   "Deathcap Marionette": 1,
+   "Blistergrub": 1,
+   "Retrofitted Transmogrant": 1
+  }
+ },
+ "wr": {
+  "basics": [
+   "Plains",
+   16
+  ],
+  "cards": {
+   "Doomed Traveler": 1,
+   "Hunted Witness": 1,
+   "Raise the Alarm": 2,
+   "Fresh-Faced Recruit": 1,
+   "Haazda Officer": 2,
+   "Protector of Gondor": 1,
+   "Inspiring Captain": 2,
+   "Impeccable Timing": 1,
+   "Divine Arrow": 1,
+   "Fanatical Firebrand": 2,
+   "Goblin Instigator": 3,
+   "Battle-Scarred Goblin": 1,
+   "Goblin Warchief": 1,
+   "Siege-Gang Commander": 1,
+   "Shock": 2,
+   "Lightning Strike": 1,
+   "Goblin Arsonist": 1
+  }
+ },
+ "wg": {
+  "basics": [
+   "Plains",
+   16
+  ],
+  "cards": {
+   "Doomed Traveler": 1,
+   "Hunted Witness": 1,
+   "Raise the Alarm": 2,
+   "Fresh-Faced Recruit": 1,
+   "Haazda Officer": 2,
+   "Protector of Gondor": 1,
+   "Inspiring Captain": 2,
+   "Impeccable Timing": 1,
+   "Divine Arrow": 1,
+   "Woodland Mystic": 2,
+   "Leafkin Druid": 2,
+   "Galadhrim Guide": 1,
+   "Bristling Boar": 1,
+   "Silverback Shaman": 2,
+   "Charging Rhino": 1,
+   "Colossal Dreadmaw": 1,
+   "Shower of Arrows": 1,
+   "High-Rise Sawjack": 1
+  }
+ },
+ "ws": {
+  "basics": [
+   "Plains",
+   16
+  ],
+  "cards": {
+   "Doomed Traveler": 1,
+   "Hunted Witness": 1,
+   "Raise the Alarm": 2,
+   "Fresh-Faced Recruit": 1,
+   "Haazda Officer": 2,
+   "Protector of Gondor": 1,
+   "Inspiring Captain": 2,
+   "Impeccable Timing": 1,
+   "Divine Arrow": 1,
+   "Slither Blade": 1,
+   "Triton Shorestalker": 1,
+   "Phantom Warrior": 2,
+   "Inkfathom Infiltrator": 1,
+   "Omenspeaker": 1,
+   "Cloudkin Seer": 1,
+   "Quick Study": 1,
+   "Befuddle": 1,
+   "Unsummon": 1,
+   "Take into Custody": 1,
+   "Hithlain Knots": 1
+  }
+ },
+ "wv": {
+  "basics": [
+   "Plains",
+   16
+  ],
+  "cards": {
+   "Doomed Traveler": 1,
+   "Hunted Witness": 1,
+   "Raise the Alarm": 2,
+   "Fresh-Faced Recruit": 1,
+   "Haazda Officer": 2,
+   "Protector of Gondor": 1,
+   "Inspiring Captain": 2,
+   "Impeccable Timing": 1,
+   "Divine Arrow": 1,
+   "Vampire of the Dire Moon": 1,
+   "Blood Burglar": 2,
+   "Midnight Assassin": 1,
+   "Bloodthirsty Aerialist": 1,
+   "Gorging Vulture": 1,
+   "Epicure of Blood": 2,
+   "Agonizing Syphon": 1,
+   "Lich's Caress": 1,
+   "Grasp of Darkness": 1,
+   "Murder": 1
+  }
+ },
+ "wd": {
+  "basics": [
+   "Plains",
+   16
+  ],
+  "cards": {
+   "Doomed Traveler": 1,
+   "Hunted Witness": 1,
+   "Raise the Alarm": 2,
+   "Fresh-Faced Recruit": 1,
+   "Haazda Officer": 2,
+   "Protector of Gondor": 1,
+   "Inspiring Captain": 2,
+   "Impeccable Timing": 1,
+   "Divine Arrow": 1,
+   "Redcap Thief": 1,
+   "Rampaging Ceratops": 1,
+   "Rapacious Dragon": 2,
+   "Shivan Dragon": 1,
+   "Nebula Dragon": 1,
+   "Shock": 1,
+   "Lightning Strike": 2,
+   "Lava Coil": 1,
+   "Bombard": 1,
+   "Chandra's Outrage": 1
+  }
+ },
+ "wp": {
+  "basics": [
+   "Plains",
+   16
+  ],
+  "cards": {
+   "Doomed Traveler": 1,
+   "Hunted Witness": 1,
+   "Raise the Alarm": 2,
+   "Fresh-Faced Recruit": 1,
+   "Haazda Officer": 2,
+   "Protector of Gondor": 1,
+   "Inspiring Captain": 2,
+   "Impeccable Timing": 1,
+   "Divine Arrow": 1,
+   "Sedge Scorpion": 3,
+   "Pitiless Gorgon": 1,
+   "Sultai Devotee": 1,
+   "Snarespinner": 1,
+   "Skystinger": 1,
+   "Atzocan Archer": 1,
+   "Ferocious Pup": 2,
+   "Healer of the Glade": 1,
+   "Return to the Earth": 1
+  }
+ },
+ "ub": {
+  "basics": [
+   "Island",
+   16
+  ],
+  "cards": {
+   "Cloudkin Seer": 2,
+   "Tome Raider": 1,
+   "Warden of Evos Isle": 1,
+   "Snapping Drake": 2,
+   "Aven Fisher": 1,
+   "Muse Drake": 1,
+   "Unsummon": 1,
+   "Didn't Say Please": 1,
+   "Hithlain Knots": 1,
+   "Scroll Thief": 1,
+   "Lightless Evangel": 1,
+   "Synapse Necromage": 1,
+   "Gravedigger": 1,
+   "Gorging Vulture": 1,
+   "Venomous Hierophant": 2,
+   "Soul Salvage": 1,
+   "Murder": 1,
+   "Reave Soul": 1,
+   "Deathcap Marionette": 1,
+   "Blistergrub": 1,
+   "Retrofitted Transmogrant": 1
+  }
+ },
+ "ur": {
+  "basics": [
+   "Island",
+   16
+  ],
+  "cards": {
+   "Cloudkin Seer": 2,
+   "Tome Raider": 1,
+   "Warden of Evos Isle": 1,
+   "Snapping Drake": 2,
+   "Aven Fisher": 1,
+   "Muse Drake": 1,
+   "Unsummon": 1,
+   "Didn't Say Please": 1,
+   "Hithlain Knots": 1,
+   "Scroll Thief": 1,
+   "Fanatical Firebrand": 2,
+   "Goblin Instigator": 3,
+   "Battle-Scarred Goblin": 1,
+   "Goblin Warchief": 1,
+   "Siege-Gang Commander": 1,
+   "Shock": 2,
+   "Lightning Strike": 1,
+   "Goblin Arsonist": 1
+  }
+ },
+ "ug": {
+  "basics": [
+   "Island",
+   16
+  ],
+  "cards": {
+   "Cloudkin Seer": 2,
+   "Tome Raider": 1,
+   "Warden of Evos Isle": 1,
+   "Snapping Drake": 2,
+   "Aven Fisher": 1,
+   "Muse Drake": 1,
+   "Unsummon": 1,
+   "Didn't Say Please": 1,
+   "Hithlain Knots": 1,
+   "Scroll Thief": 1,
+   "Woodland Mystic": 2,
+   "Leafkin Druid": 2,
+   "Galadhrim Guide": 1,
+   "Bristling Boar": 1,
+   "Silverback Shaman": 2,
+   "Charging Rhino": 1,
+   "Colossal Dreadmaw": 1,
+   "Shower of Arrows": 1,
+   "High-Rise Sawjack": 1
+  }
+ },
+ "ua": {
+  "basics": [
+   "Island",
+   16
+  ],
+  "cards": {
+   "Cloudkin Seer": 2,
+   "Tome Raider": 1,
+   "Warden of Evos Isle": 1,
+   "Snapping Drake": 2,
+   "Aven Fisher": 1,
+   "Muse Drake": 1,
+   "Unsummon": 1,
+   "Didn't Say Please": 1,
+   "Hithlain Knots": 1,
+   "Scroll Thief": 1,
+   "Healer's Hawk": 2,
+   "Concordia Pegasus": 1,
+   "Griffin Sentinel": 1,
+   "Daybreak Chaplain": 1,
+   "Dawning Angel": 2,
+   "Herald of Faith": 1,
+   "Serra's Guardian": 1,
+   "Cosmium Blast": 1,
+   "Take Vengeance": 1,
+   "Bring to Trial": 1
+  }
+ },
+ "uv": {
+  "basics": [
+   "Island",
+   16
+  ],
+  "cards": {
+   "Cloudkin Seer": 2,
+   "Tome Raider": 1,
+   "Warden of Evos Isle": 1,
+   "Snapping Drake": 2,
+   "Aven Fisher": 1,
+   "Muse Drake": 1,
+   "Unsummon": 1,
+   "Didn't Say Please": 1,
+   "Hithlain Knots": 1,
+   "Scroll Thief": 1,
+   "Vampire of the Dire Moon": 1,
+   "Blood Burglar": 2,
+   "Midnight Assassin": 1,
+   "Bloodthirsty Aerialist": 1,
+   "Gorging Vulture": 1,
+   "Epicure of Blood": 2,
+   "Agonizing Syphon": 1,
+   "Lich's Caress": 1,
+   "Grasp of Darkness": 1,
+   "Murder": 1
+  }
+ },
+ "ud": {
+  "basics": [
+   "Island",
+   16
+  ],
+  "cards": {
+   "Cloudkin Seer": 2,
+   "Tome Raider": 1,
+   "Warden of Evos Isle": 1,
+   "Snapping Drake": 2,
+   "Aven Fisher": 1,
+   "Muse Drake": 1,
+   "Unsummon": 1,
+   "Didn't Say Please": 1,
+   "Hithlain Knots": 1,
+   "Scroll Thief": 1,
+   "Redcap Thief": 1,
+   "Rampaging Ceratops": 1,
+   "Rapacious Dragon": 2,
+   "Shivan Dragon": 1,
+   "Nebula Dragon": 1,
+   "Shock": 1,
+   "Lightning Strike": 2,
+   "Lava Coil": 1,
+   "Bombard": 1,
+   "Chandra's Outrage": 1
+  }
+ },
+ "up": {
+  "basics": [
+   "Island",
+   16
+  ],
+  "cards": {
+   "Cloudkin Seer": 2,
+   "Tome Raider": 1,
+   "Warden of Evos Isle": 1,
+   "Snapping Drake": 2,
+   "Aven Fisher": 1,
+   "Muse Drake": 1,
+   "Unsummon": 1,
+   "Didn't Say Please": 1,
+   "Hithlain Knots": 1,
+   "Scroll Thief": 1,
+   "Sedge Scorpion": 3,
+   "Pitiless Gorgon": 1,
+   "Sultai Devotee": 1,
+   "Snarespinner": 1,
+   "Skystinger": 1,
+   "Atzocan Archer": 1,
+   "Ferocious Pup": 2,
+   "Healer of the Glade": 1,
+   "Return to the Earth": 1
+  }
+ },
+ "br": {
+  "basics": [
+   "Swamp",
+   16
+  ],
+  "cards": {
+   "Lightless Evangel": 1,
+   "Synapse Necromage": 1,
+   "Gravedigger": 1,
+   "Gorging Vulture": 1,
+   "Venomous Hierophant": 2,
+   "Soul Salvage": 1,
+   "Murder": 1,
+   "Reave Soul": 1,
+   "Deathcap Marionette": 1,
+   "Blistergrub": 1,
+   "Retrofitted Transmogrant": 1,
+   "Fanatical Firebrand": 2,
+   "Goblin Instigator": 3,
+   "Battle-Scarred Goblin": 1,
+   "Goblin Warchief": 1,
+   "Siege-Gang Commander": 1,
+   "Shock": 2,
+   "Lightning Strike": 1,
+   "Goblin Arsonist": 1
+  }
+ },
+ "bg": {
+  "basics": [
+   "Swamp",
+   16
+  ],
+  "cards": {
+   "Lightless Evangel": 1,
+   "Synapse Necromage": 1,
+   "Gravedigger": 1,
+   "Gorging Vulture": 1,
+   "Venomous Hierophant": 2,
+   "Soul Salvage": 1,
+   "Murder": 1,
+   "Reave Soul": 1,
+   "Deathcap Marionette": 1,
+   "Blistergrub": 1,
+   "Retrofitted Transmogrant": 1,
+   "Woodland Mystic": 2,
+   "Leafkin Druid": 2,
+   "Galadhrim Guide": 1,
+   "Bristling Boar": 1,
+   "Silverback Shaman": 2,
+   "Charging Rhino": 1,
+   "Colossal Dreadmaw": 1,
+   "Shower of Arrows": 1,
+   "High-Rise Sawjack": 1
+  }
+ },
+ "ba": {
+  "basics": [
+   "Swamp",
+   16
+  ],
+  "cards": {
+   "Lightless Evangel": 1,
+   "Synapse Necromage": 1,
+   "Gravedigger": 1,
+   "Gorging Vulture": 1,
+   "Venomous Hierophant": 2,
+   "Soul Salvage": 1,
+   "Murder": 1,
+   "Reave Soul": 1,
+   "Deathcap Marionette": 1,
+   "Blistergrub": 1,
+   "Retrofitted Transmogrant": 1,
+   "Healer's Hawk": 2,
+   "Concordia Pegasus": 1,
+   "Griffin Sentinel": 1,
+   "Daybreak Chaplain": 1,
+   "Dawning Angel": 2,
+   "Herald of Faith": 1,
+   "Serra's Guardian": 1,
+   "Cosmium Blast": 1,
+   "Take Vengeance": 1,
+   "Bring to Trial": 1
+  }
+ },
+ "bs": {
+  "basics": [
+   "Swamp",
+   16
+  ],
+  "cards": {
+   "Lightless Evangel": 1,
+   "Synapse Necromage": 1,
+   "Gravedigger": 1,
+   "Gorging Vulture": 1,
+   "Venomous Hierophant": 2,
+   "Soul Salvage": 1,
+   "Murder": 1,
+   "Reave Soul": 1,
+   "Deathcap Marionette": 1,
+   "Blistergrub": 1,
+   "Retrofitted Transmogrant": 1,
+   "Slither Blade": 1,
+   "Triton Shorestalker": 1,
+   "Phantom Warrior": 2,
+   "Inkfathom Infiltrator": 1,
+   "Omenspeaker": 1,
+   "Cloudkin Seer": 1,
+   "Quick Study": 1,
+   "Befuddle": 1,
+   "Unsummon": 1,
+   "Take into Custody": 1,
+   "Hithlain Knots": 1
+  }
+ },
+ "bd": {
+  "basics": [
+   "Swamp",
+   16
+  ],
+  "cards": {
+   "Lightless Evangel": 1,
+   "Synapse Necromage": 1,
+   "Gravedigger": 1,
+   "Gorging Vulture": 1,
+   "Venomous Hierophant": 2,
+   "Soul Salvage": 1,
+   "Murder": 1,
+   "Reave Soul": 1,
+   "Deathcap Marionette": 1,
+   "Blistergrub": 1,
+   "Retrofitted Transmogrant": 1,
+   "Redcap Thief": 1,
+   "Rampaging Ceratops": 1,
+   "Rapacious Dragon": 2,
+   "Shivan Dragon": 1,
+   "Nebula Dragon": 1,
+   "Shock": 1,
+   "Lightning Strike": 2,
+   "Lava Coil": 1,
+   "Bombard": 1,
+   "Chandra's Outrage": 1
+  }
+ },
+ "bp": {
+  "basics": [
+   "Swamp",
+   16
+  ],
+  "cards": {
+   "Lightless Evangel": 1,
+   "Synapse Necromage": 1,
+   "Gravedigger": 1,
+   "Gorging Vulture": 1,
+   "Venomous Hierophant": 2,
+   "Soul Salvage": 1,
+   "Murder": 1,
+   "Reave Soul": 1,
+   "Deathcap Marionette": 1,
+   "Blistergrub": 1,
+   "Retrofitted Transmogrant": 1,
+   "Sedge Scorpion": 3,
+   "Pitiless Gorgon": 1,
+   "Sultai Devotee": 1,
+   "Snarespinner": 1,
+   "Skystinger": 1,
+   "Atzocan Archer": 1,
+   "Ferocious Pup": 2,
+   "Healer of the Glade": 1,
+   "Return to the Earth": 1
+  }
+ },
+ "rg": {
+  "basics": [
+   "Mountain",
+   16
+  ],
+  "cards": {
+   "Fanatical Firebrand": 2,
+   "Goblin Instigator": 3,
+   "Battle-Scarred Goblin": 1,
+   "Goblin Warchief": 1,
+   "Siege-Gang Commander": 1,
+   "Shock": 2,
+   "Lightning Strike": 1,
+   "Goblin Arsonist": 1,
+   "Woodland Mystic": 2,
+   "Leafkin Druid": 2,
+   "Galadhrim Guide": 1,
+   "Bristling Boar": 1,
+   "Silverback Shaman": 2,
+   "Charging Rhino": 1,
+   "Colossal Dreadmaw": 1,
+   "Shower of Arrows": 1,
+   "High-Rise Sawjack": 1
+  }
+ },
+ "ra": {
+  "basics": [
+   "Mountain",
+   16
+  ],
+  "cards": {
+   "Fanatical Firebrand": 2,
+   "Goblin Instigator": 3,
+   "Battle-Scarred Goblin": 1,
+   "Goblin Warchief": 1,
+   "Siege-Gang Commander": 1,
+   "Shock": 2,
+   "Lightning Strike": 1,
+   "Goblin Arsonist": 1,
+   "Healer's Hawk": 2,
+   "Concordia Pegasus": 1,
+   "Griffin Sentinel": 1,
+   "Daybreak Chaplain": 1,
+   "Dawning Angel": 2,
+   "Herald of Faith": 1,
+   "Serra's Guardian": 1,
+   "Cosmium Blast": 1,
+   "Take Vengeance": 1,
+   "Bring to Trial": 1
+  }
+ },
+ "rs": {
+  "basics": [
+   "Mountain",
+   16
+  ],
+  "cards": {
+   "Fanatical Firebrand": 2,
+   "Goblin Instigator": 3,
+   "Battle-Scarred Goblin": 1,
+   "Goblin Warchief": 1,
+   "Siege-Gang Commander": 1,
+   "Shock": 2,
+   "Lightning Strike": 1,
+   "Goblin Arsonist": 1,
+   "Slither Blade": 1,
+   "Triton Shorestalker": 1,
+   "Phantom Warrior": 2,
+   "Inkfathom Infiltrator": 1,
+   "Omenspeaker": 1,
+   "Cloudkin Seer": 1,
+   "Quick Study": 1,
+   "Befuddle": 1,
+   "Unsummon": 1,
+   "Take into Custody": 1,
+   "Hithlain Knots": 1
+  }
+ },
+ "rv": {
+  "basics": [
+   "Mountain",
+   16
+  ],
+  "cards": {
+   "Fanatical Firebrand": 2,
+   "Goblin Instigator": 3,
+   "Battle-Scarred Goblin": 1,
+   "Goblin Warchief": 1,
+   "Siege-Gang Commander": 1,
+   "Shock": 2,
+   "Lightning Strike": 1,
+   "Goblin Arsonist": 1,
+   "Vampire of the Dire Moon": 1,
+   "Blood Burglar": 2,
+   "Midnight Assassin": 1,
+   "Bloodthirsty Aerialist": 1,
+   "Gorging Vulture": 1,
+   "Epicure of Blood": 2,
+   "Agonizing Syphon": 1,
+   "Lich's Caress": 1,
+   "Grasp of Darkness": 1,
+   "Murder": 1
+  }
+ },
+ "rp": {
+  "basics": [
+   "Mountain",
+   16
+  ],
+  "cards": {
+   "Fanatical Firebrand": 2,
+   "Goblin Instigator": 3,
+   "Battle-Scarred Goblin": 1,
+   "Goblin Warchief": 1,
+   "Siege-Gang Commander": 1,
+   "Shock": 2,
+   "Lightning Strike": 1,
+   "Goblin Arsonist": 1,
+   "Sedge Scorpion": 3,
+   "Pitiless Gorgon": 1,
+   "Sultai Devotee": 1,
+   "Snarespinner": 1,
+   "Skystinger": 1,
+   "Atzocan Archer": 1,
+   "Ferocious Pup": 2,
+   "Healer of the Glade": 1,
+   "Return to the Earth": 1
+  }
+ },
+ "ga": {
+  "basics": [
+   "Forest",
+   16
+  ],
+  "cards": {
+   "Woodland Mystic": 2,
+   "Leafkin Druid": 2,
+   "Galadhrim Guide": 1,
+   "Bristling Boar": 1,
+   "Silverback Shaman": 2,
+   "Charging Rhino": 1,
+   "Colossal Dreadmaw": 1,
+   "Shower of Arrows": 1,
+   "High-Rise Sawjack": 1,
+   "Healer's Hawk": 2,
+   "Concordia Pegasus": 1,
+   "Griffin Sentinel": 1,
+   "Daybreak Chaplain": 1,
+   "Dawning Angel": 2,
+   "Herald of Faith": 1,
+   "Serra's Guardian": 1,
+   "Cosmium Blast": 1,
+   "Take Vengeance": 1,
+   "Bring to Trial": 1
+  }
+ },
+ "gs": {
+  "basics": [
+   "Forest",
+   16
+  ],
+  "cards": {
+   "Woodland Mystic": 2,
+   "Leafkin Druid": 2,
+   "Galadhrim Guide": 1,
+   "Bristling Boar": 1,
+   "Silverback Shaman": 2,
+   "Charging Rhino": 1,
+   "Colossal Dreadmaw": 1,
+   "Shower of Arrows": 1,
+   "High-Rise Sawjack": 1,
+   "Slither Blade": 1,
+   "Triton Shorestalker": 1,
+   "Phantom Warrior": 2,
+   "Inkfathom Infiltrator": 1,
+   "Omenspeaker": 1,
+   "Cloudkin Seer": 1,
+   "Quick Study": 1,
+   "Befuddle": 1,
+   "Unsummon": 1,
+   "Take into Custody": 1,
+   "Hithlain Knots": 1
+  }
+ },
+ "gv": {
+  "basics": [
+   "Forest",
+   16
+  ],
+  "cards": {
+   "Woodland Mystic": 2,
+   "Leafkin Druid": 2,
+   "Galadhrim Guide": 1,
+   "Bristling Boar": 1,
+   "Silverback Shaman": 2,
+   "Charging Rhino": 1,
+   "Colossal Dreadmaw": 1,
+   "Shower of Arrows": 1,
+   "High-Rise Sawjack": 1,
+   "Vampire of the Dire Moon": 1,
+   "Blood Burglar": 2,
+   "Midnight Assassin": 1,
+   "Bloodthirsty Aerialist": 1,
+   "Gorging Vulture": 1,
+   "Epicure of Blood": 2,
+   "Agonizing Syphon": 1,
+   "Lich's Caress": 1,
+   "Grasp of Darkness": 1,
+   "Murder": 1
+  }
+ },
+ "gd": {
+  "basics": [
+   "Forest",
+   16
+  ],
+  "cards": {
+   "Woodland Mystic": 2,
+   "Leafkin Druid": 2,
+   "Galadhrim Guide": 1,
+   "Bristling Boar": 1,
+   "Silverback Shaman": 2,
+   "Charging Rhino": 1,
+   "Colossal Dreadmaw": 1,
+   "Shower of Arrows": 1,
+   "High-Rise Sawjack": 1,
+   "Redcap Thief": 1,
+   "Rampaging Ceratops": 1,
+   "Rapacious Dragon": 2,
+   "Shivan Dragon": 1,
+   "Nebula Dragon": 1,
+   "Shock": 1,
+   "Lightning Strike": 2,
+   "Lava Coil": 1,
+   "Bombard": 1,
+   "Chandra's Outrage": 1
+  }
+ },
+ "as": {
+  "basics": [
+   "Plains",
+   16
+  ],
+  "cards": {
+   "Healer's Hawk": 2,
+   "Concordia Pegasus": 1,
+   "Griffin Sentinel": 1,
+   "Daybreak Chaplain": 1,
+   "Dawning Angel": 2,
+   "Herald of Faith": 1,
+   "Serra's Guardian": 1,
+   "Cosmium Blast": 1,
+   "Take Vengeance": 1,
+   "Bring to Trial": 1,
+   "Slither Blade": 1,
+   "Triton Shorestalker": 1,
+   "Phantom Warrior": 2,
+   "Inkfathom Infiltrator": 1,
+   "Omenspeaker": 1,
+   "Cloudkin Seer": 1,
+   "Quick Study": 1,
+   "Befuddle": 1,
+   "Unsummon": 1,
+   "Take into Custody": 1,
+   "Hithlain Knots": 1
+  }
+ },
+ "av": {
+  "basics": [
+   "Plains",
+   16
+  ],
+  "cards": {
+   "Healer's Hawk": 2,
+   "Concordia Pegasus": 1,
+   "Griffin Sentinel": 1,
+   "Daybreak Chaplain": 1,
+   "Dawning Angel": 2,
+   "Herald of Faith": 1,
+   "Serra's Guardian": 1,
+   "Cosmium Blast": 1,
+   "Take Vengeance": 1,
+   "Bring to Trial": 1,
+   "Vampire of the Dire Moon": 1,
+   "Blood Burglar": 2,
+   "Midnight Assassin": 1,
+   "Bloodthirsty Aerialist": 1,
+   "Gorging Vulture": 1,
+   "Epicure of Blood": 2,
+   "Agonizing Syphon": 1,
+   "Lich's Caress": 1,
+   "Grasp of Darkness": 1,
+   "Murder": 1
+  }
+ },
+ "ad": {
+  "basics": [
+   "Plains",
+   16
+  ],
+  "cards": {
+   "Healer's Hawk": 2,
+   "Concordia Pegasus": 1,
+   "Griffin Sentinel": 1,
+   "Daybreak Chaplain": 1,
+   "Dawning Angel": 2,
+   "Herald of Faith": 1,
+   "Serra's Guardian": 1,
+   "Cosmium Blast": 1,
+   "Take Vengeance": 1,
+   "Bring to Trial": 1,
+   "Redcap Thief": 1,
+   "Rampaging Ceratops": 1,
+   "Rapacious Dragon": 2,
+   "Shivan Dragon": 1,
+   "Nebula Dragon": 1,
+   "Shock": 1,
+   "Lightning Strike": 2,
+   "Lava Coil": 1,
+   "Bombard": 1,
+   "Chandra's Outrage": 1
+  }
+ },
+ "ap": {
+  "basics": [
+   "Plains",
+   16
+  ],
+  "cards": {
+   "Healer's Hawk": 2,
+   "Concordia Pegasus": 1,
+   "Griffin Sentinel": 1,
+   "Daybreak Chaplain": 1,
+   "Dawning Angel": 2,
+   "Herald of Faith": 1,
+   "Serra's Guardian": 1,
+   "Cosmium Blast": 1,
+   "Take Vengeance": 1,
+   "Bring to Trial": 1,
+   "Sedge Scorpion": 3,
+   "Pitiless Gorgon": 1,
+   "Sultai Devotee": 1,
+   "Snarespinner": 1,
+   "Skystinger": 1,
+   "Atzocan Archer": 1,
+   "Ferocious Pup": 2,
+   "Healer of the Glade": 1,
+   "Return to the Earth": 1
+  }
+ },
+ "sv": {
+  "basics": [
+   "Island",
+   16
+  ],
+  "cards": {
+   "Slither Blade": 1,
+   "Triton Shorestalker": 1,
+   "Phantom Warrior": 2,
+   "Inkfathom Infiltrator": 1,
+   "Omenspeaker": 1,
+   "Cloudkin Seer": 1,
+   "Quick Study": 1,
+   "Befuddle": 1,
+   "Unsummon": 1,
+   "Take into Custody": 1,
+   "Hithlain Knots": 1,
+   "Vampire of the Dire Moon": 1,
+   "Blood Burglar": 2,
+   "Midnight Assassin": 1,
+   "Bloodthirsty Aerialist": 1,
+   "Gorging Vulture": 1,
+   "Epicure of Blood": 2,
+   "Agonizing Syphon": 1,
+   "Lich's Caress": 1,
+   "Grasp of Darkness": 1,
+   "Murder": 1
+  }
+ },
+ "sd": {
+  "basics": [
+   "Island",
+   16
+  ],
+  "cards": {
+   "Slither Blade": 1,
+   "Triton Shorestalker": 1,
+   "Phantom Warrior": 2,
+   "Inkfathom Infiltrator": 1,
+   "Omenspeaker": 1,
+   "Cloudkin Seer": 1,
+   "Quick Study": 1,
+   "Befuddle": 1,
+   "Unsummon": 1,
+   "Take into Custody": 1,
+   "Hithlain Knots": 1,
+   "Redcap Thief": 1,
+   "Rampaging Ceratops": 1,
+   "Rapacious Dragon": 2,
+   "Shivan Dragon": 1,
+   "Nebula Dragon": 1,
+   "Shock": 1,
+   "Lightning Strike": 2,
+   "Lava Coil": 1,
+   "Bombard": 1,
+   "Chandra's Outrage": 1
+  }
+ },
+ "sp": {
+  "basics": [
+   "Island",
+   16
+  ],
+  "cards": {
+   "Slither Blade": 1,
+   "Triton Shorestalker": 1,
+   "Phantom Warrior": 2,
+   "Inkfathom Infiltrator": 1,
+   "Omenspeaker": 1,
+   "Cloudkin Seer": 1,
+   "Quick Study": 1,
+   "Befuddle": 1,
+   "Unsummon": 1,
+   "Take into Custody": 1,
+   "Hithlain Knots": 1,
+   "Sedge Scorpion": 3,
+   "Pitiless Gorgon": 1,
+   "Sultai Devotee": 1,
+   "Snarespinner": 1,
+   "Skystinger": 1,
+   "Atzocan Archer": 1,
+   "Ferocious Pup": 2,
+   "Healer of the Glade": 1,
+   "Return to the Earth": 1
+  }
+ },
+ "vd": {
+  "basics": [
+   "Swamp",
+   16
+  ],
+  "cards": {
+   "Vampire of the Dire Moon": 1,
+   "Blood Burglar": 2,
+   "Midnight Assassin": 1,
+   "Bloodthirsty Aerialist": 1,
+   "Gorging Vulture": 1,
+   "Epicure of Blood": 2,
+   "Agonizing Syphon": 1,
+   "Lich's Caress": 1,
+   "Grasp of Darkness": 1,
+   "Murder": 1,
+   "Redcap Thief": 1,
+   "Rampaging Ceratops": 1,
+   "Rapacious Dragon": 2,
+   "Shivan Dragon": 1,
+   "Nebula Dragon": 1,
+   "Shock": 1,
+   "Lightning Strike": 2,
+   "Lava Coil": 1,
+   "Bombard": 1,
+   "Chandra's Outrage": 1
+  }
+ },
+ "vp": {
+  "basics": [
+   "Swamp",
+   16
+  ],
+  "cards": {
+   "Vampire of the Dire Moon": 1,
+   "Blood Burglar": 2,
+   "Midnight Assassin": 1,
+   "Bloodthirsty Aerialist": 1,
+   "Gorging Vulture": 1,
+   "Epicure of Blood": 2,
+   "Agonizing Syphon": 1,
+   "Lich's Caress": 1,
+   "Grasp of Darkness": 1,
+   "Murder": 1,
+   "Sedge Scorpion": 3,
+   "Pitiless Gorgon": 1,
+   "Sultai Devotee": 1,
+   "Snarespinner": 1,
+   "Skystinger": 1,
+   "Atzocan Archer": 1,
+   "Ferocious Pup": 2,
+   "Healer of the Glade": 1,
+   "Return to the Earth": 1
+  }
+ },
+ "dp": {
+  "basics": [
+   "Mountain",
+   16
+  ],
+  "cards": {
+   "Redcap Thief": 1,
+   "Rampaging Ceratops": 1,
+   "Rapacious Dragon": 2,
+   "Shivan Dragon": 1,
+   "Nebula Dragon": 1,
+   "Shock": 1,
+   "Lightning Strike": 2,
+   "Lava Coil": 1,
+   "Bombard": 1,
+   "Chandra's Outrage": 1,
+   "Sedge Scorpion": 3,
+   "Pitiless Gorgon": 1,
+   "Sultai Devotee": 1,
+   "Snarespinner": 1,
+   "Skystinger": 1,
+   "Atzocan Archer": 1,
+   "Ferocious Pup": 2,
+   "Healer of the Glade": 1,
+   "Return to the Earth": 1
+  }
+ }
+}

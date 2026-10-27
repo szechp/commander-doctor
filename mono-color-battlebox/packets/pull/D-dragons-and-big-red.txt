@@ -1,0 +1,16 @@
+// D packet: Dragons and Big Red
+// 12 spells + 8 Mountain
+
+1 Redcap Thief (WOE) 147
+1 Rampaging Ceratops (LCI) 162
+1 Rapacious Dragon (TDC) 229
+1 Rapacious Dragon (TDC) 229
+1 Nebula Dragon (EOE) 147
+1 Shock (M20) 160
+1 Lightning Strike (M19) 152
+1 Lightning Strike (M19) 152
+1 Lava Coil (2X2) 116
+1 Bombard (EOE) 129
+1 Trained Orgg (S00) 37
+1 Infuriate (M20) 145
+8 Mountain

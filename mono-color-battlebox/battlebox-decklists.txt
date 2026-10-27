@@ -1,0 +1,70 @@
+// Mono-White Beginner
+4 Secluded Steppe
+4 Thraben Inspector
+4 Elite Vanguard
+4 Elspeth's Smite
+4 Thalia's Lieutenant
+4 Pacifism
+2 Benalish Marshal
+2 Pearled Unicorn
+4 Ampryn Tactician
+4 Militia Bugler
+4 Healer's Hawk
+20 Plains
+
+// Mono-Blue Beginner
+4 Remote Isle
+4 Consider
+4 Unsummon
+4 Control Magic
+4 Think Twice
+4 Counterspell
+2 Haughty Djinn
+2 Dismiss
+4 Cloudkin Seer
+4 Convolute
+4 Murmuring Mystic
+20 Island
+
+// Mono-Black Beginner
+4 Barren Moor
+4 Stitcher's Supplier
+4 Ravenous Chupacabra
+4 Murder
+4 Putrid Goblin
+2 Dread Wanderer
+2 Infernal Grasp
+4 Fleshbag Marauder
+4 Headless Rider
+4 Midnight Reaper
+4 Gray Merchant of Asphodel
+20 Swamp
+
+// Mono-Red Beginner
+4 Forgotten Cave
+4 Monastery Swiftspear
+4 Lightning Bolt
+4 Searing Spear
+4 Burst Lightning
+4 Giant Cindermaw
+2 Festival Crasher
+2 Act of Treason
+4 Fists of Flame
+4 Chain Lightning
+4 Young Pyromancer
+4 Bedlam Reveler
+16 Mountain
+
+// Mono-Green Beginner
+4 Tranquil Thicket
+4 Llanowar Elves
+4 Arbor Elf
+4 Scavenging Ooze
+4 Rabid Bite
+4 Llanowar Visionary
+2 Netcaster Spider
+2 Gaea's Herald
+4 Eternal Witness
+4 Leatherback Baloth
+4 Pelakka Wurm
+20 Forest

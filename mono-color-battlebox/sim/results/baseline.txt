@@ -1,0 +1,80 @@
+== baseline: 1000 games, 0 draws/timeouts ==
+
+row deck win% vs column deck
+            black     blue    green      red    white   overall
+   black      -        40%      40%      51%      46%    44.2%
+    blue      60%      -        26%      63%      57%    51.5%
+   green      60%      74%      -        52%      15%    50.2%
+     red      49%      37%      48%      -        47%    45.2%
+   white      54%      43%      85%      53%      -      58.8%
+
+pair details (95% Wilson CI for first-named deck):
+   black vs blue    40.0% [  31- 50]  n=100 draws=0 avg_turns=21.8  <-- OUT OF 45-55
+   black vs green   40.0% [  31- 50]  n=100 draws=0 avg_turns=21.8  <-- OUT OF 45-55
+   black vs red     51.0% [  41- 61]  n=100 draws=0 avg_turns=20.7
+   black vs white   46.0% [  37- 56]  n=100 draws=0 avg_turns=20.9
+    blue vs green   26.0% [  18- 35]  n=100 draws=0 avg_turns=18.0  <-- OUT OF 45-55
+    blue vs red     63.0% [  53- 72]  n=100 draws=0 avg_turns=20.6  <-- OUT OF 45-55
+    blue vs white   57.0% [  47- 66]  n=100 draws=0 avg_turns=19.0  <-- OUT OF 45-55
+   green vs red     52.0% [  42- 62]  n=100 draws=0 avg_turns=20.2
+   green vs white   15.0% [   9- 23]  n=100 draws=0 avg_turns=23.6  <-- OUT OF 45-55
+     red vs white   47.0% [  38- 57]  n=100 draws=0 avg_turns=19.8
+
+on-the-play win rate per deck: {'black': '42% of 220', 'blue': '49% of 198', 'green': '39% of 199', 'red': '43% of 214', 'white': '57% of 169'}
+mulligans per game: {'black': '0.21', 'blue': '0.23', 'green': '0.24', 'red': '0.21', 'white': '0.25'}
+missed land drops (turns with land in hand, none played): {'black': '2.4%', 'blue': '0.0%', 'green': '0.0%', 'red': '6.1%', 'white': '0.0%'}
+
+== AI MISPLAY SCAN: cards held at end of own turn while castable (sorcery-speed) ==
+   held = end-steps it sat castable in hand; cast = times actually cast; ratio > ~1.0 means the AI mostly sits on it
+
+  [black]
+    Putrid Imp                       held=2156  cast=0     ratio=2156.0  !!
+    Necromancer's Stockpile          held=369   cast=0     ratio=369.0  !!
+    Macabre Waltz                    held=354   cast=163   ratio=  2.2  !!
+    Bone Shards                      held=667   cast=384   ratio=  1.7
+    Fleshbag Marauder                held=179   cast=438   ratio=  0.4
+    lowest cast-per-100-endsteps-in-hand (any speed): Echoing Decay 0.0, Necromancer's Stockpile 0.0, Putrid Imp 0.0, Scourge of Nel Toth 10.4, Macabre Waltz 17.9
+    NEVER CAST despite sitting in hand: Echoing Decay, Putrid Imp, Necromancer's Stockpile
+
+  [blue]
+    Sleep                            held=143   cast=124   ratio=  1.2
+    Control Magic                    held=43    cast=270   ratio=  0.2
+    Cloudkin Seer                    held=14    cast=410   ratio=  0.0
+    lowest cast-per-100-endsteps-in-hand (any speed): Dismiss 8.1, Liquify 12.2, Convolute 13.0, Curate 13.8, Consider 20.3
+
+  [green]
+    Abundant Harvest                 held=2463  cast=0     ratio=2463.0  !!
+    Wild Growth                      held=2385  cast=0     ratio=2385.0  !!
+    Llanowar Visionary               held=4     cast=516   ratio=  0.0
+    lowest cast-per-100-endsteps-in-hand (any speed): Abundant Harvest 0.0, Wild Growth 0.0, Pounce 0.1, Carnage Tyrant 24.8, Eternal Witness 34.0
+    NEVER CAST despite sitting in hand: Wild Growth, Abundant Harvest
+
+  [red]
+    Flame Slash                      held=654   cast=498   ratio=  1.3
+    Queen Brahne                     held=62    cast=240   ratio=  0.3
+    lowest cast-per-100-endsteps-in-hand (any speed): Expedite 3.2, Thrill of Possibility 20.8, Goblin Wizardry 23.0, Bedlam Reveler 25.2, Flame Slash 52.9
+
+  [white]
+    Banishment                       held=363   cast=0     ratio=363.0  !!
+    Mikaeus, the Lunarch             held=80    cast=119   ratio=  0.7
+    Aeronaut Cavalry                 held=79    cast=251   ratio=  0.3
+    Pacifism                         held=91    cast=311   ratio=  0.3
+    Greatsword                       held=10    cast=417   ratio=  0.0
+    lowest cast-per-100-endsteps-in-hand (any speed): Banishment 0.0, Elspeth's Smite 11.7, Aeronaut Cavalry 13.3, Militia Bugler 40.6, Mikaeus, the Lunarch 45.2
+    NEVER CAST despite sitting in hand: Banishment
+
+== FLAGS ==
+  black: Putrid Imp (held castable 2156x, cast 0x)
+  black: Necromancer's Stockpile (held castable 369x, cast 0x)
+  black: Macabre Waltz (held castable 354x, cast 163x)
+  black: Echoing Decay (held castable 1773x, cast 0x)
+  black: Putrid Imp (held castable 2922x, cast 0x)
+  black: Necromancer's Stockpile (held castable 715x, cast 0x)
+  green: Abundant Harvest (held castable 2463x, cast 0x)
+  green: Wild Growth (held castable 2385x, cast 0x)
+  green: Pounce (rarely cast) (held castable 3489x, cast 3x)
+  green: Wild Growth (held castable 3323x, cast 0x)
+  green: Abundant Harvest (held castable 3465x, cast 0x)
+  red: Expedite (rarely cast) (held castable 2567x, cast 83x)
+  white: Banishment (held castable 363x, cast 0x)
+  white: Banishment (held castable 1693x, cast 0x)

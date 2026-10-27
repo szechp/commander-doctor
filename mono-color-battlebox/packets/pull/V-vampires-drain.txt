@@ -1,0 +1,16 @@
+// V packet: Vampires Drain
+// 12 spells + 8 Swamp
+
+1 Vampire of the Dire Moon (M20) 120
+1 Blood Burglar (M20) 88
+1 Blood Burglar (M20) 88
+1 Midnight Assassin (SNC) 87
+1 Bloodthirsty Aerialist (C21) 136
+1 Gorging Vulture (CLU) 112
+1 Epicure of Blood (C21) 143
+1 Epicure of Blood (C21) 143
+1 Agonizing Syphon (M20) 83
+1 Lich's Caress (M19) 105
+1 Grasp of Darkness (M21) 102
+1 Murder (CMR) 134
+8 Swamp

@@ -1,0 +1,16 @@
+// R packet: Goblins and Burn
+// 12 spells + 8 Mountain
+
+1 Fanatical Firebrand (FDN) 195
+1 Fanatical Firebrand (FDN) 195
+1 Goblin Instigator (MOC) 282
+1 Goblin Instigator (MOC) 282
+1 Goblin Instigator (MOC) 282
+1 Battle-Scarred Goblin (LTR) 115
+1 Goblin Warchief (DOM) 130
+1 Siege-Gang Commander (TDC) 232
+1 Shock (M20) 160
+1 Shock (M20) 160
+1 Goblin Arsonist (M21) 147
+1 Lightning Bolt PROXY
+8 Mountain

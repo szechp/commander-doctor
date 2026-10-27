@@ -1,0 +1,66 @@
+== r14c: 160 games, 0 draws/timeouts ==
+
+row deck win% vs column deck
+            black     blue    green      red    white   overall
+   black      -        ?        ?        ?        42%    42.5%
+    blue      ?        -        ?        ?        50%    50.0%
+   green      ?        ?        -        ?        42%    42.5%
+     red      ?        ?        ?        -        62%    62.5%
+   white      58%      50%      58%      38%      -      50.6%
+
+pair details (95% Wilson CI for first-named deck):
+   black vs white   42.5% [  29- 58]  n=40 draws=0 avg_turns=18.7  <-- OUT OF 45-55
+    blue vs white   50.0% [  35- 65]  n=40 draws=0 avg_turns=19.1
+   green vs white   42.5% [  29- 58]  n=40 draws=0 avg_turns=19.2  <-- OUT OF 45-55
+     red vs white   62.5% [  47- 76]  n=40 draws=0 avg_turns=19.3  <-- OUT OF 45-55
+
+on-the-play win rate per deck: {'white': '51% of 80', 'black': '52% of 23', 'blue': '45% of 20', 'green': '43% of 23', 'red': '64% of 14'}
+mulligans per game: {'black': '0.25', 'white': '0.16', 'blue': '0.23', 'green': '0.15', 'red': '0.35'}
+missed land drops (turns with land in hand, none played): {'white': '10.1%', 'black': '10.1%', 'blue': '5.2%', 'green': '6.2%', 'red': '6.1%'}
+
+== AI MISPLAY SCAN: cards held at end of own turn while castable (sorcery-speed) ==
+   held = end-steps it sat castable in hand; cast = times actually cast; ratio > ~1.0 means the AI mostly sits on it
+
+  [black]
+    Ravenous Chupacabra              held=14    cast=41    ratio=  0.3
+    Fleshbag Marauder                held=2     cast=42    ratio=  0.0
+    lowest cast-per-100-endsteps-in-hand (any speed): Gray Merchant of Asphodel 21.1, Fleshbag Marauder 30.7, Headless Rider 33.3, Ravenous Chupacabra 40.6
+
+  [blue]
+    Control Magic                    held=6     cast=51    ratio=  0.1
+    lowest cast-per-100-endsteps-in-hand (any speed): Convolute 10.9, Consider 11.0, Counterspell 18.9, Murmuring Mystic 31.1, Cloudkin Seer 34.9
+
+  [green]
+    Rabid Bite                       held=37    cast=49    ratio=  0.8
+    lowest cast-per-100-endsteps-in-hand (any speed): Pelakka Wurm 20.8, Eternal Witness 43.0, Rabid Bite 46.2
+
+  [red]
+    lowest cast-per-100-endsteps-in-hand (any speed): Bedlam Reveler 16.0, Young Pyromancer 44.4
+
+  [white]
+    Thalia's Lieutenant              held=63    cast=153   ratio=  0.4
+    Pacifism                         held=30    cast=156   ratio=  0.2
+    lowest cast-per-100-endsteps-in-hand (any speed): Thalia's Lieutenant 23.7, Greatsword 32.5, Militia Bugler 36.7, Ampryn Tactician 40.4, Benalish Marshal 48.6
+
+== CARD IMPACT: win% when the card was cast vs not cast (n>=15 each side, |diff|>=15 pts) ==
+  black vs white (42%): Gray Merchant of Asphodel +47 (cast in 25)
+  blue vs white (50%): Convolute +55 (cast in 19), Consider +25 (cast in 19)
+  green vs white (42%): Pelakka Wurm +43 (cast in 23)
+  red vs white (62%): Bedlam Reveler +17 (cast in 23)
+  white vs blue (50%): Thalia's Lieutenant +20 (cast in 20), Ampryn Tactician -25 (cast in 21)
+  white vs green (58%): Militia Bugler +49 (cast in 25), Pacifism +17 (cast in 25)
+  white vs red (38%): Thalia's Lieutenant +28 (cast in 22)
+
+== ABILITY USE: board permanents with activated abilities (activations per 100 end steps on board) ==
+  [black] Dread Wanderer 12 (12 in 104)
+      cycled/hand-activated: Barren Moor 18
+      cycled/hand-activated: Remote Isle 24
+  [green] Scavenging Ooze 42 (110 in 260), Arbor Elf 55 (129 in 233)
+      cycled/hand-activated: Tranquil Thicket 13
+      Scavenging Ooze on noncreature cards: 39 of 110 activations
+      cycled/hand-activated: Forgotten Cave 14
+  [white] Greatsword 29 (200 in 694)
+      cycled/hand-activated: Secluded Steppe 62
+  replacement effects seen (flashback, persist, ...): Secluded 123, Flashback 53, Forgotten 35, Tranquil 33, Dread 32, Remote 24, Barren 22
+
+== FLAGS ==

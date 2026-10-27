@@ -1,0 +1,16 @@
+// U packet: Flyers and Draw
+// 12 spells + 8 Island
+
+1 Cloudkin Seer (CLU) 82
+1 Cloudkin Seer (CLU) 82
+1 Tome Raider (ELD) 68
+1 Warden of Evos Isle (CMR) 106
+1 Snapping Drake (M20) 318
+1 Snapping Drake (M20) 318
+1 Aven Fisher (DMR) 41
+1 Muse Drake (GRN) 46
+1 Unsummon (M20) 78
+1 Didn't Say Please (ELD) 42
+1 Hithlain Knots (LTR) 54
+1 Scroll Thief (DDT) 17
+8 Island

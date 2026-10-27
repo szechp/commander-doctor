@@ -1,0 +1,54 @@
+== r3: 1000 games, 0 draws/timeouts ==
+
+row deck win% vs column deck
+            black     blue    green      red    white   overall
+   black      -        40%      34%      35%      61%    42.5%
+    blue      60%      -        56%      61%      54%    57.8%
+   green      66%      44%      -        49%      37%    49.0%
+     red      65%      39%      51%      -        53%    52.0%
+   white      39%      46%      63%      47%      -      48.8%
+
+pair details (95% Wilson CI for first-named deck):
+   black vs blue    40.0% [  31- 50]  n=100 draws=0 avg_turns=21.7  <-- OUT OF 45-55
+   black vs green   34.0% [  25- 44]  n=100 draws=0 avg_turns=26.2  <-- OUT OF 45-55
+   black vs red     35.0% [  26- 45]  n=100 draws=0 avg_turns=25.8  <-- OUT OF 45-55
+   black vs white   61.0% [  51- 70]  n=100 draws=0 avg_turns=18.9  <-- OUT OF 45-55
+    blue vs green   56.0% [  46- 65]  n=100 draws=0 avg_turns=23.9  <-- OUT OF 45-55
+    blue vs red     61.0% [  51- 70]  n=100 draws=0 avg_turns=19.7  <-- OUT OF 45-55
+    blue vs white   54.0% [  44- 63]  n=100 draws=0 avg_turns=17.7
+   green vs red     49.0% [  39- 59]  n=100 draws=0 avg_turns=19.1
+   green vs white   37.0% [  28- 47]  n=100 draws=0 avg_turns=20.0  <-- OUT OF 45-55
+     red vs white   53.0% [  43- 62]  n=100 draws=0 avg_turns=19.6
+
+on-the-play win rate per deck: {'black': '43% of 227', 'blue': '60% of 172', 'green': '46% of 207', 'red': '52% of 193', 'white': '51% of 201'}
+mulligans per game: {'black': '0.20', 'blue': '0.15', 'green': '0.19', 'red': '0.33', 'white': '0.20'}
+missed land drops (turns with land in hand, none played): {'black': '11.9%', 'blue': '8.0%', 'green': '11.8%', 'red': '9.3%', 'white': '9.2%'}
+
+== AI MISPLAY SCAN: cards held at end of own turn while castable (sorcery-speed) ==
+   held = end-steps it sat castable in hand; cast = times actually cast; ratio > ~1.0 means the AI mostly sits on it
+
+  [black]
+    Bone Shards                      held=807   cast=405   ratio=  2.0
+    Fleshbag Marauder                held=199   cast=395   ratio=  0.5
+    Ravenous Chupacabra              held=92    cast=478   ratio=  0.2
+    lowest cast-per-100-endsteps-in-hand (any speed): Gray Merchant of Asphodel 23.4, Fleshbag Marauder 24.8, Bone Shards 30.3, Headless Rider 32.8, Ravenous Chupacabra 36.0
+
+  [blue]
+    Control Magic                    held=62    cast=548   ratio=  0.1
+    Cloudkin Seer                    held=9     cast=497   ratio=  0.0
+    lowest cast-per-100-endsteps-in-hand (any speed): Convolute 12.8, Counterspell 15.7, Consider 19.3, Murmuring Mystic 34.0, Cloudkin Seer 46.8
+
+  [green]
+    Rabid Bite                       held=331   cast=536   ratio=  0.6
+    lowest cast-per-100-endsteps-in-hand (any speed): Pelakka Wurm 20.6, Eternal Witness 33.2, Rabid Bite 40.5, Netcaster Spider 51.2, Llanowar Visionary 72.6
+
+  [red]
+    Flame Slash                      held=647   cast=520   ratio=  1.2
+    lowest cast-per-100-endsteps-in-hand (any speed): Goblin Wizardry 17.4, Bedlam Reveler 22.4, Flame Slash 49.8, Fists of Flame 50.9, Lightning Strike 60.0
+
+  [white]
+    Thalia's Lieutenant              held=222   cast=429   ratio=  0.5
+    Pacifism                         held=174   cast=406   ratio=  0.4
+    lowest cast-per-100-endsteps-in-hand (any speed): Thalia's Lieutenant 31.2, Greatsword 32.4, Ampryn Tactician 40.6, Militia Bugler 41.4, Pacifism 42.7
+
+== FLAGS ==

@@ -1,0 +1,257 @@
+{
+ "W": {
+  "name": "Humans Go Wide",
+  "basic": "Plains",
+  "cards": {
+   "Doomed Traveler": 1,
+   "Hunted Witness": 1,
+   "Raise the Alarm": 2,
+   "Fresh-Faced Recruit": 1,
+   "Haazda Officer": 2,
+   "Protector of Gondor": 1,
+   "Inspiring Captain": 2,
+   "Impeccable Timing": 1,
+   "Glorious Anthem": 1
+  },
+  "color": "W"
+ },
+ "U": {
+  "name": "Flyers and Draw",
+  "basic": "Island",
+  "cards": {
+   "Cloudkin Seer": 2,
+   "Tome Raider": 1,
+   "Warden of Evos Isle": 1,
+   "Snapping Drake": 2,
+   "Aven Fisher": 1,
+   "Muse Drake": 1,
+   "Unsummon": 1,
+   "Didn't Say Please": 1,
+   "Hithlain Knots": 1,
+   "Scroll Thief": 1
+  },
+  "color": "U"
+ },
+ "B": {
+  "name": "Death and Recursion",
+  "basic": "Swamp",
+  "cards": {
+   "Lightless Evangel": 1,
+   "Synapse Necromage": 1,
+   "Gravedigger": 1,
+   "Gorging Vulture": 1,
+   "Venomous Hierophant": 2,
+   "Soul Salvage": 1,
+   "Murder": 1,
+   "Reave Soul": 1,
+   "Deathcap Marionette": 1,
+   "Blistergrub": 1,
+   "Retrofitted Transmogrant": 1
+  },
+  "color": "B"
+ },
+ "R": {
+  "name": "Goblins and Burn",
+  "basic": "Mountain",
+  "cards": {
+   "Fanatical Firebrand": 2,
+   "Goblin Instigator": 3,
+   "Battle-Scarred Goblin": 1,
+   "Goblin Warchief": 1,
+   "Siege-Gang Commander": 1,
+   "Shock": 2,
+   "Goblin Arsonist": 1,
+   "Lightning Bolt": 1
+  },
+  "allow_long": [
+   "Siege-Gang Commander"
+  ],
+  "color": "R"
+ },
+ "G": {
+  "name": "Elves Ramp",
+  "basic": "Forest",
+  "cards": {
+   "Woodland Mystic": 2,
+   "Leafkin Druid": 2,
+   "Galadhrim Guide": 1,
+   "Bristling Boar": 1,
+   "Silverback Shaman": 2,
+   "Charging Rhino": 1,
+   "Colossal Dreadmaw": 1,
+   "High-Rise Sawjack": 1,
+   "Penumbra Wurm": 1
+  },
+  "color": "G"
+ },
+ "A": {
+  "name": "Angels and Skies",
+  "color": "W",
+  "basic": "Plains",
+  "cards": {
+   "Healer's Hawk": 2,
+   "Concordia Pegasus": 2,
+   "Griffin Sentinel": 1,
+   "Daybreak Chaplain": 1,
+   "Dawning Angel": 2,
+   "Herald of Faith": 1,
+   "Cosmium Blast": 1,
+   "Take Vengeance": 1,
+   "Mighty Leap": 1
+  }
+ },
+ "S": {
+  "name": "Sneaky Rogues",
+  "color": "U",
+  "basic": "Island",
+  "cards": {
+   "Slither Blade": 1,
+   "Triton Shorestalker": 1,
+   "Phantom Warrior": 2,
+   "Inkfathom Infiltrator": 1,
+   "Omenspeaker": 1,
+   "Cloudkin Seer": 1,
+   "Quick Study": 1,
+   "Unsummon": 1,
+   "Take into Custody": 1,
+   "Hithlain Knots": 1,
+   "Unexplained Disappearance": 1
+  }
+ },
+ "V": {
+  "name": "Vampires Drain",
+  "color": "B",
+  "basic": "Swamp",
+  "cards": {
+   "Vampire of the Dire Moon": 1,
+   "Blood Burglar": 2,
+   "Midnight Assassin": 1,
+   "Bloodthirsty Aerialist": 1,
+   "Gorging Vulture": 1,
+   "Epicure of Blood": 2,
+   "Agonizing Syphon": 1,
+   "Lich's Caress": 1,
+   "Grasp of Darkness": 1,
+   "Murder": 1
+  }
+ },
+ "D": {
+  "name": "Dragons and Big Red",
+  "color": "R",
+  "basic": "Mountain",
+  "cards": {
+   "Redcap Thief": 1,
+   "Rampaging Ceratops": 1,
+   "Rapacious Dragon": 2,
+   "Nebula Dragon": 1,
+   "Shock": 1,
+   "Lightning Strike": 2,
+   "Lava Coil": 1,
+   "Bombard": 1,
+   "Trained Orgg": 1,
+   "Infuriate": 1
+  }
+ },
+ "P": {
+  "name": "Spiders and Scorpions",
+  "color": "G",
+  "basic": "Forest",
+  "cards": {
+   "Sedge Scorpion": 3,
+   "Pitiless Gorgon": 1,
+   "Sultai Devotee": 1,
+   "Snarespinner": 1,
+   "Skystinger": 1,
+   "Atzocan Archer": 1,
+   "Ferocious Pup": 2,
+   "Healer of the Glade": 1,
+   "Return to the Earth": 1
+  }
+ },
+ "T": {
+  "name": "Soldiers and Tricks",
+  "color": "W",
+  "basic": "Plains",
+  "cards": {
+   "Vernadi Shieldmate": 1,
+   "Steadfast Cathar": 1,
+   "Westfold Rider": 1,
+   "Steadfast Sentry": 2,
+   "Malamet War Scribe": 2,
+   "Pacifism": 1,
+   "Mighty Leap": 1,
+   "Moment of Triumph": 1,
+   "Inspiring Unicorn": 1,
+   "Eagle of the Great Shelf": 1
+  }
+ },
+ "C": {
+  "name": "Counterspell Control",
+  "color": "U",
+  "basic": "Island",
+  "cards": {
+   "Opt": 1,
+   "Tidepool Turtle": 1,
+   "Octoprophet": 1,
+   "Naga Oracle": 1,
+   "Bone to Ash": 2,
+   "Failed Inspection": 1,
+   "Disdainful Stroke": 1,
+   "Frost Breath": 1,
+   "Ancestral Reminiscence": 1,
+   "Air Elemental": 1,
+   "Riddlemaster Sphinx": 1
+  }
+ },
+ "K": {
+  "name": "Removal and Card Draw",
+  "color": "B",
+  "basic": "Swamp",
+  "cards": {
+   "Hand of Silumgar": 1,
+   "Audacious Thief": 3,
+   "Lost Legion": 2,
+   "Abyssal Gorestalker": 1,
+   "Murder": 1,
+   "Bilbo's Deadly Slice": 1,
+   "Grasp of Darkness": 1,
+   "Eliminate": 1,
+   "Epic Downfall": 1
+  }
+ },
+ "F": {
+  "name": "Fire and Tricks",
+  "color": "R",
+  "basic": "Mountain",
+  "cards": {
+   "Fire Urchin": 1,
+   "Erebor Flamesmith": 3,
+   "Nimble Birdsticker": 1,
+   "Daggersail Aeronaut": 1,
+   "Shock": 1,
+   "Lightning Strike": 1,
+   "Magma Spray": 1,
+   "Sure Strike": 1,
+   "Infuriate": 1,
+   "Unfriendly Fire": 1
+  }
+ },
+ "N": {
+  "name": "Beasts and Growth",
+  "color": "G",
+  "basic": "Forest",
+  "cards": {
+   "Frilled Sandwalla": 1,
+   "Civic Gardener": 1,
+   "Transdimensional Bovine": 1,
+   "Ghirapur Guide": 1,
+   "Thicket Crasher": 2,
+   "Icecave Crasher": 1,
+   "Plated Crusher": 1,
+   "Giant Growth": 1,
+   "Titanic Growth": 1,
+   "Rabid Bite": 1,
+   "Overcome": 1
+  }
+ }
+}

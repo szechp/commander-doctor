@@ -1,0 +1,16 @@
+// C packet: Counterspell Control
+// 12 spells + 8 Island
+
+1 Opt (FDN) 512
+1 Tidepool Turtle (DMU) 69
+1 Octoprophet (M20) 70
+1 Naga Oracle (AKH) 62
+1 Bone to Ash (M20) 48
+1 Bone to Ash (M20) 48
+1 Failed Inspection (KLD) 47
+1 Disdainful Stroke (WOE) 47
+1 Frost Breath (M21) 51
+1 Ancestral Reminiscence (LCI) 45
+1 Air Elemental (8ED) 59
+1 Riddlemaster Sphinx (M20) 317
+8 Island

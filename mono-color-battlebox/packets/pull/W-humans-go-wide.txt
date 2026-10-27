@@ -1,0 +1,16 @@
+// W packet: Humans Go Wide
+// 12 spells + 8 Plains
+
+1 Doomed Traveler (CLU) 59
+1 Hunted Witness (GRN) 15
+1 Raise the Alarm (CMR) 41
+1 Raise the Alarm (CMR) 41
+1 Fresh-Faced Recruit (CLU) 192
+1 Haazda Officer (M20) 305
+1 Haazda Officer (M20) 305
+1 Protector of Gondor (LTR) 25
+1 Inspiring Captain (INR) 28
+1 Inspiring Captain (INR) 28
+1 Impeccable Timing (AKH) 18
+1 Glorious Anthem PROXY
+8 Plains

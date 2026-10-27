@@ -1,0 +1,4 @@
+collection: mono-color-battlebox/packets/collection.txt
+allocations:
+- name: packets-v7
+  packets: mono-color-battlebox/packets/packets_v7.json

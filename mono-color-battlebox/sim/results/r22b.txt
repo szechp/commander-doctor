@@ -1,0 +1,85 @@
+== r22b: 1000 games, 0 draws/timeouts ==
+
+row deck win% vs column deck
+            black     blue    green      red    white   overall
+   black      -        58%      44%      60%      46%    52.0%
+    blue      42%      -        61%      46%      49%    49.5%
+   green      56%      39%      -        57%      46%    49.5%
+     red      40%      54%      43%      -        50%    46.8%
+   white      54%      51%      54%      50%      -      52.2%
+
+pair details (95% Wilson CI for first-named deck):
+   black vs blue    58.0% [  48- 67]  n=100 draws=0 avg_turns=19.4  <-- OUT OF 45-55
+   black vs green   44.0% [  35- 54]  n=100 draws=0 avg_turns=21.1  <-- OUT OF 45-55
+   black vs red     60.0% [  50- 69]  n=100 draws=0 avg_turns=18.8  <-- OUT OF 45-55
+   black vs white   46.0% [  37- 56]  n=100 draws=0 avg_turns=21.5
+    blue vs green   61.0% [  51- 70]  n=100 draws=0 avg_turns=22.2  <-- OUT OF 45-55
+    blue vs red     46.0% [  37- 56]  n=100 draws=0 avg_turns=17.8
+    blue vs white   49.0% [  39- 59]  n=100 draws=0 avg_turns=18.7
+   green vs red     57.0% [  47- 66]  n=100 draws=0 avg_turns=17.1  <-- OUT OF 45-55
+   green vs white   46.0% [  37- 56]  n=100 draws=0 avg_turns=23.7
+     red vs white   50.0% [  40- 60]  n=100 draws=0 avg_turns=19.8
+
+on-the-play win rate per deck: {'black': '52% of 189', 'blue': '53% of 206', 'green': '51% of 201', 'red': '48% of 217', 'white': '57% of 187'}
+mulligans per game: {'black': '0.14', 'blue': '0.19', 'green': '0.17', 'red': '0.32', 'white': '0.16'}
+missed land drops (turns with land in hand, none played): {'black': '11.0%', 'blue': '8.6%', 'green': '10.2%', 'red': '6.5%', 'white': '11.2%'}
+
+== AI MISPLAY SCAN: cards held at end of own turn while castable (sorcery-speed) ==
+   held = end-steps it sat castable in hand; cast = times actually cast; ratio > ~1.0 means the AI mostly sits on it
+
+  [black]
+    Fleshbag Marauder                held=132   cast=358   ratio=  0.4
+    Ravenous Chupacabra              held=37    cast=422   ratio=  0.1
+    lowest cast-per-100-endsteps-in-hand (any speed): Fleshbag Marauder 22.5, Gray Merchant of Asphodel 26.2, Headless Rider 31.7, Midnight Reaper 31.7, Ravenous Chupacabra 38.0
+
+  [blue]
+    Control Magic                    held=34    cast=515   ratio=  0.1
+    Cloudkin Seer                    held=3     cast=472   ratio=  0.0
+    lowest cast-per-100-endsteps-in-hand (any speed): Convolute 11.6, Counterspell 16.2, Consider 18.4, Murmuring Mystic 31.4, Cloudkin Seer 40.4
+
+  [green]
+    Rabid Bite                       held=146   cast=483   ratio=  0.3
+    lowest cast-per-100-endsteps-in-hand (any speed): Pelakka Wurm 20.0, Eternal Witness 29.8, Netcaster Spider 45.0, Rabid Bite 56.0, Llanowar Visionary 58.8
+
+  [red]
+    Flame Slash                      held=347   cast=224   ratio=  1.5
+    lowest cast-per-100-endsteps-in-hand (any speed): Bedlam Reveler 26.1, Flame Slash 38.9, Young Pyromancer 46.2, Fists of Flame 47.0, Searing Spear 49.0
+
+  [white]
+    Thalia's Lieutenant              held=225   cast=486   ratio=  0.5
+    Pacifism                         held=108   cast=451   ratio=  0.2
+    lowest cast-per-100-endsteps-in-hand (any speed): Elspeth's Smite 17.2, Thalia's Lieutenant 34.3, Pearled Unicorn 40.8, Ampryn Tactician 47.7, Benalish Marshal 64.1
+
+== CARD IMPACT: win% when the card was cast vs not cast (n>=15 each side, |diff|>=15 pts) ==
+  black vs blue (58%): Ravenous Chupacabra +28 (cast in 69), Gray Merchant of Asphodel -27 (cast in 53), Fleshbag Marauder -43 (cast in 56)
+  black vs green (44%): Gray Merchant of Asphodel +24 (cast in 65), Putrid Goblin -19 (cast in 76), Midnight Reaper -21 (cast in 71), Fleshbag Marauder -27 (cast in 64)
+  black vs red (60%): Gray Merchant of Asphodel +39 (cast in 54), Ravenous Chupacabra +38 (cast in 56), Dread Wanderer +30 (cast in 51), Headless Rider +26 (cast in 65), Midnight Reaper +20 (cast in 55), Stitcher's Supplier +16 (cast in 77)
+  black vs white (46%): Gray Merchant of Asphodel +38 (cast in 61), Ravenous Chupacabra +34 (cast in 72), Putrid Goblin +27 (cast in 83), Murder +22 (cast in 76), Dread Wanderer +15 (cast in 44)
+  blue vs black (42%): Counterspell +53 (cast in 57), Control Magic +38 (cast in 77), Cloudkin Seer +32 (cast in 73), Consider +31 (cast in 58), Convolute +27 (cast in 48), Unsummon +25 (cast in 71)
+  blue vs green (61%): Control Magic +47 (cast in 76), Convolute +30 (cast in 62), Consider +25 (cast in 68), Murmuring Mystic +23 (cast in 69), Cloudkin Seer +20 (cast in 80), Counterspell +19 (cast in 67)
+  blue vs red (46%): Murmuring Mystic +46 (cast in 64), Convolute +36 (cast in 52), Counterspell +29 (cast in 56), Control Magic +26 (cast in 74), Cloudkin Seer +23 (cast in 67), Unsummon +21 (cast in 74)
+  blue vs white (49%): Murmuring Mystic +62 (cast in 59), Convolute +54 (cast in 50), Cloudkin Seer +49 (cast in 55), Counterspell +40 (cast in 51), Consider +38 (cast in 54), Unsummon +38 (cast in 79)
+  green vs black (56%): Pelakka Wurm +59 (cast in 54), Llanowar Visionary +32 (cast in 75), Leatherback Baloth +31 (cast in 78), Llanowar Elves +30 (cast in 76), Rabid Bite +19 (cast in 78)
+  green vs blue (39%): Scavenging Ooze +25 (cast in 79), Netcaster Spider -17 (cast in 66), Eternal Witness -22 (cast in 64)
+  green vs red (57%): Pelakka Wurm +47 (cast in 34), Rabid Bite +33 (cast in 68), Leatherback Baloth +27 (cast in 73), Eternal Witness +21 (cast in 52)
+  green vs white (46%): Pelakka Wurm +50 (cast in 56), Llanowar Visionary +40 (cast in 68), Leatherback Baloth +29 (cast in 72), Scavenging Ooze +29 (cast in 82), Llanowar Elves +25 (cast in 84), Rabid Bite +23 (cast in 70)
+  red vs blue (54%): Burst Lightning +16 (cast in 76), Bedlam Reveler -19 (cast in 38), Lightning Strike -20 (cast in 77), Searing Spear -25 (cast in 66), Firebrand Archer -26 (cast in 68)
+  red vs green (43%): Burst Lightning +27 (cast in 74), Festival Crasher -31 (cast in 67)
+  red vs white (50%): Firebrand Archer +29 (cast in 67), Bedlam Reveler +22 (cast in 45), Lightning Strike +20 (cast in 77)
+  white vs black (54%): Thalia's Lieutenant +27 (cast in 71), Elite Vanguard +25 (cast in 82), Ampryn Tactician -20 (cast in 77), Pearled Unicorn -25 (cast in 54), Healer's Hawk -29 (cast in 82), Elspeth's Smite -35 (cast in 60)
+  white vs blue (51%): Thalia's Lieutenant -16 (cast in 66), Militia Bugler -16 (cast in 73), Ampryn Tactician -35 (cast in 71), Healer's Hawk -36 (cast in 84), Pearled Unicorn -46 (cast in 44), Elspeth's Smite -74 (cast in 52)
+  white vs green (54%): Benalish Marshal +28 (cast in 52), Healer's Hawk -15 (cast in 82), Pearled Unicorn -24 (cast in 59), Elspeth's Smite -31 (cast in 65)
+  white vs red (50%): Elite Vanguard +44 (cast in 80), Thalia's Lieutenant +43 (cast in 70), Militia Bugler +29 (cast in 75), Ampryn Tactician +19 (cast in 80), Elspeth's Smite -16 (cast in 58), Pacifism -19 (cast in 63)
+
+== ABILITY USE: board permanents with activated abilities (activations per 100 end steps on board) ==
+  [black] Dread Wanderer 12 (137 in 1128)
+      cycled/hand-activated: Barren Moor 185
+      cycled/hand-activated: Remote Isle 276
+  [green] Arbor Elf 54 (1392 in 2582), Scavenging Ooze 81 (1615 in 1994)
+      cycled/hand-activated: Tranquil Thicket 165
+      Scavenging Ooze on noncreature cards: 786 of 1615 activations
+      cycled/hand-activated: Forgotten Cave 138
+      cycled/hand-activated: Secluded Steppe 216
+  replacement effects seen (flashback, persist, ...): Flashback 506, Forgotten 386, Dread 383, If 310, Tranquil 308, Barren 278, Secluded 270, Remote 226
+
+== FLAGS ==

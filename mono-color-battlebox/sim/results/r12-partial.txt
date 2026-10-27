@@ -1,0 +1,79 @@
+== r12: 350 games, 0 draws/timeouts ==
+
+row deck win% vs column deck
+            black     blue    green      red    white   overall
+   black      -        50%      40%      62%      55%    51.9%
+    blue      50%      -        55%      60%      23%    47.9%
+   green      60%      45%      -        63%      37%    51.4%
+     red      38%      40%      37%      -        40%    38.5%
+   white      45%      77%      63%      60%      -      60.0%
+
+pair details (95% Wilson CI for first-named deck):
+   black vs blue    50.0% [  35- 65]  n=40 draws=0 avg_turns=19.8
+   black vs green   40.0% [  26- 55]  n=40 draws=0 avg_turns=23.2  <-- OUT OF 45-55
+   black vs red     62.5% [  47- 76]  n=40 draws=0 avg_turns=19.3  <-- OUT OF 45-55
+   black vs white   55.0% [  40- 69]  n=40 draws=0 avg_turns=21.6
+    blue vs green   55.0% [  40- 69]  n=40 draws=0 avg_turns=23.5
+    blue vs red     60.0% [  42- 75]  n=30 draws=0 avg_turns=19.2  <-- OUT OF 45-55
+    blue vs white   23.3% [  12- 41]  n=30 draws=0 avg_turns=16.8  <-- OUT OF 45-55
+   green vs red     63.3% [  46- 78]  n=30 draws=0 avg_turns=18.0  <-- OUT OF 45-55
+   green vs white   36.7% [  22- 54]  n=30 draws=0 avg_turns=22.3  <-- OUT OF 45-55
+     red vs white   40.0% [  25- 58]  n=30 draws=0 avg_turns=19.6  <-- OUT OF 45-55
+
+on-the-play win rate per deck: {'black': '58% of 77', 'blue': '48% of 75', 'green': '47% of 70', 'red': '46% of 78', 'white': '64% of 50'}
+mulligans per game: {'black': '0.23', 'blue': '0.17', 'green': '0.21', 'red': '0.31', 'white': '0.17'}
+missed land drops (turns with land in hand, none played): {'black': '12.5%', 'blue': '6.9%', 'green': '11.1%', 'red': '7.6%', 'white': '11.9%'}
+
+== AI MISPLAY SCAN: cards held at end of own turn while castable (sorcery-speed) ==
+   held = end-steps it sat castable in hand; cast = times actually cast; ratio > ~1.0 means the AI mostly sits on it
+
+  [black]
+    Fleshbag Marauder                held=37    cast=151   ratio=  0.2
+    Ravenous Chupacabra              held=20    cast=179   ratio=  0.1
+    lowest cast-per-100-endsteps-in-hand (any speed): Fleshbag Marauder 24.5, Gray Merchant of Asphodel 25.6, Midnight Reaper 29.3, Headless Rider 35.9, Ravenous Chupacabra 39.9
+
+  [blue]
+    Control Magic                    held=16    cast=179   ratio=  0.1
+    Cloudkin Seer                    held=2     cast=174   ratio=  0.0
+    lowest cast-per-100-endsteps-in-hand (any speed): Convolute 11.8, Counterspell 17.2, Consider 19.0, Murmuring Mystic 34.6, Cloudkin Seer 39.5
+
+  [green]
+    Rabid Bite                       held=82    cast=175   ratio=  0.5
+    lowest cast-per-100-endsteps-in-hand (any speed): Pelakka Wurm 22.2, Eternal Witness 31.5, Thragtusk 46.4, Rabid Bite 47.6, Netcaster Spider 51.2
+
+  [red]
+    lowest cast-per-100-endsteps-in-hand (any speed): Bedlam Reveler 22.1, Young Pyromancer 48.8, Shivan Fire 54.2, Lightning Strike 55.5, Burst Lightning 60.8
+
+  [white]
+    Thalia's Lieutenant              held=74    cast=149   ratio=  0.5
+    Pacifism                         held=59    cast=133   ratio=  0.4
+    lowest cast-per-100-endsteps-in-hand (any speed): Raise the Alarm 28.4, Thalia's Lieutenant 37.3, Greatsword 39.8, Pacifism 43.8, Militia Bugler 48.9
+
+== CARD IMPACT: win% when the card was cast vs not cast (n>=15 each side, |diff|>=15 pts) ==
+  black vs blue (50%): Ravenous Chupacabra +37 (cast in 25), Infernal Grasp +30 (cast in 18), Murder -16 (cast in 25), Gray Merchant of Asphodel -26 (cast in 23), Fleshbag Marauder -40 (cast in 22)
+  black vs green (40%): Infernal Grasp +29 (cast in 23)
+  black vs red (62%): Gray Merchant of Asphodel +29 (cast in 21)
+  black vs white (55%): Infernal Grasp +27 (cast in 17), Gray Merchant of Asphodel +24 (cast in 25), Dread Wanderer +16 (cast in 19)
+  blue vs black (50%): Counterspell +51 (cast in 22), Convolute +30 (cast in 20)
+  blue vs green (55%): Convolute +34 (cast in 23)
+  blue vs white (23%): Counterspell +20 (cast in 15)
+  green vs black (60%): Pelakka Wurm +43 (cast in 25), Thragtusk +42 (cast in 18), Centaur Courser -25 (cast in 24)
+  green vs blue (45%): Thragtusk -26 (cast in 19), Centaur Courser -31 (cast in 18)
+  red vs black (38%): Festival Crasher -25 (cast in 25)
+
+== ABILITY USE: board permanents with activated abilities (activations per 100 end steps on board) ==
+  [black] Dread Wanderer 13 (55 in 435)
+      cycled/hand-activated: Barren Moor 83
+      cycled/hand-activated: Remote Isle 106
+  [green] Arbor Elf 57 (458 in 809), Scavenging Ooze 70 (599 in 853)
+      cycled/hand-activated: Tranquil Thicket 64
+      Scavenging Ooze on noncreature cards: 333 of 599 activations
+      cycled/hand-activated: Forgotten Cave 54
+  [white] Icatian Priest 23 (145 in 637), Greatsword 31 (121 in 385)
+      cycled/hand-activated: Secluded Steppe 72
+  replacement effects seen (flashback, persist, ...): Flashback 194, Dread 148, Forgotten 131, Tranquil 118, Barren 104, If 87, Secluded 81, Remote 76
+
+== FORGE EXCEPTIONS in stderr ==
+    23x java.util.concurrent.TimeoutException
+
+== FLAGS ==

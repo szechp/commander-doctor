@@ -1,0 +1,16 @@
+// K packet: Removal and Card Draw
+// 12 spells + 8 Swamp
+
+1 Hand of Silumgar (BBD) 146
+1 Audacious Thief (M20) 84
+1 Audacious Thief (M20) 84
+1 Audacious Thief (M20) 84
+1 Lost Legion (ELD) 94
+1 Lost Legion (ELD) 94
+1 Abyssal Gorestalker (LCI) 87
+1 Murder (CMR) 134
+1 Bilbo's Deadly Slice (HOB) 62
+1 Grasp of Darkness (M21) 102
+1 Eliminate (M21) 97
+1 Epic Downfall (ELD) 85
+8 Swamp

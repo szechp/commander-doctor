@@ -1,0 +1,93 @@
+{
+ "black": {
+  "basics": [
+   "Swamp",
+   20
+  ],
+  "cards": {
+   "Barren Moor": 4,
+   "Stitcher's Supplier": 4,
+   "Ravenous Chupacabra": 4,
+   "Murder": 4,
+   "Knight of Malice": 4,
+   "Infernal Grasp": 4,
+   "Fleshbag Marauder": 4,
+   "Headless Rider": 4,
+   "Midnight Reaper": 4,
+   "Gray Merchant of Asphodel": 4
+  }
+ },
+ "blue": {
+  "basics": [
+   "Island",
+   20
+  ],
+  "cards": {
+   "Remote Isle": 4,
+   "Consider": 4,
+   "Unsummon": 4,
+   "Control Magic": 4,
+   "Think Twice": 4,
+   "Counterspell": 4,
+   "Haughty Djinn": 4,
+   "Cloudkin Seer": 4,
+   "Convolute": 4,
+   "Murmuring Mystic": 4
+  }
+ },
+ "green": {
+  "basics": [
+   "Forest",
+   20
+  ],
+  "cards": {
+   "Tranquil Thicket": 4,
+   "Llanowar Elves": 4,
+   "Arbor Elf": 4,
+   "Scavenging Ooze": 4,
+   "Rabid Bite": 4,
+   "Llanowar Visionary": 4,
+   "Netcaster Spider": 4,
+   "Eternal Witness": 4,
+   "Centaur Courser": 4,
+   "Pelakka Wurm": 4
+  }
+ },
+ "red": {
+  "basics": [
+   "Mountain",
+   16
+  ],
+  "cards": {
+   "Forgotten Cave": 4,
+   "Monastery Swiftspear": 4,
+   "Lightning Bolt": 4,
+   "Shivan Fire": 4,
+   "Flame Slash": 4,
+   "Dreadhorde Arcanist": 4,
+   "Festival Crasher": 4,
+   "Fists of Flame": 4,
+   "Lightning Strike": 4,
+   "Goblin Wizardry": 4,
+   "Bedlam Reveler": 4
+  }
+ },
+ "white": {
+  "basics": [
+   "Plains",
+   20
+  ],
+  "cards": {
+   "Secluded Steppe": 4,
+   "Thraben Inspector": 4,
+   "Icatian Priest": 4,
+   "Swords to Plowshares": 4,
+   "Thalia's Lieutenant": 4,
+   "Pacifism": 4,
+   "Benalish Marshal": 4,
+   "Ampryn Tactician": 4,
+   "Militia Bugler": 4,
+   "Greatsword": 4
+  }
+ }
+}
