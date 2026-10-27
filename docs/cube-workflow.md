@@ -76,6 +76,10 @@ nothing can fill go to `--print-list` as the blueprint's card, to proxy.
   own slot; the pool only fills the blueprint's other slots, and nothing is
   trimmed. Without a blueprint of the target size, scale the cube's own: the
   cube plus extra slots spread evenly over its sorted spells.
+- `--max-swaps N` (with `--keep-cube`): also trade up to N mono-color cube cards
+  for unused pool cards in the same slot whose theme fit is clearly higher
+  (10+ points). Lane fit is not card quality: treat the swaps as candidates
+  and read them (it will happily trade Murder for a worse removal spell).
 - `--theme elves,goblins` forces tribe lanes the cube can't derive yet, at the
   weight of its weakest existing tribe.
 - The output is an Archidekt import grouped by lane, with Payoff and Signpost
@@ -218,6 +222,10 @@ Boilerworks (blue-red had none), Selesnya Sanctuary and Bloodfell Caves, for
 2-3 duals per color pair; out: one of three Wind-Scarred Crags, the second
 Tranquil Cove and Thriving Moor, Crystal Grotto. `cubes/poolside-lands-in.txt`
 lists the 4 new lands (not in the bulk scan).
+
+Upgrade pass (hand-curated from `--max-swaps` candidates and the bulk's
+removal): Mortal Obstinacy -> Glass Casket; Deconstruction Hammer -> Trapped in the Tower; Martyr of Sands -> Eagles of the North; Shelter -> Gideon's Reproach; Sisay's Ingenuity -> Charmed Sleep; Relic's Roar -> Frolicking Familiar // Blow Off Steam; Floodwaters -> Riddlemaster Sphinx; Duress -> Lash of the Balrog; Mire in Misery -> Plaguecrafter; Dusk Mangler -> Gurmag Rakshasa; Kindled Heroism -> Redcap Melee; Rig for War -> Chandra's Pyrohelix; Gimli's Fury -> Lava Coil; Minecart Daredevil // Ride the Rails -> Goblin Chainwhirler; Sure Strike -> Glorybringer; Ranger's Guile -> Rabid Bite; Thawbringer -> Atzocan Archer; Feral Invocation -> Sarkhan's Resolve; Garenbrig Carver // Shield's Might -> Aggressive Mammoth; Soul Net -> Renegade Map; Elaborate Firecannon -> Anvilwrought Raptor. More removal, fewer red pump spells, a few bombs (Glorybringer, Goblin
+Chainwhirler, Riddlemaster Sphinx, Aggressive Mammoth).
 
 Search and shuffle are allowed (fetch lands, land cyclers): the owner likes
 them, so `poolside` bans only counters, tokens and the rest.

@@ -1,4 +1,24 @@
 // SIDEBOARD
+1 Eagles of the North (LTR) 7
+1 Gideon's Reproach (DOM) 19
+1 Trapped in the Tower (ELD) 33
+1 Glass Casket (WOE) 16
+1 Frolicking Familiar // Blow Off Steam (WOE) 226
+1 Riddlemaster Sphinx (M20) 317
+1 Charmed Sleep (BLB) 388
+1 Lash of the Balrog (LTR) 408
+1 Plaguecrafter (BLC) 187
+1 Goblin Chainwhirler (DOM) 129
+1 Redcap Melee (ELD) 135
+1 Lava Coil (2X2) 116
+1 Chandra's Pyrohelix (WAR) 120
+1 Glorybringer (TDC) 215
+1 Atzocan Archer (XLN) 176
+1 Aggressive Mammoth (FDN) 551
+1 Rabid Bite (M20) 190
+1 Sarkhan's Resolve (TDM) 158
+1 Renegade Map (AER) 173
+1 Anvilwrought Raptor (M20) 221
 1 Greven, Predator Captain (C19) 43 *F*
 1 The Chief Warg (HOB) 150
 1 Moldervine Reclamation (BLC) 255
@@ -17,7 +37,7 @@
 1 Long-Lost Lances (HOC) 7
 1 Marshal of the Lost (TDM) 207
 1 Engineered Might (KLD) 181
-1 Dusk Mangler (CLB) 751
+1 Gurmag Rakshasa (TDM) 81
 1 Bag of Holding (M20) 222
 1 Aegis Automaton (AER) 141
 1 Graven Abomination (HOU) 162
@@ -27,6 +47,26 @@
 1 Bloodfell Caves
 
 // MAYBEBOARD
+1 Martyr of Sands (UMA) 25
+1 Shelter (MH1) 28
+1 Deconstruction Hammer (LCI) 9
+1 Mortal Obstinacy (JOU) 17
+1 Relic's Roar (LCI) 71
+1 Floodwaters (AKH) 53
+1 Sisay's Ingenuity (PLS) 33
+1 Duress (DMR) 81
+1 Mire in Misery (C19) 19
+1 Minecart Daredevil // Ride the Rails (WOE) 141
+1 Kindled Heroism (WOE) 138
+1 Gimli's Fury (LTR) 131
+1 Rig for War (EOE) 156
+1 Sure Strike (FDN) 209
+1 Thawbringer
+1 Garenbrig Carver // Shield's Might (ELD) 156
+1 Ranger's Guile (M21) 199
+1 Feral Invocation
+1 Soul Net (6ED) 313
+1 Elaborate Firecannon (XLN) 237
 1 Mirror of Galadriel (LTR) 244
 1 Puca's Eye
 1 Pendant of Prosperity (C21) 256

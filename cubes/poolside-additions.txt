@@ -1,4 +1,24 @@
-// Poolside cube: 22 cards to add from the bulk
+// Poolside cube: 42 cards to add from the bulk
+1 Eagles of the North (LTR) 7
+1 Gideon's Reproach (DOM) 19
+1 Trapped in the Tower (ELD) 33
+1 Glass Casket (WOE) 16
+1 Frolicking Familiar // Blow Off Steam (WOE) 226
+1 Riddlemaster Sphinx (M20) 317
+1 Charmed Sleep (BLB) 388
+1 Lash of the Balrog (LTR) 408
+1 Plaguecrafter (BLC) 187
+1 Goblin Chainwhirler (DOM) 129
+1 Redcap Melee (ELD) 135
+1 Lava Coil (2X2) 116
+1 Chandra's Pyrohelix (WAR) 120
+1 Glorybringer (TDC) 215
+1 Atzocan Archer (XLN) 176
+1 Aggressive Mammoth (FDN) 551
+1 Rabid Bite (M20) 190
+1 Sarkhan's Resolve (TDM) 158
+1 Renegade Map (AER) 173
+1 Anvilwrought Raptor (M20) 221
 1 Greven, Predator Captain (C19) 43 *F*
 1 The Chief Warg (HOB) 150
 1 Moldervine Reclamation (BLC) 255
@@ -17,7 +37,7 @@
 1 Long-Lost Lances (HOC) 7
 1 Marshal of the Lost (TDM) 207
 1 Engineered Might (KLD) 181
-1 Dusk Mangler (CLB) 751
+1 Gurmag Rakshasa (TDM) 81
 1 Bag of Holding (M20) 222
 1 Aegis Automaton (AER) 141
 1 Graven Abomination (HOU) 162

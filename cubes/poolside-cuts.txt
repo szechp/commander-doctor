@@ -1,4 +1,24 @@
-// Poolside cube: 7 cards to take out (back to the bulk)
+// Poolside cube: 27 cards to take out (back to the bulk)
+1 Martyr of Sands (UMA) 25
+1 Shelter (MH1) 28
+1 Deconstruction Hammer (LCI) 9
+1 Mortal Obstinacy (JOU) 17
+1 Relic's Roar (LCI) 71
+1 Floodwaters (AKH) 53
+1 Sisay's Ingenuity (PLS) 33
+1 Duress (DMR) 81
+1 Mire in Misery (C19) 19
+1 Minecart Daredevil // Ride the Rails (WOE) 141
+1 Kindled Heroism (WOE) 138
+1 Gimli's Fury (LTR) 131
+1 Rig for War (EOE) 156
+1 Sure Strike (FDN) 209
+1 Thawbringer
+1 Garenbrig Carver // Shield's Might (ELD) 156
+1 Ranger's Guile (M21) 199
+1 Feral Invocation
+1 Soul Net (6ED) 313
+1 Elaborate Firecannon (XLN) 237
 1 Mirror of Galadriel (LTR) 244
 1 Puca's Eye
 1 Pendant of Prosperity (C21) 256

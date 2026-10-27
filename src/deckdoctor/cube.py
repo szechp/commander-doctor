@@ -26,7 +26,8 @@ from deckdoctor.core.lists import ListEntry
 from deckdoctor.core.similarity import Matcher, assign_unique, bucket, card_types, primary_type
 from deckdoctor.core.themes import Themes
 
-GOLD_SHARE = 0.12        # gold signposts: at most ~this fraction of the blueprint
+GOLD_SHARE = 0.12
+SWAP_MIN_GAIN = 10.0     # --max-swaps: theme-fit points a pool card must add over the cube card        # gold signposts: at most ~this fraction of the blueprint
 GOLD_JUNK_FLOOR = 10.0   # a multicolor card below this theme fit is never a signpost
 _MAX_CATEGORY = 30       # Archidekt rejects long category names
 
@@ -164,14 +165,16 @@ def print_list(results: list[SwapResult]) -> list[str]:
 @dataclass
 class Entry:
     name: str
-    status: str          # owned | fill | signpost | trim
+    status: str          # owned | fill | signpost | trim | swap
     cats: list[str]
     lane: str
     payoff: bool
+    replaces: str = ""   # swap: the cube card this one takes the slot of
 
 
 def reconcile(themes: Themes, extend: list[Card], pool: list[Card], blueprint: list[Card], lanes: dict[str, float],
-              gold_share: float = GOLD_SHARE, keep_cube: bool = False) -> tuple[list[Entry], list[str]]:
+              gold_share: float = GOLD_SHARE, keep_cube: bool = False, max_swaps: int = 0,
+              min_gain: float = SWAP_MIN_GAIN) -> tuple[list[Entry], list[str]]:
     """The best cube with the blueprint's per-color counts from cube + pool.
 
     Gold first: on-theme multicolor permanents, best fit first, while each
@@ -181,6 +184,9 @@ def reconcile(themes: Themes, extend: list[Card], pool: list[Card], blueprint: l
     ties keeping cards already in the cube. Cube cards not chosen are
     trimmed. With ``keep_cube`` (a cube that is already built), every cube
     card stays and fills its own slot first; the pool only fills what is left.
+    ``max_swaps`` then trades up to that many mono-color cube cards for unused
+    pool cards in the same slot (color, mana value, type) whose theme fit is at
+    least ``min_gain`` higher, biggest gain first, each card used once.
     Returns (entries, blueprint cards to proxy for unfillable slots).
     """
     def fit(c: Card) -> float:
@@ -264,8 +270,38 @@ def reconcile(themes: Themes, extend: list[Card], pool: list[Card], blueprint: l
                      themes.best_lane_label(card, lanes) or "".join(sorted(card.colors)) or "C",
                      themes.is_payoff(card, lanes))
 
-    removed = [c for c in extend if c.name not in chosen_names]
-    return [entry(c, st) for c, st in chosen] + [entry(c, "trim") for c in removed], print_names
+    replaced: dict[str, Card] = {}
+    if max_swaps:
+        unused: dict[tuple, list[Card]] = defaultdict(list)
+        for slot, cards in pool_by.items():
+            unused[slot] = [c for c in cards if c.name not in chosen_names]
+        candidates = []
+        for card, status in chosen:
+            if status != "owned" or len(card.colors) != 1 or "Land" in card.type_line:
+                continue
+            own_fit = fit(card)
+            for alt in unused.get(bucket(card), []):
+                gain = fit(alt) - own_fit
+                if gain >= min_gain:
+                    candidates.append((gain, card.name, alt.name, alt))
+        taken: set[str] = set()
+        for gain, out_name, in_name, alt in sorted(candidates, key=lambda c: (-c[0], c[1], c[2])):
+            if len(replaced) >= max_swaps:
+                break
+            if out_name in replaced or in_name in taken:
+                continue
+            replaced[out_name] = alt
+            taken.add(in_name)
+
+    out: list[Entry] = []
+    for card, status in chosen:
+        if card.name in replaced:
+            alt = replaced[card.name]
+            out.append(Entry(**{**entry(alt, "swap").__dict__, "replaces": card.name}))
+        else:
+            out.append(entry(card, status))
+    removed = [c for c in extend if c.name not in chosen_names or c.name in replaced]
+    return out + [entry(c, "trim") for c in removed], print_names
 
 
 def completion_lines(entries: list[Entry]) -> list[str]:

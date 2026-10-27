@@ -439,6 +439,24 @@ def test_reconcile_keep_cube_keeps_every_card_and_fills_only_free_slots():
     assert not [e for e in entries if e.status == "trim"] and to_print == []
 
 
+def test_reconcile_max_swaps_trades_only_clear_upgrades_in_the_same_slot():
+    t = _lane_themes({"Weak Owned": frozenset(), "Strong Bulk": frozenset({"mill-self"}),
+                      "Other Slot": frozenset({"mill-self"}), "Fine Owned": frozenset({"mill-self"})})
+    weak = _card("Weak Owned", colors=["W"], cmc=2.0, type_line="Creature — Cat")
+    fine = _card("Fine Owned", colors=["U"], cmc=1.0)
+    strong = _card("Strong Bulk", colors=["W"], cmc=2.0, type_line="Creature — Cat")
+    other = _card("Other Slot", colors=["W"], cmc=5.0, type_line="Creature — Cat")  # better, but not the same slot
+    blueprint = [weak, fine]
+    entries, _ = cube.reconcile(t, [weak, fine], [strong, other], blueprint, {"mill-self": 40.0},
+                                keep_cube=True, max_swaps=5)
+    swaps = [(e.replaces, e.name) for e in entries if e.status == "swap"]
+    assert swaps == [("Weak Owned", "Strong Bulk")]
+    assert {e.name for e in entries if e.status == "trim"} == {"Weak Owned"}
+    assert {e.name for e in entries if e.status == "owned"} == {"Fine Owned"}
+    entries, _ = cube.reconcile(t, [weak, fine], [strong], blueprint, {"mill-self": 40.0}, keep_cube=True, max_swaps=0)
+    assert not [e for e in entries if e.status == "swap"]
+
+
 def test_reconcile_tie_prefers_owned():
     t = _lane_themes({"Owned": frozenset({"mill-self"}), "Bulk": frozenset({"mill-self"})})
     entries, _ = cube.reconcile(t, [_card("Owned", colors=["U"], cmc=1.0)], [_card("Bulk", colors=["U"], cmc=1.0)],

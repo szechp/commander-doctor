@@ -62,6 +62,9 @@ def add_parsers(sub) -> None:
                        help="fraction of the cube allowed to be multicolor signposts (default 0.12)")
     p_ext.add_argument("--keep-cube", action="store_true",
                        help="the cube is already built: keep every card in it and only fill the blueprint's other slots")
+    p_ext.add_argument("--max-swaps", type=int, default=0, metavar="N",
+                       help="with --keep-cube: also trade up to N mono-color cube cards for clearly better-fitting "
+                            "unused cards in the same slot (color, mana value, type)")
 
 
     p_build = p_cb.add_parser("build", help="the best cube from one or more sets: archetype lanes + 17lands")
@@ -100,6 +103,8 @@ def _check_args(args) -> str | None:
             return "--pt-delta and --cmc-delta can't be negative"
     if args.cube_action == "extend" and args.gold_share is not None and not 0 <= args.gold_share <= 1:
         return "--gold-share is a fraction between 0 and 1"
+    if args.cube_action == "extend" and (args.max_swaps < 0 or (args.max_swaps and not args.keep_cube)):
+        return "--max-swaps needs --keep-cube and can't be negative"
     return None
 
 
@@ -233,7 +238,7 @@ def _run(args) -> int:
             print(f"  {sig:28} weight {w:.0f}")
         gold_share = cube.GOLD_SHARE if args.gold_share is None else args.gold_share
         entries, print_names = cube.reconcile(themes, extend, pool, blueprint.cards, lanes, gold_share=gold_share,
-                                              keep_cube=args.keep_cube)
+                                              keep_cube=args.keep_cube, max_swaps=args.max_swaps)
     finally:
         con.close()
 
@@ -246,6 +251,11 @@ def _run(args) -> int:
     if short > 0:
         print(f"{short} slot(s) left empty: gold signposts used more of some colors than the blueprint's gold did, "
               "and the other colors stay at their blueprint counts (lower --gold-share to fill them with mono cards)")
+    swaps = [e for e in entries if e.status == "swap"]
+    if swaps:
+        print(f"Swaps ({len(swaps)}, cube card -> better-fitting card in the same slot):")
+        for e in swaps:
+            print(f"  {e.replaces}  ->  {e.name}")
     print(f"Removed {len(removed)} from your cube · {len(print_names)} slots to proxy")
     Path(args.out).write_text("\n".join(lines) + "\n", encoding="utf-8")
     print(f"Wrote the {len(lines)}-card cube to {args.out}")
