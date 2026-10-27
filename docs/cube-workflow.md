@@ -196,20 +196,21 @@ cards listed. Works for any list, decks included.
 
 ## The poolside cube
 
-`cubes/poolside.txt` is the built cube (161 cards, CubeCobra export);
-`cubes/poolside-180.txt` the 180-card target (177: the multicolor share kept
-three slots empty) and `cubes/poolside-additions.txt` the 16 cards to pull.
-Both come first in `inventory.yaml`: the cube has priority over the packets,
-which proxy what it takes. Made with:
+`cubes/poolside.txt` is the cube as built (161, CubeCobra export) and
+`cubes/poolside-180.txt` the current 180, which is also its ledger allocation
+in `inventory.yaml`, ahead of the packets (the cube has priority; packets proxy
+what it takes). To get from one to the other: pull `cubes/poolside-additions.txt`
+(24, with set and number) from the bulk and take out `cubes/poolside-cuts.txt`
+(5 that don't work here: a five-color condition, legend-only payoffs, a
+multiplayer gift, a black Goblin lord in a cube whose Goblins are red).
 
-```sh
-deckdoctor cube extend cubes/poolside.txt --blueprint <cube + 19 slots> --keep-cube \
-    --profile poolside --gold-share 0.08 --exclude-text "manifest,face down,face-down,split second" \
-    --inventory <a ledger with only the cube> --out cubes/poolside-180.txt
-deckdoctor packets pull mono-color-battlebox/packets/packets_v10.json \
-    --collection <inventory remaining of that ledger>
-```
+Color balance: 25 mono cards per color give or take two, every color pair has
+at least one multicolor card (they tie the archetypes together, so none were
+cut), every color is on 30-31 cards counting multicolor, plus 15 colorless and
+30 lands. Made with `cube extend --keep-cube --profile poolside --gold-share 0`
+on a blueprint of the trimmed cube plus the missing slots, `--exclude-text
+"manifest,face down,face-down,split second,Knight card,Crew"`.
 
-The cube itself has six cards the profile bans (Troll of Khazad-dûm,
+The cube itself keeps six cards the profile bans (Troll of Khazad-dûm,
 Changeling Wayfinder and four fetch lands: search/shuffle); they were the
-owner's picks and stay.
+owner's picks.

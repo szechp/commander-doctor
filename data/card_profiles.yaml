@@ -53,7 +53,8 @@ poolside:
     token, shuffle, search, transform,
     +1/+1 counter, -1/-1 counter, counter on, counters on, energy counter,
     lore counter, the ring tempts you, your ring-bearer, lander token,
-    commander creatures, your commander, choose a background]
+    commander creatures, your commander, choose a background,
+    same name, five colors among]
   counterspell_needs_ward: true
   no_named_self: true
   no_sac_fodder: true

@@ -1,10 +1,10 @@
 collection: mono-color-battlebox/packets/collection.txt
 allocations:
-  # The poolside cube is physically built; 94 of its cards were still on the
-  # bulk scan. It comes first: it has priority, and packets proxy what it takes.
+  # The poolside cube (180) is physically built from cubes/poolside.txt plus
+  # cubes/poolside-additions.txt minus cubes/poolside-cuts.txt; 94 of its
+  # original cards were still on the bulk scan. It comes first: it has
+  # priority, and packets proxy what it takes.
   - name: poolside-cube
-    list: cubes/poolside.txt
-  - name: poolside-additions
-    list: cubes/poolside-additions.txt
+    list: cubes/poolside-180.txt
   - name: packets-v10
     packets: mono-color-battlebox/packets/packets_v10.json
