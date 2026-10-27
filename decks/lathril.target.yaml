@@ -1,0 +1,59 @@
+commander: Lathril, Blade of the Elves
+bracket: 3
+threshold: 6
+edhrec_theme: elves
+gameplan: >
+  Elf typal go-wide (Elven Empire precon). Mana elves turns 1-3, then flood the
+  board with Elves and Elf Warrior tokens while drawing off them (Beast
+  Whisperer-style engines). Win with a big anthem/pump attack; Lathril's
+  tap-ten-Elves drain (each opponent loses 10) is the backup and finisher.
+  Goal: fewest swaps from the precon to a good deck.
+feedback:
+  - date: '2026-10-27'
+    kind: pin
+    card: Lathril, Blade of the Elves
+    reason: commander; tap-ten-Elves drain finisher
+  - date: '2026-10-27'
+    kind: pin
+    card: Elvish Archdruid
+    reason: elf-count ramp + anthem
+  - date: '2026-10-27'
+    kind: pin
+    card: Marwyn, the Nurturer
+    reason: elf-count ramp
+  - date: '2026-10-27'
+    kind: pin
+    card: Wirewood Channeler
+    reason: elf-count ramp
+  - date: '2026-10-27'
+    kind: pin
+    card: Imperious Perfect
+    reason: go-wide token engine + anthem
+  - date: '2026-10-27'
+    kind: pin
+    card: Lys Alana Huntmaster
+    reason: go-wide token engine
+  - date: '2026-10-27'
+    kind: pin
+    card: Elvish Promenade
+    reason: go-wide burst
+  - date: '2026-10-27'
+    kind: pin
+    card: Elven Ambush
+    reason: go-wide burst at instant speed
+  - date: '2026-10-27'
+    kind: pin
+    card: Beast Whisperer
+    reason: draw engine
+  - date: '2026-10-27'
+    kind: pin
+    card: Dwynen, Gilt-Leaf Daen
+    reason: anthem
+  - date: '2026-10-27'
+    kind: pin
+    card: Canopy Tactician
+    reason: anthem + ramp
+  - date: '2026-10-27'
+    kind: pin
+    card: Elderfang Venom
+    reason: drain + deathtouch attackers
