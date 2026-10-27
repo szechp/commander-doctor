@@ -64,7 +64,7 @@ repository root (the old `build.py`, `remaining.py`, `summary.py` and
 `lanes.py` scripts are now these commands):
 
     uv run deckdoctor packets lanes --free --color R --show Goblin
-    uv run deckdoctor packets build mono-color-battlebox/packets/packets_v10.json p10 --sample 80
+    uv run deckdoctor packets build mono-color-battlebox/packets/packets_v10.json p10 --sample 120
     uv run deckdoctor sim run p10 20 --pairs <the printed pairings> --jobs 15
     uv run deckdoctor packets summary p10
     uv run deckdoctor packets pull mono-color-battlebox/packets/packets_v10.json
