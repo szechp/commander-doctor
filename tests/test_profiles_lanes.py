@@ -171,3 +171,12 @@ def test_cli_lanes_and_profile_errors(tmp_path, capsys):
     assert main(["packets", "lanes", "list.txt", "--free"]) == 2
     assert main(["profile", "list"]) == 0
     assert "poolside:" in capsys.readouterr().out
+
+
+def test_cli_profile_check_resolves_front_face_names(tmp_path, fixture_db, capsys):
+    # cube exports (CubeCobra) name two-face and Adventure cards by their front face
+    from deckdoctor.cli import main
+    main(["profile", "check", "poolside", "Etali, Primal Conqueror", "--db", str(tmp_path / "fixture.sqlite3")])
+    out = capsys.readouterr().out
+    assert "Etali, Primal Conqueror: fails poolside" in out
+    assert "not in the card database" not in out

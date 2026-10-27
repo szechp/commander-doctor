@@ -423,6 +423,22 @@ def test_reconcile_bulk_card_beats_owned_is_picked():
     assert {e.name for e in entries if e.status == "trim"} == {"Weak Owned"}
 
 
+def test_reconcile_keep_cube_keeps_every_card_and_fills_only_free_slots():
+    # a built cube: the weak owned card stays even though a bulk card fits better,
+    # and the pool only fills the blueprint slot the cube doesn't already cover
+    t = _lane_themes({"Weak Owned": frozenset({"burn-player"}), "Strong Bulk": frozenset({"mill-self"}),
+                      "Off Shape": frozenset({"burn-player"})})
+    weak = _card("Weak Owned", colors=["W"], cmc=2.0, type_line="Creature — Cat")
+    off_shape = _card("Off Shape", colors=["U"], cmc=1.0)
+    strong = _card("Strong Bulk", colors=["W"], cmc=2.0, type_line="Creature — Cat")
+    blueprint = [_card("bp1", colors=["W"], cmc=2.0, type_line="Creature — Cat"),
+                 _card("bp2", colors=["W"], cmc=2.0, type_line="Creature — Cat")]
+    entries, to_print = cube.reconcile(t, [weak, off_shape], [strong], blueprint, {"mill-self": 40.0}, keep_cube=True)
+    assert {e.name for e in entries if e.status == "owned"} == {"Weak Owned", "Off Shape"}
+    assert {e.name for e in entries if e.status == "fill"} == {"Strong Bulk"}
+    assert not [e for e in entries if e.status == "trim"] and to_print == []
+
+
 def test_reconcile_tie_prefers_owned():
     t = _lane_themes({"Owned": frozenset({"mill-self"}), "Bulk": frozenset({"mill-self"})})
     entries, _ = cube.reconcile(t, [_card("Owned", colors=["U"], cmc=1.0)], [_card("Bulk", colors=["U"], cmc=1.0)],

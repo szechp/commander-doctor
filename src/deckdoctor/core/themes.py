@@ -249,7 +249,7 @@ class Themes:
         hits = [(w, s) for s in sigs if (w := lanes.get(s, 0.0)) > 0]
         if not hits:
             return [color_key(card)]
-        tribes = [s for _w, s in hits if s.startswith("subtype:")]
+        tribes = [s for _w, s in sorted(hits, key=lambda h: (-h[0], h[1])) if s.startswith("subtype:")]
         mech = [s for _w, s in sorted(hits, reverse=True) if not s.startswith("subtype:")][:_MAX_MECH_LANES]
         out: list[str] = []
         for sig in tribes + mech:

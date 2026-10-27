@@ -60,6 +60,8 @@ def add_parsers(sub) -> None:
     p_ext.add_argument("--theme", default="", help="force tribe lanes the cube can't derive yet, e.g. 'elves,goblins'")
     p_ext.add_argument("--gold-share", type=float, default=None,
                        help="fraction of the cube allowed to be multicolor signposts (default 0.12)")
+    p_ext.add_argument("--keep-cube", action="store_true",
+                       help="the cube is already built: keep every card in it and only fill the blueprint's other slots")
 
 
     p_build = p_cb.add_parser("build", help="the best cube from one or more sets: archetype lanes + 17lands")
@@ -230,7 +232,8 @@ def _run(args) -> int:
         for sig, w in sorted(lanes.items(), key=lambda kv: (-kv[1], kv[0]))[:15]:  # ties by name: stable
             print(f"  {sig:28} weight {w:.0f}")
         gold_share = cube.GOLD_SHARE if args.gold_share is None else args.gold_share
-        entries, print_names = cube.reconcile(themes, extend, pool, blueprint.cards, lanes, gold_share=gold_share)
+        entries, print_names = cube.reconcile(themes, extend, pool, blueprint.cards, lanes, gold_share=gold_share,
+                                              keep_cube=args.keep_cube)
     finally:
         con.close()
 

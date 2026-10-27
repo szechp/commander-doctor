@@ -308,9 +308,9 @@ def _run_profile(args) -> int:
     failed = unknown = False
     try:
         for name in args.name:
-            card = store.card(name)
+            card = store.resolve(name)
             if card is None:
-                print(f"{name}: not in the card database (exact name needed)")
+                print(f"{name}: not in the card database (check the spelling)")
                 unknown = True
                 continue
             failures = profile.check(card, store)

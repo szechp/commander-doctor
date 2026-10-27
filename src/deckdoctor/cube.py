@@ -171,7 +171,7 @@ class Entry:
 
 
 def reconcile(themes: Themes, extend: list[Card], pool: list[Card], blueprint: list[Card], lanes: dict[str, float],
-              gold_share: float = GOLD_SHARE) -> tuple[list[Entry], list[str]]:
+              gold_share: float = GOLD_SHARE, keep_cube: bool = False) -> tuple[list[Entry], list[str]]:
     """The best cube with the blueprint's per-color counts from cube + pool.
 
     Gold first: on-theme multicolor permanents, best fit first, while each
@@ -179,7 +179,9 @@ def reconcile(themes: Themes, extend: list[Card], pool: list[Card], blueprint: l
     ``gold_share``. Then each mono/colorless color is filled to its remaining
     budget slot by slot (lowest mana value first) with the best theme fit,
     ties keeping cards already in the cube. Cube cards not chosen are
-    trimmed. Returns (entries, blueprint cards to proxy for unfillable slots).
+    trimmed. With ``keep_cube`` (a cube that is already built), every cube
+    card stays and fills its own slot first; the pool only fills what is left.
+    Returns (entries, blueprint cards to proxy for unfillable slots).
     """
     def fit(c: Card) -> float:
         return themes.theme_fit(c, lanes)
@@ -222,6 +224,17 @@ def reconcile(themes: Themes, extend: list[Card], pool: list[Card], blueprint: l
     gold_cap = max(round(len(blueprint) * gold_share), sum(1 for c in blueprint if len(c.colors) >= 2))
     gold_used: Counter[str] = Counter()
     gold_n = 0
+    kept_slot: Counter[tuple] = Counter()
+    kept_mono: Counter[str] = Counter()
+    if keep_cube:
+        for c in extend:
+            add(c, "owned")
+            if len(c.colors) >= 2:
+                gold_used.update(colors_of(c))
+                gold_n += 1
+            else:
+                kept_slot[bucket(c)] += 1
+                kept_mono.update(colors_of(c))
     for c in sorted(gold_have + gold_pool, key=fit, reverse=True):
         cols = colors_of(c)
         if gold_n < gold_cap and c.name not in chosen_names and all(gold_used[x] < presence.get(x, 0) for x in cols):
@@ -231,14 +244,14 @@ def reconcile(themes: Themes, extend: list[Card], pool: list[Card], blueprint: l
 
     mono_targets = {b: t for b, t in targets.items() if len(b[0]) <= 1}
     for color in [*"WUBRG", "C"]:
-        remaining = presence.get(color, 0) - gold_used.get(color, 0)
+        remaining = presence.get(color, 0) - gold_used.get(color, 0) - kept_mono.get(color, 0)
         if remaining <= 0:
             continue
         filled = 0
         for slot, target in sorted((bt for bt in mono_targets.items() if bt[0][0] == color), key=lambda bt: bt[0][1]):
             if filled >= remaining:
                 break
-            take = min(target, remaining - filled)
+            take = min(max(target - kept_slot[slot], 0), remaining - filled)
             have = [c for c in extend_by.get(slot, []) if c.name not in chosen_names]
             picked = sorted(have + pool_by.get(slot, []), key=fit, reverse=True)[:take]
             for c in picked:
