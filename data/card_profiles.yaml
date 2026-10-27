@@ -49,7 +49,8 @@ poolside:
     shuffle are allowed: the owner wants fetch lands and land cyclers.
   banned_layouts: [transform, modal_dfc, double_faced_token, meld, reversible_card]
   banned_set_types: [alchemy]
-  banned_types: [Basic, Background]
+  banned_types: [Basic, Background, Planeswalker, Battle]
+  banned_keywords: [Station, Adapt, Monstrosity, Proliferate, Renown, Outlast, Bolster, Evolve, Mentor, Training]
   banned_text: [
     token, transform,
     +1/+1 counter, -1/-1 counter, counter on, counters on, energy counter,
